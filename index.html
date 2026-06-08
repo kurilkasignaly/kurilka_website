@@ -1,1 +1,529 @@
-bnvnv
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>The Outlast Trials | Сайт сервера DC</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0c12 0%, #030507 100%);
+            font-family: 'Inter', sans-serif;
+            color: #edf2f8;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Кастомный скролл */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b13e3e;
+            border-radius: 10px;
+        }
+
+        /* Анимации при загрузке */
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glitchPulse {
+            0% { text-shadow: 0 0 2px #c44, 0 0 4px #a22; }
+            100% { text-shadow: 0 0 8px #e66, 0 0 12px #b33; }
+        }
+        @keyframes borderFlow {
+            0% { border-image: linear-gradient(45deg, #b22222, #3a1f1f) 1; }
+            50% { border-image: linear-gradient(45deg, #c55050, #4e2a2a) 1; }
+            100% { border-image: linear-gradient(45deg, #b22222, #3a1f1f) 1; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 30px;
+        }
+
+        /* шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(180, 60, 60, 0.4);
+            margin-bottom: 40px;
+            backdrop-filter: blur(4px);
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f3baba, #c74141);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo p {
+            font-size: 0.8rem;
+            color: #b6b9c4;
+        }
+
+        /* навигация */
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: rgba(20, 20, 30, 0.7);
+            border: 1px solid #4a2a2a;
+            padding: 10px 22px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #f0e6e6;
+            backdrop-filter: blur(5px);
+        }
+        .nav-btn i {
+            margin-right: 8px;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: #aa2e2e;
+            border-color: #e08e8e;
+            box-shadow: 0 0 12px rgba(180, 50, 50, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* секции */
+        .page-section {
+            display: none;
+            animation: fadeSlideUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        .page-section.active-section {
+            display: block;
+        }
+
+        /* карточки и грид */
+        .roles-grid, .news-grid, .game-grid, .achieve-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 30px;
+        }
+        .card {
+            background: rgba(12, 10, 18, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            border: 1px solid rgba(180, 70, 70, 0.3);
+            padding: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #b33;
+            box-shadow: 0 20px 28px -12px #8a2f2f40;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .badge {
+            background: #aa3030;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* рулетка */
+        .roulette-panel {
+            background: #0b0a12cc;
+            border-radius: 48px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #992b2b;
+            margin: 30px 0;
+        }
+        .wheel {
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(from 0deg, #bc3f3f, #6b1e1e, #bc3f3f, #6b1e1e, #bc3f3f);
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 0 0 6px black;
+            transition: transform 0.4s ease-out;
+            box-shadow: 0 0 0 8px #2f1e1e, 0 0 0 12px #7a2b2b;
+            cursor: pointer;
+        }
+        .spin-btn {
+            background: #9a2a2a;
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 60px;
+            color: white;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .spin-btn:hover {
+            background: #c54242;
+            transform: scale(1.02);
+        }
+        .roulette-result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Invasion mini-лента */
+        .invasion-status {
+            background: #131018dd;
+            border-radius: 32px;
+            padding: 24px;
+            margin: 20px 0;
+            border-left: 8px solid #c24;
+        }
+        .progress-bar {
+            background: #2e2626;
+            border-radius: 50px;
+            height: 18px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 67%;
+            height: 100%;
+            background: linear-gradient(90deg, #b53b3b, #e37373);
+            border-radius: 50px;
+            transition: width 0.8s;
+        }
+
+        /* таблица достижений */
+        .achieve-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #3a2626;
+            padding: 14px 0;
+        }
+        .achieve-icon {
+            font-size: 2rem;
+        }
+
+        /* новости */
+        .news-card {
+            cursor: pointer;
+        }
+        .date {
+            color: #b88787;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            margin-top: 70px;
+            text-align: center;
+            font-size: 0.8rem;
+            padding: 30px 0;
+            border-top: 1px solid #302020;
+        }
+
+        @media (max-width: 750px) {
+            .container { padding: 15px; }
+            .nav-links { margin-top: 15px; }
+            .nav-btn { padding: 6px 14px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-skull"></i> MURKOFF FACILITY</h1>
+            <p>The Outlast Trials · Официальный сервер DC</p>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <button class="nav-btn active" data-section="home"><i class="fas fa-home"></i> Главная</button>
+            <button class="nav-btn" data-section="roles"><i class="fas fa-tags"></i> Справочник ролей</button>
+            <button class="nav-btn" data-section="serverNews"><i class="fas fa-newspaper"></i> Новости сервера</button>
+            <button class="nav-btn" data-section="gameNews"><i class="fas fa-gamepad"></i> Новости игры</button>
+            <button class="nav-btn" data-section="siteNews"><i class="fas fa-code"></i> Новости сайта</button>
+            <button class="nav-btn" data-section="roulette"><i class="fas fa-dice-d6"></i> Рулетка</button>
+            <button class="nav-btn" data-section="invasion"><i class="fas fa-biohazard"></i> Invasion</button>
+            <button class="nav-btn" data-section="achievements"><i class="fas fa-medal"></i> Достижения</button>
+            <button class="nav-btn" data-section="aboutGame"><i class="fas fa-book-open"></i> Об игре</button>
+        </div>
+    </div>
+
+    <!-- ГЛАВНАЯ -->
+    <div id="home" class="page-section active-section">
+        <div style="text-align: center; margin: 40px 0;">
+            <h2 style="font-size: 3rem; animation: glitchPulse 1.8s infinite alternate;">Добро пожаловать в Убежище</h2>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 20px auto;">Испытай страх, пройди терапию и заслужи уважение на нашем сервере по The Outlast Trials. Активные события, уникальная система ролей и рейтинг выживших.</p>
+            <div style="margin-top: 30px;"><i class="fas fa-arrow-down fa-2x" style="color:#b44"></i></div>
+        </div>
+        <div class="roles-grid">
+            <div class="card"><h3><i class="fas fa-chart-line"></i> 250+</h3><p>активных игроков еженедельно</p></div>
+            <div class="card"><h3><i class="fas fa-trophy"></i> Рейтинги</h3><p>Соревнуйся в прохождении терапии</p></div>
+            <div class="card"><h3><i class="fas fa-calendar-week"></i> Ивенты</h3><p>Регулярные Invasion-рейды и турниры</p></div>
+        </div>
+    </div>
+
+    <!-- Справочник ролей -->
+    <div id="roles" class="page-section">
+        <h2><i class="fas fa-user-shield"></i> Роли сервера</h2>
+        <div class="roles-grid">
+            <div class="card"><h3><i class="fas fa-crown"></i> Директор</h3><p>Высшее руководство, управление политикой и ивентами.</p><span class="badge">#Власть</span></div>
+            <div class="card"><h3><i class="fas fa-microphone-alt"></i> Голос Терапии</h3><p>Ведущие событий, экскурсоводы по испытаниям.</p><span class="badge">#Модерация</span></div>
+            <div class="card"><h3><i class="fas fa-skull-crossbones"></i> Выживший-Ветеран</h3><p>Прошли все испытания на A+, выдающиеся игроки.</p><span class="badge">#Элита</span></div>
+            <div class="card"><h3><i class="fas fa-bolt"></i> Исследователь</h3><p>Открывают лор, документы и пасхалки.</p></div>
+            <div class="card"><h3><i class="fas fa-heartbeat"></i> Медик</h3><p>Помогают новичкам и лечат в рейдах.</p></div>
+            <div class="card"><h3><i class="fas fa-user-friends"></i> Пациент</h3><p>Основная роль, доступны все режимы.</p></div>
+        </div>
+    </div>
+
+    <!-- Новости сервера / игры / сайта - объединим динамические контенты, но сделаем три разных блока -->
+    <div id="serverNews" class="page-section">
+        <h2><i class="fas fa-bullhorn"></i> Новости сервера</h2>
+        <div class="news-grid" id="serverNewsList"></div>
+    </div>
+    <div id="gameNews" class="page-section">
+        <h2><i class="fas fa-dragon"></i> Новости игры The Outlast Trials</h2>
+        <div class="news-grid" id="gameNewsList"></div>
+    </div>
+    <div id="siteNews" class="page-section">
+        <h2><i class="fas fa-laptop-code"></i> Новости сайта</h2>
+        <div class="news-grid" id="siteNewsList"></div>
+    </div>
+
+    <!-- РУЛЕТКА -->
+    <div id="roulette" class="page-section">
+        <h2>🎡 Испытание Рулеткой</h2>
+        <div class="roulette-panel">
+            <div class="wheel" id="wheel">🎲</div>
+            <button class="spin-btn" id="spinWheelBtn"><i class="fas fa-sync-alt"></i> Крутить!</button>
+            <div class="roulette-result" id="rouletteResult">Нажми на колесо</div>
+            <p style="margin-top: 16px;">Выпадают: очки опыта, уникальные роли или билеты на ивенты</p>
+        </div>
+    </div>
+
+    <!-- INVASION -->
+    <div id="invasion" class="page-section">
+        <h2><i class="fas fa-radiation"></i> Invasion Event: Фантомная угроза</h2>
+        <div class="invasion-status">
+            <h3>Текущая стадия: <span id="invasionStage">Заражение 67%</span></h3>
+            <div class="progress-bar"><div class="progress-fill" id="invasionFill"></div></div>
+            <p><i class="fas fa-clock"></i> До следующей волны: <span id="invasionTimer">02:15:30</span></p>
+            <button id="boostInvasion" style="background:#8a2f2f; border:none; padding:8px 16px; border-radius:30px; color:white; cursor:pointer;">➕ Ускорить (админ-симуляция)</button>
+            <p id="invasionLog" style="margin-top:12px;">Элитные отряды держат оборону.</p>
+        </div>
+    </div>
+
+    <!-- ДОСТИЖЕНИЯ -->
+    <div id="achievements" class="page-section">
+        <h2><i class="fas fa-award"></i> Достижения вашего профиля (демо-прогресс)</h2>
+        <div class="achieve-grid" id="achieveList"></div>
+    </div>
+
+    <!-- ОБ ИГРЕ -->
+    <div id="aboutGame" class="page-section">
+        <h2><i class="fas fa-gamepad"></i> О The Outlast Trials</h2>
+        <div class="game-grid">
+            <div class="card"><h3>🕯 Сюжет</h3><p>Эпоха холодной войны, корпорация Murkoff проводит жуткие эксперименты над людьми. Игрокам предстоит пройти серию испытаний, чтобы выжить и сохранить рассудок.</p></div>
+            <div class="card"><h3>🎮 Геймплей</h3><p>Кооператив до 4 игроков, уникальные способности, скрытность и динамичные ужастики. Современная графика и психологический хоррор.</p></div>
+            <div class="card"><h3>👥 Сообщество</h3><p>Наш сервер объединяет фанатов: прохождение сложных испытаний, обсуждение лора, создание тактик и рейдов.</p></div>
+            <div class="card"><h3>⚙️ Особенности</h3><p>Регулярные обновления от Red Barrels, сезонный контент, риги и прокачка убежища.</p></div>
+        </div>
+        <div style="margin-top: 30px; background: #130c0cb3; border-radius: 32px; padding: 20px;">
+            <i class="fas fa-quote-left"></i> «Страх — это лишь начало. Настоящие испытания ждут внутри тебя».
+        </div>
+    </div>
+
+    <footer>
+        <i class="fab fa-discord"></i> Присоединяйся к нашему Discord серверу | The Outlast Trials Community <br>
+        © 2026 Murkoff Facility | Все права защищены безумием
+    </footer>
+</div>
+
+<script>
+    // --- НАВИГАЦИЯ
+    const sections = document.querySelectorAll('.page-section');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    function showSection(sectionId) {
+        sections.forEach(sec => sec.classList.remove('active-section'));
+        const target = document.getElementById(sectionId);
+        if(target) target.classList.add('active-section');
+        navBtns.forEach(btn => {
+            if(btn.dataset.section === sectionId) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+    }
+    navBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const secId = btn.dataset.section;
+            showSection(secId);
+        });
+    });
+
+    // ----------------------- НОВОСТИ (динамика)
+    const serverNewsData = [
+        { title: "⭐ Рейдовый уикенд", date: "07 июня 2026", desc: "Удвоенный опыт за прохождение испытаний в субботу и воскресенье." },
+        { title: "Новый набор модераторов", date: "01 июня 2026", desc: "Открыт набор в команду поддержки, подавайте заявки." },
+        { title: "Ивент HIDE & SEEK", date: "28 мая 2026", desc: "Классический режим жмурок на карте Polaris." }
+    ];
+    const gameNewsData = [
+        { title: "Обновление 1.3.2 «Галлюцинации»", date: "05 июня 2026", desc: "Добавлены новые враги и улучшена физика разрушений." },
+        { title: "Трейлер нового сезона", date: "30 мая 2026", desc: "Red Barrels анонсировали режим «Бесконечная терапия»." },
+        { title: "Скины и риги", date: "20 мая 2026", desc: "Коллекция «Кровавая луна» уже в магазине." }
+    ];
+    const siteNewsData = [
+        { title: "✨ Обновление дизайна", date: "08 июня 2026", desc: "Адаптация под мобильные, новые анимации и раздел Рулетки." },
+        { title: "Добавлена система достижений", date: "05 июня 2026", desc: "Теперь вы можете отслеживать свои успехи." },
+        { title: "Интеграция с Discord", date: "01 июня 2026", desc: "Скоро появится авторизация через Discord для синхронизации ролей." }
+    ];
+    function renderNews(containerId, dataArr) {
+        const container = document.getElementById(containerId);
+        if(!container) return;
+        container.innerHTML = dataArr.map(n => `
+            <div class="card news-card">
+                <h3><i class="fas fa-bell"></i> ${n.title}</h3>
+                <div class="date">${n.date}</div>
+                <p>${n.desc}</p>
+            </div>
+        `).join('');
+    }
+    renderNews('serverNewsList', serverNewsData);
+    renderNews('gameNewsList', gameNewsData);
+    renderNews('siteNewsList', siteNewsData);
+
+    // ----------------------- РУЛЕТКА
+    const prizes = ["50 опыта", "Роль 'Счастливчик'", "Билет на ивент", "+100 репутации", "Эксклюзивная нашивка", "Ничего...", "Секретный ключ", "x2 очков достижения"];
+    const wheelDiv = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spinWheelBtn');
+    const resultSpan = document.getElementById('rouletteResult');
+    let spinning = false;
+    function spinRoulette() {
+        if(spinning) return;
+        spinning = true;
+        let spins = 8 + Math.floor(Math.random() * 12);
+        let finalIndex = Math.floor(Math.random() * prizes.length);
+        let degreesPerPrize = 360 / prizes.length;
+        let targetDeg = (spins * 360) + (finalIndex * degreesPerPrize);
+        wheelDiv.style.transition = "transform 2.5s cubic-bezier(0.2, 0.9, 0.3, 1.1)";
+        wheelDiv.style.transform = `rotate(${targetDeg}deg)`;
+        setTimeout(() => {
+            const prize = prizes[finalIndex];
+            resultSpan.innerHTML = `🎉 Вы выиграли: ${prize} 🎉`;
+            wheelDiv.style.transition = "none";
+            let actualRotation = targetDeg % 360;
+            wheelDiv.style.transform = `rotate(${actualRotation}deg)`;
+            spinning = false;
+        }, 2500);
+    }
+    spinBtn.addEventListener('click', spinRoulette);
+    wheelDiv.addEventListener('click', spinRoulette);
+
+    // ----------------------- INVASION система с таймером и прогрессом
+    let invasionPercent = 67;
+    let invasionInterval;
+    function updateInvasionUI() {
+        document.getElementById('invasionFill').style.width = invasionPercent + '%';
+        document.getElementById('invasionStage').innerHTML = invasionPercent >= 80 ? '🔴 Полномасштабное вторжение' : (invasionPercent > 40 ? '🟠 Активная угроза' : '🟢 Умеренная фаза');
+        document.getElementById('invasionStage').innerHTML += ` ${Math.floor(invasionPercent)}%`;
+        if(invasionPercent >= 100) {
+            document.getElementById('invasionLog').innerHTML = "⚠️ КРИЗИС! Задействованы все выжившие! Через 10 минут спад.";
+            invasionPercent = 100;
+            clearInterval(invasionInterval);
+            setTimeout(() => {
+                invasionPercent = 20;
+                updateInvasionUI();
+                startInvasionTimer();
+                document.getElementById('invasionLog').innerHTML = "Уровень угрозы снижен. Враги отступили.";
+            }, 10000);
+        }
+    }
+    let timeSeconds = 8130; // 2:15:30 в секундах
+    function startInvasionTimer() {
+        if(invasionInterval) clearInterval(invasionInterval);
+        invasionInterval = setInterval(() => {
+            if(timeSeconds <= 0) {
+                // повышение инвазии
+                invasionPercent = Math.min(100, invasionPercent + Math.floor(Math.random() * 18) + 5);
+                updateInvasionUI();
+                timeSeconds = 7200 + Math.floor(Math.random() * 1800);
+                document.getElementById('invasionLog').innerHTML = `Волна усилилась! Новый уровень заражения ${invasionPercent}%`;
+            } else {
+                timeSeconds--;
+                let hrs = Math.floor(timeSeconds / 3600);
+                let mins = Math.floor((timeSeconds % 3600) / 60);
+                let secs = timeSeconds % 60;
+                document.getElementById('invasionTimer').innerHTML = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+                if(timeSeconds % 30 === 0 && invasionPercent < 95 && Math.random() < 0.2) {
+                    invasionPercent = Math.min(100, invasionPercent + 1);
+                    updateInvasionUI();
+                }
+            }
+        }, 1000);
+    }
+    startInvasionTimer();
+    document.getElementById('boostInvasion')?.addEventListener('click', () => {
+        invasionPercent = Math.min(100, invasionPercent + 15);
+        updateInvasionUI();
+        document.getElementById('invasionLog').innerHTML = "Применён админ-ускоритель! Интенсивность вторжения повышена!";
+    });
+    updateInvasionUI();
+
+    // ----------------------- ДОСТИЖЕНИЯ (статичные но с прогрессом)
+    const achievements = [
+        { icon:"🏆", name:"Первый сеанс", desc:"Завершите обучение", progress:100 },
+        { icon:"🧪", name:"Экспериментатор", desc:"Пройдите 20 испытаний", progress:45 },
+        { icon:"🩸", name:"Кровавая жатва", desc:"Убейте 100 врагов", progress:82 },
+        { icon:"🤝", name:"Командный дух", desc:"Пройдите рейд с 3 друзьями", progress:30 },
+        { icon:"📜", name:"Хранитель документов", desc:"Найдите 15 записок", progress:60 },
+    ];
+    function renderAchievements() {
+        const container = document.getElementById('achieveList');
+        container.innerHTML = achievements.map(ach => `
+            <div class="card">
+                <div class="achieve-item">
+                    <div class="achieve-icon">${ach.icon}</div>
+                    <div><strong>${ach.name}</strong><br><small>${ach.desc}</small>
+                    <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:${ach.progress}%; background:#b65353;"></div></div>
+                    <span style="font-size:0.7rem;">${ach.progress}% завершено</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    renderAchievements();
+
+    // анимация появления при первой загрузке - всё готово
+    console.log("Сайт The Outlast Trials запущен с анимациями и всеми разделами!");
+</script>
+</body>
+</html>
