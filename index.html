@@ -14,12 +14,34 @@
         }
 
         body {
-            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #f0eef7;
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+        }
+
+        /* Видео фон */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Темный оверлей поверх видео для читаемости текста */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
         }
 
         /* Анимированный шум поверх */
@@ -204,39 +226,6 @@
             color: transparent;
         }
 
-        /* Преимущества */
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .feature-item {
-            background: rgba(255,255,255,0.03);
-            border-radius: 24px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.08);
-        }
-
-        .feature-item i {
-            font-size: 2rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-        }
-
-        .feature-item h3 {
-            margin: 10px 0;
-            font-size: 1.3rem;
-        }
-
         /* Карточки */
         .roles-grid {
             display: grid;
@@ -340,15 +329,15 @@
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
             .nav-links { width: 100%; justify-content: center; padding: 0.8rem; gap: 0.5rem; }
-            .nav-btn { padding: 0.4rem 1rem; font-size: 0.7rem; }
+            .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.65rem; }
             .logo h1 { font-size: 1.6rem; }
         }
 
         @media (max-width: 550px) {
-            .nav-links { gap: 0.4rem; }
-            .nav-btn { padding: 0.3rem 0.7rem; font-size: 0.6rem; }
+            .nav-links { gap: 0.3rem; }
+            .nav-btn { padding: 0.3rem 0.6rem; font-size: 0.55rem; }
             .card { padding: 1rem; }
-            .card h3 { font-size: 1.3rem; }
+            .card h3 { font-size: 1.2rem; }
             .stat-number { font-size: 2rem; }
         }
 
@@ -359,6 +348,15 @@
     </style>
 </head>
 <body>
+
+<!-- ВИДЕО НА ЗАДНИЙ ФОН (WebM + MP4 для совместимости) -->
+<video class="video-background" autoplay muted loop playsinline>
+    <!-- WebM формат (основной, легкий) -->
+    <source src="background.webm" type="video/webm">
+    <!-- MP4 формат (запасной, для старых браузеров) -->
+    <source src="background.mp4" type="video/mp4">
+    <!-- Если видео недоступно, просто черный фон -->
+</video>
 
 <script>
     // Генератор дымовых частиц
@@ -386,13 +384,13 @@
         </div>
         <div class="nav-links">
             <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
-            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Нов. сервера</a>
-            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Нов. игры</a>
-            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Нов. сайта</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
             <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
             <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достиж.</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
@@ -431,28 +429,6 @@
             <i class="fas fa-fire" style="font-size: 2.5rem; color: #e16d48;"></i>
             <div class="stat-number">100%</div>
             <p>атмосферы дыма</p>
-        </div>
-    </div>
-
-    <!-- Преимущества -->
-    <div style="margin-top: 4rem;">
-        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">✨ Почему именно Курилка?</h2>
-        <div class="feature-list">
-            <div class="feature-item">
-                <i class="fas fa-comments"></i>
-                <h3>Ламповое комьюнити</h3>
-                <p>Всегда рады новичкам, помогаем с прохождением и делимся тактиками</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-gamepad"></i>
-                <h3>Регулярные ивенты</h3>
-                <p>Еженедельные турниры, совместные рейды и конкурсы</p>
-            </div>
-            <div class="feature-item">
-                <i class="fas fa-robot"></i>
-                <h3>Умные боты</h3>
-                <p>Автоматические розыгрыши, система уровней и экономика</p>
-            </div>
         </div>
     </div>
 
@@ -515,7 +491,7 @@
     }, observerOptions);
     
     // Наблюдаем за элементами
-    document.querySelectorAll('.stat-card, .feature-item, .card').forEach(el => {
+    document.querySelectorAll('.stat-card, .card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease-out';
