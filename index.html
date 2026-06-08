@@ -2,10 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>The Outlast Trials | Сайт сервера DC</title>
-    <!-- Google Fonts & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Курилка Синьялы | The Outlast Trials</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -15,248 +15,247 @@
         }
 
         body {
-            background: radial-gradient(circle at 10% 20%, #0a0c12 0%, #030507 100%);
-            font-family: 'Inter', sans-serif;
-            color: #edf2f8;
+            background: radial-gradient(ellipse at 30% 10%, #0f0c14 0%, #020105 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Кастомный скролл */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* анимации */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-        ::-webkit-scrollbar-track {
-            background: #111;
-            border-radius: 10px;
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 2px #ff9f6e, 0 0 5px #c2512c; }
+            100% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
         }
-        ::-webkit-scrollbar-thumb {
-            background: #b13e3e;
-            border-radius: 10px;
+        @keyframes borderGlow {
+            0% { border-color: #8a3c2c; box-shadow: 0 0 0 0 rgba(196, 69, 27, 0.3); }
+            100% { border-color: #dd6b4a; box-shadow: 0 0 12px 2px rgba(220, 90, 40, 0.5); }
         }
 
-        /* Анимации при загрузке */
-        @keyframes fadeSlideUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes glitchPulse {
-            0% { text-shadow: 0 0 2px #c44, 0 0 4px #a22; }
-            100% { text-shadow: 0 0 8px #e66, 0 0 12px #b33; }
-        }
-        @keyframes borderFlow {
-            0% { border-image: linear-gradient(45deg, #b22222, #3a1f1f) 1; }
-            50% { border-image: linear-gradient(45deg, #c55050, #4e2a2a) 1; }
-            100% { border-image: linear-gradient(45deg, #b22222, #3a1f1f) 1; }
-        }
+        /* кастомный скролл */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #17121f; border-radius: 12px; }
+        ::-webkit-scrollbar-thumb { background: #bc543a; border-radius: 12px; }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px 30px;
+            padding: 1rem 1.8rem;
         }
 
-        /* шапка */
+        /* шапка с дымком */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(180, 60, 60, 0.4);
-            margin-bottom: 40px;
-            backdrop-filter: blur(4px);
+            padding: 1.2rem 0;
+            border-bottom: 2px solid rgba(220, 90, 50, 0.4);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(8px);
+            gap: 1rem;
         }
         .logo h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #f3baba, #c74141);
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .logo p {
-            font-size: 0.8rem;
-            color: #b6b9c4;
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* навигация */
+        /* навигация - теперь красивая сетка для телефона */
         .nav-links {
             display: flex;
-            gap: 20px;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.65rem;
+            background: rgba(15, 10, 20, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 0.8rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.4);
         }
         .nav-btn {
-            background: rgba(20, 20, 30, 0.7);
-            border: 1px solid #4a2a2a;
-            padding: 10px 22px;
-            border-radius: 60px;
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.1rem;
+            border-radius: 40px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: #f0e6e6;
-            backdrop-filter: blur(5px);
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
         }
         .nav-btn i {
-            margin-right: 8px;
+            font-size: 0.9rem;
         }
-        .nav-btn:hover, .nav-btn.active {
-            background: #aa2e2e;
-            border-color: #e08e8e;
-            box-shadow: 0 0 12px rgba(180, 50, 50, 0.6);
+        .nav-btn:hover {
+            background: #db5a31cc;
+            color: white;
             transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(219, 90, 49, 0.3);
+        }
+        .nav-btn.active {
+            background: #bc4627;
+            color: white;
+            box-shadow: 0 2px 10px #bd4a28;
         }
 
         /* секции */
         .page-section {
             display: none;
-            animation: fadeSlideUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+            animation: fadeInScale 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
         }
-        .page-section.active-section {
-            display: block;
-        }
+        .active-section { display: block; }
 
-        /* карточки и грид */
+        /* карточки и гриды */
         .roles-grid, .news-grid, .game-grid, .achieve-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 28px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
         }
         .card {
-            background: rgba(12, 10, 18, 0.75);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            border: 1px solid rgba(180, 70, 70, 0.3);
-            padding: 20px;
-            transition: all 0.3s;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+            background: rgba(18, 12, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid rgba(210, 85, 45, 0.3);
+            padding: 1.5rem;
+            transition: all 0.35s ease;
+            box-shadow: 0 12px 28px -10px rgba(0,0,0,0.6);
         }
         .card:hover {
             transform: translateY(-6px);
-            border-color: #b33;
-            box-shadow: 0 20px 28px -12px #8a2f2f40;
-        }
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            border-color: #e16d48;
+            box-shadow: 0 22px 32px -12px #b1421e50;
+            background: rgba(25, 18, 35, 0.85);
         }
         .badge {
-            background: #aa3030;
+            background: linear-gradient(135deg, #993e26, #7a2c18);
             border-radius: 40px;
-            padding: 4px 12px;
+            padding: 4px 14px;
             font-size: 0.7rem;
             font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
         }
 
-        /* рулетка */
+        /* рулетка стильная */
         .roulette-panel {
-            background: #0b0a12cc;
-            border-radius: 48px;
-            padding: 30px;
+            background: #110c1ac9;
+            border-radius: 3rem;
+            padding: 2rem;
             text-align: center;
-            border: 1px solid #992b2b;
-            margin: 30px 0;
+            border: 1px solid #e2774e;
+            margin: 2rem 0;
         }
         .wheel {
-            width: 200px;
-            height: 200px;
-            background: conic-gradient(from 0deg, #bc3f3f, #6b1e1e, #bc3f3f, #6b1e1e, #bc3f3f);
+            width: 190px;
+            height: 190px;
+            background: conic-gradient(from 0deg, #da5a33, #802e15, #cf4c27, #9e3519, #da5a33);
             border-radius: 50%;
             margin: 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.8rem;
-            color: white;
-            text-shadow: 0 0 6px black;
-            transition: transform 0.4s ease-out;
-            box-shadow: 0 0 0 8px #2f1e1e, 0 0 0 12px #7a2b2b;
+            font-size: 2rem;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            box-shadow: 0 0 0 6px #422012, 0 0 0 12px #c5532e;
             cursor: pointer;
+            color: #ffecd6;
         }
         .spin-btn {
-            background: #9a2a2a;
+            background: #bc4a28;
             border: none;
-            padding: 12px 32px;
-            font-size: 1.2rem;
+            padding: 10px 28px;
             font-weight: bold;
-            border-radius: 60px;
-            color: white;
+            border-radius: 40px;
+            font-size: 1.2rem;
             transition: 0.2s;
             cursor: pointer;
+            color: white;
         }
-        .spin-btn:hover {
-            background: #c54242;
-            transform: scale(1.02);
-        }
-        .roulette-result {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+        .spin-btn:hover { background: #e2633b; transform: scale(1.02);}
 
-        /* Invasion mini-лента */
+        /* invasion */
         .invasion-status {
-            background: #131018dd;
-            border-radius: 32px;
-            padding: 24px;
-            margin: 20px 0;
-            border-left: 8px solid #c24;
+            background: #171125dd;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            border-left: 8px solid #e25d32;
         }
         .progress-bar {
-            background: #2e2626;
-            border-radius: 50px;
-            height: 18px;
-            margin: 16px 0;
+            background: #302535;
+            border-radius: 40px;
+            height: 20px;
             overflow: hidden;
+            margin: 1rem 0;
         }
         .progress-fill {
             width: 67%;
             height: 100%;
-            background: linear-gradient(90deg, #b53b3b, #e37373);
-            border-radius: 50px;
-            transition: width 0.8s;
+            background: linear-gradient(90deg, #cf5a36, #f5966e);
+            border-radius: 40px;
         }
 
-        /* таблица достижений */
-        .achieve-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border-bottom: 1px solid #3a2626;
-            padding: 14px 0;
+        /* мобильная адаптация */
+        @media (max-width: 750px) {
+            .container { padding: 1rem; }
+            .nav-links {
+                border-radius: 32px;
+                padding: 0.8rem;
+                gap: 0.5rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+            .nav-btn i { font-size: 0.75rem; }
+            .logo h1 { font-size: 1.4rem; }
+            .card { padding: 1.2rem; }
+            .wheel { width: 150px; height: 150px; font-size: 1.5rem; }
         }
-        .achieve-icon {
-            font-size: 2rem;
-        }
-
-        /* новости */
-        .news-card {
-            cursor: pointer;
-        }
-        .date {
-            color: #b88787;
-            font-size: 0.8rem;
+        @media (max-width: 540px) {
+            .nav-links { gap: 0.4rem; }
+            .nav-btn { padding: 0.3rem 0.7rem; font-size: 0.65rem; }
+            .roles-grid, .news-grid { gap: 1rem; }
         }
 
         footer {
-            margin-top: 70px;
+            margin-top: 4rem;
             text-align: center;
-            font-size: 0.8rem;
-            padding: 30px 0;
-            border-top: 1px solid #302020;
+            padding: 2rem 0;
+            border-top: 1px solid #693a28;
+            font-size: 0.75rem;
         }
-
-        @media (max-width: 750px) {
-            .container { padding: 15px; }
-            .nav-links { margin-top: 15px; }
-            .nav-btn { padding: 6px 14px; font-size: 0.75rem; }
+        .discord-tag {
+            background: #2d2b3a;
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -264,114 +263,101 @@
 <div class="container">
     <div class="header">
         <div class="logo">
-            <h1><i class="fas fa-skull"></i> MURKOFF FACILITY</h1>
-            <p>The Outlast Trials · Официальный сервер DC</p>
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
         </div>
         <div class="nav-links" id="navLinks">
             <button class="nav-btn active" data-section="home"><i class="fas fa-home"></i> Главная</button>
-            <button class="nav-btn" data-section="roles"><i class="fas fa-tags"></i> Справочник ролей</button>
-            <button class="nav-btn" data-section="serverNews"><i class="fas fa-newspaper"></i> Новости сервера</button>
-            <button class="nav-btn" data-section="gameNews"><i class="fas fa-gamepad"></i> Новости игры</button>
-            <button class="nav-btn" data-section="siteNews"><i class="fas fa-code"></i> Новости сайта</button>
+            <button class="nav-btn" data-section="roles"><i class="fas fa-tags"></i> Роли</button>
+            <button class="nav-btn" data-section="serverNews"><i class="fas fa-newspaper"></i> Нов. сервера</button>
+            <button class="nav-btn" data-section="gameNews"><i class="fas fa-gamepad"></i> Нов. игры</button>
+            <button class="nav-btn" data-section="siteNews"><i class="fas fa-code"></i> Нов. сайта</button>
             <button class="nav-btn" data-section="roulette"><i class="fas fa-dice-d6"></i> Рулетка</button>
             <button class="nav-btn" data-section="invasion"><i class="fas fa-biohazard"></i> Invasion</button>
-            <button class="nav-btn" data-section="achievements"><i class="fas fa-medal"></i> Достижения</button>
+            <button class="nav-btn" data-section="achievements"><i class="fas fa-medal"></i> Достиж.</button>
             <button class="nav-btn" data-section="aboutGame"><i class="fas fa-book-open"></i> Об игре</button>
         </div>
     </div>
 
     <!-- ГЛАВНАЯ -->
     <div id="home" class="page-section active-section">
-        <div style="text-align: center; margin: 40px 0;">
-            <h2 style="font-size: 3rem; animation: glitchPulse 1.8s infinite alternate;">Добро пожаловать в Убежище</h2>
-            <p style="font-size: 1.2rem; max-width: 700px; margin: 20px auto;">Испытай страх, пройди терапию и заслужи уважение на нашем сервере по The Outlast Trials. Активные события, уникальная система ролей и рейтинг выживших.</p>
-            <div style="margin-top: 30px;"><i class="fas fa-arrow-down fa-2x" style="color:#b44"></i></div>
-        </div>
-        <div class="roles-grid">
-            <div class="card"><h3><i class="fas fa-chart-line"></i> 250+</h3><p>активных игроков еженедельно</p></div>
-            <div class="card"><h3><i class="fas fa-trophy"></i> Рейтинги</h3><p>Соревнуйся в прохождении терапии</p></div>
-            <div class="card"><h3><i class="fas fa-calendar-week"></i> Ивенты</h3><p>Регулярные Invasion-рейды и турниры</p></div>
+        <div style="text-align: center; margin: 2rem 0;">
+            <h2 style="font-size: 2.8rem; animation: smokePulse 2s infinite alternate; font-weight: 800;">☕ Добро пожаловать в Курилку</h2>
+            <p style="font-size: 1.1rem; max-width: 680px; margin: 1rem auto; background: #1e172bb3; padding: 0.7rem 1.5rem; border-radius: 80px;">
+                <i class="fas fa-skull"></i> Место, где сигаретный дым встречает безумие терапии
+            </p>
+            <div class="roles-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); margin-top: 2rem;">
+                <div class="card"><h3><i class="fas fa-users"></i> 340+</h3><p>своих в дыму</p></div>
+                <div class="card"><h3><i class="fas fa-calendar-alt"></i> Еженедельные рейды</h3><p>Каждую пятницу — «Терапия по-нашему»</p></div>
+                <div class="card"><h3><i class="fas fa-crown"></i> Своя атмосфера</h3><p>Мемы, тактики и дымок над убежищем</p></div>
+            </div>
         </div>
     </div>
 
-    <!-- Справочник ролей -->
+    <!-- РОЛИ (кастом под Курилку) -->
     <div id="roles" class="page-section">
-        <h2><i class="fas fa-user-shield"></i> Роли сервера</h2>
+        <h2><i class="fas fa-user-astronaut"></i> Роли «Курилки Синьялы»</h2>
         <div class="roles-grid">
-            <div class="card"><h3><i class="fas fa-crown"></i> Директор</h3><p>Высшее руководство, управление политикой и ивентами.</p><span class="badge">#Власть</span></div>
-            <div class="card"><h3><i class="fas fa-microphone-alt"></i> Голос Терапии</h3><p>Ведущие событий, экскурсоводы по испытаниям.</p><span class="badge">#Модерация</span></div>
-            <div class="card"><h3><i class="fas fa-skull-crossbones"></i> Выживший-Ветеран</h3><p>Прошли все испытания на A+, выдающиеся игроки.</p><span class="badge">#Элита</span></div>
-            <div class="card"><h3><i class="fas fa-bolt"></i> Исследователь</h3><p>Открывают лор, документы и пасхалки.</p></div>
-            <div class="card"><h3><i class="fas fa-heartbeat"></i> Медик</h3><p>Помогают новичкам и лечат в рейдах.</p></div>
-            <div class="card"><h3><i class="fas fa-user-friends"></i> Пациент</h3><p>Основная роль, доступны все режимы.</p></div>
+            <div class="card"><h3><i class="fas fa-crown"></i> Барон Синьялы</h3><p>Глава сервера и главный заводила</p><span class="badge">🔥 Абсолют</span></div>
+            <div class="card"><h3><i class="fas fa-microphone-alt"></i> Мастер Дыма</h3><p>Ведущий ивентов, поднимает градус безумия</p><span class="badge">🎤 Организатор</span></div>
+            <div class="card"><h3><i class="fas fa-shield-alt"></i> Старый Пепел</h3><p>Ветераны, знающие все спрятанные уголки игры</p><span class="badge">💀 Элита</span></div>
+            <div class="card"><h3><i class="fas fa-band-aid"></i> Санитар с зажигалкой</h3><p>Помогают новичкам и лечат психику</p></div>
+            <div class="card"><h3><i class="fas fa-user-friends"></i> Подопытный</h3><p>Основная масса выживших в испытаниях</p></div>
+            <div class="card"><h3><i class="fas fa-comment-dots"></i> Болтун</h3><p>Активные участники чата, душa компании</p></div>
         </div>
     </div>
 
-    <!-- Новости сервера / игры / сайта - объединим динамические контенты, но сделаем три разных блока -->
-    <div id="serverNews" class="page-section">
-        <h2><i class="fas fa-bullhorn"></i> Новости сервера</h2>
-        <div class="news-grid" id="serverNewsList"></div>
-    </div>
-    <div id="gameNews" class="page-section">
-        <h2><i class="fas fa-dragon"></i> Новости игры The Outlast Trials</h2>
-        <div class="news-grid" id="gameNewsList"></div>
-    </div>
-    <div id="siteNews" class="page-section">
-        <h2><i class="fas fa-laptop-code"></i> Новости сайта</h2>
-        <div class="news-grid" id="siteNewsList"></div>
-    </div>
+    <!-- НОВОСТИ -->
+    <div id="serverNews" class="page-section"><h2><i class="fas fa-bullhorn"></i> Новости сервера «Курилка»</h2><div class="news-grid" id="serverNewsList"></div></div>
+    <div id="gameNews" class="page-section"><h2><i class="fas fa-dragon"></i> Новости The Outlast Trials</h2><div class="news-grid" id="gameNewsList"></div></div>
+    <div id="siteNews" class="page-section"><h2><i class="fas fa-laptop-code"></i> Обновления сайта</h2><div class="news-grid" id="siteNewsList"></div></div>
 
     <!-- РУЛЕТКА -->
     <div id="roulette" class="page-section">
-        <h2>🎡 Испытание Рулеткой</h2>
+        <h2><i class="fas fa-cigar"></i> Дымная рулетка</h2>
         <div class="roulette-panel">
-            <div class="wheel" id="wheel">🎲</div>
+            <div class="wheel" id="wheel">🚬</div>
             <button class="spin-btn" id="spinWheelBtn"><i class="fas fa-sync-alt"></i> Крутить!</button>
-            <div class="roulette-result" id="rouletteResult">Нажми на колесо</div>
-            <p style="margin-top: 16px;">Выпадают: очки опыта, уникальные роли или билеты на ивенты</p>
+            <div class="roulette-result" id="rouletteResult" style="margin-top: 20px;">нажми на колесо или кнопку</div>
         </div>
     </div>
 
-    <!-- INVASION -->
+    <!-- INVASION с вайбом Курилки -->
     <div id="invasion" class="page-section">
-        <h2><i class="fas fa-radiation"></i> Invasion Event: Фантомная угроза</h2>
+        <h2><i class="fas fa-radiation"></i> Invasion: «Пепельная атака»</h2>
         <div class="invasion-status">
-            <h3>Текущая стадия: <span id="invasionStage">Заражение 67%</span></h3>
+            <h3>Текущая угроза: <span id="invasionStage">Коптится 67%</span></h3>
             <div class="progress-bar"><div class="progress-fill" id="invasionFill"></div></div>
-            <p><i class="fas fa-clock"></i> До следующей волны: <span id="invasionTimer">02:15:30</span></p>
-            <button id="boostInvasion" style="background:#8a2f2f; border:none; padding:8px 16px; border-radius:30px; color:white; cursor:pointer;">➕ Ускорить (админ-симуляция)</button>
-            <p id="invasionLog" style="margin-top:12px;">Элитные отряды держат оборону.</p>
+            <p><i class="fas fa-hourglass-half"></i> До следующего нашествия: <span id="invasionTimer">02:15:30</span></p>
+            <button id="boostInvasion" style="background:#88422c; border:none; padding:8px 20px; border-radius:40px; color:white; cursor:pointer; margin:10px 0;"><i class="fas fa-fire"></i> Поддать жару</button>
+            <p id="invasionLog">Сигаретный дым сгущается... готовьтесь</p>
         </div>
     </div>
 
     <!-- ДОСТИЖЕНИЯ -->
     <div id="achievements" class="page-section">
-        <h2><i class="fas fa-award"></i> Достижения вашего профиля (демо-прогресс)</h2>
+        <h2><i class="fas fa-award"></i> Твои достижения в Курилке</h2>
         <div class="achieve-grid" id="achieveList"></div>
     </div>
 
     <!-- ОБ ИГРЕ -->
     <div id="aboutGame" class="page-section">
-        <h2><i class="fas fa-gamepad"></i> О The Outlast Trials</h2>
+        <h2><i class="fas fa-gamepad"></i> Про The Outlast Trials</h2>
         <div class="game-grid">
-            <div class="card"><h3>🕯 Сюжет</h3><p>Эпоха холодной войны, корпорация Murkoff проводит жуткие эксперименты над людьми. Игрокам предстоит пройти серию испытаний, чтобы выжить и сохранить рассудок.</p></div>
-            <div class="card"><h3>🎮 Геймплей</h3><p>Кооператив до 4 игроков, уникальные способности, скрытность и динамичные ужастики. Современная графика и психологический хоррор.</p></div>
-            <div class="card"><h3>👥 Сообщество</h3><p>Наш сервер объединяет фанатов: прохождение сложных испытаний, обсуждение лора, создание тактик и рейдов.</p></div>
-            <div class="card"><h3>⚙️ Особенности</h3><p>Регулярные обновления от Red Barrels, сезонный контент, риги и прокачка убежища.</p></div>
-        </div>
-        <div style="margin-top: 30px; background: #130c0cb3; border-radius: 32px; padding: 20px;">
-            <i class="fas fa-quote-left"></i> «Страх — это лишь начало. Настоящие испытания ждут внутри тебя».
+            <div class="card"><h3>🧠 Сюжет</h3><p>Murkoff проводит эксперименты, а мы курим в сторонке и выживаем. Кооперативный хоррор, от которого мурашки.</p></div>
+            <div class="card"><h3>🎯 Геймплей</h3><p>Уклоняйся, лечись, проходи испытания. Вместе с друзьями из Курилки — в разы веселее.</p></div>
+            <div class="card"><h3>🚬 Курилка Синьялы</h3><p>Свой ламповый уголок, где обсуждаем лор, делимся тактиками и просто зависаем.</p></div>
         </div>
     </div>
 
     <footer>
-        <i class="fab fa-discord"></i> Присоединяйся к нашему Discord серверу | The Outlast Trials Community <br>
-        © 2026 Murkoff Facility | Все права защищены безумием
+        <div class="discord-tag"><i class="fab fa-discord"></i> discord.gg/kurilka-signaly</div>
+        <p style="margin-top: 12px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
     </footer>
 </div>
 
 <script>
-    // --- НАВИГАЦИЯ
+    // --- НАВИГАЦИЯ МОБИЛЬНАЯ/ДЕСКТОП
     const sections = document.querySelectorAll('.page-section');
     const navBtns = document.querySelectorAll('.nav-btn');
     function showSection(sectionId) {
@@ -382,148 +368,119 @@
             if(btn.dataset.section === sectionId) btn.classList.add('active');
             else btn.classList.remove('active');
         });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    navBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const secId = btn.dataset.section;
-            showSection(secId);
-        });
-    });
+    navBtns.forEach(btn => btn.addEventListener('click', () => showSection(btn.dataset.section)));
 
-    // ----------------------- НОВОСТИ (динамика)
+    // данные новостей (курилка вайб)
     const serverNewsData = [
-        { title: "⭐ Рейдовый уикенд", date: "07 июня 2026", desc: "Удвоенный опыт за прохождение испытаний в субботу и воскресенье." },
-        { title: "Новый набор модераторов", date: "01 июня 2026", desc: "Открыт набор в команду поддержки, подавайте заявки." },
-        { title: "Ивент HIDE & SEEK", date: "28 мая 2026", desc: "Классический режим жмурок на карте Polaris." }
+        { title: "🌬️ Фестиваль Дыма", date: "10 июня 2026", desc: "Турнир по прохождению с удвоенными наградами и ролью 'Тлеющий'." },
+        { title: "Новый набор 'Пепельные лица'", date: "5 июня 2026", desc: "Ищем ведущих ивентов. Заявки в канале #пепел-рекрут" },
+        { title: "Коллаб с соседним сервером", date: "1 июня 2026", desc: "Совместный рейд с призами и кастомными нашивками." }
     ];
     const gameNewsData = [
-        { title: "Обновление 1.3.2 «Галлюцинации»", date: "05 июня 2026", desc: "Добавлены новые враги и улучшена физика разрушений." },
-        { title: "Трейлер нового сезона", date: "30 мая 2026", desc: "Red Barrels анонсировали режим «Бесконечная терапия»." },
-        { title: "Скины и риги", date: "20 мая 2026", desc: "Коллекция «Кровавая луна» уже в магазине." }
+        { title: "Обновление 'Зола и страх'", date: "7 июня 2026", desc: "Новая карта 'Заброшенная курилка', баги с дымом пофикшены." },
+        { title: "Сезонный пропуск", date: "30 мая 2026", desc: "Эксклюзивные скины в стиле ретро-ужасов" }
     ];
     const siteNewsData = [
-        { title: "✨ Обновление дизайна", date: "08 июня 2026", desc: "Адаптация под мобильные, новые анимации и раздел Рулетки." },
-        { title: "Добавлена система достижений", date: "05 июня 2026", desc: "Теперь вы можете отслеживать свои успехи." },
-        { title: "Интеграция с Discord", date: "01 июня 2026", desc: "Скоро появится авторизация через Discord для синхронизации ролей." }
+        { title: "✨ Адаптация под мобильные", date: "8 июня 2026", desc: "Теперь сайт идеально работает на телефонах, кнопки стали крупнее." },
+        { title: "Интеграция с Discord", date: "скоро", desc: "Возможность синхронизировать роль и достижения." }
     ];
-    function renderNews(containerId, dataArr) {
-        const container = document.getElementById(containerId);
-        if(!container) return;
-        container.innerHTML = dataArr.map(n => `
-            <div class="card news-card">
-                <h3><i class="fas fa-bell"></i> ${n.title}</h3>
-                <div class="date">${n.date}</div>
-                <p>${n.desc}</p>
-            </div>
-        `).join('');
+    function renderNews(containerId, arr) {
+        const cont = document.getElementById(containerId);
+        if(cont) cont.innerHTML = arr.map(n => `<div class="card"><h3><i class="fas fa-smoking"></i> ${n.title}</h3><div class="date">${n.date}</div><p>${n.desc}</p></div>`).join('');
     }
     renderNews('serverNewsList', serverNewsData);
     renderNews('gameNewsList', gameNewsData);
     renderNews('siteNewsList', siteNewsData);
 
-    // ----------------------- РУЛЕТКА
-    const prizes = ["50 опыта", "Роль 'Счастливчик'", "Билет на ивент", "+100 репутации", "Эксклюзивная нашивка", "Ничего...", "Секретный ключ", "x2 очков достижения"];
-    const wheelDiv = document.getElementById('wheel');
+    // РУЛЕТКА (призы с атмосферой)
+    const prizes = ["🚬 Пачка Синьялы (роль)", "💨 100 очков дыма", "🎫 Билет на райд", "🧪 Секретная жидкость", "🔥 Эффект 'Тлеющий'", "🍺 Банка энергоса", "📜 Старая записка Murkoff", "⭐ Ничего, но ты молодец"];
+    const wheel = document.getElementById('wheel');
     const spinBtn = document.getElementById('spinWheelBtn');
     const resultSpan = document.getElementById('rouletteResult');
     let spinning = false;
     function spinRoulette() {
         if(spinning) return;
         spinning = true;
-        let spins = 8 + Math.floor(Math.random() * 12);
-        let finalIndex = Math.floor(Math.random() * prizes.length);
-        let degreesPerPrize = 360 / prizes.length;
-        let targetDeg = (spins * 360) + (finalIndex * degreesPerPrize);
-        wheelDiv.style.transition = "transform 2.5s cubic-bezier(0.2, 0.9, 0.3, 1.1)";
-        wheelDiv.style.transform = `rotate(${targetDeg}deg)`;
+        const spins = 6 + Math.floor(Math.random() * 12);
+        const finalIndex = Math.floor(Math.random() * prizes.length);
+        const degPer = 360 / prizes.length;
+        const target = (spins * 360) + (finalIndex * degPer);
+        wheel.style.transition = "transform 2.2s cubic-bezier(0.2, 0.9, 0.3, 1.2)";
+        wheel.style.transform = `rotate(${target}deg)`;
         setTimeout(() => {
-            const prize = prizes[finalIndex];
-            resultSpan.innerHTML = `🎉 Вы выиграли: ${prize} 🎉`;
-            wheelDiv.style.transition = "none";
-            let actualRotation = targetDeg % 360;
-            wheelDiv.style.transform = `rotate(${actualRotation}deg)`;
+            resultSpan.innerHTML = `🎲 Тебе выпало: ${prizes[finalIndex]} 🎲`;
+            wheel.style.transition = "none";
+            const finalRotation = target % 360;
+            wheel.style.transform = `rotate(${finalRotation}deg)`;
             spinning = false;
-        }, 2500);
+        }, 2200);
     }
     spinBtn.addEventListener('click', spinRoulette);
-    wheelDiv.addEventListener('click', spinRoulette);
+    wheel.addEventListener('click', spinRoulette);
 
-    // ----------------------- INVASION система с таймером и прогрессом
+    // invasion / прогресс
     let invasionPercent = 67;
-    let invasionInterval;
-    function updateInvasionUI() {
-        document.getElementById('invasionFill').style.width = invasionPercent + '%';
-        document.getElementById('invasionStage').innerHTML = invasionPercent >= 80 ? '🔴 Полномасштабное вторжение' : (invasionPercent > 40 ? '🟠 Активная угроза' : '🟢 Умеренная фаза');
-        document.getElementById('invasionStage').innerHTML += ` ${Math.floor(invasionPercent)}%`;
-        if(invasionPercent >= 100) {
-            document.getElementById('invasionLog').innerHTML = "⚠️ КРИЗИС! Задействованы все выжившие! Через 10 минут спад.";
-            invasionPercent = 100;
-            clearInterval(invasionInterval);
-            setTimeout(() => {
-                invasionPercent = 20;
-                updateInvasionUI();
-                startInvasionTimer();
-                document.getElementById('invasionLog').innerHTML = "Уровень угрозы снижен. Враги отступили.";
-            }, 10000);
-        }
+    let timerSeconds = 8130;
+    let invInterval;
+    function updateInvUI() {
+        const fill = document.getElementById('invasionFill');
+        if(fill) fill.style.width = invasionPercent + '%';
+        const stageSpan = document.getElementById('invasionStage');
+        if(stageSpan) stageSpan.innerHTML = invasionPercent >= 80 ? '💀 Полное задымление' : (invasionPercent > 40 ? '🌫️ Густой дым' : '🚬 Лёгкий смог') + ` ${invasionPercent}%`;
     }
-    let timeSeconds = 8130; // 2:15:30 в секундах
-    function startInvasionTimer() {
-        if(invasionInterval) clearInterval(invasionInterval);
-        invasionInterval = setInterval(() => {
-            if(timeSeconds <= 0) {
-                // повышение инвазии
-                invasionPercent = Math.min(100, invasionPercent + Math.floor(Math.random() * 18) + 5);
-                updateInvasionUI();
-                timeSeconds = 7200 + Math.floor(Math.random() * 1800);
-                document.getElementById('invasionLog').innerHTML = `Волна усилилась! Новый уровень заражения ${invasionPercent}%`;
+    function startInvTimer() {
+        if(invInterval) clearInterval(invInterval);
+        invInterval = setInterval(() => {
+            if(timerSeconds <= 0) {
+                invasionPercent = Math.min(100, invasionPercent + Math.floor(Math.random() * 15) + 3);
+                updateInvUI();
+                timerSeconds = 5400 + Math.floor(Math.random() * 3600);
+                document.getElementById('invasionLog').innerHTML = "🌪️ Волна дыма накрыла убежище! Угроза повышена!";
             } else {
-                timeSeconds--;
-                let hrs = Math.floor(timeSeconds / 3600);
-                let mins = Math.floor((timeSeconds % 3600) / 60);
-                let secs = timeSeconds % 60;
+                timerSeconds--;
+                const hrs = Math.floor(timerSeconds / 3600);
+                const mins = Math.floor((timerSeconds % 3600)/60);
+                const secs = timerSeconds % 60;
                 document.getElementById('invasionTimer').innerHTML = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-                if(timeSeconds % 30 === 0 && invasionPercent < 95 && Math.random() < 0.2) {
-                    invasionPercent = Math.min(100, invasionPercent + 1);
-                    updateInvasionUI();
+                if(timerSeconds % 45 === 0 && Math.random()<0.25 && invasionPercent<95) {
+                    invasionPercent = Math.min(100, invasionPercent+1);
+                    updateInvUI();
                 }
             }
         }, 1000);
     }
-    startInvasionTimer();
-    document.getElementById('boostInvasion')?.addEventListener('click', () => {
-        invasionPercent = Math.min(100, invasionPercent + 15);
-        updateInvasionUI();
-        document.getElementById('invasionLog').innerHTML = "Применён админ-ускоритель! Интенсивность вторжения повышена!";
+    startInvTimer();
+    updateInvUI();
+    document.getElementById('boostInvasion')?.addEventListener('click',()=>{
+        invasionPercent = Math.min(100, invasionPercent+20);
+        updateInvUI();
+        document.getElementById('invasionLog').innerHTML = "🔥 Админ поддал жару! Готовьтесь к эвакуации!";
     });
-    updateInvasionUI();
 
-    // ----------------------- ДОСТИЖЕНИЯ (статичные но с прогрессом)
-    const achievements = [
-        { icon:"🏆", name:"Первый сеанс", desc:"Завершите обучение", progress:100 },
-        { icon:"🧪", name:"Экспериментатор", desc:"Пройдите 20 испытаний", progress:45 },
-        { icon:"🩸", name:"Кровавая жатва", desc:"Убейте 100 врагов", progress:82 },
-        { icon:"🤝", name:"Командный дух", desc:"Пройдите рейд с 3 друзьями", progress:30 },
-        { icon:"📜", name:"Хранитель документов", desc:"Найдите 15 записок", progress:60 },
+    // достижения с настроением
+    const achieves = [
+        { icon:"🚬", name:"Первый затяг", desc:"Завершить обучение", prog:100 },
+        { icon:"💀", name:"Мастер Синьялы", desc:"Пройди 25 испытаний", prog:48 },
+        { icon:"🤯", name:"Шок-терапия", desc:"Пережить 5 инвазий", prog:72 },
+        { icon:"🏆", name:"Душа компании", desc:"Пригласить 5 друзей", prog:30 },
+        { icon:"📖", name:"Архивариус дыма", desc:"Найти 10 документов", prog:55 }
     ];
-    function renderAchievements() {
-        const container = document.getElementById('achieveList');
-        container.innerHTML = achievements.map(ach => `
+    const achieveContainer = document.getElementById('achieveList');
+    if(achieveContainer) {
+        achieveContainer.innerHTML = achieves.map(a => `
             <div class="card">
-                <div class="achieve-item">
-                    <div class="achieve-icon">${ach.icon}</div>
-                    <div><strong>${ach.name}</strong><br><small>${ach.desc}</small>
-                    <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:${ach.progress}%; background:#b65353;"></div></div>
-                    <span style="font-size:0.7rem;">${ach.progress}% завершено</span>
+                <div style="display:flex; gap:14px; align-items:center;">
+                    <span style="font-size:2rem;">${a.icon}</span>
+                    <div><strong>${a.name}</strong><br><small>${a.desc}</small>
+                    <div class="progress-bar" style="margin-top:8px;"><div class="progress-fill" style="width:${a.prog}%; background:#e16d48;"></div></div>
+                    <span style="font-size:0.7rem;">${a.prog}%</span>
                     </div>
                 </div>
             </div>
         `).join('');
     }
-    renderAchievements();
-
-    // анимация появления при первой загрузке - всё готово
-    console.log("Сайт The Outlast Trials запущен с анимациями и всеми разделами!");
 </script>
 </body>
 </html>
