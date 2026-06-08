@@ -3,12 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Курилка Синьялы | Главная</title>
+    <title>Курилка Синьялы | Главная — The Outlast Trials</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Дополнительные уникальные анимации только для главной */
+        .hero-glow {
+            animation: smokePulse 2s ease-in-out infinite;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(188, 74, 40, 0.2), rgba(0,0,0,0.4));
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 1.8rem;
+            text-align: center;
+            border: 1px solid rgba(220,90,50,0.3);
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220,90,50,0.2);
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffbc9a, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #bc4a28, #e25d32);
+            padding: 14px 40px;
+            border-radius: 60px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(188,74,40,0.4);
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(188,74,40,0.6);
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+
+<!-- Генератор дымовых частиц -->
+<script>
+    function createSmoke() {
+        const smoke = document.createElement('div');
+        smoke.className = 'smoke-particle';
+        const size = Math.random() * 80 + 40;
+        smoke.style.width = size + 'px';
+        smoke.style.height = size + 'px';
+        smoke.style.left = Math.random() * 100 + '%';
+        smoke.style.animationDuration = Math.random() * 8 + 6 + 's';
+        smoke.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(smoke);
+        setTimeout(() => smoke.remove(), 14000);
+    }
+    setInterval(createSmoke, 3000);
+</script>
+
 <div class="container">
     <div class="header">
         <div class="logo">
@@ -28,22 +108,125 @@
         </div>
     </div>
 
-    <div style="text-align: center; margin: 2rem 0;">
-        <h2 style="font-size: 2.8rem; animation: smokePulse 2s infinite alternate; font-weight: 800;">☕ Добро пожаловать в Курилку</h2>
-        <p style="font-size: 1.1rem; max-width: 680px; margin: 1rem auto; background: #1e172bb3; padding: 0.7rem 1.5rem; border-radius: 80px;">
+    <!-- Герой-секция -->
+    <div style="text-align: center; margin: 3rem 0 4rem 0;">
+        <div class="hero-glow">
+            <h2 style="font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a); -webkit-background-clip: text; background-clip: text; color: transparent;">
+                ☕ Добро пожаловать в Курилку
+            </h2>
+        </div>
+        <p style="font-size: 1.2rem; max-width: 700px; margin: 1.5rem auto; background: rgba(30, 23, 43, 0.6); backdrop-filter: blur(12px); padding: 1rem 2rem; border-radius: 80px; border: 1px solid rgba(220,90,50,0.3);">
             <i class="fas fa-skull"></i> Место, где сигаретный дым встречает безумие терапии
         </p>
-        <div class="roles-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); margin-top: 2rem;">
-            <div class="card"><h3><i class="fas fa-users"></i> 340+</h3><p>своих в дыму</p></div>
-            <div class="card"><h3><i class="fas fa-calendar-alt"></i> Еженедельные рейды</h3><p>Каждую пятницу — «Терапия по-нашему»</p></div>
-            <div class="card"><h3><i class="fas fa-crown"></i> Своя атмосфера</h3><p>Мемы, тактики и дымок над убежищем</p></div>
+        <a href="#features" class="cta-button"><i class="fas fa-arrow-down"></i> Исследовать убежище</a>
+    </div>
+
+    <!-- Статистика сервера -->
+    <div class="stats-grid" id="features">
+        <div class="stat-card">
+            <i class="fas fa-users" style="font-size: 2.5rem; color: #e16d48;"></i>
+            <div class="stat-number">340+</div>
+            <p>активных выживших</p>
         </div>
+        <div class="stat-card">
+            <i class="fas fa-calendar-week" style="font-size: 2.5rem; color: #e16d48;"></i>
+            <div class="stat-number">12+</div>
+            <p>рейдов в месяц</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-trophy" style="font-size: 2.5rem; color: #e16d48;"></i>
+            <div class="stat-number">28</div>
+            <p>уникальных ролей</p>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-fire" style="font-size: 2.5rem; color: #e16d48;"></i>
+            <div class="stat-number">100%</div>
+            <p>атмосферы дыма</p>
+        </div>
+    </div>
+
+    <!-- Преимущества -->
+    <div style="margin-top: 4rem;">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">✨ Почему именно Курилка?</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <i class="fas fa-comments" style="font-size: 2rem; color: #e16d48;"></i>
+                <h3 style="margin: 10px 0;">Ламповое комьюнити</h3>
+                <p>Всегда рады новичкам, помогаем с прохождением и делимся тактиками</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-gamepad" style="font-size: 2rem; color: #e16d48;"></i>
+                <h3 style="margin: 10px 0;">Регулярные ивенты</h3>
+                <p>Еженедельные турниры, совместные рейды и конкурсы</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-robot" style="font-size: 2rem; color: #e16d48;"></i>
+                <h3 style="margin: 10px 0;">Умные боты</h3>
+                <p>Автоматические розыгрыши, система уровней и экономика</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок с карточками последних активностей -->
+    <div style="margin-top: 4rem;">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">🔥 Сейчас в Курилке</h2>
+        <div class="roles-grid">
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Онлайн</h3>
+                <p style="font-size: 2rem; font-weight: bold; color: #e16d48;">89</p>
+                <p>человек в голосовых каналах</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-clock"></i> Следующий рейд</h3>
+                <p>Сегодня в 20:00 МСК</p>
+                <div class="progress-bar" style="margin-top: 15px;"><div class="progress-fill" style="width: 65%;"></div></div>
+                <span>Осталось 3 часа</span>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-gift"></i> Активный ивент</h3>
+                <p>«Дымный уикенд» — удвоенный опыт!</p>
+                <span class="badge">До воскресенья</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord приглашение -->
+    <div style="margin-top: 4rem; text-align: center; background: linear-gradient(135deg, rgba(188,74,40,0.15), rgba(0,0,0,0.4)); border-radius: 40px; padding: 2rem; border: 1px solid rgba(220,90,50,0.3);">
+        <i class="fab fa-discord" style="font-size: 3rem; color: #5865F2;"></i>
+        <h3 style="margin: 15px 0;">Присоединяйся к нам!</h3>
+        <p style="margin-bottom: 20px;">Нажми на кнопку ниже, чтобы попасть в Курилку Синьялы</p>
+        <a href="#" class="cta-button" style="background: linear-gradient(135deg, #5865F2, #4752C4);"><i class="fab fa-discord"></i> discord.gg/kurilka-signaly</a>
     </div>
 
     <footer>
         <div><i class="fab fa-discord"></i> discord.gg/kurilka-signaly</div>
         <p style="margin-top: 12px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
+        <p style="margin-top: 8px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
     </footer>
 </div>
+
+<!-- Дополнительная анимация скролла -->
+<script>
+    // Плавное появление элементов при скролле
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    document.querySelectorAll('.stat-card, .feature-item, .card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease-out';
+        observer.observe(el);
+    });
+</script>
 </body>
 </html>
