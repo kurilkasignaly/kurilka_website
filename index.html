@@ -32,7 +32,7 @@
             z-index: -2;
         }
 
-        /* Темный оверлей поверх видео для читаемости текста */
+        /* Темный оверлей поверх видео */
         body::after {
             content: "";
             position: fixed;
@@ -44,7 +44,7 @@
             z-index: -1;
         }
 
-        /* Анимированный шум поверх */
+        /* Анимированный шум */
         body::before {
             content: "";
             position: fixed;
@@ -226,90 +226,146 @@
             color: transparent;
         }
 
-        /* Карточки */
-        .roles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: rgba(18, 12, 28, 0.7);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(210, 85, 45, 0.3);
-            padding: 1.8rem;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            animation: fadeInScale 0.6s ease-out backwards;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #e16d48;
-            background: rgba(28, 20, 40, 0.85);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
+        /* СЛАЙДЕР БЛОК (картинка + текст) */
+        .slider-block {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            gap: 3rem;
+            margin: 4rem 0;
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            padding: 2rem;
+            border: 1px solid rgba(220,90,50,0.3);
+            animation: fadeInScale 0.6s ease-out;
         }
 
-        .badge {
-            background: linear-gradient(135deg, #993e26, #7a2c18);
-            border-radius: 40px;
-            padding: 5px 16px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 12px;
-        }
-
-        .progress-bar {
-            background: #2a1f2a;
-            border-radius: 60px;
-            height: 24px;
+        .slider-image {
+            flex: 1;
+            border-radius: 32px;
             overflow: hidden;
-            margin: 1rem 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #cf5a36, #f5966e);
-            border-radius: 60px;
-            transition: width 0.8s;
+        .slider-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
         }
 
-        /* Кнопка CTA */
-        .cta-button {
+        .slider-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .slider-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .slider-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .slider-text p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d1cce6;
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-text .badge-slider {
             display: inline-block;
-            background: linear-gradient(135deg, #bc4a28, #e25d32);
+            background: linear-gradient(135deg, #e25d32, #bc4627);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* БЛОК СОЦСЕТЕЙ (как на картинке) */
+        .social-block {
+            margin-top: 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(188,74,40,0.15), rgba(0,0,0,0.4));
+            border-radius: 48px;
+            padding: 2.5rem;
+            border: 1px solid rgba(220,90,50,0.3);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .social-block h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .social-block p {
+            color: #c2b9d4;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icon i {
+            font-size: 3rem;
+            transition: all 0.3s;
+        }
+
+        .social-icon span {
+            color: #c2b9d4;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon:hover i {
+            transform: scale(1.1);
+        }
+
+        .social-icon.discord i { color: #5865F2; }
+        .social-icon.twitch i { color: #9146FF; }
+
+        .discord-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
             padding: 14px 40px;
             border-radius: 60px;
             color: white;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 30px;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(188,74,40,0.4);
+            box-shadow: 0 5px 20px rgba(88,101,242,0.3);
+            font-size: 1rem;
         }
 
-        .cta-button:hover {
+        .discord-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(188,74,40,0.6);
-        }
-
-        /* Discord блок */
-        .discord-block {
-            margin-top: 4rem;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(188,74,40,0.15), rgba(0,0,0,0.4));
-            border-radius: 40px;
-            padding: 2rem;
-            border: 1px solid rgba(220,90,50,0.3);
+            box-shadow: 0 8px 30px rgba(88,101,242,0.5);
         }
 
         /* Footer */
@@ -331,31 +387,27 @@
             .nav-links { width: 100%; justify-content: center; padding: 0.8rem; gap: 0.5rem; }
             .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.65rem; }
             .logo h1 { font-size: 1.6rem; }
+            .slider-block { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .slider-text { text-align: center; }
+            .social-icons { gap: 1.5rem; }
+            .social-icon i { font-size: 2.5rem; }
         }
 
         @media (max-width: 550px) {
             .nav-links { gap: 0.3rem; }
             .nav-btn { padding: 0.3rem 0.6rem; font-size: 0.55rem; }
-            .card { padding: 1rem; }
-            .card h3 { font-size: 1.2rem; }
             .stat-number { font-size: 2rem; }
+            .slider-text h2 { font-size: 1.8rem; }
+            .social-block h2 { font-size: 1.5rem; }
         }
-
-        /* Анимация задержки карточек */
-        .card:nth-child(1) { animation-delay: 0.05s; }
-        .card:nth-child(2) { animation-delay: 0.1s; }
-        .card:nth-child(3) { animation-delay: 0.15s; }
     </style>
 </head>
 <body>
 
-<!-- ВИДЕО НА ЗАДНИЙ ФОН (WebM + MP4 для совместимости) -->
+<!-- ВИДЕО НА ЗАДНИЙ ФОН -->
 <video class="video-background" autoplay muted loop playsinline>
-    <!-- WebM формат (основной, легкий) -->
-    <source src="фон индекс.webm" type="video/webm">
-    <!-- MP4 формат (запасной, для старых браузеров) -->
-    <source src="фон индекс.mp4" type="video/mp4">
-    <!-- Если видео недоступно, просто черный фон -->
+    <source src="background.webm" type="video/webm">
+    <source src="background.mp4" type="video/mp4">
 </video>
 
 <script>
@@ -396,7 +448,7 @@
     </div>
 
     <!-- Герой-секция -->
-    <div style="text-align: center; margin: 3rem 0 4rem 0;">
+    <div style="text-align: center; margin: 3rem 0 2rem 0;">
         <div style="animation: smokePulse 2s ease-in-out infinite;">
             <h2 style="font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a); -webkit-background-clip: text; background-clip: text; color: transparent;">
                 ☕ Добро пожаловать в Курилку
@@ -405,11 +457,10 @@
         <p style="font-size: 1.2rem; max-width: 700px; margin: 1.5rem auto; background: rgba(30, 23, 43, 0.6); backdrop-filter: blur(12px); padding: 1rem 2rem; border-radius: 80px; border: 1px solid rgba(220,90,50,0.3);">
             <i class="fas fa-skull"></i> Место, где сигаретный дым встречает безумие терапии
         </p>
-        <a href="#features" class="cta-button"><i class="fas fa-arrow-down"></i> Исследовать убежище</a>
     </div>
 
     <!-- Статистика сервера -->
-    <div class="stats-grid" id="features">
+    <div class="stats-grid">
         <div class="stat-card">
             <i class="fas fa-users" style="font-size: 2.5rem; color: #e16d48;"></i>
             <div class="stat-number">340+</div>
@@ -432,42 +483,42 @@
         </div>
     </div>
 
-    <!-- Блок с карточками последних активностей -->
-    <div style="margin-top: 4rem;">
-        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">🔥 Сейчас в Курилке</h2>
-        <div class="roles-grid">
-            <div class="card">
-                <h3><i class="fas fa-chart-line"></i> Онлайн</h3>
-                <p style="font-size: 2rem; font-weight: bold; color: #e16d48;">89</p>
-                <p>человек в голосовых каналах</p>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-clock"></i> Следующий рейд</h3>
-                <p>Сегодня в 20:00 МСК</p>
-                <div class="progress-bar" style="margin-top: 15px;">
-                    <div class="progress-fill" style="width: 65%;"></div>
-                </div>
-                <span>Осталось 3 часа</span>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-gift"></i> Активный ивент</h3>
-                <p>«Дымный уикенд» — удвоенный опыт!</p>
-                <span class="badge">До воскресенья</span>
-            </div>
+    <!-- СЛАЙДЕР БЛОК (картинка слева, текст справа) -->
+    <div class="slider-block">
+        <div class="slider-image">
+            <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб из The Outlast Trials" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=The+Outlast+Trials'">
+        </div>
+        <div class="slider-text">
+            <h2>Сезон «Краб-убежище»</h2>
+            <p>Новое испытание ждёт вас! Уникальный краб-мутант появился на территории убежища. Соберите команду и пройдите новый ивент с эксклюзивными наградами.</p>
+            <span class="badge-slider"><i class="fas fa-calendar-alt"></i> До конца сезона: 14 дней</span>
         </div>
     </div>
 
-    <!-- Discord приглашение -->
-    <div class="discord-block">
-        <i class="fab fa-discord" style="font-size: 3rem; color: #5865F2;"></i>
-        <h3 style="margin: 15px 0;">Присоединяйся к нам!</h3>
-        <p style="margin-bottom: 20px;">Нажми на кнопку ниже, чтобы попасть в Курилку Синьялы</p>
-        <a href="#" class="cta-button" style="background: linear-gradient(135deg, #5865F2, #4752C4);"><i class="fab fa-discord"></i> discord.gg/kurilka-signaly</a>
+    <!-- БЛОК СОЦСЕТЕЙ (как на картинке) -->
+    <div class="social-block">
+        <h2>Присоединяйтесь к нашему сообществу</h2>
+        <p>Будьте в курсе всех событий и ивентов</p>
+        
+        <div class="social-icons">
+            <a href="https://discord.gg/HFdReFSx7" target="_blank" class="social-icon discord">
+                <i class="fab fa-discord"></i>
+                <span>Discord</span>
+            </a>
+            <a href="https://www.twitch.tv/lili___kim" target="_blank" class="social-icon twitch">
+                <i class="fab fa-twitch"></i>
+                <span>Twitch</span>
+            </a>
+        </div>
+        
+        <a href="https://discord.gg/HFdReFSx7" target="_blank" class="discord-button">
+            <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
+        </a>
     </div>
 
     <!-- Footer -->
     <footer>
-        <div><i class="fab fa-discord"></i> discord.gg/kurilka-signaly</div>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
         <p style="margin-top: 12px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
         <p style="margin-top: 8px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
     </footer>
@@ -491,7 +542,7 @@
     }, observerOptions);
     
     // Наблюдаем за элементами
-    document.querySelectorAll('.stat-card, .card').forEach(el => {
+    document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease-out';
