@@ -226,29 +226,29 @@
             color: transparent;
         }
 
-        /* СЛАЙДЕР НОВОСТЕЙ */
-        .news-slider-section {
+        /* СЛАЙДЕР БЛОК (картинка + текст) - ОСНОВНОЙ РЕКЛАМНЫЙ БИЛБОРД */
+        .slider-block {
+            position: relative;
             margin: 4rem 0;
-        }
-
-        .news-slider-section h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 48px;
+            border: 1px solid rgba(220,90,50,0.3);
+            animation: fadeInScale 0.6s ease-out;
+            overflow: hidden;
         }
 
         .slider-container {
             position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1rem;
         }
 
         .slider-btn {
-            background: rgba(188, 74, 40, 0.6);
+            position: absolute;
+            background: rgba(188, 74, 40, 0.8);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(220,90,50,0.5);
+            border: 1px solid rgba(220,90,50,0.8);
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -259,7 +259,8 @@
             transition: all 0.3s;
             font-size: 1.5rem;
             color: white;
-            z-index: 10;
+            z-index: 20;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
 
         .slider-btn:hover {
@@ -267,10 +268,18 @@
             transform: scale(1.1);
         }
 
-        .slider-wrapper {
+        .slider-btn-left {
+            left: 20px;
+        }
+
+        .slider-btn-right {
+            right: 20px;
+        }
+
+        .slider-track-wrapper {
             flex: 1;
             overflow: hidden;
-            border-radius: 32px;
+            border-radius: 48px;
         }
 
         .slider-track {
@@ -278,49 +287,68 @@
             transition: transform 0.5s ease-in-out;
         }
 
-        .slider-card {
+        .slider-slide {
             min-width: 100%;
-            background: rgba(18, 12, 28, 0.7);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(210, 85, 45, 0.3);
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .slider-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            gap: 3rem;
+            padding: 2rem;
         }
 
-        .slider-card .date {
-            color: #e16d48;
-            font-size: 0.9rem;
+        .slide-image {
+            flex: 1;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .slide-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .slide-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .slide-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .slide-text h2 {
+            font-size: 2.5rem;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        .slider-card p {
+        .slide-text p {
             font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #d1cce6;
+            margin-bottom: 1.5rem;
         }
 
-        .slider-card .badge {
-            background: linear-gradient(135deg, #993e26, #7a2c18);
-            border-radius: 40px;
-            padding: 5px 16px;
-            font-size: 0.8rem;
+        .slide-text .badge-slider {
             display: inline-block;
+            background: linear-gradient(135deg, #e25d32, #bc4627);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .slider-dots {
             display: flex;
             justify-content: center;
             gap: 0.8rem;
-            margin-top: 1.5rem;
+            padding: 1rem 0 1.5rem 0;
         }
 
         .dot {
@@ -336,69 +364,6 @@
             background: #e25d32;
             width: 30px;
             border-radius: 20px;
-        }
-
-        /* Слайдер блок (картинка + текст) */
-        .slider-block {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 3rem;
-            margin: 4rem 0;
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 48px;
-            padding: 2rem;
-            border: 1px solid rgba(220,90,50,0.3);
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .slider-image {
-            flex: 1;
-            border-radius: 32px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .slider-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .slider-image img:hover {
-            transform: scale(1.05);
-        }
-
-        .slider-text {
-            flex: 1;
-            text-align: left;
-        }
-
-        .slider-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .slider-text p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #d1cce6;
-            margin-bottom: 1.5rem;
-        }
-
-        .slider-text .badge-slider {
-            display: inline-block;
-            background: linear-gradient(135deg, #e25d32, #bc4627);
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 600;
         }
 
         /* Блок соцсетей */
@@ -499,20 +464,21 @@
             .nav-links { width: 100%; justify-content: center; padding: 0.8rem; gap: 0.5rem; }
             .nav-btn { padding: 0.4rem 0.8rem; font-size: 0.65rem; }
             .logo h1 { font-size: 1.6rem; }
-            .slider-block { flex-direction: column; text-align: center; padding: 1.5rem; }
-            .slider-text { text-align: center; }
+            .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .slide-text { text-align: center; }
             .social-icons { gap: 1.5rem; }
             .social-icon i { font-size: 2.5rem; }
             .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+            .slider-btn-left { left: 10px; }
+            .slider-btn-right { right: 10px; }
         }
 
         @media (max-width: 550px) {
             .nav-links { gap: 0.3rem; }
             .nav-btn { padding: 0.3rem 0.6rem; font-size: 0.55rem; }
             .stat-number { font-size: 2rem; }
-            .slider-text h2 { font-size: 1.8rem; }
+            .slide-text h2 { font-size: 1.8rem; }
             .social-block h2 { font-size: 1.5rem; }
-            .slider-card h3 { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -597,42 +563,54 @@
         </div>
     </div>
 
-    <!-- СЛАЙДЕР НОВОСТЕЙ "СЕЙЧАС В КУРИЛКЕ" -->
-    <div class="news-slider-section">
-        <h2>🔥 Сейчас в Курилке</h2>
-        
+    <!-- ГЛАВНЫЙ СЛАЙДЕР (РЕКЛАМНЫЙ БИЛБОРД) - 3 НОВОСТИ -->
+    <div class="slider-block">
         <div class="slider-container">
-            <div class="slider-btn" id="prevBtn">
+            <div class="slider-btn slider-btn-left" id="prevBtn">
                 <i class="fas fa-chevron-left"></i>
             </div>
             
-            <div class="slider-wrapper">
+            <div class="slider-track-wrapper">
                 <div class="slider-track" id="sliderTrack">
-                    <!-- Новость 1 -->
-                    <div class="slider-card">
-                        <h3><i class="fas fa-chart-line"></i> Онлайн-рекорд</h3>
-                        <div class="date">15 июня 2026</div>
-                        <p>Вчера вечером был установлен новый рекорд онлайна — 156 человек одновременно в голосовых каналах! Спасибо всем за активность 🔥</p>
-                        <span class="badge">Новый рекорд!</span>
+                    <!-- СЛАЙД 1: Краб-убежище -->
+                    <div class="slider-slide">
+                        <div class="slide-image">
+                            <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб-мутант" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Краб-убежище'">
+                        </div>
+                        <div class="slide-text">
+                            <h2>Сезон «Краб-убежище»</h2>
+                            <p>Новое испытание ждёт вас! Уникальный краб-мутант появился на территории убежища. Соберите команду и пройдите новый ивент с эксклюзивными наградами.</p>
+                            <span class="badge-slider"><i class="fas fa-calendar-alt"></i> До конца сезона: 14 дней</span>
+                        </div>
                     </div>
-                    <!-- Новость 2 -->
-                    <div class="slider-card">
-                        <h3><i class="fas fa-trophy"></i> Турнир "Дымная битва"</h3>
-                        <div class="date">14 июня 2026</div>
-                        <p>Стартовал турнир по прохождению испытаний на скорость. Победителей ждут эксклюзивные роли и призы. Регистрация до 20 июня!</p>
-                        <span class="badge">Идёт набор</span>
+                    
+                    <!-- СЛАЙД 2: Турнир "Дымная битва" -->
+                    <div class="slider-slide">
+                        <div class="slide-image">
+                            <img src="https://i.imgur.com/3Lp7Q4M.png" alt="Турнир" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Дымная+битва'">
+                        </div>
+                        <div class="slide-text">
+                            <h2>🏆 Турнир «Дымная битва»</h2>
+                            <p>Стартовал ежегодный турнир по прохождению испытаний на скорость. Победителей ждут эксклюзивные роли, Nitro и призы от администрации. Регистрация до 20 июня!</p>
+                            <span class="badge-slider"><i class="fas fa-trophy"></i> Призовой фонд: 5000₽</span>
+                        </div>
                     </div>
-                    <!-- Новость 3 -->
-                    <div class="slider-card">
-                        <h3><i class="fas fa-gift"></i> Розыгрыш Nitro</h3>
-                        <div class="date">13 июня 2026</div>
-                        <p>Каждую пятницу разыгрываем 3 Discord Nitro среди активных участников. Для участия достаточно написать 5 сообщений в чате за неделю.</p>
-                        <span class="badge">Акция</span>
+                    
+                    <!-- СЛАЙД 3: Новый контент -->
+                    <div class="slider-slide">
+                        <div class="slide-image">
+                            <img src="https://i.imgur.com/8YxqZ5L.png" alt="Новое обновление" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Новое+обновление'">
+                        </div>
+                        <div class="slide-text">
+                            <h2>🎮 Обновление «Терапия 2.0»</h2>
+                            <p>Red Barrels выпустили масштабное обновление: новая карта «Заброшенная клиника», 3 типа врагов и улучшенная система прогрессии. Уже доступно на сервере!</p>
+                            <span class="badge-slider"><i class="fas fa-download"></i> Обновитесь сейчас</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="slider-btn" id="nextBtn">
+            <div class="slider-btn slider-btn-right" id="nextBtn">
                 <i class="fas fa-chevron-right"></i>
             </div>
         </div>
@@ -641,18 +619,6 @@
             <div class="dot active"></div>
             <div class="dot"></div>
             <div class="dot"></div>
-        </div>
-    </div>
-
-    <!-- СЛАЙДЕР БЛОК (картинка + текст) -->
-    <div class="slider-block">
-        <div class="slider-image">
-            <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб из The Outlast Trials" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=The+Outlast+Trials'">
-        </div>
-        <div class="slider-text">
-            <h2>Сезон «Краб-убежище»</h2>
-            <p>Новое испытание ждёт вас! Уникальный краб-мутант появился на территории убежища. Соберите команду и пройдите новый ивент с эксклюзивными наградами.</p>
-            <span class="badge-slider"><i class="fas fa-calendar-alt"></i> До конца сезона: 14 дней</span>
         </div>
     </div>
 
@@ -686,9 +652,9 @@
 </div>
 
 <script>
-    // СЛАЙДЕР НОВОСТЕЙ
+    // ГЛАВНЫЙ СЛАЙДЕР
     const track = document.getElementById('sliderTrack');
-    const slides = document.querySelectorAll('.slider-card');
+    const slides = document.querySelectorAll('.slider-slide');
     const dots = document.querySelectorAll('.dot');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -751,12 +717,12 @@
     startAutoSlide();
     
     // Останавливаем авто-слайдер при наведении на слайдер
-    const sliderContainer = document.querySelector('.slider-container');
-    sliderContainer.addEventListener('mouseenter', () => {
+    const sliderBlock = document.querySelector('.slider-block');
+    sliderBlock.addEventListener('mouseenter', () => {
         clearInterval(autoSlideInterval);
     });
     
-    sliderContainer.addEventListener('mouseleave', () => {
+    sliderBlock.addEventListener('mouseleave', () => {
         startAutoSlide();
     });
 </script>
@@ -779,7 +745,7 @@
     }, observerOptions);
     
     // Наблюдаем за элементами
-    document.querySelectorAll('.stat-card, .news-slider-section, .slider-block, .social-block').forEach(el => {
+    document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease-out';
