@@ -226,7 +226,119 @@
             color: transparent;
         }
 
-        /* СЛАЙДЕР БЛОК (картинка + текст) */
+        /* СЛАЙДЕР НОВОСТЕЙ */
+        .news-slider-section {
+            margin: 4rem 0;
+        }
+
+        .news-slider-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .slider-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .slider-btn {
+            background: rgba(188, 74, 40, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(220,90,50,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: #e25d32;
+            transform: scale(1.1);
+        }
+
+        .slider-wrapper {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 32px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slider-card {
+            min-width: 100%;
+            background: rgba(18, 12, 28, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(210, 85, 45, 0.3);
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .slider-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-card .date {
+            color: #e16d48;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .slider-card p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .slider-card .badge {
+            background: linear-gradient(135deg, #993e26, #7a2c18);
+            border-radius: 40px;
+            padding: 5px 16px;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #e25d32;
+            width: 30px;
+            border-radius: 20px;
+        }
+
+        /* Слайдер блок (картинка + текст) */
         .slider-block {
             display: flex;
             align-items: center;
@@ -289,7 +401,7 @@
             font-weight: 600;
         }
 
-        /* БЛОК СОЦСЕТЕЙ (как на картинке) */
+        /* Блок соцсетей */
         .social-block {
             margin-top: 4rem;
             text-align: center;
@@ -391,6 +503,7 @@
             .slider-text { text-align: center; }
             .social-icons { gap: 1.5rem; }
             .social-icon i { font-size: 2.5rem; }
+            .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
         }
 
         @media (max-width: 550px) {
@@ -399,6 +512,7 @@
             .stat-number { font-size: 2rem; }
             .slider-text h2 { font-size: 1.8rem; }
             .social-block h2 { font-size: 1.5rem; }
+            .slider-card h3 { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -406,8 +520,8 @@
 
 <!-- ВИДЕО НА ЗАДНИЙ ФОН -->
 <video class="video-background" autoplay muted loop playsinline>
-    <source src="background.webm" type="video/webm">
-    <source src="background.mp4" type="video/mp4">
+    <source src="фон индекс.webm" type="video/webm">
+    <source src="фон индекс.mp4" type="video/mp4">
 </video>
 
 <script>
@@ -483,7 +597,54 @@
         </div>
     </div>
 
-    <!-- СЛАЙДЕР БЛОК (картинка слева, текст справа) -->
+    <!-- СЛАЙДЕР НОВОСТЕЙ "СЕЙЧАС В КУРИЛКЕ" -->
+    <div class="news-slider-section">
+        <h2>🔥 Сейчас в Курилке</h2>
+        
+        <div class="slider-container">
+            <div class="slider-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <div class="slider-wrapper">
+                <div class="slider-track" id="sliderTrack">
+                    <!-- Новость 1 -->
+                    <div class="slider-card">
+                        <h3><i class="fas fa-chart-line"></i> Онлайн-рекорд</h3>
+                        <div class="date">15 июня 2026</div>
+                        <p>Вчера вечером был установлен новый рекорд онлайна — 156 человек одновременно в голосовых каналах! Спасибо всем за активность 🔥</p>
+                        <span class="badge">Новый рекорд!</span>
+                    </div>
+                    <!-- Новость 2 -->
+                    <div class="slider-card">
+                        <h3><i class="fas fa-trophy"></i> Турнир "Дымная битва"</h3>
+                        <div class="date">14 июня 2026</div>
+                        <p>Стартовал турнир по прохождению испытаний на скорость. Победителей ждут эксклюзивные роли и призы. Регистрация до 20 июня!</p>
+                        <span class="badge">Идёт набор</span>
+                    </div>
+                    <!-- Новость 3 -->
+                    <div class="slider-card">
+                        <h3><i class="fas fa-gift"></i> Розыгрыш Nitro</h3>
+                        <div class="date">13 июня 2026</div>
+                        <p>Каждую пятницу разыгрываем 3 Discord Nitro среди активных участников. Для участия достаточно написать 5 сообщений в чате за неделю.</p>
+                        <span class="badge">Акция</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+        
+        <div class="slider-dots" id="sliderDots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <!-- СЛАЙДЕР БЛОК (картинка + текст) -->
     <div class="slider-block">
         <div class="slider-image">
             <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб из The Outlast Trials" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=The+Outlast+Trials'">
@@ -495,7 +656,7 @@
         </div>
     </div>
 
-    <!-- БЛОК СОЦСЕТЕЙ (как на картинке) -->
+    <!-- БЛОК СОЦСЕТЕЙ -->
     <div class="social-block">
         <h2>Присоединяйтесь к нашему сообществу</h2>
         <p>Будьте в курсе всех событий и ивентов</p>
@@ -525,6 +686,82 @@
 </div>
 
 <script>
+    // СЛАЙДЕР НОВОСТЕЙ
+    const track = document.getElementById('sliderTrack');
+    const slides = document.querySelectorAll('.slider-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoSlideInterval;
+    
+    function updateSlider() {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Обновляем активную точку
+        dots.forEach((dot, index) => {
+            if (index === currentIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+    
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+        resetAutoSlide();
+    }
+    
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+        resetAutoSlide();
+    }
+    
+    function goToSlide(index) {
+        currentIndex = index;
+        updateSlider();
+        resetAutoSlide();
+    }
+    
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            nextSlide();
+        }, 30000); // 30 секунд
+    }
+    
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+    
+    // Добавляем обработчики
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Запускаем авто-слайдер
+    startAutoSlide();
+    
+    // Останавливаем авто-слайдер при наведении на слайдер
+    const sliderContainer = document.querySelector('.slider-container');
+    sliderContainer.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideInterval);
+    });
+    
+    sliderContainer.addEventListener('mouseleave', () => {
+        startAutoSlide();
+    });
+</script>
+
+<script>
     // Плавное появление элементов при скролле
     const observerOptions = {
         threshold: 0.1,
@@ -542,7 +779,7 @@
     }, observerOptions);
     
     // Наблюдаем за элементами
-    document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
+    document.querySelectorAll('.stat-card, .news-slider-section, .slider-block, .social-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease-out';
