@@ -151,7 +151,6 @@
             font-size: 0.9rem;
         }
 
-        /* Статистика */
         .stats-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -194,7 +193,6 @@
             font-size: 0.9rem;
         }
 
-        /* Блок режимов - ТОЛЬКО КАРТИНКИ И ЦИФРЫ */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -216,7 +214,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 350px;
+            min-height: 320px;
         }
 
         .mode-card.reagent:hover {
@@ -233,25 +231,27 @@
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.25);
         }
 
-        .mode-image {
-            width: 100%;
-            flex: 1;
+        .mode-icon-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
+            font-size: 4rem;
         }
 
-        .mode-image img {
-            max-width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-radius: 20px;
-            transition: transform 0.3s ease;
+        .reagent .mode-icon-placeholder {
+            background: rgba(76, 154, 255, 0.15);
+            border: 2px solid #4c9aff;
+            box-shadow: 0 0 20px rgba(76, 154, 255, 0.2);
         }
 
-        .mode-card:hover .mode-image img {
-            transform: scale(1.02);
+        .impostor .mode-icon-placeholder {
+            background: rgba(220, 90, 50, 0.15);
+            border: 2px solid #e25d32;
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.2);
         }
 
         .mode-stats {
@@ -274,7 +274,6 @@
         .reagent .mode-stat-value { color: #4c9aff; }
         .impostor .mode-stat-value { color: #e25d32; }
 
-        /* Таблицы */
         .section-title {
             font-size: 1.5rem;
             margin: 2rem 0 1rem 0;
@@ -364,15 +363,9 @@
             .page-header h1 { font-size: 1.8rem; }
             .modes-block { flex-direction: column; }
             .mode-card { min-height: 280px; padding: 1.5rem; }
-            .mode-image img { max-height: 150px; }
+            .mode-icon-placeholder { width: 80px; height: 80px; font-size: 2.5rem; }
             .mode-stat-value { font-size: 2rem; }
             th, td { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
-        }
-
-        @media (max-width: 550px) {
-            th, td { padding: 0.5rem 0.6rem; font-size: 0.75rem; }
-            .stat-card .stat-value { font-size: 1.6rem; }
-            .section-title { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -407,16 +400,13 @@
         <p><i class="fas fa-chart-simple"></i> Рейтинг лучших агентов</p>
     </div>
 
-    <!-- Общая статистика (автоматический подсчёт) -->
-    <div class="stats-cards" id="statsCards">
-        <!-- Заполняется JS -->
-    </div>
+    <div class="stats-cards" id="statsCards"></div>
 
-    <!-- Блок режимов - только картинки и количество матчей -->
+    <!-- Блок режимов с иконками-заглушками (без ошибок 404) -->
     <div class="modes-block">
         <div class="mode-card reagent">
-            <div class="mode-image">
-                <img src="image/реагент.png" alt="Реагент" onerror="this.style.display='none'">
+            <div class="mode-icon-placeholder">
+                <i class="fas fa-shield-alt"></i>
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalReagentMatches">0</div>
@@ -424,8 +414,8 @@
             </div>
         </div>
         <div class="mode-card impostor">
-            <div class="mode-image">
-                <img src="image/самозванец.png" alt="Самозванец" onerror="this.style.display='none'">
+            <div class="mode-icon-placeholder">
+                <i class="fas fa-mask"></i>
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalImpostorMatches">0</div>
@@ -434,7 +424,6 @@
         </div>
     </div>
 
-    <!-- ОБЩАЯ ТАБЛИЦА ЛИДЕРОВ -->
     <div class="section-title">
         <i class="fas fa-crown" style="color: #ffd700;"></i>
         Общий рейтинг игроков
@@ -456,34 +445,31 @@
 </div>
 
 <script>
-    // ========== ДАННЫЕ ИГРОКОВ (15 ШТУК) ==========
-    // Замените эти имена на реальные Discord никнеймы
-    const playerNames = [
-        "Player_1", "Player_2", "Player_3", "Player_4", "Player_5",
-        "Player_6", "Player_7", "Player_8", "Player_9", "Player_10",
-        "Player_11", "Player_12", "Player_13", "Player_14", "Player_15"
+    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ (НЕ МЕНЯЮТСЯ ПРИ ОБНОВЛЕНИИ) ==========
+    // Замените эти данные на реальные с вашего Discord сервера
+    const playersData = [
+        { name: "Анна_Ведьмак", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
+        { name: "Димон_Курилка", invasionPoints: 7340, reagentMatches: 45, impostorMatches: 41 },
+        { name: "Лили_Ким", invasionPoints: 6980, reagentMatches: 48, impostorMatches: 35 },
+        { name: "Серж_Мясник", invasionPoints: 6210, reagentMatches: 41, impostorMatches: 39 },
+        { name: "Макс_Безумный", invasionPoints: 5890, reagentMatches: 38, impostorMatches: 44 },
+        { name: "Катя_Тень", invasionPoints: 5540, reagentMatches: 42, impostorMatches: 36 },
+        { name: "Леха_Хищник", invasionPoints: 5210, reagentMatches: 39, impostorMatches: 40 },
+        { name: "Настя_Стрелок", invasionPoints: 4980, reagentMatches: 36, impostorMatches: 38 },
+        { name: "Вован_Тихий", invasionPoints: 4650, reagentMatches: 34, impostorMatches: 35 },
+        { name: "Ира_Снайпер", invasionPoints: 4320, reagentMatches: 32, impostorMatches: 33 },
+        { name: "Паша_Шорох", invasionPoints: 3980, reagentMatches: 30, impostorMatches: 31 },
+        { name: "Оля_Скорость", invasionPoints: 3650, reagentMatches: 28, impostorMatches: 29 },
+        { name: "Коля_Молчун", invasionPoints: 3320, reagentMatches: 26, impostorMatches: 27 },
+        { name: "Женя_Волк", invasionPoints: 2980, reagentMatches: 24, impostorMatches: 25 },
+        { name: "Таня_Лис", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
     ];
     
-    // Генерация случайных данных для каждого игрока
-    // ВНИМАНИЕ: замените эти значения на реальные из вашей базы данных
-    let players = playerNames.map((name, index) => ({
-        id: index + 1,
-        name: name,
-        invasionPoints: Math.floor(Math.random() * 7500) + 1000,  // очки Invasion
-        reagentMatches: Math.floor(Math.random() * 80) + 10,     // матчей за Реагента
-        impostorMatches: Math.floor(Math.random() * 70) + 10     // матчей за Самозванца
-    }));
-    
-    // Ручная корректировка для наглядности топ-3 (чтобы были видны лидеры)
-    // Устанавливаем топ-3 с самыми высокими очками
-    players[0].invasionPoints = 8750;  // 1 место
-    players[1].invasionPoints = 7340;  // 2 место
-    players[2].invasionPoints = 6980;  // 3 место
-    
-    // Сортировка по очкам Invasion (от большего к меньшему)
+    // Копируем массив и сортируем по очкам (от большего к меньшему)
+    let players = [...playersData];
     players.sort((a, b) => b.invasionPoints - a.invasionPoints);
     
-    // Добавляем место после сортировки
+    // Добавляем место в рейтинге
     players.forEach((player, idx) => {
         player.rank = idx + 1;
     });
@@ -519,7 +505,7 @@
         </div>
     `;
     
-    // Заполнение цифр в блоках режимов (автоматический подсчёт)
+    // Заполнение цифр в блоках режимов
     document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
     document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
     
@@ -538,7 +524,7 @@
         return `${rank}`;
     }
     
-    // Заполнение общей таблицы
+    // Заполнение таблицы
     const overallBody = document.getElementById('overallTableBody');
     overallBody.innerHTML = '';
     
@@ -546,13 +532,19 @@
         const row = document.createElement('tr');
         row.className = getRankClass(player.rank);
         
-        // Рассчитываем рейтинг (очки / 10 + матчи)
+        // Рейтинг = очки / 10 + матчи
         const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
+        
+        // Цвет для очков в топ-3
+        let pointsColor = '#e16d48';
+        if (player.rank === 1) pointsColor = '#ffd700';
+        else if (player.rank === 2) pointsColor = '#c0c0c0';
+        else if (player.rank === 3) pointsColor = '#cd7f32';
         
         row.innerHTML = `
             <td style="width: 70px;">${getMedalIcon(player.rank)}</td>
             <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'};">${player.name}</td>
-            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : (player.rank === 2 ? '#c0c0c0' : (player.rank === 3 ? '#cd7f32' : '#e16d48'))};">${player.invasionPoints.toLocaleString()}</td>
+            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${pointsColor};">${player.invasionPoints.toLocaleString()}</td>
             <td>${player.reagentMatches}</td>
             <td>${player.impostorMatches}</td>
             <td>${rating}</td>
@@ -560,15 +552,15 @@
         overallBody.appendChild(row);
     });
     
-    // Вывод в консоль для проверки (можно удалить)
-    console.log('Invasion статистика загружена');
-    console.log(`Всего матчей за Реагентов: ${totalReagentMatches}`);
-    console.log(`Всего матчей за Самозванцев: ${totalImpostorMatches}`);
-    console.log('Топ-3 игроков:', players.slice(0, 3).map(p => `${p.name} (${p.invasionPoints} очков)`));
+    // Вывод в консоль для проверки
+    console.log('✅ Invasion статистика загружена (фиксированные данные)');
+    console.log(`📊 Всего матчей за Реагентов: ${totalReagentMatches}`);
+    console.log(`📊 Всего матчей за Самозванцев: ${totalImpostorMatches}`);
+    console.log(`🏆 Топ-3 игроков:`, players.slice(0, 3).map(p => `${p.name} (${p.invasionPoints} очков)`));
 </script>
 
-<!-- Плавное появление при скролле -->
 <script>
+    // Плавное появление при скролле
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
