@@ -400,11 +400,11 @@
 
     <div class="stats-cards" id="statsCards"></div>
 
-    <!-- Блок режимов с ВАШИМИ картинками из папки image/ -->
+    <!-- Блок режимов - картинки из папки images/ с русскими названиями -->
     <div class="modes-block">
         <div class="mode-card reagent">
             <div class="mode-image">
-                <img src="реагент.png" alt="Реагент" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size: 80px; color: #4c9aff;\'></i>'">
+                <img src="images/реагент.png" alt="Реагент" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size: 80px; color: #4c9aff;\'></i>'">
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalReagentMatches">0</div>
@@ -413,7 +413,7 @@
         </div>
         <div class="mode-card impostor">
             <div class="mode-image">
-                <img src="image/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-mask\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
+                <img src="images/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-mask\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalImpostorMatches">0</div>
@@ -444,7 +444,6 @@
 
 <script>
     // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ (Player_1, Player_2 и т.д.) ==========
-    // Данные НЕ МЕНЯЮТСЯ при обновлении страницы
     const playersData = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
         { name: "Player_2", invasionPoints: 7340, reagentMatches: 48, impostorMatches: 41 },
@@ -463,7 +462,7 @@
         { name: "Player_15", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
     ];
     
-    // Копируем и сортируем по очкам (от большего к меньшему)
+    // Сортировка по очкам (от большего к меньшему)
     let players = [...playersData];
     players.sort((a, b) => b.invasionPoints - a.invasionPoints);
     
@@ -472,7 +471,7 @@
         player.rank = idx + 1;
     });
     
-    // ========== АВТОМАТИЧЕСКИЙ ПОДСЧЁТ ОБЩЕЙ СТАТИСТИКИ ==========
+    // ========== АВТОМАТИЧЕСКИЙ ПОДСЧЁТ СТАТИСТИКИ ==========
     const totalPlayers = players.length;
     const totalInvasionPoints = players.reduce((sum, p) => sum + p.invasionPoints, 0);
     const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
@@ -551,6 +550,7 @@
     });
     
     console.log('✅ Invasion статистика загружена');
+    console.log(`📁 Путь к картинкам: images/реагент.png и images/самозванец.png`);
     console.log(`📊 Всего матчей за Реагентов: ${totalReagentMatches}`);
     console.log(`📊 Всего матчей за Самозванцев: ${totalImpostorMatches}`);
 </script>
