@@ -22,7 +22,8 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        .video-background {
+        /* Фоновое изображение вместо видео */
+        .background-image {
             position: fixed;
             top: 0;
             left: 0;
@@ -39,7 +40,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
 
@@ -88,8 +89,17 @@
         }
 
         .logo p {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
         }
 
         /* Блок с датой обновления */
@@ -151,28 +161,26 @@
         .page-header {
             text-align: center;
             margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
         .page-header h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, #fff, #e25d32);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            letter-spacing: 1px;
         }
 
         .page-header h1 i {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
+            margin-right: 10px;
         }
 
         /* Блок предупреждения об обновлении */
         .alert-block {
-            background: rgba(220, 90, 50, 0.15);
+            background: rgba(220, 90, 50, 0.12);
             border-left: 4px solid #e25d32;
             border-radius: 12px;
             padding: 0.8rem 1.2rem;
@@ -232,7 +240,7 @@
             font-size: 0.9rem;
         }
 
-        /* Блок режимов - УВЕЛИЧЕННЫЕ КАРТИНКИ, УМЕНЬШЕННЫЕ КРАЯ */
+        /* Блок режимов */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -407,8 +415,8 @@
             .nav-links { width: 100%; justify-content: center; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .page-header { flex-direction: column; align-items: center; }
-            .page-header h1 { font-size: 1.5rem; text-align: center; }
+            .page-header h1 { font-size: 1.8rem; }
+            .page-header h1 i { font-size: 1.5rem; }
             .modes-block { flex-direction: column; }
             .mode-image img { max-height: 180px; max-width: 70%; }
             .mode-stat-value { font-size: 2rem; }
@@ -419,21 +427,20 @@
             th, td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
             .stat-card .stat-value { font-size: 1.6rem; }
             .section-title { font-size: 1.2rem; }
+            .page-header h1 { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-<video class="video-background" autoplay muted loop playsinline>
-    <source src="фон индекс.webm" type="video/webm">
-    <source src="фон индекс.mp4" type="video/mp4">
-</video>
+<!-- ФОНОВОЕ ИЗОБРАЖЕНИЕ -->
+<img class="background-image" src="фон/Вторжение фон.png" alt="Фон Invasion" onerror="this.style.display='none'">
 
 <div class="container">
     <div class="header">
         <div class="logo">
             <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p>статистика Invasion</p>
+            <p><i class="fas fa-skull"></i> Убежище безумия · Invasion mode</p>
         </div>
         <div class="update-info">
             <i class="fas fa-clock"></i>
@@ -448,13 +455,13 @@
         <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
         <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
         <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-        <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
+        <a href="invasion.html" class="nav-btn active"><i class="fas fa-skull-crossbones"></i> Invasion</a>
         <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
         <a href="about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
     </div>
 
     <div class="page-header">
-        <h1><i class="fas fa-knife"></i> Invasion — Статистика 6 сезона</h1>
+        <h1><i class="fas fa-skull-crossbones"></i> Invasion — Статистика 6 сезона</h1>
     </div>
 
     <!-- Блок предупреждения об обновлении -->
@@ -465,7 +472,7 @@
 
     <div class="stats-cards" id="statsCards"></div>
 
-    <!-- Блок режимов с увеличенными картинками -->
+    <!-- Блок режимов -->
     <div class="modes-block">
         <div class="mode-card reagent">
             <div class="mode-image">
@@ -508,7 +515,7 @@
 </div>
 
 <script>
-    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ (Player_1, Player_2 и т.д.) ==========
+    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ ==========
     const playersData = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
         { name: "Player_2", invasionPoints: 7340, reagentMatches: 48, impostorMatches: 41 },
@@ -527,22 +534,18 @@
         { name: "Player_15", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
     ];
     
-    // Сортировка по очкам (от большего к меньшему)
+    // Сортировка по очкам
     let players = [...playersData];
     players.sort((a, b) => b.invasionPoints - a.invasionPoints);
+    players.forEach((player, idx) => { player.rank = idx + 1; });
     
-    // Добавляем место в рейтинге
-    players.forEach((player, idx) => {
-        player.rank = idx + 1;
-    });
-    
-    // ========== АВТОМАТИЧЕСКИЙ ПОДСЧЁТ СТАТИСТИКИ ==========
+    // Подсчёт статистики
     const totalPlayers = players.length;
     const totalInvasionPoints = players.reduce((sum, p) => sum + p.invasionPoints, 0);
     const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
     const totalImpostorMatches = players.reduce((sum, p) => sum + p.impostorMatches, 0);
     
-    // Заполнение верхних карточек
+    // Заполнение карточек
     const statsCards = document.getElementById('statsCards');
     statsCards.innerHTML = `
         <div class="stat-card">
@@ -567,11 +570,11 @@
         </div>
     `;
     
-    // Заполнение цифр в блоках режимов
+    // Заполнение блоков режимов
     document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
     document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
     
-    // ========== ФУНКЦИИ ДЛЯ ТАБЛИЦЫ ==========
+    // Функции для таблицы
     function getRankClass(rank) {
         if (rank === 1) return 'rank-1';
         if (rank === 2) return 'rank-2';
@@ -593,11 +596,7 @@
     players.forEach(player => {
         const row = document.createElement('tr');
         row.className = getRankClass(player.rank);
-        
-        // Рейтинг = очки / 10 + матчи
         const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
-        
-        // Цвет для очков в топ-3
         let pointsColor = '#e16d48';
         if (player.rank === 1) pointsColor = '#ffd700';
         else if (player.rank === 2) pointsColor = '#c0c0c0';
@@ -615,7 +614,6 @@
     });
     
     console.log('✅ Invasion статистика загружена');
-    console.log(`📁 Путь к картинкам: images/реагент.png и images/самозванец.png`);
 </script>
 
 <script>
