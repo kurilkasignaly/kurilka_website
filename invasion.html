@@ -194,7 +194,7 @@
             font-size: 0.9rem;
         }
 
-        /* Блок режимов (как на картинке) */
+        /* Блок режимов с картинками */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -228,17 +228,21 @@
             box-shadow: 0 0 25px rgba(220, 90, 50, 0.2);
         }
 
-        .mode-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .mode-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem auto;
         }
 
-        .mode-card.reagent .mode-icon { color: #4c9aff; }
-        .mode-card.impostor .mode-icon { color: #e25d32; }
+        .mode-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
         .mode-card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
         }
 
         .mode-card.reagent h2 { color: #4c9aff; }
@@ -247,14 +251,15 @@
         .mode-card p {
             color: #c2b9d4;
             line-height: 1.5;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
         }
 
         .mode-stats {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .mode-stat-item {
@@ -262,7 +267,7 @@
         }
 
         .mode-stat-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
         }
 
@@ -364,7 +369,8 @@
             .page-header h1 { font-size: 1.8rem; }
             .modes-block { flex-direction: column; }
             .mode-card { padding: 1.5rem; }
-            .mode-stats { gap: 1rem; }
+            .mode-image { width: 60px; height: 60px; }
+            .mode-card h2 { font-size: 1.3rem; }
             th, td { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
         }
 
@@ -372,7 +378,6 @@
             th, td { padding: 0.5rem 0.6rem; font-size: 0.75rem; }
             .stat-card .stat-value { font-size: 1.6rem; }
             .section-title { font-size: 1.2rem; }
-            .mode-card h2 { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -412,10 +417,12 @@
         <!-- Заполняется JS -->
     </div>
 
-    <!-- Блок режимов (как на картинке) -->
+    <!-- Блок режимов с картинками -->
     <div class="modes-block">
-        <div class="mode-card reagent" id="reagentModeCard">
-            <div class="mode-icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="mode-card reagent">
+            <div class="mode-image">
+                <img src="image/reagent.png" alt="Реагент" onerror="this.src='https://placehold.co/80x80/1a1a2e/4c9aff?text=РЕАГЕНТ'">
+            </div>
             <h2>РЕАГЕНТ</h2>
             <p>ПРОХОДИТЕ ИСПЫТАНИЯ, В КОТОРЫЕ МОГУТ ВТОРГНУТЬСЯ САМОЗВАНЦЫ.</p>
             <div class="mode-stats">
@@ -423,24 +430,18 @@
                     <div class="mode-stat-value" id="totalReagentMatches">0</div>
                     <div class="mode-stat-label">всего матчей</div>
                 </div>
-                <div class="mode-stat-item">
-                    <div class="mode-stat-value" id="totalReagentWins">0</div>
-                    <div class="mode-stat-label">побед</div>
-                </div>
             </div>
         </div>
-        <div class="mode-card impostor" id="impostorModeCard">
-            <div class="mode-icon"><i class="fas fa-mask"></i></div>
+        <div class="mode-card impostor">
+            <div class="mode-image">
+                <img src="image/impostor.png" alt="Самозванец" onerror="this.src='https://placehold.co/80x80/1a1a2e/e25d32?text=САМОЗВАНЕЦ'">
+            </div>
             <h2>САМОЗВАНЕЦ</h2>
             <p>ВТОРГАЙТЕСЬ В ИСПЫТАНИЯ, ИГРАЯ ЗА САМОЗВАНЦА, И УБИВАЙТЕ РЕАГЕНТОВ.</p>
             <div class="mode-stats">
                 <div class="mode-stat-item">
                     <div class="mode-stat-value" id="totalImpostorMatches">0</div>
                     <div class="mode-stat-label">всего матчей</div>
-                </div>
-                <div class="mode-stat-item">
-                    <div class="mode-stat-value" id="totalImpostorWins">0</div>
-                    <div class="mode-stat-label">побед</div>
                 </div>
             </div>
         </div>
@@ -501,8 +502,6 @@
     const totalInvasionPoints = players.reduce((sum, p) => sum + p.invasionPoints, 0);
     const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
     const totalImpostorMatches = players.reduce((sum, p) => sum + p.impostorMatches, 0);
-    const totalReagentWins = players.reduce((sum, p) => sum + p.reagentWins, 0);
-    const totalImpostorWins = players.reduce((sum, p) => sum + p.impostorWins, 0);
     
     // Заполнение верхних карточек
     const statsCards = document.getElementById('statsCards');
@@ -529,13 +528,11 @@
         </div>
     `;
     
-    // Заполнение цифр в блоках режимов
+    // Заполнение цифр в блоках режимов (только количество матчей)
     document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
-    document.getElementById('totalReagentWins').textContent = totalReagentWins;
     document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
-    document.getElementById('totalImpostorWins').textContent = totalImpostorWins;
     
-    // Функции для стилей
+    // Функции для стилей таблицы
     function getRankClass(rank) {
         if (rank === 1) return 'rank-1';
         if (rank === 2) return 'rank-2';
@@ -563,20 +560,10 @@
         `;
         overallBody.appendChild(row);
     });
-    
-    // Анимация при наведении на блоки режимов (дополнительный эффект)
-    const reagentCard = document.getElementById('reagentModeCard');
-    const impostorCard = document.getElementById('impostorModeCard');
-    
-    reagentCard.addEventListener('mouseenter', () => {
-        document.querySelectorAll('.rank-1, .rank-2, .rank-3').forEach(el => {
-            el.style.transition = 'all 0.3s';
-        });
-    });
 </script>
 
+<!-- Плавное появление при скролле -->
 <script>
-    // Плавное появление при скролле
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
