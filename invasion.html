@@ -194,7 +194,7 @@
             font-size: 0.9rem;
         }
 
-        /* Блок режимов с картинками */
+        /* Блок режимов - ТОЛЬКО КАРТИНКИ И ЦИФРЫ */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -212,68 +212,63 @@
             transition: all 0.4s ease;
             cursor: pointer;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 350px;
         }
 
         .mode-card.reagent:hover {
-            background: rgba(30, 80, 200, 0.25);
+            background: rgba(30, 80, 200, 0.3);
             border-color: #4c9aff;
             transform: translateY(-6px);
-            box-shadow: 0 0 25px rgba(76, 154, 255, 0.2);
+            box-shadow: 0 0 30px rgba(76, 154, 255, 0.25);
         }
 
         .mode-card.impostor:hover {
-            background: rgba(220, 50, 50, 0.25);
+            background: rgba(220, 50, 50, 0.3);
             border-color: #e25d32;
             transform: translateY(-6px);
-            box-shadow: 0 0 25px rgba(220, 90, 50, 0.2);
+            box-shadow: 0 0 30px rgba(220, 90, 50, 0.25);
         }
 
         .mode-image {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
         }
 
         .mode-image img {
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
+            max-height: 200px;
             object-fit: contain;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
         }
 
-        .mode-card h2 {
-            font-size: 1.6rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .mode-card.reagent h2 { color: #4c9aff; }
-        .mode-card.impostor h2 { color: #e25d32; }
-
-        .mode-card p {
-            color: #c2b9d4;
-            line-height: 1.5;
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
+        .mode-card:hover .mode-image img {
+            transform: scale(1.02);
         }
 
         .mode-stats {
             margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-
-        .mode-stat-item {
             text-align: center;
+            width: 100%;
         }
 
         .mode-stat-value {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
         }
 
         .mode-stat-label {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: #a0a0c0;
+            letter-spacing: 1px;
         }
 
         .reagent .mode-stat-value { color: #4c9aff; }
@@ -368,9 +363,9 @@
             .logo h1 { font-size: 1.5rem; }
             .page-header h1 { font-size: 1.8rem; }
             .modes-block { flex-direction: column; }
-            .mode-card { padding: 1.5rem; }
-            .mode-image { width: 60px; height: 60px; }
-            .mode-card h2 { font-size: 1.3rem; }
+            .mode-card { min-height: 280px; padding: 1.5rem; }
+            .mode-image img { max-height: 150px; }
+            .mode-stat-value { font-size: 2rem; }
             th, td { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
         }
 
@@ -412,37 +407,29 @@
         <p><i class="fas fa-chart-simple"></i> Рейтинг лучших агентов</p>
     </div>
 
-    <!-- Общая статистика -->
+    <!-- Общая статистика (автоматический подсчёт) -->
     <div class="stats-cards" id="statsCards">
         <!-- Заполняется JS -->
     </div>
 
-    <!-- Блок режимов с картинками -->
+    <!-- Блок режимов - только картинки и количество матчей -->
     <div class="modes-block">
         <div class="mode-card reagent">
             <div class="mode-image">
-                <img src="image/reagent.png" alt="Реагент" onerror="this.src='https://placehold.co/80x80/1a1a2e/4c9aff?text=РЕАГЕНТ'">
+                <img src="image/reagent.png" alt="Реагент" onerror="this.style.display='none'">
             </div>
-            <h2>РЕАГЕНТ</h2>
-            <p>ПРОХОДИТЕ ИСПЫТАНИЯ, В КОТОРЫЕ МОГУТ ВТОРГНУТЬСЯ САМОЗВАНЦЫ.</p>
             <div class="mode-stats">
-                <div class="mode-stat-item">
-                    <div class="mode-stat-value" id="totalReagentMatches">0</div>
-                    <div class="mode-stat-label">всего матчей</div>
-                </div>
+                <div class="mode-stat-value" id="totalReagentMatches">0</div>
+                <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
             </div>
         </div>
         <div class="mode-card impostor">
             <div class="mode-image">
-                <img src="image/impostor.png" alt="Самозванец" onerror="this.src='https://placehold.co/80x80/1a1a2e/e25d32?text=САМОЗВАНЕЦ'">
+                <img src="image/impostor.png" alt="Самозванец" onerror="this.style.display='none'">
             </div>
-            <h2>САМОЗВАНЕЦ</h2>
-            <p>ВТОРГАЙТЕСЬ В ИСПЫТАНИЯ, ИГРАЯ ЗА САМОЗВАНЦА, И УБИВАЙТЕ РЕАГЕНТОВ.</p>
             <div class="mode-stats">
-                <div class="mode-stat-item">
-                    <div class="mode-stat-value" id="totalImpostorMatches">0</div>
-                    <div class="mode-stat-label">всего матчей</div>
-                </div>
+                <div class="mode-stat-value" id="totalImpostorMatches">0</div>
+                <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА САМОЗВАНЦА</div>
             </div>
         </div>
     </div>
@@ -456,7 +443,7 @@
     <div class="table-wrapper">
         <table id="overallTable">
             <thead>
-                <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Рейтинг</th></tr>
+                <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
             </thead>
             <tbody id="overallTableBody"></tbody>
         </table>
@@ -469,35 +456,39 @@
 </div>
 
 <script>
-    // ИГРОКИ (15 штук)
+    // ========== ДАННЫЕ ИГРОКОВ (15 ШТУК) ==========
+    // Замените эти имена на реальные Discord никнеймы
     const playerNames = [
         "Player_1", "Player_2", "Player_3", "Player_4", "Player_5",
         "Player_6", "Player_7", "Player_8", "Player_9", "Player_10",
         "Player_11", "Player_12", "Player_13", "Player_14", "Player_15"
     ];
     
-    // Генерация данных
-    function generateScore() {
-        return Math.floor(Math.random() * 7500) + 1000;
-    }
-    
+    // Генерация случайных данных для каждого игрока
+    // ВНИМАНИЕ: замените эти значения на реальные из вашей базы данных
     let players = playerNames.map((name, index) => ({
         id: index + 1,
         name: name,
-        invasionPoints: generateScore(),
-        reagentMatches: Math.floor(Math.random() * 80) + 10,
-        reagentWins: Math.floor(Math.random() * 50) + 5,
-        reagentLevel: Math.floor(Math.random() * 20) + 1,
-        impostorMatches: Math.floor(Math.random() * 70) + 10,
-        impostorWins: Math.floor(Math.random() * 45) + 3,
-        impostorLevel: Math.floor(Math.random() * 18) + 1
+        invasionPoints: Math.floor(Math.random() * 7500) + 1000,  // очки Invasion
+        reagentMatches: Math.floor(Math.random() * 80) + 10,     // матчей за Реагента
+        impostorMatches: Math.floor(Math.random() * 70) + 10     // матчей за Самозванца
     }));
     
-    // Сортировка по очкам Invasion
-    players.sort((a, b) => b.invasionPoints - a.invasionPoints);
-    players.forEach((player, idx) => { player.rank = idx + 1; });
+    // Ручная корректировка для наглядности топ-3 (чтобы были видны лидеры)
+    // Устанавливаем топ-3 с самыми высокими очками
+    players[0].invasionPoints = 8750;  // 1 место
+    players[1].invasionPoints = 7340;  // 2 место
+    players[2].invasionPoints = 6980;  // 3 место
     
-    // ПОДСЧЁТ ОБЩЕЙ СТАТИСТИКИ
+    // Сортировка по очкам Invasion (от большего к меньшему)
+    players.sort((a, b) => b.invasionPoints - a.invasionPoints);
+    
+    // Добавляем место после сортировки
+    players.forEach((player, idx) => {
+        player.rank = idx + 1;
+    });
+    
+    // ========== АВТОМАТИЧЕСКИЙ ПОДСЧЁТ ОБЩЕЙ СТАТИСТИКИ ==========
     const totalPlayers = players.length;
     const totalInvasionPoints = players.reduce((sum, p) => sum + p.invasionPoints, 0);
     const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
@@ -519,20 +510,20 @@
         <div class="stat-card">
             <i class="fas fa-shield-alt"></i>
             <div class="stat-value">${totalReagentMatches}</div>
-            <div class="stat-label">Игр за Реагентов</div>
+            <div class="stat-label">Всего матчей за Реагентов</div>
         </div>
         <div class="stat-card">
             <i class="fas fa-mask"></i>
             <div class="stat-value">${totalImpostorMatches}</div>
-            <div class="stat-label">Игр за Самозванцев</div>
+            <div class="stat-label">Всего матчей за Самозванцев</div>
         </div>
     `;
     
-    // Заполнение цифр в блоках режимов (только количество матчей)
+    // Заполнение цифр в блоках режимов (автоматический подсчёт)
     document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
     document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
     
-    // Функции для стилей таблицы
+    // ========== ФУНКЦИИ ДЛЯ ТАБЛИЦЫ ==========
     function getRankClass(rank) {
         if (rank === 1) return 'rank-1';
         if (rank === 2) return 'rank-2';
@@ -549,17 +540,31 @@
     
     // Заполнение общей таблицы
     const overallBody = document.getElementById('overallTableBody');
+    overallBody.innerHTML = '';
+    
     players.forEach(player => {
         const row = document.createElement('tr');
         row.className = getRankClass(player.rank);
+        
+        // Рассчитываем рейтинг (очки / 10 + матчи)
+        const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
+        
         row.innerHTML = `
             <td style="width: 70px;">${getMedalIcon(player.rank)}</td>
-            <td>${player.name}</td>
+            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'};">${player.name}</td>
             <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : (player.rank === 2 ? '#c0c0c0' : (player.rank === 3 ? '#cd7f32' : '#e16d48'))};">${player.invasionPoints.toLocaleString()}</td>
-            <td>${Math.floor(Math.random() * 2000) + 2000}</td>
+            <td>${player.reagentMatches}</td>
+            <td>${player.impostorMatches}</td>
+            <td>${rating}</td>
         `;
         overallBody.appendChild(row);
     });
+    
+    // Вывод в консоль для проверки (можно удалить)
+    console.log('Invasion статистика загружена');
+    console.log(`Всего матчей за Реагентов: ${totalReagentMatches}`);
+    console.log(`Всего матчей за Самозванцев: ${totalImpostorMatches}`);
+    console.log('Топ-3 игроков:', players.slice(0, 3).map(p => `${p.name} (${p.invasionPoints} очков)`));
 </script>
 
 <!-- Плавное появление при скролле -->
