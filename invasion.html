@@ -92,6 +92,22 @@
             color: #c2b9d4;
         }
 
+        /* Блок с датой обновления */
+        .update-info {
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(220,90,50,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .update-info i {
+            color: #e16d48;
+        }
+
         .nav-links {
             display: flex;
             flex-wrap: wrap;
@@ -134,21 +150,44 @@
 
         .page-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .page-header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, #fff, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        .page-header p {
+        .page-header h1 i {
+            font-size: 1.8rem;
+        }
+
+        /* Блок предупреждения об обновлении */
+        .alert-block {
+            background: rgba(220, 90, 50, 0.15);
+            border-left: 4px solid #e25d32;
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+        .alert-block i {
+            color: #e25d32;
+            font-size: 1.2rem;
+        }
+        .alert-block span {
             color: #c2b9d4;
-            margin-top: 0.3rem;
-            font-size: 0.9rem;
         }
 
         .stats-cards {
@@ -193,6 +232,7 @@
             font-size: 0.9rem;
         }
 
+        /* Блок режимов - УВЕЛИЧЕННЫЕ КАРТИНКИ, УМЕНЬШЕННЫЕ КРАЯ */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -204,8 +244,8 @@
             flex: 1;
             background: rgba(18, 12, 28, 0.45);
             backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 2rem;
+            border-radius: 28px;
+            padding: 1.5rem;
             border: 1px solid rgba(220,90,50,0.2);
             transition: all 0.4s ease;
             cursor: pointer;
@@ -214,7 +254,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 350px;
+            min-height: auto;
         }
 
         .mode-card.reagent:hover {
@@ -233,27 +273,26 @@
 
         .mode-image {
             width: 100%;
-            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .mode-image img {
-            max-width: 100%;
-            max-height: 200px;
+            max-width: 85%;
+            max-height: 220px;
             object-fit: contain;
             border-radius: 20px;
             transition: transform 0.3s ease;
         }
 
         .mode-card:hover .mode-image img {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .mode-stats {
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             text-align: center;
             width: 100%;
         }
@@ -264,7 +303,7 @@
         }
 
         .mode-stat-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #a0a0c0;
             letter-spacing: 1px;
         }
@@ -298,16 +337,26 @@
         }
 
         th {
-            text-align: left;
-            padding: 1rem 1rem;
+            text-align: center;
+            padding: 1rem 0.8rem;
             background: rgba(220, 90, 50, 0.15);
             color: #ffbc9a;
             font-weight: 600;
         }
 
         td {
-            padding: 0.9rem 1rem;
+            text-align: center;
+            padding: 0.9rem 0.8rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        td:first-child {
+            text-align: center;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+            font-weight: 500;
         }
 
         tr:hover {
@@ -358,12 +407,18 @@
             .nav-links { width: 100%; justify-content: center; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .page-header h1 { font-size: 1.8rem; }
+            .page-header { flex-direction: column; align-items: center; }
+            .page-header h1 { font-size: 1.5rem; text-align: center; }
             .modes-block { flex-direction: column; }
-            .mode-card { min-height: 280px; padding: 1.5rem; }
-            .mode-image img { max-height: 150px; }
+            .mode-image img { max-height: 180px; max-width: 70%; }
             .mode-stat-value { font-size: 2rem; }
-            th, td { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
+            th, td { padding: 0.7rem 0.5rem; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 550px) {
+            th, td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
+            .stat-card .stat-value { font-size: 1.6rem; }
+            .section-title { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -380,27 +435,37 @@
             <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
             <p>статистика Invasion</p>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
-            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
-            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        <div class="update-info">
+            <i class="fas fa-clock"></i>
+            Статистика обновлена: 09.06.2026
         </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+        <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+        <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+        <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+        <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+        <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+        <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
+        <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+        <a href="about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
     </div>
 
     <div class="page-header">
         <h1><i class="fas fa-knife"></i> Invasion — Статистика 6 сезона</h1>
-        <p><i class="fas fa-chart-simple"></i> Рейтинг лучших агентов</p>
+    </div>
+
+    <!-- Блок предупреждения об обновлении -->
+    <div class="alert-block">
+        <i class="fas fa-info-circle"></i>
+        <span>📊 Статистика обновляется ежедневно в 00:00 МСК. Данные актуальны на текущий момент.</span>
     </div>
 
     <div class="stats-cards" id="statsCards"></div>
 
-    <!-- Блок режимов - картинки из папки images/ с русскими названиями -->
+    <!-- Блок режимов с увеличенными картинками -->
     <div class="modes-block">
         <div class="mode-card reagent">
             <div class="mode-image">
@@ -413,7 +478,7 @@
         </div>
         <div class="mode-card impostor">
             <div class="mode-image">
-                <img src="images/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-mask\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
+                <img src="images/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-knife\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalImpostorMatches">0</div>
@@ -438,7 +503,7 @@
 
     <footer>
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 8px;">Статистика обновляется ежедневно в 00:00 МСК</p>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
     </footer>
 </div>
 
@@ -496,7 +561,7 @@
             <div class="stat-label">Всего матчей за Реагентов</div>
         </div>
         <div class="stat-card">
-            <i class="fas fa-mask"></i>
+            <i class="fas fa-knife"></i>
             <div class="stat-value">${totalImpostorMatches}</div>
             <div class="stat-label">Всего матчей за Самозванцев</div>
         </div>
@@ -539,8 +604,8 @@
         else if (player.rank === 3) pointsColor = '#cd7f32';
         
         row.innerHTML = `
-            <td style="width: 70px;">${getMedalIcon(player.rank)}</td>
-            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'};">${player.name}</td>
+            <td style="width: 60px;">${getMedalIcon(player.rank)}</td>
+            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">${player.name}</td>
             <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${pointsColor};">${player.invasionPoints.toLocaleString()}</td>
             <td>${player.reagentMatches}</td>
             <td>${player.impostorMatches}</td>
@@ -551,8 +616,6 @@
     
     console.log('✅ Invasion статистика загружена');
     console.log(`📁 Путь к картинкам: images/реагент.png и images/самозванец.png`);
-    console.log(`📊 Всего матчей за Реагентов: ${totalReagentMatches}`);
-    console.log(`📊 Всего матчей за Самозванцев: ${totalImpostorMatches}`);
 </script>
 
 <script>
@@ -567,7 +630,7 @@
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
     
-    document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title').forEach(el => {
+    document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title, .alert-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.5s ease-out';
