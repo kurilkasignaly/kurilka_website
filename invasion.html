@@ -214,7 +214,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 320px;
+            min-height: 350px;
         }
 
         .mode-card.reagent:hover {
@@ -231,27 +231,25 @@
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.25);
         }
 
-        .mode-icon-placeholder {
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
+        .mode-image {
+            width: 100%;
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
-            font-size: 4rem;
         }
 
-        .reagent .mode-icon-placeholder {
-            background: rgba(76, 154, 255, 0.15);
-            border: 2px solid #4c9aff;
-            box-shadow: 0 0 20px rgba(76, 154, 255, 0.2);
+        .mode-image img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
         }
 
-        .impostor .mode-icon-placeholder {
-            background: rgba(220, 90, 50, 0.15);
-            border: 2px solid #e25d32;
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.2);
+        .mode-card:hover .mode-image img {
+            transform: scale(1.02);
         }
 
         .mode-stats {
@@ -363,7 +361,7 @@
             .page-header h1 { font-size: 1.8rem; }
             .modes-block { flex-direction: column; }
             .mode-card { min-height: 280px; padding: 1.5rem; }
-            .mode-icon-placeholder { width: 80px; height: 80px; font-size: 2.5rem; }
+            .mode-image img { max-height: 150px; }
             .mode-stat-value { font-size: 2rem; }
             th, td { padding: 0.7rem 0.8rem; font-size: 0.85rem; }
         }
@@ -402,11 +400,11 @@
 
     <div class="stats-cards" id="statsCards"></div>
 
-    <!-- Блок режимов с иконками-заглушками (без ошибок 404) -->
+    <!-- Блок режимов с ВАШИМИ картинками из папки image/ -->
     <div class="modes-block">
         <div class="mode-card reagent">
-            <div class="mode-icon-placeholder">
-                <i class="fas fa-shield-alt"></i>
+            <div class="mode-image">
+                <img src="реагент.png" alt="Реагент" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size: 80px; color: #4c9aff;\'></i>'">
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalReagentMatches">0</div>
@@ -414,8 +412,8 @@
             </div>
         </div>
         <div class="mode-card impostor">
-            <div class="mode-icon-placeholder">
-                <i class="fas fa-mask"></i>
+            <div class="mode-image">
+                <img src="image/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-mask\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
             </div>
             <div class="mode-stats">
                 <div class="mode-stat-value" id="totalImpostorMatches">0</div>
@@ -445,27 +443,27 @@
 </div>
 
 <script>
-    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ (НЕ МЕНЯЮТСЯ ПРИ ОБНОВЛЕНИИ) ==========
-    // Замените эти данные на реальные с вашего Discord сервера
+    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ (Player_1, Player_2 и т.д.) ==========
+    // Данные НЕ МЕНЯЮТСЯ при обновлении страницы
     const playersData = [
-        { name: "Анна_Ведьмак", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
-        { name: "Димон_Курилка", invasionPoints: 7340, reagentMatches: 45, impostorMatches: 41 },
-        { name: "Лили_Ким", invasionPoints: 6980, reagentMatches: 48, impostorMatches: 35 },
-        { name: "Серж_Мясник", invasionPoints: 6210, reagentMatches: 41, impostorMatches: 39 },
-        { name: "Макс_Безумный", invasionPoints: 5890, reagentMatches: 38, impostorMatches: 44 },
-        { name: "Катя_Тень", invasionPoints: 5540, reagentMatches: 42, impostorMatches: 36 },
-        { name: "Леха_Хищник", invasionPoints: 5210, reagentMatches: 39, impostorMatches: 40 },
-        { name: "Настя_Стрелок", invasionPoints: 4980, reagentMatches: 36, impostorMatches: 38 },
-        { name: "Вован_Тихий", invasionPoints: 4650, reagentMatches: 34, impostorMatches: 35 },
-        { name: "Ира_Снайпер", invasionPoints: 4320, reagentMatches: 32, impostorMatches: 33 },
-        { name: "Паша_Шорох", invasionPoints: 3980, reagentMatches: 30, impostorMatches: 31 },
-        { name: "Оля_Скорость", invasionPoints: 3650, reagentMatches: 28, impostorMatches: 29 },
-        { name: "Коля_Молчун", invasionPoints: 3320, reagentMatches: 26, impostorMatches: 27 },
-        { name: "Женя_Волк", invasionPoints: 2980, reagentMatches: 24, impostorMatches: 25 },
-        { name: "Таня_Лис", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
+        { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
+        { name: "Player_2", invasionPoints: 7340, reagentMatches: 48, impostorMatches: 41 },
+        { name: "Player_3", invasionPoints: 6980, reagentMatches: 45, impostorMatches: 35 },
+        { name: "Player_4", invasionPoints: 6210, reagentMatches: 41, impostorMatches: 39 },
+        { name: "Player_5", invasionPoints: 5890, reagentMatches: 38, impostorMatches: 44 },
+        { name: "Player_6", invasionPoints: 5540, reagentMatches: 42, impostorMatches: 36 },
+        { name: "Player_7", invasionPoints: 5210, reagentMatches: 39, impostorMatches: 40 },
+        { name: "Player_8", invasionPoints: 4980, reagentMatches: 36, impostorMatches: 38 },
+        { name: "Player_9", invasionPoints: 4650, reagentMatches: 34, impostorMatches: 35 },
+        { name: "Player_10", invasionPoints: 4320, reagentMatches: 32, impostorMatches: 33 },
+        { name: "Player_11", invasionPoints: 3980, reagentMatches: 30, impostorMatches: 31 },
+        { name: "Player_12", invasionPoints: 3650, reagentMatches: 28, impostorMatches: 29 },
+        { name: "Player_13", invasionPoints: 3320, reagentMatches: 26, impostorMatches: 27 },
+        { name: "Player_14", invasionPoints: 2980, reagentMatches: 24, impostorMatches: 25 },
+        { name: "Player_15", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
     ];
     
-    // Копируем массив и сортируем по очкам (от большего к меньшему)
+    // Копируем и сортируем по очкам (от большего к меньшему)
     let players = [...playersData];
     players.sort((a, b) => b.invasionPoints - a.invasionPoints);
     
@@ -552,11 +550,9 @@
         overallBody.appendChild(row);
     });
     
-    // Вывод в консоль для проверки
-    console.log('✅ Invasion статистика загружена (фиксированные данные)');
+    console.log('✅ Invasion статистика загружена');
     console.log(`📊 Всего матчей за Реагентов: ${totalReagentMatches}`);
     console.log(`📊 Всего матчей за Самозванцев: ${totalImpostorMatches}`);
-    console.log(`🏆 Топ-3 игроков:`, players.slice(0, 3).map(p => `${p.name} (${p.invasionPoints} очков)`));
 </script>
 
 <script>
