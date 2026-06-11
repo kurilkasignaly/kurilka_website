@@ -294,7 +294,7 @@
 
         .poster-title {
             margin-top: 1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #e16d48;
             transition: all 0.3s ease;
@@ -433,7 +433,7 @@
 
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
-            .poster-title { font-size: 0.9rem; }
+            .poster-title { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -512,11 +512,12 @@
 </div>
 
 <script>
-    // Данные постеров и испытаний
+    // Данные постеров и испытаний (новая последовательность)
     const posters = [
         {
             id: "police-station",
-            title: "Полицейский участок",
+            title: "Постер 01",
+            mapName: "Полицейский участок",
             image: "../images/полицейский-участок.webp",
             trials: [
                 { name: "Убейте стукача", description: "Найдите и устраните информатора" },
@@ -529,8 +530,31 @@
             ]
         },
         {
+            id: "orphanage",
+            title: "Постер 03",
+            mapName: "Детский дом",
+            image: "../images/детский-дом.webp",
+            trials: [
+                { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
+                { name: "Найдите улики", description: "Соберите доказательства" },
+                { name: "Победите Матушку Гусберри", description: "Сразитесь с главным активом" }
+            ]
+        },
+        {
+            id: "fun-park",
+            title: "Постер 02",
+            mapName: "Парк развлечений",
+            image: "../images/парк-развлечений.webp",
+            trials: [
+                { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
+                { name: "Найдите ключи", description: "Соберите ключи от выхода" },
+                { name: "Остановите Франко Барби", description: "Одолейте главного актива" }
+            ]
+        },
+        {
             id: "court-house",
-            title: "Здание суда",
+            title: "Постер 04",
+            mapName: "Здание суда",
             image: "../images/здание-суда.webp",
             trials: [
                 { name: "Оправдать виновного", description: "Добейтесь оправдательного приговора" },
@@ -541,23 +565,69 @@
             ]
         },
         {
-            id: "orphanage",
-            title: "Детский дом",
-            image: "../images/детский-дом.webp",
+            id: "toy-factory",
+            title: "Постер 05",
+            mapName: "Фабрика игрушек",
+            image: "../images/фабрика-игрушек.webp",
             trials: [
-                { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
-                { name: "Найдите улики", description: "Соберите доказательства" },
-                { name: "Победите Матушку Гусберри", description: "Сразитесь с главным активом" }
+                { name: "Уничтожьте игрушки", description: "Избавьтесь от опасных игрушек" },
+                { name: "Найдите чертежи", description: "Обнаружьте секретные документы" },
+                { name: "Сбегите с фабрики", description: "Покиньте опасное здание" }
             ]
         },
         {
-            id: "fun-park",
-            title: "Парк развлечений",
-            image: "../images/парк-развлечений.webp",
+            id: "pier",
+            title: "Постер 06",
+            mapName: "Пристань",
+            image: "../images/пристань.webp",
             trials: [
-                { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
-                { name: "Найдите ключи", description: "Соберите ключи от выхода" },
-                { name: "Остановите Франко Барби", description: "Одолейте главного актива" }
+                { name: "Обыщите склады", description: "Найдите улики на складах" },
+                { name: "Отключите сигнализацию", description: "Обезвредьте охранную систему" },
+                { name: "Уплывите на лодке", description: "Эвакуируйтесь с пристани" }
+            ]
+        },
+        {
+            id: "city-center",
+            title: "Постер 07",
+            mapName: "Центр города",
+            image: "../images/центр-города.webp",
+            trials: [
+                { name: "Порадуйте прокурора", description: "Выполните требования прокурора" },
+                { name: "Найдите садистские манекены", description: "Соберите улики" },
+                { name: "Сбегите из города", description: "Покиньте опасную зону" }
+            ]
+        },
+        {
+            id: "suburb",
+            title: "Постер 08",
+            mapName: "Пригород",
+            image: "../images/пригород.webp",
+            trials: [
+                { name: "Обыщите дома", description: "Найдите улики в жилых домах" },
+                { name: "Спасите жителей", description: "Эвакуируйте гражданских" },
+                { name: "Остановите заражение", description: "Предотвратите распространение" }
+            ]
+        },
+        {
+            id: "resort",
+            title: "Постер 09",
+            mapName: "Курорт",
+            image: "../images/курорт.webp",
+            trials: [
+                { name: "Расследуйте исчезновения", description: "Найдите пропавших гостей" },
+                { name: "Отключите систему", description: "Обезвредьте ловушки" },
+                { name: "Эвакуируйтесь с курорта", description: "Покиньте территорию" }
+            ]
+        },
+        {
+            id: "tv-studio",
+            title: "Постер 10",
+            mapName: "Телестудия",
+            image: "../images/телестудия.webp",
+            trials: [
+                { name: "Сорвите эфир", description: "Остановите вещание" },
+                { name: "Найдите записи", description: "Соберите улики" },
+                { name: "Сбегите из студии", description: "Покиньте здание" }
             ]
         }
     ];
@@ -583,15 +653,15 @@
             const card = document.createElement('div');
             card.className = 'poster-card';
             card.setAttribute('data-id', poster.id);
-            card.setAttribute('data-title', poster.title);
+            card.setAttribute('data-title', poster.mapName);
             card.setAttribute('data-trials', JSON.stringify(poster.trials));
             
             card.addEventListener('click', () => {
-                openModal(poster.title, poster.trials);
+                openModal(poster.mapName, poster.trials);
             });
             
             card.innerHTML = `
-                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
+                <img src="${poster.image}" class="poster-image" alt="${poster.mapName}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
             `;
             
@@ -612,9 +682,7 @@
                 <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.6;"></i>
             `;
             li.addEventListener('click', () => {
-                console.log(`Выбрано испытание: ${trial.name}`);
-                // alert(`Открывается страница испытания: ${trial.name}`);
-                // window.location.href = `trial-${trial.name.toLowerCase().replace(/ /g, '-')}.html`;
+                console.log(`Выбрано испытание: ${trial.name} (${title})`);
             });
             trialsList.appendChild(li);
         });
@@ -713,7 +781,6 @@
     // Запуск
     displayPosters();
     
-    // Небольшая задержка для корректного расчёта ширины
     setTimeout(() => {
         updateSlider();
     }, 100);
