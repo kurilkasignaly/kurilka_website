@@ -512,12 +512,11 @@
 </div>
 
 <script>
-    // Данные постеров и испытаний (новая последовательность)
+    // Данные постеров и испытаний (названия карт как на картинках)
     const posters = [
         {
             id: "police-station",
-            title: "Постер 01",
-            mapName: "Полицейский участок",
+            title: "полицейский участок.webp",
             image: "../images/полицейский-участок.webp",
             trials: [
                 { name: "Убейте стукача", description: "Найдите и устраните информатора" },
@@ -531,8 +530,7 @@
         },
         {
             id: "orphanage",
-            title: "Постер 03",
-            mapName: "Детский дом",
+            title: "детский дом.webp",
             image: "../images/детский-дом.webp",
             trials: [
                 { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
@@ -542,8 +540,7 @@
         },
         {
             id: "fun-park",
-            title: "Постер 02",
-            mapName: "Парк развлечений",
+            title: "парк развлечений.webp",
             image: "../images/парк-развлечений.webp",
             trials: [
                 { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
@@ -553,8 +550,7 @@
         },
         {
             id: "court-house",
-            title: "Постер 04",
-            mapName: "Здание суда",
+            title: "здание суда.webp",
             image: "../images/здание-суда.webp",
             trials: [
                 { name: "Оправдать виновного", description: "Добейтесь оправдательного приговора" },
@@ -566,8 +562,7 @@
         },
         {
             id: "toy-factory",
-            title: "Постер 05",
-            mapName: "Фабрика игрушек",
+            title: "фабрика игрушек.webp",
             image: "../images/фабрика-игрушек.webp",
             trials: [
                 { name: "Уничтожьте игрушки", description: "Избавьтесь от опасных игрушек" },
@@ -577,8 +572,7 @@
         },
         {
             id: "pier",
-            title: "Постер 06",
-            mapName: "Пристань",
+            title: "пристань.webp",
             image: "../images/пристань.webp",
             trials: [
                 { name: "Обыщите склады", description: "Найдите улики на складах" },
@@ -588,8 +582,7 @@
         },
         {
             id: "city-center",
-            title: "Постер 07",
-            mapName: "Центр города",
+            title: "центр города.webp",
             image: "../images/центр-города.webp",
             trials: [
                 { name: "Порадуйте прокурора", description: "Выполните требования прокурора" },
@@ -599,8 +592,7 @@
         },
         {
             id: "suburb",
-            title: "Постер 08",
-            mapName: "Пригород",
+            title: "пригород.webp",
             image: "../images/пригород.webp",
             trials: [
                 { name: "Обыщите дома", description: "Найдите улики в жилых домах" },
@@ -610,8 +602,7 @@
         },
         {
             id: "resort",
-            title: "Постер 09",
-            mapName: "Курорт",
+            title: "курорт.webp",
             image: "../images/курорт.webp",
             trials: [
                 { name: "Расследуйте исчезновения", description: "Найдите пропавших гостей" },
@@ -621,8 +612,7 @@
         },
         {
             id: "tv-studio",
-            title: "Постер 10",
-            mapName: "Телестудия",
+            title: "телестудия.webp",
             image: "../images/телестудия.webp",
             trials: [
                 { name: "Сорвите эфир", description: "Остановите вещание" },
@@ -653,15 +643,15 @@
             const card = document.createElement('div');
             card.className = 'poster-card';
             card.setAttribute('data-id', poster.id);
-            card.setAttribute('data-title', poster.mapName);
+            card.setAttribute('data-title', poster.title);
             card.setAttribute('data-trials', JSON.stringify(poster.trials));
             
             card.addEventListener('click', () => {
-                openModal(poster.mapName, poster.trials);
+                openModal(poster.title.replace('.webp', ''), poster.trials);
             });
             
             card.innerHTML = `
-                <img src="${poster.image}" class="poster-image" alt="${poster.mapName}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
+                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
             `;
             
