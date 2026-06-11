@@ -22,8 +22,8 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        /* Фоновое изображение */
-        .background-image {
+        /* Фоновое видео */
+        .background-video {
             position: fixed;
             top: 0;
             left: 0;
@@ -240,14 +240,16 @@
 
         .asset-image {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            height: 200px;
+            object-fit: contain;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 10px;
             display: block;
         }
 
         .asset-image-placeholder {
             width: 100%;
-            height: 180px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -305,6 +307,7 @@
             .page-title { font-size: 1.8rem; }
             .page-title i { font-size: 1.6rem; }
             .assets-grid { gap: 1.2rem; }
+            .asset-image { height: 180px; }
         }
 
         @media (max-width: 550px) {
@@ -312,13 +315,17 @@
             .page-title { font-size: 1.4rem; }
             .asset-name { font-size: 1.1rem; }
             .asset-content { padding: 1rem; }
+            .asset-image { height: 160px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Фоновое изображение -->
-<img class="background-image" src="../фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
+<!-- Фоновое видео -->
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+</video>
 
 <div class="container">
     <!-- Шапка -->
@@ -336,13 +343,13 @@
             <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
             <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
             <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="../about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
 
     <!-- Хлебные крошки -->
     <div class="breadcrumb">
-        <a href="../about-game.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к категориям</a>
+        <a href="../about.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к категориям</a>
     </div>
 
     <!-- Заголовок страницы -->
@@ -361,10 +368,9 @@
 </div>
 
 <script>
-    // Данные главных активов
-    // ВАЖНО: файлы должны лежать в той же папке (game-files/)
+    // Данные главных активов с правильными путями к изображениям
     const primeAssets = [
-        { id: "leland-coyle", number: "01", name: "Лиланд Койл", file: "leland-coyle.html", image: "../images/лиланд-койл.png" },
+        { id: "leland-coyle", number: "01", name: "Лиланд Койл", file: "leland-coyle.html", image: "../images/койл.png" },
         { id: "mother-gooseberry", number: "02", name: "Матушка Гусберри", file: "mother-gooseberry.html", image: "../images/матушка-гусберри.png" },
         { id: "franco-barbi", number: "03", name: "Франко Барби", file: "franco-barbi.html", image: "../images/франко-барби.png" },
         { id: "otto-aurora", number: "04", name: "Отто и Арора Кресс", file: "otto-aurora.html", image: "../images/отто-и-арора-кресс.png" },
