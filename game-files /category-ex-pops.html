@@ -362,6 +362,7 @@
 
 <script>
     // Данные экс-попов
+    // ВАЖНО: файлы должны лежать в той же папке (game-files/)
     const exPops = [
         { id: "regular", number: "01", name: "Обычные экс-попы", file: "regular-ex-pop.html", image: "../images/обычные-экс-попы.png" },
         { id: "jaeger", number: "02", name: "Егерь", file: "jaeger.html", image: "../images/егерь.png" },
@@ -387,6 +388,7 @@
             const card = document.createElement('div');
             card.className = 'item-card';
             
+            // ПРИ КЛИКЕ ПЕРЕХОДИМ НА ФАЙЛ В ТОЙ ЖЕ ПАПКЕ (game-files/)
             card.addEventListener('click', () => {
                 window.location.href = item.file;
             });
