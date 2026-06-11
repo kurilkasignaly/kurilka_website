@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Генезис — Испытательная программа | Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        /* Фоновое видео */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        /* Навигация */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        /* Хлебные крошки */
+        .breadcrumb {
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #e16d48;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+            border-color: #e16d48;
+        }
+
+        /* Описание программы */
+        .program-description {
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out 0.1s backwards;
+        }
+
+        .program-description h2 {
+            font-size: 1.8rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #e16d48;
+            padding-left: 18px;
+        }
+
+        .program-description p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d1cce6;
+        }
+
+        /* Слайдер постеров */
+        .posters-section {
+            margin-bottom: 2.5rem;
+            animation: fadeInScale 0.6s ease-out 0.15s backwards;
+        }
+
+        .posters-section h2 {
+            font-size: 1.8rem;
+            color: #e16d48;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #e16d48;
+            padding-left: 18px;
+        }
+
+        .slider-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-btn {
+            background: rgba(188, 74, 40, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(220,90,50,0.6);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.4rem;
+            color: white;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        .slider-btn:hover {
+            background: #e25d32;
+            transform: scale(1.05);
+        }
+
+        .slider-track-wrapper {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .poster-card {
+            min-width: calc(33.333% - 1rem);
+            margin: 0 0.5rem;
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .poster-card:hover {
+            transform: translateY(-5px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
+        }
+
+        .poster-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .poster-title {
+            padding: 1rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e16d48;
+        }
+
+        /* Список испытаний (модальное окно) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 500px;
+            width: 90%;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            padding: 1.5rem;
+            cursor: default;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: #e16d48;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+        }
+
+        .trials-list {
+            list-style: none;
+        }
+
+        .trials-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .trials-list li:hover {
+            background: rgba(220, 90, 50, 0.1);
+            padding-left: 10px;
+            border-radius: 12px;
+        }
+
+        .trials-list li i {
+            color: #e16d48;
+            width: 24px;
+        }
+
+        .trials-list li span {
+            flex: 1;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        @media (max-width: 1000px) {
+            .poster-card {
+                min-width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .poster-card {
+                min-width: calc(100% - 1rem);
+            }
+            .slider-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .program-description h2, .posters-section h2 { font-size: 1.4rem; }
+        }
+
+        @media (max-width: 550px) {
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Фоновое видео -->
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+</video>
+
+<div class="container">
+    <!-- Шапка -->
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <!-- Хлебные крошки -->
+    <div class="breadcrumb">
+        <a href="category-programs.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программам</a>
+    </div>
+
+    <!-- Описание программы -->
+    <div class="program-description">
+        <h2><i class="fas fa-info-circle"></i> О программе «Генезис»</h2>
+        <p>Генезис — это базовая испытательная программа, предназначенная для подготовки новых реагентов. Здесь вы познакомитесь с основами выживания, научитесь уклоняться от врагов, использовать окружение и выполнять основные задачи. Программа включает в себя несколько испытательных полигонов, каждый из которых имеет уникальную механику и сценарий. Успешное прохождение всех испытаний откроет доступ к более сложным программам.</p>
+    </div>
+
+    <!-- Слайдер постеров -->
+    <div class="posters-section">
+        <h2><i class="fas fa-images"></i> Испытательные полигоны</h2>
+        <div class="slider-container">
+            <div class="slider-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <div class="slider-track-wrapper">
+                <div class="slider-track" id="sliderTrack">
+                    <!-- Постеры генерируются через JS -->
+                </div>
+            </div>
+            
+            <div class="slider-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<!-- Модальное окно со списком испытаний -->
+<div id="trialsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Испытания</h3>
+            <span class="modal-close">&times;</span>
+        </div>
+        <ul class="trials-list" id="trialsList"></ul>
+    </div>
+</div>
+
+<script>
+    // Данные постеров и испытаний
+    const posters = [
+        {
+            id: "police-station",
+            title: "Полицейский участок",
+            image: "../images/полицейский-участок.webp",
+            trials: [
+                { name: "Убейте стукача", description: "Найдите и устраните информатора" },
+                { name: "Отмените вскрытие", description: "Саботируйте медицинские процедуры" },
+                { name: "Саботируйте карантин", description: "Нарушьте карантинные меры" },
+                { name: "Освободите заключённых", description: "Выпустите узников из камер" },
+                { name: "Обучите полицейского", description: "Проведите обучение" },
+                { name: "Уничтожьте прошлое", description: "Сотрите улики" },
+                { name: "Заберите наркотики", description: "Изъять запрещённые вещества" }
+            ]
+        },
+        {
+            id: "court-house",
+            title: "Здание суда",
+            image: "../images/здание-суда.webp",
+            trials: [
+                { name: "Оправдать виновного", description: "Добейтесь оправдательного приговора" },
+                { name: "Сбегите из суда", description: "Покиньте здание суда" },
+                { name: "Уничтожьте улики", description: "Избавьтесь от доказательств" },
+                { name: "Склоните весы правосудия", description: "Повлияйте на исход дела" },
+                { name: "Запитайте отпирающий механизм", description: "Активируйте механизм" }
+            ]
+        },
+        {
+            id: "orphanage",
+            title: "Детский дом",
+            image: "../images/детский-дом.webp",
+            trials: [
+                { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
+                { name: "Найдите улики", description: "Соберите доказательства" },
+                { name: "Победите Матушку Гусберри", description: "Сразитесь с главным активом" }
+            ]
+        },
+        {
+            id: "fun-park",
+            title: "Парк развлечений",
+            image: "../images/парк-развлечений.webp",
+            trials: [
+                { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
+                { name: "Найдите ключи", description: "Соберите ключи от выхода" },
+                { name: "Остановите Франко Барби", description: "Одолейте главного актива" }
+            ]
+        }
+    ];
+
+    // Элементы слайдера
+    const track = document.getElementById('sliderTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    // Элементы модального окна
+    const modal = document.getElementById('trialsModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const trialsList = document.getElementById('trialsList');
+    const modalClose = document.querySelector('.modal-close');
+
+    // Функция для отображения постеров
+    function displayPosters() {
+        track.innerHTML = '';
+        
+        posters.forEach((poster, index) => {
+            const card = document.createElement('div');
+            card.className = 'poster-card';
+            card.setAttribute('data-id', poster.id);
+            card.setAttribute('data-title', poster.title);
+            card.setAttribute('data-trials', JSON.stringify(poster.trials));
+            
+            card.addEventListener('click', () => {
+                openModal(poster.title, poster.trials);
+            });
+            
+            card.innerHTML = `
+                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
+                <div class="poster-title">${poster.title}</div>
+            `;
+            
+            track.appendChild(card);
+        });
+    }
+
+    // Функция открытия модального окна
+    function openModal(title, trials) {
+        modalTitle.textContent = title;
+        trialsList.innerHTML = '';
+        
+        trials.forEach(trial => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <i class="fas fa-skull"></i>
+                <span>${trial.name}</span>
+                <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.6;"></i>
+            `;
+            li.addEventListener('click', () => {
+                // Здесь можно добавить переход на страницу испытания
+                console.log(`Выбрано испытание: ${trial.name}`);
+                // alert(`Открывается страница испытания: ${trial.name}`);
+                // window.location.href = `trial-${trial.name.toLowerCase().replace(/ /g, '-')}.html`;
+            });
+            trialsList.appendChild(li);
+        });
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Функции слайдера
+    function updateSlider() {
+        const cards = document.querySelectorAll('.poster-card');
+        const cardWidth = cards[0]?.offsetWidth || 300;
+        const gap = 16;
+        const shift = currentIndex * (cardWidth + gap);
+        track.style.transform = `translateX(-${shift}px)`;
+    }
+
+    function nextSlide() {
+        const cards = document.querySelectorAll('.poster-card');
+        const maxIndex = Math.max(0, cards.length - 3);
+        if (currentIndex < maxIndex) {
+            currentIndex++;
+            updateSlider();
+        } else if (currentIndex === maxIndex && cards.length > 3) {
+            currentIndex = 0;
+            updateSlider();
+        }
+        resetAutoSlide();
+    }
+
+    function prevSlide() {
+        const cards = document.querySelectorAll('.poster-card');
+        const maxIndex = Math.max(0, cards.length - 3);
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        } else if (currentIndex === 0 && cards.length > 3) {
+            currentIndex = maxIndex;
+            updateSlider();
+        }
+        resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            nextSlide();
+        }, 10000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+
+    // Инициализация слайдера после загрузки изображений
+    window.addEventListener('load', () => {
+        updateSlider();
+    });
+
+    // Обработчики
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+
+    // Запуск
+    displayPosters();
+    startAutoSlide();
+
+    // Адаптация слайдера при изменении размера окна
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateSlider();
+        }, 200);
+    });
+</script>
+
+</body>
+</html>
