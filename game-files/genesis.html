@@ -264,7 +264,7 @@
             gap: 1.5rem;
         }
 
-        /* Стиль для карточек-постеров (как в каталогах) */
+        /* Стиль для карточек-постеров */
         .poster-card {
             min-width: calc(33.333% - 1rem);
             background: linear-gradient(135deg, rgba(40, 41, 45, 0.9), rgba(30, 31, 34, 0.95));
@@ -294,94 +294,6 @@
             font-size: 1rem;
             font-weight: 600;
             color: #e16d48;
-        }
-
-        /* Модальное окно со списком испытаний */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            max-width: 500px;
-            width: 90%;
-            background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            padding: 1.5rem;
-            cursor: default;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
-        }
-
-        .modal-header h3 {
-            font-size: 1.5rem;
-            color: #e16d48;
-        }
-
-        .modal-close {
-            font-size: 2rem;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            color: #e16d48;
-            transform: scale(1.1);
-        }
-
-        .trials-list {
-            list-style: none;
-        }
-
-        .trials-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .trials-list li:hover {
-            background: rgba(220, 90, 50, 0.1);
-            padding-left: 10px;
-            border-radius: 12px;
-        }
-
-        .trials-list li i {
-            color: #e16d48;
-            width: 24px;
-        }
-
-        .trials-list li span {
-            flex: 1;
         }
 
         /* Footer */
@@ -491,135 +403,68 @@
     </footer>
 </div>
 
-<!-- Модальное окно со списком испытаний -->
-<div id="trialsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalTitle">Испытания</h3>
-            <span class="modal-close">&times;</span>
-        </div>
-        <ul class="trials-list" id="trialsList"></ul>
-    </div>
-</div>
-
 <script>
-    // Данные постеров и испытаний
+    // Данные постеров и ссылки на страницы испытаний
     const posters = [
         {
             id: "police-station",
             title: "Полицейский участок",
-            image: "../images/Постер 01.webp",
-            trials: [
-                { name: "Убейте стукача", description: "Найдите и устраните информатора" },
-                { name: "Отмените вскрытие", description: "Саботируйте медицинские процедуры" },
-                { name: "Саботируйте карантин", description: "Нарушьте карантинные меры" },
-                { name: "Освободите заключённых", description: "Выпустите узников из камер" },
-                { name: "Обучите полицейского", description: "Проведите обучение" },
-                { name: "Уничтожьте прошлое", description: "Сотрите улики" },
-                { name: "Заберите наркотики", description: "Изъять запрещённые вещества" }
-            ]
+            image: "../images/полицейский-участок.webp",
+            page: "police-station.html"
         },
         {
             id: "orphanage",
             title: "Детский дом",
-            image: "../images/Постер 03.webp",
-            trials: [
-                { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
-                { name: "Найдите улики", description: "Соберите доказательства" },
-                { name: "Победите Матушку Гусберри", description: "Сразитесь с главным активом" }
-            ]
+            image: "../images/детский-дом.webp",
+            page: "orphanage.html"
         },
         {
             id: "fun-park",
             title: "Парк развлечений",
-            image: "../images/Постер 02.webp",
-            trials: [
-                { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
-                { name: "Найдите ключи", description: "Соберите ключи от выхода" },
-                { name: "Остановите Франко Барби", description: "Одолейте главного актива" }
-            ]
+            image: "../images/парк-развлечений.webp",
+            page: "fun-park.html"
         },
         {
             id: "court-house",
             title: "Здание суда",
-            image: "../images/Постер 04.webp",
-            trials: [
-                { name: "Оправдать виновного", description: "Добейтесь оправдательного приговора" },
-                { name: "Сбегите из суда", description: "Покиньте здание суда" },
-                { name: "Уничтожьте улики", description: "Избавьтесь от доказательств" },
-                { name: "Склоните весы правосудия", description: "Повлияйте на исход дела" },
-                { name: "Запитайте отпирающий механизм", description: "Активируйте механизм" }
-            ]
+            image: "../images/здание-суда.webp",
+            page: "court-house.html"
         },
         {
             id: "toy-factory",
             title: "Фабрика игрушек",
-            image: "../images/Постер 05.webp",
-            trials: [
-                { name: "Уничтожьте игрушки", description: "Избавьтесь от опасных игрушек" },
-                { name: "Найдите чертежи", description: "Обнаружьте секретные документы" },
-                { name: "Сбегите с фабрики", description: "Покиньте опасное здание" }
-            ]
+            image: "../images/фабрика-игрушек.webp",
+            page: "toy-factory.html"
         },
         {
             id: "pier",
             title: "Пристань",
-            image: "../images/Постер 06.webp",
-            trials: [
-                { name: "Обыщите склады", description: "Найдите улики на складах" },
-                { name: "Отключите сигнализацию", description: "Обезвредьте охранную систему" },
-                { name: "Уплывите на лодке", description: "Эвакуируйтесь с пристани" }
-            ]
+            image: "../images/пристань.webp",
+            page: "pier.html"
         },
         {
             id: "city-center",
             title: "Центр города",
-            image: "../images/Постер 07.webp",
-            trials: [
-                { name: "Порадуйте прокурора", description: "Выполните требования прокурора" },
-                { name: "Найдите садистские манекены", description: "Соберите улики" },
-                { name: "Сбегите из города", description: "Покиньте опасную зону" }
-            ]
+            image: "../images/центр-города.webp",
+            page: "city-center.html"
         },
         {
             id: "suburb",
             title: "Пригород",
-            image: "../images/Постер 08.webp",
-            trials: [
-                { name: "Обыщите дома", description: "Найдите улики в жилых домах" },
-                { name: "Спасите жителей", description: "Эвакуируйте гражданских" },
-                { name: "Остановите заражение", description: "Предотвратите распространение" }
-            ]
-        },
-         {
-            id: "shopping mall",
-            title: "Торговый центр",
-            image: "../images/Постер 09.webp",
-            trials: [
-                { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
-                { name: "Найдите улики", description: "Соберите доказательства" },
-                { name: "Победите Матушку Гусберри", description: "Сразитесь с главным активом" }
-            ]
+            image: "../images/пригород.webp",
+            page: "suburb.html"
         },
         {
             id: "resort",
             title: "Курорт",
-            image: "../images/Постер 10.webp",
-            trials: [
-                { name: "Расследуйте исчезновения", description: "Найдите пропавших гостей" },
-                { name: "Отключите систему", description: "Обезвредьте ловушки" },
-                { name: "Эвакуируйтесь с курорта", description: "Покиньте территорию" }
-            ]
+            image: "../images/курорт.webp",
+            page: "resort.html"
         },
         {
             id: "tv-studio",
             title: "Телестудия",
-            image: "../images/Постер 11.webp",
-            trials: [
-                { name: "Сорвите эфир", description: "Остановите вещание" },
-                { name: "Найдите записи", description: "Соберите улики" },
-                { name: "Сбегите из студии", description: "Покиньте здание" }
-            ]
+            image: "../images/телестудия.webp",
+            page: "tv-studio.html"
         }
     ];
 
@@ -630,12 +475,6 @@
     let currentIndex = 0;
     let autoSlideInterval;
 
-    // Элементы модального окна
-    const modal = document.getElementById('trialsModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const trialsList = document.getElementById('trialsList');
-    const modalClose = document.querySelector('.modal-close');
-
     // Функция для отображения постеров
     function displayPosters() {
         track.innerHTML = '';
@@ -644,11 +483,11 @@
             const card = document.createElement('div');
             card.className = 'poster-card';
             card.setAttribute('data-id', poster.id);
-            card.setAttribute('data-title', poster.title);
-            card.setAttribute('data-trials', JSON.stringify(poster.trials));
+            card.setAttribute('data-page', poster.page);
             
+            // При клике переходим на страницу испытания
             card.addEventListener('click', () => {
-                openModal(poster.title, poster.trials);
+                window.location.href = poster.page;
             });
             
             card.innerHTML = `
@@ -658,33 +497,6 @@
             
             track.appendChild(card);
         });
-    }
-
-    // Функция открытия модального окна
-    function openModal(title, trials) {
-        modalTitle.textContent = title;
-        trialsList.innerHTML = '';
-        
-        trials.forEach(trial => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <i class="fas fa-skull"></i>
-                <span>${trial.name}</span>
-                <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.6;"></i>
-            `;
-            li.addEventListener('click', () => {
-                console.log(`Выбрано испытание: ${trial.name} (${title})`);
-            });
-            trialsList.appendChild(li);
-        });
-        
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
     }
 
     // Функции слайдера
@@ -752,13 +564,6 @@
     // Обработчики
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
 
     // Обновление слайдера при изменении размера окна
     let resizeTimeout;
@@ -777,6 +582,28 @@
     }, 100);
     
     startAutoSlide();
+
+    // Плавное появление при скролле
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        
+        document.querySelectorAll('.program-description, .posters-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    initScrollAnimation();
 </script>
 
 </body>
