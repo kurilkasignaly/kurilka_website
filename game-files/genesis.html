@@ -233,8 +233,8 @@
             background: rgba(188, 74, 40, 0.7);
             backdrop-filter: blur(4px);
             border: 1px solid rgba(220,90,50,0.6);
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -261,39 +261,48 @@
         .slider-track {
             display: flex;
             transition: transform 0.5s ease-in-out;
+            gap: 1.5rem;
         }
 
+        /* Стиль для карточек-постеров */
         .poster-card {
             min-width: calc(33.333% - 1rem);
-            margin: 0 0.5rem;
-            background: rgba(18, 12, 28, 0.6);
-            backdrop-filter: blur(12px);
-            border-radius: 24px;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
             cursor: pointer;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .poster-card:hover {
-            transform: translateY(-5px);
-            border-color: #e16d48;
-            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
+            transform: translateY(-8px);
         }
 
         .poster-image {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 16 / 9;
             object-fit: cover;
-            display: block;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .poster-card:hover .poster-image {
+            transform: scale(1.02);
+            border-color: #e16d48;
+            box-shadow: 0 20px 40px rgba(220, 90, 50, 0.3);
         }
 
         .poster-title {
-            padding: 1rem;
-            text-align: center;
-            font-size: 1rem;
+            margin-top: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #e16d48;
+            transition: all 0.3s ease;
+        }
+
+        .poster-card:hover .poster-title {
+            color: #ffbc9a;
+            text-shadow: 0 0 5px rgba(220, 90, 50, 0.5);
         }
 
         /* Список испытаний (модальное окно) */
@@ -398,13 +407,13 @@
 
         @media (max-width: 1000px) {
             .poster-card {
-                min-width: calc(50% - 1rem);
+                min-width: calc(50% - 0.75rem);
             }
         }
 
         @media (max-width: 700px) {
             .poster-card {
-                min-width: calc(100% - 1rem);
+                min-width: calc(100% - 0rem);
             }
             .slider-btn {
                 width: 40px;
@@ -424,6 +433,7 @@
 
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .poster-title { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -475,9 +485,7 @@
             </div>
             
             <div class="slider-track-wrapper">
-                <div class="slider-track" id="sliderTrack">
-                    <!-- Постеры генерируются через JS -->
-                </div>
+                <div class="slider-track" id="sliderTrack"></div>
             </div>
             
             <div class="slider-btn" id="nextBtn">
@@ -583,7 +591,7 @@
             });
             
             card.innerHTML = `
-                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
+                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
             `;
             
@@ -604,7 +612,6 @@
                 <i class="fas fa-chevron-right" style="font-size: 0.8rem; opacity: 0.6;"></i>
             `;
             li.addEventListener('click', () => {
-                // Здесь можно добавить переход на страницу испытания
                 console.log(`Выбрано испытание: ${trial.name}`);
                 // alert(`Открывается страница испытания: ${trial.name}`);
                 // window.location.href = `trial-${trial.name.toLowerCase().replace(/ /g, '-')}.html`;
@@ -622,21 +629,36 @@
     }
 
     // Функции слайдера
+    function getCardsPerView() {
+        if (window.innerWidth <= 700) return 1;
+        if (window.innerWidth <= 1000) return 2;
+        return 3;
+    }
+
     function updateSlider() {
         const cards = document.querySelectorAll('.poster-card');
+        const cardsPerView = getCardsPerView();
+        const maxIndex = Math.max(0, cards.length - cardsPerView);
+        
+        if (currentIndex > maxIndex) {
+            currentIndex = maxIndex;
+        }
+        
         const cardWidth = cards[0]?.offsetWidth || 300;
-        const gap = 16;
+        const gap = 24;
         const shift = currentIndex * (cardWidth + gap);
         track.style.transform = `translateX(-${shift}px)`;
     }
 
     function nextSlide() {
         const cards = document.querySelectorAll('.poster-card');
-        const maxIndex = Math.max(0, cards.length - 3);
+        const cardsPerView = getCardsPerView();
+        const maxIndex = Math.max(0, cards.length - cardsPerView);
+        
         if (currentIndex < maxIndex) {
             currentIndex++;
             updateSlider();
-        } else if (currentIndex === maxIndex && cards.length > 3) {
+        } else if (currentIndex === maxIndex && cards.length > cardsPerView) {
             currentIndex = 0;
             updateSlider();
         }
@@ -645,12 +667,13 @@
 
     function prevSlide() {
         const cards = document.querySelectorAll('.poster-card');
-        const maxIndex = Math.max(0, cards.length - 3);
+        const cardsPerView = getCardsPerView();
+        
         if (currentIndex > 0) {
             currentIndex--;
             updateSlider();
-        } else if (currentIndex === 0 && cards.length > 3) {
-            currentIndex = maxIndex;
+        } else if (currentIndex === 0 && cards.length > cardsPerView) {
+            currentIndex = Math.max(0, cards.length - cardsPerView);
             updateSlider();
         }
         resetAutoSlide();
@@ -667,11 +690,6 @@
         startAutoSlide();
     }
 
-    // Инициализация слайдера после загрузки изображений
-    window.addEventListener('load', () => {
-        updateSlider();
-    });
-
     // Обработчики
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
@@ -683,11 +701,7 @@
         if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
     });
 
-    // Запуск
-    displayPosters();
-    startAutoSlide();
-
-    // Адаптация слайдера при изменении размера окна
+    // Обновление слайдера при изменении размера окна
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
@@ -695,6 +709,16 @@
             updateSlider();
         }, 200);
     });
+
+    // Запуск
+    displayPosters();
+    
+    // Небольшая задержка для корректного расчёта ширины
+    setTimeout(() => {
+        updateSlider();
+    }, 100);
+    
+    startAutoSlide();
 </script>
 
 </body>
