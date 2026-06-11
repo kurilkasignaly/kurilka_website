@@ -239,14 +239,16 @@
 
         .item-image {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            height: 200px;
+            object-fit: contain;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 10px;
             display: block;
         }
 
         .item-image-placeholder {
             width: 100%;
-            height: 180px;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -304,6 +306,7 @@
             .page-title { font-size: 1.8rem; }
             .page-title i { font-size: 1.6rem; }
             .items-grid { gap: 1.2rem; }
+            .item-image { height: 180px; }
         }
 
         @media (max-width: 550px) {
@@ -311,12 +314,13 @@
             .page-title { font-size: 1.4rem; }
             .item-name { font-size: 1.1rem; }
             .item-content { padding: 1rem; }
+            .item-image { height: 160px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Фоновое изображение -->
+<!-- Фоновое видео -->
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
     Ваш браузер не поддерживает видео.
@@ -363,12 +367,11 @@
 </div>
 
 <script>
-    // Данные экс-попов
-    // ВАЖНО: файлы должны лежать в той же папке (game-files/)
+    // Данные экс-попов с правильными путями к изображениям
     const exPops = [
         { id: "regular", number: "01", name: "Обычные экс-попы", file: "regular-ex-pop.html", image: "../images/обычные-экс-попы.png" },
         { id: "jaeger", number: "02", name: "Егерь", file: "jaeger.html", image: "../images/егерь.png" },
-        { id: "big-ex-pop", number: "03", name: "Большие экс-попы", file: "big-ex-pop.html", image: "../images/большие-экс-попы.png" },
+        { id: "big-ex-pop", number: "03", name: "Большие экс-попы", file: "big-ex-pop.html", image: "../images/большой-экс-поп.png" },
         { id: "berserker", number: "04", name: "Берсеркер", file: "berserker.html", image: "../images/берсеркер.png" },
         { id: "night-hunter", number: "05", name: "Night hunter", file: "night-hunter.html", image: "../images/night-hunter.png" },
         { id: "pusher", number: "06", name: "Pusher", file: "pusher.html", image: "../images/pusher.png" },
@@ -390,7 +393,7 @@
             const card = document.createElement('div');
             card.className = 'item-card';
             
-            // ПРИ КЛИКЕ ПЕРЕХОДИМ НА ФАЙЛ В ТОЙ ЖЕ ПАПКЕ (game-files/)
+            // При клике переходим на файл в той же папке (game-files/)
             card.addEventListener('click', () => {
                 window.location.href = item.file;
             });
