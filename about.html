@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Об игре — The Outlast Trials | Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        /* Фоновое изображение */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        @keyframes borderGlow {
+            0% { border-color: rgba(220, 90, 50, 0.3); }
+            50% { border-color: rgba(220, 90, 50, 0.8); }
+            100% { border-color: rgba(220, 90, 50, 0.3); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        /* Навигация */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        /* Hero секция */
+        .hero-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .hero-logo {
+            max-width: 400px;
+            width: 90%;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(220, 90, 50, 0.4));
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #c2b9d4;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Описание игры */
+        .description-section {
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s;
+            animation: fadeInScale 0.6s ease-out 0.1s backwards;
+        }
+
+        .description-section:hover {
+            border-color: #e16d48;
+        }
+
+        .description-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #e16d48;
+            border-left: 4px solid #e16d48;
+            padding-left: 18px;
+        }
+
+        .description-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d1cce6;
+        }
+
+        .description-text p {
+            margin-bottom: 1rem;
+        }
+
+        .warning-text {
+            background: rgba(220, 90, 50, 0.1);
+            border-left: 4px solid #e25d32;
+            padding: 1rem 1.5rem;
+            margin-top: 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #ffbc9a;
+        }
+
+        /* Категории (сетка карточек) */
+        .categories-section {
+            margin-bottom: 2.5rem;
+            animation: fadeInScale 0.6s ease-out 0.2s backwards;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #e25d32;
+            padding-left: 18px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .category-card {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .category-card:hover {
+            transform: translateY(-6px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
+        }
+
+        .category-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .category-image-placeholder {
+            width: 100%;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: rgba(220, 90, 50, 0.4);
+        }
+
+        .category-content {
+            padding: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e16d48;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-description {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        /* Адаптация */
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .hero-title { font-size: 1.8rem; }
+            .description-title { font-size: 1.4rem; }
+            .section-title { font-size: 1.4rem; }
+            .categories-grid { gap: 1.2rem; }
+        }
+
+        @media (max-width: 550px) {
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .hero-section { padding: 1.5rem; }
+            .hero-title { font-size: 1.4rem; }
+            .description-section { padding: 1.2rem; }
+            .category-title { font-size: 1.1rem; }
+            .category-content { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Фоновое изображение -->
+<img class="background-image" src="фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
+
+<div class="container">
+    <!-- Шапка -->
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about-game.html" class="nav-btn active"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <!-- Hero секция -->
+    <section class="hero-section">
+        <img src="screenshots/outlast-logo.png" alt="The Outlast Trials" class="hero-logo" onerror="this.style.display='none'">
+        <h1 class="hero-title">The Outlast Trials</h1>
+        <p class="hero-subtitle">«Игровой контент может содержать мигание, рябь, религиозные образы/контент/отсылки, многочисленное насилие или кровопролитие, изображение насилия, ужасающий видеоряд, образы, кровь, резню, сцены с сексуальным подтекстом, сексуальное насилие, а также оскорбительную лексику и/или шум.»<br>— Вступление</p>
+    </section>
+
+    <!-- Описание игры -->
+    <section class="description-section">
+        <h2 class="description-title"><i class="fas fa-info-circle"></i> Об игре</h2>
+        <div class="description-text">
+            <p><strong>The Outlast Trials</strong> — совместная видеоигра в жанре Survival Horror от первого лица, разработанная и изданная канадской компанией Red Barrels. Выход игры в раннем доступе состоялся 18 мая 2023 года, а релиз состоялся 5 марта 2024 года. В статье указана информация из последнего обновления игры.</p>
+            <p>Во времена Холодной войны по всей Америке были открыты благотворительные центры корпорации Мёркофф для помощи людям с низким социальным статусом. Посетители таких центров обманом были превращены в реагентов, испытуемых проекта «Тенева 2» под руководством доктора Хендрика Джолиета Истермана.</p>
+            <p>Оказавшись на сверхсекретном объекте Синьяла в пустыне Аризоны, реагентам пришлось выполнять ряд испытаний на выживания, где их ждало огромное количество опасностей. Области испытаний были усеяны ловушками, преградами, а также жестокими и беспощадными противниками в лице экспериментальной популяции.</p>
+            <p>Время и события в игре происходят своевременно по ходу обновлений, и если на момент раннего доступа был 1959, то сейчас 1961 год.</p>
+        </div>
+    </section>
+
+    <!-- Категории -->
+    <section class="categories-section">
+        <h2 class="section-title"><i class="fas fa-grid-2"></i> Игровая энциклопедия</h2>
+        <div class="categories-grid" id="categoriesGrid"></div>
+    </section>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<script>
+    // Данные категорий
+    const categories = [
+        {
+            key: "prime-assets",
+            title: "Главные активы",
+            description: "Жестокие, невменяемые и в то же время странно харизматичные личности, которые представляют главную угрозу для реагентов. Обычно они охраняют ключевые цели и являются центральными элементами сценария, на котором строится каждое испытание.",
+            icon: "fa-skull",
+            image: "screenshots/prime-assets.png",
+            file: "game-files/category-prime-assets.html"
+        },
+        {
+            key: "ex-pops",
+            title: "Экс-попы",
+            description: "Экспериментальная популяция, неудачные испытуемые, использующиеся в качестве противников для реагентов на испытаниях корпорации Меркофф на объекте Синьяла.",
+            icon: "fa-ghost",
+            image: "screenshots/ex-pops.png",
+            file: "game-files/category-ex-pops.html"
+        },
+        {
+            key: "reagents",
+            title: "Реагенты",
+            description: "Игровые персонажи — подопытные, проходящие испытания, адекватный испытуемый похищенный агентам Мёркофф для прохождения испытаний.",
+            icon: "fa-user-secret",
+            image: "screenshots/реагенты.png",
+            file: "game-files/category-reagents.html"
+        },
+        {
+            key: "specialists",
+            title: "Специалисты",
+            description: "Особые помощники, которые могут быть призваны в испытания для поддержки реагентов.",
+            icon: "fa-user-md",
+            image: "screenshots/специалисты.png",
+            file: "game-files/category-specialists.html"
+        },
+        {
+            key: "maps",
+            title: "Карты",
+            description: "Локации и испытания, доступные для прохождения. Каждая карта имеет уникальные механики и противников.",
+            icon: "fa-map",
+            image: "screenshots/карты.png",
+            file: "game-files/category-maps.html"
+        },
+        {
+            key: "amps",
+            title: "Ампы",
+            description: "Улучшения, дающие перманентные бонусы к способностям реагента.",
+            icon: "fa-capsules",
+            image: "screenshots/ампы.png",
+            file: "game-files/category-amps.html"
+        },
+        {
+            key: "equipment",
+            title: "Снаряжение",
+            description: "Различное оборудование, доступное для экипировки перед испытанием.",
+            icon: "fa-backpack",
+            image: "screenshots/снаряжение.png",
+            file: "game-files/category-equipment.html"
+        },
+        {
+            key: "items",
+            title: "Предметы",
+            description: "Расходные предметы, которые можно найти или купить для использования в испытаниях.",
+            icon: "fa-cube",
+            image: "screenshots/предметы.png",
+            file: "game-files/category-items.html"
+        },
+        {
+            key: "catalogs",
+            title: "Каталоги",
+            description: "Система наград и разблокируемого контента за выполнение заданий.",
+            icon: "fa-book",
+            image: "screenshots/каталоги.png",
+            file: "game-files/category-catalogs.html"
+        },
+        {
+            key: "achievements",
+            title: "Достижения",
+            description: "Специальные награды за выполнение сложных задач. Открывают новые возможности.",
+            icon: "fa-trophy",
+            image: "screenshots/Достижение.png",
+            file: "game-files/category-achievements.html"
+        },
+        {
+            key: "recipes",
+            title: "Рецепты",
+            description: "Схемы для создания предметов и улучшений.",
+            icon: "fa-scroll",
+            image: "screenshots/рецепты.png",
+            file: "game-files/category-recipes.html"
+        },
+        {
+            key: "variators",
+            title: "Вариаторы",
+            description: "Модификаторы, меняющие условия прохождения испытаний.",
+            icon: "fa-sliders-h",
+            image: "screenshots/вариаторы.png",
+            file: "game-files/category-variators.html"
+        },
+        {
+            key: "programs",
+            title: "Испытательные программы",
+            description: "Различные режимы и программы испытаний с уникальными условиями.",
+            icon: "fa-clipboard-list",
+            image: "screenshots/программы.png",
+            file: "game-files/category-programs.html"
+        }
+    ];
+
+    // Отображение категорий
+    function displayCategories() {
+        const container = document.getElementById('categoriesGrid');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        categories.forEach(category => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            
+            card.addEventListener('click', () => {
+                window.location.href = category.file;
+            });
+            
+            card.innerHTML = `
+                <img src="${category.image}" class="category-image" alt="${category.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="category-image-placeholder" style="display: none;">
+                    <i class="fas ${category.icon}"></i>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title"><i class="fas ${category.icon}"></i> ${category.title}</h3>
+                    <p class="category-description">${category.description}</p>
+                </div>
+            `;
+            
+            // Обработчик ошибки загрузки изображения
+            const img = card.querySelector('.category-image');
+            const placeholder = card.querySelector('.category-image-placeholder');
+            if (img) {
+                img.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    if (placeholder) placeholder.style.display = 'flex';
+                });
+            }
+            
+            container.appendChild(card);
+        });
+    }
+
+    // Плавное появление при скролле
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        
+        document.querySelectorAll('.hero-section, .description-section, .categories-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    // Запуск при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        displayCategories();
+        initScrollAnimation();
+    });
+</script>
+
+</body>
+</html>
