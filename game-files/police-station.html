@@ -177,72 +177,87 @@
             border-color: #e16d48;
         }
 
-        /* Заголовок страницы */
-        .page-header {
+        /* Контейнер с картинкой и описанием */
+        .map-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
             margin-bottom: 2rem;
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
             animation: fadeInScale 0.6s ease-out 0.1s backwards;
         }
 
-        .page-title {
-            font-size: 2.5rem;
+        .map-image {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .map-image img {
+            width: 100%;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .map-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .map-info {
+            flex: 1;
+        }
+
+        .map-title {
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .page-title i {
-            font-size: 2.2rem;
-            color: #e16d48;
-        }
-
-        /* Информационный блок */
-        .info-block {
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-        }
-
-        .info-block p {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #d1cce6;
             margin-bottom: 1rem;
         }
 
-        .info-block p:last-child {
-            margin-bottom: 0;
+        .map-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d1cce6;
+            margin-bottom: 1.5rem;
         }
 
-        .info-title {
-            font-size: 1.3rem;
-            color: #e16d48;
-            margin: 1.5rem 0 1rem 0;
+        .map-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border-left: 3px solid #e16d48;
-            padding-left: 15px;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #c2b9d4;
         }
 
-        .info-title:first-of-type {
-            margin-top: 0;
+        .detail-item i {
+            color: #e16d48;
+            width: 20px;
         }
 
-        /* Галерея */
-        .gallery-section {
+        /* Секция испытаний (карточки с картинками) */
+        .trials-section {
             margin-bottom: 2rem;
+            animation: fadeInScale 0.6s ease-out 0.15s backwards;
         }
 
-        .gallery-section h2 {
+        .trials-section h2 {
             font-size: 1.5rem;
             color: #e16d48;
             margin-bottom: 1rem;
@@ -253,107 +268,40 @@
             padding-left: 15px;
         }
 
-        .gallery-grid {
+        .trials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
-        .gallery-item {
+        .trial-card {
             background: rgba(18, 12, 28, 0.6);
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid rgba(220, 90, 50, 0.25);
             transition: all 0.3s ease;
             cursor: pointer;
+            text-align: center;
         }
 
-        .gallery-item:hover {
+        .trial-card:hover {
             transform: translateY(-5px);
             border-color: #e16d48;
             box-shadow: 0 10px 25px rgba(220, 90, 50, 0.2);
         }
 
-        .gallery-item img {
+        .trial-image {
             width: 100%;
-            height: 200px;
+            height: 160px;
             object-fit: cover;
             display: block;
         }
 
-        .gallery-caption {
-            padding: 0.8rem;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #c2b9d4;
-        }
-
-        /* Список испытаний */
-        .trials-list {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .trials-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #d1cce6;
-        }
-
-        .trials-list li i {
+        .trial-name {
+            padding: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
             color: #e16d48;
-            width: 24px;
-        }
-
-        /* Модальное окно для галереи */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .modal-content img {
-            max-width: 100%;
-            max-height: 85vh;
-            border-radius: 12px;
-            border: 2px solid rgba(220, 90, 50, 0.5);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10001;
-        }
-
-        .modal-close:hover {
-            color: #e16d48;
-            transform: scale(1.1);
         }
 
         /* Footer */
@@ -374,13 +322,15 @@
             .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .page-title { font-size: 1.8rem; }
-            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+            .map-container { flex-direction: column; }
+            .map-title { font-size: 1.4rem; text-align: center; }
+            .trials-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
 
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
-            .gallery-grid { grid-template-columns: 1fr; }
+            .trials-grid { grid-template-columns: 1fr; }
+            .trial-image { height: 140px; }
         }
     </style>
 </head>
@@ -417,52 +367,53 @@
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- Заголовок -->
-    <div class="page-header">
-        <h1 class="page-title"><i class="fas fa-building"></i> Полицейский участок</h1>
-    </div>
-
-    <!-- Описание локации -->
-    <div class="info-block">
-        <p>Полицейский участок — одно из ключевых испытаний в программе «Генезис». Здесь реагенты попадают в заброшенное полицейское управление, где правят коррумпированные офицеры и бывший сержант Лиланд Койл. Испытание наполнено опасными ловушками, агрессивными экс-попами и требует от реагентов не только физической выносливости, но и умения скрываться в тенях.</p>
-        <p>Основная задача — найти и устранить информатора, который может выдать секреты корпорации Муркофф. Реагентам предстоит исследовать камеры, допросные и кабинеты, избегая патрулей и используя окружение для достижения цели.</p>
-    </div>
-
-    <!-- Главный актив -->
-    <div class="info-block">
-        <h3 class="info-title"><i class="fas fa-skull"></i> Главный актив</h3>
-        <p><strong>Лиланд Койл</strong> — бывший коррумпированный полицейский, теперь один из главных активов на объекте Синьяла. Вооружён электрошоковой дубинкой, он патрулирует территорию участка, выслеживая реагентов. Койл крайне агрессивен и не остановится ни перед чем, чтобы уничтожить любого, кто вторгнется на его территорию.</p>
-    </div>
-
-    <!-- Список испытаний -->
-    <div class="info-block">
-        <h3 class="info-title"><i class="fas fa-clipboard-list"></i> Испытания полигона</h3>
-        <ul class="trials-list">
-            <li><i class="fas fa-skull"></i> <strong>Убейте стукача</strong> — Найдите и устраните информатора</li>
-            <li><i class="fas fa-skull"></i> <strong>Отмените вскрытие</strong> — Саботируйте медицинские процедуры</li>
-            <li><i class="fas fa-skull"></i> <strong>Саботируйте карантин</strong> — Нарушьте карантинные меры</li>
-            <li><i class="fas fa-skull"></i> <strong>Освободите заключённых</strong> — Выпустите узников из камер</li>
-            <li><i class="fas fa-skull"></i> <strong>Обучите полицейского</strong> — Проведите обучение</li>
-            <li><i class="fas fa-skull"></i> <strong>Уничтожьте прошлое</strong> — Сотрите улики</li>
-            <li><i class="fas fa-skull"></i> <strong>Заберите наркотики</strong> — Изъять запрещённые вещества</li>
-        </ul>
-    </div>
-
-    <!-- Галерея -->
-    <div class="gallery-section">
-        <h2><i class="fas fa-images"></i> Галерея</h2>
-        <div class="gallery-grid" id="galleryGrid">
-            <div class="gallery-item" data-img="../images/полицейский-участок-1.jpg">
-                <img src="../images/полицейский-участок-1.jpg" alt="Полицейский участок 1" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=Фото+1'">
-                <div class="gallery-caption">Коридор участка</div>
+    <!-- Блок с картинкой и описанием локации -->
+    <div class="map-container">
+        <div class="map-image">
+            <img src="../images/полицейский-участок-карта.jpg" alt="Полицейский участок" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Полицейский+участок'">
+        </div>
+        <div class="map-info">
+            <h1 class="map-title">Полицейский участок</h1>
+            <p class="map-description">Полицейский участок — одно из ключевых испытаний в программе «Генезис». Здесь реагенты попадают в заброшенное полицейское управление, где правят коррумпированные офицеры и бывший сержант Лиланд Койл. Испытание наполнено опасными ловушками, агрессивными экс-попами и требует от реагентов не только физической выносливости, но и умения скрываться в тенях.</p>
+            <div class="map-details">
+                <div class="detail-item"><i class="fas fa-skull"></i> Главный актив: Лиланд Койл</div>
+                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Локация: Заброшенный полицейский участок</div>
+                <div class="detail-item"><i class="fas fa-bolt"></i> Сложность: Средняя</div>
             </div>
-            <div class="gallery-item" data-img="../images/полицейский-участок-2.jpg">
-                <img src="../images/полицейский-участок-2.jpg" alt="Полицейский участок 2" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=Фото+2'">
-                <div class="gallery-caption">Камеры заключения</div>
+        </div>
+    </div>
+
+    <!-- Сетка испытаний (карточки с картинками) -->
+    <div class="trials-section">
+        <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
+        <div class="trials-grid" id="trialsGrid">
+            <div class="trial-card" data-trial="informant">
+                <img src="../images/испытание-стукач.jpg" class="trial-image" alt="Убейте стукача" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Убейте+стукача'">
+                <div class="trial-name">Убейте стукача</div>
             </div>
-            <div class="gallery-item" data-img="../images/полицейский-участок-3.jpg">
-                <img src="../images/полицейский-участок-3.jpg" alt="Полицейский участок 3" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=Фото+3'">
-                <div class="gallery-caption">Лиланд Койл в патруле</div>
+            <div class="trial-card" data-trial="autopsy">
+                <img src="../images/испытание-вскрытие.jpg" class="trial-image" alt="Отмените вскрытие" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Отмените+вскрытие'">
+                <div class="trial-name">Отмените вскрытие</div>
+            </div>
+            <div class="trial-card" data-trial="quarantine">
+                <img src="../images/испытание-карантин.jpg" class="trial-image" alt="Саботируйте карантин" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Саботируйте+карантин'">
+                <div class="trial-name">Саботируйте карантин</div>
+            </div>
+            <div class="trial-card" data-trial="prisoners">
+                <img src="../images/испытание-заключенные.jpg" class="trial-image" alt="Освободите заключённых" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Освободите+заключённых'">
+                <div class="trial-name">Освободите заключённых</div>
+            </div>
+            <div class="trial-card" data-trial="train">
+                <img src="../images/испытание-обучение.jpg" class="trial-image" alt="Обучите полицейского" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Обучите+полицейского'">
+                <div class="trial-name">Обучите полицейского</div>
+            </div>
+            <div class="trial-card" data-trial="past">
+                <img src="../images/испытание-прошлое.jpg" class="trial-image" alt="Уничтожьте прошлое" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Уничтожьте+прошлое'">
+                <div class="trial-name">Уничтожьте прошлое</div>
+            </div>
+            <div class="trial-card" data-trial="drugs">
+                <img src="../images/испытание-наркотики.jpg" class="trial-image" alt="Заберите наркотики" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Заберите+наркотики'">
+                <div class="trial-name">Заберите наркотики</div>
             </div>
         </div>
     </div>
@@ -473,44 +424,7 @@
     </footer>
 </div>
 
-<!-- Модальное окно для галереи -->
-<div id="galleryModal" class="modal">
-    <span class="modal-close">&times;</span>
-    <div class="modal-content">
-        <img id="modalImage" src="" alt="Увеличенное изображение">
-    </div>
-</div>
-
 <script>
-    // Модальное окно для галереи
-    const modal = document.getElementById('galleryModal');
-    const modalImg = document.getElementById('modalImage');
-    const modalClose = document.querySelector('.modal-close');
-
-    document.querySelectorAll('.gallery-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const imgSrc = item.getAttribute('data-img');
-            if (imgSrc) {
-                modalImg.src = imgSrc;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        });
-    });
-
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-    });
-
     // Плавное появление при скролле
     function initScrollAnimation() {
         const observer = new IntersectionObserver((entries) => {
@@ -523,7 +437,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.info-block, .gallery-section').forEach(el => {
+        document.querySelectorAll('.map-container, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
@@ -531,8 +445,23 @@
         });
     }
 
+    // Обработчики кликов по карточкам испытаний
+    function initTrialCards() {
+        const cards = document.querySelectorAll('.trial-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const trialName = card.querySelector('.trial-name').textContent;
+                console.log(`Открытие испытания: ${trialName}`);
+                // Здесь можно добавить переход на страницу испытания
+                // window.location.href = `trial-${trialName.toLowerCase().replace(/ /g, '-')}.html`;
+                alert(`Открывается страница испытания: ${trialName}`);
+            });
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         initScrollAnimation();
+        initTrialCards();
     });
 </script>
 
