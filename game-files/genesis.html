@@ -205,7 +205,7 @@
             color: #d1cce6;
         }
 
-        /* Слайдер постеров */
+        /* Слайдер постеров (как в каталогах) */
         .posters-section {
             margin-bottom: 2.5rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -233,8 +233,8 @@
             background: rgba(188, 74, 40, 0.7);
             backdrop-filter: blur(4px);
             border: 1px solid rgba(220,90,50,0.6);
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -255,7 +255,7 @@
         .slider-track-wrapper {
             flex: 1;
             overflow: hidden;
-            border-radius: 28px;
+            border-radius: 20px;
         }
 
         .slider-track {
@@ -264,48 +264,39 @@
             gap: 1.5rem;
         }
 
-        /* Стиль для карточек-постеров */
+        /* Стиль для карточек-постеров (как в каталогах) */
         .poster-card {
             min-width: calc(33.333% - 1rem);
-            cursor: pointer;
+            background: linear-gradient(135deg, rgba(40, 41, 45, 0.9), rgba(30, 31, 34, 0.95));
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 90, 50, 0.3);
             transition: all 0.3s ease;
-            text-align: center;
+            cursor: pointer;
         }
 
         .poster-card:hover {
             transform: translateY(-8px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
         }
 
         .poster-image {
             width: 100%;
-            aspect-ratio: 16 / 9;
+            aspect-ratio: 3 / 4;
             object-fit: cover;
-            border-radius: 20px;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(220, 90, 50, 0.3);
-        }
-
-        .poster-card:hover .poster-image {
-            transform: scale(1.02);
-            border-color: #e16d48;
-            box-shadow: 0 20px 40px rgba(220, 90, 50, 0.3);
+            display: block;
         }
 
         .poster-title {
-            margin-top: 1rem;
+            padding: 1rem;
+            text-align: center;
             font-size: 1rem;
             font-weight: 600;
             color: #e16d48;
-            transition: all 0.3s ease;
         }
 
-        .poster-card:hover .poster-title {
-            color: #ffbc9a;
-            text-shadow: 0 0 5px rgba(220, 90, 50, 0.5);
-        }
-
-        /* Список испытаний (модальное окно) */
+        /* Модальное окно со списком испытаний */
         .modal {
             display: none;
             position: fixed;
@@ -512,12 +503,12 @@
 </div>
 
 <script>
-    // Данные постеров и испытаний (названия карт как на картинках)
+    // Данные постеров и испытаний
     const posters = [
         {
             id: "police-station",
             title: "Полицейский участок",
-            image: "../images/Постер 01.webp",
+            image: "../images/полицейский-участок.webp",
             trials: [
                 { name: "Убейте стукача", description: "Найдите и устраните информатора" },
                 { name: "Отмените вскрытие", description: "Саботируйте медицинские процедуры" },
@@ -531,7 +522,7 @@
         {
             id: "orphanage",
             title: "Детский дом",
-            image: "../images/Постер 03.webp",
+            image: "../images/детский-дом.webp",
             trials: [
                 { name: "Спасите сирот", description: "Эвакуируйте детей из опасной зоны" },
                 { name: "Найдите улики", description: "Соберите доказательства" },
@@ -541,7 +532,7 @@
         {
             id: "fun-park",
             title: "Парк развлечений",
-            image: "../images/Постер 02.webp",
+            image: "../images/парк-развлечений.webp",
             trials: [
                 { name: "Выживите в аду", description: "Пройдите аттракционы ужасов" },
                 { name: "Найдите ключи", description: "Соберите ключи от выхода" },
@@ -551,7 +542,7 @@
         {
             id: "court-house",
             title: "Здание суда",
-            image: "../images/Постер 04.webp",
+            image: "../images/здание-суда.webp",
             trials: [
                 { name: "Оправдать виновного", description: "Добейтесь оправдательного приговора" },
                 { name: "Сбегите из суда", description: "Покиньте здание суда" },
@@ -562,7 +553,7 @@
         },
         {
             id: "toy-factory",
-            title: "фабрика игрушек.webp",
+            title: "Фабрика игрушек",
             image: "../images/фабрика-игрушек.webp",
             trials: [
                 { name: "Уничтожьте игрушки", description: "Избавьтесь от опасных игрушек" },
@@ -572,7 +563,7 @@
         },
         {
             id: "pier",
-            title: "пристань.webp",
+            title: "Пристань",
             image: "../images/пристань.webp",
             trials: [
                 { name: "Обыщите склады", description: "Найдите улики на складах" },
@@ -582,7 +573,7 @@
         },
         {
             id: "city-center",
-            title: "центр города.webp",
+            title: "Центр города",
             image: "../images/центр-города.webp",
             trials: [
                 { name: "Порадуйте прокурора", description: "Выполните требования прокурора" },
@@ -592,7 +583,7 @@
         },
         {
             id: "suburb",
-            title: "пригород.webp",
+            title: "Пригород",
             image: "../images/пригород.webp",
             trials: [
                 { name: "Обыщите дома", description: "Найдите улики в жилых домах" },
@@ -602,7 +593,7 @@
         },
         {
             id: "resort",
-            title: "курорт.webp",
+            title: "Курорт",
             image: "../images/курорт.webp",
             trials: [
                 { name: "Расследуйте исчезновения", description: "Найдите пропавших гостей" },
@@ -612,7 +603,7 @@
         },
         {
             id: "tv-studio",
-            title: "телестудия.webp",
+            title: "Телестудия",
             image: "../images/телестудия.webp",
             trials: [
                 { name: "Сорвите эфир", description: "Остановите вещание" },
@@ -647,11 +638,11 @@
             card.setAttribute('data-trials', JSON.stringify(poster.trials));
             
             card.addEventListener('click', () => {
-                openModal(poster.title.replace('.webp', ''), poster.trials);
+                openModal(poster.title, poster.trials);
             });
             
             card.innerHTML = `
-                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/600x338/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
+                <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
             `;
             
