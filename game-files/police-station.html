@@ -251,7 +251,7 @@
             width: 20px;
         }
 
-        /* Секция испытаний (карточки с картинками) */
+        /* Секция испытаний (сетка 3 колонки) */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -270,8 +270,8 @@
 
         .trials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
         }
 
         .trial-card {
@@ -282,26 +282,225 @@
             transition: all 0.3s ease;
             cursor: pointer;
             text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .trial-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: #e16d48;
-            box-shadow: 0 10px 25px rgba(220, 90, 50, 0.2);
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
         }
 
         .trial-image {
             width: 100%;
-            height: 160px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
 
         .trial-name {
             padding: 1rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #e16d48;
+        }
+
+        /* Модальное окно для испытания */
+        .trial-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .trial-modal.active {
+            display: flex;
+        }
+
+        .trial-modal-content {
+            max-width: 1000px;
+            width: 90%;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            cursor: default;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .trial-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .trial-modal-header h3 {
+            font-size: 1.5rem;
+            color: #e16d48;
+        }
+
+        .trial-modal-close {
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .trial-modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+        }
+
+        .trial-modal-body {
+            padding: 1.5rem;
+        }
+
+        .trial-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trial-info-image {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .trial-info-image img {
+            width: 100%;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+        }
+
+        .trial-info-text {
+            flex: 2;
+        }
+
+        .trial-info-text p {
+            color: #d1cce6;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .trial-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .trial-detail {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            color: #c2b9d4;
+        }
+
+        .trial-detail i {
+            color: #e16d48;
+            margin-right: 5px;
+        }
+
+        /* Галерея внутри модального окна */
+        .trial-gallery h4 {
+            font-size: 1.2rem;
+            color: #e16d48;
+            margin: 1rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 3px solid #e16d48;
+            padding-left: 12px;
+        }
+
+        .trial-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .trial-gallery-item {
+            background: rgba(18, 12, 28, 0.6);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trial-gallery-item:hover {
+            transform: translateY(-3px);
+            border-color: #e16d48;
+        }
+
+        .trial-gallery-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Модальное окно для увеличения картинки галереи */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 12px;
+            border: 2px solid rgba(220, 90, 50, 0.5);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 20001;
+        }
+
+        .image-modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
         }
 
         /* Footer */
@@ -316,6 +515,12 @@
             border-radius: 50px;
         }
 
+        @media (max-width: 900px) {
+            .trials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
@@ -324,13 +529,15 @@
             .logo h1 { font-size: 1.5rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
-            .trials-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
 
-        @media (max-width: 550px) {
+        @media (max-width: 600px) {
+            .trials-grid {
+                grid-template-columns: 1fr;
+            }
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
-            .trials-grid { grid-template-columns: 1fr; }
-            .trial-image { height: 140px; }
+            .trial-modal-header h3 { font-size: 1.2rem; }
+            .trial-info { flex-direction: column; }
         }
     </style>
 </head>
@@ -370,7 +577,7 @@
     <!-- Блок с картинкой и описанием локации -->
     <div class="map-container">
         <div class="map-image">
-            <img src="../images/Полицейский участок.png" alt="Полицейский участок" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Полицейский+участок'">
+            <img src="../images/полицейский-участок-карта.jpg" alt="Полицейский участок" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Полицейский+участок'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Полицейский участок</h1>
@@ -378,43 +585,15 @@
             <div class="map-details">
                 <div class="detail-item"><i class="fas fa-skull"></i> Главный актив: Лиланд Койл</div>
                 <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Локация: Заброшенный полицейский участок</div>
+                <div class="detail-item"><i class="fas fa-bolt"></i> Сложность: Средняя</div>
             </div>
         </div>
     </div>
 
-    <!-- Сетка испытаний (карточки с картинками) -->
+    <!-- Сетка испытаний (3 колонки) -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
-        <div class="trials-grid" id="trialsGrid">
-            <div class="trial-card" data-trial="informant">
-                <img src="../images/испытание-стукач.jpg" class="trial-image" alt="Убейте стукача" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Убейте+стукача'">
-                <div class="trial-name">Убейте стукача</div>
-            </div>
-            <div class="trial-card" data-trial="autopsy">
-                <img src="../images/испытание-вскрытие.jpg" class="trial-image" alt="Отмените вскрытие" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Отмените+вскрытие'">
-                <div class="trial-name">Отмените вскрытие</div>
-            </div>
-            <div class="trial-card" data-trial="quarantine">
-                <img src="../images/испытание-карантин.jpg" class="trial-image" alt="Саботируйте карантин" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Саботируйте+карантин'">
-                <div class="trial-name">Саботируйте карантин</div>
-            </div>
-            <div class="trial-card" data-trial="prisoners">
-                <img src="../images/испытание-заключенные.jpg" class="trial-image" alt="Освободите заключённых" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Освободите+заключённых'">
-                <div class="trial-name">Освободите заключённых</div>
-            </div>
-            <div class="trial-card" data-trial="train">
-                <img src="../images/испытание-обучение.jpg" class="trial-image" alt="Обучите полицейского" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Обучите+полицейского'">
-                <div class="trial-name">Обучите полицейского</div>
-            </div>
-            <div class="trial-card" data-trial="past">
-                <img src="../images/испытание-прошлое.jpg" class="trial-image" alt="Уничтожьте прошлое" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Уничтожьте+прошлое'">
-                <div class="trial-name">Уничтожьте прошлое</div>
-            </div>
-            <div class="trial-card" data-trial="drugs">
-                <img src="../images/испытание-наркотики.jpg" class="trial-image" alt="Заберите наркотики" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Заберите+наркотики'">
-                <div class="trial-name">Заберите наркотики</div>
-            </div>
-        </div>
+        <div class="trials-grid" id="trialsGrid"></div>
     </div>
 
     <footer>
@@ -423,7 +602,230 @@
     </footer>
 </div>
 
+<!-- Модальное окно для испытания -->
+<div id="trialModal" class="trial-modal">
+    <div class="trial-modal-content">
+        <div class="trial-modal-header">
+            <h3 id="modalTitle">Название испытания</h3>
+            <span class="trial-modal-close">&times;</span>
+        </div>
+        <div class="trial-modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<!-- Модальное окно для увеличения картинки галереи -->
+<div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <div class="image-modal-content">
+        <img id="fullImage" src="" alt="Увеличенное изображение">
+    </div>
+</div>
+
 <script>
+    // Данные испытаний
+    const trialsData = [
+        {
+            id: "informant",
+            name: "Убейте стукача",
+            image: "../images/испытание-стукач.jpg",
+            description: "Найдите и устраните информатора, который может выдать секреты корпорации Муркофф. Стукач скрывается в одной из камер участка. Вам нужно обыскать все камеры, избегая патрулей Лиланда Койла и его приспешников.",
+            details: ["Цель: Ликвидировать цель", "Сложность: Средняя", "Время: 15 минут"],
+            gallery: [
+                "../images/стукач-1.jpg",
+                "../images/стукач-2.jpg",
+                "../images/стукач-3.jpg"
+            ]
+        },
+        {
+            id: "autopsy",
+            name: "Отмените вскрытие",
+            image: "../images/испытание-вскрытие.jpg",
+            description: "Саботируйте медицинские процедуры в морге. Вам нужно проникнуть в лабораторию и уничтожить все улики, прежде чем коронеры успеют их изучить.",
+            details: ["Цель: Саботировать оборудование", "Сложность: Средняя", "Время: 12 минут"],
+            gallery: [
+                "../images/вскрытие-1.jpg",
+                "../images/вскрытие-2.jpg",
+                "../images/вскрытие-3.jpg"
+            ]
+        },
+        {
+            id: "quarantine",
+            name: "Саботируйте карантин",
+            image: "../images/испытание-карантин.jpg",
+            description: "Нарушьте карантинные меры и отключите систему изоляции. Вам потребуется найти главный щиток и вырубить питание карантинного блока.",
+            details: ["Цель: Отключить карантин", "Сложность: Высокая", "Время: 18 минут"],
+            gallery: [
+                "../images/карантин-1.jpg",
+                "../images/карантин-2.jpg",
+                "../images/карантин-3.jpg"
+            ]
+        },
+        {
+            id: "prisoners",
+            name: "Освободите заключённых",
+            image: "../images/испытание-заключенные.jpg",
+            description: "Выпустите узников из камер. Найдите ключи от всех камер и освободите заключённых, не попадаясь патрулям.",
+            details: ["Цель: Освободить узников", "Сложность: Средняя", "Время: 14 минут"],
+            gallery: [
+                "../images/заключенные-1.jpg",
+                "../images/заключенные-2.jpg",
+                "../images/заключенные-3.jpg"
+            ]
+        },
+        {
+            id: "train",
+            name: "Обучите полицейского",
+            image: "../images/испытание-обучение.jpg",
+            description: "Проведите обучение для новобранцев. Вам нужно показать пример и продемонстрировать тактику выживания на полигоне.",
+            details: ["Цель: Завершить обучение", "Сложность: Низкая", "Время: 10 минут"],
+            gallery: [
+                "../images/обучение-1.jpg",
+                "../images/обучение-2.jpg",
+                "../images/обучение-3.jpg"
+            ]
+        },
+        {
+            id: "past",
+            name: "Уничтожьте прошлое",
+            image: "../images/испытание-прошлое.jpg",
+            description: "Сотрите улики, которые могут скомпрометировать корпорацию. Найдите архив и уничтожьте все компрометирующие документы.",
+            details: ["Цель: Уничтожить архивы", "Сложность: Высокая", "Время: 16 минут"],
+            gallery: [
+                "../images/прошлое-1.jpg",
+                "../images/прошлое-2.jpg",
+                "../images/прошлое-3.jpg"
+            ]
+        },
+        {
+            id: "drugs",
+            name: "Заберите наркотики",
+            image: "../images/испытание-наркотики.jpg",
+            description: "Изъять запрещённые вещества из хранилища. Проникните в склад и конфискуйте все улики.",
+            details: ["Цель: Конфисковать вещества", "Сложность: Средняя", "Время: 13 минут"],
+            gallery: [
+                "../images/наркотики-1.jpg",
+                "../images/наркотики-2.jpg",
+                "../images/наркотики-3.jpg"
+            ]
+        }
+    ];
+
+    // Элементы модального окна
+    const trialModal = document.getElementById('trialModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.querySelector('.trial-modal-close');
+
+    // Элементы модального окна для увеличения картинок
+    const imageModal = document.getElementById('imageModal');
+    const fullImage = document.getElementById('fullImage');
+    const imageModalClose = document.querySelector('.image-modal-close');
+
+    // Функция открытия модального окна испытания
+    function openTrialModal(trial) {
+        modalTitle.textContent = trial.name;
+        
+        // Создаём галерею
+        let galleryHtml = '';
+        if (trial.gallery && trial.gallery.length > 0) {
+            galleryHtml = `
+                <div class="trial-gallery">
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
+                    <div class="trial-gallery-grid" id="galleryGrid-${trial.id}">
+                        ${trial.gallery.map(img => `
+                            <div class="trial-gallery-item" data-img="${img}">
+                                <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        modalBody.innerHTML = `
+            <div class="trial-info">
+                <div class="trial-info-image">
+                    <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/400x300/1a1a2e/e16d48?text=${trial.name}'">
+                </div>
+                <div class="trial-info-text">
+                    <p>${trial.description}</p>
+                    <div class="trial-details">
+                        ${trial.details.map(detail => `<span class="trial-detail"><i class="fas fa-info-circle"></i> ${detail}</span>`).join('')}
+                    </div>
+                </div>
+            </div>
+            ${galleryHtml}
+        `;
+        
+        trialModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Добавляем обработчики для картинок галереи после рендера
+        setTimeout(() => {
+            document.querySelectorAll('.trial-gallery-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const imgSrc = item.getAttribute('data-img');
+                    if (imgSrc) {
+                        fullImage.src = imgSrc;
+                        imageModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+        }, 100);
+    }
+
+    function closeModal() {
+        trialModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function closeImageModal() {
+        imageModal.classList.remove('active');
+        fullImage.src = '';
+        document.body.style.overflow = '';
+    }
+
+    // Создание карточек испытаний
+    function displayTrials() {
+        const container = document.getElementById('trialsGrid');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        trialsData.forEach(trial => {
+            const card = document.createElement('div');
+            card.className = 'trial-card';
+            card.setAttribute('data-id', trial.id);
+            
+            card.addEventListener('click', () => {
+                openTrialModal(trial);
+            });
+            
+            card.innerHTML = `
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=${trial.name}'">
+                <div class="trial-name">${trial.name}</div>
+            `;
+            
+            container.appendChild(card);
+        });
+    }
+
+    // Обработчики
+    modalClose.addEventListener('click', closeModal);
+    trialModal.addEventListener('click', (e) => {
+        if (e.target === trialModal) closeModal();
+    });
+    imageModalClose.addEventListener('click', closeImageModal);
+    imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) closeImageModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
+    });
+
     // Плавное появление при скролле
     function initScrollAnimation() {
         const observer = new IntersectionObserver((entries) => {
@@ -444,23 +846,9 @@
         });
     }
 
-    // Обработчики кликов по карточкам испытаний
-    function initTrialCards() {
-        const cards = document.querySelectorAll('.trial-card');
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                const trialName = card.querySelector('.trial-name').textContent;
-                console.log(`Открытие испытания: ${trialName}`);
-                // Здесь можно добавить переход на страницу испытания
-                // window.location.href = `trial-${trialName.toLowerCase().replace(/ /g, '-')}.html`;
-                alert(`Открывается страница испытания: ${trialName}`);
-            });
-        });
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
+        displayTrials();
         initScrollAnimation();
-        initTrialCards();
     });
 </script>
 
