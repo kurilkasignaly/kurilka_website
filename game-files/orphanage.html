@@ -222,30 +222,6 @@
             font-size: 1rem;
             line-height: 1.7;
             color: #d1cce6;
-            margin-bottom: 1.5rem;
-        }
-
-        .map-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .detail-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: #c2b9d4;
-        }
-
-        .detail-item i {
-            color: #e16d48;
-            width: 20px;
         }
 
         /* Секция испытаний */
@@ -555,11 +531,6 @@
         <div class="map-info">
             <h1 class="map-title">Детский дом</h1>
             <p class="map-description">Детский дом (ориг. Orphanage) — место в игре The Outlast Trials, испытательный полигон главного актива Матушки Гусберри на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде детского дома, символизирующего духовную среду обитания главного актива Матушки Гусберри. Испытуемые реагенты должны проходить различные испытания в детском доме и противостоять агрессивным экс-попам во главе с безумной Матушкой Гусберри.</p>
-            <div class="map-details">
-                <div class="detail-item"><i class="fas fa-skull"></i> Главный актив: Матушка Гусберри</div>
-                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Локация: Заброшенный детский дом</div>
-                <div class="detail-item"><i class="fas fa-bolt"></i> Сложность: Высокая</div>
-            </div>
         </div>
     </div>
 
@@ -592,7 +563,6 @@
 </div>
 
 <script>
-    // Данные испытаний с проверкой на существование картинок
     const trialsData = [
         {
             id: "communion",
@@ -705,35 +675,17 @@
         
         container.innerHTML = '';
         
-        // Добавляем карточки для каждого испытания
         trialsData.forEach(trial => {
             const card = document.createElement('div');
             card.className = 'trial-card';
             card.addEventListener('click', () => openTrialModal(trial));
-            
-            // Создаём изображение с обработчиком ошибок
-            const img = document.createElement('img');
-            img.className = 'trial-image';
-            img.src = trial.image;
-            img.alt = trial.name;
-            img.onerror = function() {
-                this.style.background = 'linear-gradient(135deg, #2a2a3e, #1a1a2e)';
-                this.style.display = 'flex';
-                this.style.alignItems = 'center';
-                this.style.justifyContent = 'center';
-                this.src = '';
-            };
-            
-            const nameDiv = document.createElement('div');
-            nameDiv.className = 'trial-name';
-            nameDiv.textContent = trial.name;
-            
-            card.appendChild(img);
-            card.appendChild(nameDiv);
+            card.innerHTML = `
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.onerror=null;">
+                <div class="trial-name">${trial.name}</div>
+            `;
             container.appendChild(card);
         });
         
-        // Вывод в консоль для отладки
         console.log('Отображено испытаний:', trialsData.length);
     }
 
