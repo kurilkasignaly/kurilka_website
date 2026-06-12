@@ -256,10 +256,10 @@
             font-size: 1rem;
             white-space: nowrap;
         }
-        .difficulty-intro { color: #4c9aff; }
-        .difficulty-standard { color: #a0a0c0; }
-        .difficulty-intensive { color: #ff9f4a; }
-        .difficulty-psycho { color: #e25d32; }
+        .difficulty-intro { color: #6c757d; }        /* Вводный - серый */
+        .difficulty-standard { color: #ff9f4a; }      /* Стандартный - оранжевый */
+        .difficulty-intensive { color: #2ecc71; }     /* Интенсивный - зелёный */
+        .difficulty-psycho { color: #e25d32; }        /* Психохирургия - красный */
 
         /* Картинка-иконка */
         .variator-icon {
@@ -281,14 +281,6 @@
             font-size: 0.85rem;
             color: #c2b9d4;
             line-height: 1.4;
-        }
-
-        /* Объединение строк для сложности с несколькими вариаторами */
-        .difficulty-row-group td {
-            border-bottom: none;
-        }
-        .difficulty-row-group:last-child td {
-            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
         }
 
         /* Слайдер постеров */
@@ -490,79 +482,78 @@
                 <thead>
                     <tr>
                         <th>Трудность</th>
-                        <th>Иконка</th>
                         <th>Вариатор</th>
                         <th>Описание</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- ВВОДНЫЙ -->
-                    <tr class="difficulty-row-group">
-                        <td class="difficulty-name difficulty-intro" rowspan="1">ВВОДНЫЙ</td>
-                        <td rowspan="1"><img src="../images/вариатор-вводный.webp" class="variator-icon" alt="Вводный" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                    <!-- ВВОДНЫЙ (серый) -->
+                    <tr>
+                        <td class="difficulty-name difficulty-intro">ВВОДНЫЙ</td>
+                        <td><img src="../images/вариатор-вводный.webp" class="variator-icon" alt="Вводный" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Вводный</td>
                         <td class="variator-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</td>
                     </tr>
                     
-                    <!-- СТАНДАРТНЫЙ -->
-                    <tr class="difficulty-row-group">
-                        <td class="difficulty-name difficulty-standard" rowspan="1">СТАНДАРТНЫЙ</td>
-                        <td rowspan="1"><img src="../images/вариатор-стандартный.webp" class="variator-icon" alt="Стандартный" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                    <!-- СТАНДАРТНЫЙ (оранжевый) - БЕЗ ИКОНКИ -->
+                    <tr>
+                        <td class="difficulty-name difficulty-standard">СТАНДАРТНЫЙ</td>
+                        <td></td>
                         <td class="variator-name">N/A</td>
                         <td class="variator-desc">Средняя сложность. Вариаторы не применяются.</td>
                     </tr>
                     
-                    <!-- ИНТЕНСИВНЫЙ (4 вариатора) -->
-                    <tr class="difficulty-row-group">
+                    <!-- ИНТЕНСИВНЫЙ (зелёный) - 4 вариатора -->
+                    <tr>
                         <td class="difficulty-name difficulty-intensive" rowspan="4">ИНТЕНСИВНЫЙ</td>
                         <td><img src="../images/вариатор-сильные-враги.webp" class="variator-icon" alt="Более Сильные Враги" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Более Сильные Враги</td>
                         <td class="variator-desc">Враги стали сильнее и опаснее.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-плотность.webp" class="variator-icon" alt="Высокая Плотность Противника" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Высокая Плотность Противника</td>
                         <td class="variator-desc">В испытании стало больше врагов.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-ловушки.webp" class="variator-icon" alt="Больше смертельных ловушек" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Больше смертельных ловушек</td>
                         <td class="variator-desc">Дополнительные смертельные ловушки.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-информация.webp" class="variator-icon" alt="Ограниченная информация" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Ограниченная информация</td>
                         <td class="variator-desc">В пробной версии доступны не все сведения об испытаниях.</td>
                     </tr>
                     
-                    <!-- ПСИХОХИРУРГИЯ (6 вариаторов) -->
-                    <tr class="difficulty-row-group">
+                    <!-- ПСИХОХИРУРГИЯ (красный) - 6 вариаторов -->
+                    <tr>
                         <td class="difficulty-name difficulty-psycho" rowspan="6">ПСИХОХИРУРГИЯ</td>
                         <td><img src="../images/вариатор-сильные-враги-2.webp" class="variator-icon" alt="Более Сильные Враги II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Более Сильные Враги II</td>
                         <td class="variator-desc">Смертельные враги, не знающие пощады.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-плотность.webp" class="variator-icon" alt="Высокая Плотность Противника" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Высокая Плотность Противника</td>
                         <td class="variator-desc">В испытании стало больше врагов.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-двери.webp" class="variator-icon" alt="Ненадежные Двери" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Ненадежные Двери</td>
                         <td class="variator-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-ловушки-2.webp" class="variator-icon" alt="Больше и смертельные ловушки II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Больше и смертельные ловушки II</td>
                         <td class="variator-desc">Максимальное количество смертельных ловушек.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-предметы.webp" class="variator-icon" alt="Ограниченные предметы II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Ограниченные предметы II</td>
                         <td class="variator-desc">Количество предметов, доступных в испытании, очень ограничено.</td>
                     </tr>
-                    <tr class="difficulty-row-group">
+                    <tr>
                         <td><img src="../images/вариатор-психохирургия.webp" class="variator-icon" alt="Психохирургия" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
                         <td class="variator-name">Психохирургия</td>
                         <td class="variator-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</td>
