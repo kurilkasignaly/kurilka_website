@@ -22,7 +22,6 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        /* Фоновое видео */
         .background-video {
             position: fixed;
             top: 0;
@@ -63,7 +62,6 @@
             z-index: 10;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -109,7 +107,6 @@
             font-size: 0.7rem;
         }
 
-        /* Навигация */
         .nav-links {
             display: flex;
             flex-wrap: wrap;
@@ -151,7 +148,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
 
-        /* Хлебные крошки */
         .breadcrumb {
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
@@ -251,7 +247,7 @@
             width: 20px;
         }
 
-        /* Секция испытаний (сетка 3 колонки) */
+        /* Секция испытаний */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -296,8 +292,11 @@
         .trial-image {
             width: 100%;
             height: 200px;
-            object-fit: cover;
+            object-fit: contain;
+            object-position: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             display: block;
+            padding: 10px;
         }
 
         .trial-name {
@@ -305,6 +304,7 @@
             font-size: 1rem;
             font-weight: 600;
             color: #e16d48;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
         /* Модальное окно для испытания */
@@ -394,9 +394,9 @@
             color: #d1cce6;
             line-height: 1.6;
             margin-bottom: 1rem;
+            white-space: pre-line;
         }
 
-        /* Галерея внутри модального окна */
         .trial-gallery h4 {
             font-size: 1.2rem;
             color: #e16d48;
@@ -435,7 +435,6 @@
             display: block;
         }
 
-        /* Модальное окно для увеличения картинки галереи */
         .image-modal {
             display: none;
             position: fixed;
@@ -483,7 +482,6 @@
             transform: scale(1.1);
         }
 
-        /* Footer */
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -523,14 +521,11 @@
 </head>
 <body>
 
-<!-- Фоновое видео -->
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
-    Ваш браузер не поддерживает видео.
 </video>
 
 <div class="container">
-    <!-- Шапка -->
     <div class="header">
         <div class="logo">
             <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
@@ -549,24 +544,20 @@
         </div>
     </div>
 
-    <!-- Хлебные крошки -->
     <div class="breadcrumb">
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- Блок с картинкой и описанием локации -->
     <div class="map-container">
         <div class="map-image">
             <img src="../images/Полицейский участок.png" alt="Полицейский участок" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Полицейский+участок'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Полицейский участок</h1>
-            <p class="map-description">Полицейский участок (ориг. Police Station) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде полицейского участка, символизирующего духовную среду обитания главного актива Лиланда Койла. Испытуемые реагенты должны проходить различные испытания в полицейском участке и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.
-Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны. После завершения испытания реагентами, все экс-попы также покидают полигон, и в области начинает работу бригада уборщиков Меркофф, готовящие территорию к новому испытанию.</p>
+            <p class="map-description">Полицейский участок (ориг. Police Station) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде полицейского участка, символизирующего духовную среду обитания главного актива Лиланда Койла. Испытуемые реагенты должны проходить различные испытания в полицейском участке и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.</p>
         </div>
     </div>
 
-    <!-- Сетка испытаний (3 колонки) -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
         <div class="trials-grid" id="trialsGrid"></div>
@@ -574,11 +565,10 @@
 
     <footer>
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
     </footer>
 </div>
 
-<!-- Модальное окно для испытания -->
 <div id="trialModal" class="trial-modal">
     <div class="trial-modal-content">
         <div class="trial-modal-header">
@@ -589,7 +579,6 @@
     </div>
 </div>
 
-<!-- Модальное окно для увеличения картинки галереи -->
 <div id="imageModal" class="image-modal">
     <span class="image-modal-close">&times;</span>
     <div class="image-modal-content">
@@ -598,109 +587,75 @@
 </div>
 
 <script>
-    // Данные испытаний (без details)
     const trialsData = [
         {
             id: "informant",
             name: "Убейте стукача",
             image: "../images/Убейте стукача.webp",
-            description: "Основное испытание полицейского участка, где главной целью для реагентов является казнь стукача. Реагенты прибывают на шаттле на городскую улицу у полицейского участка, и после проникновения в здание они забегают в комнату охраны, чтобы открыть двери. После нажатия кнопки, они наблюдают появившегося сержанта Койла, жестоко избивающего и в последствии убивающего одного из пассивных экс-попов. После этого им открывается доступ к стукачу, которого реагенты должны докатить по рельсам к месту казни.\n\nОднако электричество в полицейском участке выключается, и реагентам необходимо проникнуть в подземный гараж и запустить генераторы (1 или 2 генератора, в зависимости от количества игроков). Найдя канистры в гараже, они заправляют генераторы и чинят их, и после чего запускают. После включения электричества реагенты возвращаются к стукачу и начинают катить его к месту казни. Однако на пути в основную часть находятся запертые ворота, ключ от которых спрятан в трупе. После открытия первых ворот реагентам необходимо открыть ещё трое ворот, ключи от которых спрятаны в трупах, разбросанных по полигону.\n\nПосле нахождения всех ключей и открытия ворот, реагенты доставляют стукача к месту казни и запускают рычаги включения тока. После достижения нужного времени стукача убивает током и реагентам необходимо покинуть полицейский участок и закончить испытания.",
-            gallery: [
-                "../images/стукач-1.jpg",
-                "../images/стукач-2.jpg",
-                "../images/стукач-3.jpg"
-            ]
+            description: "Основное испытание полицейского участка, где главной целью для реагентов является казнь стукача. Реагенты прибывают на шаттле на городскую улицу у полицейского участка, и после проникновения в здание они забегают в комнату охраны, чтобы открыть двери.\n\nОднако электричество в полицейском участке выключается, и реагентам необходимо проникнуть в подземный гараж и запустить генераторы. После включения электричества реагенты возвращаются к стукачу и начинают катить его к месту казни.\n\nПосле нахождения всех ключей и открытия ворот, реагенты доставляют стукача к месту казни и запускают рычаги включения тока. Стукача убивает током и реагентам необходимо покинуть полицейский участок.",
+            gallery: ["../images/стукач-1.jpg", "../images/стукач-2.jpg", "../images/стукач-3.jpg"]
         },
         {
             id: "autopsy",
             name: "Отмените вскрытие",
             image: "../images/Отмените вскрытие.webp",
-            description: "МК-стимуляция полицейского участка, где реагентам необходимо сбросить подвешенных людей в промышленный измельчитель. Реагенты прибывают на шаттле в спортивный зал полицейского участка, где стоял измельчитель и над ним были подвешены люди. После нажатия кнопки в спортзале открываются ворота в 3 разных сектора. В каждом секторе разбросаны трупы с нужными ключами внутри.\n\nПосле нахождения всех трёх ключей, реагенты вставляют их в табло, и подвешенные люди сбрасываются в измельчитель и погибают. После этого в спортзал прибывает Лиланд Койл и начинает охотиться на реагентов, которым нужно было вернуться в начало области и вызвать шаттл, на котором они покидают испытание.",
-            gallery: [
-                "../images/вскрытие-1.jpg",
-                "../images/вскрытие-2.jpg",
-                "../images/вскрытие-3.jpg"
-            ]
+            description: "МК-стимуляция полицейского участка, где реагентам необходимо сбросить подвешенных людей в промышленный измельчитель. Реагенты прибывают на шаттле в спортивный зал полицейского участка.\n\nПосле нажатия кнопки в спортзале открываются ворота в 3 разных сектора. В каждом секторе разбросаны трупы с нужными ключами внутри.\n\nПосле нахождения всех трёх ключей, реагенты вставляют их в табло, и подвешенные люди сбрасываются в измельчитель и погибают. После этого в спортзал прибывает Лиланд Койл.",
+            gallery: ["../images/вскрытие-1.jpg", "../images/вскрытие-2.jpg", "../images/вскрытие-3.jpg"]
         },
         {
             id: "quarantine",
             name: "Саботируйте карантин",
             image: "../images/Карантин.webp",
             description: "Нарушьте карантинные меры и отключите систему изоляции. Вам потребуется найти главный щиток и вырубить питание карантинного блока. Реагентам предстоит пройти через заражённые зоны, избегая контакта с опасными веществами и патрулями экс-попов.",
-            gallery: [
-                "../images/карантин-1.jpg",
-                "../images/карантин-2.jpg",
-                "../images/карантин-3.jpg"
-            ]
+            gallery: ["../images/карантин-1.jpg", "../images/карантин-2.jpg", "../images/карантин-3.jpg"]
         },
         {
             id: "prisoners",
             name: "Освободите заключённых",
             image: "../images/Освободите заключеннных.webp",
             description: "Выпустите узников из камер. Найдите ключи от всех камер и освободите заключённых, не попадаясь патрулям. Камеры находятся в разных крыльях участка, и вам придётся проявить осторожность, чтобы не столкнуться с Койлом.",
-            gallery: [
-                "../images/заключенные-1.jpg",
-                "../images/заключенные-2.jpg",
-                "../images/заключенные-3.jpg"
-            ]
+            gallery: ["../images/заключенные-1.jpg", "../images/заключенные-2.jpg", "../images/заключенные-3.jpg"]
         },
         {
             id: "train",
             name: "Обучите полицейского",
             image: "../images/испытание-обучение.jpg",
             description: "Проведите обучение для новобранцев. Вам нужно показать пример и продемонстрировать тактику выживания на полигоне. Выполните все тренировочные задания и помогите новичкам освоиться в суровых условиях испытаний.",
-            gallery: [
-                "../images/обучение-1.jpg",
-                "../images/обучение-2.jpg",
-                "../images/обучение-3.jpg"
-            ]
+            gallery: ["../images/обучение-1.jpg", "../images/обучение-2.jpg", "../images/обучение-3.jpg"]
         },
         {
             id: "past",
             name: "Уничтожьте прошлое",
             image: "../images/испытание-прошлое.jpg",
             description: "Сотрите улики, которые могут скомпрометировать корпорацию. Найдите архив и уничтожьте все компрометирующие документы. Используйте измельчитель, чтобы навсегда избавиться от улик, пока не прибыло подкрепление.",
-            gallery: [
-                "../images/прошлое-1.jpg",
-                "../images/прошлое-2.jpg",
-                "../images/прошлое-3.jpg"
-            ]
+            gallery: ["../images/прошлое-1.jpg", "../images/прошлое-2.jpg", "../images/прошлое-3.jpg"]
         },
         {
             id: "drugs",
             name: "Заберите наркотики",
             image: "../images/испытание-наркотики.jpg",
             description: "Изъять запрещённые вещества из хранилища. Проникните в склад и конфискуйте все улики. Будьте осторожны — склад охраняется, и любая ошибка может стоить вам жизни.",
-            gallery: [
-                "../images/наркотики-1.jpg",
-                "../images/наркотики-2.jpg",
-                "../images/наркотики-3.jpg"
-            ]
+            gallery: ["../images/наркотики-1.jpg", "../images/наркотики-2.jpg", "../images/наркотики-3.jpg"]
         }
     ];
 
-    // Элементы модального окна
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
     const modalClose = document.querySelector('.trial-modal-close');
-
-    // Элементы модального окна для увеличения картинок
     const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
-    // Функция открытия модального окна испытания
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
         
-        // Создаём галерею
         let galleryHtml = '';
         if (trial.gallery && trial.gallery.length > 0) {
             galleryHtml = `
                 <div class="trial-gallery">
                     <h4><i class="fas fa-images"></i> Галерея</h4>
-                    <div class="trial-gallery-grid" id="galleryGrid-${trial.id}">
+                    <div class="trial-gallery-grid">
                         ${trial.gallery.map(img => `
                             <div class="trial-gallery-item" data-img="${img}">
                                 <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
@@ -717,7 +672,7 @@
                     <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/400x300/1a1a2e/e16d48?text=${trial.name}'">
                 </div>
                 <div class="trial-info-text">
-                    <p>${trial.description.replace(/\n/g, '<br>')}</p>
+                    <p>${trial.description}</p>
                 </div>
             </div>
             ${galleryHtml}
@@ -726,7 +681,6 @@
         trialModal.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        // Добавляем обработчики для картинок галереи после рендера
         setTimeout(() => {
             document.querySelectorAll('.trial-gallery-item').forEach(item => {
                 item.addEventListener('click', (e) => {
@@ -753,7 +707,6 @@
         document.body.style.overflow = '';
     }
 
-    // Создание карточек испытаний
     function displayTrials() {
         const container = document.getElementById('trialsGrid');
         if (!container) return;
@@ -763,36 +716,24 @@
         trialsData.forEach(trial => {
             const card = document.createElement('div');
             card.className = 'trial-card';
-            card.setAttribute('data-id', trial.id);
-            
-            card.addEventListener('click', () => {
-                openTrialModal(trial);
-            });
-            
+            card.addEventListener('click', () => openTrialModal(trial));
             card.innerHTML = `
                 <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.src='https://placehold.co/400x250/1a1a2e/e16d48?text=${trial.name}'">
                 <div class="trial-name">${trial.name}</div>
             `;
-            
             container.appendChild(card);
         });
     }
 
-    // Обработчики
     modalClose.addEventListener('click', closeModal);
-    trialModal.addEventListener('click', (e) => {
-        if (e.target === trialModal) closeModal();
-    });
+    trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
     imageModalClose.addEventListener('click', closeImageModal);
-    imageModal.addEventListener('click', (e) => {
-        if (e.target === imageModal) closeImageModal();
-    });
+    imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
         if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
     });
 
-    // Плавное появление при скролле
     function initScrollAnimation() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
