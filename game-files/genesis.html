@@ -204,7 +204,7 @@
             color: #d1cce6;
         }
 
-        /* ТАБЛИЦА СЛОЖНОСТИ */
+        /* ТАБЛИЦА СЛОЖНОСТИ - 4 КОЛОНКИ */
         .difficulty-section {
             margin-bottom: 2.5rem;
             animation: fadeInScale 0.6s ease-out 0.12s backwards;
@@ -236,11 +236,11 @@
 
         .difficulty-table th {
             text-align: left;
-            padding: 1.2rem 1rem;
+            padding: 1rem;
             background: rgba(220, 90, 50, 0.15);
             color: #e16d48;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.3);
         }
 
@@ -253,62 +253,42 @@
         /* Цветные заголовки сложности */
         .difficulty-name {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
             white-space: nowrap;
         }
-
         .difficulty-intro { color: #4c9aff; }
         .difficulty-standard { color: #a0a0c0; }
         .difficulty-intensive { color: #ff9f4a; }
         .difficulty-psycho { color: #e25d32; }
 
-        /* Вариаторы */
-        .variators-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .variator-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
+        /* Картинка-иконка */
         .variator-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(220, 90, 50, 0.15);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: #e16d48;
-            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            display: block;
         }
 
-        .variator-content {
-            flex: 1;
-        }
-
+        /* Название вариатора */
         .variator-name {
             font-weight: 600;
             color: #ffbc9a;
             font-size: 0.9rem;
-            margin-bottom: 0.2rem;
         }
 
+        /* Описание */
         .variator-desc {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #c2b9d4;
             line-height: 1.4;
         }
 
-        .variator-divider {
-            height: 1px;
-            background: rgba(220, 90, 50, 0.15);
-            margin: 0.5rem 0;
+        /* Объединение строк для сложности с несколькими вариаторами */
+        .difficulty-row-group td {
+            border-bottom: none;
+        }
+        .difficulty-row-group:last-child td {
+            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
         }
 
         /* Слайдер постеров */
@@ -429,19 +409,19 @@
                 font-size: 1.2rem;
             }
             .difficulty-table th, .difficulty-table td {
-                padding: 0.8rem;
+                padding: 0.6rem;
+                font-size: 0.75rem;
             }
             .difficulty-name {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 white-space: normal;
             }
             .variator-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 0.85rem;
+                width: 36px;
+                height: 36px;
             }
             .variator-name {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
             }
             .variator-desc {
                 font-size: 0.7rem;
@@ -502,7 +482,7 @@
         <p>Генезис — это базовая испытательная программа, предназначенная для подготовки новых реагентов. Здесь вы познакомитесь с основами выживания, научитесь уклоняться от врагов, использовать окружение и выполнять основные задачи. Программа включает в себя несколько испытательных полигонов, каждый из которых имеет уникальную механику и сценарий. Успешное прохождение всех испытаний откроет доступ к более сложным программам.</p>
     </div>
 
-    <!-- ТАБЛИЦА ВЫБОРА УРОВНЯ СЛОЖНОСТИ -->
+    <!-- ТАБЛИЦА ВЫБОРА УРОВНЯ СЛОЖНОСТИ (4 колонки) -->
     <div class="difficulty-section">
         <h2><i class="fas fa-chart-line"></i> Выбор уровня сложности</h2>
         <div class="difficulty-table-wrapper">
@@ -510,133 +490,82 @@
                 <thead>
                     <tr>
                         <th>Трудность</th>
-                        <th>Вариаторы</th>
+                        <th>Иконка</th>
+                        <th>Вариатор</th>
+                        <th>Описание</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- ВВОДНЫЙ -->
-                    <tr>
-                        <td class="difficulty-name difficulty-intro">ВВОДНЫЙ</td>
-                        <td>
-                            <div class="variators-list">
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-baby"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Вводный</div>
-                                        <div class="variator-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                    <tr class="difficulty-row-group">
+                        <td class="difficulty-name difficulty-intro" rowspan="1">ВВОДНЫЙ</td>
+                        <td rowspan="1"><img src="../images/вариатор-вводный.webp" class="variator-icon" alt="Вводный" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Вводный</td>
+                        <td class="variator-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</td>
                     </tr>
+                    
                     <!-- СТАНДАРТНЫЙ -->
-                    <tr>
-                        <td class="difficulty-name difficulty-standard">СТАНДАРТНЫЙ</td>
-                        <td>
-                            <div class="variators-list">
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-equals"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">N/A</div>
-                                        <div class="variator-desc">Средняя сложность. Вариаторы не применяются.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                    <tr class="difficulty-row-group">
+                        <td class="difficulty-name difficulty-standard" rowspan="1">СТАНДАРТНЫЙ</td>
+                        <td rowspan="1"><img src="../images/вариатор-стандартный.webp" class="variator-icon" alt="Стандартный" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">N/A</td>
+                        <td class="variator-desc">Средняя сложность. Вариаторы не применяются.</td>
                     </tr>
-                    <!-- ИНТЕНСИВНЫЙ -->
-                    <tr>
-                        <td class="difficulty-name difficulty-intensive">ИНТЕНСИВНЫЙ</td>
-                        <td>
-                            <div class="variators-list">
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-dragon"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Более Сильные Враги</div>
-                                        <div class="variator-desc">Враги стали сильнее и опаснее.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-users"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Высокая Плотность Противника</div>
-                                        <div class="variator-desc">В испытании стало больше врагов.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-skull"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Больше смертельных ловушек</div>
-                                        <div class="variator-desc">Дополнительные смертельные ловушки.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-eye-slash"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Ограниченная информация</div>
-                                        <div class="variator-desc">В пробной версии доступны не все сведения об испытаниях.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                    
+                    <!-- ИНТЕНСИВНЫЙ (4 вариатора) -->
+                    <tr class="difficulty-row-group">
+                        <td class="difficulty-name difficulty-intensive" rowspan="4">ИНТЕНСИВНЫЙ</td>
+                        <td><img src="../images/вариатор-сильные-враги.webp" class="variator-icon" alt="Более Сильные Враги" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Более Сильные Враги</td>
+                        <td class="variator-desc">Враги стали сильнее и опаснее.</td>
                     </tr>
-                    <!-- ПСИХОХИРУРГИЯ -->
-                    <tr>
-                        <td class="difficulty-name difficulty-psycho">ПСИХОХИРУРГИЯ</td>
-                        <td>
-                            <div class="variators-list">
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-dragon"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Более Сильные Враги II</div>
-                                        <div class="variator-desc">Смертельные враги, не знающие пощады.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-users"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Высокая Плотность Противника</div>
-                                        <div class="variator-desc">В испытании стало больше врагов.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-door-closed"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Ненадежные Двери</div>
-                                        <div class="variator-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-skull-crossbones"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Больше и смертельные ловушки II</div>
-                                        <div class="variator-desc">Максимальное количество смертельных ловушек.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-box-open"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Ограниченные предметы II</div>
-                                        <div class="variator-desc">Количество предметов, доступных в испытании, очень ограничено.</div>
-                                    </div>
-                                </div>
-                                <div class="variator-divider"></div>
-                                <div class="variator-item">
-                                    <div class="variator-icon"><i class="fas fa-brain"></i></div>
-                                    <div class="variator-content">
-                                        <div class="variator-name">Психохирургия</div>
-                                        <div class="variator-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-плотность.webp" class="variator-icon" alt="Высокая Плотность Противника" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Высокая Плотность Противника</td>
+                        <td class="variator-desc">В испытании стало больше врагов.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-ловушки.webp" class="variator-icon" alt="Больше смертельных ловушек" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Больше смертельных ловушек</td>
+                        <td class="variator-desc">Дополнительные смертельные ловушки.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-информация.webp" class="variator-icon" alt="Ограниченная информация" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Ограниченная информация</td>
+                        <td class="variator-desc">В пробной версии доступны не все сведения об испытаниях.</td>
+                    </tr>
+                    
+                    <!-- ПСИХОХИРУРГИЯ (6 вариаторов) -->
+                    <tr class="difficulty-row-group">
+                        <td class="difficulty-name difficulty-psycho" rowspan="6">ПСИХОХИРУРГИЯ</td>
+                        <td><img src="../images/вариатор-сильные-враги-2.webp" class="variator-icon" alt="Более Сильные Враги II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Более Сильные Враги II</td>
+                        <td class="variator-desc">Смертельные враги, не знающие пощады.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-плотность.webp" class="variator-icon" alt="Высокая Плотность Противника" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Высокая Плотность Противника</td>
+                        <td class="variator-desc">В испытании стало больше врагов.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-двери.webp" class="variator-icon" alt="Ненадежные Двери" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Ненадежные Двери</td>
+                        <td class="variator-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-ловушки-2.webp" class="variator-icon" alt="Больше и смертельные ловушки II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Больше и смертельные ловушки II</td>
+                        <td class="variator-desc">Максимальное количество смертельных ловушек.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-предметы.webp" class="variator-icon" alt="Ограниченные предметы II" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Ограниченные предметы II</td>
+                        <td class="variator-desc">Количество предметов, доступных в испытании, очень ограничено.</td>
+                    </tr>
+                    <tr class="difficulty-row-group">
+                        <td><img src="../images/вариатор-психохирургия.webp" class="variator-icon" alt="Психохирургия" onerror="this.src='https://placehold.co/48x48/1a1a2e/e16d48?text=?'"></td>
+                        <td class="variator-name">Психохирургия</td>
+                        <td class="variator-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</td>
                     </tr>
                 </tbody>
             </table>
@@ -739,30 +668,23 @@
     let currentIndex = 0;
     let autoSlideInterval;
 
-    // Функция для отображения постеров
     function displayPosters() {
         track.innerHTML = '';
         
-        posters.forEach((poster, index) => {
+        posters.forEach((poster) => {
             const card = document.createElement('div');
             card.className = 'poster-card';
-            card.setAttribute('data-id', poster.id);
-            card.setAttribute('data-page', poster.page);
-            
             card.addEventListener('click', () => {
                 window.location.href = poster.page;
             });
-            
             card.innerHTML = `
                 <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
             `;
-            
             track.appendChild(card);
         });
     }
 
-    // Функции слайдера
     function getCardsPerView() {
         if (window.innerWidth <= 700) return 1;
         if (window.innerWidth <= 1000) return 2;
@@ -773,11 +695,7 @@
         const cards = document.querySelectorAll('.poster-card');
         const cardsPerView = getCardsPerView();
         const maxIndex = Math.max(0, cards.length - cardsPerView);
-        
-        if (currentIndex > maxIndex) {
-            currentIndex = maxIndex;
-        }
-        
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
         const cardWidth = cards[0]?.offsetWidth || 300;
         const gap = 24;
         const shift = currentIndex * (cardWidth + gap);
@@ -788,7 +706,6 @@
         const cards = document.querySelectorAll('.poster-card');
         const cardsPerView = getCardsPerView();
         const maxIndex = Math.max(0, cards.length - cardsPerView);
-        
         if (currentIndex < maxIndex) {
             currentIndex++;
             updateSlider();
@@ -802,7 +719,6 @@
     function prevSlide() {
         const cards = document.querySelectorAll('.poster-card');
         const cardsPerView = getCardsPerView();
-        
         if (currentIndex > 0) {
             currentIndex--;
             updateSlider();
@@ -814,9 +730,7 @@
     }
 
     function startAutoSlide() {
-        autoSlideInterval = setInterval(() => {
-            nextSlide();
-        }, 10000);
+        autoSlideInterval = setInterval(nextSlide, 10000);
     }
 
     function resetAutoSlide() {
@@ -824,29 +738,19 @@
         startAutoSlide();
     }
 
-    // Обработчики
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
 
-    // Обновление слайдера при изменении размера окна
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            updateSlider();
-        }, 200);
+        resizeTimeout = setTimeout(updateSlider, 200);
     });
 
-    // Запуск
     displayPosters();
-    
-    setTimeout(() => {
-        updateSlider();
-    }, 100);
-    
+    setTimeout(updateSlider, 100);
     startAutoSlide();
 
-    // Плавное появление при скролле
     function initScrollAnimation() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
