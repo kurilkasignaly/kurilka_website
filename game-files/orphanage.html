@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Детский дом — Испытание | Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        .breadcrumb {
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #e16d48;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+            border-color: #e16d48;
+        }
+
+        /* Контейнер с картинкой и описанием */
+        .map-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out 0.1s backwards;
+        }
+
+        .map-image {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .map-image img {
+            width: 100%;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .map-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .map-info {
+            flex: 1;
+        }
+
+        .map-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .map-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d1cce6;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #c2b9d4;
+        }
+
+        .detail-item i {
+            color: #e16d48;
+            width: 20px;
+        }
+
+        /* Секция испытаний */
+        .trials-section {
+            margin-bottom: 2rem;
+            animation: fadeInScale 0.6s ease-out 0.15s backwards;
+        }
+
+        .trials-section h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .trials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.8rem;
+        }
+
+        .trial-card {
+            background: rgba(18, 12, 28, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .trial-card:hover {
+            transform: translateY(-6px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
+        }
+
+        .trial-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+        }
+
+        .trial-name {
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e16d48;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        /* Модальное окно для испытания */
+        .trial-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .trial-modal.active {
+            display: flex;
+        }
+
+        .trial-modal-content {
+            max-width: 1000px;
+            width: 90%;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            cursor: default;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .trial-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .trial-modal-header h3 {
+            font-size: 1.5rem;
+            color: #e16d48;
+        }
+
+        .trial-modal-close {
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .trial-modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+        }
+
+        .trial-modal-body {
+            padding: 1.5rem;
+        }
+
+        .trial-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trial-info-image {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .trial-info-image img {
+            width: 100%;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+        }
+
+        .trial-info-text {
+            flex: 2;
+        }
+
+        .trial-info-text p {
+            color: #d1cce6;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            white-space: pre-line;
+        }
+
+        .trial-gallery h4 {
+            font-size: 1.2rem;
+            color: #e16d48;
+            margin: 1rem 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 3px solid #e16d48;
+            padding-left: 12px;
+        }
+
+        .trial-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .trial-gallery-item {
+            background: rgba(18, 12, 28, 0.6);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trial-gallery-item:hover {
+            transform: translateY(-3px);
+            border-color: #e16d48;
+        }
+
+        .trial-gallery-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            cursor: pointer;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 12px;
+            border: 2px solid rgba(220, 90, 50, 0.5);
+        }
+
+        .image-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 20001;
+        }
+
+        .image-modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .map-container { flex-direction: column; }
+            .map-title { font-size: 1.4rem; text-align: center; }
+            .trials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .trial-modal-header h3 { font-size: 1.2rem; }
+            .trial-info { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <div class="breadcrumb">
+        <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
+    </div>
+
+    <div class="map-container">
+        <div class="map-image">
+            <img src="../images/Детский дом.png" alt="Детский дом" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Детский+дом'">
+        </div>
+        <div class="map-info">
+            <h1 class="map-title">Детский дом</h1>
+            <p class="map-description">Детский дом (ориг. Orphanage) — место в игре The Outlast Trials, испытательный полигон главного актива Матушки Гусберри на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде детского дома, символизирующего духовную среду обитания главного актива Матушки Гусберри. Испытуемые реагенты должны проходить различные испытания в детском доме и противостоять агрессивным экс-попам во главе с безумной Матушкой Гусберри.</p>
+            <div class="map-details">
+                <div class="detail-item"><i class="fas fa-skull"></i> Главный актив: Матушка Гусберри</div>
+                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Локация: Заброшенный детский дом</div>
+                <div class="detail-item"><i class="fas fa-bolt"></i> Сложность: Высокая</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="trials-section">
+        <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
+        <div class="trials-grid" id="trialsGrid"></div>
+    </div>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
+    </footer>
+</div>
+
+<div id="trialModal" class="trial-modal">
+    <div class="trial-modal-content">
+        <div class="trial-modal-header">
+            <h3 id="modalTitle">Название испытания</h3>
+            <span class="trial-modal-close">&times;</span>
+        </div>
+        <div class="trial-modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <div class="image-modal-content">
+        <img id="fullImage" src="" alt="Увеличенное изображение">
+    </div>
+</div>
+
+<script>
+    const trialsData = [
+        {
+            id: "communion",
+            name: "Причастите сирот",
+            image: "../images/Причастите сирот.webp",
+            description: "Основное испытание детского дома, где реагентам необходимо провести обряд причастия для сирот. Реагенты прибывают в часовню детского дома, где им предстоит найти священные предметы и провести церемонию.\n\nВо время испытания реагенты должны избегать Матушку Гусберри, которая яростно охраняет часовню и не потерпит осквернения святыни. Успешное проведение обряда откроет путь к выходу.",
+            gallery: ["../images/причастие-1.jpg", "../images/причастие-2.jpg", "../images/причастие-3.jpg"]
+        },
+        {
+            id: "feed-children",
+            name: "Накормите детей",
+            image: "../images/Накормите детей.webp",
+            description: "МК-стимуляция, где реагентам нужно найти еду и накормить голодных детей. По всему детскому дому разбросаны тарелки с едой, которые необходимо отнести в столовую.\n\nОднако Матушка Гусберри строго следит за порядком и не позволит реагентам кормить её подопечных. Реагентам придётся действовать скрытно и быстро.",
+            gallery: ["../images/кормление-1.jpg", "../images/кормление-2.jpg", "../images/кормление-3.jpg"]
+        },
+        {
+            id: "gather-gods-children",
+            name: "Соберите детей божьих",
+            image: "../images/Соберите детей божьих.webp",
+            description: "Реагентам предстоит найти и собрать всех детей божьих, разбежавшихся по детскому дому. Каждый найденный ребёнок должен быть доставлен в безопасное место.\n\nМатушка Гусберри будет преследовать реагентов, пытаясь помешать спасательной миссии. Успех зависит от скорости и скрытности передвижения.",
+            gallery: ["../images/сбор-1.jpg", "../images/сбор-2.jpg", "../images/сбор-3.jpg"]
+        },
+        {
+            id: "shelter-orphans",
+            name: "Приютите сирот",
+            image: "../images/Приютите сирот.webp",
+            description: "Реагентам необходимо найти убежище для сирот и укрыть их от опасностей детского дома. В разных уголках здания спрятаны места для укрытия.\n\nЗадача усложняется тем, что Матушка Гусберри постоянно патрулирует территорию и может обнаружить укрытия. Реагентам нужно действовать максимально скрытно.",
+            gallery: ["../images/приют-1.jpg", "../images/приют-2.jpg", "../images/приют-3.jpg"]
+        },
+        {
+            id: "reunite-family",
+            name: "Воссоедините семью",
+            image: "../images/Воссоедините семью.webp",
+            description: "Финальное испытание детского дома, где реагентам предстоит воссоединить разлучённые семьи. По территории разбросаны фотографии и личные вещи, которые нужно доставить владельцам.\n\nМатушка Гусберри будет чинить препятствия на каждом шагу, а успешное воссоединение семей откроет проход к эвакуационному шаттлу.",
+            gallery: ["../images/воссоединение-1.jpg", "../images/воссоединение-2.jpg", "../images/воссоединение-3.jpg"]
+        }
+    ];
+
+    const trialModal = document.getElementById('trialModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.querySelector('.trial-modal-close');
+    const imageModal = document.getElementById('imageModal');
+    const fullImage = document.getElementById('fullImage');
+    const imageModalClose = document.querySelector('.image-modal-close');
+
+    function openTrialModal(trial) {
+        modalTitle.textContent = trial.name;
+        
+        let galleryHtml = '';
+        if (trial.gallery && trial.gallery.length > 0) {
+            galleryHtml = `
+                <div class="trial-gallery">
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
+                    <div class="trial-gallery-grid">
+                        ${trial.gallery.map(img => `
+                            <div class="trial-gallery-item" data-img="${img}">
+                                <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        modalBody.innerHTML = `
+            <div class="trial-info">
+                <div class="trial-info-image">
+                    <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/400x300/1a1a2e/e16d48?text=${trial.name}'">
+                </div>
+                <div class="trial-info-text">
+                    <p>${trial.description}</p>
+                </div>
+            </div>
+            ${galleryHtml}
+        `;
+        
+        trialModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        setTimeout(() => {
+            document.querySelectorAll('.trial-gallery-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const imgSrc = item.getAttribute('data-img');
+                    if (imgSrc) {
+                        fullImage.src = imgSrc;
+                        imageModal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            });
+        }, 100);
+    }
+
+    function closeModal() {
+        trialModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function closeImageModal() {
+        imageModal.classList.remove('active');
+        fullImage.src = '';
+        document.body.style.overflow = '';
+    }
+
+    function displayTrials() {
+        const container = document.getElementById('trialsGrid');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        trialsData.forEach(trial => {
+            const card = document.createElement('div');
+            card.className = 'trial-card';
+            card.addEventListener('click', () => openTrialModal(trial));
+            card.innerHTML = `
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.onerror=null;">
+                <div class="trial-name">${trial.name}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
+    imageModalClose.addEventListener('click', closeImageModal);
+    imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
+    });
+
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        
+        document.querySelectorAll('.map-container, .trials-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        displayTrials();
+        initScrollAnimation();
+    });
+</script>
+
+</body>
+</html>
