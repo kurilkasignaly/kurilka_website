@@ -22,7 +22,6 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        /* Фоновое видео */
         .background-video {
             position: fixed;
             top: 0;
@@ -249,38 +248,67 @@
             padding: 1rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.1);
             vertical-align: top;
-            color: #d1cce6;
         }
 
+        /* Цветные заголовки сложности */
         .difficulty-name {
-            font-weight: 700;
-            color: #e16d48;
-            font-size: 1rem;
-            width: 140px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            white-space: nowrap;
         }
 
-        .variant-name {
+        .difficulty-intro { color: #4c9aff; }
+        .difficulty-standard { color: #a0a0c0; }
+        .difficulty-intensive { color: #ff9f4a; }
+        .difficulty-psycho { color: #e25d32; }
+
+        /* Вариаторы */
+        .variators-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .variator-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .variator-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(220, 90, 50, 0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #e16d48;
+            flex-shrink: 0;
+        }
+
+        .variator-content {
+            flex: 1;
+        }
+
+        .variator-name {
             font-weight: 600;
             color: #ffbc9a;
-            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
         }
 
-        .variant-desc {
-            font-size: 0.85rem;
+        .variator-desc {
+            font-size: 0.8rem;
             color: #c2b9d4;
             line-height: 1.4;
         }
 
-        .variant-item {
-            margin-bottom: 0.8rem;
-        }
-
-        .variant-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .difficulty-table tr:last-child td {
-            border-bottom: none;
+        .variator-divider {
+            height: 1px;
+            background: rgba(220, 90, 50, 0.15);
+            margin: 0.5rem 0;
         }
 
         /* Слайдер постеров */
@@ -402,10 +430,21 @@
             }
             .difficulty-table th, .difficulty-table td {
                 padding: 0.8rem;
-                font-size: 0.85rem;
             }
             .difficulty-name {
-                width: 100px;
+                font-size: 0.9rem;
+                white-space: normal;
+            }
+            .variator-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.85rem;
+            }
+            .variator-name {
+                font-size: 0.8rem;
+            }
+            .variator-desc {
+                font-size: 0.7rem;
             }
         }
 
@@ -475,71 +514,127 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- ВВОДНЫЙ -->
                     <tr>
-                        <td class="difficulty-name">ВВОДНЫЙ</td>
+                        <td class="difficulty-name difficulty-intro">ВВОДНЫЙ</td>
                         <td>
-                            <div class="variant-item">
-                                <div class="variant-name">Вводный</div>
-                                <div class="variant-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</div>
+                            <div class="variators-list">
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-baby"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Вводный</div>
+                                        <div class="variator-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
+                    <!-- СТАНДАРТНЫЙ -->
                     <tr>
-                        <td class="difficulty-name">СТАНДАРТНЫЙ</td>
+                        <td class="difficulty-name difficulty-standard">СТАНДАРТНЫЙ</td>
                         <td>
-                            <div class="variant-item">
-                                <div class="variant-name">N/A</div>
-                                <div class="variant-desc">Средняя сложность. Вариаторы не применяются.</div>
+                            <div class="variators-list">
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-equals"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">N/A</div>
+                                        <div class="variator-desc">Средняя сложность. Вариаторы не применяются.</div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
+                    <!-- ИНТЕНСИВНЫЙ -->
                     <tr>
-                        <td class="difficulty-name">ИНТЕНСИВНЫЙ</td>
+                        <td class="difficulty-name difficulty-intensive">ИНТЕНСИВНЫЙ</td>
                         <td>
-                            <div class="variant-item">
-                                <div class="variant-name">Более Сильные Враги</div>
-                                <div class="variant-desc">Враги стали сильнее и опаснее.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Высокая Плотность Противника</div>
-                                <div class="variant-desc">В испытании стало больше врагов.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Больше смертельных ловушек</div>
-                                <div class="variant-desc">Дополнительные смертельные ловушки.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Ограниченная информация</div>
-                                <div class="variant-desc">В пробной версии доступны не все сведения об испытаниях.</div>
+                            <div class="variators-list">
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-dragon"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Более Сильные Враги</div>
+                                        <div class="variator-desc">Враги стали сильнее и опаснее.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-users"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Высокая Плотность Противника</div>
+                                        <div class="variator-desc">В испытании стало больше врагов.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-skull"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Больше смертельных ловушек</div>
+                                        <div class="variator-desc">Дополнительные смертельные ловушки.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-eye-slash"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Ограниченная информация</div>
+                                        <div class="variator-desc">В пробной версии доступны не все сведения об испытаниях.</div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
+                    <!-- ПСИХОХИРУРГИЯ -->
                     <tr>
-                        <td class="difficulty-name">ПСИХОХИРУРГИЯ</td>
+                        <td class="difficulty-name difficulty-psycho">ПСИХОХИРУРГИЯ</td>
                         <td>
-                            <div class="variant-item">
-                                <div class="variant-name">Более Сильные Враги II</div>
-                                <div class="variant-desc">Смертельные враги, не знающие пощады.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Высокая Плотность Противника</div>
-                                <div class="variant-desc">В испытании стало больше врагов.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Ненадежные Двери</div>
-                                <div class="variant-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Больше и смертельные ловушки II</div>
-                                <div class="variant-desc">Максимальное количество смертельных ловушек.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Ограниченные предметы II</div>
-                                <div class="variant-desc">Количество предметов, доступных в испытании, очень ограничено.</div>
-                            </div>
-                            <div class="variant-item">
-                                <div class="variant-name">Психохирургия</div>
-                                <div class="variant-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</div>
+                            <div class="variators-list">
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-dragon"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Более Сильные Враги II</div>
+                                        <div class="variator-desc">Смертельные враги, не знающие пощады.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-users"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Высокая Плотность Противника</div>
+                                        <div class="variator-desc">В испытании стало больше врагов.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-door-closed"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Ненадежные Двери</div>
+                                        <div class="variator-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-skull-crossbones"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Больше и смертельные ловушки II</div>
+                                        <div class="variator-desc">Максимальное количество смертельных ловушек.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-box-open"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Ограниченные предметы II</div>
+                                        <div class="variator-desc">Количество предметов, доступных в испытании, очень ограничено.</div>
+                                    </div>
+                                </div>
+                                <div class="variator-divider"></div>
+                                <div class="variator-item">
+                                    <div class="variator-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="variator-content">
+                                        <div class="variator-name">Психохирургия</div>
+                                        <div class="variator-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</div>
+                                    </div>
+                                </div>
                             </div>
                         </td>
                     </tr>
