@@ -267,7 +267,7 @@
 
         .trials-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.8rem;
         }
 
@@ -493,6 +493,12 @@
             border-radius: 50px;
         }
 
+        @media (max-width: 900px) {
+            .trials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
@@ -501,12 +507,12 @@
             .logo h1 { font-size: 1.5rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
-            .trials-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 600px) {
+            .trials-grid {
+                grid-template-columns: 1fr;
+            }
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
@@ -549,6 +555,12 @@
         <div class="map-info">
             <h1 class="map-title">Детский дом</h1>
             <p class="map-description">Детский дом (ориг. Orphanage) — место в игре The Outlast Trials, испытательный полигон главного актива Матушки Гусберри на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде детского дома, символизирующего духовную среду обитания главного актива Матушки Гусберри. Испытуемые реагенты должны проходить различные испытания в детском доме и противостоять агрессивным экс-попам во главе с безумной Матушкой Гусберри.</p>
+            <div class="map-details">
+                <div class="detail-item"><i class="fas fa-skull"></i> Главный актив: Матушка Гусберри</div>
+                <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Локация: Заброшенный детский дом</div>
+                <div class="detail-item"><i class="fas fa-bolt"></i> Сложность: Высокая</div>
+            </div>
+        </div>
     </div>
 
     <div class="trials-section">
