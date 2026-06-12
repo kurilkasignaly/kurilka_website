@@ -205,7 +205,85 @@
             color: #d1cce6;
         }
 
-        /* Слайдер постеров (как в каталогах) */
+        /* ТАБЛИЦА СЛОЖНОСТИ */
+        .difficulty-section {
+            margin-bottom: 2.5rem;
+            animation: fadeInScale 0.6s ease-out 0.12s backwards;
+        }
+
+        .difficulty-section h2 {
+            font-size: 1.8rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #e16d48;
+            padding-left: 18px;
+        }
+
+        .difficulty-table-wrapper {
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            overflow-x: auto;
+        }
+
+        .difficulty-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .difficulty-table th {
+            text-align: left;
+            padding: 1.2rem 1rem;
+            background: rgba(220, 90, 50, 0.15);
+            color: #e16d48;
+            font-weight: 700;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .difficulty-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
+            vertical-align: top;
+            color: #d1cce6;
+        }
+
+        .difficulty-name {
+            font-weight: 700;
+            color: #e16d48;
+            font-size: 1rem;
+            width: 140px;
+        }
+
+        .variant-name {
+            font-weight: 600;
+            color: #ffbc9a;
+            margin-bottom: 0.3rem;
+        }
+
+        .variant-desc {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            line-height: 1.4;
+        }
+
+        .variant-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .variant-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .difficulty-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Слайдер постеров */
         .posters-section {
             margin-bottom: 2.5rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -264,7 +342,6 @@
             gap: 1.5rem;
         }
 
-        /* Стиль для карточек-постеров */
         .poster-card {
             min-width: calc(33.333% - 1rem);
             background: linear-gradient(135deg, rgba(40, 41, 45, 0.9), rgba(30, 31, 34, 0.95));
@@ -323,6 +400,13 @@
                 height: 40px;
                 font-size: 1.2rem;
             }
+            .difficulty-table th, .difficulty-table td {
+                padding: 0.8rem;
+                font-size: 0.85rem;
+            }
+            .difficulty-name {
+                width: 100px;
+            }
         }
 
         @media (max-width: 850px) {
@@ -331,7 +415,7 @@
             .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .program-description h2, .posters-section h2 { font-size: 1.4rem; }
+            .program-description h2, .posters-section h2, .difficulty-section h2 { font-size: 1.4rem; }
         }
 
         @media (max-width: 550px) {
@@ -376,9 +460,92 @@
     <!-- Описание программы -->
     <div class="program-description">
         <h2><i class="fas fa-info-circle"></i> О программе «Генезис»</h2>
-        <p>Программа Genesis, также известная как Путь к возрождению, — одна из стандартных программ в The Outlast Trials. Она включает в себя все испытания и MK-испытания по умолчанию, которые составляют основную терапию. Уровень сложности можно изменить в зависимости от предпочтений игрока, но большинство особых вариаторов отсутствуют.
-<br>Полный релиз (5 марта 2024 г. — 15 июля 2024 г.)
-5 марта 2024 года все предыдущие программы были объединены в одну комплексную программу для новой основной терапии. За прохождение испытаний игрок получает 2 жетона освобождения, а за прохождение MK-испытаний — 1 жетон. Обратите внимание, что если игрок пройдет все испытания и MK-испытания без повторных прохождений, он сможет заработать достаточно жетонов освобождения для Возрождения, как и было задумано.</p>
+        <p>Генезис — это базовая испытательная программа, предназначенная для подготовки новых реагентов. Здесь вы познакомитесь с основами выживания, научитесь уклоняться от врагов, использовать окружение и выполнять основные задачи. Программа включает в себя несколько испытательных полигонов, каждый из которых имеет уникальную механику и сценарий. Успешное прохождение всех испытаний откроет доступ к более сложным программам.</p>
+    </div>
+
+    <!-- ТАБЛИЦА ВЫБОРА УРОВНЯ СЛОЖНОСТИ -->
+    <div class="difficulty-section">
+        <h2><i class="fas fa-chart-line"></i> Выбор уровня сложности</h2>
+        <div class="difficulty-table-wrapper">
+            <table class="difficulty-table">
+                <thead>
+                    <tr>
+                        <th>Трудность</th>
+                        <th>Вариаторы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="difficulty-name">ВВОДНЫЙ</td>
+                        <td>
+                            <div class="variant-item">
+                                <div class="variant-name">Вводный</div>
+                                <div class="variant-desc">Минимальная продуманная доза обезболивающего для освоения базовых терапевтических приемов.</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="difficulty-name">СТАНДАРТНЫЙ</td>
+                        <td>
+                            <div class="variant-item">
+                                <div class="variant-name">N/A</div>
+                                <div class="variant-desc">Средняя сложность. Вариаторы не применяются.</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="difficulty-name">ИНТЕНСИВНЫЙ</td>
+                        <td>
+                            <div class="variant-item">
+                                <div class="variant-name">Более Сильные Враги</div>
+                                <div class="variant-desc">Враги стали сильнее и опаснее.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Высокая Плотность Противника</div>
+                                <div class="variant-desc">В испытании стало больше врагов.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Больше смертельных ловушек</div>
+                                <div class="variant-desc">Дополнительные смертельные ловушки.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Ограниченная информация</div>
+                                <div class="variant-desc">В пробной версии доступны не все сведения об испытаниях.</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="difficulty-name">ПСИХОХИРУРГИЯ</td>
+                        <td>
+                            <div class="variant-item">
+                                <div class="variant-name">Более Сильные Враги II</div>
+                                <div class="variant-desc">Смертельные враги, не знающие пощады.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Высокая Плотность Противника</div>
+                                <div class="variant-desc">В испытании стало больше врагов.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Ненадежные Двери</div>
+                                <div class="variant-desc">Дополнительные забаррикадированные, запертые и заблокированные двери в испытании.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Больше и смертельные ловушки II</div>
+                                <div class="variant-desc">Максимальное количество смертельных ловушек.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Ограниченные предметы II</div>
+                                <div class="variant-desc">Количество предметов, доступных в испытании, очень ограничено.</div>
+                            </div>
+                            <div class="variant-item">
+                                <div class="variant-name">Психохирургия</div>
+                                <div class="variant-desc">Максимальная травма. Увеличено время восстановления снаряжения. Меньше места в инвентаре. Имена игроков скрыты. Информация отсутствует.</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Слайдер постеров -->
@@ -411,67 +578,61 @@
         {
             id: "police-station",
             title: "Полицейский участок",
-            image: "../images/Постер 01.webp",
+            image: "../images/полицейский-участок.webp",
             page: "police-station.html"
         },
         {
             id: "orphanage",
             title: "Детский дом",
-            image: "../images/Постер 03.webp",
+            image: "../images/детский-дом.webp",
             page: "orphanage.html"
         },
         {
             id: "fun-park",
             title: "Парк развлечений",
-            image: "../images/Постер 02.webp",
+            image: "../images/парк-развлечений.webp",
             page: "fun-park.html"
         },
         {
             id: "court-house",
             title: "Здание суда",
-            image: "../images/Постер 04.webp",
+            image: "../images/здание-суда.webp",
             page: "court-house.html"
         },
         {
             id: "toy-factory",
             title: "Фабрика игрушек",
-            image: "../images/Постер 05.webp",
+            image: "../images/фабрика-игрушек.webp",
             page: "toy-factory.html"
         },
         {
             id: "pier",
             title: "Пристань",
-            image: "../images/Постер 06.webp",
+            image: "../images/пристань.webp",
             page: "pier.html"
         },
         {
             id: "city-center",
             title: "Центр города",
-            image: "../images/Постер 07.webp",
+            image: "../images/центр-города.webp",
             page: "city-center.html"
         },
         {
             id: "suburb",
             title: "Пригород",
-            image: "../images/Постер 08.webp",
-            page: "suburb.html"
-        },
-        {
-            id: "shopping mall",
-            title: "Торговый центр",
-            image: "../images/Постер 09.webp",
+            image: "../images/пригород.webp",
             page: "suburb.html"
         },
         {
             id: "resort",
             title: "Курорт",
-            image: "../images/Постер 10.webp",
+            image: "../images/курорт.webp",
             page: "resort.html"
         },
         {
             id: "tv-studio",
             title: "Телестудия",
-            image: "../images/Постер 11.webp",
+            image: "../images/телестудия.webp",
             page: "tv-studio.html"
         }
     ];
@@ -493,7 +654,6 @@
             card.setAttribute('data-id', poster.id);
             card.setAttribute('data-page', poster.page);
             
-            // При клике переходим на страницу испытания
             card.addEventListener('click', () => {
                 window.location.href = poster.page;
             });
@@ -603,7 +763,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.program-description, .posters-section').forEach(el => {
+        document.querySelectorAll('.program-description, .difficulty-section, .posters-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
