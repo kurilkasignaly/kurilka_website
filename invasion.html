@@ -74,7 +74,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ЭКРАН ОЖИДАНИЯ КЛИКА */
         .click-waiting-overlay {
             position: fixed;
             top: 0;
@@ -138,7 +137,6 @@
             color: #888;
         }
 
-        /* ЗАГРУЗКА - КРУТЯЩИЙСЯ СПИННЕР */
         .loader-overlay {
             position: fixed;
             top: 0;
@@ -193,7 +191,6 @@
             font-weight: 500;
         }
 
-        /* Основной контент */
         .main-content {
             display: block;
             opacity: 0;
@@ -527,7 +524,7 @@
         .platform-icon {
             width: 24px;
             height: 24px;
-            margin-right: 8px;
+            margin-right: 10px;
             vertical-align: middle;
             display: inline-block;
         }
@@ -604,7 +601,7 @@
             .update-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
             .section-title { font-size: 1.2rem; flex-wrap: wrap; gap: 10px; }
             .update-badge { margin-left: 0; }
-            .platform-icon { width: 20px; height: 20px; }
+            .platform-icon { width: 20px; height: 20px; margin-right: 6px; }
         }
     </style>
 </head>
@@ -626,7 +623,7 @@
     </div>
 </div>
 
-<!-- ЗАГРУЗКА С КРУТЯЩИМСЯ СПИННЕРОМ -->
+<!-- ЗАГРУЗКА -->
 <div id="loaderOverlay" class="loader-overlay">
     <div class="loader-content">
         <div class="loader-spinner"></div>
@@ -716,7 +713,7 @@
     const loaderOverlay = document.getElementById('loaderOverlay');
     const mainContent = document.getElementById('mainContent');
 
-    // АУДИО (20% музыка, 80% без слов)
+    // АУДИО
     const randomNum = Math.random();
     let audioSrc;
     if (randomNum < 0.2) {
@@ -744,27 +741,21 @@
         }
     });
 
-    // ИКОНКИ ПЛАТФОРМ (с запасными вариантами)
+    // ИКОНКИ ПЛАТФОРМ - ТОЛЬКО КАРТИНКИ
     function getPlatformIcon(platform) {
-        const fallbackIcons = {
-            'xbox': '<i class="fab fa-xbox" style="color: #107C10; font-size: 1.2rem; margin-right: 8px;"></i>',
-            'steam': '<i class="fab fa-steam" style="color: #1b2838; font-size: 1.2rem; margin-right: 8px;"></i>',
-            'ps': '<i class="fab fa-playstation" style="color: #003791; font-size: 1.2rem; margin-right: 8px;"></i>',
-            'epic': '<i class="fab fa-epic-games" style="color: #ffffff; font-size: 1.2rem; margin-right: 8px;"></i>'
-        };
-        
         const iconPaths = {
-            'xbox': 'images/иконка-х-бокс.webp',
-            'steam': 'images/иконка-стим.webp',
-            'ps': 'images/иконка-пс.webp',
-            'epic': 'images/иконка-эпик.webp'
+            'xbox': 'images/иконка х-бокс.webp',
+            'steam': 'images/иконка стим.webp',
+            'ps': 'images/иконка пс.webp',
+            'epic': 'images/иконка эпик.webp'
         };
         
         const iconPath = iconPaths[platform];
         if (iconPath) {
-            return `<img src="${iconPath}" class="platform-icon" alt="${platform}" onerror="this.style.display='none'; this.parentElement.innerHTML='${fallbackIcons[platform]}'">`;
+            // Возвращаем картинку, если она не загрузится - показываем пустоту
+            return `<img src="${iconPath}" class="platform-icon" alt="${platform}" onerror="this.style.display='none'">`;
         }
-        return fallbackIcons[platform] || '';
+        return '';
     }
 
     const platforms = ['xbox', 'steam', 'ps', 'epic'];
