@@ -41,7 +41,7 @@
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0;
-            transition: opacity 2.5s ease-in-out;
+            transition: opacity 1.8s ease-in-out;
         }
 
         .bg-slide.active {
@@ -132,6 +132,12 @@
         .click-waiting-text {
             font-size: 0.9rem;
             color: #c2b9d4;
+            margin-bottom: 0.5rem;
+        }
+
+        .click-waiting-key-hint {
+            font-size: 0.75rem;
+            color: #888;
         }
 
         /* ЗАГРУЗКА (правый нижний угол) */
@@ -583,14 +589,15 @@
     <div class="bg-slide" style="background-image: url('images/загрузка-2.webp');"></div>
 </div>
 
-<!-- ЭКРАН ОЖИДАНИЯ КЛИКА -->
+<!-- ЭКРАН ОЖИДАНИЯ КЛИКА/КЛАВИШИ -->
 <div id="clickWaitingOverlay" class="click-waiting-overlay">
     <div class="click-waiting-content" id="clickWaitingContent">
         <div class="click-waiting-icon">
             <i class="fas fa-mouse-pointer"></i>
         </div>
         <div class="click-waiting-title">Нажмите для загрузки</div>
-        <div class="click-waiting-text">Нажмите в любом месте, чтобы начать загрузку статистики</div>
+        <div class="click-waiting-text">Нажмите мышью или любую клавишу на клавиатуре</div>
+        <div class="click-waiting-key-hint">⌨️ Любая клавиша для старта</div>
     </div>
 </div>
 
@@ -682,7 +689,7 @@
 </div>
 
 <script>
-    // === ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (8 секунд) ===
+    // === ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (8 секунд, плавно без вспышек) ===
     const bgSlides = document.querySelectorAll('.bg-slide');
     let currentBgIndex = 0;
 
@@ -698,23 +705,47 @@
     const loaderOverlay = document.getElementById('loaderOverlay');
     const mainContent = document.getElementById('mainContent');
 
-    // === АУДИО (из папки images) ===
+    // === АУДИО С СОХРАНЕНИЕМ ПРОГРЕССА ===
     const audio = new Audio('images/loading.mp3');
     audio.loop = true;
     audio.volume = 0.4;
+    
+    // Восстанавливаем сохранённое время аудио (если есть)
+    let savedAudioTime = localStorage.getItem('audioTime');
+    if (savedAudioTime && !isNaN(parseFloat(savedAudioTime))) {
+        audio.currentTime = parseFloat(savedAudioTime);
+        console.log(`Восстановлено время аудио: ${Math.round(audio.currentTime)} сек`);
+    }
+    
+    // Сохраняем время аудио каждую секунду
+    let audioSaveInterval;
+    
+    // Сохраняем время при закрытии страницы
+    window.addEventListener('beforeunload', () => {
+        if (!audio.paused && !audio.ended) {
+            localStorage.setItem('audioTime', audio.currentTime);
+        }
+    });
 
-    // === ЗАПУСК ЗАГРУЗКИ ПОСЛЕ КЛИКА ===
+    // === ЗАПУСК ЗАГРУЗКИ ПОСЛЕ КЛИКА ИЛИ КЛАВИШИ ===
     let loadStarted = false;
 
     function startLoad() {
         if (loadStarted) return;
         loadStarted = true;
 
-        // Скрываем экран ожидания клика
+        // Скрываем экран ожидания
         clickWaitingOverlay.classList.add('hidden');
 
         // Запускаем аудио
         audio.play().catch(e => console.log('Аудио не запущено:', e));
+        
+        // Запускаем сохранение времени аудио
+        audioSaveInterval = setInterval(() => {
+            if (!audio.paused && !audio.ended) {
+                localStorage.setItem('audioTime', audio.currentTime);
+            }
+        }, 1000);
 
         // Показываем загрузку
         loaderOverlay.classList.add('active');
@@ -728,9 +759,11 @@
 
         // Через случайное время скрываем загрузку, останавливаем аудио и показываем контент
         setTimeout(() => {
-            // Останавливаем аудио
+            // Останавливаем аудио и очищаем сохранённое время
             audio.pause();
             audio.currentTime = 0;
+            clearInterval(audioSaveInterval);
+            localStorage.removeItem('audioTime');
             
             loaderOverlay.classList.remove('active');
             mainContent.classList.add('visible');
@@ -755,17 +788,27 @@
         }, randomLoadTime);
     }
 
-    // Обработчик клика
+    // Обработчик клика мыши
     document.body.addEventListener('click', function startOnClick() {
         if (!loadStarted) {
             startLoad();
             document.body.removeEventListener('click', startOnClick);
         }
     });
+    
+    // Обработчик касания для мобильных
     document.body.addEventListener('touchstart', function startOnTouch() {
         if (!loadStarted) {
             startLoad();
             document.body.removeEventListener('touchstart', startOnTouch);
+        }
+    });
+    
+    // Обработчик любой клавиши на клавиатуре
+    document.addEventListener('keydown', function startOnKey() {
+        if (!loadStarted) {
+            startLoad();
+            document.removeEventListener('keydown', startOnKey);
         }
     });
 
