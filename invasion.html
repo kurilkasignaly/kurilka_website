@@ -56,7 +56,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.7);
             z-index: -1;
         }
 
@@ -88,8 +88,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            pointer-events: none;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
         .loader-overlay.hidden {
@@ -104,13 +103,13 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(10, 10, 15, 0.7);
+            background: rgba(10, 10, 15, 0.8);
             backdrop-filter: blur(10px);
             padding: 10px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(220, 90, 50, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.4);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            pointer-events: auto;
+            z-index: 10001;
         }
 
         .loader-spinner {
@@ -128,14 +127,9 @@
             letter-spacing: 0.5px;
         }
 
-        /* Основной контент (изначально скрыт) */
+        /* Основной контент */
         .main-content {
-            opacity: 0;
-            transition: opacity 0.8s ease;
-        }
-
-        .main-content.visible {
-            opacity: 1;
+            display: block;
         }
 
         .container {
@@ -513,10 +507,10 @@
 </head>
 <body>
 
-<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН НА ВСЮ СТРАНИЦУ -->
+<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН НА ВСЮ СТРАНИЦУ (webp) -->
 <div class="background-slideshow">
-    <div class="bg-slide active" style="background-image: url('images/загрузка-1.jpg');"></div>
-    <div class="bg-slide" style="background-image: url('images/загрузка-2.jpg');"></div>
+    <div class="bg-slide active" style="background-image: url('images/загрузка-1.webp');"></div>
+    <div class="bg-slide" style="background-image: url('images/загрузка-2.webp');"></div>
 </div>
 
 <!-- ФЕЙКОВАЯ ЗАГРУЗКА (В УГЛУ) -->
@@ -607,7 +601,7 @@
 </div>
 
 <script>
-    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (2 картинки)
+    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (2 картинки webp)
     const bgSlides = document.querySelectorAll('.bg-slide');
     let currentBgIndex = 0;
 
@@ -622,7 +616,6 @@
 
     // ФЕЙКОВАЯ ЗАГРУЗКА
     const loaderOverlay = document.getElementById('loaderOverlay');
-    const mainContent = document.getElementById('mainContent');
 
     // Игроки (15 штук)
     const playersData = [
@@ -722,21 +715,17 @@
         });
     }
     
-    // ЗАПУСК: сначала фейковая загрузка 2.5 секунды, потом основное содержимое
-    window.addEventListener('load', function() {
-        // Скрываем основной контент изначально
-        mainContent.style.opacity = '0';
-        
-        // Заполняем статистику (она будет скрыта до окончания загрузки)
+    // ЗАПУСК: сразу показываем контент, загрузку скрываем через 1.5 секунды
+    window.addEventListener('DOMContentLoaded', function() {
+        // Заполняем статистику
         populateStats();
         
-        // Через 2.5 секунды скрываем загрузку и показываем контент
+        // Через 1.5 секунды скрываем загрузку
         setTimeout(() => {
             loaderOverlay.classList.add('hidden');
-            mainContent.classList.add('visible');
-        }, 2500);
+        }, 1500);
         
-        // Анимация при скролле (будет работать после появления основного контента)
+        // Анимация при скролле
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
