@@ -21,7 +21,47 @@
             position: relative;
         }
 
-        /* Плавно меняющийся фон на всю страницу */
+        /* Фон для загрузки (отдельный, не мешает основному) */
+        .loader-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loader-bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 3s ease-in-out;
+        }
+
+        .loader-bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Затемнение для фона загрузки */
+        .loader-background::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 1;
+        }
+
+        /* Плавно меняющийся фон основной страницы */
         .background-slideshow {
             position: fixed;
             top: 0;
@@ -48,7 +88,7 @@
             opacity: 1;
         }
 
-        /* Затемнение поверх фона */
+        /* Затемнение поверх основного фона */
         body::after {
             content: "";
             position: fixed;
@@ -76,7 +116,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Стили для фейковой загрузки (в углу) */
+        /* Стили для фейковой загрузки (поверх всего) */
         .loader-overlay {
             position: fixed;
             top: 0;
@@ -88,7 +128,7 @@
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         .loader-overlay.hidden {
@@ -130,6 +170,7 @@
         /* Основной контент */
         .main-content {
             display: block;
+            opacity: 1;
         }
 
         .container {
@@ -507,7 +548,13 @@
 </head>
 <body>
 
-<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН НА ВСЮ СТРАНИЦУ (webp) -->
+<!-- ФОН ДЛЯ ЗАГРУЗКИ (отдельный, с медленной сменой) -->
+<div id="loaderBackground" class="loader-background">
+    <div class="loader-bg-slide active" style="background-image: url('images/загрузка-1.webp');"></div>
+    <div class="loader-bg-slide" style="background-image: url('images/загрузка-2.webp');"></div>
+</div>
+
+<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН ОСНОВНОЙ СТРАНИЦЫ -->
 <div class="background-slideshow">
     <div class="bg-slide active" style="background-image: url('images/загрузка-1.webp');"></div>
     <div class="bg-slide" style="background-image: url('images/загрузка-2.webp');"></div>
@@ -601,7 +648,19 @@
 </div>
 
 <script>
-    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (2 картинки webp)
+    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА ЗАГРУЗКИ (медленно, 8 секунд)
+    const loaderBgSlides = document.querySelectorAll('.loader-bg-slide');
+    let loaderBgIndex = 0;
+
+    function switchLoaderBackground() {
+        loaderBgSlides[loaderBgIndex].classList.remove('active');
+        loaderBgIndex = (loaderBgIndex + 1) % loaderBgSlides.length;
+        loaderBgSlides[loaderBgIndex].classList.add('active');
+    }
+    // Переключение фона загрузки каждые 8 секунд (медленно)
+    setInterval(switchLoaderBackground, 8000);
+
+    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ОСНОВНОГО ФОНА (6 секунд)
     const bgSlides = document.querySelectorAll('.bg-slide');
     let currentBgIndex = 0;
 
@@ -610,12 +669,11 @@
         currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
         bgSlides[currentBgIndex].classList.add('active');
     }
-
-    // Переключение фона каждые 6 секунд (плавно)
     setInterval(switchBackground, 6000);
 
     // ФЕЙКОВАЯ ЗАГРУЗКА
     const loaderOverlay = document.getElementById('loaderOverlay');
+    const loaderBackground = document.getElementById('loaderBackground');
 
     // Игроки (15 штук)
     const playersData = [
@@ -715,15 +773,20 @@
         });
     }
     
-    // ЗАПУСК: сразу показываем контент, загрузку скрываем через 1.5 секунды
+    // ЗАПУСК: сначала показываем загрузку 2 секунды, потом скрываем
     window.addEventListener('DOMContentLoaded', function() {
         // Заполняем статистику
         populateStats();
         
-        // Через 1.5 секунды скрываем загрузку
+        // Через 2 секунды скрываем загрузку и фон загрузки
         setTimeout(() => {
             loaderOverlay.classList.add('hidden');
-        }, 1500);
+            loaderBackground.style.opacity = '0';
+            loaderBackground.style.visibility = 'hidden';
+            setTimeout(() => {
+                loaderBackground.style.display = 'none';
+            }, 1000);
+        }, 2000);
         
         // Анимация при скролле
         const observer = new IntersectionObserver((entries) => {
