@@ -69,14 +69,8 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
-        /* АНИМАЦИЯ ДЛЯ КРУГЛЯШКОВ */
-        @keyframes spinDot {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.3; transform: scale(0.8); }
-        }
-
-        @keyframes rotateSpinner {
+        /* АНИМАЦИЯ ВРАЩЕНИЯ ДЛЯ ЗАГРУЗЧИКА */
+        @keyframes rotateLoader {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
@@ -145,7 +139,7 @@
             color: #888;
         }
 
-        /* ЗАГРУЗКА - КРУГЛЯШКИ ПО КРУГУ */
+        /* ЗАГРУЗЧИК - 8 КРУГЛЯШКОВ ПО КРУГУ (КАК НА КАРТИНКЕ) */
         .loader-overlay {
             position: fixed;
             top: 0;
@@ -174,10 +168,10 @@
             right: 30px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(10px);
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
             border: 1px solid rgba(220, 90, 50, 0.4);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
@@ -186,29 +180,30 @@
 
         .loader-spinner {
             position: relative;
-            width: 30px;
-            height: 30px;
-            animation: rotateSpinner 1.5s linear infinite;
+            width: 36px;
+            height: 36px;
+            animation: rotateLoader 1.2s linear infinite;
         }
 
+        /* 8 кругляшков по кругу */
         .loader-spinner .dot {
             position: absolute;
             width: 6px;
             height: 6px;
             background: #e16d48;
             border-radius: 50%;
-            opacity: 0.4;
+            opacity: 0.7;
         }
 
-        /* Расположение 8 кругляшков по кругу */
+        /* Расположение кругляшков по окружности радиусом 12px */
         .loader-spinner .dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
         .loader-spinner .dot:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
         .loader-spinner .dot:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
         .loader-spinner .dot:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
-        .loader-spinner .dot:nth-child(5) { top: 15%; right: 15%; }
-        .loader-spinner .dot:nth-child(6) { bottom: 15%; right: 15%; }
-        .loader-spinner .dot:nth-child(7) { bottom: 15%; left: 15%; }
-        .loader-spinner .dot:nth-child(8) { top: 15%; left: 15%; }
+        .loader-spinner .dot:nth-child(5) { top: 8px; right: 8px; }
+        .loader-spinner .dot:nth-child(6) { bottom: 8px; right: 8px; }
+        .loader-spinner .dot:nth-child(7) { bottom: 8px; left: 8px; }
+        .loader-spinner .dot:nth-child(8) { top: 8px; left: 8px; }
 
         .loader-text {
             font-size: 1rem;
@@ -618,9 +613,9 @@
             .click-waiting-content { padding: 1.5rem 2rem; }
             .click-waiting-title { font-size: 1.3rem; }
             .click-waiting-icon { font-size: 3rem; }
-            .loader-content { bottom: 15px; right: 15px; padding: 8px 15px; }
-            .loader-text { font-size: 0.8rem; }
-            .loader-spinner { width: 25px; height: 25px; }
+            .loader-content { bottom: 15px; right: 15px; padding: 10px 18px; }
+            .loader-text { font-size: 0.85rem; }
+            .loader-spinner { width: 30px; height: 30px; }
             .stat-card .stat-icon { width: 55px; height: 55px; }
             .mode-card { min-height: 220px; }
             .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; }
@@ -650,7 +645,7 @@
     </div>
 </div>
 
-<!-- ЗАГРУЗКА - КРУГЛЯШКИ ПО КРУГУ -->
+<!-- ЗАГРУЗЧИК - 8 КРУГЛЯШКОВ ПО КРУГУ -->
 <div id="loaderOverlay" class="loader-overlay">
     <div class="loader-content">
         <div class="loader-spinner">
@@ -721,7 +716,7 @@
         <div class="table-wrapper">
             <table id="overallTable">
                 <thead>
-                    <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
+                    <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th><tr>
                 </thead>
                 <tbody id="overallTableBody"></tbody>
             </table>
