@@ -317,7 +317,7 @@
             font-size: 1.8rem;
         }
 
-        /* НОВЫЙ БЛОК ПРЕДУПРЕЖДЕНИЯ (увеличенный) */
+        /* ПРЕДУПРЕЖДЕНИЕ */
         .alert-block {
             background: rgba(220, 90, 50, 0.15);
             border-left: 5px solid #e25d32;
@@ -390,7 +390,7 @@
             font-size: 0.9rem;
         }
 
-        /* БОЛЬШИЕ БЛОКИ РЕАГЕНТ И САМОЗВАНЕЦ */
+        /* БОЛЬШИЕ БЛОКИ */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -418,7 +418,6 @@
             z-index: 1;
         }
 
-        /* Затемнение для читаемости текста поверх картинки */
         .mode-card::before {
             content: "";
             position: absolute;
@@ -466,6 +465,7 @@
         .reagent .mode-stat-value { color: #4c9aff; }
         .impostor .mode-stat-value { color: #e25d32; }
 
+        /* ЗАГОЛОВОК ТАБЛИЦЫ С ДАТОЙ ОБНОВЛЕНИЯ */
         .section-title {
             font-size: 1.5rem;
             margin: 2rem 0 1rem 0;
@@ -474,6 +474,21 @@
             gap: 10px;
             border-left: 4px solid #e25d32;
             padding-left: 15px;
+        }
+
+        .update-badge {
+            font-size: 0.8rem;
+            margin-left: auto;
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220,90,50,0.3);
+        }
+
+        .update-badge i {
+            color: #e16d48;
+            margin-right: 5px;
         }
 
         .table-wrapper {
@@ -546,30 +561,14 @@
         .medal-bronze { color: #cd7f32; }
 
         footer {
-            margin-top: 3rem;
+            margin-top: 2rem;
             text-align: center;
-            padding: 1.5rem 0;
+            padding: 1rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             background: rgba(8, 6, 15, 0.3);
             backdrop-filter: blur(8px);
             border-radius: 50px;
-        }
-
-        .update-info {
-            background: rgba(18, 12, 28, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(220,90,50,0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .update-info i {
-            color: #e16d48;
         }
 
         @media (max-width: 850px) {
@@ -593,6 +592,9 @@
             .mode-card { min-height: 220px; }
             .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; }
             .alert-block i { font-size: 1.2rem; }
+            .update-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+            .section-title { font-size: 1.2rem; flex-wrap: wrap; gap: 10px; }
+            .update-badge { margin-left: 0; }
         }
     </style>
 </head>
@@ -649,7 +651,7 @@
             <h1><i class="fas fa-knife"></i> Invasion — Статистика 6 сезона</h1>
         </div>
 
-        <!-- НОВОЕ ПРЕДУПРЕЖДЕНИЕ (увеличенное) -->
+        <!-- ПРЕДУПРЕЖДЕНИЕ -->
         <div class="alert-block">
             <i class="fas fa-exclamation-triangle"></i>
             <span>⚠️ ВНИМАНИЕ! Статистика обновляется автоматически раз в неделю — каждый Вторник в 21:00 по МСК. Все данные актуальны на текущий момент.</span>
@@ -658,7 +660,7 @@
         <!-- КАРТОЧКИ СТАТИСТИКИ -->
         <div class="stats-cards" id="statsCards"></div>
 
-        <!-- БОЛЬШИЕ БЛОКИ С ФОНОВЫМИ КАРТИНКАМИ -->
+        <!-- БОЛЬШИЕ БЛОКИ -->
         <div class="modes-block">
             <div class="mode-card reagent" style="background-image: url('images/реагент.webp');">
                 <div class="mode-stats">
@@ -674,10 +676,11 @@
             </div>
         </div>
 
+        <!-- ЗАГОЛОВОК ТАБЛИЦЫ С ДАТОЙ ОБНОВЛЕНИЯ -->
         <div class="section-title">
             <i class="fas fa-crown" style="color: #ffd700;"></i>
             Общий рейтинг игроков
-            <span style="font-size: 0.8rem; margin-left: auto;">очки Invasion за сезон</span>
+            <span class="update-badge"><i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026</span>
         </div>
         <div class="table-wrapper">
             <table id="overallTable">
@@ -689,12 +692,8 @@
         </div>
 
         <footer>
-            <div class="update-info">
-                <i class="fas fa-clock"></i>
-                Статистика обновлена: 14.06.2026
-            </div>
-            <div style="margin-top: 15px;"><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-            <p style="margin-top: 12px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+            <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
         </footer>
     </div>
 </div>
@@ -716,7 +715,7 @@
     const loaderOverlay = document.getElementById('loaderOverlay');
     const mainContent = document.getElementById('mainContent');
 
-    // === АУДИО С СОХРАНЕНИЕМ ПРОГРЕССА ===
+    // === АУДИО ===
     const audio = new Audio('images/loading.mp3');
     audio.loop = true;
     audio.volume = 0.4;
@@ -753,7 +752,6 @@
 
         loaderOverlay.classList.add('active');
 
-        // Время загрузки от 45 до 65 секунд
         const minTime = 45000;
         const maxTime = 65000;
         const randomLoadTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
@@ -788,7 +786,7 @@
         }, randomLoadTime);
     }
 
-    // Обработчики: мышь, тач, клавиатура
+    // Обработчики
     document.body.addEventListener('click', function startOnClick() {
         if (!loadStarted) { startLoad(); document.body.removeEventListener('click', startOnClick); }
     });
