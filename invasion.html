@@ -653,42 +653,100 @@
 </div>
 
 <script>
-    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА ЗАГРУЗКИ (медленно, 10 секунд)
+    // === СОХРАНЕНИЕ СОСТОЯНИЯ ФОНА ПРИ ОБНОВЛЕНИИ СТРАНИЦЫ ===
+    // Получаем сохранённый индекс фона загрузки из localStorage
+    let savedLoaderBgIndex = localStorage.getItem('loaderBgIndex');
+    let loaderBgIndex = savedLoaderBgIndex ? parseInt(savedLoaderBgIndex) : 0;
+    
+    // Получаем сохранённый индекс основного фона
+    let savedBgIndex = localStorage.getItem('bgIndex');
+    let currentBgIndex = savedBgIndex ? parseInt(savedBgIndex) : 0;
+    
+    // Получаем сохранённое время аудио
+    let savedAudioTime = localStorage.getItem('audioTime');
+    
+    // Элементы фона
     const loaderBgSlides = document.querySelectorAll('.loader-bg-slide');
-    let loaderBgIndex = 0;
-
+    const bgSlides = document.querySelectorAll('.bg-slide');
+    
+    // Устанавливаем активные слайды из сохранённого состояния
+    loaderBgSlides.forEach((slide, idx) => {
+        if (idx === loaderBgIndex) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+    
+    bgSlides.forEach((slide, idx) => {
+        if (idx === currentBgIndex) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+    
+    // Функция переключения фона загрузки с сохранением
     function switchLoaderBackground() {
         loaderBgSlides[loaderBgIndex].classList.remove('active');
         loaderBgIndex = (loaderBgIndex + 1) % loaderBgSlides.length;
         loaderBgSlides[loaderBgIndex].classList.add('active');
+        localStorage.setItem('loaderBgIndex', loaderBgIndex);
     }
-    // Переключение фона загрузки каждые 10 секунд
-    setInterval(switchLoaderBackground, 10000);
-
-    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ОСНОВНОГО ФОНА (8 секунд)
-    const bgSlides = document.querySelectorAll('.bg-slide');
-    let currentBgIndex = 0;
-
+    
+    // Функция переключения основного фона с сохранением
     function switchBackground() {
         bgSlides[currentBgIndex].classList.remove('active');
         currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
         bgSlides[currentBgIndex].classList.add('active');
+        localStorage.setItem('bgIndex', currentBgIndex);
     }
+    
+    // Запускаем переключение фонов
+    setInterval(switchLoaderBackground, 10000);
     setInterval(switchBackground, 8000);
-
-    // ФЕЙКОВАЯ ЗАГРУЗКА
+    
+    // === АУДИО (3 минуты, зациклено, с сохранением времени) ===
+    const audio = new Audio('audio/loading.mp3');
+    audio.loop = true;  // Зацикливаем на 3 минуты
+    audio.volume = 0.5;
+    
+    // Если есть сохранённое время, устанавливаем его
+    if (savedAudioTime) {
+        audio.currentTime = parseFloat(savedAudioTime);
+    }
+    
+    // Сохраняем время аудио каждую секунду
+    setInterval(() => {
+        if (!audio.paused && !audio.ended) {
+            localStorage.setItem('audioTime', audio.currentTime);
+        }
+    }, 1000);
+    
+    // Сохраняем время при закрытии страницы
+    window.addEventListener('beforeunload', () => {
+        if (!audio.paused && !audio.ended) {
+            localStorage.setItem('audioTime', audio.currentTime);
+        }
+    });
+    
+    // Запускаем аудио (с задержкой, чтобы пользователь мог взаимодействовать)
+    setTimeout(() => {
+        audio.play().catch(e => console.log('Аудио не воспроизведено:', e));
+    }, 100);
+    
+    // === ОСНОВНАЯ ЛОГИКА ЗАГРУЗКИ ===
     const loaderOverlay = document.getElementById('loaderOverlay');
     const loaderBackground = document.getElementById('loaderBackground');
     const mainContent = document.getElementById('mainContent');
-
-    // Генерация случайного времени от 30 до 60 секунд (в миллисекундах)
-    const minTime = 30000;  // 30 секунд
-    const maxTime = 60000;  // 60 секунд
+    
+    // Генерация случайного времени от 30 до 60 секунд
+    const minTime = 30000;
+    const maxTime = 60000;
     const randomLoadTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
     
-    // Вывод в консоль для отладки
     console.log(`Загрузка займет ${Math.round(randomLoadTime / 1000)} секунд`);
-
+    
     // Игроки (15 штук)
     const playersData = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
@@ -787,22 +845,27 @@
         });
     }
     
-    // ЗАПУСК: сначала показываем загрузку, потом скрываем через случайное время
+    // ЗАПУСК
     window.addEventListener('DOMContentLoaded', function() {
-        // Заполняем статистику (она будет скрыта до окончания загрузки)
         populateStats();
         
-        // Через случайное время скрываем загрузку и показываем контент
+        // Через случайное время скрываем загрузку и останавливаем аудио
         setTimeout(() => {
             loaderOverlay.classList.add('hidden');
             loaderBackground.style.opacity = '0';
             loaderBackground.style.visibility = 'hidden';
             mainContent.classList.add('visible');
+            
+            // Останавливаем аудио
+            audio.pause();
+            audio.currentTime = 0;
+            localStorage.removeItem('audioTime');
+            
             setTimeout(() => {
                 loaderBackground.style.display = 'none';
             }, 1000);
             
-            // Показываем анимацию при скролле
+            // Анимация при скролле
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
