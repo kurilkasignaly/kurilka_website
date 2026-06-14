@@ -350,7 +350,7 @@
             font-size: 1.2rem;
         }
 
-        /* СТАТИСТИКА - КАРТОЧКИ С ИКОНКАМИ */
+        /* СТАТИСТИКА - КАРТОЧКИ */
         .stats-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -371,6 +371,12 @@
         .stat-card:hover {
             transform: translateY(-4px);
             border-color: #e16d48;
+        }
+
+        .stat-card i {
+            font-size: 2.5rem;
+            color: #e16d48;
+            margin-bottom: 0.8rem;
         }
 
         .stat-card .stat-icon {
@@ -394,7 +400,7 @@
             font-size: 0.9rem;
         }
 
-        /* БОЛЬШИЕ БЛОКИ РЕАГЕНТ И САМОЗВАНЕЦ С КАРТИНКАМИ НА ВЕСЬ БЛОК */
+        /* БОЛЬШИЕ БЛОКИ РЕАГЕНТ И САМОЗВАНЕЦ */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -429,7 +435,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border-radius: 28px;
             z-index: -1;
         }
@@ -642,18 +648,18 @@
             <span>📊 Статистика обновляется ежедневно в 00:00 МСК. Данные актуальны на текущий момент.</span>
         </div>
 
-        <!-- КАРТОЧКИ СТАТИСТИКИ С ИКОНКАМИ -->
+        <!-- КАРТОЧКИ СТАТИСТИКИ -->
         <div class="stats-cards" id="statsCards"></div>
 
         <!-- БОЛЬШИЕ БЛОКИ С ФОНОВЫМИ КАРТИНКАМИ -->
         <div class="modes-block">
-            <div class="mode-card reagent" style="background-image: url('images/реагент.webp');" id="reagentModeCard">
+            <div class="mode-card reagent" style="background-image: url('images/реагент.webp');">
                 <div class="mode-stats">
                     <div class="mode-stat-value" id="totalReagentMatches">0</div>
                     <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
                 </div>
             </div>
-            <div class="mode-card impostor" style="background-image: url('images/самозванец.webp');" id="impostorModeCard">
+            <div class="mode-card impostor" style="background-image: url('images/самозванец.webp');">
                 <div class="mode-stats">
                     <div class="mode-stat-value" id="totalImpostorMatches">0</div>
                     <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА САМОЗВАНЦА</div>
@@ -824,26 +830,26 @@
     }
     
     function populateStats() {
-        // Карточки статистики с иконками
+        // Карточки статистики: 1 и 2 - стандартные иконки, 3 и 4 - ваши картинки
         const statsCards = document.getElementById('statsCards');
         statsCards.innerHTML = `
             <div class="stat-card">
-                <img src="images/иконка-1.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
+                <i class="fas fa-users"></i>
                 <div class="stat-value">${totalPlayers}</div>
                 <div class="stat-label">Всего участников</div>
             </div>
             <div class="stat-card">
-                <img src="images/иконка-2.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
+                <i class="fas fa-chart-line"></i>
                 <div class="stat-value">${totalInvasionPoints.toLocaleString()}</div>
                 <div class="stat-label">Всего очков Invasion</div>
             </div>
             <div class="stat-card">
-                <i class="fas fa-shield-alt"></i>
+                <img src="images/иконка-1.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
                 <div class="stat-value">${totalReagentMatches}</div>
                 <div class="stat-label">Всего матчей за Реагентов</div>
             </div>
             <div class="stat-card">
-                <i class="fas fa-knife"></i>
+                <img src="images/иконка-2.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
                 <div class="stat-value">${totalImpostorMatches}</div>
                 <div class="stat-label">Всего матчей за Самозванцев</div>
             </div>
