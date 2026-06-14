@@ -657,7 +657,7 @@
         loaderBgIndex = (loaderBgIndex + 1) % loaderBgSlides.length;
         loaderBgSlides[loaderBgIndex].classList.add('active');
     }
-    // Переключение фона загрузки каждые 8 секунд (медленно)
+    // Переключение фона загрузки каждые 8 секунд
     setInterval(switchLoaderBackground, 8000);
 
     // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ОСНОВНОГО ФОНА (6 секунд)
@@ -674,6 +674,14 @@
     // ФЕЙКОВАЯ ЗАГРУЗКА
     const loaderOverlay = document.getElementById('loaderOverlay');
     const loaderBackground = document.getElementById('loaderBackground');
+
+    // Генерация случайного времени от 30 до 60 секунд (в миллисекундах)
+    const minTime = 30000;  // 30 секунд
+    const maxTime = 60000;  // 60 секунд
+    const randomLoadTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+    
+    // Вывод в консоль для отладки
+    console.log(`Загрузка займет ${Math.round(randomLoadTime / 1000)} секунд`);
 
     // Игроки (15 штук)
     const playersData = [
@@ -773,12 +781,12 @@
         });
     }
     
-    // ЗАПУСК: сначала показываем загрузку 2 секунды, потом скрываем
+    // ЗАПУСК: сначала показываем загрузку, потом скрываем через случайное время
     window.addEventListener('DOMContentLoaded', function() {
-        // Заполняем статистику
+        // Заполняем статистику (она будет скрыта до окончания загрузки)
         populateStats();
         
-        // Через 2 секунды скрываем загрузку и фон загрузки
+        // Через случайное время скрываем загрузку и фон загрузки
         setTimeout(() => {
             loaderOverlay.classList.add('hidden');
             loaderBackground.style.opacity = '0';
@@ -786,27 +794,25 @@
             setTimeout(() => {
                 loaderBackground.style.display = 'none';
             }, 1000);
-        }, 2000);
-        
-        // Анимация при скролле
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-        
-        setTimeout(() => {
+            
+            // Показываем анимацию при скролле
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            
             document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title, .alert-block').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.style.transition = 'all 0.5s ease-out';
                 observer.observe(el);
             });
-        }, 100);
+        }, randomLoadTime);
     });
 </script>
 
