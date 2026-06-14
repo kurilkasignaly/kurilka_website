@@ -21,7 +21,7 @@
             position: relative;
         }
 
-        /* Плавно меняющийся фон */
+        /* Плавно меняющийся фон на всю страницу */
         .background-slideshow {
             position: fixed;
             top: 0;
@@ -48,6 +48,7 @@
             opacity: 1;
         }
 
+        /* Затемнение поверх фона */
         body::after {
             content: "";
             position: fixed;
@@ -512,10 +513,10 @@
 </head>
 <body>
 
-<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН (2 КАРТИНКИ) -->
+<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН НА ВСЮ СТРАНИЦУ -->
 <div class="background-slideshow">
-    <div class="bg-slide active" style="background-image: url('фон/фон-загрузка-1.jpg');"></div>
-    <div class="bg-slide" style="background-image: url('фон/фон-загрузка-2.jpg');"></div>
+    <div class="bg-slide active" style="background-image: url('images/загрузка-1.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('images/загрузка-2.jpg');"></div>
 </div>
 
 <!-- ФЕЙКОВАЯ ЗАГРУЗКА (В УГЛУ) -->
