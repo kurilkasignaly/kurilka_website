@@ -380,8 +380,8 @@
         }
 
         .stat-card .stat-icon {
-            width: 55px;
-            height: 55px;
+            width: 70px;
+            height: 70px;
             margin: 0 auto 0.8rem auto;
             object-fit: contain;
         }
@@ -580,7 +580,7 @@
             .loader-content { bottom: 15px; right: 15px; padding: 8px 16px; }
             .loader-text { font-size: 0.75rem; }
             .loader-spinner { width: 20px; height: 20px; }
-            .stat-card .stat-icon { width: 45px; height: 45px; }
+            .stat-card .stat-icon { width: 55px; height: 55px; }
             .mode-card { min-height: 200px; }
         }
     </style>
@@ -653,7 +653,7 @@
 
         <!-- БОЛЬШИЕ БЛОКИ С ФОНОВЫМИ КАРТИНКАМИ -->
         <div class="modes-block">
-            <div class="mode-card reagent" style="background-image: url("images/реагент.webp");">
+            <div class="mode-card reagent" style="background-image: url('images/реагент.webp');">
                 <div class="mode-stats">
                     <div class="mode-stat-value" id="totalReagentMatches">0</div>
                     <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
@@ -742,8 +742,9 @@
 
         loaderOverlay.classList.add('active');
 
-        const minTime = 30000;
-        const maxTime = 60000;
+        // Время загрузки от 45 до 65 секунд
+        const minTime = 45000;
+        const maxTime = 65000;
         const randomLoadTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
         
         console.log(`Загрузка займет ${Math.round(randomLoadTime / 1000)} секунд`);
@@ -830,7 +831,6 @@
     }
     
     function populateStats() {
-        // Карточки статистики: 1 и 2 - стандартные иконки, 3 и 4 - ваши картинки
         const statsCards = document.getElementById('statsCards');
         statsCards.innerHTML = `
             <div class="stat-card">
