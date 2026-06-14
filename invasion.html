@@ -22,7 +22,6 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        /* Фоновое изображение вместо видео */
         .background-image {
             position: fixed;
             top: 0;
@@ -40,7 +39,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.78);
             z-index: -1;
         }
 
@@ -55,6 +54,115 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Стили для фейковой загрузки */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loader-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .loader-images {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .loader-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-img.active {
+            opacity: 1;
+        }
+
+        .loader-spinner {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem auto;
+            border: 3px solid rgba(220, 90, 50, 0.2);
+            border-top: 3px solid #e25d32;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-text {
+            font-size: 1.2rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .loader-subtext {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loader-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(220, 90, 50, 0.2);
+            border-radius: 4px;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .loader-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #e25d32, #ffbc9a);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        /* Основной контент (изначально скрыт) */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -63,6 +171,7 @@
             z-index: 10;
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -78,10 +187,16 @@
             animation: fadeInScale 0.6s ease-out;
         }
 
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
         .logo h1 {
             font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -96,26 +211,10 @@
             align-items: center;
             gap: 6px;
         }
-        
+
         .logo p i {
             color: #e16d48;
             font-size: 0.7rem;
-        }
-
-        /* Блок с датой обновления */
-        .update-info {
-            background: rgba(18, 12, 28, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(220,90,50,0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .update-info i {
-            color: #e16d48;
         }
 
         .nav-links {
@@ -150,6 +249,7 @@
         .nav-btn:hover {
             color: white;
             transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
         }
 
         .nav-btn.active {
@@ -158,27 +258,39 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
 
+        .update-info {
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(220,90,50,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .update-info i {
+            color: #e16d48;
+        }
+
         .page-header {
             text-align: center;
             margin-bottom: 1.5rem;
         }
 
         .page-header h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            font-size: 2rem;
+            background: linear-gradient(135deg, #fff, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 1px;
         }
 
         .page-header h1 i {
-            font-size: 2.2rem;
-            margin-right: 10px;
+            font-size: 1.8rem;
         }
 
-        /* Блок предупреждения об обновлении */
         .alert-block {
             background: rgba(220, 90, 50, 0.12);
             border-left: 4px solid #e25d32;
@@ -190,12 +302,10 @@
             gap: 12px;
             font-size: 0.85rem;
         }
+
         .alert-block i {
             color: #e25d32;
             font-size: 1.2rem;
-        }
-        .alert-block span {
-            color: #c2b9d4;
         }
 
         .stats-cards {
@@ -240,7 +350,6 @@
             font-size: 0.9rem;
         }
 
-        /* Блок режимов */
         .modes-block {
             display: flex;
             gap: 2rem;
@@ -256,47 +365,49 @@
             padding: 1.5rem;
             border: 1px solid rgba(220,90,50,0.2);
             transition: all 0.4s ease;
-            cursor: pointer;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: auto;
         }
 
+        .mode-card.reagent { cursor: pointer; }
+        .mode-card.impostor { cursor: pointer; }
+
         .mode-card.reagent:hover {
-            background: rgba(30, 80, 200, 0.3);
+            background: rgba(30, 80, 200, 0.25);
             border-color: #4c9aff;
-            transform: translateY(-6px);
-            box-shadow: 0 0 30px rgba(76, 154, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(76, 154, 255, 0.2);
         }
 
         .mode-card.impostor:hover {
-            background: rgba(220, 50, 50, 0.3);
+            background: rgba(220, 50, 50, 0.25);
             border-color: #e25d32;
-            transform: translateY(-6px);
-            box-shadow: 0 0 30px rgba(220, 90, 50, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(220, 90, 50, 0.2);
         }
 
-        .mode-image {
-            width: 100%;
+        .mode-icon-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1rem;
+            font-size: 3rem;
         }
 
-        .mode-image img {
-            max-width: 85%;
-            max-height: 220px;
-            object-fit: contain;
-            border-radius: 20px;
-            transition: transform 0.3s ease;
+        .reagent .mode-icon-placeholder {
+            background: rgba(76, 154, 255, 0.15);
+            border: 2px solid #4c9aff;
         }
 
-        .mode-card:hover .mode-image img {
-            transform: scale(1.03);
+        .impostor .mode-icon-placeholder {
+            background: rgba(220, 90, 50, 0.15);
+            border: 2px solid #e25d32;
         }
 
         .mode-stats {
@@ -306,7 +417,7 @@
         }
 
         .mode-stat-value {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
         }
 
@@ -403,7 +514,7 @@
             text-align: center;
             padding: 1.5rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             background: rgba(8, 6, 15, 0.3);
             backdrop-filter: blur(8px);
             border-radius: 50px;
@@ -412,110 +523,213 @@
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .page-header h1 { font-size: 1.8rem; }
-            .page-header h1 i { font-size: 1.5rem; }
+            .page-header h1 { font-size: 1.5rem; text-align: center; }
             .modes-block { flex-direction: column; }
-            .mode-image img { max-height: 180px; max-width: 70%; }
-            .mode-stat-value { font-size: 2rem; }
+            .mode-stat-value { font-size: 1.8rem; }
             th, td { padding: 0.7rem 0.5rem; font-size: 0.8rem; }
-        }
-
-        @media (max-width: 550px) {
-            th, td { padding: 0.5rem 0.3rem; font-size: 0.7rem; }
-            .stat-card .stat-value { font-size: 1.6rem; }
-            .section-title { font-size: 1.2rem; }
-            .page-header h1 { font-size: 1.4rem; }
+            .loader-images { width: 150px; height: 150px; }
+            .loader-text { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- ФОНОВОЕ ИЗОБРАЖЕНИЕ -->
-<img class="background-image" src="images/фон.png" alt="Фон Invasion" onerror="this.style.display='none'">
+<!-- Фоновое изображение -->
+<img class="background-image" src="фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
 
-<div class="container">
-    <div class="header">
-        <div class="logo">
-            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fas fa-skull"></i> Убежище безумия · Invasion mode</p>
+<!-- ФЕЙКОВАЯ ЗАГРУЗКА -->
+<div id="loaderOverlay" class="loader-overlay">
+    <div class="loader-content">
+        <div class="loader-images" id="loaderImages">
+            <img src="images/загрузка-1.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=1'">
+            <img src="images/загрузка-2.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=2'">
+            <img src="images/загрузка-3.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=3'">
+            <img src="images/загрузка-4.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=4'">
+            <img src="images/загрузка-5.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=5'">
         </div>
-        <div class="update-info">
-            <i class="fas fa-clock"></i>
-            Статистика обновлена: 09.06.2026
-        </div>
-    </div>
-
-    <div class="nav-links">
-        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-        <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-        <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-        <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-        <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
-        <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-        <a href="invasion.html" class="nav-btn active"><i class="fas fa-skull-crossbones"></i> Invasion</a>
-        <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-        <a href="about-game.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-    </div>
-
-    <div class="page-header">
-        <h1><i class="fas fa-skull-crossbones"></i> Invasion — Статистика 6 сезона</h1>
-    </div>
-
-    <!-- Блок предупреждения об обновлении -->
-    <div class="alert-block">
-        <i class="fas fa-info-circle"></i>
-        <span>📊 Статистика обновляется ежедневно в 00:00 МСК. Данные актуальны на текущий момент.</span>
-    </div>
-
-    <div class="stats-cards" id="statsCards"></div>
-
-    <!-- Блок режимов -->
-    <div class="modes-block">
-        <div class="mode-card reagent">
-            <div class="mode-image">
-                <img src="images/реагент.png" alt="Реагент" onerror="this.parentElement.innerHTML='<i class=\'fas fa-shield-alt\' style=\'font-size: 80px; color: #4c9aff;\'></i>'">
-            </div>
-            <div class="mode-stats">
-                <div class="mode-stat-value" id="totalReagentMatches">0</div>
-                <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
-            </div>
-        </div>
-        <div class="mode-card impostor">
-            <div class="mode-image">
-                <img src="images/самозванец.png" alt="Самозванец" onerror="this.parentElement.innerHTML='<i class=\'fas fa-knife\' style=\'font-size: 80px; color: #e25d32;\'></i>'">
-            </div>
-            <div class="mode-stats">
-                <div class="mode-stat-value" id="totalImpostorMatches">0</div>
-                <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА САМОЗВАНЦА</div>
-            </div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text" id="loaderText">ЗАГРУЗКА ДАННЫХ</div>
+        <div class="loader-subtext" id="loaderSubtext">Подключение к серверу Меркофф...</div>
+        <div class="loader-progress">
+            <div class="loader-progress-bar" id="loaderProgress"></div>
         </div>
     </div>
-
-    <div class="section-title">
-        <i class="fas fa-crown" style="color: #ffd700;"></i>
-        Общий рейтинг игроков
-        <span style="font-size: 0.8rem; margin-left: auto;">очки Invasion за сезон</span>
-    </div>
-    <div class="table-wrapper">
-        <table id="overallTable">
-            <thead>
-                <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
-            </thead>
-            <tbody id="overallTableBody"></tbody>
-        </table>
-    </div>
-
-    <footer>
-        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
-    </footer>
 </div>
 
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div id="mainContent" class="main-content">
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+                <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+            </div>
+            <div class="update-info">
+                <i class="fas fa-clock"></i>
+                Статистика обновлена: 14.06.2026
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="invasion.html" class="nav-btn active"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+
+        <div class="page-header">
+            <h1><i class="fas fa-knife"></i> Invasion — Статистика 6 сезона</h1>
+        </div>
+
+        <div class="alert-block">
+            <i class="fas fa-info-circle"></i>
+            <span>📊 Статистика обновляется ежедневно в 00:00 МСК. Данные актуальны на текущий момент.</span>
+        </div>
+
+        <div class="stats-cards" id="statsCards"></div>
+
+        <div class="modes-block">
+            <div class="mode-card reagent" id="reagentModeCard">
+                <div class="mode-icon-placeholder">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="mode-stats">
+                    <div class="mode-stat-value" id="totalReagentMatches">0</div>
+                    <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
+                </div>
+            </div>
+            <div class="mode-card impostor" id="impostorModeCard">
+                <div class="mode-icon-placeholder">
+                    <i class="fas fa-knife"></i>
+                </div>
+                <div class="mode-stats">
+                    <div class="mode-stat-value" id="totalImpostorMatches">0</div>
+                    <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА САМОЗВАНЦА</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <i class="fas fa-crown" style="color: #ffd700;"></i>
+            Общий рейтинг игроков
+            <span style="font-size: 0.8rem; margin-left: auto;">очки Invasion за сезон</span>
+        </div>
+        <div class="table-wrapper">
+            <table id="overallTable">
+                <thead>
+                    <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
+                </thead>
+                <tbody id="overallTableBody"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+            <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+        </footer>
+    </div>
+</div>
+
+<!-- Аудио для загрузки -->
+<audio id="loaderAudio" preload="auto">
+    <source src="audio/loading.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-    // ========== ФИКСИРОВАННЫЕ ДАННЫЕ ИГРОКОВ ==========
+    // Массив фраз для загрузки
+    const loadingPhrases = [
+        { text: "ЗАГРУЗКА ДАННЫХ", subtext: "Подключение к серверу Меркофф..." },
+        { text: "ДЕШИФРОВКА ПРОТОКОЛОВ", subtext: "Анализ статистики реагентов..." },
+        { text: "ЗАГРУЗКА ПРОФИЛЕЙ", subtext: "Сбор данных о вторжениях..." },
+        { text: "ОБРАБОТКА ЗАПРОСОВ", subtext: "Синхронизация с базой данных..." },
+        { text: "ЗАВЕРШЕНИЕ", subtext: "Подготовка отчёта..." }
+    ];
+
+    // Элементы загрузки
+    const loaderOverlay = document.getElementById('loaderOverlay');
+    const mainContent = document.getElementById('mainContent');
+    const loaderImages = document.querySelectorAll('.loader-img');
+    const loaderText = document.getElementById('loaderText');
+    const loaderSubtext = document.getElementById('loaderSubtext');
+    const loaderProgress = document.getElementById('loaderProgress');
+    const loaderAudio = document.getElementById('loaderAudio');
+
+    let currentImageIndex = 0;
+    let currentPhraseIndex = 0;
+    let progress = 0;
+    let imageInterval;
+    let phraseInterval;
+
+    // Функция смены картинки
+    function changeImage() {
+        loaderImages.forEach((img, idx) => {
+            img.classList.remove('active');
+        });
+        loaderImages[currentImageIndex].classList.add('active');
+        currentImageIndex = (currentImageIndex + 1) % loaderImages.length;
+    }
+
+    // Функция смены текста
+    function changeText() {
+        if (currentPhraseIndex < loadingPhrases.length) {
+            loaderText.textContent = loadingPhrases[currentPhraseIndex].text;
+            loaderSubtext.textContent = loadingPhrases[currentPhraseIndex].subtext;
+            currentPhraseIndex++;
+        }
+    }
+
+    // Запуск фейковой загрузки
+    function startFakeLoading() {
+        // Запускаем аудио (если пользователь уже взаимодействовал со страницей)
+        // или просто создаём контекст, звук может не воспроизвестись автоматически из-за политик браузера
+        const audio = document.getElementById('loaderAudio');
+        if (audio) {
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log('Аудио не воспроизведено автоматически:', e));
+        }
+
+        // Смена картинок каждые 800ms
+        imageInterval = setInterval(changeImage, 800);
+        
+        // Смена текста каждые 1.5 секунды
+        phraseInterval = setInterval(changeText, 1500);
+        
+        // Прогресс-бар анимация
+        const progressInterval = setInterval(() => {
+            progress += Math.random() * 15 + 5;
+            if (progress >= 100) {
+                progress = 100;
+                loaderProgress.style.width = '100%';
+                clearInterval(progressInterval);
+                clearInterval(imageInterval);
+                clearInterval(phraseInterval);
+                
+                // Задержка перед скрытием загрузки
+                setTimeout(() => {
+                    loaderOverlay.classList.add('hidden');
+                    mainContent.classList.add('visible');
+                    
+                    // Уничтожаем аудио
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }, 1000);
+            }
+            loaderProgress.style.width = progress + '%';
+        }, 200);
+    }
+
+    // ПОСЛЕ ЗАГРУЗКИ - ОСНОВНЫЕ ДАННЫЕ
+    // Игроки (15 штук)
     const playersData = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
         { name: "Player_2", invasionPoints: 7340, reagentMatches: 48, impostorMatches: 41 },
@@ -545,35 +759,6 @@
     const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
     const totalImpostorMatches = players.reduce((sum, p) => sum + p.impostorMatches, 0);
     
-    // Заполнение карточек
-    const statsCards = document.getElementById('statsCards');
-    statsCards.innerHTML = `
-        <div class="stat-card">
-            <i class="fas fa-users"></i>
-            <div class="stat-value">${totalPlayers}</div>
-            <div class="stat-label">Всего участников</div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-chart-line"></i>
-            <div class="stat-value">${totalInvasionPoints.toLocaleString()}</div>
-            <div class="stat-label">Всего очков Invasion</div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-shield-alt"></i>
-            <div class="stat-value">${totalReagentMatches}</div>
-            <div class="stat-label">Всего матчей за Реагентов</div>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-knife"></i>
-            <div class="stat-value">${totalImpostorMatches}</div>
-            <div class="stat-label">Всего матчей за Самозванцев</div>
-        </div>
-    `;
-    
-    // Заполнение блоков режимов
-    document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
-    document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
-    
     // Функции для таблицы
     function getRankClass(rank) {
         if (rank === 1) return 'rank-1';
@@ -589,50 +774,89 @@
         return `${rank}`;
     }
     
-    // Заполнение таблицы
-    const overallBody = document.getElementById('overallTableBody');
-    overallBody.innerHTML = '';
-    
-    players.forEach(player => {
-        const row = document.createElement('tr');
-        row.className = getRankClass(player.rank);
-        const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
-        let pointsColor = '#e16d48';
-        if (player.rank === 1) pointsColor = '#ffd700';
-        else if (player.rank === 2) pointsColor = '#c0c0c0';
-        else if (player.rank === 3) pointsColor = '#cd7f32';
-        
-        row.innerHTML = `
-            <td style="width: 60px;">${getMedalIcon(player.rank)}</td>
-            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">${player.name}</td>
-            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${pointsColor};">${player.invasionPoints.toLocaleString()}</td>
-            <td>${player.reagentMatches}</td>
-            <td>${player.impostorMatches}</td>
-            <td>${rating}</td>
+    // Заполнение статистики после загрузки
+    function populateStats() {
+        const statsCards = document.getElementById('statsCards');
+        statsCards.innerHTML = `
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-value">${totalPlayers}</div>
+                <div class="stat-label">Всего участников</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <div class="stat-value">${totalInvasionPoints.toLocaleString()}</div>
+                <div class="stat-label">Всего очков Invasion</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-shield-alt"></i>
+                <div class="stat-value">${totalReagentMatches}</div>
+                <div class="stat-label">Всего матчей за Реагентов</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-knife"></i>
+                <div class="stat-value">${totalImpostorMatches}</div>
+                <div class="stat-label">Всего матчей за Самозванцев</div>
+            </div>
         `;
-        overallBody.appendChild(row);
-    });
-    
-    console.log('✅ Invasion статистика загружена');
-</script>
-
-<script>
-    // Плавное появление при скролле
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
-            }
+        
+        document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
+        document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
+        
+        const overallBody = document.getElementById('overallTableBody');
+        overallBody.innerHTML = '';
+        
+        players.forEach(player => {
+            const row = document.createElement('tr');
+            row.className = getRankClass(player.rank);
+            const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
+            let pointsColor = '#e16d48';
+            if (player.rank === 1) pointsColor = '#ffd700';
+            else if (player.rank === 2) pointsColor = '#c0c0c0';
+            else if (player.rank === 3) pointsColor = '#cd7f32';
+            
+            row.innerHTML = `
+                <td style="width: 60px;">${getMedalIcon(player.rank)}</td>
+                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">${player.name}</td>
+                <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${pointsColor};">${player.invasionPoints.toLocaleString()}</td>
+                <td>${player.reagentMatches}</td>
+                <td>${player.impostorMatches}</td>
+                <td>${rating}</td>
+            `;
+            overallBody.appendChild(row);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    }
     
-    document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title, .alert-block').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.5s ease-out';
-        observer.observe(el);
+    // ЗАПУСК: сначала фейковая загрузка, потом основное содержимое
+    window.addEventListener('load', function() {
+        // Скрываем основной контент изначально
+        mainContent.style.opacity = '0';
+        
+        // Запускаем фейковую загрузку
+        startFakeLoading();
+        
+        // Заполняем статистику, но она будет видна только после загрузки
+        populateStats();
+        
+        // Анимация при скролле (будет работать после появления основного контента)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        
+        setTimeout(() => {
+            document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title, .alert-block').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
+            });
+        }, 100);
     });
 </script>
 
