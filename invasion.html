@@ -19,17 +19,33 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
-            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        .background-image {
+        /* Плавно меняющийся фон */
+        .background-slideshow {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
             z-index: -2;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
         }
 
         body::after {
@@ -39,7 +55,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.78);
+            background: rgba(0, 0, 0, 0.65);
             z-index: -1;
         }
 
@@ -59,24 +75,20 @@
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Стили для фейковой загрузки */
+        /* Стили для фейковой загрузки (в углу) */
         .loader-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+            background: transparent;
             z-index: 10000;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            align-items: flex-end;
             transition: opacity 0.8s ease, visibility 0.8s ease;
+            pointer-events: none;
         }
 
         .loader-overlay.hidden {
@@ -85,72 +97,34 @@
         }
 
         .loader-content {
-            text-align: center;
-            max-width: 500px;
-            padding: 2rem;
-        }
-
-        .loader-images {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 2rem auto;
-        }
-
-        .loader-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 20px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .loader-img.active {
-            opacity: 1;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            pointer-events: auto;
         }
 
         .loader-spinner {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem auto;
-            border: 3px solid rgba(220, 90, 50, 0.2);
-            border-top: 3px solid #e25d32;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(220, 90, 50, 0.2);
+            border-top: 2px solid #e25d32;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         .loader-text {
-            font-size: 1.2rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .loader-subtext {
             font-size: 0.85rem;
-            color: #c2b9d4;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .loader-progress {
-            width: 100%;
-            height: 4px;
-            background: rgba(220, 90, 50, 0.2);
-            border-radius: 4px;
-            margin-top: 2rem;
-            overflow: hidden;
-        }
-
-        .loader-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #e25d32, #ffbc9a);
-            border-radius: 4px;
-            transition: width 0.1s linear;
+            color: #e16d48;
+            letter-spacing: 0.5px;
         }
 
         /* Основной контент (изначально скрыт) */
@@ -530,32 +504,25 @@
             .modes-block { flex-direction: column; }
             .mode-stat-value { font-size: 1.8rem; }
             th, td { padding: 0.7rem 0.5rem; font-size: 0.8rem; }
-            .loader-images { width: 150px; height: 150px; }
-            .loader-text { font-size: 1rem; }
+            .loader-content { bottom: 15px; right: 15px; padding: 8px 16px; }
+            .loader-text { font-size: 0.75rem; }
+            .loader-spinner { width: 20px; height: 20px; }
         }
     </style>
 </head>
 <body>
 
-<!-- Фоновое изображение -->
-<img class="background-image" src="фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
+<!-- ПЛАВНО МЕНЯЮЩИЙСЯ ФОН (2 КАРТИНКИ) -->
+<div class="background-slideshow">
+    <div class="bg-slide active" style="background-image: url('фон/фон-загрузка-1.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('фон/фон-загрузка-2.jpg');"></div>
+</div>
 
-<!-- ФЕЙКОВАЯ ЗАГРУЗКА -->
+<!-- ФЕЙКОВАЯ ЗАГРУЗКА (В УГЛУ) -->
 <div id="loaderOverlay" class="loader-overlay">
     <div class="loader-content">
-        <div class="loader-images" id="loaderImages">
-            <img src="images/загрузка-1.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=1'">
-            <img src="images/загрузка-2.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=2'">
-            <img src="images/загрузка-3.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=3'">
-            <img src="images/загрузка-4.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=4'">
-            <img src="images/загрузка-5.webp" class="loader-img" alt="Загрузка" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=5'">
-        </div>
         <div class="loader-spinner"></div>
-        <div class="loader-text" id="loaderText">ЗАГРУЗКА ДАННЫХ</div>
-        <div class="loader-subtext" id="loaderSubtext">Подключение к серверу Меркофф...</div>
-        <div class="loader-progress">
-            <div class="loader-progress-bar" id="loaderProgress"></div>
-        </div>
+        <div class="loader-text">Подождите, идет загрузка данных...</div>
     </div>
 </div>
 
@@ -597,7 +564,7 @@
         <div class="stats-cards" id="statsCards"></div>
 
         <div class="modes-block">
-            <div class="mode-card reagent" id="reagentModeCard">
+            <div class="mode-card reagent">
                 <div class="mode-icon-placeholder">
                     <i class="fas fa-shield-alt"></i>
                 </div>
@@ -606,7 +573,7 @@
                     <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
                 </div>
             </div>
-            <div class="mode-card impostor" id="impostorModeCard">
+            <div class="mode-card impostor">
                 <div class="mode-icon-placeholder">
                     <i class="fas fa-knife"></i>
                 </div>
@@ -638,97 +605,24 @@
     </div>
 </div>
 
-<!-- Аудио для загрузки -->
-<audio id="loaderAudio" preload="auto">
-    <source src="audio/loading.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-    // Массив фраз для загрузки
-    const loadingPhrases = [
-        { text: "ЗАГРУЗКА ДАННЫХ", subtext: "Подключение к серверу Меркофф..." },
-        { text: "ДЕШИФРОВКА ПРОТОКОЛОВ", subtext: "Анализ статистики реагентов..." },
-        { text: "ЗАГРУЗКА ПРОФИЛЕЙ", subtext: "Сбор данных о вторжениях..." },
-        { text: "ОБРАБОТКА ЗАПРОСОВ", subtext: "Синхронизация с базой данных..." },
-        { text: "ЗАВЕРШЕНИЕ", subtext: "Подготовка отчёта..." }
-    ];
+    // ПЛАВНОЕ ПЕРЕКЛЮЧЕНИЕ ФОНА (2 картинки)
+    const bgSlides = document.querySelectorAll('.bg-slide');
+    let currentBgIndex = 0;
 
-    // Элементы загрузки
+    function switchBackground() {
+        bgSlides[currentBgIndex].classList.remove('active');
+        currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
+        bgSlides[currentBgIndex].classList.add('active');
+    }
+
+    // Переключение фона каждые 6 секунд (плавно)
+    setInterval(switchBackground, 6000);
+
+    // ФЕЙКОВАЯ ЗАГРУЗКА
     const loaderOverlay = document.getElementById('loaderOverlay');
     const mainContent = document.getElementById('mainContent');
-    const loaderImages = document.querySelectorAll('.loader-img');
-    const loaderText = document.getElementById('loaderText');
-    const loaderSubtext = document.getElementById('loaderSubtext');
-    const loaderProgress = document.getElementById('loaderProgress');
-    const loaderAudio = document.getElementById('loaderAudio');
 
-    let currentImageIndex = 0;
-    let currentPhraseIndex = 0;
-    let progress = 0;
-    let imageInterval;
-    let phraseInterval;
-
-    // Функция смены картинки
-    function changeImage() {
-        loaderImages.forEach((img, idx) => {
-            img.classList.remove('active');
-        });
-        loaderImages[currentImageIndex].classList.add('active');
-        currentImageIndex = (currentImageIndex + 1) % loaderImages.length;
-    }
-
-    // Функция смены текста
-    function changeText() {
-        if (currentPhraseIndex < loadingPhrases.length) {
-            loaderText.textContent = loadingPhrases[currentPhraseIndex].text;
-            loaderSubtext.textContent = loadingPhrases[currentPhraseIndex].subtext;
-            currentPhraseIndex++;
-        }
-    }
-
-    // Запуск фейковой загрузки
-    function startFakeLoading() {
-        // Запускаем аудио (если пользователь уже взаимодействовал со страницей)
-        // или просто создаём контекст, звук может не воспроизвестись автоматически из-за политик браузера
-        const audio = document.getElementById('loaderAudio');
-        if (audio) {
-            audio.volume = 0.5;
-            audio.play().catch(e => console.log('Аудио не воспроизведено автоматически:', e));
-        }
-
-        // Смена картинок каждые 800ms
-        imageInterval = setInterval(changeImage, 800);
-        
-        // Смена текста каждые 1.5 секунды
-        phraseInterval = setInterval(changeText, 1500);
-        
-        // Прогресс-бар анимация
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 15 + 5;
-            if (progress >= 100) {
-                progress = 100;
-                loaderProgress.style.width = '100%';
-                clearInterval(progressInterval);
-                clearInterval(imageInterval);
-                clearInterval(phraseInterval);
-                
-                // Задержка перед скрытием загрузки
-                setTimeout(() => {
-                    loaderOverlay.classList.add('hidden');
-                    mainContent.classList.add('visible');
-                    
-                    // Уничтожаем аудио
-                    if (audio) {
-                        audio.pause();
-                        audio.currentTime = 0;
-                    }
-                }, 1000);
-            }
-            loaderProgress.style.width = progress + '%';
-        }, 200);
-    }
-
-    // ПОСЛЕ ЗАГРУЗКИ - ОСНОВНЫЕ ДАННЫЕ
     // Игроки (15 штук)
     const playersData = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
@@ -774,7 +668,7 @@
         return `${rank}`;
     }
     
-    // Заполнение статистики после загрузки
+    // Заполнение статистики
     function populateStats() {
         const statsCards = document.getElementById('statsCards');
         statsCards.innerHTML = `
@@ -827,16 +721,19 @@
         });
     }
     
-    // ЗАПУСК: сначала фейковая загрузка, потом основное содержимое
+    // ЗАПУСК: сначала фейковая загрузка 2.5 секунды, потом основное содержимое
     window.addEventListener('load', function() {
         // Скрываем основной контент изначально
         mainContent.style.opacity = '0';
         
-        // Запускаем фейковую загрузку
-        startFakeLoading();
-        
-        // Заполняем статистику, но она будет видна только после загрузки
+        // Заполняем статистику (она будет скрыта до окончания загрузки)
         populateStats();
+        
+        // Через 2.5 секунды скрываем загрузку и показываем контент
+        setTimeout(() => {
+            loaderOverlay.classList.add('hidden');
+            mainContent.classList.add('visible');
+        }, 2500);
         
         // Анимация при скролле (будет работать после появления основного контента)
         const observer = new IntersectionObserver((entries) => {
