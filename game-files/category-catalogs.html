@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Каталоги — The Outlast Trials | Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        /* Фоновое изображение */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        /* Навигация */
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        /* Хлебные крошки */
+        .breadcrumb {
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #e16d48;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .back-link:hover {
+            color: white;
+            transform: translateX(-5px);
+            border-color: #e16d48;
+        }
+
+        /* Заголовок страницы */
+        .page-header {
+            margin-bottom: 2rem;
+            animation: fadeInScale 0.6s ease-out 0.1s backwards;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-title i {
+            font-size: 2.2rem;
+            color: #e16d48;
+        }
+
+        .page-description {
+            font-size: 1rem;
+            color: #c2b9d4;
+            line-height: 1.6;
+            max-width: 800px;
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            padding: 1rem 1.5rem;
+            border-radius: 24px;
+            border-left: 4px solid #e16d48;
+        }
+
+        /* Сетка каталогов */
+        .catalogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            animation: fadeInScale 0.6s ease-out 0.2s backwards;
+        }
+
+        .catalog-card {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-8px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
+        }
+
+        .catalog-cover {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            display: block;
+        }
+
+        .catalog-content {
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .catalog-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e16d48;
+            margin-bottom: 0.3rem;
+        }
+
+        .catalog-subtitle {
+            font-size: 0.7rem;
+            color: #c2b9d4;
+        }
+
+        /* Модальное окно для просмотра каталога */
+        .catalog-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .catalog-modal.active {
+            display: flex;
+        }
+
+        .book-container {
+            position: relative;
+            width: 95vw;
+            max-width: 1400px;
+            height: 85vh;
+            max-height: 850px;
+            background: #1a1a2e;
+            border-radius: 24px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .book-viewer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #111118;
+        }
+
+        .current-page-img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .book-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 10;
+            padding: 0 15px;
+        }
+
+        .book-nav-btn {
+            pointer-events: auto;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(220, 90, 50, 0.85);
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-nav-btn:hover {
+            background: #e25d32;
+            transform: scale(1.1);
+        }
+
+        .book-nav-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .book-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .page-counter {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #aaa;
+            font-size: 0.85rem;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.5);
+            width: fit-content;
+            margin: 0 auto;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .page-title { font-size: 1.8rem; }
+            .page-title i { font-size: 1.6rem; }
+            .catalogs-grid { gap: 1.2rem; grid-template-columns: 1fr; }
+            .book-container { width: 98vw; height: 70vh; }
+            .book-nav-btn { width: 40px; height: 40px; font-size: 1rem; }
+            .book-close { width: 35px; height: 35px; font-size: 24px; top: 10px; right: 12px; }
+            .page-counter { font-size: 0.7rem; bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Фоновое изображение -->
+<img class="background-image" src="../фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
+
+<div class="container">
+    <!-- Шапка -->
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <!-- Хлебные крошки -->
+    <div class="breadcrumb">
+        <a href="../about.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к категориям</a>
+    </div>
+
+    <!-- Заголовок страницы -->
+    <div class="page-header">
+        <h1 class="page-title"><i class="fas fa-book"></i> Каталоги</h1>
+        <p class="page-description">Коллекционные каталоги поведенческой одежды Муркофф. Нажмите на каталог, чтобы просмотреть его содержимое.</p>
+    </div>
+
+    <!-- Сетка каталогов -->
+    <div class="catalogs-grid" id="catalogsGrid"></div>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<!-- Модальное окно для просмотра каталога -->
+<div id="catalogModal" class="catalog-modal">
+    <div class="book-container">
+        <span class="book-close">&times;</span>
+        <div class="book-viewer">
+            <img id="currentPageImg" class="current-page-img" src="" alt="Страница">
+        </div>
+        <div class="book-nav">
+            <button class="book-nav-btn" id="prevPageBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="book-nav-btn" id="nextPageBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="page-counter" id="pageCounter"></div>
+    </div>
+</div>
+
+<script>
+    // Данные каталогов (PRIME TIME 2026 добавлен в начало)
+    const catalogsData = [
+        {
+            id: "prime-time-2026",
+            title: "PRIME TIME 2026",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-прайм-2026.png",
+            pages: [
+                "../screenshots/прайм-2026-1.png",
+                "../screenshots/прайм-2026-2.png",
+                "../screenshots/прайм-2026-3.png"
+            ]
+        },
+        {
+            id: "project-judas",
+            title: "ПРОЕКТ «ИУДА»",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-иуда.png",
+            pages: [
+                "../screenshots/иуда-1.png",
+                "../screenshots/иуда-2.png",
+                "../screenshots/иуда-3.png",
+                "../screenshots/иуда-4.png",
+                "../screenshots/иуда-5.png",
+                "../screenshots/иуда-6.png",
+                "../screenshots/иуда-7.png",
+                "../screenshots/иуда-8.png",
+                "../screenshots/иуда-9.png",
+                "../screenshots/иуда-10.png",
+                "../screenshots/иуда-11.png"
+            ]
+        },
+        {
+            id: "project-messiah",
+            title: "ПРОЕКТ «МЕССИЯ»",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-мессия.png",
+            pages: [
+                "../screenshots/мессия-1.png",
+                "../screenshots/мессия-2.png",
+                "../screenshots/мессия-3.png"
+            ]
+        },
+        {
+            id: "deep-burn",
+            title: "ГЛУБОКИЙ ОЖОГ 2025",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-ожог.png",
+            pages: [
+                "../screenshots/ожог-1.png",
+                "../screenshots/ожог-2.png",
+                "../screenshots/ожог-3.png"
+            ]
+        },
+        {
+            id: "project-diarchy",
+            title: "ПРОЕКТ «ДИАРХИЯ»",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-диархия.png",
+            pages: [
+                "../screenshots/диархия-1.png",
+                "../screenshots/диархия-2.png"
+            ]
+        },
+        {
+            id: "geister",
+            title: "ГАЙСТЕР 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-гайстер.png",
+            pages: [
+                "../screenshots/гайстер-1.png",
+                "../screenshots/гайстер-2.png"
+            ]
+        },
+        {
+            id: "project-breach",
+            title: "ПРОЕКТ «BREACH»",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-брич.png",
+            pages: [
+                "../screenshots/брич-1.png",
+                "../screenshots/брич-2.png"
+            ]
+        },
+        {
+            id: "amelia",
+            title: "АМЕЛИЯ 2025",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-амелия.png",
+            pages: [
+                "../screenshots/амелия-1.png",
+                "../screenshots/амелия-2.png",
+                "../screenshots/амелия-3.png"
+            ]
+        },
+        {
+            id: "prime-time",
+            title: "ПРАЙМ-ТАЙМ",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-прайм.png",
+            pages: [
+                "../screenshots/прайм-1.png",
+                "../screenshots/прайм-2.png",
+                "../screenshots/прайм-3.png"
+            ]
+        },
+        {
+            id: "project-recidive",
+            title: "ПРОЕКТ «РЕЦИДИВ»",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-рецидив.png",
+            pages: [
+                "../screenshots/рецидив-1.png",
+                "../screenshots/рецидив-2.png"
+            ]
+        },
+        {
+            id: "winter-brings-death",
+            title: "ЗИМА ПРИНОСИТ СМЕРТЬ 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-зима.png",
+            pages: [
+                "../screenshots/зима-1.png",
+                "../screenshots/зима-2.png"
+            ]
+        },
+        {
+            id: "countdown",
+            title: "ОБРАТНЫЙ ОТСЧЁТ 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-бомба.png",
+            pages: [
+                "../screenshots/отсчет-1.png",
+                "../screenshots/отсчет-2.png",
+                "../screenshots/отсчет-3.png",
+                "../screenshots/отсчет-4.png"
+            ]
+        },
+        {
+            id: "project-lupara",
+            title: "ПРОЕКТ ЛУПАРА 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../screenshots/каталог-лупара.png",
+            pages: [
+                "../screenshots/лупара-1.png",
+                "../screenshots/лупара-2.png"
+            ]
+        }
+    ];
+
+    let currentCatalog = null;
+    let currentPageIndex = 0;
+    let totalPages = 0;
+    let isAnimating = false;
+
+    function displayCatalogs() {
+        const container = document.getElementById('catalogsGrid');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        catalogsData.forEach(catalog => {
+            const card = document.createElement('div');
+            card.className = 'catalog-card';
+            
+            card.addEventListener('click', () => {
+                openCatalog(catalog);
+            });
+            
+            card.innerHTML = `
+                <img src="${catalog.cover}" class="catalog-cover" alt="${catalog.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(catalog.title)}'">
+                <div class="catalog-content">
+                    <h3 class="catalog-title">${catalog.title}</h3>
+                    <p class="catalog-subtitle">${catalog.subtitle}</p>
+                </div>
+            `;
+            
+            container.appendChild(card);
+        });
+    }
+
+    function openCatalog(catalog) {
+        currentCatalog = catalog;
+        currentPageIndex = 0;
+        totalPages = catalog.pages.length;
+        isAnimating = false;
+        
+        const modal = document.getElementById('catalogModal');
+        const img = document.getElementById('currentPageImg');
+        const counter = document.getElementById('pageCounter');
+        
+        img.src = catalog.pages[0];
+        counter.textContent = `Страница 1 из ${totalPages}`;
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        updateNavButtons();
+    }
+
+    function updateNavButtons() {
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        
+        if (currentPageIndex === 0) {
+            prevBtn.classList.add('disabled');
+        } else {
+            prevBtn.classList.remove('disabled');
+        }
+        
+        if (currentPageIndex >= totalPages - 1) {
+            nextBtn.classList.add('disabled');
+        } else {
+            nextBtn.classList.remove('disabled');
+        }
+    }
+
+    function goToPage(index) {
+        if (isAnimating) return;
+        if (index < 0 || index >= totalPages) return;
+        if (index === currentPageIndex) return;
+        
+        isAnimating = true;
+        const img = document.getElementById('currentPageImg');
+        const counter = document.getElementById('pageCounter');
+        
+        img.style.transform = index > currentPageIndex ? 'translateX(-30px) rotateY(-5deg)' : 'translateX(30px) rotateY(5deg)';
+        img.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            currentPageIndex = index;
+            img.src = currentCatalog.pages[currentPageIndex];
+            counter.textContent = `Страница ${currentPageIndex + 1} из ${totalPages}`;
+            
+            img.style.transform = '';
+            img.style.opacity = '';
+            
+            setTimeout(() => {
+                isAnimating = false;
+            }, 100);
+        }, 200);
+        
+        updateNavButtons();
+    }
+
+    function nextPage() {
+        if (currentPageIndex < totalPages - 1) {
+            goToPage(currentPageIndex + 1);
+        }
+    }
+
+    function prevPage() {
+        if (currentPageIndex > 0) {
+            goToPage(currentPageIndex - 1);
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('catalogModal').classList.remove('active');
+        document.body.style.overflow = '';
+        currentCatalog = null;
+        currentPageIndex = 0;
+    }
+
+    // Плавное появление при скролле
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        
+        document.querySelectorAll('.breadcrumb, .page-header, .catalogs-grid').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        displayCatalogs();
+        initScrollAnimation();
+        
+        document.getElementById('prevPageBtn').addEventListener('click', prevPage);
+        document.getElementById('nextPageBtn').addEventListener('click', nextPage);
+        document.querySelector('.book-close').addEventListener('click', closeModal);
+        
+        document.getElementById('catalogModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('catalogModal').classList.contains('active')) {
+                closeModal();
+            }
+            if (e.key === 'ArrowLeft' && document.getElementById('catalogModal').classList.contains('active')) {
+                prevPage();
+            }
+            if (e.key === 'ArrowRight' && document.getElementById('catalogModal').classList.contains('active')) {
+                nextPage();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
