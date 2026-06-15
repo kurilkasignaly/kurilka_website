@@ -174,7 +174,6 @@
             border-color: #e16d48;
         }
 
-        /* Контейнер с картинкой и описанием */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -198,10 +197,6 @@
             border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.4);
             transition: transform 0.3s ease;
-        }
-
-        .map-image img:hover {
-            transform: scale(1.02);
         }
 
         .map-info {
@@ -248,7 +243,6 @@
             width: 20px;
         }
 
-        /* Секция испытаний */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -307,7 +301,6 @@
             border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
-        /* Модальное окно для испытания */
         .trial-modal {
             display: none;
             position: fixed;
@@ -521,6 +514,7 @@
 </head>
 <body>
 
+<!-- Фоновое видео (если нет видео, фон будет чёрным) -->
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
@@ -709,7 +703,7 @@
             card.className = 'trial-card';
             card.addEventListener('click', () => openTrialModal(trial));
             card.innerHTML = `
-                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.onerror=null;">
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%232a2a3e\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23e16d48\' font-size=\'14\' font-family=\'Arial\'%3E${trial.name}%3C/text%3E%3C/svg%3E';">
                 <div class="trial-name">${trial.name}</div>
             `;
             container.appendChild(card);
@@ -747,6 +741,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         displayTrials();
         initScrollAnimation();
+        console.log('Страница Здание суда загружена');
     });
 </script>
 
