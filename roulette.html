@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Рулетка заданий — Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0.3); }
+            70% { box-shadow: 0 0 0 15px rgba(220, 90, 50, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        /* Заголовок страницы */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .page-header h1 i {
+            font-size: 2.2rem;
+            color: #e16d48;
+        }
+
+        .page-header p {
+            color: #c2b9d4;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ЗАДАНИЕ ДНЯ */
+        .daily-mission {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            animation: glowPulse 2s ease-in-out infinite;
+            text-align: center;
+        }
+
+        .daily-mission .label {
+            font-size: 0.8rem;
+            color: #e16d48;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .daily-mission .mission-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0.5rem 0;
+        }
+
+        .daily-mission .mission-details {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .daily-mission .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: #c2b9d4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .daily-mission .detail-item i {
+            color: #e16d48;
+        }
+
+        .daily-mission .reroll-btn {
+            margin-top: 1rem;
+            background: rgba(220, 90, 50, 0.2);
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            color: #e16d48;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .daily-mission .reroll-btn:hover {
+            background: rgba(220, 90, 50, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* РЕЖИМЫ РУЛЕТКИ */
+        .modes-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .modes-section h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mode-card {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-6px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
+        }
+
+        .mode-card .icon {
+            font-size: 3rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+        }
+
+        .mode-card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-card p {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            line-height: 1.5;
+        }
+
+        .mode-card .tag {
+            display: inline-block;
+            background: rgba(220, 90, 50, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #e16d48;
+            margin-top: 0.8rem;
+        }
+
+        .mode-card.active-mode {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.1);
+        }
+
+        /* КОНСТРУКТОР ИСПЫТАНИЙ */
+        .constructor-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .constructor-section h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .constructor-wrapper {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .constructor-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group select,
+        .form-group input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 16px;
+            padding: 0.7rem 1rem;
+            color: #f0eef7;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #e16d48;
+        }
+
+        .form-group select option {
+            background: #1a1a2e;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 16px;
+            padding: 0.7rem 1rem;
+            color: #f0eef7;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea:focus {
+            border-color: #e16d48;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        /* СОЗДАННЫЕ ЗАДАНИЯ */
+        .created-tasks {
+            margin-top: 1.5rem;
+        }
+
+        .created-tasks h3 {
+            font-size: 1.1rem;
+            color: #c2b9d4;
+            margin-bottom: 1rem;
+        }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .task-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            border-color: #e16d48;
+            transform: translateY(-3px);
+        }
+
+        .task-item .task-name {
+            font-weight: 600;
+            color: #e16d48;
+        }
+
+        .task-item .task-meta {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.3rem;
+        }
+
+        .task-item .task-actions {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .task-item .task-actions button {
+            background: rgba(220, 90, 50, 0.2);
+            border: none;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #c2b9d4;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .task-item .task-actions button:hover {
+            background: rgba(220, 90, 50, 0.4);
+            color: white;
+        }
+
+        .empty-tasks {
+            color: #888;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .page-header h1 { font-size: 1.8rem; }
+            .modes-grid { grid-template-columns: 1fr; }
+            .constructor-form { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: 1; }
+            .daily-mission .mission-details { gap: 1rem; }
+            .daily-mission .mission-title { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 550px) {
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .mode-card { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="roulette.html" class="nav-btn active"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <div class="page-header">
+        <h1><i class="fas fa-dice-d6"></i> Рулетка испытаний</h1>
+        <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
+    </div>
+
+    <!-- ЗАДАНИЕ ДНЯ -->
+    <div class="daily-mission" id="dailyMission">
+        <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
+        <div class="mission-title" id="missionTitle">Полицейский участок</div>
+        <div class="mission-details" id="missionDetails">
+            <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: 3</span>
+            <span class="detail-item"><i class="fas fa-users"></i> Режим: Рулетка</span>
+            <span class="detail-item"><i class="fas fa-star"></i> Сложность: Случайная</span>
+        </div>
+        <button class="reroll-btn" onclick="generateDailyMission()"><i class="fas fa-sync-alt"></i> Сгенерировать новое</button>
+    </div>
+
+    <!-- РЕЖИМЫ РУЛЕТКИ -->
+    <div class="modes-section">
+        <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
+        <div class="modes-grid">
+            <div class="mode-card active-mode" onclick="selectMode('roulette')">
+                <div class="icon"><i class="fas fa-dice-d6"></i></div>
+                <h3>Рулетка</h3>
+                <p>Случайное испытание с набором вариаторов. Никогда не знаешь, что выпадет!</p>
+                <span class="tag">🔥 Популярный</span>
+            </div>
+            <div class="mode-card" onclick="selectMode('card')">
+                <div class="icon"><i class="fas fa-id-card"></i></div>
+                <h3>Карточный</h3>
+                <p>Выбирайте карты с испытаниями и составляйте свою уникальную комбинацию.</p>
+                <span class="tag">🃏 Стратегия</span>
+            </div>
+            <div class="mode-card" onclick="selectMode('escalation')">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Эскалация</h3>
+                <p>Постепенное усложнение: каждое новое испытание добавляет вариаторы.</p>
+                <span class="tag">💀 Хардкор</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- КОНСТРУКТОР ИСПЫТАНИЙ -->
+    <div class="constructor-section">
+        <h2><i class="fas fa-tools"></i> Конструктор испытаний</h2>
+        <div class="constructor-wrapper">
+            <form class="constructor-form" id="taskForm">
+                <div class="form-group">
+                    <label><i class="fas fa-map"></i> Карта</label>
+                    <select id="taskMap" required>
+                        <option value="Полицейский участок">Полицейский участок</option>
+                        <option value="Детский дом">Детский дом</option>
+                        <option value="Парк развлечений">Парк развлечений</option>
+                        <option value="Здание суда">Здание суда</option>
+                        <option value="Фабрика игрушек">Фабрика игрушек</option>
+                        <option value="Пристань">Пристань</option>
+                        <option value="Центр города">Центр города</option>
+                        <option value="Пригород">Пригород</option>
+                        <option value="Курорт">Курорт</option>
+                        <option value="Телестудия">Телестудия</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-dice"></i> Количество вариаторов</label>
+                    <select id="taskVariators" required>
+                        <option value="1">1 вариатор</option>
+                        <option value="2">2 вариатора</option>
+                        <option value="3" selected>3 вариатора</option>
+                        <option value="4">4 вариатора</option>
+                        <option value="5">5 вариаторов</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Режим</label>
+                    <select id="taskMode" required>
+                        <option value="Рулетка">Рулетка</option>
+                        <option value="Карточный">Карточный</option>
+                        <option value="Эскалация">Эскалация</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Сложность</label>
+                    <select id="taskDifficulty" required>
+                        <option value="Вводный">Вводный</option>
+                        <option value="Стандартный" selected>Стандартный</option>
+                        <option value="Интенсивный">Интенсивный</option>
+                        <option value="Психохирургия">Психохирургия</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label><i class="fas fa-align-left"></i> Описание задания</label>
+                    <textarea id="taskDescription" placeholder="Опишите задание для игроков..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-plus"></i> Создать задание</button>
+            </form>
+        </div>
+
+        <!-- Список созданных заданий -->
+        <div class="created-tasks">
+            <h3><i class="fas fa-list"></i> Созданные задания</h3>
+            <div class="tasks-grid" id="tasksGrid">
+                <div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<script>
+    // ====== ДАННЫЕ ======
+    const maps = [
+        "Полицейский участок", "Детский дом", "Парк развлечений",
+        "Здание суда", "Фабрика игрушек", "Пристань",
+        "Центр города", "Пригород", "Курорт", "Телестудия"
+    ];
+
+    const difficulties = ["Вводный", "Стандартный", "Интенсивный", "Психохирургия"];
+    const modes = ["Рулетка", "Карточный", "Эскалация"];
+
+    let currentMode = "roulette";
+    let tasks = [];
+
+    // ====== ЗАГРУЗКА СОХРАНЁННЫХ ЗАДАНИЙ ======
+    function loadTasks() {
+        const saved = localStorage.getItem('rouletteTasks');
+        if (saved) {
+            try {
+                tasks = JSON.parse(saved);
+                renderTasks();
+            } catch (e) {
+                tasks = [];
+            }
+        }
+    }
+
+    function saveTasks() {
+        localStorage.setItem('rouletteTasks', JSON.stringify(tasks));
+        renderTasks();
+    }
+
+    // ====== ЗАДАНИЕ ДНЯ ======
+    function generateDailyMission() {
+        const map = maps[Math.floor(Math.random() * maps.length)];
+        const variators = Math.floor(Math.random() * 5) + 1;
+        const mode = modes[Math.floor(Math.random() * modes.length)];
+        const difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+
+        document.getElementById('missionTitle').textContent = map;
+        document.getElementById('missionDetails').innerHTML = `
+            <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: ${variators}</span>
+            <span class="detail-item"><i class="fas fa-users"></i> Режим: ${mode}</span>
+            <span class="detail-item"><i class="fas fa-star"></i> Сложность: ${difficulty}</span>
+        `;
+    }
+
+    // ====== ВЫБОР РЕЖИМА ======
+    function selectMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-card').forEach(el => el.classList.remove('active-mode'));
+        const cards = document.querySelectorAll('.mode-card');
+        if (mode === 'roulette') cards[0].classList.add('active-mode');
+        else if (mode === 'card') cards[1].classList.add('active-mode');
+        else if (mode === 'escalation') cards[2].classList.add('active-mode');
+    }
+
+    // ====== СОЗДАНИЕ ЗАДАНИЯ ======
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const task = {
+            id: Date.now(),
+            map: document.getElementById('taskMap').value,
+            variators: parseInt(document.getElementById('taskVariators').value),
+            mode: document.getElementById('taskMode').value,
+            difficulty: document.getElementById('taskDifficulty').value,
+            description: document.getElementById('taskDescription').value || 'Без описания',
+            createdAt: new Date().toLocaleString()
+        };
+
+        tasks.unshift(task);
+        saveTasks();
+        this.reset();
+        document.getElementById('taskDescription').value = '';
+    });
+
+    // ====== ОТОБРАЖЕНИЕ ЗАДАНИЙ ======
+    function renderTasks() {
+        const grid = document.getElementById('tasksGrid');
+        if (tasks.length === 0) {
+            grid.innerHTML = '<div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>';
+            return;
+        }
+
+        grid.innerHTML = tasks.map(task => `
+            <div class="task-item">
+                <div class="task-name">${task.map}</div>
+                <div class="task-meta">
+                    <i class="fas fa-dice"></i> ${task.variators} вар. · 
+                    <i class="fas fa-tag"></i> ${task.mode} · 
+                    <i class="fas fa-star"></i> ${task.difficulty}
+                </div>
+                <div class="task-meta" style="margin-top: 2px; font-style: italic;">${task.description}</div>
+                <div class="task-actions">
+                    <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i> Удалить</button>
+                    <button onclick="useTask(${task.id})"><i class="fas fa-play"></i> Использовать</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ====== УДАЛЕНИЕ ЗАДАНИЯ ======
+    function deleteTask(id) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveTasks();
+    }
+
+    // ====== ИСПОЛЬЗОВАНИЕ ЗАДАНИЯ ======
+    function useTask(id) {
+        const task = tasks.find(t => t.id === id);
+        if (task) {
+            document.getElementById('missionTitle').textContent = task.map;
+            document.getElementById('missionDetails').innerHTML = `
+                <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: ${task.variators}</span>
+                <span class="detail-item"><i class="fas fa-users"></i> Режим: ${task.mode}</span>
+                <span class="detail-item"><i class="fas fa-star"></i> Сложность: ${task.difficulty}</span>
+            `;
+            alert(`✅ Задание "${task.map}" загружено в задание дня!`);
+        }
+    }
+
+    // ====== ИНИЦИАЛИЗАЦИЯ ======
+    document.addEventListener('DOMContentLoaded', function() {
+        generateDailyMission();
+        loadTasks();
+    });
+</script>
+
+</body>
+</html>
