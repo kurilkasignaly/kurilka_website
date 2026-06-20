@@ -60,6 +60,11 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
         }
 
+        @keyframes countPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -180,7 +185,7 @@
             margin-top: 0.5rem;
         }
 
-        /* ЗАДАНИЕ ДНЯ С КАРТИНКАМИ */
+        /* ЗАДАНИЕ ДНЯ */
         .daily-mission {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -190,6 +195,7 @@
             border: 2px solid rgba(220, 90, 50, 0.3);
             animation: glowPulse 2s ease-in-out infinite;
             text-align: center;
+            position: relative;
         }
 
         .daily-mission .label {
@@ -204,7 +210,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
+            gap: 3rem;
             flex-wrap: wrap;
         }
 
@@ -216,8 +222,8 @@
         }
 
         .daily-mission .mission-map img {
-            width: 120px;
-            height: 120px;
+            width: 140px;
+            height: 140px;
             object-fit: cover;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.4);
@@ -229,27 +235,35 @@
         }
 
         .daily-mission .mission-map .map-name {
-            font-size: 0.85rem;
-            color: #c2b9d4;
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
         }
 
         .daily-mission .mission-variators {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
-        .daily-mission .variator-icons {
+        .daily-mission .variator-items {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-        .daily-mission .variator-icons img {
-            width: 50px;
-            height: 50px;
+        .daily-mission .variator-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .daily-mission .variator-item img {
+            width: 55px;
+            height: 55px;
             object-fit: contain;
             border-radius: 12px;
             background: rgba(0, 0, 0, 0.3);
@@ -258,48 +272,90 @@
             transition: transform 0.3s;
         }
 
-        .daily-mission .variator-icons img:hover {
+        .daily-mission .variator-item img:hover {
             transform: scale(1.1);
         }
 
-        .daily-mission .mission-info {
+        .daily-mission .variator-item .var-name {
+            font-size: 0.65rem;
+            color: #c2b9d4;
+            max-width: 70px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .daily-mission .variator-count {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.2rem;
+        }
+
+        /* ТАЙМЕР ОБНОВЛЕНИЯ */
+        .timer-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .timer-label {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .timer-unit {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-start;
+            align-items: center;
         }
 
-        .daily-mission .mission-info .info-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #c2b9d4;
+        .timer-unit .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: countPulse 1s ease-in-out infinite;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .timer-unit .label {
+            font-size: 0.6rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timer-separator {
+            font-size: 2rem;
+            color: #e16d48;
+            opacity: 0.5;
             display: flex;
             align-items: center;
-            gap: 6px;
         }
 
-        .daily-mission .mission-info .info-item i {
-            color: #e16d48;
-        }
-
-        .daily-mission .reroll-btn {
-            margin-top: 1.2rem;
-            background: rgba(220, 90, 50, 0.2);
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            color: #e16d48;
-            padding: 0.6rem 1.8rem;
+        .reroll-btn {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: #888;
+            padding: 0.5rem 1.5rem;
             border-radius: 40px;
-            cursor: pointer;
+            cursor: not-allowed;
             font-weight: 600;
             transition: all 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .daily-mission .reroll-btn:hover {
-            background: rgba(220, 90, 50, 0.4);
-            transform: scale(1.05);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            opacity: 0.5;
         }
 
         /* РЕЖИМЫ РУЛЕТКИ */
@@ -374,7 +430,7 @@
             background: rgba(220, 90, 50, 0.1);
         }
 
-        /* КОНСТРУКТОР ИСПЫТАНИЙ */
+        /* КОНСТРУКТОР */
         .constructor-section {
             margin-bottom: 2.5rem;
         }
@@ -571,17 +627,22 @@
             .modes-grid { grid-template-columns: 1fr; }
             .constructor-form { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: 1; }
-            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1rem; }
-            .daily-mission .mission-map img { width: 100px; height: 100px; }
-            .daily-mission .variator-icons img { width: 40px; height: 40px; }
-            .daily-mission .mission-info { align-items: center; }
+            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1.5rem; }
+            .daily-mission .mission-map img { width: 110px; height: 110px; }
+            .daily-mission .variator-item img { width: 45px; height: 45px; }
+            .timer-display { gap: 0.8rem; }
+            .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
+            .timer-separator { font-size: 1.5rem; }
         }
 
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
-            .daily-mission .mission-map img { width: 80px; height: 80px; }
-            .daily-mission .variator-icons img { width: 35px; height: 35px; }
+            .daily-mission .mission-map img { width: 90px; height: 90px; }
+            .daily-mission .variator-item img { width: 38px; height: 38px; }
+            .daily-mission .variator-item .var-name { font-size: 0.55rem; max-width: 50px; }
+            .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
+            .timer-separator { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -615,13 +676,34 @@
         <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
     </div>
 
-    <!-- ЗАДАНИЕ ДНЯ С КАРТИНКАМИ -->
+    <!-- ЗАДАНИЕ ДНЯ -->
     <div class="daily-mission" id="dailyMission">
         <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
         <div class="mission-content" id="missionContent">
             <!-- Заполняется через JS -->
         </div>
-        <button class="reroll-btn" onclick="generateDailyMission()"><i class="fas fa-sync-alt"></i> Сгенерировать новое</button>
+
+        <!-- ТАЙМЕР ОБНОВЛЕНИЯ -->
+        <div class="timer-section">
+            <div class="timer-label">⏳ Следующее задание через</div>
+            <div class="timer-display" id="timerDisplay">
+                <div class="timer-unit">
+                    <span class="number" id="hours">23</span>
+                    <span class="label">часы</span>
+                </div>
+                <span class="timer-separator">:</span>
+                <div class="timer-unit">
+                    <span class="number" id="minutes">59</span>
+                    <span class="label">минуты</span>
+                </div>
+                <span class="timer-separator">:</span>
+                <div class="timer-unit">
+                    <span class="number" id="seconds">59</span>
+                    <span class="label">секунды</span>
+                </div>
+            </div>
+            <button class="reroll-btn" disabled><i class="fas fa-lock"></i> Обновится автоматически</button>
+        </div>
     </div>
 
     <!-- РЕЖИМЫ РУЛЕТКИ -->
@@ -742,11 +824,98 @@
         { name: "Ограниченные предметы", image: "../images/вариатор-предметы.webp" }
     ];
 
-    const difficulties = ["Вводный", "Стандартный", "Интенсивный", "Психохирургия"];
-    const modes = ["Рулетка", "Карточный", "Эскалация"];
-
     let currentMode = "roulette";
     let tasks = [];
+    let timerInterval;
+
+    // ====== ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage) ======
+    function getDailyMission() {
+        const saved = localStorage.getItem('dailyMission');
+        const savedDate = localStorage.getItem('dailyMissionDate');
+        const now = Date.now();
+
+        // Если прошло больше 24 часов или нет сохранённого задания — генерируем новое
+        if (!saved || !savedDate || (now - parseInt(savedDate) > 24 * 60 * 60 * 1000)) {
+            generateNewDailyMission();
+        } else {
+            renderDailyMission(JSON.parse(saved));
+        }
+    }
+
+    function generateNewDailyMission() {
+        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
+        const variatorsCount = Math.floor(Math.random() * 5) + 1;
+
+        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+        const selectedVariators = shuffled.slice(0, variatorsCount);
+
+        const mission = {
+            map: mapData,
+            variators: selectedVariators,
+            count: variatorsCount,
+            timestamp: Date.now()
+        };
+
+        localStorage.setItem('dailyMission', JSON.stringify(mission));
+        localStorage.setItem('dailyMissionDate', Date.now().toString());
+        renderDailyMission(mission);
+    }
+
+    function renderDailyMission(mission) {
+        const content = document.getElementById('missionContent');
+        content.innerHTML = `
+            <div class="mission-map">
+                <img src="${mission.map.image}" alt="${mission.map.name}" onerror="this.src='https://placehold.co/140x140/1a1a2e/e16d48?text=${encodeURIComponent(mission.map.name)}'">
+                <span class="map-name">${mission.map.name}</span>
+            </div>
+            <div class="mission-variators">
+                <div class="variator-items">
+                    ${mission.variators.map(v => `
+                        <div class="variator-item">
+                            <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
+                            <span class="var-name">${v.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <span class="variator-count">${mission.count} вариатор${mission.count > 1 ? 'а' : ''}</span>
+            </div>
+        `;
+    }
+
+    // ====== ТАЙМЕР ======
+    function startTimer() {
+        const savedDate = localStorage.getItem('dailyMissionDate');
+        if (!savedDate) {
+            generateNewDailyMission();
+            return;
+        }
+
+        const startTime = parseInt(savedDate);
+        const totalDuration = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+
+        function updateTimer() {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const remaining = Math.max(0, totalDuration - elapsed);
+
+            const hours = Math.floor(remaining / (60 * 60 * 1000));
+            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((remaining % (60 * 1000)) / 1000);
+
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                generateNewDailyMission();
+                startTimer();
+            }
+        }
+
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
 
     // ====== ЗАГРУЗКА СОХРАНЁННЫХ ЗАДАНИЙ ======
     function loadTasks() {
@@ -764,38 +933,6 @@
     function saveTasks() {
         localStorage.setItem('rouletteTasks', JSON.stringify(tasks));
         renderTasks();
-    }
-
-    // ====== ЗАДАНИЕ ДНЯ ======
-    function generateDailyMission() {
-        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
-        const variatorsCount = Math.floor(Math.random() * 5) + 1;
-        const mode = modes[Math.floor(Math.random() * modes.length)];
-        const difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
-
-        // Выбираем случайные вариаторы
-        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
-        const selectedVariators = shuffled.slice(0, variatorsCount);
-
-        const content = document.getElementById('missionContent');
-        content.innerHTML = `
-            <div class="mission-map">
-                <img src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/120x120/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
-                <span class="map-name">${mapData.name}</span>
-            </div>
-            <div class="mission-variators">
-                <div class="variator-icons">
-                    ${selectedVariators.map(v => `
-                        <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
-                    `).join('')}
-                </div>
-                <span class="map-name" style="font-size: 0.75rem; color: #888;">${variatorsCount} вариатор${variatorsCount > 1 ? 'а' : ''}</span>
-            </div>
-            <div class="mission-info">
-                <span class="info-item"><i class="fas fa-users"></i> ${mode}</span>
-                <span class="info-item"><i class="fas fa-star"></i> ${difficulty}</span>
-            </div>
-        `;
     }
 
     // ====== ВЫБОР РЕЖИМА ======
@@ -859,42 +996,29 @@
         saveTasks();
     }
 
-    // ====== ИСПОЛЬЗОВАНИЕ ЗАДАНИЯ ======
+    // ====== ИСПОЛЬЗОВАНИЕ ЗАДАНИЯ (только для просмотра) ======
     function useTask(id) {
         const task = tasks.find(t => t.id === id);
         if (task) {
-            // Находим карту
             const mapData = mapsData.find(m => m.name === task.map) || mapsData[0];
-            
-            // Выбираем случайные вариаторы
             const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
             const selectedVariators = shuffled.slice(0, task.variators);
 
-            const content = document.getElementById('missionContent');
-            content.innerHTML = `
-                <div class="mission-map">
-                    <img src="${mapData.image}" alt="${task.map}" onerror="this.src='https://placehold.co/120x120/1a1a2e/e16d48?text=${encodeURIComponent(task.map)}'">
-                    <span class="map-name">${task.map}</span>
-                </div>
-                <div class="mission-variators">
-                    <div class="variator-icons">
-                        ${selectedVariators.map(v => `
-                            <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
-                        `).join('')}
-                    </div>
-                    <span class="map-name" style="font-size: 0.75rem; color: #888;">${task.variators} вариатор${task.variators > 1 ? 'а' : ''}</span>
-                </div>
-                <div class="mission-info">
-                    <span class="info-item"><i class="fas fa-users"></i> ${task.mode}</span>
-                    <span class="info-item"><i class="fas fa-star"></i> ${task.difficulty}</span>
-                </div>
-            `;
+            const mission = {
+                map: mapData,
+                variators: selectedVariators,
+                count: task.variators
+            };
+
+            renderDailyMission(mission);
+            alert(`✅ Задание "${task.map}" загружено в задание дня!`);
         }
     }
 
     // ====== ИНИЦИАЛИЗАЦИЯ ======
     document.addEventListener('DOMContentLoaded', function() {
-        generateDailyMission();
+        getDailyMission();
+        startTimer();
         loadTasks();
     });
 </script>
