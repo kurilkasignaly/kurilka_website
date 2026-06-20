@@ -60,11 +60,6 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -73,7 +68,6 @@
             z-index: 10;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -160,7 +154,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
 
-        /* Заголовок страницы */
         .page-header {
             text-align: center;
             margin-bottom: 2rem;
@@ -187,7 +180,7 @@
             margin-top: 0.5rem;
         }
 
-        /* ЗАДАНИЕ ДНЯ */
+        /* ЗАДАНИЕ ДНЯ С КАРТИНКАМИ */
         .daily-mission {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -204,40 +197,95 @@
             color: #e16d48;
             letter-spacing: 2px;
             text-transform: uppercase;
+            margin-bottom: 0.5rem;
         }
 
-        .daily-mission .mission-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            margin: 0.5rem 0;
-        }
-
-        .daily-mission .mission-details {
+        .daily-mission .mission-content {
             display: flex;
+            align-items: center;
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
         }
 
-        .daily-mission .detail-item {
+        .daily-mission .mission-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .daily-mission .mission-map img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .daily-mission .mission-map img:hover {
+            transform: scale(1.05);
+        }
+
+        .daily-mission .mission-map .map-name {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+        }
+
+        .daily-mission .mission-variators {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .daily-mission .variator-icons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .daily-mission .variator-icons img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 12px;
             background: rgba(0, 0, 0, 0.3);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
+            padding: 4px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .daily-mission .variator-icons img:hover {
+            transform: scale(1.1);
+        }
+
+        .daily-mission .mission-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .daily-mission .mission-info .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             color: #c2b9d4;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .daily-mission .detail-item i {
+        .daily-mission .mission-info .info-item i {
             color: #e16d48;
         }
 
         .daily-mission .reroll-btn {
-            margin-top: 1rem;
+            margin-top: 1.2rem;
             background: rgba(220, 90, 50, 0.2);
             border: 1px solid rgba(220, 90, 50, 0.4);
             color: #e16d48;
@@ -433,7 +481,6 @@
             box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
         }
 
-        /* СОЗДАННЫЕ ЗАДАНИЯ */
         .created-tasks {
             margin-top: 1.5rem;
         }
@@ -524,13 +571,17 @@
             .modes-grid { grid-template-columns: 1fr; }
             .constructor-form { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: 1; }
-            .daily-mission .mission-details { gap: 1rem; }
-            .daily-mission .mission-title { font-size: 1.3rem; }
+            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1rem; }
+            .daily-mission .mission-map img { width: 100px; height: 100px; }
+            .daily-mission .variator-icons img { width: 40px; height: 40px; }
+            .daily-mission .mission-info { align-items: center; }
         }
 
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
+            .daily-mission .mission-map img { width: 80px; height: 80px; }
+            .daily-mission .variator-icons img { width: 35px; height: 35px; }
         }
     </style>
 </head>
@@ -564,14 +615,11 @@
         <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
     </div>
 
-    <!-- ЗАДАНИЕ ДНЯ -->
+    <!-- ЗАДАНИЕ ДНЯ С КАРТИНКАМИ -->
     <div class="daily-mission" id="dailyMission">
         <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
-        <div class="mission-title" id="missionTitle">Полицейский участок</div>
-        <div class="mission-details" id="missionDetails">
-            <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: 3</span>
-            <span class="detail-item"><i class="fas fa-users"></i> Режим: Рулетка</span>
-            <span class="detail-item"><i class="fas fa-star"></i> Сложность: Случайная</span>
+        <div class="mission-content" id="missionContent">
+            <!-- Заполняется через JS -->
         </div>
         <button class="reroll-btn" onclick="generateDailyMission()"><i class="fas fa-sync-alt"></i> Сгенерировать новое</button>
     </div>
@@ -656,7 +704,6 @@
             </form>
         </div>
 
-        <!-- Список созданных заданий -->
         <div class="created-tasks">
             <h3><i class="fas fa-list"></i> Созданные задания</h3>
             <div class="tasks-grid" id="tasksGrid">
@@ -672,11 +719,27 @@
 </div>
 
 <script>
-    // ====== ДАННЫЕ ======
-    const maps = [
-        "Полицейский участок", "Детский дом", "Парк развлечений",
-        "Здание суда", "Фабрика игрушек", "Пристань",
-        "Центр города", "Пригород", "Курорт", "Телестудия"
+    // ====== ДАННЫЕ С КАРТИНКАМИ ======
+    const mapsData = [
+        { name: "Полицейский участок", image: "../images/полицейский-участок.webp" },
+        { name: "Детский дом", image: "../images/детский-дом.webp" },
+        { name: "Парк развлечений", image: "../images/парк-развлечений.webp" },
+        { name: "Здание суда", image: "../images/здание-суда.webp" },
+        { name: "Фабрика игрушек", image: "../images/фабрика-игрушек.webp" },
+        { name: "Пристань", image: "../images/пристань.webp" },
+        { name: "Центр города", image: "../images/центр-города.webp" },
+        { name: "Пригород", image: "../images/пригород.webp" },
+        { name: "Курорт", image: "../images/курорт.webp" },
+        { name: "Телестудия", image: "../images/телестудия.webp" }
+    ];
+
+    const variatorsData = [
+        { name: "Более Сильные Враги", image: "../images/вариатор-сильные-враги.webp" },
+        { name: "Высокая Плотность Противника", image: "../images/вариатор-плотность.webp" },
+        { name: "Больше смертельных ловушек", image: "../images/вариатор-ловушки.webp" },
+        { name: "Ограниченная информация", image: "../images/вариатор-информация.webp" },
+        { name: "Ненадежные Двери", image: "../images/вариатор-двери.webp" },
+        { name: "Ограниченные предметы", image: "../images/вариатор-предметы.webp" }
     ];
 
     const difficulties = ["Вводный", "Стандартный", "Интенсивный", "Психохирургия"];
@@ -705,16 +768,33 @@
 
     // ====== ЗАДАНИЕ ДНЯ ======
     function generateDailyMission() {
-        const map = maps[Math.floor(Math.random() * maps.length)];
-        const variators = Math.floor(Math.random() * 5) + 1;
+        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
+        const variatorsCount = Math.floor(Math.random() * 5) + 1;
         const mode = modes[Math.floor(Math.random() * modes.length)];
         const difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
 
-        document.getElementById('missionTitle').textContent = map;
-        document.getElementById('missionDetails').innerHTML = `
-            <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: ${variators}</span>
-            <span class="detail-item"><i class="fas fa-users"></i> Режим: ${mode}</span>
-            <span class="detail-item"><i class="fas fa-star"></i> Сложность: ${difficulty}</span>
+        // Выбираем случайные вариаторы
+        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+        const selectedVariators = shuffled.slice(0, variatorsCount);
+
+        const content = document.getElementById('missionContent');
+        content.innerHTML = `
+            <div class="mission-map">
+                <img src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/120x120/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
+                <span class="map-name">${mapData.name}</span>
+            </div>
+            <div class="mission-variators">
+                <div class="variator-icons">
+                    ${selectedVariators.map(v => `
+                        <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
+                    `).join('')}
+                </div>
+                <span class="map-name" style="font-size: 0.75rem; color: #888;">${variatorsCount} вариатор${variatorsCount > 1 ? 'а' : ''}</span>
+            </div>
+            <div class="mission-info">
+                <span class="info-item"><i class="fas fa-users"></i> ${mode}</span>
+                <span class="info-item"><i class="fas fa-star"></i> ${difficulty}</span>
+            </div>
         `;
     }
 
@@ -783,13 +863,32 @@
     function useTask(id) {
         const task = tasks.find(t => t.id === id);
         if (task) {
-            document.getElementById('missionTitle').textContent = task.map;
-            document.getElementById('missionDetails').innerHTML = `
-                <span class="detail-item"><i class="fas fa-dice"></i> Вариаторы: ${task.variators}</span>
-                <span class="detail-item"><i class="fas fa-users"></i> Режим: ${task.mode}</span>
-                <span class="detail-item"><i class="fas fa-star"></i> Сложность: ${task.difficulty}</span>
+            // Находим карту
+            const mapData = mapsData.find(m => m.name === task.map) || mapsData[0];
+            
+            // Выбираем случайные вариаторы
+            const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+            const selectedVariators = shuffled.slice(0, task.variators);
+
+            const content = document.getElementById('missionContent');
+            content.innerHTML = `
+                <div class="mission-map">
+                    <img src="${mapData.image}" alt="${task.map}" onerror="this.src='https://placehold.co/120x120/1a1a2e/e16d48?text=${encodeURIComponent(task.map)}'">
+                    <span class="map-name">${task.map}</span>
+                </div>
+                <div class="mission-variators">
+                    <div class="variator-icons">
+                        ${selectedVariators.map(v => `
+                            <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
+                        `).join('')}
+                    </div>
+                    <span class="map-name" style="font-size: 0.75rem; color: #888;">${task.variators} вариатор${task.variators > 1 ? 'а' : ''}</span>
+                </div>
+                <div class="mission-info">
+                    <span class="info-item"><i class="fas fa-users"></i> ${task.mode}</span>
+                    <span class="info-item"><i class="fas fa-star"></i> ${task.difficulty}</span>
+                </div>
             `;
-            alert(`✅ Задание "${task.map}" загружено в задание дня!`);
         }
     }
 
