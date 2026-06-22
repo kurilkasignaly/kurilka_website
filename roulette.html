@@ -326,6 +326,11 @@
             font-style: italic;
         }
 
+        .dialog-text .player-choice {
+            color: #4c9aff;
+            font-weight: 600;
+        }
+
         .dialog-actions {
             display: flex;
             gap: 0.6rem;
@@ -1063,121 +1068,321 @@
     // ============================================================
 
     const dialogLines = [
+        // Реплика 1: Вступление
         {
+            type: "speech",
             text: `Дорогие дамы и господа! Не проходите мимо и узрите величайшее изобретение современности!\nМеханизм, способный подарить вам славу... Механизм, способный подарить вам страдания... И, что самое главное, механизм, который способен превратить обычного Реагента в настоящую легенду!`,
             primary: "Далее",
             secondary: null,
             skip: true
         },
+        // Реплика 2: Появление Арлекино
         {
-            text: `— О-о-о! А вот и новый участник!\nАрлекино начинает хлопать в ладоши.\n— Поприветствуем же его! Не стесняйтесь, дружище, здесь все свои. Ну... почти все.`,
+            type: "action",
+            text: `Арлекино появляется из тени и начинает хлопать в ладоши.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 3: Приветствие
+        {
+            type: "speech",
+            text: `— О-о-о! А вот и новый участник!\n— Поприветствуем же его! Не стесняйтесь, дружище, здесь все свои. Ну... почти все.`,
             primary: "А вы кто?",
             secondary: null,
             skip: true
         },
+        // Реплика 4: Шутка
         {
-            text: `— Конь в пальто.\n<i>Пауза.</i>\n— Нет?\n<i>Ещё пауза.</i>\n— Ладно, признаю, шутка была ужасной.`,
+            type: "speech",
+            text: `— Конь в пальто.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 5: Пауза
+        {
+            type: "action",
+            text: `Пауза.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 6: Продолжение шутки
+        {
+            type: "speech",
+            text: `— Нет?`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 7: Ещё пауза
+        {
+            type: "action",
+            text: `Ещё пауза.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 8: Признание
+        {
+            type: "speech",
+            text: `— Ладно, признаю, шутка была ужасной.`,
             primary: "Так кто же вы?",
             secondary: null,
             skip: true
         },
+        // Реплика 9: Представление
         {
-            text: `— Ах, вот теперь мы переходим к официальной части!\nАрлекино снимает воображаемую шляпу и кланяется.\n— Моё имя — АРЛЕКИНО!\nВедущий. Конферансье. Арбитр хаоса. И единственный человек, которому руководство ещё не запретило пользоваться этой рулеткой.`,
+            type: "action",
+            text: `Арлекино снимает воображаемую шляпу и кланяется.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 10: Официальное представление
+        {
+            type: "speech",
+            text: `— Ах, вот теперь мы переходим к официальной части!\n— Моё имя — АРЛЕКИНО!\nВедущий. Конферансье. Арбитр хаоса. И единственный человек, которому руководство ещё не запретило пользоваться этой рулеткой.`,
             primary: "Рулеткой?",
             secondary: null,
             skip: true
         },
+        // Реплика 11: О рулетке
         {
+            type: "speech",
             text: `— Именно!\nПеред вами находится величайшая машина случайностей, которую когда-либо создавали человеческая глупость и научный прогресс.\nОна не знает жалости. Она не знает справедливости. Она даже не знает, что такое баланс.\nНо зато она умеет выбирать испытания.`,
             primary: "Зачем?",
             secondary: null,
             skip: true
         },
+        // Реплика 12: Почему выбор скучен
         {
+            type: "speech",
             text: `— Потому что выбор — это скучно!\nВы открываете игру. Думаете: «Во что бы мне поиграть?»\nПотом двадцать минут смотрите на список испытаний.\nПотом ещё десять минут спрашиваете друзей.\nПотом закрываете игру.\nУжасно.\nЯ же избавлю вас от этих мучений.`,
             primary: "И как это работает?",
             secondary: null,
             skip: true
         },
+        // Реплика 13: Объяснение механики
         {
+            type: "speech",
             text: `— Очень просто!\nВы выбираете один из 3 предложенных путей.\nА затем...\nСудьба и ваша удача сделают всё остальное.`,
             primary: "А если я не хочу крутить рулетку?",
             secondary: null,
             skip: true
         },
+        // Реплика 14: Блокнот
         {
-            text: `— Конечно-конечно!\nНикто вас не заставляет.\nАрлекино достаёт блокнот.\n— Просто назовите своё имя, чтобы я мог записать вас в список трусов.`,
+            type: "speech",
+            text: `— Конечно-конечно!\nНикто вас не заставляет.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 15: Достаёт блокнот
+        {
+            type: "action",
+            text: `Арлекино достаёт блокнот.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 16: Угроза
+        {
+            type: "speech",
+            text: `— Просто назовите своё имя, чтобы я мог записать вас в список трусов.`,
             primary: "Что?!",
             secondary: null,
             skip: true
         },
+        // Реплика 17: Шутка
         {
+            type: "speech",
             text: `— Шучу!\n...........\n— Возможно.`,
             primary: "Остаться",
             secondary: "Уйти и сохранить остатки здравомыслия",
             skip: false
         },
+        // Реплика 18: Первый вопрос
         {
+            type: "speech",
             text: `— Ох...\n— Вы уверены?`,
             primary: "Да.",
             secondary: "Нет",
             skip: false
         },
+        // Реплика 19: Второй вопрос
         {
+            type: "speech",
             text: `— Правда уверены?`,
             primary: "Да.",
             secondary: "Нет",
             skip: false
         },
+        // Реплика 20: Третий вопрос
         {
+            type: "speech",
             text: `— Абсолютно уверены?`,
             primary: "Да!",
             secondary: "Нет!",
             skip: false
         },
+        // Реплика 21: Досада
         {
-            text: `— Какая досада...\n— Что вы там пишете?\n— Ничего особенного.\n— Просто вношу ваше имя в список людей, которые испугались обычного выбора.`,
+            type: "speech",
+            text: `— Какая досада...`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 22: Что вы пишете
+        {
+            type: "speech",
+            text: `— Что вы там пишете?\n— Ничего особенного.\n— Просто вношу ваше имя в список людей, которые испугались обычного выбора.`,
             primary: "Я не испугался.",
             secondary: null,
             skip: true
         },
+        // Реплика 23: Ехидство
         {
-            text: `— Конечно-конечно.\n— Именно так обычно и говорят те, кто испугался.\nАрлекино ехидно улыбается.\n— Но я вас не осуждаю.\n— В конце концов, не каждый способен взглянуть хаосу в глаза и сказать:\n«Да, сегодня я добровольно испорчу себе жизнь.»`,
+            type: "action",
+            text: `Арлекино ехидно улыбается.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 24: Продолжение
+        {
+            type: "speech",
+            text: `— Конечно-конечно.\n— Именно так обычно и говорят те, кто испугался.\n— Но я вас не осуждаю.\n— В конце концов, не каждый способен взглянуть хаосу в глаза и сказать:\n«Да, сегодня я добровольно испорчу себе жизнь.»`,
             primary: "Звучит как плохая идея.",
             secondary: null,
             skip: true
         },
+        // Реплика 25: Лучшие идеи
         {
-            text: `— А лучшие идеи всегда звучат как плохие.\nПауза.\n— Хотя должен признать...\n— Возможно, в этот раз рулетка действительно приготовила нечто ужасное.\nАрлекино наклоняется ближе.\n— Настолько ужасное, что даже мне стало немного любопытно.`,
+            type: "speech",
+            text: `— А лучшие идеи всегда звучат как плохие.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 26: Пауза
+        {
+            type: "action",
+            text: `Пауза.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 27: Признание
+        {
+            type: "speech",
+            text: `— Хотя должен признать...\n— Возможно, в этот раз рулетка действительно приготовила нечто ужасное.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 28: Наклоняется
+        {
+            type: "action",
+            text: `Арлекино наклоняется ближе.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 29: Заманивание
+        {
+            type: "speech",
+            text: `— Настолько ужасное, что даже мне стало немного любопытно.`,
             primary: "Теперь ты пытаешься меня заманить.",
             secondary: null,
             skip: true
         },
+        // Реплика 30: Ответ
         {
+            type: "speech",
             text: `— Пытаюсь?\n— Друг мой, если бы я пытался, у вас уже не было бы кнопки «Уйти».`,
             primary: "Ладно, я участвую.",
             secondary: "Нет, я ухожу.",
             skip: false
         },
+        // Реплика 31: Уважение
         {
-            text: `— Хорошо.\n— Я уважаю ваше решение.\nДлинная пауза.\n— Нет, не уважаю.\nАрлекино начинает смеяться.\n— Но дверь вон там.\n— Возвращайтесь, когда любопытство победит здравый смысл.\n— Обычно это занимает от пяти минут до двух дней.`,
+            type: "speech",
+            text: `— Хорошо.\n— Я уважаю ваше решение.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 32: Длинная пауза
+        {
+            type: "action",
+            text: `Длинная пауза.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 33: Не уважаю
+        {
+            type: "speech",
+            text: `— Нет, не уважаю.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 34: Смех
+        {
+            type: "action",
+            text: `Арлекино начинает смеяться.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 35: Дверь
+        {
+            type: "speech",
+            text: `— Но дверь вон там.\n— Возвращайтесь, когда любопытство победит здравый смысл.\n— Обычно это занимает от пяти минут до двух дней.`,
             primary: "Ладно, я участвую!",
             secondary: null,
             skip: true
         },
+        // Реплика 36: Триумф
         {
-            text: `— Ха!\n— Я так и знал.\n— Любопытство — самая надёжная ловушка из всех существующих.\nАрлекино широко улыбается.\n— Добро пожаловать обратно, мой дорогой участник!\n— Теперь пути назад нет.`,
+            type: "speech",
+            text: `— Ха!\n— Я так и знал.\n— Любопытство — самая надёжная ловушка из всех существующих.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 37: Улыбка
+        {
+            type: "action",
+            text: `Арлекино широко улыбается.`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        // Реплика 38: Добро пожаловать
+        {
+            type: "speech",
+            text: `— Добро пожаловать обратно, мой дорогой участник!\n— Теперь пути назад нет.`,
             primary: "Пути назад нет?",
             secondary: null,
             skip: true
         },
+        // Реплика 39: Технически
         {
+            type: "speech",
             text: `— Ну, технически есть.\n— Но звучит не так драматично.\n— Перед вами 3 пути, которые не знают ни жалости, ни справедливости.\n— Они не спросят, готовы ли вы.\n— Они не станут учитывать ваш опыт.\n— И уж точно не будут переживать за ваши нервы.`,
             primary: "Звучит обнадёживающе.",
             secondary: null,
             skip: true
         },
+        // Реплика 40: Благодарность
         {
+            type: "speech",
             text: `— Благодарю! Я старался.\n— Итак...\n— Удачи, Реагент.\n— Она вам понадобится.`,
             primary: "Начать!",
             secondary: null,
@@ -1189,11 +1394,9 @@
     let isTyping = false;
     let typeInterval = null;
     let isDialogComplete = false;
-    let dialogHistory = [];
 
     function startDialog() {
         currentDialogIndex = 0;
-        dialogHistory = [];
         showDialogLine(0);
     }
 
@@ -1215,9 +1418,6 @@
             typeInterval = null;
         }
 
-        // Сохраняем в историю
-        dialogHistory.push(index);
-
         primaryBtn.style.display = 'inline-block';
         primaryBtn.textContent = line.primary || 'Далее';
         primaryBtn.disabled = true;
@@ -1236,41 +1436,25 @@
         isTyping = true;
 
         let text = line.text;
-        // Заменяем переносы строк на <br> для отображения
         let htmlText = text.replace(/\n/g, '<br>');
-        // Заменяем курсив
-        htmlText = htmlText.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
         
-        let charIndex = 0;
-        let isInTag = false;
-        let tagBuffer = '';
-        let displayText = '';
-        const typingSpeed = 25;
+        // Если это действие или пауза - применяем курсив
+        if (line.type === 'action') {
+            htmlText = `<span class="action-text">${htmlText}</span>`;
+        }
 
-        // Функция для рендеринга HTML с эффектом печати
+        let displayText = '';
+        let charIndex = 0;
+        const typingSpeed = line.type === 'action' ? 20 : 25;
+
         function typeNextChar() {
             if (charIndex < htmlText.length) {
                 const char = htmlText.charAt(charIndex);
-                
-                if (char === '<') {
-                    isInTag = true;
-                    tagBuffer = '<';
-                } else if (char === '>' && isInTag) {
-                    tagBuffer += '>';
-                    isInTag = false;
-                    displayText += tagBuffer;
-                    tagBuffer = '';
-                } else if (isInTag) {
-                    tagBuffer += char;
-                } else {
-                    displayText += char;
-                }
-                
+                displayText += char;
                 charIndex++;
                 messageEl.innerHTML = displayText + '<span class="cursor"></span>';
                 setTimeout(typeNextChar, typingSpeed);
             } else {
-                // Завершаем печать
                 clearInterval(typeInterval);
                 typeInterval = null;
                 isTyping = false;
@@ -1310,7 +1494,6 @@
             overlay.style.transform = 'scale(0.97)';
             setTimeout(() => {
                 overlay.style.display = 'none';
-                // Прокручиваем к режимам
                 document.getElementById('modesSection').scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'start' 
@@ -1343,7 +1526,9 @@
                 const line = dialogLines[currentDialogIndex];
                 if (line) {
                     let text = line.text.replace(/\n/g, '<br>');
-                    text = text.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
+                    if (line.type === 'action') {
+                        text = `<span class="action-text">${text}</span>`;
+                    }
                     messageEl.innerHTML = text;
                 }
                 isTyping = false;
@@ -1370,17 +1555,14 @@
                 typeInterval = null;
                 isTyping = false;
             }
-            // Пропускаем к финальному диалогу
             const lastIndex = dialogLines.length - 1;
             currentDialogIndex = lastIndex;
             showDialogLine(lastIndex);
         });
 
         document.getElementById('dialogBtnSecondary').addEventListener('click', function() {
-            // Обработка вторичных кнопок (выбор вариантов)
             const line = dialogLines[currentDialogIndex];
             if (line && line.secondary) {
-                // Если нажата вторичная кнопка - переходим к следующей строке
                 currentDialogIndex++;
                 if (currentDialogIndex < dialogLines.length) {
                     showDialogLine(currentDialogIndex);
