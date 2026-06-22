@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Рулетка заданий — Курилка Синьялы</title>
+    <title>Эскалация — Курилка Синьялы</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -62,9 +62,9 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
         }
 
-        @keyframes countPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        @keyframes resultAppear {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* ===== КОНТЕЙНЕР ===== */
@@ -163,450 +163,522 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
 
-        /* ===== ЗАГОЛОВОК СТРАНИЦЫ ===== */
-        .page-header {
-            text-align: center;
-            margin-bottom: 2rem;
+        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ЭСКАЛАЦИИ ===== */
+        .escalation-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            padding: 2.5rem;
             animation: fadeInScale 0.6s ease-out;
         }
 
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
+        .escalation-wrapper h1 {
+            font-size: 2.2rem;
+            text-align: center;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-
-        .page-header h1 i {
-            font-size: 2.2rem;
-            color: #e16d48;
-        }
-
-        .page-header p {
-            color: #c2b9d4;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        /* ===== ЗАДАНИЕ ДНЯ ===== */
-        .daily-mission {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            border: 2px solid rgba(220, 90, 50, 0.3);
-            animation: glowPulse 2s ease-in-out infinite;
-            text-align: center;
-            position: relative;
-        }
-
-        .daily-mission .label {
-            font-size: 0.8rem;
-            color: #e16d48;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .daily-mission .mission-content {
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3rem;
+            gap: 15px;
+        }
+
+        .escalation-wrapper h1 i {
+            color: #e16d48;
+        }
+
+        /* ===== ШАГИ ===== */
+        .step-container {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 28px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        .step-container.hidden {
+            display: none;
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            color: #e16d48;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-left: 4px solid #e16d48;
+            padding-left: 18px;
+        }
+
+        .step-title .step-number {
+            background: rgba(220, 90, 50, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #e16d48;
+        }
+
+        .step-subtitle {
+            font-size: 0.95rem;
+            color: #c2b9d4;
+            margin-bottom: 1.8rem;
+            padding-left: 10px;
+        }
+
+        /* ===== КНОПКИ ВЫБОРА ИГРОКОВ ===== */
+        .player-count-options {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0.5rem 0;
+        }
+
+        .player-count-btn {
+            background: rgba(0, 0, 0, 0.35);
+            border: 2px solid rgba(220, 90, 50, 0.25);
+            border-radius: 24px;
+            padding: 1.2rem 2.8rem;
+            color: #c2b9d4;
+            font-size: 1.6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 90px;
+            font-family: inherit;
+        }
+
+        .player-count-btn:hover {
+            border-color: #e16d48;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(220, 90, 50, 0.1);
+        }
+
+        .player-count-btn.selected {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.2);
+            color: white;
+            box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
+        }
+
+        /* ===== ПОЛЯ ВВОДА ИМЕН ===== */
+        .player-name-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 0.5rem 0;
+        }
+
+        .player-name-inputs .input-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.3rem 1rem 0.3rem 1.5rem;
+            border-radius: 18px;
+            border: 1px solid rgba(220, 90, 50, 0.1);
+            transition: border-color 0.3s;
+        }
+
+        .player-name-inputs .input-row:hover {
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        .player-name-inputs .input-row label {
+            min-width: 80px;
+            color: #c2b9d4;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .player-name-inputs .input-row input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.7rem 0.5rem;
+            color: #f0eef7;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .player-name-inputs .input-row input::placeholder {
+            color: #555;
+        }
+
+        /* ===== СЕТКА ВЫБОРА (СНАРЯЖЕНИЕ/АМПЫ) ===== */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .selection-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(220, 90, 50, 0.2);
+            border-radius: 20px;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .selection-item:hover {
+            border-color: #e16d48;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .selection-item.selected {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.15);
+            box-shadow: 0 0 40px rgba(220, 90, 50, 0.08);
+        }
+
+        .selection-item img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px;
+            transition: transform 0.3s;
+        }
+
+        .selection-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .selection-item .item-name {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .selection-item .item-desc {
+            font-size: 0.65rem;
+            color: #666;
+            margin-top: 0.3rem;
+            line-height: 1.3;
+            display: none;
+        }
+
+        .selection-item.selected .item-desc {
+            display: block;
+        }
+
+        .selection-item .check-mark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #4c9aff;
+            font-size: 1.4rem;
+            display: none;
+        }
+
+        .selection-item.selected .check-mark {
+            display: block;
+        }
+
+        /* ===== КНОПКИ НАВИГАЦИИ ===== */
+        .step-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2rem;
             flex-wrap: wrap;
         }
 
-        .daily-mission .mission-map {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
+        .next-btn {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            border: none;
+            padding: 0.9rem 3rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            min-width: 160px;
         }
 
-        .daily-mission .mission-map img {
+        .next-btn:hover:not(:disabled) {
+            transform: scale(1.04);
+            box-shadow: 0 8px 35px rgba(188, 74, 40, 0.4);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #c2b9d4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .back-btn:hover {
+            background: rgba(220, 90, 50, 0.25);
+            color: white;
+        }
+
+        /* ===== РЕЗУЛЬТАТ ===== */
+        .escalation-result {
+            display: none;
+            animation: resultAppear 0.6s ease-out;
+        }
+
+        .escalation-result.active {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+        }
+
+        .result-card {
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .result-card h3 {
+            color: #e16d48;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
+            padding-bottom: 0.8rem;
+        }
+
+        /* Карта в результате */
+        .result-map-row {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .result-map-row img {
             width: 160px;
             height: 160px;
             object-fit: cover;
             border-radius: 16px;
-            border: 2px solid rgba(220, 90, 50, 0.4);
-            transition: transform 0.3s;
+            border: 2px solid rgba(220, 90, 50, 0.3);
         }
 
-        .daily-mission .mission-map img:hover {
-            transform: scale(1.05);
-        }
-
-        .daily-mission .mission-map .map-name {
-            font-size: 1rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .daily-mission .mission-variators {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .daily-mission .variator-items {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .daily-mission .variator-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .daily-mission .variator-item img {
-            width: 75px;
-            height: 75px;
-            object-fit: contain;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .daily-mission .variator-item img:hover {
-            transform: scale(1.1);
-        }
-
-        .daily-mission .variator-item .var-name {
-            font-size: 0.8rem;
-            color: #c2b9d4;
-            max-width: 100px;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .daily-mission .variator-count {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 0.2rem;
-        }
-
-        .timer-section {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(220, 90, 50, 0.2);
-        }
-
-        .timer-label {
-            font-size: 0.7rem;
-            color: #888;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .timer-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .timer-unit .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: countPulse 1s ease-in-out infinite;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        .timer-unit .label {
-            font-size: 0.6rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .timer-separator {
-            font-size: 2rem;
-            color: #e16d48;
-            opacity: 0.5;
-            display: flex;
-            align-items: center;
-        }
-
-        .reroll-btn {
-            background: rgba(220, 90, 50, 0.15);
-            border: 1px solid rgba(220, 90, 50, 0.3);
-            color: #888;
-            padding: 0.5rem 1.5rem;
-            border-radius: 40px;
-            cursor: not-allowed;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            opacity: 0.5;
-        }
-
-        /* ===== РЕЖИМЫ РУЛЕТКИ ===== */
-        .modes-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .modes-section h2 {
-            font-size: 1.5rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 3px solid #e16d48;
-            padding-left: 15px;
-        }
-
-        .modes-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .mode-card {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .mode-card:hover {
-            transform: translateY(-6px);
-            border-color: #e16d48;
-            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
-        }
-
-        .mode-card .icon {
-            font-size: 3rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-        }
-
-        .mode-card h3 {
+        .result-map-info h2 {
             font-size: 1.3rem;
             color: #fff;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
-        .mode-card p {
-            font-size: 0.85rem;
+        .result-map-info p {
             color: #c2b9d4;
+            font-size: 0.9rem;
             line-height: 1.5;
         }
 
-        .mode-card .tag {
-            display: inline-block;
-            background: rgba(220, 90, 50, 0.2);
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            color: #e16d48;
-            margin-top: 0.8rem;
-        }
-
-        .mode-card.active-mode {
-            border-color: #e16d48;
-            background: rgba(220, 90, 50, 0.1);
-        }
-
-        /* ===== КОНСТРУКТОР ===== */
-        .constructor-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .constructor-section h2 {
-            font-size: 1.5rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
+        /* Вариаторы в результате */
+        .variator-list {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 3px solid #e16d48;
-            padding-left: 15px;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
-        .constructor-wrapper {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 2rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-        }
-
-        .constructor-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-        }
-
-        .form-group {
+        .variator-list .var-item {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 0.4rem;
         }
 
-        .form-group label {
-            font-size: 0.8rem;
+        .variator-list .var-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .variator-list .var-item .var-name {
+            font-size: 0.7rem;
             color: #c2b9d4;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            text-align: center;
+            max-width: 85px;
+            line-height: 1.2;
         }
 
-        .form-group select,
-        .form-group input {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(220, 90, 50, 0.3);
+        /* Игроки в результате */
+        .player-result {
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
-            padding: 0.7rem 1rem;
-            color: #f0eef7;
-            font-size: 0.9rem;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-group select:focus,
-        .form-group input:focus {
-            border-color: #e16d48;
-        }
-
-        .form-group select option {
-            background: #1a1a2e;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group textarea {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(220, 90, 50, 0.3);
-            border-radius: 16px;
-            padding: 0.7rem 1rem;
-            color: #f0eef7;
-            font-size: 0.9rem;
-            font-family: inherit;
-            outline: none;
-            resize: vertical;
-            min-height: 80px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group textarea:focus {
-            border-color: #e16d48;
-        }
-
-        .submit-btn {
-            grid-column: 1 / -1;
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            border: none;
-            padding: 0.8rem;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            margin-top: 0.5rem;
-        }
-
-        .submit-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
-        }
-
-        .created-tasks {
-            margin-top: 1.5rem;
-        }
-
-        .created-tasks h3 {
-            font-size: 1.1rem;
-            color: #c2b9d4;
-            margin-bottom: 1rem;
-        }
-
-        .tasks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .task-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
             padding: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.1);
+            transition: border-color 0.3s;
         }
 
-        .task-item:hover {
-            border-color: #e16d48;
-            transform: translateY(-3px);
+        .player-result:hover {
+            border-color: rgba(220, 90, 50, 0.3);
         }
 
-        .task-item .task-name {
-            font-weight: 600;
+        .player-result:last-child {
+            margin-bottom: 0;
+        }
+
+        .player-result .player-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-result .player-name i {
             color: #e16d48;
         }
 
-        .task-item .task-meta {
-            font-size: 0.75rem;
+        .player-result .player-equip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+        }
+
+        .player-result .player-equip img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+        }
+
+        .player-result .player-equip .label {
             color: #888;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .player-result .player-equip .value {
+            color: #ffbc9a;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .player-result .player-amps {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
             margin-top: 0.3rem;
         }
 
-        .task-item .task-actions {
-            margin-top: 0.5rem;
+        .player-result .player-amps .amp-item {
             display: flex;
-            gap: 0.5rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 0.3rem 0.5rem;
+            border-radius: 10px;
         }
 
-        .task-item .task-actions button {
-            background: rgba(220, 90, 50, 0.2);
-            border: none;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
+        .player-result .player-amps .amp-item img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+        }
+
+        .player-result .player-amps .amp-item .amp-name {
+            font-size: 0.55rem;
+            color: #888;
+            text-align: center;
+            max-width: 50px;
+            line-height: 1.1;
+        }
+
+        .restart-btn {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            padding: 0.9rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
             color: #c2b9d4;
-            font-size: 0.7rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+            margin-top: 1rem;
         }
 
-        .task-item .task-actions button:hover {
-            background: rgba(220, 90, 50, 0.4);
+        .restart-btn:hover {
+            background: rgba(220, 90, 50, 0.25);
             color: white;
         }
 
-        .empty-tasks {
-            color: #888;
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
+        /* ===== КНОПКА НАЗАД ===== */
+        .back-to-roulette {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+            color: #e16d48;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            background: rgba(220, 90, 50, 0.1);
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .back-to-roulette:hover {
+            color: #ffbc9a;
+            background: rgba(220, 90, 50, 0.2);
+            transform: translateX(-5px);
         }
 
         /* ===== ФУТЕР ===== */
@@ -622,32 +694,61 @@
         }
 
         /* ===== АДАПТИВ ===== */
+        @media (max-width: 992px) {
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
             .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
             .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
             .logo h1 { font-size: 1.5rem; }
-            .page-header h1 { font-size: 1.8rem; }
-            .modes-grid { grid-template-columns: 1fr; }
-            .constructor-form { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: 1; }
-            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1.5rem; }
-            .daily-mission .mission-map img { width: 120px; height: 120px; }
-            .daily-mission .variator-item img { width: 60px; height: 60px; }
-            .timer-display { gap: 0.8rem; }
-            .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
-            .timer-separator { font-size: 1.5rem; }
+            
+            .escalation-wrapper { padding: 1.5rem; margin: 0 0.5rem; }
+            .escalation-wrapper h1 { font-size: 1.6rem; }
+            
+            .step-container { padding: 1.5rem; }
+            .step-title { font-size: 1.1rem; }
+            
+            .player-count-btn { padding: 1rem 2rem; font-size: 1.3rem; min-width: 70px; }
+            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .selection-item img { width: 60px; height: 60px; }
+            
+            .result-map-row { flex-direction: column; text-align: center; }
+            .result-map-row img { width: 130px; height: 130px; }
+            
+            .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
+            .player-name-inputs .input-row label { min-width: auto; }
         }
 
         @media (max-width: 550px) {
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
-            .mode-card { padding: 1.2rem; }
-            .daily-mission .mission-map img { width: 100px; height: 100px; }
-            .daily-mission .variator-item img { width: 50px; height: 50px; }
-            .daily-mission .variator-item .var-name { font-size: 0.7rem; max-width: 70px; }
-            .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
-            .timer-separator { font-size: 1.2rem; }
+            .escalation-wrapper { padding: 1rem; }
+            .escalation-wrapper h1 { font-size: 1.3rem; flex-wrap: wrap; }
+            
+            .step-container { padding: 1rem; }
+            .step-title { font-size: 1rem; padding-left: 12px; gap: 8px; }
+            .step-title .step-number { font-size: 0.7rem; padding: 0.1rem 0.6rem; }
+            
+            .player-count-btn { padding: 0.8rem 1.2rem; font-size: 1.1rem; min-width: 55px; }
+            .player-count-options { gap: 0.5rem; }
+            
+            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.8rem; }
+            .selection-item { padding: 0.8rem; }
+            .selection-item img { width: 50px; height: 50px; }
+            .selection-item .item-name { font-size: 0.7rem; }
+            
+            .result-map-row img { width: 100px; height: 100px; }
+            .variator-list .var-item img { width: 55px; height: 55px; }
+            
+            .step-actions { flex-direction: column; align-items: center; }
+            .next-btn, .back-btn { width: 100%; justify-content: center; }
+            
+            .player-result .player-amps .amp-item img { width: 28px; height: 28px; }
+            
+            .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
         }
     </style>
 </head>
@@ -677,113 +778,99 @@
         </div>
     </div>
 
-    <!-- ЗАГОЛОВОК -->
-    <div class="page-header">
-        <h1><i class="fas fa-dice-d6"></i> Рулетка испытаний</h1>
-        <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
-    </div>
+    <!-- ОСНОВНОЙ КОНТЕНТ ЭСКАЛАЦИИ -->
+    <div class="escalation-wrapper">
+        <h1><i class="fas fa-chart-line"></i> Режим Эскалации</h1>
 
-    <!-- ЗАДАНИЕ ДНЯ -->
-    <div class="daily-mission" id="dailyMission">
-        <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
-        <div class="mission-content" id="missionContent"></div>
-        <div class="timer-section">
-            <div class="timer-label">⏳ Следующее задание через</div>
-            <div class="timer-display" id="timerDisplay">
-                <div class="timer-unit">
-                    <span class="number" id="hours">23</span>
-                    <span class="label">часы</span>
-                </div>
-                <span class="timer-separator">:</span>
-                <div class="timer-unit">
-                    <span class="number" id="minutes">59</span>
-                    <span class="label">минуты</span>
-                </div>
-                <span class="timer-separator">:</span>
-                <div class="timer-unit">
-                    <span class="number" id="seconds">59</span>
-                    <span class="label">секунды</span>
-                </div>
+        <!-- ШАГ 1: Количество игроков -->
+        <div class="step-container" id="escStep1">
+            <div class="step-title">
+                <span class="step-number">Шаг 1</span>
+                <i class="fas fa-users"></i> Количество игроков
             </div>
-            <button class="reroll-btn" disabled><i class="fas fa-lock"></i> Обновится автоматически</button>
-        </div>
-    </div>
-
-    <!-- РЕЖИМЫ РУЛЕТКИ -->
-    <div class="modes-section">
-        <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
-        <div class="modes-grid">
-            <div class="mode-card active-mode" onclick="window.location.href='roulette.html'">
-                <div class="icon"><i class="fas fa-dice-d6"></i></div>
-                <h3>Рулетка</h3>
-                <p>Случайное испытание с набором вариаторов. Никогда не знаешь, что выпадет!</p>
-                <span class="tag">🔥 Популярный</span>
+            <div class="step-subtitle">Выберите, сколько игроков будет участвовать в испытании</div>
+            <div class="player-count-options" id="escPlayerCountOptions">
+                <button class="player-count-btn" data-count="1">1</button>
+                <button class="player-count-btn" data-count="2">2</button>
+                <button class="player-count-btn" data-count="3">3</button>
+                <button class="player-count-btn" data-count="4">4</button>
             </div>
-            <div class="mode-card" onclick="window.location.href='card-mode.html'">
-                <div class="icon"><i class="fas fa-id-card"></i></div>
-                <h3>Карточный</h3>
-                <p>Выбирайте карты с испытаниями и составляйте свою уникальную комбинацию.</p>
-                <span class="tag">🃏 Стратегия</span>
-            </div>
-            <div class="mode-card" onclick="window.location.href='escalation.html'">
-                <div class="icon"><i class="fas fa-chart-line"></i></div>
-                <h3>Эскалация</h3>
-                <p>Постепенное усложнение: каждое новое испытание добавляет вариаторы.</p>
-                <span class="tag">💀 Хардкор</span>
+            <div class="step-actions">
+                <button class="next-btn" id="escStep1Next" disabled>Далее →</button>
             </div>
         </div>
-    </div>
 
-    <!-- КОНСТРУКТОР ИСПЫТАНИЙ -->
-    <div class="constructor-section">
-        <h2><i class="fas fa-tools"></i> Конструктор испытаний</h2>
-        <div class="constructor-wrapper">
-            <form class="constructor-form" id="taskForm">
-                <div class="form-group">
-                    <label><i class="fas fa-map"></i> Карта</label>
-                    <select id="taskMap" required></select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-dice"></i> Количество вариаторов</label>
-                    <select id="taskVariators" required>
-                        <option value="1">1 вариатор</option>
-                        <option value="2">2 вариатора</option>
-                        <option value="3" selected>3 вариатора</option>
-                        <option value="4">4 вариатора</option>
-                        <option value="5">5 вариаторов</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-tag"></i> Режим</label>
-                    <select id="taskMode" required>
-                        <option value="Рулетка">Рулетка</option>
-                        <option value="Карточный">Карточный</option>
-                        <option value="Эскалация">Эскалация</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-star"></i> Сложность</label>
-                    <select id="taskDifficulty" required>
-                        <option value="Вводный">Вводный</option>
-                        <option value="Стандартный" selected>Стандартный</option>
-                        <option value="Интенсивный">Интенсивный</option>
-                        <option value="Психохирургия">Психохирургия</option>
-                    </select>
-                </div>
-                <div class="form-group full-width">
-                    <label><i class="fas fa-align-left"></i> Описание задания</label>
-                    <textarea id="taskDescription" placeholder="Опишите задание для игроков..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn"><i class="fas fa-plus"></i> Создать задание</button>
-            </form>
-        </div>
-
-        <div class="created-tasks">
-            <h3><i class="fas fa-list"></i> Созданные задания</h3>
-            <div class="tasks-grid" id="tasksGrid">
-                <div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>
+        <!-- ШАГ 2: Ввод ников -->
+        <div class="step-container hidden" id="escStep2">
+            <div class="step-title">
+                <span class="step-number">Шаг 2</span>
+                <i class="fas fa-user-edit"></i> Имена игроков
+            </div>
+            <div class="step-subtitle">Введите имена всех участников</div>
+            <div class="player-name-inputs" id="escPlayerNameInputs"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep2Back">← Назад</button>
+                <button class="next-btn" id="escStep2Next">Далее →</button>
             </div>
         </div>
+
+        <!-- ШАГ 3: Снаряжение -->
+        <div class="step-container hidden" id="escStep3">
+            <div class="step-title">
+                <span class="step-number">Шаг 3</span>
+                <i class="fas fa-backpack"></i> Выбор снаряжения
+            </div>
+            <div class="step-subtitle" id="escStep3Subtitle">Выберите по 1 снаряжению для каждого игрока</div>
+            <div id="escStep3Content"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep3Back">← Назад</button>
+                <button class="next-btn" id="escStep3Next" disabled>Далее →</button>
+            </div>
+        </div>
+
+        <!-- ШАГ 4: Ампы -->
+        <div class="step-container hidden" id="escStep4">
+            <div class="step-title">
+                <span class="step-number">Шаг 4</span>
+                <i class="fas fa-capsules"></i> Выбор амп
+            </div>
+            <div class="step-subtitle" id="escStep4Subtitle">Выберите по 3 ампы для каждого игрока</div>
+            <div id="escStep4Content"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep4Back">← Назад</button>
+                <button class="next-btn" id="escStep4Next" disabled>Далее →</button>
+            </div>
+        </div>
+
+        <!-- РЕЗУЛЬТАТ -->
+        <div class="escalation-result" id="escResult">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="background: rgba(220,90,50,0.2); padding: 0.3rem 1.5rem; border-radius: 30px; color: #e16d48; font-size: 0.85rem; font-weight: 600;">
+                    <i class="fas fa-check-circle"></i> Испытание сгенерировано!
+                </span>
+            </div>
+            <div class="result-grid">
+                <div>
+                    <div class="result-card">
+                        <h3><i class="fas fa-map"></i> Карта</h3>
+                        <div class="result-map-row" id="escResultMap"></div>
+                    </div>
+                    <div class="result-card" style="margin-top: 1.5rem;">
+                        <h3><i class="fas fa-skull"></i> Вариаторы</h3>
+                        <div class="variator-list" id="escResultVariators"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="result-card">
+                        <h3><i class="fas fa-users"></i> Участники</h3>
+                        <div id="escResultPlayers"></div>
+                        <button class="restart-btn" id="escRestartBtn"><i class="fas fa-redo"></i> Начать заново</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="roulette.html" class="back-to-roulette"><i class="fas fa-arrow-left"></i> Вернуться к рулетке</a>
     </div>
 
     <footer>
@@ -792,185 +879,376 @@
     </footer>
 </div>
 
-<!-- ===== ПОДКЛЮЧАЕМ ДАННЫЕ ИЗ ОТДЕЛЬНОГО ФАЙЛА ===== -->
-<script src="../data/roulette-data.js"></script>
+<!-- ===== ПОДКЛЮЧАЕМ ДАННЫЕ ИЗ КОРНЕВОГО ФАЙЛА ===== -->
+<script src="../roulette-data.js"></script>
 
-<!-- ===== СКРИПТ ===== -->
+<!-- ===== СКРИПТ ЭСКАЛАЦИИ ===== -->
 <script>
-    // ===== ЗАПОЛНЕНИЕ СЕЛЕКТА КАРТ =====
+    // ===== ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ =====
     document.addEventListener('DOMContentLoaded', function() {
-        const mapSelect = document.getElementById('taskMap');
-        if (mapSelect) {
-            mapsData.forEach(map => {
-                const option = document.createElement('option');
-                option.value = map.name;
-                option.textContent = map.name;
-                mapSelect.appendChild(option);
-            });
-        }
-        
-        getDailyMission();
-        startTimer();
-        loadTasks();
-    });
-
-    // ===== ЗАДАНИЕ ДНЯ =====
-    function getDailyMission() {
-        const saved = localStorage.getItem('dailyMission');
-        const savedDate = localStorage.getItem('dailyMissionDate');
-        const now = Date.now();
-
-        if (!saved || !savedDate || (now - parseInt(savedDate) > 24 * 60 * 60 * 1000)) {
-            generateNewDailyMission();
-        } else {
-            renderDailyMission(JSON.parse(saved));
-        }
-    }
-
-    function generateNewDailyMission() {
-        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
-        const variatorsCount = Math.floor(Math.random() * 5) + 1;
-        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
-        const selectedVariators = shuffled.slice(0, variatorsCount);
-
-        const mission = { map: mapData, variators: selectedVariators, count: variatorsCount, timestamp: Date.now() };
-        localStorage.setItem('dailyMission', JSON.stringify(mission));
-        localStorage.setItem('dailyMissionDate', Date.now().toString());
-        renderDailyMission(mission);
-    }
-
-    function renderDailyMission(mission) {
-        const content = document.getElementById('missionContent');
-        if (!content) return;
-        
-        content.innerHTML = `
-            <div class="mission-map">
-                <img src="${mission.map.image}" alt="${mission.map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mission.map.name)}'">
-                <span class="map-name">${mission.map.name}</span>
-            </div>
-            <div class="mission-variators">
-                <div class="variator-items">
-                    ${mission.variators.map(v => `
-                        <div class="variator-item">
-                            <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
-                            <span class="var-name">${v.name}</span>
-                        </div>
-                    `).join('')}
+        // Проверяем, загрузились ли данные
+        if (typeof mapsData === 'undefined' || !mapsData || mapsData.length === 0) {
+            console.error('❌ Данные не загружены! Проверьте путь к файлу roulette-data.js');
+            document.querySelector('.escalation-wrapper').innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                    <h2>Ошибка загрузки данных</h2>
+                    <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить файл с данными.<br>Проверьте, что файл <strong>roulette-data.js</strong> существует в корне сайта.</p>
+                    <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
                 </div>
-                <span class="variator-count">${mission.count} вариатор${mission.count > 1 ? 'а' : ''}</span>
-            </div>
-        `;
-    }
-
-    // ===== ТАЙМЕР =====
-    let timerInterval;
-
-    function startTimer() {
-        const savedDate = localStorage.getItem('dailyMissionDate');
-        if (!savedDate) { generateNewDailyMission(); return; }
-        const startTime = parseInt(savedDate);
-        const totalDuration = 24 * 60 * 60 * 1000;
-
-        function updateTimer() {
-            const now = Date.now();
-            const remaining = Math.max(0, totalDuration - (now - startTime));
-            const hours = Math.floor(remaining / (60 * 60 * 1000));
-            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-            const seconds = Math.floor((remaining % (60 * 1000)) / 1000);
-
-            const hoursEl = document.getElementById('hours');
-            const minutesEl = document.getElementById('minutes');
-            const secondsEl = document.getElementById('seconds');
-            
-            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-
-            if (remaining <= 0) {
-                clearInterval(timerInterval);
-                generateNewDailyMission();
-                startTimer();
-            }
-        }
-        updateTimer();
-        timerInterval = setInterval(updateTimer, 1000);
-    }
-
-    // ===== ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ =====
-    let tasks = [];
-
-    function loadTasks() {
-        const saved = localStorage.getItem('rouletteTasks');
-        if (saved) {
-            try { tasks = JSON.parse(saved); } catch (e) { tasks = []; }
-            renderTasks();
-        }
-    }
-
-    function saveTasks() {
-        localStorage.setItem('rouletteTasks', JSON.stringify(tasks));
-        renderTasks();
-    }
-
-    function renderTasks() {
-        const grid = document.getElementById('tasksGrid');
-        if (!grid) return;
-        
-        if (tasks.length === 0) {
-            grid.innerHTML = '<div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>';
+            `;
             return;
         }
-        grid.innerHTML = tasks.map(task => `
-            <div class="task-item">
-                <div class="task-name">${task.map}</div>
-                <div class="task-meta"><i class="fas fa-dice"></i> ${task.variators} вар. · <i class="fas fa-tag"></i> ${task.mode} · <i class="fas fa-star"></i> ${task.difficulty}</div>
-                <div class="task-meta" style="margin-top: 2px; font-style: italic;">${task.description}</div>
-                <div class="task-actions">
-                    <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i> Удалить</button>
-                    <button onclick="useTask(${task.id})"><i class="fas fa-play"></i> Использовать</button>
-                </div>
+        
+        console.log('✅ Данные успешно загружены:', {
+            maps: mapsData.length,
+            equipment: equipmentData.length,
+            amps: ampsData.length,
+            variators: variatorsData.length
+        });
+        
+        // Инициализируем эскалацию только после загрузки данных
+        initEscalation();
+    });
+
+    // ===== СОСТОЯНИЕ =====
+    let escState = {
+        playerCount: 0,
+        players: [],
+        equipSelections: {},
+        ampSelections: {},
+        currentStep: 1,
+        map: null,
+        variators: []
+    };
+
+    // ===== НАВИГАЦИЯ =====
+    function goToEscStep(step) {
+        escState.currentStep = step;
+        document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
+        document.getElementById('escStep1').classList.add('hidden');
+        document.getElementById('escStep2').classList.add('hidden');
+        document.getElementById('escStep3').classList.add('hidden');
+        document.getElementById('escStep4').classList.add('hidden');
+        
+        const result = document.getElementById('escResult');
+        if (result) {
+            result.classList.remove('active');
+            result.style.display = 'none';
+        }
+
+        const stepMap = {
+            1: 'escStep1',
+            2: 'escStep2',
+            3: 'escStep3',
+            4: 'escStep4'
+        };
+
+        const target = document.getElementById(stepMap[step]);
+        if (target) target.classList.remove('hidden');
+    }
+
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    function initEscalation() {
+        // Шаг 1: Выбор игроков
+        const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
+        options.forEach(btn => {
+            btn.addEventListener('click', function() {
+                options.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                escState.playerCount = parseInt(this.dataset.count);
+                document.getElementById('escStep1Next').disabled = false;
+            });
+        });
+
+        document.getElementById('escStep1Next').addEventListener('click', function() {
+            goToEscStep(2);
+            renderEscPlayerNames();
+        });
+
+        // Шаг 2: Имена
+        document.getElementById('escStep2Back').addEventListener('click', function() { goToEscStep(1); });
+        document.getElementById('escStep2Next').addEventListener('click', function() {
+            const inputs = document.querySelectorAll('#escPlayerNameInputs input');
+            escState.players = [];
+            inputs.forEach((input, i) => {
+                escState.players.push(input.value.trim() || `Игрок ${i + 1}`);
+            });
+            goToEscStep(3);
+            renderEscEquipment();
+        });
+
+        // Шаг 3: Снаряжение
+        document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
+        document.getElementById('escStep3Next').addEventListener('click', function() { 
+            goToEscStep(4);
+            renderEscAmps();
+        });
+
+        // Шаг 4: Ампы
+        document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
+        document.getElementById('escStep4Next').addEventListener('click', function() { generateEscResult(); });
+
+        // Перезапуск
+        document.getElementById('escRestartBtn').addEventListener('click', function() {
+            resetEscalation();
+        });
+    }
+
+    // ===== СБРОС =====
+    function resetEscalation() {
+        escState = {
+            playerCount: 0,
+            players: [],
+            equipSelections: {},
+            ampSelections: {},
+            currentStep: 1,
+            map: null,
+            variators: []
+        };
+        document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('escStep1Next').disabled = true;
+        document.getElementById('escResult').classList.remove('active');
+        document.getElementById('escResult').style.display = 'none';
+        goToEscStep(1);
+    }
+
+    // ===== ШАГ 2: Имена =====
+    function renderEscPlayerNames() {
+        const container = document.getElementById('escPlayerNameInputs');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < escState.playerCount; i++) {
+            const row = document.createElement('div');
+            row.className = 'input-row';
+            row.innerHTML = `
+                <label><i class="fas fa-user"></i> Игрок ${i + 1}</label>
+                <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}">
+            `;
+            container.appendChild(row);
+        }
+        const firstInput = container.querySelector('input');
+        if (firstInput) setTimeout(() => firstInput.focus(), 300);
+    }
+
+    // ===== ШАГ 3: Снаряжение =====
+    function renderEscEquipment() {
+        const container = document.getElementById('escStep3Content');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        escState.players.forEach((player, idx) => {
+            const section = document.createElement('div');
+            section.style.marginBottom = '1.8rem';
+            section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
+            section.style.paddingBottom = '1.2rem';
+            
+            const title = document.createElement('div');
+            title.style.fontWeight = '600';
+            title.style.color = '#ffbc9a';
+            title.style.marginBottom = '0.8rem';
+            title.style.fontSize = '1.05rem';
+            title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+            section.appendChild(title);
+            
+            const grid = document.createElement('div');
+            grid.className = 'selection-grid';
+            
+            const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(eq => {
+                const item = document.createElement('div');
+                item.className = 'selection-item';
+                item.dataset.player = idx;
+                item.dataset.equip = eq.name;
+                const isSelected = escState.equipSelections[idx] === eq.name;
+                if (isSelected) item.classList.add('selected');
+                
+                item.innerHTML = `
+                    <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                    <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
+                    <div class="item-name">${eq.name}</div>
+                    <div class="item-desc">${eq.desc || ''}</div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    const parent = this.closest('.selection-grid');
+                    parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    escState.equipSelections[idx] = eq.name;
+                    checkEscEquipReady();
+                });
+                
+                grid.appendChild(item);
+            });
+            
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
+        checkEscEquipReady();
+    }
+
+    function checkEscEquipReady() {
+        const allSelected = escState.players.every((_, idx) => escState.equipSelections[idx] !== undefined);
+        document.getElementById('escStep3Next').disabled = !allSelected;
+    }
+
+    // ===== ШАГ 4: Ампы =====
+    function renderEscAmps() {
+        const container = document.getElementById('escStep4Content');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        escState.players.forEach((player, idx) => {
+            const section = document.createElement('div');
+            section.style.marginBottom = '1.8rem';
+            section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
+            section.style.paddingBottom = '1.2rem';
+            
+            const title = document.createElement('div');
+            title.style.fontWeight = '600';
+            title.style.color = '#ffbc9a';
+            title.style.marginBottom = '0.8rem';
+            title.style.fontSize = '1.05rem';
+            title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+            section.appendChild(title);
+            
+            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+            
+            const countDisplay = document.createElement('div');
+            countDisplay.style.color = '#888';
+            countDisplay.style.fontSize = '0.85rem';
+            countDisplay.style.marginBottom = '0.8rem';
+            countDisplay.id = `ampCount_${idx}`;
+            countDisplay.textContent = `Выбрано: ${escState.ampSelections[idx].length}/3`;
+            section.appendChild(countDisplay);
+            
+            const grid = document.createElement('div');
+            grid.className = 'selection-grid';
+            
+            const shuffled = [...ampsData].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(amp => {
+                const item = document.createElement('div');
+                item.className = 'selection-item';
+                item.dataset.player = idx;
+                item.dataset.amp = amp.name;
+                const isSelected = escState.ampSelections[idx].includes(amp.name);
+                if (isSelected) item.classList.add('selected');
+                
+                item.innerHTML = `
+                    <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
+                    <div class="item-name">${amp.name}</div>
+                    <div class="item-desc">${amp.desc || ''}</div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    const playerIdx = parseInt(this.dataset.player);
+                    const ampName = this.dataset.amp;
+                    
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        escState.ampSelections[playerIdx] = escState.ampSelections[playerIdx].filter(a => a !== ampName);
+                    } else {
+                        if (escState.ampSelections[playerIdx].length >= 3) {
+                            alert(`⚠️ ${escState.players[playerIdx]}, вы уже выбрали 3 ампы!`);
+                            return;
+                        }
+                        this.classList.add('selected');
+                        escState.ampSelections[playerIdx].push(ampName);
+                    }
+                    
+                    const countDisplay = document.getElementById(`ampCount_${playerIdx}`);
+                    if (countDisplay) {
+                        countDisplay.textContent = `Выбрано: ${escState.ampSelections[playerIdx].length}/3`;
+                    }
+                    
+                    checkEscAmpsReady();
+                });
+                
+                grid.appendChild(item);
+            });
+            
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
+        checkEscAmpsReady();
+    }
+
+    function checkEscAmpsReady() {
+        const allSelected = escState.players.every((_, idx) => escState.ampSelections[idx]?.length === 3);
+        document.getElementById('escStep4Next').disabled = !allSelected;
+    }
+
+    // ===== ГЕНЕРАЦИЯ РЕЗУЛЬТАТА =====
+    function generateEscResult() {
+        // Выбираем случайную карту
+        const map = mapsData[Math.floor(Math.random() * mapsData.length)];
+        escState.map = map;
+        
+        // Выбираем 3 случайных вариатора
+        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+        escState.variators = shuffled.slice(0, 3);
+
+        document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
+        const resultContainer = document.getElementById('escResult');
+        resultContainer.style.display = 'block';
+        resultContainer.classList.add('active');
+
+        // === Карта ===
+        document.getElementById('escResultMap').innerHTML = `
+            <img src="${map.image}" alt="${map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(map.name)}'">
+            <div class="result-map-info">
+                <h2>${map.name}</h2>
+                <p>${map.desc}</p>
+            </div>
+        `;
+
+        // === Вариаторы ===
+        document.getElementById('escResultVariators').innerHTML = escState.variators.map(v => `
+            <div class="var-item">
+                <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
+                <span class="var-name">${v.name}</span>
             </div>
         `).join('');
-    }
 
-    function deleteTask(id) {
-        tasks = tasks.filter(t => t.id !== id);
-        saveTasks();
-    }
+        // === Игроки ===
+        let playersHtml = '';
+        escState.players.forEach((player, idx) => {
+            const equip = escState.equipSelections[idx] || 'Не выбрано';
+            const amps = escState.ampSelections[idx] || [];
+            const equipData = equipmentData.find(e => e.name === equip);
+            
+            playersHtml += `
+                <div class="player-result">
+                    <div class="player-name"><i class="fas fa-user-circle"></i> ${player}</div>
+                    <div class="player-equip">
+                        ${equipData ? `<img src="${equipData.image}" alt="${equip}" onerror="this.style.display='none'">` : ''}
+                        <span class="label">СНАРЯЖЕНИЕ:</span>
+                        <span class="value">${equip}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.3rem;">
+                        <span class="label" style="color:#888; font-size:0.75rem;">АМФЫ:</span>
+                    </div>
+                    <div class="player-amps">
+                        ${amps.map(ampName => {
+                            const ampData = ampsData.find(a => a.name === ampName);
+                            return ampData ? `
+                                <div class="amp-item">
+                                    <img src="${ampData.image}" alt="${ampName}" onerror="this.style.display='none'">
+                                    <span class="amp-name">${ampName}</span>
+                                </div>
+                            ` : '';
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        });
 
-    function useTask(id) {
-        const task = tasks.find(t => t.id === id);
-        if (task) {
-            const mapData = mapsData.find(m => m.name === task.map) || mapsData[0];
-            const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
-            const selectedVariators = shuffled.slice(0, task.variators);
-            renderDailyMission({ map: mapData, variators: selectedVariators, count: task.variators });
-            alert(`✅ Задание "${task.map}" загружено в задание дня!`);
-        }
+        document.getElementById('escResultPlayers').innerHTML = playersHtml;
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    // ===== ОБРАБОТЧИК ФОРМЫ =====
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('taskForm');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const task = {
-                    id: Date.now(),
-                    map: document.getElementById('taskMap').value,
-                    variators: parseInt(document.getElementById('taskVariators').value),
-                    mode: document.getElementById('taskMode').value,
-                    difficulty: document.getElementById('taskDifficulty').value,
-                    description: document.getElementById('taskDescription').value || 'Без описания',
-                    createdAt: new Date().toLocaleString()
-                };
-                tasks.unshift(task);
-                saveTasks();
-                this.reset();
-                document.getElementById('taskDescription').value = '';
-            });
-        }
-    });
 </script>
 
 </body>
