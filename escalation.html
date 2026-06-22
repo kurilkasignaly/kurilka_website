@@ -56,12 +56,6 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0.3); }
-            70% { box-shadow: 0 0 0 15px rgba(220, 90, 50, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
-        }
-
         @keyframes resultAppear {
             0% { opacity: 0; transform: translateY(30px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -879,42 +873,217 @@
     </footer>
 </div>
 
-<!-- ===== ПОДКЛЮЧАЕМ ДАННЫЕ ИЗ КОРНЕВОГО ФАЙЛА ===== -->
-<script src="roulette-data.js"></script>
-
-<!-- ===== СКРИПТ ЭСКАЛАЦИИ ===== -->
+<!-- ===== ВСЕ ДАННЫЕ И СКРИПТ В ОДНОМ ФАЙЛЕ ===== -->
 <script>
-    // ===== ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ =====
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔍 Проверка загрузки данных...');
-        console.log('typeof mapsData:', typeof mapsData);
-        console.log('mapsData:', mapsData);
-        
-        // Проверяем, загрузились ли данные
-        if (typeof mapsData === 'undefined' || !mapsData || mapsData.length === 0) {
-            console.error('❌ Данные не загружены!');
-            document.querySelector('.escalation-wrapper').innerHTML = `
-                <div style="text-align: center; padding: 3rem; color: #e16d48;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
-                    <h2>Ошибка загрузки данных</h2>
-                    <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить файл с данными.<br>Проверьте, что файл <strong>roulette-data.js</strong> существует в корне сайта.</p>
-                    <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
-                </div>
-            `;
-            return;
-        }
-        
-        console.log('✅ Данные успешно загружены!');
-        console.log('📊 Карт:', mapsData.length);
-        console.log('📊 Снаряжения:', equipmentData.length);
-        console.log('📊 Амп:', ampsData.length);
-        console.log('📊 Вариаторов:', variatorsData.length);
-        
-        // Инициализируем эскалацию только после загрузки данных
-        initEscalation();
-    });
+    // ============================================================
+    // 1. ДАННЫЕ
+    // ============================================================
 
-    // ===== СОСТОЯНИЕ =====
+    // ===== КАРТЫ =====
+    const mapsData = [
+        { 
+            name: "Полицейский участок", 
+            image: "images/полицейский-участок.webp", 
+            desc: "Заброшенный полицейский участок, где правят коррумпированные офицеры. Вам предстоит пробиться через ряды бывших стражей порядка, которые теперь служат новым хозяевам." 
+        },
+        { 
+            name: "Детский дом", 
+            image: "images/детский-дом.webp", 
+            desc: "Жуткий детский дом, где Матушка Гусберри ждёт своих подопечных. Игрушки здесь не радуют, а пугают до смерти." 
+        },
+        { 
+            name: "Парк развлечений", 
+            image: "images/парк-развлечений.webp", 
+            desc: "Заброшенный парк с опасными аттракционами и безумными клоунами. Карусель смерти ждет своих посетителей." 
+        },
+        { 
+            name: "Здание суда", 
+            image: "images/здание-суда.webp", 
+            desc: "Судебный хаос, где Лиланд Койл вершит своё правосудие. В этом здании каждый коридор может стать вашим последним." 
+        },
+        { 
+            name: "Фабрика игрушек", 
+            image: "images/фабрика-игрушек.webp", 
+            desc: "Опасная фабрика с механизмами и куклами-убийцами. Конвейер смерти никогда не останавливается." 
+        },
+        { 
+            name: "Пристань", 
+            image: "images/пристань.webp", 
+            desc: "Грязная пристань с контрабандой и тайнами Мёркофф. Здесь каждый ящик может скрывать смертельную опасность." 
+        },
+        { 
+            name: "Центр города", 
+            image: "images/центр-города.webp", 
+            desc: "Опасные улицы города, где Франко Барби правит бал. В этом районе никогда не знаешь, кто наблюдает за тобой из темноты." 
+        },
+        { 
+            name: "Пригород", 
+            image: "images/пригород.webp", 
+            desc: "Тихие улицы пригорода, скрывающие ужасные секреты. За каждым забором может скрываться кошмар." 
+        },
+        { 
+            name: "Курорт", 
+            image: "images/курорт.webp", 
+            desc: "Элитный курорт, превратившийся в ловушку для ничего не подозревающих гостей. Отдых здесь может стать последним в вашей жизни." 
+        },
+        { 
+            name: "Телестудия", 
+            image: "images/телестудия.webp", 
+            desc: "Заброшенная телестудия, где транслируют только кошмары. Камеры всегда включены, и за вами наблюдают." 
+        }
+    ];
+
+    // ===== СНАРЯЖЕНИЕ =====
+    const equipmentData = [
+        { 
+            name: "Оглушение", 
+            image: "images/снаряжение-оглушение.webp",
+            desc: "Оглушает врагов на короткое время, позволяя скрыться или атаковать первым."
+        },
+        { 
+            name: "Завеса", 
+            image: "images/снаряжение-завеса.webp",
+            desc: "Создает дымовую завесу, скрывающую вас от врагов и позволяющую незаметно пройти."
+        },
+        { 
+            name: "Рентген", 
+            image: "images/снаряжение-рентген.webp",
+            desc: "Позволяет видеть врагов сквозь стены и другие препятствия на ограниченное время."
+        },
+        { 
+            name: "Риг", 
+            image: "images/снаряжение-риг.webp",
+            desc: "Специальное устройство, увеличивающее ваши возможности и защиту в критических ситуациях."
+        },
+        { 
+            name: "Индикатор", 
+            image: "images/снаряжение-индикатор.webp",
+            desc: "Показывает расположение врагов и ловушек на вашем мини-радаре."
+        },
+        { 
+            name: "Энергетик", 
+            image: "images/снаряжение-энергетик.webp",
+            desc: "Восстанавливает энергию и позволяет использовать специальные способности чаще."
+        },
+        { 
+            name: "Антидот", 
+            image: "images/снаряжение-антидот.webp",
+            desc: "Нейтрализует яды и токсины, восстанавливая ваше здоровье."
+        },
+        { 
+            name: "Газ", 
+            image: "images/снаряжение-газ.webp",
+            desc: "Выпускает усыпляющий газ, дезориентирующий врагов в радиусе действия."
+        }
+    ];
+
+    // ===== АМФЫ (УЛУЧШЕНИЯ) =====
+    const ampsData = [
+        { 
+            name: "Ускорение", 
+            image: "images/амфа-ускорение.webp",
+            desc: "Увеличивает скорость передвижения на 15%, позволяя быстрее убегать от врагов."
+        },
+        { 
+            name: "Выносливость", 
+            image: "images/амфа-выносливость.webp",
+            desc: "Увеличивает запас выносливости на 25%, позволяя дольше бегать и уклоняться."
+        },
+        { 
+            name: "Иммунитет", 
+            image: "images/амфа-иммунитет.webp",
+            desc: "Дает 20% сопротивления к ядам и токсинам, увеличивая выживаемость."
+        },
+        { 
+            name: "Сила", 
+            image: "images/амфа-сила.webp",
+            desc: "Увеличивает урон от атак на 20%, позволяя быстрее расправляться с врагами."
+        },
+        { 
+            name: "Скрытность", 
+            image: "images/амфа-скрытность.webp",
+            desc: "Уменьшает шум от передвижения на 30%, делая вас менее заметным для врагов."
+        },
+        { 
+            name: "Восстановление", 
+            image: "images/амфа-восстановление.webp",
+            desc: "Ускоряет восстановление здоровья в 1.5 раза, позволяя быстрее приходить в себя."
+        },
+        { 
+            name: "Обострение", 
+            image: "images/амфа-обострение.webp",
+            desc: "Увеличивает радиус обнаружения врагов на 20%, помогая избегать засад."
+        },
+        { 
+            name: "Проворность", 
+            image: "images/амфа-проворность.webp",
+            desc: "Увеличивает скорость перезарядки способностей на 25%, позволяя чаще использовать умения."
+        },
+        { 
+            name: "Защита", 
+            image: "images/амфа-защита.webp",
+            desc: "Уменьшает получаемый урон на 15%, повышая вашу живучесть в бою."
+        },
+        { 
+            name: "Интуиция", 
+            image: "images/амфа-интуиция.webp",
+            desc: "Позволяет видеть скрытые предметы и ловушки, облегчая прохождение."
+        }
+    ];
+
+    // ===== ВАРИАТОРЫ (МОДИФИКАТОРЫ) =====
+    const variatorsData = [
+        { 
+            name: "Более Сильные Враги", 
+            image: "images/вариатор-сильные-враги.webp",
+            desc: "Все враги имеют увеличенное здоровье и наносят больше урона."
+        },
+        { 
+            name: "Высокая Плотность Противника", 
+            image: "images/вариатор-плотность.webp",
+            desc: "Количество врагов на локации значительно увеличено."
+        },
+        { 
+            name: "Больше смертельных ловушек", 
+            image: "images/вариатор-ловушки.webp",
+            desc: "На карте появляется дополнительное количество ловушек и препятствий."
+        },
+        { 
+            name: "Ограниченная информация", 
+            image: "images/вариатор-информация.webp",
+            desc: "Мини-карта и индикаторы врагов частично отключены."
+        },
+        { 
+            name: "Ненадежные Двери", 
+            image: "images/вариатор-двери.webp",
+            desc: "Двери могут случайно заклинивать или издавать шум при открытии."
+        },
+        { 
+            name: "Ограниченные предметы", 
+            image: "images/вариатор-предметы.webp",
+            desc: "Количество аптечек и других полезных предметов на карте уменьшено."
+        },
+        { 
+            name: "Постоянное наблюдение", 
+            image: "images/вариатор-наблюдение.webp",
+            desc: "Камеры наблюдения активны на всей карте, усложняя скрытное перемещение."
+        },
+        { 
+            name: "Темнота", 
+            image: "images/вариатор-темнота.webp",
+            desc: "Уровень освещенности на карте значительно снижен."
+        },
+        { 
+            name: "Тревога", 
+            image: "images/вариатор-тревога.webp",
+            desc: "Враги находятся в состоянии повышенной готовности и быстрее реагируют на шум."
+        }
+    ];
+
+    // ============================================================
+    // 2. ЛОГИКА ЭСКАЛАЦИИ
+    // ============================================================
+
     let escState = {
         playerCount: 0,
         players: [],
@@ -925,7 +1094,6 @@
         variators: []
     };
 
-    // ===== НАВИГАЦИЯ =====
     function goToEscStep(step) {
         escState.currentStep = step;
         document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
@@ -951,9 +1119,7 @@
         if (target) target.classList.remove('hidden');
     }
 
-    // ===== ИНИЦИАЛИЗАЦИЯ =====
     function initEscalation() {
-        // Шаг 1: Выбор игроков
         const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
         options.forEach(btn => {
             btn.addEventListener('click', function() {
@@ -969,7 +1135,6 @@
             renderEscPlayerNames();
         });
 
-        // Шаг 2: Имена
         document.getElementById('escStep2Back').addEventListener('click', function() { goToEscStep(1); });
         document.getElementById('escStep2Next').addEventListener('click', function() {
             const inputs = document.querySelectorAll('#escPlayerNameInputs input');
@@ -981,24 +1146,20 @@
             renderEscEquipment();
         });
 
-        // Шаг 3: Снаряжение
         document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
         document.getElementById('escStep3Next').addEventListener('click', function() { 
             goToEscStep(4);
             renderEscAmps();
         });
 
-        // Шаг 4: Ампы
         document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
         document.getElementById('escStep4Next').addEventListener('click', function() { generateEscResult(); });
 
-        // Перезапуск
         document.getElementById('escRestartBtn').addEventListener('click', function() {
             resetEscalation();
         });
     }
 
-    // ===== СБРОС =====
     function resetEscalation() {
         escState = {
             playerCount: 0,
@@ -1016,7 +1177,6 @@
         goToEscStep(1);
     }
 
-    // ===== ШАГ 2: Имена =====
     function renderEscPlayerNames() {
         const container = document.getElementById('escPlayerNameInputs');
         if (!container) return;
@@ -1034,7 +1194,6 @@
         if (firstInput) setTimeout(() => firstInput.focus(), 300);
     }
 
-    // ===== ШАГ 3: Снаряжение =====
     function renderEscEquipment() {
         const container = document.getElementById('escStep3Content');
         if (!container) return;
@@ -1096,7 +1255,6 @@
         document.getElementById('escStep3Next').disabled = !allSelected;
     }
 
-    // ===== ШАГ 4: Ампы =====
     function renderEscAmps() {
         const container = document.getElementById('escStep4Content');
         if (!container) return;
@@ -1184,13 +1342,10 @@
         document.getElementById('escStep4Next').disabled = !allSelected;
     }
 
-    // ===== ГЕНЕРАЦИЯ РЕЗУЛЬТАТА =====
     function generateEscResult() {
-        // Выбираем случайную карту
         const map = mapsData[Math.floor(Math.random() * mapsData.length)];
         escState.map = map;
         
-        // Выбираем 3 случайных вариатора
         const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
         escState.variators = shuffled.slice(0, 3);
 
@@ -1199,7 +1354,6 @@
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
 
-        // === Карта ===
         document.getElementById('escResultMap').innerHTML = `
             <img src="${map.image}" alt="${map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(map.name)}'">
             <div class="result-map-info">
@@ -1208,7 +1362,6 @@
             </div>
         `;
 
-        // === Вариаторы ===
         document.getElementById('escResultVariators').innerHTML = escState.variators.map(v => `
             <div class="var-item">
                 <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
@@ -1216,7 +1369,6 @@
             </div>
         `).join('');
 
-        // === Игроки ===
         let playersHtml = '';
         escState.players.forEach((player, idx) => {
             const equip = escState.equipSelections[idx] || 'Не выбрано';
@@ -1252,6 +1404,19 @@
         document.getElementById('escResultPlayers').innerHTML = playersHtml;
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // ============================================================
+    // 3. ЗАПУСК
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ Эскалация загружена!');
+        console.log('📊 Карт:', mapsData.length);
+        console.log('📊 Снаряжения:', equipmentData.length);
+        console.log('📊 Амп:', ampsData.length);
+        console.log('📊 Вариаторов:', variatorsData.length);
+        initEscalation();
+    });
 </script>
 
 </body>
