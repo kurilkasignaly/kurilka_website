@@ -65,6 +65,11 @@
             50% { transform: scale(1.05); }
         }
 
+        @keyframes modalFadeIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -290,7 +295,6 @@
             margin-top: 0.2rem;
         }
 
-        /* ТАЙМЕР ОБНОВЛЕНИЯ */
         .timer-section {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
@@ -352,7 +356,6 @@
             border-radius: 40px;
             cursor: not-allowed;
             font-weight: 600;
-            transition: all 0.3s;
             font-size: 0.85rem;
             margin-top: 0.5rem;
             opacity: 0.5;
@@ -428,6 +431,489 @@
         .mode-card.active-mode {
             border-color: #e16d48;
             background: rgba(220, 90, 50, 0.1);
+        }
+
+        /* МОДАЛЬНОЕ ОКНО ЭСКАЛАЦИИ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.4s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            color: #e16d48;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-close {
+            font-size: 2.5rem;
+            color: #c2b9d4;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .modal-close:hover {
+            color: #e16d48;
+            transform: scale(1.1);
+        }
+
+        /* Стили для эскалации внутри модалки */
+        .step-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .step-container.hidden {
+            display: none;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .step-subtitle {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            margin-bottom: 1rem;
+        }
+
+        .player-count-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .player-count-btn {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            color: #c2b9d4;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .player-count-btn:hover {
+            border-color: #e16d48;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .player-count-btn.selected {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.2);
+            color: white;
+        }
+
+        .player-name-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            max-width: 400px;
+        }
+
+        .player-name-inputs .input-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .player-name-inputs .input-row label {
+            min-width: 80px;
+            color: #c2b9d4;
+            font-weight: 500;
+        }
+
+        .player-name-inputs .input-row input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 16px;
+            padding: 0.6rem 1rem;
+            color: #f0eef7;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .player-name-inputs .input-row input:focus {
+            border-color: #e16d48;
+        }
+
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .selection-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            border-radius: 20px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .selection-item:hover {
+            border-color: #e16d48;
+            transform: translateY(-3px);
+        }
+
+        .selection-item.selected {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.15);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.1);
+        }
+
+        .selection-item img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .selection-item .item-name {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            font-weight: 500;
+        }
+
+        .selection-item .check-mark {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #4c9aff;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .selection-item.selected .check-mark {
+            display: block;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 1rem;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .next-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: rgba(220, 90, 50, 0.2);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #c2b9d4;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 1rem;
+            margin-right: 1rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .step-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* РЕЗУЛЬТАТ ЭСКАЛАЦИИ */
+        .escalation-result {
+            display: none;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .escalation-result.active {
+            display: block;
+        }
+
+        .result-layout {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .result-main {
+            flex: 2;
+            min-width: 280px;
+        }
+
+        .result-sidebar {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .result-map {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            margin-bottom: 1.5rem;
+        }
+
+        .result-map .map-row {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .result-map .map-row img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+        }
+
+        .result-map .map-info h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-map .map-info p {
+            color: #c2b9d4;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .result-variators {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .result-variators h3 {
+            color: #e16d48;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-variators .variator-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .result-variators .var-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .result-variators .var-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .result-variators .var-item .var-name {
+            font-size: 0.6rem;
+            color: #c2b9d4;
+            text-align: center;
+            max-width: 65px;
+        }
+
+        .result-players {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .result-players h3 {
+            color: #e16d48;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .player-result {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .player-result:last-child {
+            margin-bottom: 0;
+        }
+
+        .player-result .player-name {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .player-result .player-equip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .player-result .player-equip img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px;
+        }
+
+        .player-result .player-equip .label {
+            color: #888;
+            font-size: 0.7rem;
+        }
+
+        .player-result .player-equip .value {
+            color: #ffbc9a;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .player-result .player-amps {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .player-result .player-amps .amp-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .player-result .player-amps .amp-item img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px;
+        }
+
+        .player-result .player-amps .amp-item .amp-name {
+            font-size: 0.5rem;
+            color: #888;
+            text-align: center;
+            max-width: 45px;
+        }
+
+        .restart-btn {
+            background: rgba(220, 90, 50, 0.2);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #c2b9d4;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .restart-btn:hover {
+            background: rgba(220, 90, 50, 0.3);
+            color: white;
         }
 
         /* КОНСТРУКТОР */
@@ -633,6 +1119,12 @@
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
+            .modal-content { padding: 1.2rem; margin: 1rem; }
+            .modal-header h2 { font-size: 1.4rem; }
+            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .result-layout { flex-direction: column; }
+            .result-map .map-row { flex-direction: column; text-align: center; }
+            .player-count-options { justify-content: center; }
         }
 
         @media (max-width: 550px) {
@@ -643,6 +1135,12 @@
             .daily-mission .variator-item .var-name { font-size: 0.55rem; max-width: 50px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
+            .modal-content { padding: 1rem; }
+            .modal-header h2 { font-size: 1.2rem; }
+            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .selection-item img { width: 40px; height: 40px; }
+            .result-map .map-row img { width: 100px; height: 100px; }
+            .player-result .player-amps .amp-item img { width: 25px; height: 25px; }
         }
     </style>
 </head>
@@ -679,11 +1177,7 @@
     <!-- ЗАДАНИЕ ДНЯ -->
     <div class="daily-mission" id="dailyMission">
         <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
-        <div class="mission-content" id="missionContent">
-            <!-- Заполняется через JS -->
-        </div>
-
-        <!-- ТАЙМЕР ОБНОВЛЕНИЯ -->
+        <div class="mission-content" id="missionContent"></div>
         <div class="timer-section">
             <div class="timer-label">⏳ Следующее задание через</div>
             <div class="timer-display" id="timerDisplay">
@@ -722,7 +1216,7 @@
                 <p>Выбирайте карты с испытаниями и составляйте свою уникальную комбинацию.</p>
                 <span class="tag">🃏 Стратегия</span>
             </div>
-            <div class="mode-card" onclick="selectMode('escalation')">
+            <div class="mode-card" onclick="openEscalationModal()">
                 <div class="icon"><i class="fas fa-chart-line"></i></div>
                 <h3>Эскалация</h3>
                 <p>Постепенное усложнение: каждое новое испытание добавляет вариаторы.</p>
@@ -800,19 +1294,107 @@
     </footer>
 </div>
 
+<!-- МОДАЛЬНОЕ ОКНО ЭСКАЛАЦИИ -->
+<div class="modal-overlay" id="escalationModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-chart-line"></i> Эскалация</h2>
+            <button class="modal-close" onclick="closeEscalationModal()">&times;</button>
+        </div>
+
+        <!-- ШАГ 1: Количество игроков -->
+        <div class="step-container" id="escStep1">
+            <div class="step-title"><i class="fas fa-users"></i> Шаг 1: Количество игроков</div>
+            <div class="step-subtitle">Выберите, сколько игроков будет участвовать в испытании</div>
+            <div class="player-count-options" id="escPlayerCountOptions">
+                <button class="player-count-btn" data-count="1">1</button>
+                <button class="player-count-btn" data-count="2">2</button>
+                <button class="player-count-btn" data-count="3">3</button>
+                <button class="player-count-btn" data-count="4">4</button>
+            </div>
+            <button class="next-btn" id="escStep1Next" disabled>Далее →</button>
+        </div>
+
+        <!-- ШАГ 2: Ввод ников -->
+        <div class="step-container hidden" id="escStep2">
+            <div class="step-title"><i class="fas fa-user-edit"></i> Шаг 2: Имена игроков</div>
+            <div class="step-subtitle">Введите имена всех участников</div>
+            <div class="player-name-inputs" id="escPlayerNameInputs"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep2Back">← Назад</button>
+                <button class="next-btn" id="escStep2Next">Далее →</button>
+            </div>
+        </div>
+
+        <!-- ШАГ 3: Снаряжение -->
+        <div class="step-container hidden" id="escStep3">
+            <div class="step-title"><i class="fas fa-backpack"></i> Шаг 3: Выбор снаряжения</div>
+            <div class="step-subtitle" id="escStep3Subtitle">Выберите по 1 снаряжению для каждого игрока</div>
+            <div id="escStep3Content"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep3Back">← Назад</button>
+                <button class="next-btn" id="escStep3Next" disabled>Далее →</button>
+            </div>
+        </div>
+
+        <!-- ШАГ 4: Ампы -->
+        <div class="step-container hidden" id="escStep4">
+            <div class="step-title"><i class="fas fa-capsules"></i> Шаг 4: Выбор амп</div>
+            <div class="step-subtitle" id="escStep4Subtitle">Выберите по 3 ампы для каждого игрока</div>
+            <div id="escStep4Content"></div>
+            <div class="step-actions">
+                <button class="back-btn" id="escStep4Back">← Назад</button>
+                <button class="next-btn" id="escStep4Next" disabled>Далее →</button>
+            </div>
+        </div>
+
+        <!-- РЕЗУЛЬТАТ -->
+        <div class="escalation-result" id="escResult">
+            <div class="result-layout">
+                <div class="result-main">
+                    <div class="result-map" id="escResultMap"></div>
+                    <div class="result-variators" id="escResultVariators"></div>
+                </div>
+                <div class="result-sidebar">
+                    <div class="result-players" id="escResultPlayers"></div>
+                    <button class="restart-btn" id="escRestartBtn"><i class="fas fa-redo"></i> Начать заново</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    // ====== ДАННЫЕ С КАРТИНКАМИ ======
+    // ====== ДАННЫЕ ======
     const mapsData = [
-        { name: "Полицейский участок", image: "../images/полицейский-участок.webp" },
-        { name: "Детский дом", image: "../images/детский-дом.webp" },
-        { name: "Парк развлечений", image: "../images/парк-развлечений.webp" },
-        { name: "Здание суда", image: "../images/здание-суда.webp" },
-        { name: "Фабрика игрушек", image: "../images/фабрика-игрушек.webp" },
-        { name: "Пристань", image: "../images/пристань.webp" },
-        { name: "Центр города", image: "../images/центр-города.webp" },
-        { name: "Пригород", image: "../images/пригород.webp" },
-        { name: "Курорт", image: "../images/курорт.webp" },
-        { name: "Телестудия", image: "../images/телестудия.webp" }
+        { name: "Полицейский участок", image: "../images/полицейский-участок.webp", desc: "Заброшенный полицейский участок, где правят коррумпированные офицеры." },
+        { name: "Детский дом", image: "../images/детский-дом.webp", desc: "Жуткий детский дом, где Матушка Гусберри ждёт своих подопечных." },
+        { name: "Парк развлечений", image: "../images/парк-развлечений.webp", desc: "Заброшенный парк с опасными аттракционами и безумными клоунами." },
+        { name: "Здание суда", image: "../images/здание-суда.webp", desc: "Судебный хаос, где Лиланд Койл вершит своё правосудие." },
+        { name: "Фабрика игрушек", image: "../images/фабрика-игрушек.webp", desc: "Опасная фабрика с механизмами и куклами-убийцами." },
+        { name: "Пристань", image: "../images/пристань.webp", desc: "Грязная пристань с контрабандой и тайнами Мёркофф." },
+        { name: "Центр города", image: "../images/центр-города.webp", desc: "Опасные улицы города, где Франко Барби правит бал." },
+        { name: "Пригород", image: "../images/пригород.webp", desc: "Тихие улицы пригорода, скрывающие ужасные секреты." }
+    ];
+
+    const equipmentData = [
+        { name: "Оглушение", image: "../images/снаряжение-оглушение.webp" },
+        { name: "Завеса", image: "../images/снаряжение-завеса.webp" },
+        { name: "Рентген", image: "../images/снаряжение-рентген.webp" },
+        { name: "Риг", image: "../images/снаряжение-риг.webp" },
+        { name: "Индикатор", image: "../images/снаряжение-индикатор.webp" },
+        { name: "Энергетик", image: "../images/снаряжение-энергетик.webp" }
+    ];
+
+    const ampsData = [
+        { name: "Ускорение", image: "../images/амфа-ускорение.webp" },
+        { name: "Выносливость", image: "../images/амфа-выносливость.webp" },
+        { name: "Иммунитет", image: "../images/амфа-иммунитет.webp" },
+        { name: "Сила", image: "../images/амфа-сила.webp" },
+        { name: "Скрытность", image: "../images/амфа-скрытность.webp" },
+        { name: "Восстановление", image: "../images/амфа-восстановление.webp" },
+        { name: "Обострение", image: "../images/амфа-обострение.webp" },
+        { name: "Проворность", image: "../images/амфа-проворность.webp" }
     ];
 
     const variatorsData = [
@@ -824,17 +1406,12 @@
         { name: "Ограниченные предметы", image: "../images/вариатор-предметы.webp" }
     ];
 
-    let currentMode = "roulette";
-    let tasks = [];
-    let timerInterval;
-
-    // ====== ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage) ======
+    // ====== ДАННЫЕ ДЛЯ ЗАДАНИЯ ДНЯ ======
     function getDailyMission() {
         const saved = localStorage.getItem('dailyMission');
         const savedDate = localStorage.getItem('dailyMissionDate');
         const now = Date.now();
 
-        // Если прошло больше 24 часов или нет сохранённого задания — генерируем новое
         if (!saved || !savedDate || (now - parseInt(savedDate) > 24 * 60 * 60 * 1000)) {
             generateNewDailyMission();
         } else {
@@ -845,17 +1422,10 @@
     function generateNewDailyMission() {
         const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
         const variatorsCount = Math.floor(Math.random() * 5) + 1;
-
         const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
         const selectedVariators = shuffled.slice(0, variatorsCount);
 
-        const mission = {
-            map: mapData,
-            variators: selectedVariators,
-            count: variatorsCount,
-            timestamp: Date.now()
-        };
-
+        const mission = { map: mapData, variators: selectedVariators, count: variatorsCount, timestamp: Date.now() };
         localStorage.setItem('dailyMission', JSON.stringify(mission));
         localStorage.setItem('dailyMissionDate', Date.now().toString());
         renderDailyMission(mission);
@@ -885,19 +1455,13 @@
     // ====== ТАЙМЕР ======
     function startTimer() {
         const savedDate = localStorage.getItem('dailyMissionDate');
-        if (!savedDate) {
-            generateNewDailyMission();
-            return;
-        }
-
+        if (!savedDate) { generateNewDailyMission(); return; }
         const startTime = parseInt(savedDate);
-        const totalDuration = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+        const totalDuration = 24 * 60 * 60 * 1000;
 
         function updateTimer() {
             const now = Date.now();
-            const elapsed = now - startTime;
-            const remaining = Math.max(0, totalDuration - elapsed);
-
+            const remaining = Math.max(0, totalDuration - (now - startTime));
             const hours = Math.floor(remaining / (60 * 60 * 1000));
             const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
             const seconds = Math.floor((remaining % (60 * 1000)) / 1000);
@@ -912,21 +1476,18 @@
                 startTimer();
             }
         }
-
         updateTimer();
         timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // ====== ЗАГРУЗКА СОХРАНЁННЫХ ЗАДАНИЙ ======
+    // ====== ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ ======
+    let tasks = [];
+
     function loadTasks() {
         const saved = localStorage.getItem('rouletteTasks');
         if (saved) {
-            try {
-                tasks = JSON.parse(saved);
-                renderTasks();
-            } catch (e) {
-                tasks = [];
-            }
+            try { tasks = JSON.parse(saved); } catch (e) { tasks = []; }
+            renderTasks();
         }
     }
 
@@ -935,52 +1496,16 @@
         renderTasks();
     }
 
-    // ====== ВЫБОР РЕЖИМА ======
-    function selectMode(mode) {
-        currentMode = mode;
-        document.querySelectorAll('.mode-card').forEach(el => el.classList.remove('active-mode'));
-        const cards = document.querySelectorAll('.mode-card');
-        if (mode === 'roulette') cards[0].classList.add('active-mode');
-        else if (mode === 'card') cards[1].classList.add('active-mode');
-        else if (mode === 'escalation') cards[2].classList.add('active-mode');
-    }
-
-    // ====== СОЗДАНИЕ ЗАДАНИЯ ======
-    document.getElementById('taskForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const task = {
-            id: Date.now(),
-            map: document.getElementById('taskMap').value,
-            variators: parseInt(document.getElementById('taskVariators').value),
-            mode: document.getElementById('taskMode').value,
-            difficulty: document.getElementById('taskDifficulty').value,
-            description: document.getElementById('taskDescription').value || 'Без описания',
-            createdAt: new Date().toLocaleString()
-        };
-
-        tasks.unshift(task);
-        saveTasks();
-        this.reset();
-        document.getElementById('taskDescription').value = '';
-    });
-
-    // ====== ОТОБРАЖЕНИЕ ЗАДАНИЙ ======
     function renderTasks() {
         const grid = document.getElementById('tasksGrid');
         if (tasks.length === 0) {
             grid.innerHTML = '<div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>';
             return;
         }
-
         grid.innerHTML = tasks.map(task => `
             <div class="task-item">
                 <div class="task-name">${task.map}</div>
-                <div class="task-meta">
-                    <i class="fas fa-dice"></i> ${task.variators} вар. · 
-                    <i class="fas fa-tag"></i> ${task.mode} · 
-                    <i class="fas fa-star"></i> ${task.difficulty}
-                </div>
+                <div class="task-meta"><i class="fas fa-dice"></i> ${task.variators} вар. · <i class="fas fa-tag"></i> ${task.mode} · <i class="fas fa-star"></i> ${task.difficulty}</div>
                 <div class="task-meta" style="margin-top: 2px; font-style: italic;">${task.description}</div>
                 <div class="task-actions">
                     <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i> Удалить</button>
@@ -990,32 +1515,362 @@
         `).join('');
     }
 
-    // ====== УДАЛЕНИЕ ЗАДАНИЯ ======
     function deleteTask(id) {
         tasks = tasks.filter(t => t.id !== id);
         saveTasks();
     }
 
-    // ====== ИСПОЛЬЗОВАНИЕ ЗАДАНИЯ (только для просмотра) ======
     function useTask(id) {
         const task = tasks.find(t => t.id === id);
         if (task) {
             const mapData = mapsData.find(m => m.name === task.map) || mapsData[0];
             const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
             const selectedVariators = shuffled.slice(0, task.variators);
-
-            const mission = {
-                map: mapData,
-                variators: selectedVariators,
-                count: task.variators
-            };
-
-            renderDailyMission(mission);
+            renderDailyMission({ map: mapData, variators: selectedVariators, count: task.variators });
             alert(`✅ Задание "${task.map}" загружено в задание дня!`);
         }
     }
 
-    // ====== ИНИЦИАЛИЗАЦИЯ ======
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const task = {
+            id: Date.now(),
+            map: document.getElementById('taskMap').value,
+            variators: parseInt(document.getElementById('taskVariators').value),
+            mode: document.getElementById('taskMode').value,
+            difficulty: document.getElementById('taskDifficulty').value,
+            description: document.getElementById('taskDescription').value || 'Без описания',
+            createdAt: new Date().toLocaleString()
+        };
+        tasks.unshift(task);
+        saveTasks();
+        this.reset();
+        document.getElementById('taskDescription').value = '';
+    });
+
+    // ====== ЭСКАЛАЦИЯ (МОДАЛЬНОЕ ОКНО) ======
+    let escState = {
+        playerCount: 0,
+        players: [],
+        equipSelections: {},
+        ampSelections: {},
+        currentStep: 1,
+        map: null,
+        variators: []
+    };
+
+    let escTimerInterval;
+
+    function openEscalationModal() {
+        document.getElementById('escalationModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Сбрасываем состояние при открытии
+        escState = { playerCount: 0, players: [], equipSelections: {}, ampSelections: {}, currentStep: 1, map: null, variators: [] };
+        document.querySelectorAll('#escalationModal .step-container').forEach(el => el.classList.add('hidden'));
+        document.getElementById('escStep1').classList.remove('hidden');
+        document.getElementById('escResult').classList.remove('active');
+        document.getElementById('escResult').style.display = 'none';
+        document.querySelectorAll('#escalationModal .player-count-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('escStep1Next').disabled = true;
+    }
+
+    function closeEscalationModal() {
+        document.getElementById('escalationModal').classList.remove('active');
+        document.body.style.overflow = '';
+        if (escTimerInterval) clearInterval(escTimerInterval);
+    }
+
+    // ШАГ 1
+    document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            escState.playerCount = parseInt(this.dataset.count);
+            document.getElementById('escStep1Next').disabled = false;
+        });
+    });
+
+    document.getElementById('escStep1Next').addEventListener('click', function() {
+        goToEscStep(2);
+    });
+
+    // ШАГ 2
+    function renderEscPlayerNames() {
+        const container = document.getElementById('escPlayerNameInputs');
+        container.innerHTML = '';
+        for (let i = 0; i < escState.playerCount; i++) {
+            const row = document.createElement('div');
+            row.className = 'input-row';
+            row.innerHTML = `
+                <label>Игрок ${i + 1}</label>
+                <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}">
+            `;
+            container.appendChild(row);
+        }
+    }
+
+    document.getElementById('escStep2Back').addEventListener('click', function() { goToEscStep(1); });
+    document.getElementById('escStep2Next').addEventListener('click', function() {
+        const inputs = document.querySelectorAll('#escPlayerNameInputs input');
+        escState.players = [];
+        inputs.forEach((input, i) => {
+            escState.players.push(input.value.trim() || `Игрок ${i + 1}`);
+        });
+        goToEscStep(3);
+    });
+
+    // ШАГ 3
+    function renderEscEquipment() {
+        const container = document.getElementById('escStep3Content');
+        container.innerHTML = '';
+        escState.players.forEach((player, idx) => {
+            const section = document.createElement('div');
+            section.style.marginBottom = '1.5rem';
+            section.style.borderBottom = '1px solid rgba(220,90,50,0.15)';
+            section.style.paddingBottom = '1rem';
+            
+            const title = document.createElement('div');
+            title.style.fontWeight = '600';
+            title.style.color = '#ffbc9a';
+            title.style.marginBottom = '0.8rem';
+            title.textContent = `🎯 ${player}`;
+            section.appendChild(title);
+            
+            const grid = document.createElement('div');
+            grid.className = 'selection-grid';
+            const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
+            const selected = shuffled.slice(0, 3);
+            
+            selected.forEach(eq => {
+                const item = document.createElement('div');
+                item.className = 'selection-item';
+                item.dataset.player = idx;
+                item.dataset.equip = eq.name;
+                const isSelected = escState.equipSelections[idx] === eq.name;
+                if (isSelected) item.classList.add('selected');
+                
+                item.innerHTML = `
+                    <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                    <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <div class="item-name">${eq.name}</div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    const parent = this.closest('.selection-grid');
+                    parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    escState.equipSelections[idx] = eq.name;
+                    checkEscEquipReady();
+                });
+                
+                grid.appendChild(item);
+            });
+            
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
+        checkEscEquipReady();
+    }
+
+    function checkEscEquipReady() {
+        const allSelected = escState.players.every((_, idx) => escState.equipSelections[idx] !== undefined);
+        document.getElementById('escStep3Next').disabled = !allSelected;
+    }
+
+    document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
+    document.getElementById('escStep3Next').addEventListener('click', function() { goToEscStep(4); });
+
+    // ШАГ 4
+    function renderEscAmps() {
+        const container = document.getElementById('escStep4Content');
+        container.innerHTML = '';
+        escState.players.forEach((player, idx) => {
+            const section = document.createElement('div');
+            section.style.marginBottom = '1.5rem';
+            section.style.borderBottom = '1px solid rgba(220,90,50,0.15)';
+            section.style.paddingBottom = '1rem';
+            
+            const title = document.createElement('div');
+            title.style.fontWeight = '600';
+            title.style.color = '#ffbc9a';
+            title.style.marginBottom = '0.8rem';
+            title.textContent = `💊 ${player} (выберите 3)`;
+            section.appendChild(title);
+            
+            const grid = document.createElement('div');
+            grid.className = 'selection-grid';
+            const shuffled = [...ampsData].sort(() => Math.random() - 0.5);
+            const selected = shuffled.slice(0, 5);
+            
+            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+            
+            selected.forEach(amp => {
+                const item = document.createElement('div');
+                item.className = 'selection-item';
+                item.dataset.player = idx;
+                item.dataset.amp = amp.name;
+                const isSelected = escState.ampSelections[idx].includes(amp.name);
+                if (isSelected) item.classList.add('selected');
+                
+                item.innerHTML = `
+                    <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <div class="item-name">${amp.name}</div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    const playerIdx = parseInt(this.dataset.player);
+                    const ampName = this.dataset.amp;
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        escState.ampSelections[playerIdx] = escState.ampSelections[playerIdx].filter(a => a !== ampName);
+                    } else {
+                        if (escState.ampSelections[playerIdx].length >= 3) {
+                            alert(`⚠️ ${escState.players[playerIdx]}, вы уже выбрали 3 ампы!`);
+                            return;
+                        }
+                        this.classList.add('selected');
+                        escState.ampSelections[playerIdx].push(ampName);
+                    }
+                    checkEscAmpsReady();
+                });
+                
+                grid.appendChild(item);
+            });
+            
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
+        checkEscAmpsReady();
+    }
+
+    function checkEscAmpsReady() {
+        const allSelected = escState.players.every((_, idx) => escState.ampSelections[idx]?.length === 3);
+        document.getElementById('escStep4Next').disabled = !allSelected;
+    }
+
+    document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
+    document.getElementById('escStep4Next').addEventListener('click', function() { generateEscResult(); });
+
+    // НАВИГАЦИЯ
+    function goToEscStep(step) {
+        escState.currentStep = step;
+        document.querySelectorAll('#escalationModal .step-container').forEach(el => el.classList.add('hidden'));
+        document.getElementById('escStep1').classList.add('hidden');
+        document.getElementById('escStep2').classList.add('hidden');
+        document.getElementById('escStep3').classList.add('hidden');
+        document.getElementById('escStep4').classList.add('hidden');
+        
+        if (step === 1) {
+            document.getElementById('escStep1').classList.remove('hidden');
+        } else if (step === 2) {
+            document.getElementById('escStep2').classList.remove('hidden');
+            renderEscPlayerNames();
+        } else if (step === 3) {
+            document.getElementById('escStep3').classList.remove('hidden');
+            renderEscEquipment();
+        } else if (step === 4) {
+            document.getElementById('escStep4').classList.remove('hidden');
+            renderEscAmps();
+        }
+    }
+
+    // РЕЗУЛЬТАТ
+    function generateEscResult() {
+        const map = mapsData[Math.floor(Math.random() * mapsData.length)];
+        escState.map = map;
+        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+        escState.variators = shuffled.slice(0, 3);
+
+        document.querySelectorAll('#escalationModal .step-container').forEach(el => el.classList.add('hidden'));
+        const resultContainer = document.getElementById('escResult');
+        resultContainer.style.display = 'block';
+        resultContainer.classList.add('active');
+
+        // Карта
+        document.getElementById('escResultMap').innerHTML = `
+            <div class="map-row">
+                <img src="${map.image}" alt="${map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(map.name)}'">
+                <div class="map-info">
+                    <h2>${map.name}</h2>
+                    <p>${map.desc}</p>
+                </div>
+            </div>
+        `;
+
+        // Вариаторы
+        document.getElementById('escResultVariators').innerHTML = `
+            <h3><i class="fas fa-skull"></i> Вариаторы для данного испытания:</h3>
+            <div class="variator-list">
+                ${escState.variators.map(v => `
+                    <div class="var-item">
+                        <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
+                        <span class="var-name">${v.name}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // Игроки
+        let playersHtml = '';
+        escState.players.forEach((player, idx) => {
+            const equip = escState.equipSelections[idx] || 'Не выбрано';
+            const amps = escState.ampSelections[idx] || [];
+            const equipData = equipmentData.find(e => e.name === equip);
+            
+            playersHtml += `
+                <div class="player-result">
+                    <div class="player-name">🎮 ${player}</div>
+                    <div class="player-equip">
+                        <span class="label">СНАРЯЖЕНИЕ:</span>
+                        ${equipData ? `<img src="${equipData.image}" alt="${equip}" onerror="this.style.display='none'">` : ''}
+                        <span class="value">${equip}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.3rem;">
+                        <span class="label" style="color:#888; font-size:0.75rem;">АМФЫ:</span>
+                    </div>
+                    <div class="player-amps">
+                        ${amps.map(ampName => {
+                            const ampData = ampsData.find(a => a.name === ampName);
+                            return ampData ? `
+                                <div class="amp-item">
+                                    <img src="${ampData.image}" alt="${ampName}" onerror="this.style.display='none'">
+                                    <span class="amp-name">${ampName}</span>
+                                </div>
+                            ` : '';
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('escResultPlayers').innerHTML = `
+            <h3><i class="fas fa-users"></i> Участники</h3>
+            ${playersHtml}
+        `;
+    }
+
+    // ПЕРЕЗАПУСК
+    document.getElementById('escRestartBtn').addEventListener('click', function() {
+        escState = { playerCount: 0, players: [], equipSelections: {}, ampSelections: {}, currentStep: 1, map: null, variators: [] };
+        document.getElementById('escResult').classList.remove('active');
+        document.getElementById('escResult').style.display = 'none';
+        document.querySelectorAll('#escalationModal .player-count-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('escStep1Next').disabled = true;
+        goToEscStep(1);
+    });
+
+    // ВЫБОР РЕЖИМА (только визуально)
+    function selectMode(mode) {
+        document.querySelectorAll('.mode-card').forEach(el => el.classList.remove('active-mode'));
+        const cards = document.querySelectorAll('.mode-card');
+        if (mode === 'roulette') cards[0].classList.add('active-mode');
+        else if (mode === 'card') cards[1].classList.add('active-mode');
+        else if (mode === 'escalation') cards[2].classList.add('active-mode');
+    }
+
+    // ИНИЦИАЛИЗАЦИЯ
+    let timerInterval;
     document.addEventListener('DOMContentLoaded', function() {
         getDailyMission();
         startTimer();
