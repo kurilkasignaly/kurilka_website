@@ -608,16 +608,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            color: #e16d48;
+            overflow: hidden;
             flex-shrink: 0;
+            border: 2px solid rgba(220, 90, 50, 0.2);
         }
 
         .trial-card .trial-header .trial-icon img {
             width: 40px;
             height: 40px;
             object-fit: contain;
-            border-radius: 50%;
         }
 
         .trial-card .trial-header .trial-title {
@@ -628,11 +627,6 @@
             font-size: 1.1rem;
             color: #ffbc9a;
             font-weight: 600;
-        }
-
-        .trial-card .trial-header .trial-title .trial-sub {
-            font-size: 0.7rem;
-            color: #888;
         }
 
         .trial-card .trial-body {
@@ -768,8 +762,8 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             animation: checkmarkAppear 0.5s ease-out;
             display: none;
             z-index: 5;
@@ -1823,7 +1817,7 @@
         grid.innerHTML = specialTrials.map((trial, index) => `
             <div class="trial-card" id="trialCard_${trial.id}">
                 <div class="completion-check ${trial.completed ? 'visible' : ''}" id="checkmark_${trial.id}">
-                    <img src="images/галочка.png" alt="Выполнено" onerror="this.src='https://placehold.co/32x32/2ecc71/2ecc71?text=✓'">
+                    <img src="images/галочка.png" alt="Выполнено" onerror="this.src='https://placehold.co/36x36/2ecc71/2ecc71?text=✓'">
                 </div>
                 <div class="trial-header">
                     <div class="trial-icon">
@@ -1871,22 +1865,17 @@
         const trial = specialTrials.find(t => t.id === trialId);
         if (!trial) return;
 
-        // Если уже выполнено - ничего не делаем
         if (trial.completed) return;
 
-        // Отмечаем как выполненное
         trial.completed = true;
 
-        // Обновляем карточку
         const card = document.getElementById(`trialCard_${trialId}`);
         if (card) {
-            // Показываем галочку
             const checkmark = document.getElementById(`checkmark_${trialId}`);
             if (checkmark) {
                 checkmark.classList.add('visible');
             }
 
-            // Меняем кнопку
             const btn = card.querySelector('.complete-btn');
             if (btn) {
                 btn.textContent = '✅ Выполнено';
@@ -1894,7 +1883,6 @@
             }
         }
 
-        // Сохраняем в localStorage
         saveTrialProgress();
     }
 
