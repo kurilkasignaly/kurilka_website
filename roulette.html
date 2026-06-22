@@ -321,16 +321,6 @@
             font-style: italic;
         }
 
-        .dialog-text .pause-text {
-            color: #888;
-            font-style: italic;
-        }
-
-        .dialog-text .player-choice {
-            color: #4c9aff;
-            font-weight: 600;
-        }
-
         .dialog-actions {
             display: flex;
             gap: 0.6rem;
@@ -557,6 +547,188 @@
             font-size: 0.85rem;
             margin-top: 0.5rem;
             opacity: 0.5;
+        }
+
+        /* ===== ОСОБЫЕ ИСПЫТАНИЯ ===== */
+        .special-trials {
+            margin-bottom: 2.5rem;
+        }
+
+        .special-trials h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .special-trials .trials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .trial-card {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .trial-card:hover {
+            transform: translateY(-6px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
+        }
+
+        .trial-card .trial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.2rem 0.8rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
+        }
+
+        .trial-card .trial-header .trial-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(220, 90, 50, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #e16d48;
+            flex-shrink: 0;
+        }
+
+        .trial-card .trial-header .trial-title {
+            flex: 1;
+        }
+
+        .trial-card .trial-header .trial-title h3 {
+            font-size: 1.1rem;
+            color: #ffbc9a;
+            font-weight: 600;
+        }
+
+        .trial-card .trial-header .trial-title .trial-sub {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .trial-card .trial-body {
+            padding: 0.8rem 1.2rem 1.2rem;
+        }
+
+        .trial-card .trial-body .trial-map {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .trial-card .trial-body .trial-map img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .trial-card .trial-body .trial-map .map-name {
+            font-size: 0.85rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .trial-card .trial-body .trial-map .map-name small {
+            color: #888;
+            font-weight: 400;
+            font-size: 0.7rem;
+        }
+
+        .trial-card .trial-body .trial-desc {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            line-height: 1.5;
+            margin-bottom: 0.8rem;
+            padding: 0.5rem 0.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .trial-card .trial-body .trial-variators {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.6rem;
+        }
+
+        .trial-card .trial-body .trial-variators .var-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(220, 90, 50, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            color: #c2b9d4;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .trial-card .trial-body .trial-variators .var-tag img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .trial-card .trial-body .trial-meta {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            padding-top: 0.6rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.1);
+        }
+
+        .trial-card .trial-body .trial-meta .meta-item {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .trial-card .trial-body .trial-meta .meta-item strong {
+            color: #ffbc9a;
+            font-weight: 600;
+        }
+
+        .trial-card .trial-body .trial-conditions {
+            margin-top: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            background: rgba(220, 90, 50, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(220, 90, 50, 0.08);
+        }
+
+        .trial-card .trial-body .trial-conditions .cond-label {
+            font-size: 0.6rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .trial-card .trial-body .trial-conditions .cond-text {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            line-height: 1.4;
         }
 
         /* ===== РЕЖИМЫ РУЛЕТКИ ===== */
@@ -829,6 +1001,7 @@
             .logo h1 { font-size: 1.5rem; }
             .page-header h1 { font-size: 1.8rem; }
             .modes-grid { grid-template-columns: 1fr; }
+            .special-trials .trials-grid { grid-template-columns: 1fr; }
             .constructor-form { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: 1; }
             .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1.5rem; }
@@ -860,6 +1033,9 @@
             .dialog-speaker .name { font-size: 0.75rem; }
             .dialog-speaker .title { font-size: 0.5rem; }
             .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
+            
+            .trial-card .trial-header { flex-direction: column; text-align: center; }
+            .trial-card .trial-body .trial-map { flex-direction: column; text-align: center; }
         }
 
         @media (max-width: 400px) {
@@ -949,6 +1125,14 @@
                 </div>
             </div>
             <button class="reroll-btn" disabled><i class="fas fa-lock"></i> Обновится автоматически</button>
+        </div>
+    </div>
+
+    <!-- ===== ОСОБЫЕ ИСПЫТАНИЯ ===== -->
+    <div class="special-trials">
+        <h2><i class="fas fa-star"></i> Особые испытания</h2>
+        <div class="trials-grid" id="specialTrialsGrid">
+            <!-- Карточки будут добавлены через JS -->
         </div>
     </div>
 
@@ -1063,12 +1247,126 @@
         { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" }
     ];
 
+    // ===== ОСОБЫЕ ИСПЫТАНИЯ =====
+    const specialTrials = [
+        {
+            id: 1,
+            title: "Уничтожьте документацию",
+            subtitle: "Операция «Чистка»",
+            icon: "fa-file-alt",
+            map: "Пристань",
+            mapImage: "images/пристань.webp",
+            description: "Найдите и уничтожьте все документы о незаконных перевозках на пристани Мёркофф.",
+            variators: [
+                { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+                { name: "Ограниченная информация", image: "images/вариатор-информация.webp" }
+            ],
+            level: 2,
+            difficulty: "Начальная",
+            conditions: [
+                "Уничтожьте 5 папок с документами",
+                "Не поднимайте тревогу более 2 раз",
+                "Покиньте локацию за 10 минут"
+            ]
+        },
+        {
+            id: 2,
+            title: "Спасите свидетеля",
+            subtitle: "Операция «Тишина»",
+            icon: "fa-user-shield",
+            map: "Полицейский участок",
+            mapImage: "images/полицейский-участок.webp",
+            description: "Найдите и выведите свидетеля из полицейского участка, пока его не заставили замолчать навсегда.",
+            variators: [
+                { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
+                { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" },
+                { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" }
+            ],
+            level: 1,
+            difficulty: "Начальная",
+            conditions: [
+                "Найдите свидетеля в камере №7",
+                "Выведите его через главный выход",
+                "Не допустите гибели свидетеля"
+            ]
+        },
+        {
+            id: 3,
+            title: "Остановите конвейер",
+            subtitle: "Операция «Затвор»",
+            icon: "fa-industry",
+            map: "Фабрика игрушек",
+            mapImage: "images/фабрика-игрушек.webp",
+            description: "Проберитесь на фабрику и остановите конвейер по производству опасных игрушек.",
+            variators: [
+                { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+                { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
+                { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
+                { name: "Постоянное наблюдение", image: "images/вариатор-наблюдение.webp" }
+            ],
+            level: 3,
+            difficulty: "Нормальная",
+            conditions: [
+                "Остановите конвейер в цехе №3",
+                "Уничтожьте 10 опасных игрушек",
+                "Покиньте фабрику за 15 минут"
+            ]
+        },
+        {
+            id: 4,
+            title: "Остановите Франко Барби",
+            subtitle: "Операция «Марионетка»",
+            icon: "fa-skull",
+            map: "Центр города",
+            mapImage: "images/центр-города.webp",
+            description: "Проберитесь в центр города и остановите Франко Барби, пока он не уничтожил всех.",
+            variators: [
+                { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
+                { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+                { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
+                { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
+                { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" }
+            ],
+            level: 5,
+            difficulty: "Высокая",
+            conditions: [
+                "Найдите Франко Барби в театре",
+                "Уничтожьте его марионеток",
+                "Покиньте центр города живым"
+            ]
+        },
+        {
+            id: 5,
+            title: "Остановите Матушку Гусберри",
+            subtitle: "Операция «Колыбель»",
+            icon: "fa-crown",
+            map: "Детский дом",
+            mapImage: "images/детский-дом.webp",
+            description: "Проберитесь в комнату Матушки и уничтожьте её дневники с планами.",
+            variators: [
+                { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+                { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
+                { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
+                { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" },
+                { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" },
+                { name: "Постоянное наблюдение", image: "images/вариатор-наблюдение.webp" }
+            ],
+            level: 7,
+            difficulty: "Психохирургия",
+            conditions: [
+                "Проберитесь в комнату Матушки",
+                "Уничтожьте 3 дневника",
+                "Не попадитесь на глаза Матушке",
+                "Покиньте детский дом за 20 минут"
+            ]
+        }
+    ];
+
     // ============================================================
     // 2. ДИАЛОГОВАЯ СИСТЕМА
     // ============================================================
 
     const dialogLines = [
-        // Реплика 1: Вступление
         {
             type: "speech",
             text: `Дорогие дамы и господа! Не проходите мимо и узрите величайшее изобретение современности!\nМеханизм, способный подарить вам славу... Механизм, способный подарить вам страдания... И, что самое главное, механизм, который способен превратить обычного Реагента в настоящую легенду!`,
@@ -1076,7 +1374,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 2: Появление Арлекино
         {
             type: "action",
             text: `Арлекино появляется из тени и начинает хлопать в ладоши.`,
@@ -1084,7 +1381,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 3: Приветствие
         {
             type: "speech",
             text: `— О-о-о! А вот и новый участник!\n— Поприветствуем же его! Не стесняйтесь, дружище, здесь все свои. Ну... почти все.`,
@@ -1092,7 +1388,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 4: Шутка
         {
             type: "speech",
             text: `— Конь в пальто.`,
@@ -1100,7 +1395,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 5: Пауза
         {
             type: "action",
             text: `Пауза.`,
@@ -1108,7 +1402,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 6: Продолжение шутки
         {
             type: "speech",
             text: `— Нет?`,
@@ -1116,7 +1409,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 7: Ещё пауза
         {
             type: "action",
             text: `Ещё пауза.`,
@@ -1124,7 +1416,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 8: Признание
         {
             type: "speech",
             text: `— Ладно, признаю, шутка была ужасной.`,
@@ -1132,7 +1423,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 9: Представление
         {
             type: "action",
             text: `Арлекино снимает воображаемую шляпу и кланяется.`,
@@ -1140,7 +1430,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 10: Официальное представление
         {
             type: "speech",
             text: `— Ах, вот теперь мы переходим к официальной части!\n— Моё имя — АРЛЕКИНО!\nВедущий. Конферансье. Арбитр хаоса. И единственный человек, которому руководство ещё не запретило пользоваться этой рулеткой.`,
@@ -1148,7 +1437,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 11: О рулетке
         {
             type: "speech",
             text: `— Именно!\nПеред вами находится величайшая машина случайностей, которую когда-либо создавали человеческая глупость и научный прогресс.\nОна не знает жалости. Она не знает справедливости. Она даже не знает, что такое баланс.\nНо зато она умеет выбирать испытания.`,
@@ -1156,7 +1444,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 12: Почему выбор скучен
         {
             type: "speech",
             text: `— Потому что выбор — это скучно!\nВы открываете игру. Думаете: «Во что бы мне поиграть?»\nПотом двадцать минут смотрите на список испытаний.\nПотом ещё десять минут спрашиваете друзей.\nПотом закрываете игру.\nУжасно.\nЯ же избавлю вас от этих мучений.`,
@@ -1164,7 +1451,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 13: Объяснение механики
         {
             type: "speech",
             text: `— Очень просто!\nВы выбираете один из 3 предложенных путей.\nА затем...\nСудьба и ваша удача сделают всё остальное.`,
@@ -1172,7 +1458,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 14: Блокнот
         {
             type: "speech",
             text: `— Конечно-конечно!\nНикто вас не заставляет.`,
@@ -1180,7 +1465,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 15: Достаёт блокнот
         {
             type: "action",
             text: `Арлекино достаёт блокнот.`,
@@ -1188,7 +1472,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 16: Угроза
         {
             type: "speech",
             text: `— Просто назовите своё имя, чтобы я мог записать вас в список трусов.`,
@@ -1196,7 +1479,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 17: Шутка
         {
             type: "speech",
             text: `— Шучу!\n...........\n— Возможно.`,
@@ -1204,7 +1486,6 @@
             secondary: "Уйти и сохранить остатки здравомыслия",
             skip: false
         },
-        // Реплика 18: Первый вопрос
         {
             type: "speech",
             text: `— Ох...\n— Вы уверены?`,
@@ -1212,7 +1493,6 @@
             secondary: "Нет",
             skip: false
         },
-        // Реплика 19: Второй вопрос
         {
             type: "speech",
             text: `— Правда уверены?`,
@@ -1220,7 +1500,6 @@
             secondary: "Нет",
             skip: false
         },
-        // Реплика 20: Третий вопрос
         {
             type: "speech",
             text: `— Абсолютно уверены?`,
@@ -1228,7 +1507,6 @@
             secondary: "Нет!",
             skip: false
         },
-        // Реплика 21: Досада
         {
             type: "speech",
             text: `— Какая досада...`,
@@ -1236,7 +1514,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 22: Что вы пишете
         {
             type: "speech",
             text: `— Что вы там пишете?\n— Ничего особенного.\n— Просто вношу ваше имя в список людей, которые испугались обычного выбора.`,
@@ -1244,7 +1521,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 23: Ехидство
         {
             type: "action",
             text: `Арлекино ехидно улыбается.`,
@@ -1252,7 +1528,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 24: Продолжение
         {
             type: "speech",
             text: `— Конечно-конечно.\n— Именно так обычно и говорят те, кто испугался.\n— Но я вас не осуждаю.\n— В конце концов, не каждый способен взглянуть хаосу в глаза и сказать:\n«Да, сегодня я добровольно испорчу себе жизнь.»`,
@@ -1260,7 +1535,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 25: Лучшие идеи
         {
             type: "speech",
             text: `— А лучшие идеи всегда звучат как плохие.`,
@@ -1268,7 +1542,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 26: Пауза
         {
             type: "action",
             text: `Пауза.`,
@@ -1276,7 +1549,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 27: Признание
         {
             type: "speech",
             text: `— Хотя должен признать...\n— Возможно, в этот раз рулетка действительно приготовила нечто ужасное.`,
@@ -1284,7 +1556,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 28: Наклоняется
         {
             type: "action",
             text: `Арлекино наклоняется ближе.`,
@@ -1292,7 +1563,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 29: Заманивание
         {
             type: "speech",
             text: `— Настолько ужасное, что даже мне стало немного любопытно.`,
@@ -1300,7 +1570,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 30: Ответ
         {
             type: "speech",
             text: `— Пытаюсь?\n— Друг мой, если бы я пытался, у вас уже не было бы кнопки «Уйти».`,
@@ -1308,7 +1577,6 @@
             secondary: "Нет, я ухожу.",
             skip: false
         },
-        // Реплика 31: Уважение
         {
             type: "speech",
             text: `— Хорошо.\n— Я уважаю ваше решение.`,
@@ -1316,7 +1584,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 32: Длинная пауза
         {
             type: "action",
             text: `Длинная пауза.`,
@@ -1324,7 +1591,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 33: Не уважаю
         {
             type: "speech",
             text: `— Нет, не уважаю.`,
@@ -1332,7 +1598,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 34: Смех
         {
             type: "action",
             text: `Арлекино начинает смеяться.`,
@@ -1340,7 +1605,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 35: Дверь
         {
             type: "speech",
             text: `— Но дверь вон там.\n— Возвращайтесь, когда любопытство победит здравый смысл.\n— Обычно это занимает от пяти минут до двух дней.`,
@@ -1348,7 +1612,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 36: Триумф
         {
             type: "speech",
             text: `— Ха!\n— Я так и знал.\n— Любопытство — самая надёжная ловушка из всех существующих.`,
@@ -1356,7 +1619,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 37: Улыбка
         {
             type: "action",
             text: `Арлекино широко улыбается.`,
@@ -1364,7 +1626,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 38: Добро пожаловать
         {
             type: "speech",
             text: `— Добро пожаловать обратно, мой дорогой участник!\n— Теперь пути назад нет.`,
@@ -1372,7 +1633,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 39: Технически
         {
             type: "speech",
             text: `— Ну, технически есть.\n— Но звучит не так драматично.\n— Перед вами 3 пути, которые не знают ни жалости, ни справедливости.\n— Они не спросят, готовы ли вы.\n— Они не станут учитывать ваш опыт.\n— И уж точно не будут переживать за ваши нервы.`,
@@ -1380,7 +1640,6 @@
             secondary: null,
             skip: true
         },
-        // Реплика 40: Благодарность
         {
             type: "speech",
             text: `— Благодарю! Я старался.\n— Итак...\n— Удачи, Реагент.\n— Она вам понадобится.`,
@@ -1438,7 +1697,6 @@
         let text = line.text;
         let htmlText = text.replace(/\n/g, '<br>');
         
-        // Если это действие или пауза - применяем курсив
         if (line.type === 'action') {
             htmlText = `<span class="action-text">${htmlText}</span>`;
         }
@@ -1502,8 +1760,61 @@
         };
     }
 
-    // ===== ОБРАБОТЧИКИ ДИАЛОГА =====
+    // ============================================================
+    // 3. ОТОБРАЖЕНИЕ ОСОБЫХ ИСПЫТАНИЙ
+    // ============================================================
+
+    function renderSpecialTrials() {
+        const grid = document.getElementById('specialTrialsGrid');
+        if (!grid) return;
+
+        grid.innerHTML = specialTrials.map(trial => `
+            <div class="trial-card" onclick="alert('Испытание: ${trial.title}')">
+                <div class="trial-header">
+                    <div class="trial-icon">
+                        <i class="fas ${trial.icon}"></i>
+                    </div>
+                    <div class="trial-title">
+                        <h3>${trial.title}</h3>
+                        <span class="trial-sub">${trial.subtitle}</span>
+                    </div>
+                </div>
+                <div class="trial-body">
+                    <div class="trial-map">
+                        <img src="${trial.mapImage}" alt="${trial.map}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
+                        <span class="map-name">${trial.map} <small>— Карта</small></span>
+                    </div>
+                    <div class="trial-desc">${trial.description}</div>
+                    <div class="trial-variators">
+                        ${trial.variators.map(v => `
+                            <span class="var-tag">
+                                <img src="${v.image}" alt="${v.name}" onerror="this.style.display='none'">
+                                ${v.name}
+                            </span>
+                        `).join('')}
+                    </div>
+                    <div class="trial-meta">
+                        <span class="meta-item"><strong>№ Терапии:</strong> #${trial.level}</span>
+                        <span class="meta-item"><strong>Сложность:</strong> ${trial.difficulty}</span>
+                        <span class="meta-item"><strong>Вариаторов:</strong> ${trial.variators.length}</span>
+                    </div>
+                    <div class="trial-conditions">
+                        <div class="cond-label"><i class="fas fa-list"></i> Условия выполнения:</div>
+                        <div class="cond-text">
+                            ${trial.conditions.map(c => `• ${c}`).join('<br>')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ============================================================
+    // 4. ОБРАБОТЧИКИ
+    // ============================================================
+
     document.addEventListener('DOMContentLoaded', function() {
+        // Заполняем селект карт
         const mapSelect = document.getElementById('taskMap');
         if (mapSelect) {
             mapsData.forEach(map => {
@@ -1514,8 +1825,13 @@
             });
         }
 
+        // Рендерим особые испытания
+        renderSpecialTrials();
+
+        // Запускаем диалог
         setTimeout(startDialog, 400);
 
+        // Обработчики кнопок диалога
         document.getElementById('dialogBtnPrimary').addEventListener('click', function() {
             if (isTyping) {
                 if (typeInterval) {
@@ -1572,13 +1888,14 @@
             }
         });
 
+        // Остальные функции
         getDailyMission();
         startTimer();
         loadTasks();
     });
 
     // ============================================================
-    // 3. ЗАДАНИЕ ДНЯ
+    // 5. ЗАДАНИЕ ДНЯ
     // ============================================================
 
     function getDailyMission() {
@@ -1629,7 +1946,7 @@
     }
 
     // ============================================================
-    // 4. ТАЙМЕР
+    // 6. ТАЙМЕР
     // ============================================================
 
     let timerInterval;
@@ -1666,7 +1983,7 @@
     }
 
     // ============================================================
-    // 5. ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ
+    // 7. ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ
     // ============================================================
 
     let tasks = [];
@@ -1722,7 +2039,7 @@
     }
 
     // ============================================================
-    // 6. ОБРАБОТЧИК ФОРМЫ
+    // 8. ОБРАБОТЧИК ФОРМЫ
     // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
