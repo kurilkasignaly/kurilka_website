@@ -67,6 +67,21 @@
             50% { transform: scale(1.05); }
         }
 
+        @keyframes typeCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes dialogAppear {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1400px;
@@ -188,6 +203,172 @@
             color: #c2b9d4;
             font-size: 1rem;
             margin-top: 0.5rem;
+        }
+
+        /* ===== ДИАЛОГОВОЕ ОКНО ===== */
+        .dialog-overlay {
+            background: rgba(18, 12, 28, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            animation: dialogAppear 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dialog-overlay::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 70%, rgba(220, 90, 50, 0.05), transparent 70%);
+            pointer-events: none;
+        }
+
+        .dialog-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dialog-avatar {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid rgba(220, 90, 50, 0.4);
+            overflow: hidden;
+            animation: floatAvatar 4s ease-in-out infinite;
+            background: linear-gradient(135deg, #1a1a2e, #2d1b2e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
+        }
+
+        .dialog-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dialog-avatar .avatar-placeholder {
+            font-size: 4rem;
+            color: #e16d48;
+            opacity: 0.6;
+        }
+
+        .dialog-avatar .avatar-glow {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(220, 90, 50, 0.1);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .dialog-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dialog-speaker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .dialog-speaker .name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e16d48;
+        }
+
+        .dialog-speaker .title {
+            font-size: 0.7rem;
+            color: #888;
+            background: rgba(220, 90, 50, 0.15);
+            padding: 0.15rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .dialog-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #e2d9f0;
+            min-height: 80px;
+            padding: 0.5rem 0;
+        }
+
+        .dialog-text .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: #e16d48;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: typeCursor 0.8s step-end infinite;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .dialog-btn {
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            border: none;
+        }
+
+        .dialog-btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 4px 15px rgba(188, 74, 40, 0.3);
+        }
+
+        .dialog-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .dialog-btn-secondary {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            color: #c2b9d4;
+        }
+
+        .dialog-btn-secondary:hover {
+            background: rgba(220, 90, 50, 0.25);
+            color: white;
+        }
+
+        .dialog-btn-skip {
+            background: transparent;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .dialog-btn-skip:hover {
+            color: #c2b9d4;
         }
 
         /* ===== ЗАДАНИЕ ДНЯ ===== */
@@ -638,6 +819,26 @@
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
+            
+            .dialog-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .dialog-avatar {
+                width: 90px;
+                height: 90px;
+            }
+            .dialog-text {
+                font-size: 0.95rem;
+                min-height: 60px;
+            }
+            .dialog-actions {
+                justify-content: center;
+            }
+            .dialog-speaker {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 550px) {
@@ -648,6 +849,22 @@
             .daily-mission .variator-item .var-name { font-size: 0.7rem; max-width: 70px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
+            
+            .dialog-avatar {
+                width: 70px;
+                height: 70px;
+            }
+            .dialog-avatar .avatar-placeholder {
+                font-size: 2.5rem;
+            }
+            .dialog-text {
+                font-size: 0.85rem;
+                min-height: 50px;
+            }
+            .dialog-btn {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -681,6 +898,33 @@
     <div class="page-header">
         <h1><i class="fas fa-dice-d6"></i> Рулетка испытаний</h1>
         <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
+    </div>
+
+    <!-- ДИАЛОГОВОЕ ОКНО С АРЛЕКИНО -->
+    <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-container">
+            <div class="dialog-avatar" id="dialogAvatar">
+                <div class="avatar-glow"></div>
+                <img src="images/арлекино.webp" alt="Арлекино" onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-placeholder').style.display='flex'">
+                <div class="avatar-placeholder" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 4rem; color: #e16d48;">
+                    <i class="fas fa-mask"></i>
+                </div>
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-speaker">
+                    <span class="name">🎭 Арлекино</span>
+                    <span class="title">Хранитель испытаний</span>
+                </div>
+                <div class="dialog-text" id="dialogText">
+                    <span id="dialogMessage"></span><span class="cursor" id="dialogCursor"></span>
+                </div>
+                <div class="dialog-actions" id="dialogActions">
+                    <button class="dialog-btn dialog-btn-primary" id="dialogBtnPrimary">Продолжить</button>
+                    <button class="dialog-btn dialog-btn-secondary" id="dialogBtnSecondary" style="display: none;">Выбрать режим</button>
+                    <button class="dialog-btn dialog-btn-skip" id="dialogBtnSkip">Пропустить</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ЗАДАНИЕ ДНЯ -->
@@ -792,7 +1036,7 @@
     </footer>
 </div>
 
-<!-- ===== ВСЕ ДАННЫЕ И СКРИПТ В ОДНОМ ФАЙЛЕ ===== -->
+<!-- ===== ВСЕ ДАННЫЕ И СКРИПТ ===== -->
 <script>
     // ============================================================
     // 1. ДАННЫЕ
@@ -800,56 +1044,16 @@
 
     // ===== КАРТЫ =====
     const mapsData = [
-        { 
-            name: "Полицейский участок", 
-            image: "images/полицейский-участок.webp", 
-            desc: "Заброшенный полицейский участок, где правят коррумпированные офицеры." 
-        },
-        { 
-            name: "Детский дом", 
-            image: "images/детский-дом.webp", 
-            desc: "Жуткий детский дом, где Матушка Гусберри ждёт своих подопечных." 
-        },
-        { 
-            name: "Парк развлечений", 
-            image: "images/парк-развлечений.webp", 
-            desc: "Заброшенный парк с опасными аттракционами и безумными клоунами." 
-        },
-        { 
-            name: "Здание суда", 
-            image: "images/здание-суда.webp", 
-            desc: "Судебный хаос, где Лиланд Койл вершит своё правосудие." 
-        },
-        { 
-            name: "Фабрика игрушек", 
-            image: "images/фабрика-игрушек.webp", 
-            desc: "Опасная фабрика с механизмами и куклами-убийцами." 
-        },
-        { 
-            name: "Пристань", 
-            image: "images/пристань.webp", 
-            desc: "Грязная пристань с контрабандой и тайнами Мёркофф." 
-        },
-        { 
-            name: "Центр города", 
-            image: "images/центр-города.webp", 
-            desc: "Опасные улицы города, где Франко Барби правит бал." 
-        },
-        { 
-            name: "Пригород", 
-            image: "images/пригород.webp", 
-            desc: "Тихие улицы пригорода, скрывающие ужасные секреты." 
-        },
-        { 
-            name: "Курорт", 
-            image: "images/курорт.webp", 
-            desc: "Элитный курорт, превратившийся в ловушку для гостей." 
-        },
-        { 
-            name: "Телестудия", 
-            image: "images/телестудия.webp", 
-            desc: "Заброшенная телестудия, где транслируют только кошмары." 
-        }
+        { name: "Полицейский участок", image: "images/полицейский-участок.webp" },
+        { name: "Детский дом", image: "images/детский-дом.webp" },
+        { name: "Парк развлечений", image: "images/парк-развлечений.webp" },
+        { name: "Здание суда", image: "images/здание-суда.webp" },
+        { name: "Фабрика игрушек", image: "images/фабрика-игрушек.webp" },
+        { name: "Пристань", image: "images/пристань.webp" },
+        { name: "Центр города", image: "images/центр-города.webp" },
+        { name: "Пригород", image: "images/пригород.webp" },
+        { name: "Курорт", image: "images/курорт.webp" },
+        { name: "Телестудия", image: "images/телестудия.webp" }
     ];
 
     // ===== ВАРИАТОРЫ =====
@@ -863,11 +1067,143 @@
     ];
 
     // ============================================================
-    // 2. ЛОГИКА
+    // 2. ДИАЛОГОВАЯ СИСТЕМА
     // ============================================================
 
-    // ===== ЗАПОЛНЕНИЕ СЕЛЕКТА КАРТ =====
+    const dialogLines = [
+        {
+            text: "Ах... новый реагент? Или просто любопытный странник? Неважно. Я — Арлекино, хранитель этих испытаний.",
+            primary: "Кто ты?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: "Я тот, кто помогает реагентам найти свой путь. Здесь, в стенах этой лаборатории, каждый ищет что-то своё. Одни — спасение, другие — ответы, третьи — просто адреналин.",
+            primary: "Что ты здесь делаешь?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: "Слежу за порядком. За тем, чтобы испытания были честными. И чтобы те, кто в них участвуют, не сходили с ума окончательно. Хотя... иногда это даже забавно.",
+            primary: "Расскажи о рулетке",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: "Рулетка испытаний — моя гордость. Она подбирает задания случайным образом, смешивая карты, вариаторы и сложность. Каждый раз — новый вызов. Хочешь попробовать?",
+            primary: "Да, хочу!",
+            secondary: "Мне нужно подумать",
+            skip: false
+        }
+    ];
+
+    let currentDialogIndex = 0;
+    let isTyping = false;
+    let typeInterval = null;
+    let isDialogComplete = false;
+
+    function startDialog() {
+        currentDialogIndex = 0;
+        showDialogLine(0);
+    }
+
+    function showDialogLine(index) {
+        if (index >= dialogLines.length) {
+            completeDialog();
+            return;
+        }
+
+        const line = dialogLines[index];
+        const messageEl = document.getElementById('dialogMessage');
+        const cursorEl = document.getElementById('dialogCursor');
+        const primaryBtn = document.getElementById('dialogBtnPrimary');
+        const secondaryBtn = document.getElementById('dialogBtnSecondary');
+        const skipBtn = document.getElementById('dialogBtnSkip');
+
+        // Останавливаем текущую печать
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
+
+        // Показываем кнопки
+        primaryBtn.style.display = 'inline-block';
+        primaryBtn.textContent = line.primary || 'Далее';
+        primaryBtn.disabled = true;
+
+        if (line.secondary) {
+            secondaryBtn.style.display = 'inline-block';
+            secondaryBtn.textContent = line.secondary;
+        } else {
+            secondaryBtn.style.display = 'none';
+        }
+
+        skipBtn.style.display = line.skip ? 'inline-block' : 'none';
+
+        // Очищаем сообщение
+        messageEl.textContent = '';
+        cursorEl.style.display = 'inline-block';
+        isTyping = true;
+
+        // Печатаем текст
+        const text = line.text;
+        let charIndex = 0;
+        const typingSpeed = 30;
+
+        typeInterval = setInterval(() => {
+            if (charIndex < text.length) {
+                messageEl.textContent += text.charAt(charIndex);
+                charIndex++;
+                // Прокручиваем вниз при необходимости
+                const dialogText = document.getElementById('dialogText');
+                if (dialogText) {
+                    dialogText.scrollTop = dialogText.scrollHeight;
+                }
+            } else {
+                clearInterval(typeInterval);
+                typeInterval = null;
+                isTyping = false;
+                primaryBtn.disabled = false;
+                cursorEl.style.display = 'none';
+            }
+        }, typingSpeed);
+    }
+
+    function completeDialog() {
+        isDialogComplete = true;
+        const messageEl = document.getElementById('dialogMessage');
+        const cursorEl = document.getElementById('dialogCursor');
+        const primaryBtn = document.getElementById('dialogBtnPrimary');
+        const secondaryBtn = document.getElementById('dialogBtnSecondary');
+        const skipBtn = document.getElementById('dialogBtnSkip');
+
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
+
+        messageEl.textContent = 'Добро пожаловать в Рулетку испытаний! Выбирай режим и начинай свой путь. Удачи, реагент! 🎭';
+        cursorEl.style.display = 'none';
+        primaryBtn.textContent = 'Начать!';
+        primaryBtn.disabled = false;
+        secondaryBtn.style.display = 'none';
+        skipBtn.style.display = 'none';
+
+        // При клике на "Начать!" скрываем диалог
+        primaryBtn.onclick = function() {
+            const overlay = document.getElementById('dialogOverlay');
+            overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        };
+    }
+
+    // ===== ОБРАБОТЧИКИ ДИАЛОГА =====
     document.addEventListener('DOMContentLoaded', function() {
+        // Заполняем селект карт
         const mapSelect = document.getElementById('taskMap');
         if (mapSelect) {
             mapsData.forEach(map => {
@@ -877,13 +1213,78 @@
                 mapSelect.appendChild(option);
             });
         }
-        
+
+        // Инициализация диалога
+        setTimeout(startDialog, 500);
+
+        // Кнопка "Продолжить"
+        document.getElementById('dialogBtnPrimary').addEventListener('click', function() {
+            if (isTyping) {
+                // Если идет печать - завершаем её мгновенно
+                if (typeInterval) {
+                    clearInterval(typeInterval);
+                    typeInterval = null;
+                }
+                const messageEl = document.getElementById('dialogMessage');
+                const line = dialogLines[currentDialogIndex];
+                if (line) {
+                    messageEl.textContent = line.text;
+                }
+                isTyping = false;
+                document.getElementById('dialogCursor').style.display = 'none';
+                this.disabled = false;
+                return;
+            }
+
+            if (isDialogComplete) {
+                // Если диалог завершен - ничего не делаем (кнопка уже обработана)
+                return;
+            }
+
+            // Переходим к следующей строке
+            currentDialogIndex++;
+            if (currentDialogIndex < dialogLines.length) {
+                showDialogLine(currentDialogIndex);
+            } else {
+                completeDialog();
+            }
+        });
+
+        // Кнопка "Пропустить"
+        document.getElementById('dialogBtnSkip').addEventListener('click', function() {
+            if (typeInterval) {
+                clearInterval(typeInterval);
+                typeInterval = null;
+                isTyping = false;
+            }
+            // Пропускаем к последнему сообщению
+            const lastIndex = dialogLines.length - 1;
+            currentDialogIndex = lastIndex;
+            showDialogLine(lastIndex);
+            // На следующем клике "Продолжить" завершим диалог
+        });
+
+        // Кнопка "Выбрать режим" (вторичная) — пока ничего не делает, просто закрывает диалог
+        document.getElementById('dialogBtnSecondary').addEventListener('click', function() {
+            const overlay = document.getElementById('dialogOverlay');
+            overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500);
+        });
+
+        // Запускаем остальные функции
         getDailyMission();
         startTimer();
         loadTasks();
     });
 
-    // ===== ЗАДАНИЕ ДНЯ =====
+    // ============================================================
+    // 3. ЗАДАНИЕ ДНЯ
+    // ============================================================
+
     function getDailyMission() {
         const saved = localStorage.getItem('dailyMission');
         const savedDate = localStorage.getItem('dailyMissionDate');
@@ -931,7 +1332,10 @@
         `;
     }
 
-    // ===== ТАЙМЕР =====
+    // ============================================================
+    // 4. ТАЙМЕР
+    // ============================================================
+
     let timerInterval;
 
     function startTimer() {
@@ -965,7 +1369,10 @@
         timerInterval = setInterval(updateTimer, 1000);
     }
 
-    // ===== ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ =====
+    // ============================================================
+    // 5. ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ
+    // ============================================================
+
     let tasks = [];
 
     function loadTasks() {
@@ -1018,7 +1425,10 @@
         }
     }
 
-    // ===== ОБРАБОТЧИК ФОРМЫ =====
+    // ============================================================
+    // 6. ОБРАБОТЧИК ФОРМЫ
+    // ============================================================
+
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('taskForm');
         if (form) {
