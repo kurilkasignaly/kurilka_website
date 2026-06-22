@@ -192,6 +192,45 @@
             color: #e16d48;
         }
 
+        /* ===== СЧЕТЧИК УРОВНЯ ===== */
+        .level-counter {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(220, 90, 50, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .level-counter .level-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .level-counter .level-label {
+            font-size: 0.9rem;
+            color: #888;
+            margin-left: 0.5rem;
+        }
+
+        .level-counter .level-difficulty {
+            display: inline-block;
+            margin-left: 1rem;
+            padding: 0.2rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .level-difficulty-intro { background: rgba(108, 117, 125, 0.3); color: #6c757d; }
+        .level-difficulty-standard { background: rgba(255, 159, 74, 0.3); color: #ff9f4a; }
+        .level-difficulty-intensive { background: rgba(46, 204, 113, 0.3); color: #2ecc71; }
+        .level-difficulty-psycho { background: rgba(255, 51, 51, 0.3); color: #ff3333; }
+
         /* ===== ШАГИ ===== */
         .step-container {
             background: rgba(0, 0, 0, 0.25);
@@ -393,6 +432,26 @@
             display: block;
         }
 
+        .selection-item.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .selection-item.locked:hover {
+            transform: none;
+            border-color: rgba(220, 90, 50, 0.2);
+        }
+
+        .selection-item .lock-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #888;
+            opacity: 0.8;
+        }
+
         /* ===== КНОПКИ НАВИГАЦИИ ===== */
         .step-actions {
             display: flex;
@@ -443,6 +502,24 @@
         .back-btn:hover {
             background: rgba(220, 90, 50, 0.25);
             color: white;
+        }
+
+        .exit-btn {
+            background: rgba(255, 51, 51, 0.15);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ff6666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .exit-btn:hover {
+            background: rgba(255, 51, 51, 0.25);
+            color: #ff3333;
         }
 
         /* ===== РЕЗУЛЬТАТ ===== */
@@ -550,7 +627,7 @@
         /* Вариаторы в результате */
         .variator-list {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
@@ -562,20 +639,20 @@
         }
 
         .variator-list .var-item img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            border-radius: 14px;
+            border-radius: 12px;
             background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
+            padding: 6px;
             border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
         .variator-list .var-item .var-name {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #c2b9d4;
             text-align: center;
-            max-width: 85px;
+            max-width: 75px;
             line-height: 1.2;
         }
 
@@ -644,7 +721,7 @@
 
         .player-result .player-amps {
             display: flex;
-            gap: 0.8rem;
+            gap: 0.6rem;
             flex-wrap: wrap;
             margin-top: 0.3rem;
         }
@@ -661,8 +738,8 @@
         }
 
         .player-result .player-amps .amp-item img {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
             border-radius: 8px;
             background: rgba(0, 0, 0, 0.3);
@@ -670,7 +747,7 @@
         }
 
         .player-result .player-amps .amp-item .amp-name {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: #888;
             text-align: center;
             max-width: 50px;
@@ -684,15 +761,16 @@
             background: rgba(220, 90, 50, 0.3);
             border: 1px solid rgba(220, 90, 50, 0.5);
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             color: #fff;
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 5;
         }
 
         .player-result .player-amps .amp-item .change-amp-btn:hover {
@@ -700,47 +778,17 @@
             transform: scale(1.1);
         }
 
-        .restart-btn {
-            background: rgba(220, 90, 50, 0.15);
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            padding: 0.9rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #c2b9d4;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .restart-btn:hover {
-            background: rgba(220, 90, 50, 0.25);
-            color: white;
-        }
-
-        /* ===== КНОПКА НАЗАД ===== */
-        .back-to-roulette {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+        /* ===== КНОПКИ В РЕЗУЛЬТАТЕ ===== */
+        .result-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
             margin-top: 2rem;
-            color: #e16d48;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            padding: 0.6rem 1.5rem;
-            border-radius: 40px;
-            background: rgba(220, 90, 50, 0.1);
-            border: 1px solid rgba(220, 90, 50, 0.15);
+            flex-wrap: wrap;
         }
 
-        .back-to-roulette:hover {
-            color: #ffbc9a;
-            background: rgba(220, 90, 50, 0.2);
-            transform: translateX(-5px);
+        .result-actions .next-btn {
+            min-width: 200px;
         }
 
         /* ===== МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ ===== */
@@ -819,9 +867,10 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
 
-        .amp-modal-item:hover {
+        .amp-modal-item:hover:not(.locked) {
             border-color: #e16d48;
             transform: scale(1.05);
         }
@@ -829,6 +878,16 @@
         .amp-modal-item.selected {
             border-color: #4c9aff;
             background: rgba(76, 154, 255, 0.1);
+        }
+
+        .amp-modal-item.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .amp-modal-item.locked:hover {
+            transform: none;
+            border-color: rgba(220, 90, 50, 0.2);
         }
 
         .amp-modal-item img {
@@ -846,10 +905,46 @@
             margin-top: 0.3rem;
         }
 
-        .amp-modal-item .current-amp-label {
+        .amp-modal-item .amp-status {
             font-size: 0.6rem;
-            color: #4c9aff;
             margin-top: 0.2rem;
+        }
+
+        .amp-modal-item .amp-status.available {
+            color: #4c9aff;
+        }
+
+        .amp-modal-item .amp-status.locked {
+            color: #888;
+        }
+
+        .amp-modal-item .amp-status.current {
+            color: #2ecc71;
+        }
+
+        .amp-modal-item .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 14px;
+        }
+
+        .amp-modal-item .lock-overlay i {
+            font-size: 2rem;
+            color: #888;
+        }
+
+        .amp-modal-item .lock-overlay span {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 0.3rem;
         }
 
         .amp-modal-confirm {
@@ -870,9 +965,126 @@
             font-family: inherit;
         }
 
-        .amp-modal-confirm button:hover {
+        .amp-modal-confirm button:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .amp-modal-confirm button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА ===== */
+        .confirm-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .confirm-modal-overlay.active {
+            display: flex;
+        }
+
+        .confirm-modal {
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 51, 51, 0.4);
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .confirm-modal .icon {
+            font-size: 3rem;
+            color: #ff3333;
+            margin-bottom: 1rem;
+        }
+
+        .confirm-modal h2 {
+            color: #ff3333;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .confirm-modal p {
+            color: #c2b9d4;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .confirm-modal .confirm-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .confirm-modal .confirm-actions button {
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            border: none;
+        }
+
+        .confirm-modal .confirm-actions .btn-confirm {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+        }
+
+        .confirm-modal .confirm-actions .btn-confirm:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .confirm-modal .confirm-actions .btn-cancel {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            color: #c2b9d4;
+        }
+
+        .confirm-modal .confirm-actions .btn-cancel:hover {
+            background: rgba(220, 90, 50, 0.25);
+            color: white;
+        }
+
+        /* ===== КНОПКА НАЗАД ===== */
+        .back-to-roulette {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2rem;
+            color: #e16d48;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            background: rgba(220, 90, 50, 0.1);
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .back-to-roulette:hover {
+            color: #ffbc9a;
+            background: rgba(220, 90, 50, 0.2);
+            transform: translateX(-5px);
         }
 
         /* ===== ФУТЕР ===== */
@@ -943,12 +1155,13 @@
             .selection-item .item-name { font-size: 0.7rem; }
             
             .result-map-row .map-image { width: 100px; height: 100px; }
-            .variator-list .var-item img { width: 55px; height: 55px; }
+            .variator-list .var-item img { width: 50px; height: 50px; }
+            .variator-list .var-item .var-name { font-size: 0.55rem; max-width: 60px; }
             
             .step-actions { flex-direction: column; align-items: center; }
-            .next-btn, .back-btn { width: 100%; justify-content: center; }
+            .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
             
-            .player-result .player-amps .amp-item img { width: 28px; height: 28px; }
+            .player-result .player-amps .amp-item img { width: 26px; height: 26px; }
             
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
             
@@ -985,8 +1198,15 @@
     </div>
 
     <!-- ОСНОВНОЙ КОНТЕНТ ЭСКАЛАЦИИ -->
-    <div class="escalation-wrapper">
+    <div class="escalation-wrapper" id="escalationWrapper">
         <h1><i class="fas fa-chart-line"></i> Режим Эскалации</h1>
+
+        <!-- СЧЕТЧИК УРОВНЯ -->
+        <div class="level-counter" id="levelCounter">
+            <span class="level-number" id="levelNumber">1</span>
+            <span class="level-label">УРОВЕНЬ</span>
+            <span class="level-difficulty level-difficulty-intro" id="levelDifficulty">Начальная</span>
+        </div>
 
         <!-- ШАГ 1: Количество игроков -->
         <div class="step-container" id="escStep1">
@@ -1034,7 +1254,7 @@
             </div>
         </div>
 
-        <!-- ШАГ 4: Ампы (3 иконки на выбор, игрок выбирает 1) -->
+        <!-- ШАГ 4: Ампы (выбор 1 из 3) -->
         <div class="step-container hidden" id="escStep4">
             <div class="step-title">
                 <span class="step-number">Шаг 4</span>
@@ -1048,7 +1268,7 @@
             </div>
         </div>
 
-        <!-- РЕЗУЛЬТАТ -->
+        <!-- РЕЗУЛЬТАТ ИСПЫТАНИЯ -->
         <div class="escalation-result" id="escResult">
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <span style="background: rgba(220,90,50,0.2); padding: 0.3rem 1.5rem; border-radius: 30px; color: #e16d48; font-size: 0.85rem; font-weight: 600;">
@@ -1070,9 +1290,12 @@
                     <div class="result-card">
                         <h3><i class="fas fa-users"></i> Участники</h3>
                         <div id="escResultPlayers"></div>
-                        <button class="restart-btn" id="escRestartBtn"><i class="fas fa-redo"></i> Начать заново</button>
                     </div>
                 </div>
+            </div>
+            <div class="result-actions">
+                <button class="exit-btn" id="escExitBtn"><i class="fas fa-sign-out-alt"></i> Покинуть Эскалацию</button>
+                <button class="next-btn" id="escNextLevelBtn">Далее →</button>
             </div>
         </div>
 
@@ -1095,6 +1318,19 @@
         <div class="amp-modal-grid" id="ampModalGrid"></div>
         <div class="amp-modal-confirm">
             <button id="ampModalConfirm">Выбрать</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА ===== -->
+<div class="confirm-modal-overlay" id="confirmModal">
+    <div class="confirm-modal">
+        <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <h2>Выход из эскалации</h2>
+        <p>Все данные о текущем прогрессе будут аннулированы. Вы начнёте эскалацию с самого начала. Уверены, что хотите покинуть?</p>
+        <div class="confirm-actions">
+            <button class="btn-cancel" id="confirmCancel">Отмена</button>
+            <button class="btn-confirm" id="confirmExit">Выйти</button>
         </div>
     </div>
 </div>
@@ -1175,12 +1411,14 @@
 
     // ===== СНАРЯЖЕНИЕ =====
     const equipmentData = [
-        { name: "Оглушение", image: "images/оглушение иконка.webp" },
-        { name: "Завеса", image: "images/завеса иконка.webp" },
-        { name: "Рентген", image: "images/рентген иконка.webp" },
-        { name: "Глушилка", image: "images/глушилка иконка.webp" },
-        { name: "Баррикада", image: "images/баррикада иконка.webp" },
-        { name: "Исцеление", image: "images/исцеление иконка.webp" }
+        { name: "Оглушение", image: "images/снаряжение-оглушение.webp" },
+        { name: "Завеса", image: "images/снаряжение-завеса.webp" },
+        { name: "Рентген", image: "images/снаряжение-рентген.webp" },
+        { name: "Риг", image: "images/снаряжение-риг.webp" },
+        { name: "Индикатор", image: "images/снаряжение-индикатор.webp" },
+        { name: "Энергетик", image: "images/снаряжение-энергетик.webp" },
+        { name: "Антидот", image: "images/снаряжение-антидот.webp" },
+        { name: "Газ", image: "images/снаряжение-газ.webp" }
     ];
 
     // ===== АМФЫ =====
@@ -1197,17 +1435,16 @@
         { name: "Интуиция", image: "images/амфа-интуиция.webp" }
     ];
 
-    // ===== ВАРИАТОРЫ =====
-    const variatorsData = [
+    // ===== ВСЕ ВАРИАТОРЫ =====
+    const allVariatorsData = [
+        { name: "Ультра II", image: "images/вариатор-ультра-2.webp" },
         { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
         { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
         { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
         { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
         { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" },
         { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" },
-        { name: "Постоянное наблюдение", image: "images/вариатор-наблюдение.webp" },
-        { name: "Темнота", image: "images/вариатор-темнота.webp" },
-        { name: "Тревога", image: "images/вариатор-тревога.webp" }
+        { name: "Постоянное наблюдение", image: "images/вариатор-наблюдение.webp" }
     ];
 
     // ============================================================
@@ -1215,32 +1452,90 @@
     // ============================================================
 
     let escState = {
+        level: 1,
         playerCount: 0,
         players: [],
-        equipSelections: {},
-        ampSelections: {},
+        equipSelections: {},      // { playerIndex: equipName } - выбирается 1 раз
+        ampSelections: {},        // { playerIndex: [ampName1, ampName2, ...] } - накапливаются
+        usedAmps: {},             // { playerIndex: [ampName1, ampName2, ...] } - уже использованные ампы
+        allAmpsUsed: {},          // { playerIndex: boolean } - все ли ампы использованы
         currentStep: 1,
         map: null,
         trial: null,
         difficulty: null,
-        variators: []
+        variators: [],
+        isFirstRun: true          // первый запуск (выбор снаряжения + амп)
     };
 
-    // Переменные для модального окна
+    // Переменные для модального окна амп
     let modalState = {
         playerIndex: null,
-        selectedAmp: null
+        selectedAmp: null,
+        availableAmps: []
     };
 
-    // Список сложностей
-    const difficulties = [
-        "Начальная",
-        "Нормальная",
-        "Высокая",
-        "Психохирургия"
-    ];
+    // Получение всех вариаторов
+    function getAllVariators() {
+        return [...allVariatorsData];
+    }
 
-    // ===== НАВИГАЦИЯ =====
+    // Получение сложности по уровню
+    function getDifficultyByLevel(level) {
+        if (level >= 1 && level <= 5) {
+            return { name: "Начальная", class: "level-difficulty-intro", minVariators: 1, maxVariators: 3 };
+        } else if (level >= 6 && level <= 15) {
+            return { name: "Нормальная", class: "level-difficulty-standard", minVariators: 3, maxVariators: 4 };
+        } else if (level >= 16 && level <= 20) {
+            return { name: "Высокая", class: "level-difficulty-intensive", minVariators: 4, maxVariators: 6 };
+        } else {
+            return { name: "Психохирургия", class: "level-difficulty-psycho", minVariators: 8, maxVariators: 8 };
+        }
+    }
+
+    // Получение вариаторов для уровня
+    function getVariatorsForLevel(level) {
+        const difficulty = getDifficultyByLevel(level);
+        const allVariators = getAllVariators();
+        
+        // Для психохирургии - все 8 вариаторов, первый всегда Ультра II
+        if (level >= 21) {
+            const ultra = allVariators.find(v => v.name === "Ультра II");
+            const others = allVariators.filter(v => v.name !== "Ультра II");
+            const shuffled = others.sort(() => Math.random() - 0.5);
+            return [ultra, ...shuffled];
+        }
+        
+        // Для остальных - случайное количество от min до max
+        const count = Math.floor(Math.random() * (difficulty.maxVariators - difficulty.minVariators + 1)) + difficulty.minVariators;
+        const shuffled = allVariators.sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, count);
+    }
+
+    // Проверка, использованы ли все ампы для игрока
+    function checkAllAmpsUsed(playerIndex) {
+        const used = escState.usedAmps[playerIndex] || [];
+        return used.length >= ampsData.length;
+    }
+
+    // Получение доступных амп для игрока
+    function getAvailableAmpsForPlayer(playerIndex) {
+        const used = escState.usedAmps[playerIndex] || [];
+        return ampsData.filter(amp => !used.includes(amp.name));
+    }
+
+    // Выбор 3 случайных амп для игрока
+    function getRandomAmpsForPlayer(playerIndex) {
+        const available = getAvailableAmpsForPlayer(playerIndex);
+        if (available.length === 0) return [];
+        const shuffled = available.sort(() => Math.random() - 0.5);
+        const count = Math.min(3, shuffled.length);
+        return shuffled.slice(0, count);
+    }
+
+    // ============================================================
+    // 3. НАВИГАЦИЯ
+    // ============================================================
+
     function goToEscStep(step) {
         escState.currentStep = step;
         document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
@@ -1266,10 +1561,26 @@
         if (target) target.classList.remove('hidden');
     }
 
-    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    // Обновление счетчика уровня
+    function updateLevelCounter() {
+        const levelNum = document.getElementById('levelNumber');
+        const levelDiff = document.getElementById('levelDifficulty');
+        const difficulty = getDifficultyByLevel(escState.level);
+        
+        levelNum.textContent = escState.level;
+        levelDiff.textContent = difficulty.name;
+        levelDiff.className = `level-difficulty ${difficulty.class}`;
+    }
+
+    // ============================================================
+    // 4. ИНИЦИАЛИЗАЦИЯ
+    // ============================================================
+
     document.addEventListener('DOMContentLoaded', function() {
         initEscalation();
         initAmpModal();
+        initConfirmModal();
+        updateLevelCounter();
     });
 
     function initEscalation() {
@@ -1297,11 +1608,17 @@
             inputs.forEach((input, i) => {
                 escState.players.push(input.value.trim() || `Игрок ${i + 1}`);
             });
+            // Инициализируем массивы для игроков
+            escState.players.forEach((_, idx) => {
+                if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+                escState.allAmpsUsed[idx] = false;
+            });
             goToEscStep(3);
             renderEscEquipment();
         });
 
-        // Шаг 3: Снаряжение
+        // Шаг 3: Снаряжение (только 1 раз)
         document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
         document.getElementById('escStep3Next').addEventListener('click', function() { 
             goToEscStep(4);
@@ -1310,116 +1627,213 @@
 
         // Шаг 4: Ампы
         document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
-        document.getElementById('escStep4Next').addEventListener('click', function() { generateEscResult(); });
+        document.getElementById('escStep4Next').addEventListener('click', function() { 
+            // Сохраняем выбранные ампы
+            escState.players.forEach((_, idx) => {
+                const selected = escState.ampSelections[idx];
+                if (selected && selected.length > 0) {
+                    // Добавляем в использованные
+                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                    selected.forEach(amp => {
+                        if (!escState.usedAmps[idx].includes(amp)) {
+                            escState.usedAmps[idx].push(amp);
+                        }
+                    });
+                }
+            });
+            // Генерируем первое испытание
+            generateEscResult();
+        });
 
-        // Перезапуск
-        document.getElementById('escRestartBtn').addEventListener('click', function() {
+        // Кнопка "Далее" для следующего уровня
+        document.getElementById('escNextLevelBtn').addEventListener('click', function() {
+            escState.level++;
+            updateLevelCounter();
+            // Проверяем, есть ли еще доступные ампы
+            const allUsed = escState.players.every((_, idx) => checkAllAmpsUsed(idx));
+            if (allUsed) {
+                // Все ампы использованы - сразу генерируем испытание
+                generateEscResult();
+            } else {
+                // Показываем ПЕРЕРЫВ с выбором амп
+                showBreakModal();
+            }
+        });
+
+        // Кнопка выхода
+        document.getElementById('escExitBtn').addEventListener('click', function() {
+            document.getElementById('confirmModal').classList.add('active');
+        });
+    }
+
+    // ============================================================
+    // 5. МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА
+    // ============================================================
+
+    function initConfirmModal() {
+        document.getElementById('confirmCancel').addEventListener('click', function() {
+            document.getElementById('confirmModal').classList.remove('active');
+        });
+
+        document.getElementById('confirmExit').addEventListener('click', function() {
+            document.getElementById('confirmModal').classList.remove('active');
             resetEscalation();
         });
-    }
 
-    // ===== ИНИЦИАЛИЗАЦИЯ МОДАЛЬНОГО ОКНА =====
-    function initAmpModal() {
-        const modal = document.getElementById('ampModal');
-        const closeBtn = document.getElementById('ampModalClose');
-        const confirmBtn = document.getElementById('ampModalConfirm');
-
-        closeBtn.addEventListener('click', function() {
-            modal.classList.remove('active');
-        });
-
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
-
-        confirmBtn.addEventListener('click', function() {
-            if (modalState.playerIndex !== null && modalState.selectedAmp) {
-                escState.ampSelections[modalState.playerIndex] = modalState.selectedAmp;
-                renderEscResultPlayers();
-                modal.classList.remove('active');
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
             }
         });
     }
 
-    // ===== ОТКРЫТИЕ МОДАЛЬНОГО ОКНА =====
-    function openAmpModal(playerIndex) {
-        const playerName = escState.players[playerIndex];
-        const currentAmp = escState.ampSelections[playerIndex] || null;
-        
-        modalState.playerIndex = playerIndex;
-        modalState.selectedAmp = currentAmp;
+    // ============================================================
+    // 6. МОДАЛЬНОЕ ОКНО ПЕРЕРЫВА (выбор амп)
+    // ============================================================
 
-        document.getElementById('ampModalPlayerName').textContent = playerName;
-
-        const grid = document.getElementById('ampModalGrid');
-        grid.innerHTML = '';
-
-        const availableAmps = ampsData.filter(amp => amp.name !== currentAmp);
-
-        availableAmps.forEach(amp => {
-            const item = document.createElement('div');
-            item.className = 'amp-modal-item';
-            if (modalState.selectedAmp === amp.name) {
-                item.classList.add('selected');
+    function showBreakModal() {
+        // Показываем модальное окно для выбора амп
+        // Для каждого игрока, у которого есть доступные ампы
+        let hasAvailable = false;
+        escState.players.forEach((player, idx) => {
+            if (!checkAllAmpsUsed(idx)) {
+                hasAvailable = true;
             }
-            item.innerHTML = `
-                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
-                <div class="amp-name">${amp.name}</div>
-                ${currentAmp === amp.name ? '<div class="current-amp-label">✓ Текущая</div>' : ''}
-            `;
-            item.addEventListener('click', function() {
-                grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
-                this.classList.add('selected');
-                modalState.selectedAmp = amp.name;
-            });
-            grid.appendChild(item);
         });
 
-        if (currentAmp) {
-            const currentAmpData = ampsData.find(a => a.name === currentAmp);
-            if (currentAmpData) {
-                const currentItem = document.createElement('div');
-                currentItem.className = 'amp-modal-item selected';
-                currentItem.innerHTML = `
-                    <img src="${currentAmpData.image}" alt="${currentAmpData.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
-                    <div class="amp-name">${currentAmpData.name}</div>
-                    <div class="current-amp-label">✓ Текущая</div>
-                `;
-                currentItem.addEventListener('click', function() {
-                    grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
-                    this.classList.add('selected');
-                    modalState.selectedAmp = currentAmpData.name;
-                });
-                grid.prepend(currentItem);
-            }
+        if (!hasAvailable) {
+            // Все ампы использованы
+            alert('Не осталось выбора улучшения. Все улучшения были применены.');
+            generateEscResult();
+            return;
         }
 
-        document.getElementById('ampModal').classList.add('active');
+        // Создаем модальное окно для ПЕРЕРЫВА
+        const overlay = document.createElement('div');
+        overlay.className = 'amp-modal-overlay active';
+        overlay.id = 'breakModal';
+        overlay.style.display = 'flex';
+        overlay.style.zIndex = '1500';
+
+        overlay.innerHTML = `
+            <div class="amp-modal">
+                <div class="amp-modal-header">
+                    <h2><i class="fas fa-coffee"></i> ПЕРЕРЫВ — выбор амп</h2>
+                    <button class="amp-modal-close" id="breakModalClose">&times;</button>
+                </div>
+                <div style="margin-bottom: 1.5rem; color: #c2b9d4; text-align: center;">
+                    Выберите по 1 ампе для каждого игрока
+                </div>
+                <div id="breakModalContent"></div>
+                <div class="amp-modal-confirm">
+                    <button id="breakModalConfirm">Продолжить →</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+
+        // Закрытие
+        document.getElementById('breakModalClose').addEventListener('click', function() {
+            overlay.remove();
+        });
+
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                overlay.remove();
+            }
+        });
+
+        // Заполняем содержимое
+        const content = document.getElementById('breakModalContent');
+        let allSelected = true;
+        const breakSelections = {};
+
+        escState.players.forEach((player, idx) => {
+            if (checkAllAmpsUsed(idx)) {
+                const div = document.createElement('div');
+                div.style.cssText = 'padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 16px; margin-bottom: 1rem; text-align: center;';
+                div.innerHTML = `
+                    <div style="color: #2ecc71; font-weight: 600;">✅ ${player} — все улучшения применены</div>
+                `;
+                content.appendChild(div);
+                return;
+            }
+
+            const available = getAvailableAmpsForPlayer(idx);
+            const shuffled = available.sort(() => Math.random() - 0.5);
+            const displayAmps = shuffled.slice(0, 3);
+
+            const section = document.createElement('div');
+            section.style.cssText = 'margin-bottom: 1.5rem; border-bottom: 1px solid rgba(220,90,50,0.1); padding-bottom: 1rem;';
+            
+            const title = document.createElement('div');
+            title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 0.8rem; text-align: center;';
+            title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+            section.appendChild(title);
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'selection-wrapper';
+
+            const grid = document.createElement('div');
+            grid.className = 'selection-grid';
+
+            breakSelections[idx] = null;
+
+            displayAmps.forEach(amp => {
+                const item = document.createElement('div');
+                item.className = 'selection-item';
+                item.innerHTML = `
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
+                    <div class="item-name">${amp.name}</div>
+                `;
+                item.addEventListener('click', function() {
+                    grid.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    breakSelections[idx] = amp.name;
+                    checkBreakReady();
+                });
+                grid.appendChild(item);
+            });
+
+            wrapper.appendChild(grid);
+            section.appendChild(wrapper);
+            content.appendChild(section);
+        });
+
+        function checkBreakReady() {
+            let ready = true;
+            escState.players.forEach((_, idx) => {
+                if (!checkAllAmpsUsed(idx) && !breakSelections[idx]) {
+                    ready = false;
+                }
+            });
+            document.getElementById('breakModalConfirm').disabled = !ready;
+        }
+        checkBreakReady();
+
+        document.getElementById('breakModalConfirm').addEventListener('click', function() {
+            // Сохраняем выбранные ампы
+            escState.players.forEach((_, idx) => {
+                if (breakSelections[idx]) {
+                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                    if (!escState.usedAmps[idx].includes(breakSelections[idx])) {
+                        escState.usedAmps[idx].push(breakSelections[idx]);
+                    }
+                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+                    escState.ampSelections[idx].push(breakSelections[idx]);
+                }
+            });
+            overlay.remove();
+            generateEscResult();
+        });
     }
 
-    // ===== СБРОС =====
-    function resetEscalation() {
-        escState = {
-            playerCount: 0,
-            players: [],
-            equipSelections: {},
-            ampSelections: {},
-            currentStep: 1,
-            map: null,
-            trial: null,
-            difficulty: null,
-            variators: []
-        };
-        document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
-        document.getElementById('escStep1Next').disabled = true;
-        document.getElementById('escResult').classList.remove('active');
-        document.getElementById('escResult').style.display = 'none';
-        goToEscStep(1);
-    }
+    // ============================================================
+    // 7. ОТРИСОВКА
+    // ============================================================
 
-    // ===== ШАГ 2: Имена =====
+    // ШАГ 2: Имена
     function renderEscPlayerNames() {
         const container = document.getElementById('escPlayerNameInputs');
         if (!container) return;
@@ -1437,7 +1851,7 @@
         if (firstInput) setTimeout(() => firstInput.focus(), 300);
     }
 
-    // ===== ШАГ 3: Снаряжение (3 иконки на выбор) =====
+    // ШАГ 3: Снаряжение (только 1 раз)
     function renderEscEquipment() {
         const container = document.getElementById('escStep3Content');
         if (!container) return;
@@ -1504,7 +1918,7 @@
         document.getElementById('escStep3Next').disabled = !allSelected;
     }
 
-    // ===== ШАГ 4: Ампы (3 иконки на выбор, игрок выбирает 1) =====
+    // ШАГ 4: Ампы (первый выбор)
     function renderEscAmps() {
         const container = document.getElementById('escStep4Content');
         if (!container) return;
@@ -1531,7 +1945,8 @@
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
-            const shuffled = [...ampsData].sort(() => Math.random() - 0.5);
+            const available = getAvailableAmpsForPlayer(idx);
+            const shuffled = available.sort(() => Math.random() - 0.5);
             const selectedAmps = shuffled.slice(0, 3);
             
             selectedAmps.forEach(amp => {
@@ -1539,7 +1954,7 @@
                 item.className = 'selection-item';
                 item.dataset.player = idx;
                 item.dataset.amp = amp.name;
-                const isSelected = escState.ampSelections[idx] === amp.name;
+                const isSelected = escState.ampSelections[idx] && escState.ampSelections[idx].includes(amp.name);
                 if (isSelected) item.classList.add('selected');
                 
                 item.innerHTML = `
@@ -1552,7 +1967,8 @@
                     const parent = this.closest('.selection-grid');
                     parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
                     this.classList.add('selected');
-                    escState.ampSelections[idx] = amp.name;
+                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+                    escState.ampSelections[idx] = [amp.name];
                     checkEscAmpsReady();
                 });
                 
@@ -1567,11 +1983,17 @@
     }
 
     function checkEscAmpsReady() {
-        const allSelected = escState.players.every((_, idx) => escState.ampSelections[idx] !== undefined);
+        const allSelected = escState.players.every((_, idx) => {
+            const sel = escState.ampSelections[idx];
+            return sel && sel.length > 0;
+        });
         document.getElementById('escStep4Next').disabled = !allSelected;
     }
 
-    // ===== ГЕНЕРАЦИЯ РЕЗУЛЬТАТА =====
+    // ============================================================
+    // 8. ГЕНЕРАЦИЯ РЕЗУЛЬТАТА
+    // ============================================================
+
     function generateEscResult() {
         // Выбираем случайную карту
         const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
@@ -1582,12 +2004,10 @@
         const trial = trials[Math.floor(Math.random() * trials.length)];
         escState.trial = trial;
         
-        // Выбираем случайную сложность
-        escState.difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
-        
-        // Выбираем 3 случайных вариатора
-        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
-        escState.variators = shuffled.slice(0, 3);
+        // Определяем сложность и вариаторы
+        const difficulty = getDifficultyByLevel(escState.level);
+        escState.difficulty = difficulty.name;
+        escState.variators = getVariatorsForLevel(escState.level);
 
         document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
         const resultContainer = document.getElementById('escResult');
@@ -1603,8 +2023,9 @@
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
                 <div class="map-meta">
-                    <span class="map-meta-item"><strong>№ Эскалационной терапии:</strong> #${Math.floor(Math.random() * 100) + 1}</span>
+                    <span class="map-meta-item"><strong>№ Эскалационной терапии:</strong> #${escState.level}</span>
                     <span class="map-meta-item"><strong>Сложность:</strong> ${escState.difficulty}</span>
+                    <span class="map-meta-item"><strong>Вариаторов:</strong> ${escState.variators.length}</span>
                 </div>
             </div>
         `;
@@ -1612,7 +2033,7 @@
         // Вариаторы
         document.getElementById('escResultVariators').innerHTML = escState.variators.map(v => `
             <div class="var-item">
-                <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
+                <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
                 <span class="var-name">${v.name}</span>
             </div>
         `).join('');
@@ -1622,14 +2043,16 @@
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // ===== ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ =====
+    // ============================================================
+    // 9. ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ
+    // ============================================================
+
     function renderEscResultPlayers() {
         let playersHtml = '';
         escState.players.forEach((player, idx) => {
             const equip = escState.equipSelections[idx] || 'Не выбрано';
-            const amp = escState.ampSelections[idx] || 'Не выбрана';
+            const amps = escState.ampSelections[idx] || [];
             const equipData = equipmentData.find(e => e.name === equip);
-            const ampData = ampsData.find(a => a.name === amp);
             
             playersHtml += `
                 <div class="player-result">
@@ -1640,22 +2063,211 @@
                         <span class="value">${equip}</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem;">
-                        <span class="label" style="color:#888; font-size:0.75rem;">АМФА:</span>
+                        <span class="label" style="color:#888; font-size:0.75rem;">АМФЫ:</span>
                     </div>
                     <div class="player-amps">
-                        <div class="amp-item">
-                            ${ampData ? `<img src="${ampData.image}" alt="${amp}" onerror="this.style.display='none'">` : ''}
-                            <span class="amp-name">${amp}</span>
-                            <button class="change-amp-btn" onclick="openAmpModal(${idx})" title="Сменить ампу">
-                                <i class="fas fa-sync-alt"></i>
-                            </button>
-                        </div>
+                        ${amps.length > 0 ? amps.map(ampName => {
+                            const ampData = ampsData.find(a => a.name === ampName);
+                            return ampData ? `
+                                <div class="amp-item">
+                                    <img src="${ampData.image}" alt="${ampName}" onerror="this.style.display='none'">
+                                    <span class="amp-name">${ampName}</span>
+                                    ${!checkAllAmpsUsed(idx) ? `<button class="change-amp-btn" onclick="openAmpModal(${idx})" title="Сменить ампу">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>` : ''}
+                                </div>
+                            ` : '';
+                        }).join('') : `
+                            <div style="color: #888; font-size: 0.8rem;">Нет выбранных амп</div>
+                        `}
                     </div>
+                    ${checkAllAmpsUsed(idx) ? `
+                        <div style="margin-top: 0.5rem; color: #2ecc71; font-size: 0.75rem;">
+                            <i class="fas fa-check-circle"></i> Все улучшения применены
+                        </div>
+                    ` : ''}
                 </div>
             `;
         });
 
         document.getElementById('escResultPlayers').innerHTML = playersHtml;
+    }
+
+    // ============================================================
+    // 10. МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ
+    // ============================================================
+
+    function initAmpModal() {
+        const modal = document.getElementById('ampModal');
+        const closeBtn = document.getElementById('ampModalClose');
+        const confirmBtn = document.getElementById('ampModalConfirm');
+
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        confirmBtn.addEventListener('click', function() {
+            if (modalState.playerIndex !== null && modalState.selectedAmp) {
+                // Обновляем ампу для игрока
+                const idx = modalState.playerIndex;
+                const currentAmps = escState.ampSelections[idx] || [];
+                // Находим индекс текущей ампы (она одна)
+                const ampIndex = currentAmps.indexOf(modalState.selectedAmp);
+                if (ampIndex !== -1) {
+                    // Если ампа уже есть, ничего не делаем
+                } else {
+                    // Заменяем первую ампу на выбранную
+                    if (currentAmps.length > 0) {
+                        // Удаляем старую ампу из usedAmps
+                        const oldAmp = currentAmps[0];
+                        if (escState.usedAmps[idx]) {
+                            escState.usedAmps[idx] = escState.usedAmps[idx].filter(a => a !== oldAmp);
+                        }
+                        // Добавляем новую ампу
+                        currentAmps[0] = modalState.selectedAmp;
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (!escState.usedAmps[idx].includes(modalState.selectedAmp)) {
+                            escState.usedAmps[idx].push(modalState.selectedAmp);
+                        }
+                    }
+                }
+                renderEscResultPlayers();
+                modal.classList.remove('active');
+            }
+        });
+    }
+
+    function openAmpModal(playerIndex) {
+        // Проверяем, можно ли менять ампу
+        if (checkAllAmpsUsed(playerIndex)) {
+            alert('Все улучшения уже применены. Смена амп невозможна.');
+            return;
+        }
+
+        const playerName = escState.players[playerIndex];
+        const currentAmps = escState.ampSelections[playerIndex] || [];
+        const currentAmp = currentAmps.length > 0 ? currentAmps[0] : null;
+        
+        modalState.playerIndex = playerIndex;
+
+        document.getElementById('ampModalPlayerName').textContent = playerName;
+
+        const grid = document.getElementById('ampModalGrid');
+        grid.innerHTML = '';
+
+        // Показываем все ампы, которые доступны (не использованы)
+        const availableAmps = getAvailableAmpsForPlayer(playerIndex);
+        
+        // Добавляем текущую ампу, если она есть (даже если она в used)
+        let allDisplayAmps = [...availableAmps];
+        if (currentAmp && !allDisplayAmps.find(a => a.name === currentAmp)) {
+            const currentAmpData = ampsData.find(a => a.name === currentAmp);
+            if (currentAmpData) {
+                allDisplayAmps = [currentAmpData, ...allDisplayAmps];
+            }
+        }
+
+        // Все остальные ампы показываем как засекреченные
+        const usedAmpsNames = escState.usedAmps[playerIndex] || [];
+        const allAmpsNames = ampsData.map(a => a.name);
+        const lockedAmps = allAmpsNames.filter(name => !usedAmpsNames.includes(name) && name !== currentAmp);
+
+        // Сначала показываем доступные
+        allDisplayAmps.forEach(amp => {
+            const item = document.createElement('div');
+            item.className = 'amp-modal-item';
+            if (currentAmp === amp.name) {
+                item.classList.add('selected');
+            }
+            
+            // Проверяем, доступна ли ампа
+            const isAvailable = availableAmps.find(a => a.name === amp.name) || currentAmp === amp.name;
+            
+            if (!isAvailable) {
+                item.classList.add('locked');
+                item.innerHTML = `
+                    <div class="lock-overlay">
+                        <i class="fas fa-lock"></i>
+                        <span>Засекречено</span>
+                    </div>
+                    <img src="${amp.image}" alt="${amp.name}" style="opacity: 0.3;" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <div class="amp-name">${amp.name}</div>
+                    <div class="amp-status locked">🔒 Засекречено</div>
+                `;
+            } else {
+                item.innerHTML = `
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <div class="amp-name">${amp.name}</div>
+                    <div class="amp-status ${currentAmp === amp.name ? 'current' : 'available'}">
+                        ${currentAmp === amp.name ? '✓ Текущая' : 'Доступна'}
+                    </div>
+                `;
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('locked')) return;
+                    grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    modalState.selectedAmp = amp.name;
+                    document.getElementById('ampModalConfirm').disabled = false;
+                });
+            }
+            grid.appendChild(item);
+        });
+
+        // Показываем засекреченные ампы (которые еще не открыты)
+        lockedAmps.forEach(ampName => {
+            const ampData = ampsData.find(a => a.name === ampName);
+            if (!ampData) return;
+            const item = document.createElement('div');
+            item.className = 'amp-modal-item locked';
+            item.innerHTML = `
+                <div class="lock-overlay">
+                    <i class="fas fa-lock"></i>
+                    <span>Засекречено</span>
+                </div>
+                <img src="${ampData.image}" alt="${ampName}" style="opacity: 0.3;" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                <div class="amp-name">${ampName}</div>
+                <div class="amp-status locked">🔒 Засекречено</div>
+            `;
+            grid.appendChild(item);
+        });
+
+        document.getElementById('ampModalConfirm').disabled = true;
+        document.getElementById('ampModal').classList.add('active');
+    }
+
+    // ============================================================
+    // 11. СБРОС ЭСКАЛАЦИИ
+    // ============================================================
+
+    function resetEscalation() {
+        escState = {
+            level: 1,
+            playerCount: 0,
+            players: [],
+            equipSelections: {},
+            ampSelections: {},
+            usedAmps: {},
+            allAmpsUsed: {},
+            currentStep: 1,
+            map: null,
+            trial: null,
+            difficulty: null,
+            variators: [],
+            isFirstRun: true
+        };
+        
+        document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('escStep1Next').disabled = true;
+        document.getElementById('escResult').classList.remove('active');
+        document.getElementById('escResult').style.display = 'none';
+        updateLevelCounter();
+        goToEscStep(1);
     }
 </script>
 
