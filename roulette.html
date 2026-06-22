@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Рулетка заданий — Курилка Синьялы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: -1;
+        }
+
+        /* ===== АНИМАЦИИ ===== */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0.3); }
+            70% { box-shadow: 0 0 0 15px rgba(220, 90, 50, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
+        }
+
+        @keyframes countPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes typeCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes dialogAppear {
+            0% { opacity: 0; transform: translateY(15px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== ХЕДЕР ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.25);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220, 90, 50, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+        }
+
+        /* ===== ЗАГОЛОВОК СТРАНИЦЫ ===== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .page-header h1 i {
+            font-size: 2.2rem;
+            color: #e16d48;
+        }
+
+        .page-header p {
+            color: #c2b9d4;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== ДИАЛОГОВОЕ ОКНО ===== */
+        .dialog-overlay {
+            background: rgba(18, 12, 28, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 2rem;
+            animation: dialogAppear 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+            min-height: 80px;
+        }
+
+        .dialog-overlay::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 70%, rgba(220, 90, 50, 0.04), transparent 70%);
+            pointer-events: none;
+        }
+
+        .dialog-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dialog-avatar {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            overflow: hidden;
+            animation: floatAvatar 4s ease-in-out infinite;
+            background: linear-gradient(135deg, #1a1a2e, #2d1b2e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(220, 90, 50, 0.15);
+        }
+
+        .dialog-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dialog-avatar .avatar-glow {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            border: 1px solid rgba(220, 90, 50, 0.1);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .dialog-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dialog-speaker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.1rem;
+        }
+
+        .dialog-speaker .name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #e16d48;
+        }
+
+        .dialog-speaker .title {
+            font-size: 0.55rem;
+            color: #888;
+            background: rgba(220, 90, 50, 0.12);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.12);
+        }
+
+        .dialog-text {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #e2d9f0;
+            min-height: 44px;
+            padding: 0.1rem 0;
+        }
+
+        .dialog-text .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: #e16d48;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: typeCursor 0.8s step-end infinite;
+        }
+
+        .dialog-text .action-text {
+            color: #ffbc9a;
+            font-style: italic;
+        }
+
+        .dialog-text .pause-text {
+            color: #888;
+            font-style: italic;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .dialog-btn {
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            border: none;
+        }
+
+        .dialog-btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 74, 40, 0.25);
+        }
+
+        .dialog-btn-primary:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(188, 74, 40, 0.35);
+        }
+
+        .dialog-btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .dialog-btn-secondary {
+            background: rgba(220, 90, 50, 0.12);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            color: #c2b9d4;
+        }
+
+        .dialog-btn-secondary:hover {
+            background: rgba(220, 90, 50, 0.2);
+            color: white;
+        }
+
+        .dialog-btn-skip {
+            background: transparent;
+            color: #666;
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .dialog-btn-skip:hover {
+            color: #c2b9d4;
+        }
+
+        /* ===== ЗАДАНИЕ ДНЯ ===== */
+        .daily-mission {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            animation: glowPulse 2s ease-in-out infinite;
+            text-align: center;
+            position: relative;
+        }
+
+        .daily-mission .label {
+            font-size: 0.8rem;
+            color: #e16d48;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .daily-mission .mission-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .daily-mission .mission-map {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .daily-mission .mission-map img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .daily-mission .mission-map img:hover {
+            transform: scale(1.05);
+        }
+
+        .daily-mission .mission-map .map-name {
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .daily-mission .mission-variators {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .daily-mission .variator-items {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .daily-mission .variator-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .daily-mission .variator-item img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .daily-mission .variator-item img:hover {
+            transform: scale(1.1);
+        }
+
+        .daily-mission .variator-item .var-name {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            max-width: 100px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .daily-mission .variator-count {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.2rem;
+        }
+
+        .timer-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .timer-label {
+            font-size: 0.7rem;
+            color: #888;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer-unit .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e25d32, #ffbc9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: countPulse 1s ease-in-out infinite;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .timer-unit .label {
+            font-size: 0.6rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timer-separator {
+            font-size: 2rem;
+            color: #e16d48;
+            opacity: 0.5;
+            display: flex;
+            align-items: center;
+        }
+
+        .reroll-btn {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: #888;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            cursor: not-allowed;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* ===== РЕЖИМЫ РУЛЕТКИ ===== */
+        .modes-section {
+            margin-bottom: 2.5rem;
+            scroll-margin-top: 20px;
+        }
+
+        .modes-section h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .mode-card {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-6px);
+            border-color: #e16d48;
+            box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
+        }
+
+        .mode-card .icon {
+            font-size: 3rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+        }
+
+        .mode-card h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-card p {
+            font-size: 0.85rem;
+            color: #c2b9d4;
+            line-height: 1.5;
+        }
+
+        .mode-card .tag {
+            display: inline-block;
+            background: rgba(220, 90, 50, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #e16d48;
+            margin-top: 0.8rem;
+        }
+
+        .mode-card.active-mode {
+            border-color: #e16d48;
+            background: rgba(220, 90, 50, 0.1);
+        }
+
+        /* ===== КОНСТРУКТОР ===== */
+        .constructor-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .constructor-section h2 {
+            font-size: 1.5rem;
+            color: #e16d48;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #e16d48;
+            padding-left: 15px;
+        }
+
+        .constructor-wrapper {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 2rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+
+        .constructor-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group select,
+        .form-group input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 16px;
+            padding: 0.7rem 1rem;
+            color: #f0eef7;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #e16d48;
+        }
+
+        .form-group select option {
+            background: #1a1a2e;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 16px;
+            padding: 0.7rem 1rem;
+            color: #f0eef7;
+            font-size: 0.9rem;
+            font-family: inherit;
+            outline: none;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea:focus {
+            border-color: #e16d48;
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .created-tasks {
+            margin-top: 1.5rem;
+        }
+
+        .created-tasks h3 {
+            font-size: 1.1rem;
+            color: #c2b9d4;
+            margin-bottom: 1rem;
+        }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .task-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
+        }
+
+        .task-item:hover {
+            border-color: #e16d48;
+            transform: translateY(-3px);
+        }
+
+        .task-item .task-name {
+            font-weight: 600;
+            color: #e16d48;
+        }
+
+        .task-item .task-meta {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.3rem;
+        }
+
+        .task-item .task-actions {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .task-item .task-actions button {
+            background: rgba(220, 90, 50, 0.2);
+            border: none;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            color: #c2b9d4;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .task-item .task-actions button:hover {
+            background: rgba(220, 90, 50, 0.4);
+            color: white;
+        }
+
+        .empty-tasks {
+            color: #888;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 850px) {
+            .container { padding: 1rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
+            .page-header h1 { font-size: 1.8rem; }
+            .modes-grid { grid-template-columns: 1fr; }
+            .constructor-form { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: 1; }
+            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1.5rem; }
+            .daily-mission .mission-map img { width: 120px; height: 120px; }
+            .daily-mission .variator-item img { width: 60px; height: 60px; }
+            .timer-display { gap: 0.8rem; }
+            .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
+            .timer-separator { font-size: 1.5rem; }
+            
+            .dialog-overlay { padding: 0.6rem 1rem; min-height: 70px; }
+            .dialog-avatar { width: 80px; height: 80px; }
+            .dialog-text { font-size: 0.82rem; min-height: 38px; }
+            .dialog-btn { padding: 0.25rem 1rem; font-size: 0.7rem; }
+        }
+
+        @media (max-width: 550px) {
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .mode-card { padding: 1.2rem; }
+            .daily-mission .mission-map img { width: 100px; height: 100px; }
+            .daily-mission .variator-item img { width: 50px; height: 50px; }
+            .daily-mission .variator-item .var-name { font-size: 0.7rem; max-width: 70px; }
+            .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
+            .timer-separator { font-size: 1.2rem; }
+            
+            .dialog-overlay { padding: 0.5rem 0.8rem; min-height: 60px; }
+            .dialog-container { gap: 0.6rem; }
+            .dialog-avatar { width: 60px; height: 60px; flex-shrink: 0; }
+            .dialog-text { font-size: 0.75rem; min-height: 34px; }
+            .dialog-speaker .name { font-size: 0.75rem; }
+            .dialog-speaker .title { font-size: 0.5rem; }
+            .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
+        }
+
+        @media (max-width: 400px) {
+            .dialog-avatar { width: 48px; height: 48px; }
+            .dialog-text { font-size: 0.7rem; min-height: 30px; }
+            .dialog-btn { padding: 0.15rem 0.6rem; font-size: 0.6rem; }
+            .dialog-overlay { padding: 0.4rem 0.6rem; min-height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="images/об игре фон.mp4" type="video/mp4">
+</video>
+
+<div class="container">
+    <!-- ХЕДЕР -->
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="roulette.html" class="nav-btn active"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <!-- ЗАГОЛОВОК -->
+    <div class="page-header">
+        <h1><i class="fas fa-dice-d6"></i> Рулетка испытаний</h1>
+        <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
+    </div>
+
+    <!-- ===== ДИАЛОГОВОЕ ОКНО С АРЛЕКИНО ===== -->
+    <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-container">
+            <div class="dialog-avatar" id="dialogAvatar">
+                <div class="avatar-glow"></div>
+                <img src="images/Арлекино.png" alt="Арлекино" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-mask\\' style=\\'font-size: 3.5rem; color: #e16d48;\\'></i>'">
+            </div>
+            <div class="dialog-content">
+                <div class="dialog-speaker">
+                    <span class="name">🎭 Арлекино</span>
+                    <span class="title">Хранитель испытаний</span>
+                </div>
+                <div class="dialog-text" id="dialogText">
+                    <span id="dialogMessage"></span><span class="cursor" id="dialogCursor"></span>
+                </div>
+                <div class="dialog-actions" id="dialogActions">
+                    <button class="dialog-btn dialog-btn-primary" id="dialogBtnPrimary">Продолжить</button>
+                    <button class="dialog-btn dialog-btn-secondary" id="dialogBtnSecondary" style="display: none;">Выбрать режим</button>
+                    <button class="dialog-btn dialog-btn-skip" id="dialogBtnSkip">Пропустить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЗАДАНИЕ ДНЯ -->
+    <div class="daily-mission" id="dailyMission">
+        <div class="label">🎯 ЗАДАНИЕ ДНЯ</div>
+        <div class="mission-content" id="missionContent"></div>
+        <div class="timer-section">
+            <div class="timer-label">⏳ Следующее задание через</div>
+            <div class="timer-display" id="timerDisplay">
+                <div class="timer-unit">
+                    <span class="number" id="hours">23</span>
+                    <span class="label">часы</span>
+                </div>
+                <span class="timer-separator">:</span>
+                <div class="timer-unit">
+                    <span class="number" id="minutes">59</span>
+                    <span class="label">минуты</span>
+                </div>
+                <span class="timer-separator">:</span>
+                <div class="timer-unit">
+                    <span class="number" id="seconds">59</span>
+                    <span class="label">секунды</span>
+                </div>
+            </div>
+            <button class="reroll-btn" disabled><i class="fas fa-lock"></i> Обновится автоматически</button>
+        </div>
+    </div>
+
+    <!-- РЕЖИМЫ РУЛЕТКИ -->
+    <div class="modes-section" id="modesSection">
+        <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
+        <div class="modes-grid">
+            <div class="mode-card active-mode" onclick="window.location.href='roulette.html'">
+                <div class="icon"><i class="fas fa-dice-d6"></i></div>
+                <h3>Рулетка</h3>
+                <p>Случайное испытание с набором вариаторов. Никогда не знаешь, что выпадет!</p>
+                <span class="tag">🔥 Популярный</span>
+            </div>
+            <div class="mode-card" onclick="window.location.href='card-mode.html'">
+                <div class="icon"><i class="fas fa-id-card"></i></div>
+                <h3>Карточный</h3>
+                <p>Выбирайте карты с испытаниями и составляйте свою уникальную комбинацию.</p>
+                <span class="tag">🃏 Стратегия</span>
+            </div>
+            <div class="mode-card" onclick="window.location.href='escalation.html'">
+                <div class="icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Эскалация</h3>
+                <p>Постепенное усложнение: каждое новое испытание добавляет вариаторы.</p>
+                <span class="tag">💀 Хардкор</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- КОНСТРУКТОР ИСПЫТАНИЙ -->
+    <div class="constructor-section">
+        <h2><i class="fas fa-tools"></i> Конструктор испытаний</h2>
+        <div class="constructor-wrapper">
+            <form class="constructor-form" id="taskForm">
+                <div class="form-group">
+                    <label><i class="fas fa-map"></i> Карта</label>
+                    <select id="taskMap" required></select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-dice"></i> Количество вариаторов</label>
+                    <select id="taskVariators" required>
+                        <option value="1">1 вариатор</option>
+                        <option value="2">2 вариатора</option>
+                        <option value="3" selected>3 вариатора</option>
+                        <option value="4">4 вариатора</option>
+                        <option value="5">5 вариаторов</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Режим</label>
+                    <select id="taskMode" required>
+                        <option value="Рулетка">Рулетка</option>
+                        <option value="Карточный">Карточный</option>
+                        <option value="Эскалация">Эскалация</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Сложность</label>
+                    <select id="taskDifficulty" required>
+                        <option value="Вводный">Вводный</option>
+                        <option value="Стандартный" selected>Стандартный</option>
+                        <option value="Интенсивный">Интенсивный</option>
+                        <option value="Психохирургия">Психохирургия</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label><i class="fas fa-align-left"></i> Описание задания</label>
+                    <textarea id="taskDescription" placeholder="Опишите задание для игроков..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-plus"></i> Создать задание</button>
+            </form>
+        </div>
+
+        <div class="created-tasks">
+            <h3><i class="fas fa-list"></i> Созданные задания</h3>
+            <div class="tasks-grid" id="tasksGrid">
+                <div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<!-- ===== ВСЕ ДАННЫЕ И СКРИПТ ===== -->
+<script>
+    // ============================================================
+    // 1. ДАННЫЕ
+    // ============================================================
+
+    const mapsData = [
+        { name: "Полицейский участок", image: "images/полицейский-участок.webp" },
+        { name: "Детский дом", image: "images/детский-дом.webp" },
+        { name: "Парк развлечений", image: "images/парк-развлечений.webp" },
+        { name: "Здание суда", image: "images/здание-суда.webp" },
+        { name: "Фабрика игрушек", image: "images/фабрика-игрушек.webp" },
+        { name: "Пристань", image: "images/пристань.webp" },
+        { name: "Центр города", image: "images/центр-города.webp" },
+        { name: "Пригород", image: "images/пригород.webp" },
+        { name: "Курорт", image: "images/курорт.webp" },
+        { name: "Телестудия", image: "images/телестудия.webp" }
+    ];
+
+    const variatorsData = [
+        { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
+        { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+        { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
+        { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
+        { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" },
+        { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" }
+    ];
+
+    // ============================================================
+    // 2. ДИАЛОГОВАЯ СИСТЕМА
+    // ============================================================
+
+    const dialogLines = [
+        {
+            text: `Дорогие дамы и господа! Не проходите мимо и узрите величайшее изобретение современности!\nМеханизм, способный подарить вам славу... Механизм, способный подарить вам страдания... И, что самое главное, механизм, который способен превратить обычного Реагента в настоящую легенду!`,
+            primary: "Далее",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— О-о-о! А вот и новый участник!\nАрлекино начинает хлопать в ладоши.\n— Поприветствуем же его! Не стесняйтесь, дружище, здесь все свои. Ну... почти все.`,
+            primary: "А вы кто?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Конь в пальто.\n<i>Пауза.</i>\n— Нет?\n<i>Ещё пауза.</i>\n— Ладно, признаю, шутка была ужасной.`,
+            primary: "Так кто же вы?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Ах, вот теперь мы переходим к официальной части!\nАрлекино снимает воображаемую шляпу и кланяется.\n— Моё имя — АРЛЕКИНО!\nВедущий. Конферансье. Арбитр хаоса. И единственный человек, которому руководство ещё не запретило пользоваться этой рулеткой.`,
+            primary: "Рулеткой?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Именно!\nПеред вами находится величайшая машина случайностей, которую когда-либо создавали человеческая глупость и научный прогресс.\nОна не знает жалости. Она не знает справедливости. Она даже не знает, что такое баланс.\nНо зато она умеет выбирать испытания.`,
+            primary: "Зачем?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Потому что выбор — это скучно!\nВы открываете игру. Думаете: «Во что бы мне поиграть?»\nПотом двадцать минут смотрите на список испытаний.\nПотом ещё десять минут спрашиваете друзей.\nПотом закрываете игру.\nУжасно.\nЯ же избавлю вас от этих мучений.`,
+            primary: "И как это работает?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Очень просто!\nВы выбираете один из 3 предложенных путей.\nА затем...\nСудьба и ваша удача сделают всё остальное.`,
+            primary: "А если я не хочу крутить рулетку?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Конечно-конечно!\nНикто вас не заставляет.\nАрлекино достаёт блокнот.\n— Просто назовите своё имя, чтобы я мог записать вас в список трусов.`,
+            primary: "Что?!",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Шучу!\n...........\n— Возможно.`,
+            primary: "Остаться",
+            secondary: "Уйти и сохранить остатки здравомыслия",
+            skip: false
+        },
+        {
+            text: `— Ох...\n— Вы уверены?`,
+            primary: "Да.",
+            secondary: "Нет",
+            skip: false
+        },
+        {
+            text: `— Правда уверены?`,
+            primary: "Да.",
+            secondary: "Нет",
+            skip: false
+        },
+        {
+            text: `— Абсолютно уверены?`,
+            primary: "Да!",
+            secondary: "Нет!",
+            skip: false
+        },
+        {
+            text: `— Какая досада...\n— Что вы там пишете?\n— Ничего особенного.\n— Просто вношу ваше имя в список людей, которые испугались обычного выбора.`,
+            primary: "Я не испугался.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Конечно-конечно.\n— Именно так обычно и говорят те, кто испугался.\nАрлекино ехидно улыбается.\n— Но я вас не осуждаю.\n— В конце концов, не каждый способен взглянуть хаосу в глаза и сказать:\n«Да, сегодня я добровольно испорчу себе жизнь.»`,
+            primary: "Звучит как плохая идея.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— А лучшие идеи всегда звучат как плохие.\nПауза.\n— Хотя должен признать...\n— Возможно, в этот раз рулетка действительно приготовила нечто ужасное.\nАрлекино наклоняется ближе.\n— Настолько ужасное, что даже мне стало немного любопытно.`,
+            primary: "Теперь ты пытаешься меня заманить.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Пытаюсь?\n— Друг мой, если бы я пытался, у вас уже не было бы кнопки «Уйти».`,
+            primary: "Ладно, я участвую.",
+            secondary: "Нет, я ухожу.",
+            skip: false
+        },
+        {
+            text: `— Хорошо.\n— Я уважаю ваше решение.\nДлинная пауза.\n— Нет, не уважаю.\nАрлекино начинает смеяться.\n— Но дверь вон там.\n— Возвращайтесь, когда любопытство победит здравый смысл.\n— Обычно это занимает от пяти минут до двух дней.`,
+            primary: "Ладно, я участвую!",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Ха!\n— Я так и знал.\n— Любопытство — самая надёжная ловушка из всех существующих.\nАрлекино широко улыбается.\n— Добро пожаловать обратно, мой дорогой участник!\n— Теперь пути назад нет.`,
+            primary: "Пути назад нет?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Ну, технически есть.\n— Но звучит не так драматично.\n— Перед вами 3 пути, которые не знают ни жалости, ни справедливости.\n— Они не спросят, готовы ли вы.\n— Они не станут учитывать ваш опыт.\n— И уж точно не будут переживать за ваши нервы.`,
+            primary: "Звучит обнадёживающе.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Благодарю! Я старался.\n— Итак...\n— Удачи, Реагент.\n— Она вам понадобится.`,
+            primary: "Начать!",
+            secondary: null,
+            skip: false
+        }
+    ];
+
+    let currentDialogIndex = 0;
+    let isTyping = false;
+    let typeInterval = null;
+    let isDialogComplete = false;
+    let dialogHistory = [];
+
+    function startDialog() {
+        currentDialogIndex = 0;
+        dialogHistory = [];
+        showDialogLine(0);
+    }
+
+    function showDialogLine(index) {
+        if (index >= dialogLines.length) {
+            completeDialog();
+            return;
+        }
+
+        const line = dialogLines[index];
+        const messageEl = document.getElementById('dialogMessage');
+        const cursorEl = document.getElementById('dialogCursor');
+        const primaryBtn = document.getElementById('dialogBtnPrimary');
+        const secondaryBtn = document.getElementById('dialogBtnSecondary');
+        const skipBtn = document.getElementById('dialogBtnSkip');
+
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
+
+        // Сохраняем в историю
+        dialogHistory.push(index);
+
+        primaryBtn.style.display = 'inline-block';
+        primaryBtn.textContent = line.primary || 'Далее';
+        primaryBtn.disabled = true;
+
+        if (line.secondary) {
+            secondaryBtn.style.display = 'inline-block';
+            secondaryBtn.textContent = line.secondary;
+        } else {
+            secondaryBtn.style.display = 'none';
+        }
+
+        skipBtn.style.display = line.skip ? 'inline-block' : 'none';
+
+        messageEl.textContent = '';
+        cursorEl.style.display = 'inline-block';
+        isTyping = true;
+
+        let text = line.text;
+        // Заменяем переносы строк на <br> для отображения
+        let htmlText = text.replace(/\n/g, '<br>');
+        // Заменяем курсив
+        htmlText = htmlText.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
+        
+        let charIndex = 0;
+        let isInTag = false;
+        let tagBuffer = '';
+        let displayText = '';
+        const typingSpeed = 25;
+
+        // Функция для рендеринга HTML с эффектом печати
+        function typeNextChar() {
+            if (charIndex < htmlText.length) {
+                const char = htmlText.charAt(charIndex);
+                
+                if (char === '<') {
+                    isInTag = true;
+                    tagBuffer = '<';
+                } else if (char === '>' && isInTag) {
+                    tagBuffer += '>';
+                    isInTag = false;
+                    displayText += tagBuffer;
+                    tagBuffer = '';
+                } else if (isInTag) {
+                    tagBuffer += char;
+                } else {
+                    displayText += char;
+                }
+                
+                charIndex++;
+                messageEl.innerHTML = displayText + '<span class="cursor"></span>';
+                setTimeout(typeNextChar, typingSpeed);
+            } else {
+                // Завершаем печать
+                clearInterval(typeInterval);
+                typeInterval = null;
+                isTyping = false;
+                primaryBtn.disabled = false;
+                cursorEl.style.display = 'none';
+                messageEl.innerHTML = displayText;
+            }
+        }
+
+        typeInterval = setTimeout(typeNextChar, typingSpeed);
+    }
+
+    function completeDialog() {
+        isDialogComplete = true;
+        const messageEl = document.getElementById('dialogMessage');
+        const cursorEl = document.getElementById('dialogCursor');
+        const primaryBtn = document.getElementById('dialogBtnPrimary');
+        const secondaryBtn = document.getElementById('dialogBtnSecondary');
+        const skipBtn = document.getElementById('dialogBtnSkip');
+
+        if (typeInterval) {
+            clearInterval(typeInterval);
+            typeInterval = null;
+        }
+
+        messageEl.innerHTML = 'Добро пожаловать в Рулетку испытаний! Выбирай режим и начинай свой путь. Удачи, реагент! 🎭';
+        cursorEl.style.display = 'none';
+        primaryBtn.textContent = 'Начать!';
+        primaryBtn.disabled = false;
+        secondaryBtn.style.display = 'none';
+        skipBtn.style.display = 'none';
+
+        primaryBtn.onclick = function() {
+            const overlay = document.getElementById('dialogOverlay');
+            overlay.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                // Прокручиваем к режимам
+                document.getElementById('modesSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 400);
+        };
+    }
+
+    // ===== ОБРАБОТЧИКИ ДИАЛОГА =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const mapSelect = document.getElementById('taskMap');
+        if (mapSelect) {
+            mapsData.forEach(map => {
+                const option = document.createElement('option');
+                option.value = map.name;
+                option.textContent = map.name;
+                mapSelect.appendChild(option);
+            });
+        }
+
+        setTimeout(startDialog, 400);
+
+        document.getElementById('dialogBtnPrimary').addEventListener('click', function() {
+            if (isTyping) {
+                if (typeInterval) {
+                    clearInterval(typeInterval);
+                    typeInterval = null;
+                }
+                const messageEl = document.getElementById('dialogMessage');
+                const line = dialogLines[currentDialogIndex];
+                if (line) {
+                    let text = line.text.replace(/\n/g, '<br>');
+                    text = text.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
+                    messageEl.innerHTML = text;
+                }
+                isTyping = false;
+                document.getElementById('dialogCursor').style.display = 'none';
+                this.disabled = false;
+                return;
+            }
+
+            if (isDialogComplete) {
+                return;
+            }
+
+            currentDialogIndex++;
+            if (currentDialogIndex < dialogLines.length) {
+                showDialogLine(currentDialogIndex);
+            } else {
+                completeDialog();
+            }
+        });
+
+        document.getElementById('dialogBtnSkip').addEventListener('click', function() {
+            if (typeInterval) {
+                clearInterval(typeInterval);
+                typeInterval = null;
+                isTyping = false;
+            }
+            // Пропускаем к финальному диалогу
+            const lastIndex = dialogLines.length - 1;
+            currentDialogIndex = lastIndex;
+            showDialogLine(lastIndex);
+        });
+
+        document.getElementById('dialogBtnSecondary').addEventListener('click', function() {
+            // Обработка вторичных кнопок (выбор вариантов)
+            const line = dialogLines[currentDialogIndex];
+            if (line && line.secondary) {
+                // Если нажата вторичная кнопка - переходим к следующей строке
+                currentDialogIndex++;
+                if (currentDialogIndex < dialogLines.length) {
+                    showDialogLine(currentDialogIndex);
+                } else {
+                    completeDialog();
+                }
+            }
+        });
+
+        getDailyMission();
+        startTimer();
+        loadTasks();
+    });
+
+    // ============================================================
+    // 3. ЗАДАНИЕ ДНЯ
+    // ============================================================
+
+    function getDailyMission() {
+        const saved = localStorage.getItem('dailyMission');
+        const savedDate = localStorage.getItem('dailyMissionDate');
+        const now = Date.now();
+
+        if (!saved || !savedDate || (now - parseInt(savedDate) > 24 * 60 * 60 * 1000)) {
+            generateNewDailyMission();
+        } else {
+            renderDailyMission(JSON.parse(saved));
+        }
+    }
+
+    function generateNewDailyMission() {
+        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
+        const variatorsCount = Math.floor(Math.random() * 5) + 1;
+        const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+        const selectedVariators = shuffled.slice(0, variatorsCount);
+
+        const mission = { map: mapData, variators: selectedVariators, count: variatorsCount, timestamp: Date.now() };
+        localStorage.setItem('dailyMission', JSON.stringify(mission));
+        localStorage.setItem('dailyMissionDate', Date.now().toString());
+        renderDailyMission(mission);
+    }
+
+    function renderDailyMission(mission) {
+        const content = document.getElementById('missionContent');
+        if (!content) return;
+        
+        content.innerHTML = `
+            <div class="mission-map">
+                <img src="${mission.map.image}" alt="${mission.map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mission.map.name)}'">
+                <span class="map-name">${mission.map.name}</span>
+            </div>
+            <div class="mission-variators">
+                <div class="variator-items">
+                    ${mission.variators.map(v => `
+                        <div class="variator-item">
+                            <img src="${v.image}" alt="${v.name}" title="${v.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
+                            <span class="var-name">${v.name}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <span class="variator-count">${mission.count} вариатор${mission.count > 1 ? 'а' : ''}</span>
+            </div>
+        `;
+    }
+
+    // ============================================================
+    // 4. ТАЙМЕР
+    // ============================================================
+
+    let timerInterval;
+
+    function startTimer() {
+        const savedDate = localStorage.getItem('dailyMissionDate');
+        if (!savedDate) { generateNewDailyMission(); return; }
+        const startTime = parseInt(savedDate);
+        const totalDuration = 24 * 60 * 60 * 1000;
+
+        function updateTimer() {
+            const now = Date.now();
+            const remaining = Math.max(0, totalDuration - (now - startTime));
+            const hours = Math.floor(remaining / (60 * 60 * 1000));
+            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((remaining % (60 * 1000)) / 1000);
+
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+            if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+            if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+
+            if (remaining <= 0) {
+                clearInterval(timerInterval);
+                generateNewDailyMission();
+                startTimer();
+            }
+        }
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    // ============================================================
+    // 5. ЗАДАНИЯ ПОЛЬЗОВАТЕЛЕЙ
+    // ============================================================
+
+    let tasks = [];
+
+    function loadTasks() {
+        const saved = localStorage.getItem('rouletteTasks');
+        if (saved) {
+            try { tasks = JSON.parse(saved); } catch (e) { tasks = []; }
+            renderTasks();
+        }
+    }
+
+    function saveTasks() {
+        localStorage.setItem('rouletteTasks', JSON.stringify(tasks));
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const grid = document.getElementById('tasksGrid');
+        if (!grid) return;
+        
+        if (tasks.length === 0) {
+            grid.innerHTML = '<div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>';
+            return;
+        }
+        grid.innerHTML = tasks.map(task => `
+            <div class="task-item">
+                <div class="task-name">${task.map}</div>
+                <div class="task-meta"><i class="fas fa-dice"></i> ${task.variators} вар. · <i class="fas fa-tag"></i> ${task.mode} · <i class="fas fa-star"></i> ${task.difficulty}</div>
+                <div class="task-meta" style="margin-top: 2px; font-style: italic;">${task.description}</div>
+                <div class="task-actions">
+                    <button onclick="deleteTask(${task.id})"><i class="fas fa-trash"></i> Удалить</button>
+                    <button onclick="useTask(${task.id})"><i class="fas fa-play"></i> Использовать</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function deleteTask(id) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveTasks();
+    }
+
+    function useTask(id) {
+        const task = tasks.find(t => t.id === id);
+        if (task) {
+            const mapData = mapsData.find(m => m.name === task.map) || mapsData[0];
+            const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
+            const selectedVariators = shuffled.slice(0, task.variators);
+            renderDailyMission({ map: mapData, variators: selectedVariators, count: task.variators });
+            alert(`✅ Задание "${task.map}" загружено в задание дня!`);
+        }
+    }
+
+    // ============================================================
+    // 6. ОБРАБОТЧИК ФОРМЫ
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('taskForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const task = {
+                    id: Date.now(),
+                    map: document.getElementById('taskMap').value,
+                    variators: parseInt(document.getElementById('taskVariators').value),
+                    mode: document.getElementById('taskMode').value,
+                    difficulty: document.getElementById('taskDifficulty').value,
+                    description: document.getElementById('taskDescription').value || 'Без описания',
+                    createdAt: new Date().toLocaleString()
+                };
+                tasks.unshift(task);
+                saveTasks();
+                this.reset();
+                document.getElementById('taskDescription').value = '';
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
