@@ -205,7 +205,7 @@
             margin-top: 0.5rem;
         }
 
-        /* ===== ДИАЛОГОВОЕ ОКНО (УМЕНЬШЕННОЕ) ===== */
+        /* ===== ДИАЛОГОВОЕ ОКНО ===== */
         .dialog-overlay {
             background: rgba(18, 12, 28, 0.6);
             backdrop-filter: blur(12px);
@@ -238,7 +238,6 @@
             z-index: 1;
         }
 
-        /* ===== АВАТАРКА ===== */
         .dialog-avatar {
             flex-shrink: 0;
             width: 120px;
@@ -272,7 +271,6 @@
             animation: glowPulse 3s ease-in-out infinite;
         }
 
-        /* ===== КОНТЕНТ ДИАЛОГА ===== */
         .dialog-content {
             flex: 1;
             min-width: 0;
@@ -302,7 +300,7 @@
 
         .dialog-text {
             font-size: 0.88rem;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #e2d9f0;
             min-height: 44px;
             padding: 0.1rem 0;
@@ -316,6 +314,16 @@
             margin-left: 2px;
             vertical-align: text-bottom;
             animation: typeCursor 0.8s step-end infinite;
+        }
+
+        .dialog-text .action-text {
+            color: #ffbc9a;
+            font-style: italic;
+        }
+
+        .dialog-text .pause-text {
+            color: #888;
+            font-style: italic;
         }
 
         .dialog-actions {
@@ -549,6 +557,7 @@
         /* ===== РЕЖИМЫ РУЛЕТКИ ===== */
         .modes-section {
             margin-bottom: 2.5rem;
+            scroll-margin-top: 20px;
         }
 
         .modes-section h2 {
@@ -891,13 +900,10 @@
     <!-- ===== ДИАЛОГОВОЕ ОКНО С АРЛЕКИНО ===== -->
     <div class="dialog-overlay" id="dialogOverlay">
         <div class="dialog-container">
-            <!-- Аватарка -->
             <div class="dialog-avatar" id="dialogAvatar">
                 <div class="avatar-glow"></div>
                 <img src="images/Арлекино.png" alt="Арлекино" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-mask\\' style=\\'font-size: 3.5rem; color: #e16d48;\\'></i>'">
             </div>
-            
-            <!-- Контент -->
             <div class="dialog-content">
                 <div class="dialog-speaker">
                     <span class="name">🎭 Арлекино</span>
@@ -942,7 +948,7 @@
     </div>
 
     <!-- РЕЖИМЫ РУЛЕТКИ -->
-    <div class="modes-section">
+    <div class="modes-section" id="modesSection">
         <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
         <div class="modes-grid">
             <div class="mode-card active-mode" onclick="window.location.href='roulette.html'">
@@ -1030,7 +1036,6 @@
     // 1. ДАННЫЕ
     // ============================================================
 
-    // ===== КАРТЫ =====
     const mapsData = [
         { name: "Полицейский участок", image: "images/полицейский-участок.webp" },
         { name: "Детский дом", image: "images/детский-дом.webp" },
@@ -1044,7 +1049,6 @@
         { name: "Телестудия", image: "images/телестудия.webp" }
     ];
 
-    // ===== ВАРИАТОРЫ =====
     const variatorsData = [
         { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
         { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
@@ -1060,27 +1064,123 @@
 
     const dialogLines = [
         {
-            text: "Ах... новый реагент? Или просто любопытный странник? Неважно. Я — Арлекино, хранитель этих испытаний.",
-            primary: "Кто ты?",
+            text: `Дорогие дамы и господа! Не проходите мимо и узрите величайшее изобретение современности!\nМеханизм, способный подарить вам славу... Механизм, способный подарить вам страдания... И, что самое главное, механизм, который способен превратить обычного Реагента в настоящую легенду!`,
+            primary: "Далее",
             secondary: null,
             skip: true
         },
         {
-            text: "Я тот, кто помогает реагентам найти свой путь. Здесь, в стенах этой лаборатории, каждый ищет что-то своё. Одни — спасение, другие — ответы, третьи — просто адреналин.",
-            primary: "Что ты здесь делаешь?",
+            text: `— О-о-о! А вот и новый участник!\nАрлекино начинает хлопать в ладоши.\n— Поприветствуем же его! Не стесняйтесь, дружище, здесь все свои. Ну... почти все.`,
+            primary: "А вы кто?",
             secondary: null,
             skip: true
         },
         {
-            text: "Слежу за порядком. За тем, чтобы испытания были честными. И чтобы те, кто в них участвуют, не сходили с ума окончательно. Хотя... иногда это даже забавно.",
-            primary: "Расскажи о рулетке",
+            text: `— Конь в пальто.\n<i>Пауза.</i>\n— Нет?\n<i>Ещё пауза.</i>\n— Ладно, признаю, шутка была ужасной.`,
+            primary: "Так кто же вы?",
             secondary: null,
             skip: true
         },
         {
-            text: "Рулетка испытаний — моя гордость. Она подбирает задания случайным образом, смешивая карты, вариаторы и сложность. Каждый раз — новый вызов. Хочешь попробовать?",
-            primary: "Да, хочу!",
-            secondary: "Мне нужно подумать",
+            text: `— Ах, вот теперь мы переходим к официальной части!\nАрлекино снимает воображаемую шляпу и кланяется.\n— Моё имя — АРЛЕКИНО!\nВедущий. Конферансье. Арбитр хаоса. И единственный человек, которому руководство ещё не запретило пользоваться этой рулеткой.`,
+            primary: "Рулеткой?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Именно!\nПеред вами находится величайшая машина случайностей, которую когда-либо создавали человеческая глупость и научный прогресс.\nОна не знает жалости. Она не знает справедливости. Она даже не знает, что такое баланс.\nНо зато она умеет выбирать испытания.`,
+            primary: "Зачем?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Потому что выбор — это скучно!\nВы открываете игру. Думаете: «Во что бы мне поиграть?»\nПотом двадцать минут смотрите на список испытаний.\nПотом ещё десять минут спрашиваете друзей.\nПотом закрываете игру.\nУжасно.\nЯ же избавлю вас от этих мучений.`,
+            primary: "И как это работает?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Очень просто!\nВы выбираете один из 3 предложенных путей.\nА затем...\nСудьба и ваша удача сделают всё остальное.`,
+            primary: "А если я не хочу крутить рулетку?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Конечно-конечно!\nНикто вас не заставляет.\nАрлекино достаёт блокнот.\n— Просто назовите своё имя, чтобы я мог записать вас в список трусов.`,
+            primary: "Что?!",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Шучу!\n...........\n— Возможно.`,
+            primary: "Остаться",
+            secondary: "Уйти и сохранить остатки здравомыслия",
+            skip: false
+        },
+        {
+            text: `— Ох...\n— Вы уверены?`,
+            primary: "Да.",
+            secondary: "Нет",
+            skip: false
+        },
+        {
+            text: `— Правда уверены?`,
+            primary: "Да.",
+            secondary: "Нет",
+            skip: false
+        },
+        {
+            text: `— Абсолютно уверены?`,
+            primary: "Да!",
+            secondary: "Нет!",
+            skip: false
+        },
+        {
+            text: `— Какая досада...\n— Что вы там пишете?\n— Ничего особенного.\n— Просто вношу ваше имя в список людей, которые испугались обычного выбора.`,
+            primary: "Я не испугался.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Конечно-конечно.\n— Именно так обычно и говорят те, кто испугался.\nАрлекино ехидно улыбается.\n— Но я вас не осуждаю.\n— В конце концов, не каждый способен взглянуть хаосу в глаза и сказать:\n«Да, сегодня я добровольно испорчу себе жизнь.»`,
+            primary: "Звучит как плохая идея.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— А лучшие идеи всегда звучат как плохие.\nПауза.\n— Хотя должен признать...\n— Возможно, в этот раз рулетка действительно приготовила нечто ужасное.\nАрлекино наклоняется ближе.\n— Настолько ужасное, что даже мне стало немного любопытно.`,
+            primary: "Теперь ты пытаешься меня заманить.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Пытаюсь?\n— Друг мой, если бы я пытался, у вас уже не было бы кнопки «Уйти».`,
+            primary: "Ладно, я участвую.",
+            secondary: "Нет, я ухожу.",
+            skip: false
+        },
+        {
+            text: `— Хорошо.\n— Я уважаю ваше решение.\nДлинная пауза.\n— Нет, не уважаю.\nАрлекино начинает смеяться.\n— Но дверь вон там.\n— Возвращайтесь, когда любопытство победит здравый смысл.\n— Обычно это занимает от пяти минут до двух дней.`,
+            primary: "Ладно, я участвую!",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Ха!\n— Я так и знал.\n— Любопытство — самая надёжная ловушка из всех существующих.\nАрлекино широко улыбается.\n— Добро пожаловать обратно, мой дорогой участник!\n— Теперь пути назад нет.`,
+            primary: "Пути назад нет?",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Ну, технически есть.\n— Но звучит не так драматично.\n— Перед вами 3 пути, которые не знают ни жалости, ни справедливости.\n— Они не спросят, готовы ли вы.\n— Они не станут учитывать ваш опыт.\n— И уж точно не будут переживать за ваши нервы.`,
+            primary: "Звучит обнадёживающе.",
+            secondary: null,
+            skip: true
+        },
+        {
+            text: `— Благодарю! Я старался.\n— Итак...\n— Удачи, Реагент.\n— Она вам понадобится.`,
+            primary: "Начать!",
+            secondary: null,
             skip: false
         }
     ];
@@ -1089,9 +1189,11 @@
     let isTyping = false;
     let typeInterval = null;
     let isDialogComplete = false;
+    let dialogHistory = [];
 
     function startDialog() {
         currentDialogIndex = 0;
+        dialogHistory = [];
         showDialogLine(0);
     }
 
@@ -1113,6 +1215,9 @@
             typeInterval = null;
         }
 
+        // Сохраняем в историю
+        dialogHistory.push(index);
+
         primaryBtn.style.display = 'inline-block';
         primaryBtn.textContent = line.primary || 'Далее';
         primaryBtn.disabled = true;
@@ -1130,22 +1235,52 @@
         cursorEl.style.display = 'inline-block';
         isTyping = true;
 
-        const text = line.text;
+        let text = line.text;
+        // Заменяем переносы строк на <br> для отображения
+        let htmlText = text.replace(/\n/g, '<br>');
+        // Заменяем курсив
+        htmlText = htmlText.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
+        
         let charIndex = 0;
-        const typingSpeed = 28;
+        let isInTag = false;
+        let tagBuffer = '';
+        let displayText = '';
+        const typingSpeed = 25;
 
-        typeInterval = setInterval(() => {
-            if (charIndex < text.length) {
-                messageEl.textContent += text.charAt(charIndex);
+        // Функция для рендеринга HTML с эффектом печати
+        function typeNextChar() {
+            if (charIndex < htmlText.length) {
+                const char = htmlText.charAt(charIndex);
+                
+                if (char === '<') {
+                    isInTag = true;
+                    tagBuffer = '<';
+                } else if (char === '>' && isInTag) {
+                    tagBuffer += '>';
+                    isInTag = false;
+                    displayText += tagBuffer;
+                    tagBuffer = '';
+                } else if (isInTag) {
+                    tagBuffer += char;
+                } else {
+                    displayText += char;
+                }
+                
                 charIndex++;
+                messageEl.innerHTML = displayText + '<span class="cursor"></span>';
+                setTimeout(typeNextChar, typingSpeed);
             } else {
+                // Завершаем печать
                 clearInterval(typeInterval);
                 typeInterval = null;
                 isTyping = false;
                 primaryBtn.disabled = false;
                 cursorEl.style.display = 'none';
+                messageEl.innerHTML = displayText;
             }
-        }, typingSpeed);
+        }
+
+        typeInterval = setTimeout(typeNextChar, typingSpeed);
     }
 
     function completeDialog() {
@@ -1161,7 +1296,7 @@
             typeInterval = null;
         }
 
-        messageEl.textContent = 'Добро пожаловать в Рулетку испытаний! Выбирай режим и начинай свой путь. Удачи, реагент! 🎭';
+        messageEl.innerHTML = 'Добро пожаловать в Рулетку испытаний! Выбирай режим и начинай свой путь. Удачи, реагент! 🎭';
         cursorEl.style.display = 'none';
         primaryBtn.textContent = 'Начать!';
         primaryBtn.disabled = false;
@@ -1175,6 +1310,11 @@
             overlay.style.transform = 'scale(0.97)';
             setTimeout(() => {
                 overlay.style.display = 'none';
+                // Прокручиваем к режимам
+                document.getElementById('modesSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
             }, 400);
         };
     }
@@ -1202,7 +1342,9 @@
                 const messageEl = document.getElementById('dialogMessage');
                 const line = dialogLines[currentDialogIndex];
                 if (line) {
-                    messageEl.textContent = line.text;
+                    let text = line.text.replace(/\n/g, '<br>');
+                    text = text.replace(/<i>(.*?)<\/i>/g, '<span class="pause-text">$1</span>');
+                    messageEl.innerHTML = text;
                 }
                 isTyping = false;
                 document.getElementById('dialogCursor').style.display = 'none';
@@ -1228,19 +1370,24 @@
                 typeInterval = null;
                 isTyping = false;
             }
+            // Пропускаем к финальному диалогу
             const lastIndex = dialogLines.length - 1;
             currentDialogIndex = lastIndex;
             showDialogLine(lastIndex);
         });
 
         document.getElementById('dialogBtnSecondary').addEventListener('click', function() {
-            const overlay = document.getElementById('dialogOverlay');
-            overlay.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-            overlay.style.opacity = '0';
-            overlay.style.transform = 'scale(0.97)';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 400);
+            // Обработка вторичных кнопок (выбор вариантов)
+            const line = dialogLines[currentDialogIndex];
+            if (line && line.secondary) {
+                // Если нажата вторичная кнопка - переходим к следующей строке
+                currentDialogIndex++;
+                if (currentDialogIndex < dialogLines.length) {
+                    showDialogLine(currentDialogIndex);
+                } else {
+                    completeDialog();
+                }
+            }
         });
 
         getDailyMission();
