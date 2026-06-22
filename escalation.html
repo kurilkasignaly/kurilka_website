@@ -62,11 +62,6 @@
             100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
         }
 
-        @keyframes countPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
         @keyframes resultAppear {
             0% { opacity: 0; transform: translateY(30px) scale(0.95); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -398,18 +393,6 @@
 
         .selection-item.selected .check-mark {
             display: block;
-        }
-
-        .selection-item .item-count {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(220, 90, 50, 0.3);
-            color: #e16d48;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 20px;
-            font-weight: 600;
         }
 
         /* ===== КНОПКИ НАВИГАЦИИ ===== */
@@ -772,7 +755,7 @@
 <body>
 
 <video class="background-video" autoplay muted loop playsinline>
-    <source src="../images/об игре фон.mp4" type="video/mp4">
+    <source src="images/об игре фон.mp4" type="video/mp4">
 </video>
 
 <div class="container">
@@ -783,15 +766,15 @@
             <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
         </div>
         <div class="nav-links">
-            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
+            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
+            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
             <a href="roulette.html" class="nav-btn active"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
-            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
 
@@ -896,11 +879,41 @@
     </footer>
 </div>
 
-<!-- ===== ПОДКЛЮЧАЕМ ДАННЫЕ ===== -->
-<script src="../data/roulette-data.js"></script>
+<!-- ===== ПОДКЛЮЧАЕМ ДАННЫЕ ИЗ КОРНЕВОГО ФАЙЛА ===== -->
+<script src="roulette-data.js"></script>
 
 <!-- ===== СКРИПТ ЭСКАЛАЦИИ ===== -->
 <script>
+    // ===== ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ =====
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔍 Проверка загрузки данных...');
+        console.log('typeof mapsData:', typeof mapsData);
+        console.log('mapsData:', mapsData);
+        
+        // Проверяем, загрузились ли данные
+        if (typeof mapsData === 'undefined' || !mapsData || mapsData.length === 0) {
+            console.error('❌ Данные не загружены!');
+            document.querySelector('.escalation-wrapper').innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                    <h2>Ошибка загрузки данных</h2>
+                    <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить файл с данными.<br>Проверьте, что файл <strong>roulette-data.js</strong> существует в корне сайта.</p>
+                    <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
+                </div>
+            `;
+            return;
+        }
+        
+        console.log('✅ Данные успешно загружены!');
+        console.log('📊 Карт:', mapsData.length);
+        console.log('📊 Снаряжения:', equipmentData.length);
+        console.log('📊 Амп:', ampsData.length);
+        console.log('📊 Вариаторов:', variatorsData.length);
+        
+        // Инициализируем эскалацию только после загрузки данных
+        initEscalation();
+    });
+
     // ===== СОСТОЯНИЕ =====
     let escState = {
         playerCount: 0,
@@ -939,7 +952,7 @@
     }
 
     // ===== ИНИЦИАЛИЗАЦИЯ =====
-    document.addEventListener('DOMContentLoaded', function() {
+    function initEscalation() {
         // Шаг 1: Выбор игроков
         const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
         options.forEach(btn => {
@@ -983,7 +996,7 @@
         document.getElementById('escRestartBtn').addEventListener('click', function() {
             resetEscalation();
         });
-    });
+    }
 
     // ===== СБРОС =====
     function resetEscalation() {
@@ -1017,7 +1030,6 @@
             `;
             container.appendChild(row);
         }
-        // Фокус на первое поле
         const firstInput = container.querySelector('input');
         if (firstInput) setTimeout(() => firstInput.focus(), 300);
     }
@@ -1045,7 +1057,6 @@
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
-            // Показываем все снаряжение для выбора
             const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
             
             shuffled.forEach(eq => {
@@ -1151,7 +1162,6 @@
                         escState.ampSelections[playerIdx].push(ampName);
                     }
                     
-                    // Обновляем счетчик
                     const countDisplay = document.getElementById(`ampCount_${playerIdx}`);
                     if (countDisplay) {
                         countDisplay.textContent = `Выбрано: ${escState.ampSelections[playerIdx].length}/3`;
@@ -1184,7 +1194,6 @@
         const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
         escState.variators = shuffled.slice(0, 3);
 
-        // Скрываем шаги, показываем результат
         document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
         const resultContainer = document.getElementById('escResult');
         resultContainer.style.display = 'block';
@@ -1241,8 +1250,6 @@
         });
 
         document.getElementById('escResultPlayers').innerHTML = playersHtml;
-        
-        // Прокручиваем к результату
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 </script>
