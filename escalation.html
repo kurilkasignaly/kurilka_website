@@ -636,7 +636,7 @@
             line-height: 1.2;
         }
 
-        /* Игроки в результате - УВЕЛИЧЕННЫЙ РАЗМЕР */
+        /* ===== ИГРОКИ В РЕЗУЛЬТАТЕ С КАТЕГОРИЯМИ ===== */
         .player-result {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
@@ -673,7 +673,7 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             background: rgba(0, 0, 0, 0.15);
             padding: 0.4rem 0.8rem;
             border-radius: 12px;
@@ -700,93 +700,83 @@
             font-weight: 500;
         }
 
-        .player-result .player-amps-section {
+        /* ===== КАТЕГОРИИ АМП В КАРТОЧКЕ ===== */
+        .player-amps-categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.8rem;
             margin-top: 0.5rem;
         }
 
-        .player-result .player-amps-section .amps-label {
-            color: #888;
-            font-size: 0.75rem;
-            font-weight: 500;
-            display: block;
+        .amp-category-block {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid rgba(220, 90, 50, 0.1);
+            transition: border-color 0.3s;
+            position: relative;
+        }
+
+        .amp-category-block:hover {
+            border-color: rgba(220, 90, 50, 0.25);
+        }
+
+        .amp-category-block .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 0.3rem;
         }
 
-        .player-result .player-amps {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
+        .amp-category-block .category-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #e16d48;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .player-result .player-amps .amp-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.2rem;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 0.4rem 0.6rem;
-            border-radius: 10px;
-            position: relative;
-            min-width: 60px;
-        }
-
-        .player-result .player-amps .amp-item img {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 4px;
-        }
-
-        .player-result .player-amps .amp-item .amp-name {
-            font-size: 0.6rem;
-            color: #c2b9d4;
-            text-align: center;
-            max-width: 60px;
-            line-height: 1.1;
-            font-weight: 500;
-        }
-
-        .player-result .player-amps .amp-item .amp-category {
-            font-size: 0.5rem;
-            color: #666;
-            text-align: center;
-        }
-
-        .player-result .player-amps .amp-item .change-amp-btn {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: rgba(220, 90, 50, 0.3);
-            border: 1px solid rgba(220, 90, 50, 0.5);
+        .amp-category-block .category-change-btn {
+            background: rgba(220, 90, 50, 0.2);
+            border: 1px solid rgba(220, 90, 50, 0.3);
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            color: #fff;
+            width: 24px;
+            height: 24px;
+            color: #c2b9d4;
             font-size: 0.6rem;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 5;
         }
 
-        .player-result .player-amps .amp-item .change-amp-btn:hover {
-            background: rgba(220, 90, 50, 0.6);
+        .amp-category-block .category-change-btn:hover {
+            background: rgba(220, 90, 50, 0.4);
+            color: white;
             transform: scale(1.1);
         }
 
-        .player-result .all-amps-used {
-            margin-top: 0.5rem;
-            color: #2ecc71;
+        .amp-category-block .category-amp-name {
             font-size: 0.8rem;
+            color: #ffbc9a;
             font-weight: 500;
+            text-align: center;
+            padding: 0.2rem 0;
         }
 
-        .player-result .all-amps-used i {
-            margin-right: 0.3rem;
+        .amp-category-block .category-amp-empty {
+            font-size: 0.65rem;
+            color: #666;
+            text-align: center;
+            padding: 0.2rem 0;
+            font-style: italic;
+        }
+
+        .amp-category-block .category-complete {
+            font-size: 0.6rem;
+            color: #2ecc71;
+            text-align: center;
         }
 
         /* ===== КНОПКИ В РЕЗУЛЬТАТЕ ===== */
@@ -1183,6 +1173,11 @@
             
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
+            
+            .player-amps-categories {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
         }
 
         @media (max-width: 550px) {
@@ -1211,15 +1206,19 @@
             .step-actions { flex-direction: column; align-items: center; }
             .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
             
-            .player-result .player-amps .amp-item img { width: 30px; height: 30px; }
-            .player-result .player-amps .amp-item .amp-name { font-size: 0.5rem; max-width: 50px; }
-            
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
             
             .amp-modal { padding: 1rem; }
             .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .amp-modal-item img { width: 50px; height: 50px; }
             .amp-modal-item .amp-name { font-size: 0.7rem; }
+            
+            .player-amps-categories {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            .amp-category-block .category-name { font-size: 0.6rem; }
+            .amp-category-block .category-amp-name { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -1521,10 +1520,10 @@
         playerCount: 0,
         players: [],
         equipSelections: {},      // { playerIndex: equipName }
-        ampSelections: {},        // { playerIndex: [ampName1, ampName2, ...] }
+        ampSelections: {},        // { playerIndex: { category: ampName } }
         usedAmps: {},             // { playerIndex: [ampName1, ampName2, ...] }
+        unlockedAmps: {},         // { playerIndex: [ampName1, ampName2, ...] }
         allAmpsUsed: {},          // { playerIndex: boolean }
-        unlockedAmps: {},         // { playerIndex: [ampName1, ampName2, ...] } - разблокированные ампы
         currentStep: 1,
         map: null,
         trial: null,
@@ -1583,6 +1582,12 @@
         return areAllCategoriesComplete(playerIndex);
     }
 
+    // Получение ампы для категории игрока
+    function getAmpForCategory(playerIndex, category) {
+        const selections = escState.ampSelections[playerIndex] || {};
+        return selections[category] || null;
+    }
+
     // Получение случайной ампы из категории для игрока
     function getRandomAmpFromCategory(playerIndex, category) {
         const available = getAvailableAmpsByCategory(playerIndex, category);
@@ -1633,14 +1638,13 @@
             return shuffled.slice(0, count);
         }
         
-        // Уровни 21+ (Психохирургия) - все 8 вариаторов + Ультра II + Психохирургия
+        // Уровни 21+ (Психохирургия) - все 9 вариаторов + Ультра II + Психохирургия
         if (level >= 21) {
             const ultra = allVariatorsData.find(v => v.name === "Ультра II");
             const psycho = allVariatorsData.find(v => v.name === "Психохирургия");
             const others = allVariatorsData.filter(v => 
                 v.name !== "Ультра II" && v.name !== "Психохирургия"
             );
-            // Перемешиваем остальные и добавляем Ультра II и Психохирургия
             const shuffled = others.sort(() => Math.random() - 0.5);
             return [ultra, psycho, ...shuffled];
         }
@@ -1738,7 +1742,7 @@
             // Инициализируем массивы для игроков
             escState.players.forEach((_, idx) => {
                 if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
+                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                 if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
                 escState.allAmpsUsed[idx] = false;
             });
@@ -1758,18 +1762,16 @@
         document.getElementById('escStep4Next').addEventListener('click', function() {
             // Сохраняем выбранные ампы и разблокируем их
             escState.players.forEach((_, idx) => {
-                const selected = escState.ampSelections[idx];
-                if (selected && selected.length > 0) {
-                    // Добавляем в использованные
-                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                    selected.forEach(amp => {
-                        if (!escState.usedAmps[idx].includes(amp)) {
-                            escState.usedAmps[idx].push(amp);
+                const selected = escState.ampSelections[idx] || {};
+                Object.entries(selected).forEach(([category, ampName]) => {
+                    if (ampName) {
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (!escState.usedAmps[idx].includes(ampName)) {
+                            escState.usedAmps[idx].push(ampName);
                         }
-                        // Разблокируем ампу
-                        unlockAmpForPlayer(idx, amp);
-                    });
-                }
+                        unlockAmpForPlayer(idx, ampName);
+                    }
+                });
             });
             // Генерируем первое испытание
             generateEscResult();
@@ -1784,11 +1786,9 @@
             const allComplete = escState.players.every((_, idx) => areAllCategoriesComplete(idx));
             
             if (allComplete) {
-                // Все ампы использованы
                 alert('Не осталось выбора улучшения. Все улучшения были применены.');
                 generateEscResult();
             } else {
-                // Показываем ПЕРЕРЫВ с выбором амп по категориям
                 showBreakModal();
             }
         });
@@ -1936,7 +1936,6 @@
                     grid.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
                     this.classList.add('selected');
                     breakSelections[idx] = amp.name;
-                    // Разблокируем ампу при выборе
                     unlockAmpForPlayer(idx, amp.name);
                     checkBreakReady();
                 });
@@ -1963,14 +1962,20 @@
             // Сохраняем выбранные ампы
             escState.players.forEach((_, idx) => {
                 if (breakSelections[idx]) {
-                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                    if (!escState.usedAmps[idx].includes(breakSelections[idx])) {
-                        escState.usedAmps[idx].push(breakSelections[idx]);
+                    const category = ampCategories.find(cat => {
+                        const amp = ampsData.find(a => a.name === breakSelections[idx]);
+                        return amp && amp.category === cat;
+                    });
+                    if (category) {
+                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                        escState.ampSelections[idx][category] = breakSelections[idx];
+                        
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (!escState.usedAmps[idx].includes(breakSelections[idx])) {
+                            escState.usedAmps[idx].push(breakSelections[idx]);
+                        }
+                        unlockAmpForPlayer(idx, breakSelections[idx]);
                     }
-                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
-                    escState.ampSelections[idx].push(breakSelections[idx]);
-                    // Разблокируем ампу
-                    unlockAmpForPlayer(idx, breakSelections[idx]);
                 }
             });
             overlay.remove();
@@ -2109,7 +2114,8 @@
                 item.className = 'selection-item';
                 item.dataset.player = idx;
                 item.dataset.amp = amp.name;
-                const isSelected = escState.ampSelections[idx] && escState.ampSelections[idx].includes(amp.name);
+                const currentAmp = escState.ampSelections[idx]?.[randomCategory];
+                const isSelected = currentAmp === amp.name;
                 if (isSelected) item.classList.add('selected');
                 
                 item.innerHTML = `
@@ -2123,9 +2129,8 @@
                     const parent = this.closest('.selection-grid');
                     parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
                     this.classList.add('selected');
-                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
-                    escState.ampSelections[idx] = [amp.name];
-                    // Разблокируем ампу при выборе
+                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                    escState.ampSelections[idx][randomCategory] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
                     checkEscAmpsReady();
                 });
@@ -2141,9 +2146,13 @@
     }
 
     function checkEscAmpsReady() {
-        const allSelected = escState.players.every((_, idx) => {
-            const sel = escState.ampSelections[idx];
-            return sel && sel.length > 0;
+        let allSelected = true;
+        escState.players.forEach((_, idx) => {
+            const availableCategories = ampCategories.filter(cat => !isCategoryComplete(idx, cat));
+            if (availableCategories.length > 0) {
+                const hasSelection = availableCategories.some(cat => escState.ampSelections[idx]?.[cat]);
+                if (!hasSelection) allSelected = false;
+            }
         });
         document.getElementById('escStep4Next').disabled = !allSelected;
     }
@@ -2153,16 +2162,13 @@
     // ============================================================
 
     function generateEscResult() {
-        // Выбираем случайную карту
         const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
         escState.map = mapData;
         
-        // Выбираем случайное испытание для этой карты
         const trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
         const trial = trials[Math.floor(Math.random() * trials.length)];
         escState.trial = trial;
         
-        // Определяем сложность и вариаторы
         const difficulty = getDifficultyByLevel(escState.level);
         escState.difficulty = difficulty.name;
         escState.variators = getVariatorsForLevel(escState.level);
@@ -2172,7 +2178,6 @@
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
 
-        // Испытание с картой
         document.getElementById('escResultMap').innerHTML = `
             <img class="map-image" src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
             <div class="result-map-info">
@@ -2188,7 +2193,6 @@
             </div>
         `;
 
-        // Вариаторы
         document.getElementById('escResultVariators').innerHTML = escState.variators.map(v => `
             <div class="var-item">
                 <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
@@ -2196,22 +2200,20 @@
             </div>
         `).join('');
 
-        // Игроки
         renderEscResultPlayers();
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // ============================================================
-    // 11. ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ (УВЕЛИЧЕННЫЙ РАЗМЕР)
+    // 11. ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ (3 КАТЕГОРИИ)
     // ============================================================
 
     function renderEscResultPlayers() {
         let playersHtml = '';
         escState.players.forEach((player, idx) => {
             const equip = escState.equipSelections[idx] || 'Не выбрано';
-            const amps = escState.ampSelections[idx] || [];
             const equipData = equipmentData.find(e => e.name === equip);
-            const allUsed = checkAllAmpsUsed(idx);
+            const allUsed = areAllCategoriesComplete(idx);
             
             playersHtml += `
                 <div class="player-result">
@@ -2221,28 +2223,37 @@
                         <span class="label">СНАРЯЖЕНИЕ:</span>
                         <span class="value">${equip}</span>
                     </div>
-                    <div class="player-amps-section">
-                        <span class="amps-label"><i class="fas fa-capsules"></i> УЛУЧШЕНИЯ:</span>
-                        <div class="player-amps">
-                            ${amps.length > 0 ? amps.map(ampName => {
-                                const ampData = ampsData.find(a => a.name === ampName);
-                                return ampData ? `
-                                    <div class="amp-item">
-                                        <img src="${ampData.image}" alt="${ampName}" onerror="this.style.display='none'">
-                                        <span class="amp-name">${ampName}</span>
-                                        <span class="amp-category">${ampData.category}</span>
-                                        ${!allUsed ? `<button class="change-amp-btn" onclick="openAmpModal(${idx})" title="Сменить ампу">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>` : ''}
+                    <div style="margin-top: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                            <span style="color: #888; font-size: 0.75rem; font-weight: 500;"><i class="fas fa-capsules"></i> УЛУЧШЕНИЯ:</span>
+                            ${!allUsed ? `<span style="color: #e16d48; font-size: 0.65rem;">Нажмите на категорию для смены</span>` : ''}
+                        </div>
+                        <div class="player-amps-categories">
+                            ${ampCategories.map(category => {
+                                const ampName = getAmpForCategory(idx, category);
+                                const ampData = ampName ? ampsData.find(a => a.name === ampName) : null;
+                                const isComplete = isCategoryComplete(idx, category);
+                                
+                                return `
+                                    <div class="amp-category-block" onclick="${!allUsed ? `openAmpModal(${idx}, '${category}')` : ''}" style="cursor: ${!allUsed ? 'pointer' : 'default'};">
+                                        <div class="category-header">
+                                            <span class="category-name">${category}</span>
+                                            ${!allUsed ? `<button class="category-change-btn" onclick="event.stopPropagation(); openAmpModal(${idx}, '${category}')" title="Сменить ампу"><i class="fas fa-sync-alt"></i></button>` : ''}
+                                        </div>
+                                        ${isComplete ? 
+                                            `<div class="category-complete"><i class="fas fa-check-circle"></i> Все ампы использованы</div>` :
+                                            (ampData ? 
+                                                `<div class="category-amp-name">${ampData.name}</div>` :
+                                                `<div class="category-amp-empty">Не выбрана</div>`
+                                            )
+                                        }
                                     </div>
-                                ` : '';
-                            }).join('') : `
-                                <div style="color: #888; font-size: 0.85rem;">Нет выбранных амп</div>
-                            `}
+                                `;
+                            }).join('')}
                         </div>
                     </div>
                     ${allUsed ? `
-                        <div class="all-amps-used">
+                        <div style="margin-top: 0.8rem; color: #2ecc71; font-size: 0.8rem; font-weight: 500; text-align: center;">
                             <i class="fas fa-check-circle"></i> Все улучшения применены
                         </div>
                     ` : ''}
@@ -2273,34 +2284,25 @@
         });
 
         confirmBtn.addEventListener('click', function() {
-            if (modalState.playerIndex !== null && modalState.selectedAmp) {
+            if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
                 const idx = modalState.playerIndex;
-                const currentAmps = escState.ampSelections[idx] || [];
+                const category = modalState.selectedCategory;
                 
-                // Проверяем, есть ли уже такая ампа
-                if (currentAmps.includes(modalState.selectedAmp)) {
-                    modal.classList.remove('active');
-                    return;
+                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                
+                // Если уже есть ампа в этой категории, удаляем из used
+                const oldAmp = escState.ampSelections[idx][category];
+                if (oldAmp && escState.usedAmps[idx]) {
+                    escState.usedAmps[idx] = escState.usedAmps[idx].filter(a => a !== oldAmp);
                 }
-
-                // Удаляем старую ампу (первую в списке)
-                if (currentAmps.length > 0) {
-                    const oldAmp = currentAmps[0];
-                    if (escState.usedAmps[idx]) {
-                        escState.usedAmps[idx] = escState.usedAmps[idx].filter(a => a !== oldAmp);
-                    }
-                    // Заменяем
-                    currentAmps[0] = modalState.selectedAmp;
-                } else {
-                    currentAmps.push(modalState.selectedAmp);
-                }
-
-                // Добавляем новую ампу в использованные
+                
+                // Устанавливаем новую ампу
+                escState.ampSelections[idx][category] = modalState.selectedAmp;
+                
                 if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
                 if (!escState.usedAmps[idx].includes(modalState.selectedAmp)) {
                     escState.usedAmps[idx].push(modalState.selectedAmp);
                 }
-                // Разблокируем ампу
                 unlockAmpForPlayer(idx, modalState.selectedAmp);
 
                 renderEscResultPlayers();
@@ -2309,48 +2311,72 @@
         });
     }
 
-    function openAmpModal(playerIndex) {
+    function openAmpModal(playerIndex, category) {
         // Проверяем, можно ли менять ампу
-        if (checkAllAmpsUsed(playerIndex)) {
+        if (areAllCategoriesComplete(playerIndex)) {
             alert('Все улучшения уже применены. Смена амп невозможна.');
             return;
         }
 
+        // Проверяем, завершена ли категория
+        if (isCategoryComplete(playerIndex, category)) {
+            alert('Все ампы в этой категории уже использованы.');
+            return;
+        }
+
         const playerName = escState.players[playerIndex];
-        const currentAmps = escState.ampSelections[playerIndex] || [];
-        const currentAmp = currentAmps.length > 0 ? currentAmps[0] : null;
+        const currentAmp = getAmpForCategory(playerIndex, category);
         
         modalState.playerIndex = playerIndex;
+        modalState.selectedCategory = category;
         modalState.selectedAmp = currentAmp;
-        modalState.selectedCategory = "Инструмент";
 
-        document.getElementById('ampModalPlayerName').textContent = playerName;
+        document.getElementById('ampModalPlayerName').textContent = `${playerName} — ${category}`;
 
         // Создаем вкладки категорий
         const tabsContainer = document.getElementById('ampCategoryTabs');
         tabsContainer.innerHTML = '';
         
-        ampCategories.forEach(cat => {
+        // Показываем только доступные категории
+        const availableCategories = ampCategories.filter(cat => !isCategoryComplete(playerIndex, cat));
+        
+        if (availableCategories.length === 0) {
+            // Все категории завершены
+            const grid = document.getElementById('ampModalGrid');
+            grid.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; color: #2ecc71; padding: 2rem;">
+                    <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
+                    <div style="margin-top: 0.5rem;">Все улучшения применены</div>
+                </div>
+            `;
+            document.getElementById('ampModalConfirm').disabled = true;
+            document.getElementById('ampModal').classList.add('active');
+            return;
+        }
+
+        // Добавляем только доступные категории
+        availableCategories.forEach(cat => {
             const tab = document.createElement('button');
             tab.textContent = cat;
             tab.dataset.category = cat;
-            if (cat === modalState.selectedCategory) {
+            if (cat === category) {
                 tab.classList.add('active');
             }
             tab.addEventListener('click', function() {
                 tabsContainer.querySelectorAll('button').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                modalState.selectedCategory = this.dataset.category;
-                renderAmpModalGrid(playerIndex, modalState.selectedCategory, currentAmp);
+                const newCategory = this.dataset.category;
+                modalState.selectedCategory = newCategory;
+                modalState.selectedAmp = getAmpForCategory(playerIndex, newCategory);
+                renderAmpModalGrid(playerIndex, newCategory);
             });
             tabsContainer.appendChild(tab);
         });
 
-        // Рендерим первую категорию
-        renderAmpModalGrid(playerIndex, "Инструмент", currentAmp);
+        renderAmpModalGrid(playerIndex, category);
     }
 
-    function renderAmpModalGrid(playerIndex, category, currentAmp) {
+    function renderAmpModalGrid(playerIndex, category) {
         const grid = document.getElementById('ampModalGrid');
         grid.innerHTML = '';
 
@@ -2362,6 +2388,9 @@
         
         // Получаем разблокированные ампы игрока
         const unlocked = escState.unlockedAmps[playerIndex] || [];
+
+        // Текущая ампа в этой категории
+        const currentAmp = getAmpForCategory(playerIndex, category);
 
         let hasAvailable = false;
 
@@ -2437,8 +2466,8 @@
             equipSelections: {},
             ampSelections: {},
             usedAmps: {},
-            allAmpsUsed: {},
             unlockedAmps: {},
+            allAmpsUsed: {},
             currentStep: 1,
             map: null,
             trial: null,
