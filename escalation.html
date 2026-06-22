@@ -61,6 +61,11 @@
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
+        @keyframes modalFadeIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
         /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1400px;
@@ -364,18 +369,6 @@
             line-height: 1.2;
         }
 
-        .selection-item .item-desc {
-            font-size: 0.65rem;
-            color: #666;
-            margin-top: 0.3rem;
-            line-height: 1.3;
-            display: none;
-        }
-
-        .selection-item.selected .item-desc {
-            display: block;
-        }
-
         .selection-item .check-mark {
             position: absolute;
             top: 10px;
@@ -543,6 +536,7 @@
             margin-bottom: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
+            position: relative;
         }
 
         .player-result:hover {
@@ -613,6 +607,7 @@
             background: rgba(0, 0, 0, 0.15);
             padding: 0.3rem 0.5rem;
             border-radius: 10px;
+            position: relative;
         }
 
         .player-result .player-amps .amp-item img {
@@ -630,6 +625,29 @@
             text-align: center;
             max-width: 50px;
             line-height: 1.1;
+        }
+
+        .player-result .player-amps .amp-item .change-amp-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: rgba(220, 90, 50, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.5);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            color: #fff;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-result .player-amps .amp-item .change-amp-btn:hover {
+            background: rgba(220, 90, 50, 0.6);
+            transform: scale(1.1);
         }
 
         .restart-btn {
@@ -673,6 +691,138 @@
             color: #ffbc9a;
             background: rgba(220, 90, 50, 0.2);
             transform: translateX(-5px);
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ ===== */
+        .amp-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .amp-modal-overlay.active {
+            display: flex;
+        }
+
+        .amp-modal {
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 30px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .amp-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .amp-modal-header h2 {
+            font-size: 1.3rem;
+            color: #e16d48;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amp-modal-close {
+            background: none;
+            border: none;
+            color: #c2b9d4;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .amp-modal-close:hover {
+            color: #e16d48;
+        }
+
+        .amp-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .amp-modal-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(220, 90, 50, 0.2);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .amp-modal-item:hover {
+            border-color: #e16d48;
+            transform: scale(1.05);
+        }
+
+        .amp-modal-item.selected {
+            border-color: #4c9aff;
+            background: rgba(76, 154, 255, 0.1);
+        }
+
+        .amp-modal-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px;
+        }
+
+        .amp-modal-item .amp-name {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            margin-top: 0.3rem;
+        }
+
+        .amp-modal-item .current-amp-label {
+            font-size: 0.6rem;
+            color: #4c9aff;
+            margin-top: 0.2rem;
+        }
+
+        .amp-modal-confirm {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .amp-modal-confirm button {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            border: none;
+            padding: 0.7rem 2.5rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .amp-modal-confirm button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
         }
 
         /* ===== ФУТЕР ===== */
@@ -743,6 +893,10 @@
             .player-result .player-amps .amp-item img { width: 28px; height: 28px; }
             
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
+            
+            .amp-modal { padding: 1rem; }
+            .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .amp-modal-item img { width: 50px; height: 50px; }
         }
     </style>
 </head>
@@ -808,13 +962,13 @@
             </div>
         </div>
 
-        <!-- ШАГ 3: Снаряжение -->
+        <!-- ШАГ 3: Снаряжение (3 иконки на выбор) -->
         <div class="step-container hidden" id="escStep3">
             <div class="step-title">
                 <span class="step-number">Шаг 3</span>
                 <i class="fas fa-backpack"></i> Выбор снаряжения
             </div>
-            <div class="step-subtitle" id="escStep3Subtitle">Выберите по 1 снаряжению для каждого игрока</div>
+            <div class="step-subtitle" id="escStep3Subtitle">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
             <div id="escStep3Content"></div>
             <div class="step-actions">
                 <button class="back-btn" id="escStep3Back">← Назад</button>
@@ -822,13 +976,13 @@
             </div>
         </div>
 
-        <!-- ШАГ 4: Ампы -->
+        <!-- ШАГ 4: Ампы (3 иконки на выбор, игрок выбирает 1) -->
         <div class="step-container hidden" id="escStep4">
             <div class="step-title">
                 <span class="step-number">Шаг 4</span>
                 <i class="fas fa-capsules"></i> Выбор амп
             </div>
-            <div class="step-subtitle" id="escStep4Subtitle">Выберите по 3 ампы для каждого игрока</div>
+            <div class="step-subtitle" id="escStep4Subtitle">Каждому игроку предлагается 3 случайных ампы на выбор (нужно выбрать 1)</div>
             <div id="escStep4Content"></div>
             <div class="step-actions">
                 <button class="back-btn" id="escStep4Back">← Назад</button>
@@ -871,6 +1025,20 @@
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
         <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
     </footer>
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ ===== -->
+<div class="amp-modal-overlay" id="ampModal">
+    <div class="amp-modal">
+        <div class="amp-modal-header">
+            <h2><i class="fas fa-capsules"></i> <span id="ampModalPlayerName">Игрок</span> — выбор ампы</h2>
+            <button class="amp-modal-close" id="ampModalClose">&times;</button>
+        </div>
+        <div class="amp-modal-grid" id="ampModalGrid"></div>
+        <div class="amp-modal-confirm">
+            <button id="ampModalConfirm">Выбрать</button>
+        </div>
+    </div>
 </div>
 
 <!-- ===== ВСЕ ДАННЫЕ И СКРИПТ В ОДНОМ ФАЙЛЕ ===== -->
@@ -935,149 +1103,41 @@
 
     // ===== СНАРЯЖЕНИЕ =====
     const equipmentData = [
-        { 
-            name: "Оглушение", 
-            image: "images/снаряжение-оглушение.webp",
-            desc: "Оглушает врагов на короткое время, позволяя скрыться или атаковать первым."
-        },
-        { 
-            name: "Завеса", 
-            image: "images/снаряжение-завеса.webp",
-            desc: "Создает дымовую завесу, скрывающую вас от врагов и позволяющую незаметно пройти."
-        },
-        { 
-            name: "Рентген", 
-            image: "images/снаряжение-рентген.webp",
-            desc: "Позволяет видеть врагов сквозь стены и другие препятствия на ограниченное время."
-        },
-        { 
-            name: "Риг", 
-            image: "images/снаряжение-риг.webp",
-            desc: "Специальное устройство, увеличивающее ваши возможности и защиту в критических ситуациях."
-        },
-        { 
-            name: "Индикатор", 
-            image: "images/снаряжение-индикатор.webp",
-            desc: "Показывает расположение врагов и ловушек на вашем мини-радаре."
-        },
-        { 
-            name: "Энергетик", 
-            image: "images/снаряжение-энергетик.webp",
-            desc: "Восстанавливает энергию и позволяет использовать специальные способности чаще."
-        },
-        { 
-            name: "Антидот", 
-            image: "images/снаряжение-антидот.webp",
-            desc: "Нейтрализует яды и токсины, восстанавливая ваше здоровье."
-        },
-        { 
-            name: "Газ", 
-            image: "images/снаряжение-газ.webp",
-            desc: "Выпускает усыпляющий газ, дезориентирующий врагов в радиусе действия."
-        }
+        { name: "Оглушение", image: "images/снаряжение-оглушение.webp" },
+        { name: "Завеса", image: "images/снаряжение-завеса.webp" },
+        { name: "Рентген", image: "images/снаряжение-рентген.webp" },
+        { name: "Риг", image: "images/снаряжение-риг.webp" },
+        { name: "Индикатор", image: "images/снаряжение-индикатор.webp" },
+        { name: "Энергетик", image: "images/снаряжение-энергетик.webp" },
+        { name: "Антидот", image: "images/снаряжение-антидот.webp" },
+        { name: "Газ", image: "images/снаряжение-газ.webp" }
     ];
 
-    // ===== АМФЫ (УЛУЧШЕНИЯ) =====
+    // ===== АМФЫ =====
     const ampsData = [
-        { 
-            name: "Ускорение", 
-            image: "images/амфа-ускорение.webp",
-            desc: "Увеличивает скорость передвижения на 15%, позволяя быстрее убегать от врагов."
-        },
-        { 
-            name: "Выносливость", 
-            image: "images/амфа-выносливость.webp",
-            desc: "Увеличивает запас выносливости на 25%, позволяя дольше бегать и уклоняться."
-        },
-        { 
-            name: "Иммунитет", 
-            image: "images/амфа-иммунитет.webp",
-            desc: "Дает 20% сопротивления к ядам и токсинам, увеличивая выживаемость."
-        },
-        { 
-            name: "Сила", 
-            image: "images/амфа-сила.webp",
-            desc: "Увеличивает урон от атак на 20%, позволяя быстрее расправляться с врагами."
-        },
-        { 
-            name: "Скрытность", 
-            image: "images/амфа-скрытность.webp",
-            desc: "Уменьшает шум от передвижения на 30%, делая вас менее заметным для врагов."
-        },
-        { 
-            name: "Восстановление", 
-            image: "images/амфа-восстановление.webp",
-            desc: "Ускоряет восстановление здоровья в 1.5 раза, позволяя быстрее приходить в себя."
-        },
-        { 
-            name: "Обострение", 
-            image: "images/амфа-обострение.webp",
-            desc: "Увеличивает радиус обнаружения врагов на 20%, помогая избегать засад."
-        },
-        { 
-            name: "Проворность", 
-            image: "images/амфа-проворность.webp",
-            desc: "Увеличивает скорость перезарядки способностей на 25%, позволяя чаще использовать умения."
-        },
-        { 
-            name: "Защита", 
-            image: "images/амфа-защита.webp",
-            desc: "Уменьшает получаемый урон на 15%, повышая вашу живучесть в бою."
-        },
-        { 
-            name: "Интуиция", 
-            image: "images/амфа-интуиция.webp",
-            desc: "Позволяет видеть скрытые предметы и ловушки, облегчая прохождение."
-        }
+        { name: "Ускорение", image: "images/амфа-ускорение.webp" },
+        { name: "Выносливость", image: "images/амфа-выносливость.webp" },
+        { name: "Иммунитет", image: "images/амфа-иммунитет.webp" },
+        { name: "Сила", image: "images/амфа-сила.webp" },
+        { name: "Скрытность", image: "images/амфа-скрытность.webp" },
+        { name: "Восстановление", image: "images/амфа-восстановление.webp" },
+        { name: "Обострение", image: "images/амфа-обострение.webp" },
+        { name: "Проворность", image: "images/амфа-проворность.webp" },
+        { name: "Защита", image: "images/амфа-защита.webp" },
+        { name: "Интуиция", image: "images/амфа-интуиция.webp" }
     ];
 
-    // ===== ВАРИАТОРЫ (МОДИФИКАТОРЫ) =====
+    // ===== ВАРИАТОРЫ =====
     const variatorsData = [
-        { 
-            name: "Более Сильные Враги", 
-            image: "images/вариатор-сильные-враги.webp",
-            desc: "Все враги имеют увеличенное здоровье и наносят больше урона."
-        },
-        { 
-            name: "Высокая Плотность Противника", 
-            image: "images/вариатор-плотность.webp",
-            desc: "Количество врагов на локации значительно увеличено."
-        },
-        { 
-            name: "Больше смертельных ловушек", 
-            image: "images/вариатор-ловушки.webp",
-            desc: "На карте появляется дополнительное количество ловушек и препятствий."
-        },
-        { 
-            name: "Ограниченная информация", 
-            image: "images/вариатор-информация.webp",
-            desc: "Мини-карта и индикаторы врагов частично отключены."
-        },
-        { 
-            name: "Ненадежные Двери", 
-            image: "images/вариатор-двери.webp",
-            desc: "Двери могут случайно заклинивать или издавать шум при открытии."
-        },
-        { 
-            name: "Ограниченные предметы", 
-            image: "images/вариатор-предметы.webp",
-            desc: "Количество аптечек и других полезных предметов на карте уменьшено."
-        },
-        { 
-            name: "Постоянное наблюдение", 
-            image: "images/вариатор-наблюдение.webp",
-            desc: "Камеры наблюдения активны на всей карте, усложняя скрытное перемещение."
-        },
-        { 
-            name: "Темнота", 
-            image: "images/вариатор-темнота.webp",
-            desc: "Уровень освещенности на карте значительно снижен."
-        },
-        { 
-            name: "Тревога", 
-            image: "images/вариатор-тревога.webp",
-            desc: "Враги находятся в состоянии повышенной готовности и быстрее реагируют на шум."
-        }
+        { name: "Более Сильные Враги", image: "images/вариатор-сильные-враги.webp" },
+        { name: "Высокая Плотность Противника", image: "images/вариатор-плотность.webp" },
+        { name: "Больше смертельных ловушек", image: "images/вариатор-ловушки.webp" },
+        { name: "Ограниченная информация", image: "images/вариатор-информация.webp" },
+        { name: "Ненадежные Двери", image: "images/вариатор-двери.webp" },
+        { name: "Ограниченные предметы", image: "images/вариатор-предметы.webp" },
+        { name: "Постоянное наблюдение", image: "images/вариатор-наблюдение.webp" },
+        { name: "Темнота", image: "images/вариатор-темнота.webp" },
+        { name: "Тревога", image: "images/вариатор-тревога.webp" }
     ];
 
     // ============================================================
@@ -1087,13 +1147,20 @@
     let escState = {
         playerCount: 0,
         players: [],
-        equipSelections: {},
-        ampSelections: {},
+        equipSelections: {}, // { playerIndex: selectedEquipName }
+        ampSelections: {},    // { playerIndex: selectedAmpName }
         currentStep: 1,
         map: null,
         variators: []
     };
 
+    // Переменные для модального окна
+    let modalState = {
+        playerIndex: null,
+        selectedAmp: null
+    };
+
+    // ===== НАВИГАЦИЯ =====
     function goToEscStep(step) {
         escState.currentStep = step;
         document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
@@ -1119,7 +1186,14 @@
         if (target) target.classList.remove('hidden');
     }
 
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    document.addEventListener('DOMContentLoaded', function() {
+        initEscalation();
+        initAmpModal();
+    });
+
     function initEscalation() {
+        // Шаг 1: Выбор игроков
         const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
         options.forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1135,6 +1209,7 @@
             renderEscPlayerNames();
         });
 
+        // Шаг 2: Имена
         document.getElementById('escStep2Back').addEventListener('click', function() { goToEscStep(1); });
         document.getElementById('escStep2Next').addEventListener('click', function() {
             const inputs = document.querySelectorAll('#escPlayerNameInputs input');
@@ -1146,20 +1221,109 @@
             renderEscEquipment();
         });
 
+        // Шаг 3: Снаряжение
         document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
         document.getElementById('escStep3Next').addEventListener('click', function() { 
             goToEscStep(4);
             renderEscAmps();
         });
 
+        // Шаг 4: Ампы
         document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
         document.getElementById('escStep4Next').addEventListener('click', function() { generateEscResult(); });
 
+        // Перезапуск
         document.getElementById('escRestartBtn').addEventListener('click', function() {
             resetEscalation();
         });
     }
 
+    // ===== ИНИЦИАЛИЗАЦИЯ МОДАЛЬНОГО ОКНА =====
+    function initAmpModal() {
+        const modal = document.getElementById('ampModal');
+        const closeBtn = document.getElementById('ampModalClose');
+        const confirmBtn = document.getElementById('ampModalConfirm');
+
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        confirmBtn.addEventListener('click', function() {
+            if (modalState.playerIndex !== null && modalState.selectedAmp) {
+                // Обновляем ампу для игрока
+                escState.ampSelections[modalState.playerIndex] = modalState.selectedAmp;
+                // Обновляем отображение в результатах
+                renderEscResultPlayers();
+                modal.classList.remove('active');
+            }
+        });
+    }
+
+    // ===== ОТКРЫТИЕ МОДАЛЬНОГО ОКНА =====
+    function openAmpModal(playerIndex) {
+        const playerName = escState.players[playerIndex];
+        const currentAmp = escState.ampSelections[playerIndex] || null;
+        
+        modalState.playerIndex = playerIndex;
+        modalState.selectedAmp = currentAmp;
+
+        document.getElementById('ampModalPlayerName').textContent = playerName;
+
+        const grid = document.getElementById('ampModalGrid');
+        grid.innerHTML = '';
+
+        // Показываем все ампы, исключая ту, что уже есть у игрока (если есть)
+        const availableAmps = ampsData.filter(amp => amp.name !== currentAmp);
+
+        availableAmps.forEach(amp => {
+            const item = document.createElement('div');
+            item.className = 'amp-modal-item';
+            if (modalState.selectedAmp === amp.name) {
+                item.classList.add('selected');
+            }
+            item.innerHTML = `
+                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                <div class="amp-name">${amp.name}</div>
+                ${currentAmp === amp.name ? '<div class="current-amp-label">✓ Текущая</div>' : ''}
+            `;
+            item.addEventListener('click', function() {
+                grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
+                this.classList.add('selected');
+                modalState.selectedAmp = amp.name;
+            });
+            grid.appendChild(item);
+        });
+
+        // Если есть текущая ампа, показываем её первой
+        if (currentAmp) {
+            const currentAmpData = ampsData.find(a => a.name === currentAmp);
+            if (currentAmpData) {
+                const currentItem = document.createElement('div');
+                currentItem.className = 'amp-modal-item selected';
+                currentItem.innerHTML = `
+                    <img src="${currentAmpData.image}" alt="${currentAmpData.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <div class="amp-name">${currentAmpData.name}</div>
+                    <div class="current-amp-label">✓ Текущая</div>
+                `;
+                currentItem.addEventListener('click', function() {
+                    grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    modalState.selectedAmp = currentAmpData.name;
+                });
+                grid.prepend(currentItem);
+            }
+        }
+
+        document.getElementById('ampModal').classList.add('active');
+    }
+
+    // ===== СБРОС =====
     function resetEscalation() {
         escState = {
             playerCount: 0,
@@ -1177,6 +1341,7 @@
         goToEscStep(1);
     }
 
+    // ===== ШАГ 2: Имена =====
     function renderEscPlayerNames() {
         const container = document.getElementById('escPlayerNameInputs');
         if (!container) return;
@@ -1194,6 +1359,7 @@
         if (firstInput) setTimeout(() => firstInput.focus(), 300);
     }
 
+    // ===== ШАГ 3: Снаряжение (3 иконки на выбор) =====
     function renderEscEquipment() {
         const container = document.getElementById('escStep3Content');
         if (!container) return;
@@ -1216,9 +1382,11 @@
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
+            // Выбираем 3 случайных снаряжения для каждого игрока
             const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
+            const selectedEquip = shuffled.slice(0, 3);
             
-            shuffled.forEach(eq => {
+            selectedEquip.forEach(eq => {
                 const item = document.createElement('div');
                 item.className = 'selection-item';
                 item.dataset.player = idx;
@@ -1230,7 +1398,6 @@
                     <div class="check-mark"><i class="fas fa-check-circle"></i></div>
                     <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
                     <div class="item-name">${eq.name}</div>
-                    <div class="item-desc">${eq.desc || ''}</div>
                 `;
                 
                 item.addEventListener('click', function() {
@@ -1255,6 +1422,7 @@
         document.getElementById('escStep3Next').disabled = !allSelected;
     }
 
+    // ===== ШАГ 4: Ампы (3 иконки на выбор, игрок выбирает 1) =====
     function renderEscAmps() {
         const container = document.getElementById('escStep4Content');
         if (!container) return;
@@ -1274,57 +1442,32 @@
             title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
             section.appendChild(title);
             
-            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = [];
-            
-            const countDisplay = document.createElement('div');
-            countDisplay.style.color = '#888';
-            countDisplay.style.fontSize = '0.85rem';
-            countDisplay.style.marginBottom = '0.8rem';
-            countDisplay.id = `ampCount_${idx}`;
-            countDisplay.textContent = `Выбрано: ${escState.ampSelections[idx].length}/3`;
-            section.appendChild(countDisplay);
-            
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
+            // Выбираем 3 случайных ампы для каждого игрока
             const shuffled = [...ampsData].sort(() => Math.random() - 0.5);
+            const selectedAmps = shuffled.slice(0, 3);
             
-            shuffled.forEach(amp => {
+            selectedAmps.forEach(amp => {
                 const item = document.createElement('div');
                 item.className = 'selection-item';
                 item.dataset.player = idx;
                 item.dataset.amp = amp.name;
-                const isSelected = escState.ampSelections[idx].includes(amp.name);
+                const isSelected = escState.ampSelections[idx] === amp.name;
                 if (isSelected) item.classList.add('selected');
                 
                 item.innerHTML = `
                     <div class="check-mark"><i class="fas fa-check-circle"></i></div>
                     <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
                     <div class="item-name">${amp.name}</div>
-                    <div class="item-desc">${amp.desc || ''}</div>
                 `;
                 
                 item.addEventListener('click', function() {
-                    const playerIdx = parseInt(this.dataset.player);
-                    const ampName = this.dataset.amp;
-                    
-                    if (this.classList.contains('selected')) {
-                        this.classList.remove('selected');
-                        escState.ampSelections[playerIdx] = escState.ampSelections[playerIdx].filter(a => a !== ampName);
-                    } else {
-                        if (escState.ampSelections[playerIdx].length >= 3) {
-                            alert(`⚠️ ${escState.players[playerIdx]}, вы уже выбрали 3 ампы!`);
-                            return;
-                        }
-                        this.classList.add('selected');
-                        escState.ampSelections[playerIdx].push(ampName);
-                    }
-                    
-                    const countDisplay = document.getElementById(`ampCount_${playerIdx}`);
-                    if (countDisplay) {
-                        countDisplay.textContent = `Выбрано: ${escState.ampSelections[playerIdx].length}/3`;
-                    }
-                    
+                    const parent = this.closest('.selection-grid');
+                    parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                    escState.ampSelections[idx] = amp.name;
                     checkEscAmpsReady();
                 });
                 
@@ -1338,10 +1481,11 @@
     }
 
     function checkEscAmpsReady() {
-        const allSelected = escState.players.every((_, idx) => escState.ampSelections[idx]?.length === 3);
+        const allSelected = escState.players.every((_, idx) => escState.ampSelections[idx] !== undefined);
         document.getElementById('escStep4Next').disabled = !allSelected;
     }
 
+    // ===== ГЕНЕРАЦИЯ РЕЗУЛЬТАТА =====
     function generateEscResult() {
         const map = mapsData[Math.floor(Math.random() * mapsData.length)];
         escState.map = map;
@@ -1354,6 +1498,7 @@
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
 
+        // Карта
         document.getElementById('escResultMap').innerHTML = `
             <img src="${map.image}" alt="${map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(map.name)}'">
             <div class="result-map-info">
@@ -1362,6 +1507,7 @@
             </div>
         `;
 
+        // Вариаторы
         document.getElementById('escResultVariators').innerHTML = escState.variators.map(v => `
             <div class="var-item">
                 <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
@@ -1369,11 +1515,19 @@
             </div>
         `).join('');
 
+        // Игроки
+        renderEscResultPlayers();
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ===== ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ =====
+    function renderEscResultPlayers() {
         let playersHtml = '';
         escState.players.forEach((player, idx) => {
             const equip = escState.equipSelections[idx] || 'Не выбрано';
-            const amps = escState.ampSelections[idx] || [];
+            const amp = escState.ampSelections[idx] || 'Не выбрана';
             const equipData = equipmentData.find(e => e.name === equip);
+            const ampData = ampsData.find(a => a.name === amp);
             
             playersHtml += `
                 <div class="player-result">
@@ -1383,40 +1537,24 @@
                         <span class="label">СНАРЯЖЕНИЕ:</span>
                         <span class="value">${equip}</span>
                     </div>
-                    <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.3rem;">
-                        <span class="label" style="color:#888; font-size:0.75rem;">АМФЫ:</span>
+                    <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem;">
+                        <span class="label" style="color:#888; font-size:0.75rem;">АМФА:</span>
                     </div>
                     <div class="player-amps">
-                        ${amps.map(ampName => {
-                            const ampData = ampsData.find(a => a.name === ampName);
-                            return ampData ? `
-                                <div class="amp-item">
-                                    <img src="${ampData.image}" alt="${ampName}" onerror="this.style.display='none'">
-                                    <span class="amp-name">${ampName}</span>
-                                </div>
-                            ` : '';
-                        }).join('')}
+                        <div class="amp-item">
+                            ${ampData ? `<img src="${ampData.image}" alt="${amp}" onerror="this.style.display='none'">` : ''}
+                            <span class="amp-name">${amp}</span>
+                            <button class="change-amp-btn" onclick="openAmpModal(${idx})" title="Сменить ампу">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
         });
 
         document.getElementById('escResultPlayers').innerHTML = playersHtml;
-        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    // ============================================================
-    // 3. ЗАПУСК
-    // ============================================================
-
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('✅ Эскалация загружена!');
-        console.log('📊 Карт:', mapsData.length);
-        console.log('📊 Снаряжения:', equipmentData.length);
-        console.log('📊 Амп:', ampsData.length);
-        console.log('📊 Вариаторов:', variatorsData.length);
-        initEscalation();
-    });
 </script>
 
 </body>
