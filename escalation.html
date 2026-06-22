@@ -230,6 +230,7 @@
             color: #c2b9d4;
             margin-bottom: 1.8rem;
             padding-left: 10px;
+            text-align: center;
         }
 
         /* ===== КНОПКИ ВЫБОРА ИГРОКОВ ===== */
@@ -316,23 +317,33 @@
             color: #555;
         }
 
-        /* ===== СЕТКА ВЫБОРА (СНАРЯЖЕНИЕ/АМПЫ) ===== */
+        /* ===== ЦЕНТРАЛИЗОВАННАЯ СЕТКА ВЫБОРА ===== */
+        .selection-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
         .selection-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 1.2rem;
-            margin-top: 0.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .selection-item {
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(220, 90, 50, 0.2);
             border-radius: 20px;
-            padding: 1.2rem 1rem;
+            padding: 1.2rem 0.8rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .selection-item:hover {
@@ -348,13 +359,13 @@
         }
 
         .selection-item img {
-            width: 75px;
-            height: 75px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
             margin-bottom: 0.5rem;
             border-radius: 14px;
             background: rgba(0, 0, 0, 0.2);
-            padding: 6px;
+            padding: 8px;
             transition: transform 0.3s;
         }
 
@@ -472,28 +483,68 @@
         .result-map-row {
             display: flex;
             gap: 1.5rem;
-            align-items: center;
+            align-items: flex-start;
             flex-wrap: wrap;
         }
 
-        .result-map-row img {
+        .result-map-row .map-image {
             width: 160px;
             height: 160px;
             object-fit: cover;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.3);
+            flex-shrink: 0;
         }
 
-        .result-map-info h2 {
-            font-size: 1.3rem;
-            color: #fff;
+        .result-map-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .result-map-info .map-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-map-info .map-name {
+            font-size: 1.4rem;
+            color: #e16d48;
+            font-weight: 700;
+            margin: 0.2rem 0 0.3rem;
+        }
+
+        .result-map-info .trial-name {
+            font-size: 1.1rem;
+            color: #ffbc9a;
+            font-weight: 600;
             margin-bottom: 0.3rem;
         }
 
-        .result-map-info p {
+        .result-map-info .trial-desc {
             color: #c2b9d4;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
+        }
+
+        .result-map-info .map-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .result-map-info .map-meta-item {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .result-map-info .map-meta-item strong {
+            color: #ffbc9a;
+            font-weight: 600;
         }
 
         /* Вариаторы в результате */
@@ -536,7 +587,6 @@
             margin-bottom: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
-            position: relative;
         }
 
         .player-result:hover {
@@ -858,11 +908,16 @@
             .step-title { font-size: 1.1rem; }
             
             .player-count-btn { padding: 1rem 2rem; font-size: 1.3rem; min-width: 70px; }
-            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .selection-item img { width: 60px; height: 60px; }
             
-            .result-map-row { flex-direction: column; text-align: center; }
-            .result-map-row img { width: 130px; height: 130px; }
+            .selection-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 1rem;
+                max-width: 100%;
+            }
+            .selection-item img { width: 70px; height: 70px; }
+            
+            .result-map-row { flex-direction: column; text-align: left; }
+            .result-map-row .map-image { width: 130px; height: 130px; }
             
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
@@ -879,12 +934,15 @@
             .player-count-btn { padding: 0.8rem 1.2rem; font-size: 1.1rem; min-width: 55px; }
             .player-count-options { gap: 0.5rem; }
             
-            .selection-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.8rem; }
-            .selection-item { padding: 0.8rem; }
-            .selection-item img { width: 50px; height: 50px; }
+            .selection-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                gap: 0.8rem;
+            }
+            .selection-item { padding: 0.8rem 0.5rem; }
+            .selection-item img { width: 60px; height: 60px; }
             .selection-item .item-name { font-size: 0.7rem; }
             
-            .result-map-row img { width: 100px; height: 100px; }
+            .result-map-row .map-image { width: 100px; height: 100px; }
             .variator-list .var-item img { width: 55px; height: 55px; }
             
             .step-actions { flex-direction: column; align-items: center; }
@@ -1000,7 +1058,7 @@
             <div class="result-grid">
                 <div>
                     <div class="result-card">
-                        <h3><i class="fas fa-map"></i> Карта</h3>
+                        <h3><i class="fas fa-map"></i> Испытание</h3>
                         <div class="result-map-row" id="escResultMap"></div>
                     </div>
                     <div class="result-card" style="margin-top: 1.5rem;">
@@ -1047,58 +1105,72 @@
     // 1. ДАННЫЕ
     // ============================================================
 
+    // ===== ИСПЫТАНИЯ ДЛЯ КАЖДОЙ КАРТЫ =====
+    const trialsData = {
+        "Полицейский участок": [
+            { name: "Отмените вскрытие", desc: "Проникните в морг и остановите незаконное вскрытие, пока не стало слишком поздно." },
+            { name: "Спасите свидетеля", desc: "Найдите и выведите свидетеля из полицейского участка, пока его не заставили замолчать навсегда." },
+            { name: "Уничтожьте улики", desc: "Проберитесь в архив и уничтожьте все улики, которые могут вас выдать." }
+        ],
+        "Детский дом": [
+            { name: "Спасите детей", desc: "Найдите всех детей в детском доме и выведите их в безопасное место." },
+            { name: "Остановите Матушку Гусберри", desc: "Проберитесь в комнату Матушки и уничтожьте её дневники с планами." },
+            { name: "Найдите улики", desc: "Обыщите детский дом и найдите доказательства преступлений." }
+        ],
+        "Парк развлечений": [
+            { name: "Остановите клоуна", desc: "Проберитесь в парк и остановите безумного клоуна, пока он не уничтожил всех." },
+            { name: "Спасите посетителей", desc: "Найдите выживших посетителей парка и выведите их к эвакуационному пункту." },
+            { name: "Запустите аттракционы", desc: "Активируйте все аттракционы, чтобы отвлечь врагов и пробраться к выходу." }
+        ],
+        "Здание суда": [
+            { name: "Предотвратите казнь", desc: "Проберитесь в зал суда и остановите незаконную казнь невиновного." },
+            { name: "Уничтожьте доказательства", desc: "Найдите и уничтожьте все фальшивые доказательства в архиве суда." },
+            { name: "Спасите присяжных", desc: "Выведите присяжных из здания суда, пока их не заставили вынести ложный приговор." }
+        ],
+        "Фабрика игрушек": [
+            { name: "Остановите конвейер", desc: "Проберитесь на фабрику и остановите конвейер по производству опасных игрушек." },
+            { name: "Спасите рабочих", desc: "Найдите выживших рабочих и выведите их с фабрики." },
+            { name: "Уничтожьте кукол", desc: "Найдите и уничтожьте всех опасных кукол, пока они не напали." }
+        ],
+        "Пристань": [
+            { name: "Перехватите груз", desc: "Проберитесь на пристань и перехватите груз контрабанды Мёркофф." },
+            { name: "Спасите капитана", desc: "Найдите капитана судна и выведите его, пока он не рассказал тайны." },
+            { name: "Уничтожьте документацию", desc: "Найдите и уничтожьте все документы о незаконных перевозках." }
+        ],
+        "Центр города": [
+            { name: "Остановите Франко Барби", desc: "Проберитесь в центр города и остановите Франко Барби, пока он не уничтожил всех." },
+            { name: "Спасите горожан", desc: "Найдите выживших горожан и выведите их в безопасное место." },
+            { name: "Взломайте терминалы", desc: "Проберитесь в офисное здание и взломайте терминалы с важной информацией." }
+        ],
+        "Пригород": [
+            { name: "Обыщите дома", desc: "Обыщите дома в пригороде и найдите улики о пропавших жителях." },
+            { name: "Спасите соседей", desc: "Найдите выживших соседей и выведите их из опасной зоны." },
+            { name: "Остановите заражение", desc: "Найдите и уничтожьте источник заражения в пригороде." }
+        ],
+        "Курорт": [
+            { name: "Спасите гостей", desc: "Найдите выживших гостей курорта и выведите их к эвакуационному пункту." },
+            { name: "Остановите руководство", desc: "Проберитесь в административное здание и остановите руководство курорта." },
+            { name: "Уничтожьте записи", desc: "Найдите и уничтожьте все записи о незаконных экспериментах на курорте." }
+        ],
+        "Телестудия": [
+            { name: "Остановите трансляцию", desc: "Проберитесь в телестудию и остановите опасную трансляцию." },
+            { name: "Спасите ведущих", desc: "Найдите ведущих и выведите их из студии, пока они не стали частью шоу." },
+            { name: "Уничтожьте записи", desc: "Найдите и уничтожьте все записи с опасным контентом." }
+        ]
+    };
+
     // ===== КАРТЫ =====
     const mapsData = [
-        { 
-            name: "Полицейский участок", 
-            image: "images/полицейский-участок.webp", 
-            desc: "Заброшенный полицейский участок, где правят коррумпированные офицеры. Вам предстоит пробиться через ряды бывших стражей порядка, которые теперь служат новым хозяевам." 
-        },
-        { 
-            name: "Детский дом", 
-            image: "images/детский-дом.webp", 
-            desc: "Жуткий детский дом, где Матушка Гусберри ждёт своих подопечных. Игрушки здесь не радуют, а пугают до смерти." 
-        },
-        { 
-            name: "Парк развлечений", 
-            image: "images/парк-развлечений.webp", 
-            desc: "Заброшенный парк с опасными аттракционами и безумными клоунами. Карусель смерти ждет своих посетителей." 
-        },
-        { 
-            name: "Здание суда", 
-            image: "images/здание-суда.webp", 
-            desc: "Судебный хаос, где Лиланд Койл вершит своё правосудие. В этом здании каждый коридор может стать вашим последним." 
-        },
-        { 
-            name: "Фабрика игрушек", 
-            image: "images/фабрика-игрушек.webp", 
-            desc: "Опасная фабрика с механизмами и куклами-убийцами. Конвейер смерти никогда не останавливается." 
-        },
-        { 
-            name: "Пристань", 
-            image: "images/пристань.webp", 
-            desc: "Грязная пристань с контрабандой и тайнами Мёркофф. Здесь каждый ящик может скрывать смертельную опасность." 
-        },
-        { 
-            name: "Центр города", 
-            image: "images/центр-города.webp", 
-            desc: "Опасные улицы города, где Франко Барби правит бал. В этом районе никогда не знаешь, кто наблюдает за тобой из темноты." 
-        },
-        { 
-            name: "Пригород", 
-            image: "images/пригород.webp", 
-            desc: "Тихие улицы пригорода, скрывающие ужасные секреты. За каждым забором может скрываться кошмар." 
-        },
-        { 
-            name: "Курорт", 
-            image: "images/курорт.webp", 
-            desc: "Элитный курорт, превратившийся в ловушку для ничего не подозревающих гостей. Отдых здесь может стать последним в вашей жизни." 
-        },
-        { 
-            name: "Телестудия", 
-            image: "images/телестудия.webp", 
-            desc: "Заброшенная телестудия, где транслируют только кошмары. Камеры всегда включены, и за вами наблюдают." 
-        }
+        { name: "Полицейский участок", image: "images/полицейский-участок.webp" },
+        { name: "Детский дом", image: "images/детский-дом.webp" },
+        { name: "Парк развлечений", image: "images/парк-развлечений.webp" },
+        { name: "Здание суда", image: "images/здание-суда.webp" },
+        { name: "Фабрика игрушек", image: "images/фабрика-игрушек.webp" },
+        { name: "Пристань", image: "images/пристань.webp" },
+        { name: "Центр города", image: "images/центр-города.webp" },
+        { name: "Пригород", image: "images/пригород.webp" },
+        { name: "Курорт", image: "images/курорт.webp" },
+        { name: "Телестудия", image: "images/телестудия.webp" }
     ];
 
     // ===== СНАРЯЖЕНИЕ =====
@@ -1147,10 +1219,12 @@
     let escState = {
         playerCount: 0,
         players: [],
-        equipSelections: {}, // { playerIndex: selectedEquipName }
-        ampSelections: {},    // { playerIndex: selectedAmpName }
+        equipSelections: {},
+        ampSelections: {},
         currentStep: 1,
         map: null,
+        trial: null,
+        difficulty: null,
         variators: []
     };
 
@@ -1159,6 +1233,14 @@
         playerIndex: null,
         selectedAmp: null
     };
+
+    // Список сложностей
+    const difficulties = [
+        "Начальная",
+        "Нормальная",
+        "Высокая",
+        "Психохирургия"
+    ];
 
     // ===== НАВИГАЦИЯ =====
     function goToEscStep(step) {
@@ -1256,9 +1338,7 @@
 
         confirmBtn.addEventListener('click', function() {
             if (modalState.playerIndex !== null && modalState.selectedAmp) {
-                // Обновляем ампу для игрока
                 escState.ampSelections[modalState.playerIndex] = modalState.selectedAmp;
-                // Обновляем отображение в результатах
                 renderEscResultPlayers();
                 modal.classList.remove('active');
             }
@@ -1278,7 +1358,6 @@
         const grid = document.getElementById('ampModalGrid');
         grid.innerHTML = '';
 
-        // Показываем все ампы, исключая ту, что уже есть у игрока (если есть)
         const availableAmps = ampsData.filter(amp => amp.name !== currentAmp);
 
         availableAmps.forEach(amp => {
@@ -1300,7 +1379,6 @@
             grid.appendChild(item);
         });
 
-        // Если есть текущая ампа, показываем её первой
         if (currentAmp) {
             const currentAmpData = ampsData.find(a => a.name === currentAmp);
             if (currentAmpData) {
@@ -1332,6 +1410,8 @@
             ampSelections: {},
             currentStep: 1,
             map: null,
+            trial: null,
+            difficulty: null,
             variators: []
         };
         document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
@@ -1376,13 +1456,16 @@
             title.style.color = '#ffbc9a';
             title.style.marginBottom = '0.8rem';
             title.style.fontSize = '1.05rem';
+            title.style.textAlign = 'center';
             title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
             section.appendChild(title);
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'selection-wrapper';
             
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
-            // Выбираем 3 случайных снаряжения для каждого игрока
             const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
             const selectedEquip = shuffled.slice(0, 3);
             
@@ -1396,7 +1479,7 @@
                 
                 item.innerHTML = `
                     <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                    <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
+                    <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
                     <div class="item-name">${eq.name}</div>
                 `;
                 
@@ -1411,7 +1494,8 @@
                 grid.appendChild(item);
             });
             
-            section.appendChild(grid);
+            wrapper.appendChild(grid);
+            section.appendChild(wrapper);
             container.appendChild(section);
         });
         checkEscEquipReady();
@@ -1439,13 +1523,16 @@
             title.style.color = '#ffbc9a';
             title.style.marginBottom = '0.8rem';
             title.style.fontSize = '1.05rem';
+            title.style.textAlign = 'center';
             title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
             section.appendChild(title);
+            
+            const wrapper = document.createElement('div');
+            wrapper.className = 'selection-wrapper';
             
             const grid = document.createElement('div');
             grid.className = 'selection-grid';
             
-            // Выбираем 3 случайных ампы для каждого игрока
             const shuffled = [...ampsData].sort(() => Math.random() - 0.5);
             const selectedAmps = shuffled.slice(0, 3);
             
@@ -1459,7 +1546,7 @@
                 
                 item.innerHTML = `
                     <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/75x75/1a1a2e/e16d48?text=?'">
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
                     <div class="item-name">${amp.name}</div>
                 `;
                 
@@ -1474,7 +1561,8 @@
                 grid.appendChild(item);
             });
             
-            section.appendChild(grid);
+            wrapper.appendChild(grid);
+            section.appendChild(wrapper);
             container.appendChild(section);
         });
         checkEscAmpsReady();
@@ -1487,9 +1575,19 @@
 
     // ===== ГЕНЕРАЦИЯ РЕЗУЛЬТАТА =====
     function generateEscResult() {
-        const map = mapsData[Math.floor(Math.random() * mapsData.length)];
-        escState.map = map;
+        // Выбираем случайную карту
+        const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
+        escState.map = mapData;
         
+        // Выбираем случайное испытание для этой карты
+        const trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
+        const trial = trials[Math.floor(Math.random() * trials.length)];
+        escState.trial = trial;
+        
+        // Выбираем случайную сложность
+        escState.difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+        
+        // Выбираем 3 случайных вариатора
         const shuffled = [...variatorsData].sort(() => Math.random() - 0.5);
         escState.variators = shuffled.slice(0, 3);
 
@@ -1498,12 +1596,18 @@
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
 
-        // Карта
+        // Испытание с картой
         document.getElementById('escResultMap').innerHTML = `
-            <img src="${map.image}" alt="${map.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(map.name)}'">
+            <img class="map-image" src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
             <div class="result-map-info">
-                <h2>${map.name}</h2>
-                <p>${map.desc}</p>
+                <div class="map-label"><i class="fas fa-map"></i> Карта</div>
+                <div class="map-name">${mapData.name}</div>
+                <div class="trial-name">${trial.name}</div>
+                <div class="trial-desc">${trial.desc}</div>
+                <div class="map-meta">
+                    <span class="map-meta-item"><strong>№ Эскалационной терапии:</strong> #${Math.floor(Math.random() * 100) + 1}</span>
+                    <span class="map-meta-item"><strong>Сложность:</strong> ${escState.difficulty}</span>
+                </div>
             </div>
         `;
 
