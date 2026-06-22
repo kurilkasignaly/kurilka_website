@@ -610,13 +610,20 @@
             justify-content: center;
             overflow: hidden;
             flex-shrink: 0;
-            border: 2px solid rgba(220, 90, 50, 0.2);
+            border: 2px solid rgba(220, 90, 50, 0.25);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.1);
         }
 
         .trial-card .trial-header .trial-icon img {
             width: 40px;
             height: 40px;
             object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .trial-card .trial-header .trial-icon .icon-fallback {
+            font-size: 1.5rem;
+            color: #e16d48;
         }
 
         .trial-card .trial-header .trial-title {
@@ -1086,6 +1093,8 @@
             .trial-card .trial-body .trial-map { flex-direction: column; text-align: center; }
             .trial-card .trial-body .trial-variators { justify-content: center; }
             .trial-card .trial-body .trial-actions { justify-content: center; }
+            .trial-card .trial-header .trial-icon { width: 48px; height: 48px; }
+            .trial-card .trial-header .trial-icon img { width: 32px; height: 32px; }
         }
 
         @media (max-width: 400px) {
@@ -1096,6 +1105,8 @@
             
             .trial-card .trial-body .trial-variators .var-block img { width: 32px; height: 32px; }
             .trial-card .trial-body .trial-variators .var-block .var-name { font-size: 0.45rem; max-width: 45px; }
+            .trial-card .trial-header .trial-icon { width: 40px; height: 40px; }
+            .trial-card .trial-header .trial-icon img { width: 28px; height: 28px; }
         }
     </style>
 </head>
@@ -1303,7 +1314,7 @@
         { name: "Тревога", image: "images/вариатор-тревога.webp" }
     ];
 
-    // ===== ОСОБЫЕ ИСПЫТАНИЯ С ИКОНКАМИ ГЛАВНЫХ АКТИВОВ =====
+    // ===== ОСОБЫЕ ИСПЫТАНИЯ =====
     const specialTrials = [
         {
             id: 1,
@@ -1365,7 +1376,7 @@
         {
             id: 4,
             title: "Остановите Франко Барби",
-            icon: "images/барби.png",
+            icon: "images/актив-франко.png",
             map: "Центр города",
             mapImage: "images/центр-города.webp",
             description: "Проберитесь в центр города и остановите Франко Барби, пока он не уничтожил всех.",
@@ -1820,8 +1831,8 @@
                     <img src="images/галочка.png" alt="Выполнено" onerror="this.src='https://placehold.co/36x36/2ecc71/2ecc71?text=✓'">
                 </div>
                 <div class="trial-header">
-                    <div class="trial-icon">
-                        <img src="${trial.icon}" alt="${trial.title}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-star\\' style=\\'font-size: 1.6rem; color: #e16d48;\\'></i>'">
+                    <div class="trial-icon" id="trialIcon_${trial.id}">
+                        <img src="${trial.icon}" alt="${trial.title}" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-star icon-fallback\\'></i>'">
                     </div>
                     <div class="trial-title">
                         <h3>${trial.title}</h3>
