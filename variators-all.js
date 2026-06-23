@@ -32,15 +32,16 @@ const allVariatorsData = [
     { name: "Расшифруйте Вещание", image: "images/вариатор-вещание.webp", category: "collection" },
     { name: "Потушите Огонь", image: "images/вариатор-потушите-огонь.webp", category: "collection" },
     { name: "Соберите плакаты", image: "images/вариатор-соберите-плакаты.webp", category: "collection" },
-    { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp" },
-    { name: "Двойные задания", image: "images/вариатор-д-задания.webp" },
-    { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp" },
+    
+    // ===== СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ ЗАДАНИЯ =====
+    // Эти вариаторы блокируют все остальные из категории collection
+    { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp", category: "collection_special" },
+    { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" },
+    { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp", category: "collection_special" },
 
     // ===== НАБОРЫ (УГРОЗЫ) =====
     { name: "Повышенная Угроза", image: "images/вариатор-повышенная-угроза.webp", category: "threat" },
     { name: "Повышенная Угроза II", image: "images/вариатор-повышенная-угроза-2.webp", category: "threat" },
-    { name: "Больше Ловушек", image: "images/вариатор-больше-ловушек.webp", category: "traps" },
-    { name: "Больше Ловушек II", image: "images/вариатор-больше-ловушек-2.webp", category: "traps" },
     { name: "Ненадежные Двери", image: "images/вариатор-ненадежные-двери.webp", category: "doors" },
     { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" },
     
@@ -84,6 +85,8 @@ const allVariatorsData = [
     { name: "Ограниченный Инвентарь II", image: "images/вариатор-ограниченный-инвентарь-2.webp", category: "items" },
     
     // ===== ЛОВУШКИ =====
+    { name: "Больше Ловушек", image: "images/вариатор-больше-ловушек.webp", category: "traps" },
+    { name: "Больше Ловушек II", image: "images/вариатор-больше-ловушек-2.webp", category: "traps" },
     { name: "Смертельные Ловушки", image: "images/вариатор-смертельные-ловушки.webp", category: "traps" },
     { name: "Больше Мин Психоза", image: "images/вариатор-мины-психоза.webp", category: "traps" },
     { name: "Больше Звуковых Ловушек", image: "images/вариатор-звуковые-ловушки.webp", category: "traps" },
@@ -134,25 +137,29 @@ const allVariatorsData = [
     { name: "Камеры Наблюдения", image: "images/вариатор-камеры-наблюдения.webp", category: "other" }
 ];
 
+// ============================================================
+// КАТЕГОРИИ И ПРАВИЛА
+// ============================================================
+
 // Категории, которые не могут быть вместе
 const exclusiveCategories = [
-    'collection',  // Побочные задания
-    'hunters',     // Толкачи/бросатели/притворщики/егерь
-    'boss',        // Боссы
-    'traps',       // Ловушки
-    'psychosis',   // Психоз
-    'obstacles',   // Препятствия
-    'gates',       // Откатные ворота
-    'reagent',     // Модификаторы реагентов
-    'items',       // Предметы и инвентарь
-    'damage'       // Источники урона
+    'collection',      // Побочные задания (сбор крыс, схем и т.д.)
+    'collection_special', // Специальные побочные задания (блокируют collection)
+    'hunters',         // Толкачи/бросатели/притворщики/егерь
+    'boss',            // Боссы
+    'traps',           // Ловушки
+    'psychosis',       // Психоз
+    'obstacles',       // Препятствия
+    'gates',           // Откатные ворота
+    'reagent',         // Модификаторы реагентов
+    'items',           // Предметы и инвентарь
+    'damage'           // Источники урона
 ];
 
-// Категории, которые блокируются боссами
-const bossBlockedCategories = ['special'];
-
-// Категории, которые блокируются главной рулеткой/самое главное
-const mainRouletteBlockedCategories = ['hunters'];
+// Специальные категории, которые блокируют другие категории
+const categoryBlockers = {
+    'collection_special': ['collection'] // collection_special блокирует все collection
+};
 
 // Вариаторы, которые блокируются сломанным реагентом
 const brokenReagentBlocked = [
@@ -180,5 +187,5 @@ const bossMapRestrictions = {
 // Вариаторы, которые блокируются глубоким ожогом
 const deepBurnBlocked = ['Больше Толкачей', 'Егерь', 'Больше Притворщиков'];
 
-// Вариаторы, которые блокируются сильнее вместе
+// Вариаторы, которые блокируются сильнее вместе (для одиночной игры)
 const togetherBlocked = ['Сильнее Вместе'];
