@@ -306,9 +306,9 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         // Ищем Психохирургию
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
         
-        // Ищем Двойные задания (может быть под разными названиями)
-        var doubleTargets = availableVariators.find(function(v) { 
-            return v.name === "Двойные задания" || v.name === "Двойные цели";
+        // Ищем Двойные задания (ТОЛЬКО это название!)
+        var doubleTasks = availableVariators.find(function(v) { 
+            return v.name === "Двойные задания";
         });
         
         // Если Психохирургия не найдена - создаем
@@ -319,21 +319,19 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
         
         // Если Двойные задания не найдены - создаем
-        if (!doubleTargets) {
+        if (!doubleTasks) {
             console.warn('⚠️ Двойные задания не найдены, создаем');
-            doubleTargets = { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" };
-            availableVariators.push(doubleTargets);
+            doubleTasks = { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" };
+            availableVariators.push(doubleTasks);
         }
         
         // Начинаем с обязательных
-        var result = [psycho, doubleTargets];
+        var result = [psycho, doubleTasks];
         console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
-        // Остальные вариаторы
+        // Остальные вариаторы (без психохирургии и двойных заданий)
         var others = availableVariators.filter(function(v) {
-            return v.name !== "Психохирургия" && 
-                   v.name !== "Двойные задания" && 
-                   v.name !== "Двойные цели";
+            return v.name !== "Психохирургия" && v.name !== "Двойные задания";
         });
         
         // Перемешиваем
@@ -1596,7 +1594,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('escalationWrapper')) {
         console.log('✅ Страница эскалации найдена');
         
-        // Небольшая задержка для загрузки данных
         setTimeout(function() {
             if (typeof mapsData === 'undefined') {
                 console.error('❌ Данные не загружены!');
