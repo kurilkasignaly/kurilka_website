@@ -1,5 +1,5 @@
 // ============================================================
-// ЛОГИКА ЭСКАЛАЦИИ (ПОЛНАЯ ВЕРСИЯ С ИСПРАВЛЕНИЯМИ)
+// ЛОГИКА ЭСКАЛАЦИИ
 // ============================================================
 
 let escState = {
@@ -19,11 +19,8 @@ let escState = {
     isFirstRun: true,
     usedBigTrials: [],
     usedSmallTrials: [],
-    nostophobiaCount: 0,
-    usedVariators: []
+    nostophobiaCount: 0
 };
-
-let escTimerInterval;
 
 // ============================================================
 // ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ
@@ -67,15 +64,6 @@ function getAmpsByCategory(category) {
     return ampsData.filter(function(amp) { return amp.category === category; });
 }
 
-function getUnlockedAmpsByCategory(playerIndex, category) {
-    var unlocked = escState.unlockedAmps[playerIndex] || [];
-    return unlocked.filter(function(ampName) {
-        if (typeof ampsData === 'undefined') return false;
-        var amp = ampsData.find(function(a) { return a.name === ampName; });
-        return amp && amp.category === category;
-    });
-}
-
 function getAvailableAmpsByCategory(playerIndex, category) {
     var used = escState.usedAmps[playerIndex] || [];
     var categoryAmps = getAmpsByCategory(category);
@@ -112,204 +100,147 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// КАТЕГОРИИ ВАРИАТОРОВ (ПОЛНАЯ КЛАССИФИКАЦИЯ)
-// ============================================================
-
-const variatorCategories = {
-    // Категория 1: Сбор/поиск предметов
-    collection: ['Сбор крыс', 'Сбор схем', 'Разбивайте телевизоры', 'Находите схемы', 'Радиопередатчик'],
-    
-    // Категория 2: Боссы (не могут быть вместе и ограничены по картам)
-    bosses: ['Лиланд Койл', 'Матушка Гусберри', 'Франко Барби', 'Близнецы Кресс', 'Лилия Богомолова'],
-    
-    // Категория 3: Толкачи/бросатели/притворщики/егерь
-    hunters: ['Больше толкачей', 'Больше бросателей', 'Больше притворщиков', 'Егерь'],
-    
-    // Категория 4: Ограничения снаряжения (могут вместе, но редко)
-    equipmentRestrictions: [
-        'Без амф', 'Без снаряжение', 'Без рецептов', 'Увеличенная перезарядка снаряжения',
-        'Урон отключает снаряжения', 'Без улучшений снаряжения', 'Урон перезапускает снаряжения',
-        'Урон отключает снаряжение'
-    ],
-    
-    // Категория 5: Запрещенные до 20 уровня
-    forbiddenBefore20: ['Ностофобия', 'Психохирургия'],
-    
-    // Категория 6: Обязательные после 20
-    mandatoryAfter20: ['Психохирургия', 'Двойные цели'],
-    
-    // Категория 7: Несовместимые с Ностофобией
-    nostophobiaBlocked: [
-        'Без амф', 'Без снаряжение', 'Без рецептов', 'Увеличенная перезарядка снаряжения',
-        'Урон отключает снаряжения', 'Без улучшений снаряжения', 'Урон перезапускает снаряжения',
-        'Урон отключает снаряжение', 'Первый уровень', 'Сломанный реагент'
-    ],
-    
-    // Категория 8: Несовместимые со Сломанным реагентом
-    brokenReagentBlocked: [
-        'Без амф', 'Без снаряжение', 'Без рецептов', 'Увеличенная перезарядка снаряжения',
-        'Урон отключает снаряжения', 'Без улучшений снаряжения', 'Урон перезапускает снаряжения',
-        'Урон отключает снаряжение', 'Первый уровень', 'Ностофобия'
-    ],
-    
-    // Категория 9: Боссы по картам
-    bossByMap: {
-        'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
-        'Матушка Гусберри': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
-        'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
-        'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
-        'Лилия Богомолова': ['Курорт']
-    },
-    
-    // Категория 10: Боссы блокируют
-    bossBlocked: ['Глубокий ожог', 'Самое главное', 'Главная рулетка'],
-    
-    // Категория 11: Главная рулетка/Самое главное блокируют
-    mainRouletteBlocked: ['Егерь', 'Больше толкачей', 'Больше бросателей', 'Больше притворщиков', 'Глубокий ожог'],
-    
-    // Категория 12: Глубокий ожог несовместим с
-    deepBurnBlocked: ['Больше толкачей', 'Егерь', 'Больше притворщиков']
-};
-
-// ============================================================
 // ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
 // ============================================================
 
-function isVariatorCompatible(variator, selectedVariators, mapName, playerCount, level) {
+function isVariatorCompatible(variator, selectedVariators, mapName, playerCount) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
     
-    // Правило 7: Сильнее вместе только для 2+ игроков
-    if (variatorName === 'Сильнее вместе' && playerCount === 1) {
+    // Проверка на дубликаты
+    if (selectedNames.indexOf(variatorName) !== -1) {
+        return false;
+    }
+    
+    // Правило 7: Сильнее Вместе только для 2+ игроков
+    if (variatorName === 'Сильнее Вместе' && playerCount === 1) {
         return false;
     }
     
     // Правило 2: Ностофобия и Психохирургия не выпадают до 20 уровня
-    if (level < 21) {
+    if (escState.level < 21) {
         if (variatorName === 'Ностофобия' || variatorName === 'Психохирургия') {
             return false;
         }
     }
     
-    // Правило 8: Ностофобия выпадает с очень маленьким шансом после 20
-    if (variatorName === 'Ностофобия' && level >= 21) {
-        // 2% шанс на 21+ уровне
-        if (Math.random() > 0.02) {
-            return false;
-        }
+    // Правило 8: Ностофобия выпадает с очень маленьким шансом
+    if (variatorName === 'Ностофобия') {
+        if (escState.level < 21) return false;
+        // 1% шанс на 21+ уровне
+        if (Math.random() > 0.01) return false;
         // Проверяем блокировки
-        for (var n = 0; n < variatorCategories.nostophobiaBlocked.length; n++) {
-            if (selectedNames.indexOf(variatorCategories.nostophobiaBlocked[n]) !== -1) {
+        for (var n = 0; n < nostophobiaBlocked.length; n++) {
+            if (selectedNames.indexOf(nostophobiaBlocked[n]) !== -1) {
                 return false;
             }
         }
         return true;
     }
     
-    // Категория 1: Вариаторы из одной категории не могут быть вместе
-    var allCategories = [
-        variatorCategories.collection,
-        variatorCategories.bosses,
-        variatorCategories.hunters,
-        variatorCategories.equipmentRestrictions
-    ];
-    
-    for (var c = 0; c < allCategories.length; c++) {
-        var category = allCategories[c];
-        if (category.indexOf(variatorName) !== -1) {
-            for (var s = 0; s < selectedNames.length; s++) {
-                if (category.indexOf(selectedNames[s]) !== -1 && selectedNames[s] !== variatorName) {
-                    return false;
-                }
-            }
+    // Правило 1: Вариаторы из одной категории не могут быть вместе
+    var category = variator.category;
+    for (var s = 0; s < selectedVariators.length; s++) {
+        if (selectedVariators[s].category === category) {
+            return false;
         }
     }
     
     // Правило 9: Боссы ограничены по картам
-    var bossMapRestrictions = variatorCategories.bossByMap;
-    for (var boss in bossMapRestrictions) {
-        if (variatorName === boss) {
-            var restrictedMaps = bossMapRestrictions[boss];
-            if (restrictedMaps.indexOf(mapName) !== -1) {
+    if (bossMapRestrictions[variatorName]) {
+        var restrictedMaps = bossMapRestrictions[variatorName];
+        if (restrictedMaps.indexOf(mapName) !== -1) {
+            return false;
+        }
+    }
+    
+    // Правило 2: Боссы не могут быть вместе с охотниками
+    if (variator.category === 'boss') {
+        for (var h = 0; h < selectedVariators.length; h++) {
+            if (selectedVariators[h].category === 'hunters') {
+                return false;
+            }
+        }
+    }
+    if (variator.category === 'hunters') {
+        for (var b = 0; b < selectedVariators.length; b++) {
+            if (selectedVariators[b].category === 'boss') {
                 return false;
             }
         }
     }
     
-    // Правило 4: Боссы несовместимы с глубокий ожог, самое главное, главная рулетка
-    if (variatorCategories.bosses.indexOf(variatorName) !== -1) {
-        for (var b = 0; b < variatorCategories.bossBlocked.length; b++) {
-            if (selectedNames.indexOf(variatorCategories.bossBlocked[b]) !== -1) {
+    // Правило 4: Боссы блокируют special
+    if (variator.category === 'boss') {
+        for (var sp = 0; sp < selectedVariators.length; sp++) {
+            if (selectedVariators[sp].category === 'special') {
                 return false;
             }
         }
     }
-    if (selectedNames.some(function(n) { return variatorCategories.bosses.indexOf(n) !== -1; })) {
-        if (variatorCategories.bossBlocked.indexOf(variatorName) !== -1) {
-            return false;
-        }
-    }
-    
-    // Правило 5: Главная рулетка или Самое главное
-    var mainRouletteNames = ['Главная рулетка', 'Самое главное'];
-    if (mainRouletteNames.indexOf(variatorName) !== -1) {
-        for (var d = 0; d < variatorCategories.mainRouletteBlocked.length; d++) {
-            if (selectedNames.indexOf(variatorCategories.mainRouletteBlocked[d]) !== -1) {
+    if (variator.category === 'special') {
+        for (var sp2 = 0; sp2 < selectedVariators.length; sp2++) {
+            if (selectedVariators[sp2].category === 'boss') {
                 return false;
             }
         }
     }
-    if (selectedNames.some(function(n) { return mainRouletteNames.indexOf(n) !== -1; })) {
-        if (variatorCategories.mainRouletteBlocked.indexOf(variatorName) !== -1) {
-            return false;
-        }
-    }
     
-    // Правило 3: Сломанный реагент
-    if (variatorName === 'Сломанный реагент') {
-        for (var br = 0; br < variatorCategories.brokenReagentBlocked.length; br++) {
-            if (selectedNames.indexOf(variatorCategories.brokenReagentBlocked[br]) !== -1) {
+    // Правило 5: Главная Рулетка/Самое Главное блокируют охотников
+    if (variatorName === 'Главная Рулетка' || variatorName === 'Самое Главное') {
+        for (var h2 = 0; h2 < selectedVariators.length; h2++) {
+            if (selectedVariators[h2].category === 'hunters') {
                 return false;
             }
         }
     }
-    if (selectedNames.indexOf('Сломанный реагент') !== -1) {
-        if (variatorCategories.brokenReagentBlocked.indexOf(variatorName) !== -1) {
-            return false;
-        }
-    }
-    
-    // Глубокий ожог несовместим с больше толкачей, егерь, больше притворщиков
-    if (variatorName === 'Глубокий ожог') {
-        for (var db = 0; db < variatorCategories.deepBurnBlocked.length; db++) {
-            if (selectedNames.indexOf(variatorCategories.deepBurnBlocked[db]) !== -1) {
+    if (variator.category === 'hunters') {
+        for (var m = 0; m < selectedVariators.length; m++) {
+            if (selectedVariators[m].name === 'Главная Рулетка' || selectedVariators[m].name === 'Самое Главное') {
                 return false;
             }
         }
     }
-    if (selectedNames.indexOf('Глубокий ожог') !== -1) {
-        if (variatorCategories.deepBurnBlocked.indexOf(variatorName) !== -1) {
-            return false;
-        }
-    }
     
-    // Ограничения снаряжения могут быть вместе, но не все сразу (максимум 2)
-    if (variatorCategories.equipmentRestrictions.indexOf(variatorName) !== -1) {
-        var equipmentCount = 0;
-        for (var e = 0; e < selectedNames.length; e++) {
-            if (variatorCategories.equipmentRestrictions.indexOf(selectedNames[e]) !== -1) {
-                equipmentCount++;
+    // Правило 3: Сломанный Реагент блокирует определенные вариаторы
+    if (variatorName === 'Сломанный Реагент') {
+        for (var br = 0; br < brokenReagentBlocked.length; br++) {
+            if (selectedNames.indexOf(brokenReagentBlocked[br]) !== -1) {
+                return false;
             }
         }
-        // Если уже есть 2 ограничения снаряжения - не добавляем третье
-        if (equipmentCount >= 2) {
+    }
+    if (selectedNames.indexOf('Сломанный Реагент') !== -1) {
+        if (brokenReagentBlocked.indexOf(variatorName) !== -1) {
             return false;
         }
     }
     
-    // Проверяем, не пытаемся ли мы добавить вариатор, который уже есть
-    if (selectedNames.indexOf(variatorName) !== -1) {
-        return false;
+    // Глубокий Ожог блокирует охотников
+    if (variatorName === 'Глубокий Ожог') {
+        for (var db = 0; db < deepBurnBlocked.length; db++) {
+            if (selectedNames.indexOf(deepBurnBlocked[db]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Глубокий Ожог') !== -1) {
+        if (deepBurnBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
+    // Ограничения реагентов: максимум 2
+    if (variator.category === 'reagent') {
+        var reagentCount = 0;
+        for (var r = 0; r < selectedVariators.length; r++) {
+            if (selectedVariators[r].category === 'reagent') {
+                reagentCount++;
+            }
+        }
+        if (reagentCount >= 2) {
+            return false;
+        }
     }
     
     return true;
@@ -326,151 +257,91 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     console.log('📍 Карта:', mapName);
     console.log('👥 Игроков:', playerCount);
     
-    // Получаем все вариаторы кроме Ультра II
-    var availableVariators = allVariatorsData.filter(function(v) {
-        return v.name !== "Ультра II";
-    });
+    var availableVariators = allVariatorsData.slice();
     
-    // Увеличиваем счетчик ностофобии
-    escState.nostophobiaCount++;
-    
-    // Уровень 21+ - особые правила
+    // Уровень 21+
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - обязательно Психохирургия и Двойные цели');
         
-        var psycho = allVariatorsData.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTargets = allVariatorsData.find(function(v) { return v.name === "Двойные цели"; });
+        var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
+        var doubleTargets = availableVariators.find(function(v) { return v.name === "Двойные цели"; });
         
         if (!psycho || !doubleTargets) {
-            console.error('❌ Вариаторы Психохирургия или Двойные цели не найдены!');
-            var fallback = availableVariators.slice().sort(function() { return Math.random() - 0.5; });
-            return fallback.slice(0, 8);
+            console.error('❌ Психохирургия или Двойные цели не найдены!');
+            return availableVariators.slice(0, 8);
         }
         
-        // Начинаем с обязательных вариаторов
+        // Обязательные вариаторы
         var result = [psycho, doubleTargets];
-        console.log('📋 Обязательные вариаторы:', result.map(function(v) { return v.name; }).join(', '));
+        console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
-        // Остальные вариаторы (без психохирургии, двойных целей и ультра II)
-        var others = allVariatorsData.filter(function(v) {
-            return v.name !== "Психохирургия" && v.name !== "Двойные цели" && v.name !== "Ультра II";
+        // Остальные (без психохирургии и двойных целей)
+        var others = availableVariators.filter(function(v) {
+            return v.name !== "Психохирургия" && v.name !== "Двойные цели";
         });
         
-        // Перемешиваем остальные
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
-        console.log('📋 Доступно других вариаторов:', shuffled.length);
         
-        // Проверяем совместимость для каждого и добавляем до 6
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
-            var tempSelected = result.concat([]);
-            if (isVariatorCompatible(candidate, tempSelected, mapName, playerCount, level)) {
+            if (isVariatorCompatible(candidate, result, mapName, playerCount)) {
                 result.push(candidate);
-                console.log('✅ Добавлен вариатор:', candidate.name);
+                console.log('✅ Добавлен:', candidate.name);
             }
         }
         
-        // Если не хватает до 8, пробуем еще раз
+        // Если не хватает до 8 - добираем
         if (result.length < 8) {
-            console.log('⚠️ Не хватает вариаторов до 8, пробуем добавить больше...');
-            var remaining = others.filter(function(v) {
-                return result.indexOf(v) === -1;
-            });
-            for (var j = 0; j < remaining.length && result.length < 8; j++) {
-                var candidate2 = remaining[j];
+            console.log('⚠️ Не хватает до 8, добираем...');
+            for (var j = 0; j < shuffled.length && result.length < 8; j++) {
+                var candidate2 = shuffled[j];
                 if (result.indexOf(candidate2) === -1) {
-                    // Проверяем базовую совместимость без жестких ограничений
-                    var basicCheck = true;
-                    // Проверяем только категории
-                    for (var cat = 0; cat < variatorCategories.collection.length; cat++) {
-                        if (candidate2.name === variatorCategories.collection[cat]) {
-                            for (var sc = 0; sc < result.length; sc++) {
-                                if (variatorCategories.collection.indexOf(result[sc].name) !== -1) {
-                                    basicCheck = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (basicCheck) {
-                        result.push(candidate2);
-                        console.log('✅ Добавлен вариатор (принудительно):', candidate2.name);
-                    }
+                    result.push(candidate2);
+                    console.log('✅ Добавлен (принудительно):', candidate2.name);
                 }
             }
         }
         
-        // Сбрасываем счетчик ностофобии на 21+ уровне
-        escState.nostophobiaCount = 0;
-        
-        console.log('✅ Итоговое количество вариаторов для 21+:', result.length);
-        console.log('📋 Финальные вариаторы:', result.map(function(v) { return v.name; }).join(', '));
-        
+        console.log('✅ Итог (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
         return result;
     }
     
-    // Для уровней 1-20
+    // Уровни 1-20
     var count;
-    if (level === 1) {
-        count = 1;
-    } else if (level >= 2 && level <= 5) {
-        count = Math.floor(Math.random() * 2) + 2;
-    } else if (level >= 6 && level <= 15) {
-        count = Math.floor(Math.random() * 2) + 3;
-    } else if (level >= 16 && level <= 20) {
-        count = Math.floor(Math.random() * 3) + 4;
-    } else {
-        count = 1;
-    }
+    if (level === 1) count = 1;
+    else if (level >= 2 && level <= 5) count = Math.floor(Math.random() * 2) + 2;
+    else if (level >= 6 && level <= 15) count = Math.floor(Math.random() * 2) + 3;
+    else if (level >= 16 && level <= 20) count = Math.floor(Math.random() * 3) + 4;
+    else count = 1;
     
-    console.log('🎯 Нужно вариаторов для уровня', level, ':', count);
+    console.log('🎯 Нужно вариаторов:', count);
     
-    // Исключаем запрещенные до 20 уровня
-    var filteredVariators = availableVariators.filter(function(v) {
-        return variatorCategories.forbiddenBefore20.indexOf(v.name) === -1;
+    // Убираем запрещенные до 20 уровня
+    var filtered = availableVariators.filter(function(v) {
+        return v.name !== "Ностофобия" && v.name !== "Психохирургия";
     });
     
-    // Перемешиваем все доступные вариаторы
-    var shuffledBase = filteredVariators.slice().sort(function() { return Math.random() - 0.5; });
+    var shuffled = filtered.slice().sort(function() { return Math.random() - 0.5; });
     var result = [];
     
-    for (var k = 0; k < shuffledBase.length && result.length < count; k++) {
-        var candidate = shuffledBase[k];
-        if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
+    for (var k = 0; k < shuffled.length && result.length < count; k++) {
+        var candidate = shuffled[k];
+        if (isVariatorCompatible(candidate, result, mapName, playerCount)) {
             result.push(candidate);
-            console.log('✅ Добавлен вариатор:', candidate.name);
         }
     }
     
-    // Если не хватает, добираем
+    // Добираем если не хватает
     if (result.length < count) {
-        console.log('⚠️ Не хватает вариаторов, добираем...');
-        for (var m = 0; m < shuffledBase.length && result.length < count; m++) {
-            var candidate2 = shuffledBase[m];
+        for (var m = 0; m < shuffled.length && result.length < count; m++) {
+            var candidate2 = shuffled[m];
             if (result.indexOf(candidate2) === -1) {
-                // Базовая проверка на категории
-                var basicOk = true;
-                for (var cat2 = 0; cat2 < variatorCategories.collection.length; cat2++) {
-                    if (candidate2.name === variatorCategories.collection[cat2]) {
-                        for (var sc2 = 0; sc2 < result.length; sc2++) {
-                            if (variatorCategories.collection.indexOf(result[sc2].name) !== -1) {
-                                basicOk = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (basicOk) {
-                    result.push(candidate2);
-                    console.log('✅ Добавлен вариатор (принудительно):', candidate2.name);
-                }
+                result.push(candidate2);
             }
         }
     }
     
-    console.log('✅ Итоговое количество вариаторов:', result.length);
-    console.log('📋 Финальные вариаторы:', result.map(function(v) { return v.name; }).join(', '));
-    
+    console.log('✅ Итог (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
 }
 
@@ -481,11 +352,11 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
     
-    console.log('🔄 Поиск карты и испытания для уровня:', level);
+    console.log('🔄 Поиск карты для уровня:', level);
     
     var mapNames = Object.keys(trialsData);
     var isBigLevel = (level % 10 === 0);
-    console.log('🔤 Тип уровня:', isBigLevel ? 'БОЛЬШАЯ карта' : 'маленькая карта');
+    console.log('🔤 Тип:', isBigLevel ? 'БОЛЬШАЯ' : 'маленькая');
     
     var availableTrials = [];
     
@@ -518,7 +389,7 @@ function getMapAndTrial(level) {
     }
     
     if (availableTrials.length === 0) {
-        console.log('🔄 Все карты использованы, сброс списка использованных');
+        console.log('🔄 Сброс списка использованных');
         if (isBigLevel) {
             escState.usedBigTrials = [];
             for (var m2 = 0; m2 < mapNames.length; m2++) {
@@ -554,16 +425,12 @@ function getMapAndTrial(level) {
         }
     }
     
-    if (availableTrials.length === 0) {
-        console.error('❌ Не найдено доступных испытаний!');
-        return null;
-    }
+    if (availableTrials.length === 0) return null;
     
     var randomIndex = Math.floor(Math.random() * availableTrials.length);
     var selected = availableTrials[randomIndex];
     
-    console.log('✅ Выбрано испытание:', selected.trial.name);
-    console.log('📍 Карта:', selected.mapName);
+    console.log('✅ Выбрано:', selected.trial.name, 'на', selected.mapName);
     
     if (selected.trial.name === selected.trial.name.toUpperCase()) {
         escState.usedBigTrials.push(selected.trial.name);
@@ -579,15 +446,10 @@ function getMapAndTrial(level) {
 // ============================================================
 
 function getDifficultyByLevel(level) {
-    if (level >= 1 && level <= 5) {
-        return { name: "Начальная", class: "level-difficulty-intro" };
-    } else if (level >= 6 && level <= 15) {
-        return { name: "Нормальная", class: "level-difficulty-standard" };
-    } else if (level >= 16 && level <= 20) {
-        return { name: "Высокая", class: "level-difficulty-intensive" };
-    } else {
-        return { name: "Психохирургия", class: "level-difficulty-psycho" };
-    }
+    if (level >= 1 && level <= 5) return { name: "Начальная", class: "level-difficulty-intro" };
+    else if (level >= 6 && level <= 15) return { name: "Нормальная", class: "level-difficulty-standard" };
+    else if (level >= 16 && level <= 20) return { name: "Высокая", class: "level-difficulty-intensive" };
+    else return { name: "Психохирургия", class: "level-difficulty-psycho" };
 }
 
 // ============================================================
@@ -931,8 +793,6 @@ function renderEscAmps() {
         var ampCount = Math.floor(Math.random() * 4);
         var selectedAmps = shuffled.slice(0, ampCount);
         
-        console.log('🎯 Для игрока', player, 'выбрано амф:', ampCount);
-        
         if (selectedAmps.length === 0) {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
@@ -1032,18 +892,10 @@ function generateEscResult() {
     escState.map = { name: mapName, image: mapImage };
     escState.trial = trial;
     
-    console.log('📍 Карта:', mapName);
-    console.log('📋 Испытание:', trial.name);
-    
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
-    console.log('📊 Сложность:', difficulty.name);
     
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
-    console.log('🎯 Количество вариаторов:', escState.variators.length);
-    
-    var variatorNames = escState.variators.map(function(v) { return v.name; });
-    console.log('📋 Вариаторы:', variatorNames.join(', '));
 
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
@@ -1239,22 +1091,9 @@ function initAmpModal() {
                     modal.classList.remove('active');
                     modal.style.display = 'none';
                 }
-                
-                console.log('✅ Амфа успешно изменена!');
-            } else {
-                console.warn('⚠️ Не все данные для смены амфы заполнены');
             }
         });
     }
-    
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            if (modal && modal.classList.contains('active')) {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
-            }
-        }
-    });
 }
 
 function openAmpModal(playerIndex, category) {
@@ -1468,7 +1307,7 @@ function showBreakModal() {
 
     overlay.addEventListener('click', function(e) {
         if (e.target === overlay) {
-            // Не закрываем по клику вне
+            // Не закрываем
         }
     });
 
@@ -1631,8 +1470,7 @@ function resetEscalation() {
         isFirstRun: true,
         usedBigTrials: [],
         usedSmallTrials: [],
-        nostophobiaCount: 0,
-        usedVariators: []
+        nostophobiaCount: 0
     };
     
     var buttons = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
