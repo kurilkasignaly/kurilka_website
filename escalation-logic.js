@@ -434,7 +434,7 @@ function renderEscEquipment() {
             
             item.innerHTML = `
                 <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/56x56/1a1a2e/e16d48?text=?'" style="width:56px; height:56px;">
+                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
                 <div class="item-name">${eq.name}</div>
             `;
             
@@ -470,12 +470,12 @@ function renderEscAmps() {
     container.innerHTML = '';
     
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
-        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амп не загружены</div>';
+        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амф не загружены</div>';
         return;
     }
     
     if (typeof ampCategories === 'undefined' || ampCategories.length === 0) {
-        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: категории амп не загружены</div>';
+        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: категории амф не загружены</div>';
         return;
     }
     
@@ -535,7 +535,7 @@ function renderEscAmps() {
             
             item.innerHTML = `
                 <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px;">
+                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
                 <div class="item-name">${amp.name}</div>
                 <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
             `;
@@ -578,7 +578,7 @@ function checkEscAmpsReady() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С КАРТИНКАМИ ИСПЫТАНИЙ)
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА
 // ============================================================
 
 function generateEscResult() {
@@ -619,11 +619,9 @@ function generateEscResult() {
     escState.variators = getVariatorsForLevel(escState.level);
     console.log('🎯 Количество вариаторов:', escState.variators.length);
     
-    // Логируем все вариаторы
     var variatorNames = escState.variators.map(function(v) { return v.name; });
     console.log('📋 Вариаторы:', variatorNames.join(', '));
 
-    // Скрываем шаги
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
     var step3 = document.getElementById('escStep3');
@@ -634,17 +632,14 @@ function generateEscResult() {
     if (step3) step3.classList.add('hidden');
     if (step4) step4.classList.add('hidden');
     
-    // Показываем результат
     var resultContainer = document.getElementById('escResult');
     if (resultContainer) {
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
     }
 
-    // Карта и испытание с картинкой испытания
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
-        // Используем картинку испытания, если есть, иначе картинку карты
         var trialImage = trial.image || mapData.image;
         
         resultMap.innerHTML = `
@@ -663,7 +658,6 @@ function generateEscResult() {
         `;
     }
 
-    // Вариаторы - размер 90px, название 0.75rem
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         if (escState.variators.length === 0) {
@@ -672,7 +666,7 @@ function generateEscResult() {
             resultVariators.innerHTML = escState.variators.map(function(v) {
                 return `
                     <div class="var-item">
-                        <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
+                        <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
                         <span class="var-name" style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
                     </div>
                 `;
@@ -708,7 +702,7 @@ function renderEscResultPlayers() {
             <div class="player-result">
                 <div class="player-name"><i class="fas fa-user-circle"></i> ${player}</div>
                 <div class="player-equip">
-                    ${equipData ? '<img src="' + equipData.image + '" alt="' + equip + '" onerror="this.style.display=\'none\'" style="width:56px; height:56px; object-fit:contain;">' : ''}
+                    ${equipData ? '<img src="' + equipData.image + '" alt="' + equip + '" onerror="this.style.display=\'none\'" style="width:100px; height:100px; object-fit:contain;">' : ''}
                     <span class="label">СНАРЯЖЕНИЕ:</span>
                     <span class="value">${equip}</span>
                 </div>
@@ -727,10 +721,10 @@ function renderEscResultPlayers() {
                                 <div class="amp-category-block" onclick="${!allUsed ? 'openAmpModal(' + idx + ', \'' + category + '\')' : ''}" style="cursor: ${!allUsed ? 'pointer' : 'default'};">
                                     <div class="category-header">
                                         <span class="category-name">${category}</span>
-                                        ${!allUsed ? '<button class="category-change-btn" onclick="event.stopPropagation(); openAmpModal(' + idx + ', \'' + category + '\')" title="Сменить ампу"><i class="fas fa-sync-alt"></i></button>' : ''}
+                                        ${!allUsed ? '<button class="category-change-btn" onclick="event.stopPropagation(); openAmpModal(' + idx + ', \'' + category + '\')" title="Сменить амфу"><i class="fas fa-sync-alt"></i></button>' : ''}
                                     </div>
                                     ${isComplete ? 
-                                        '<div class="category-complete"><i class="fas fa-check-circle"></i> Все ампы использованы</div>' :
+                                        '<div class="category-complete"><i class="fas fa-check-circle"></i> Все амфы использованы</div>' :
                                         (ampData ? 
                                             '<div class="category-amp-name">' + ampData.name + '</div>' :
                                             '<div class="category-amp-empty">Не выбрана</div>'
@@ -788,7 +782,7 @@ function initAmpModal() {
 
     if (confirmBtn) {
         confirmBtn.addEventListener('click', function() {
-            console.log('✅ Подтверждение выбора ампы');
+            console.log('✅ Подтверждение выбора амфы');
             console.log('playerIndex:', modalState.playerIndex);
             console.log('selectedAmp:', modalState.selectedAmp);
             console.log('selectedCategory:', modalState.selectedCategory);
@@ -828,9 +822,9 @@ function initAmpModal() {
                     modal.style.display = 'none';
                 }
                 
-                console.log('✅ Ампа успешно изменена!');
+                console.log('✅ Амфа успешно изменена!');
             } else {
-                console.warn('⚠️ Не все данные для смены ампы заполнены');
+                console.warn('⚠️ Не все данные для смены амфы заполнены');
             }
         });
     }
@@ -849,12 +843,12 @@ function openAmpModal(playerIndex, category) {
     console.log('🔓 Открытие модального окна для:', playerIndex, category);
     
     if (checkAllAmpsUsed(playerIndex)) {
-        alert('Все улучшения уже применены. Смена амп невозможна.');
+        alert('Все улучшения уже применены. Смена амф невозможна.');
         return;
     }
 
     if (isCategoryComplete(playerIndex, category)) {
-        alert('Все ампы в этой категории уже использованы.');
+        alert('Все амфы в этой категории уже использованы.');
         return;
     }
 
@@ -936,7 +930,7 @@ function renderAmpModalGrid(playerIndex, category) {
     grid.innerHTML = '';
 
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #e16d48; padding: 2rem;">Ошибка: данные амп не загружены</div>';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #e16d48; padding: 2rem;">Ошибка: данные амф не загружены</div>';
         return;
     }
 
@@ -1000,7 +994,7 @@ function renderAmpModalGrid(playerIndex, category) {
     if (!hasAvailable) {
         var emptyMsg = document.createElement('div');
         emptyMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; color: #888; padding: 2rem;';
-        emptyMsg.textContent = 'В этой категории нет доступных амп. Выберите другую категорию.';
+        emptyMsg.textContent = 'В этой категории нет доступных амф. Выберите другую категорию.';
         grid.appendChild(emptyMsg);
     }
 
@@ -1009,7 +1003,7 @@ function renderAmpModalGrid(playerIndex, category) {
 }
 
 // ============================================================
-// ПЕРЕРЫВ (выбор амп)
+// ПЕРЕРЫВ (выбор амф)
 // ============================================================
 
 function showBreakModal() {
@@ -1042,11 +1036,11 @@ function showBreakModal() {
     overlay.innerHTML = `
         <div class="amp-modal">
             <div class="amp-modal-header">
-                <h2><i class="fas fa-coffee"></i> ПЕРЕРЫВ — выбор амп</h2>
+                <h2><i class="fas fa-coffee"></i> ПЕРЕРЫВ — выбор амф</h2>
                 <button class="amp-modal-close" id="breakModalClose">&times;</button>
             </div>
             <div style="margin-bottom: 1.5rem; color: #c2b9d4; text-align: center;">
-                Каждому игроку нужно выбрать 1 ампу из доступной категории
+                Каждому игроку нужно выбрать 1 амфу из доступной категории
             </div>
             <div id="breakModalContent"></div>
             <div class="amp-modal-confirm">
@@ -1118,7 +1112,7 @@ function showBreakModal() {
             var item = document.createElement('div');
             item.className = 'selection-item';
             item.innerHTML = `
-                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px;">
+                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
                 <div class="item-name">${amp.name}</div>
                 <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
             `;
@@ -1283,7 +1277,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ Данные загружены:');
             console.log('  - mapsData:', mapsData.length, 'карт');
             console.log('  - equipmentData:', equipmentData.length, 'снаряжений');
-            console.log('  - ampsData:', ampsData.length, 'амп');
+            console.log('  - ampsData:', ampsData.length, 'амф');
             console.log('  - ampCategories:', ampCategories);
             console.log('  - trialsData:', Object.keys(trialsData).length, 'карт с испытаниями');
             console.log('  - allVariatorsData:', allVariatorsData.length, 'вариаторов');
