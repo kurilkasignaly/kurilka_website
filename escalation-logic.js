@@ -1,5 +1,5 @@
 // ============================================================
-// ЛОГИКА ЭСКАЛАЦИИ
+// ЛОГИКА ЭСКАЛАЦИИ (ИСПРАВЛЕННАЯ)
 // ============================================================
 
 let escState = {
@@ -114,49 +114,61 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 function getVariatorsForLevel(level) {
     if (typeof allVariatorsData === 'undefined') return [];
     
-    // Убираем Ультра II из списка (он больше не используется)
+    // Все вариаторы кроме Ультра II и Психохирургия
     var baseVariators = allVariatorsData.filter(function(v) {
-        return v.name !== "Ультра II";
+        return v.name !== "Ультра II" && v.name !== "Психохирургия";
     });
     
     // Уровень 1 - только 1 вариатор
     if (level === 1) {
-        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
-        return shuffled.slice(0, 1);
+        var shuffled1 = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
+        return shuffled1.slice(0, 1);
     }
     
     // Уровни 2-5 (Начальная) - 2-3 вариатора
     if (level >= 2 && level <= 5) {
-        var count = Math.floor(Math.random() * 2) + 2; // 2-3
-        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
-        return shuffled.slice(0, count);
+        var count2 = Math.floor(Math.random() * 2) + 2; // 2-3
+        var shuffled2 = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
+        return shuffled2.slice(0, count2);
     }
     
     // Уровни 6-15 (Нормальная) - 3-4 вариатора
     if (level >= 6 && level <= 15) {
-        var count = Math.floor(Math.random() * 2) + 3; // 3-4
-        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
-        return shuffled.slice(0, count);
+        var count3 = Math.floor(Math.random() * 2) + 3; // 3-4
+        var shuffled3 = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
+        return shuffled3.slice(0, count3);
     }
     
     // Уровни 16-20 (Высокая) - 4-6 вариаторов
     if (level >= 16 && level <= 20) {
-        var count = Math.floor(Math.random() * 3) + 4; // 4-6
-        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
-        return shuffled.slice(0, count);
+        var count4 = Math.floor(Math.random() * 3) + 4; // 4-6
+        var shuffled4 = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
+        return shuffled4.slice(0, count4);
     }
     
-    // Уровни 21+ (Психохирургия) - все 8 вариаторов + Психохирургия
-    // Первый всегда Психохирургия
+    // Уровни 21+ (Психохирургия) - всегда 8 вариаторов
+    // Первый всегда Психохирургия, остальные 7 перемешиваются
     if (level >= 21) {
+        // Получаем вариатор Психохирургия
         var psycho = allVariatorsData.find(function(v) { return v.name === "Психохирургия"; });
-        // Убираем Ультра II и Психохирургия из списка для перемешивания
+        
+        // Остальные вариаторы (без Ультра II и Психохирургия)
         var others = allVariatorsData.filter(function(v) {
             return v.name !== "Ультра II" && v.name !== "Психохирургия";
         });
-        var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
-        // Всегда ставим Психохирургия первым
-        return [psycho].concat(shuffled);
+        
+        // Перемешиваем остальные 7 вариаторов
+        var shuffled5 = others.slice().sort(function() { return Math.random() - 0.5; });
+        
+        // Формируем массив: первый Психохирургия + 7 перемешанных
+        var result = [psycho].concat(shuffled5);
+        
+        // Убеждаемся что ровно 8 вариаторов
+        if (result.length > 8) {
+            result = result.slice(0, 8);
+        }
+        
+        return result;
     }
     
     return [];
@@ -598,8 +610,11 @@ function generateEscResult() {
     
     // Получаем вариаторы для уровня
     escState.variators = getVariatorsForLevel(escState.level);
-    console.log('🎯 Вариаторов:', escState.variators.length);
-    console.log('📋 Вариаторы:', escState.variators.map(function(v) { return v.name; }).join(', '));
+    console.log('🎯 Количество вариаторов:', escState.variators.length);
+    
+    // Логируем все вариаторы
+    var variatorNames = escState.variators.map(function(v) { return v.name; });
+    console.log('📋 Вариаторы:', variatorNames.join(', '));
 
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
@@ -638,14 +653,18 @@ function generateEscResult() {
     // ВАРИАТОРЫ - размер 90px, название 0.75rem
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
-        resultVariators.innerHTML = escState.variators.map(function(v) {
-            return `
-                <div class="var-item">
-                    <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
-                    <span class="var-name" style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
-                </div>
-            `;
-        }).join('');
+        if (escState.variators.length === 0) {
+            resultVariators.innerHTML = '<div style="color: #888; text-align: center; padding: 1rem;">Нет вариаторов</div>';
+        } else {
+            resultVariators.innerHTML = escState.variators.map(function(v) {
+                return `
+                    <div class="var-item">
+                        <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
+                        <span class="var-name" style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
+                    </div>
+                `;
+            }).join('');
+        }
     }
 
     renderEscResultPlayers();
