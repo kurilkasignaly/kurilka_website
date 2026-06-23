@@ -304,23 +304,36 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - 8 вариаторов');
         
+        // Ищем обязательные вариаторы
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTargets = availableVariators.find(function(v) { return v.name === "Двойные цели"; });
+        var doubleTargets = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
         
-        if (!psycho || !doubleTargets) {
-            console.error('❌ Психохирургия или Двойные цели не найдены!');
-            return availableVariators.slice(0, 8);
+        // Если вариаторы не найдены - создаем искусственно
+        if (!psycho) {
+            console.warn('⚠️ Психохирургия не найдена, создаем искусственно');
+            psycho = { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" };
+            availableVariators.push(psycho);
         }
         
+        if (!doubleTargets) {
+            console.warn('⚠️ Двойные задания не найдены, создаем искусственно');
+            doubleTargets = { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" };
+            availableVariators.push(doubleTargets);
+        }
+        
+        // Начинаем с обязательных вариаторов
         var result = [psycho, doubleTargets];
         console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
+        // Остальные вариаторы (без психохирургии и двойных заданий)
         var others = availableVariators.filter(function(v) {
-            return v.name !== "Психохирургия" && v.name !== "Двойные цели";
+            return v.name !== "Психохирургия" && v.name !== "Двойные задания";
         });
         
+        // Перемешиваем
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
         
+        // Добавляем совместимые
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
             if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
@@ -329,16 +342,21 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             }
         }
         
+        // Если не хватает до 8 - добираем
         if (result.length < 8) {
             console.log('⚠️ Не хватает до 8, добираем...');
-            for (var j = 0; j < shuffled.length && result.length < 8; j++) {
-                var candidate2 = shuffled[j];
+            var remaining = others.filter(function(v) {
+                return result.indexOf(v) === -1;
+            });
+            for (var j = 0; j < remaining.length && result.length < 8; j++) {
+                var candidate2 = remaining[j];
                 if (result.indexOf(candidate2) === -1) {
                     var canAdd = true;
                     for (var c = 0; c < result.length; c++) {
                         if (result[c].category === candidate2.category && 
                             candidate2.category !== 'special' && 
-                            candidate2.category !== 'boss') {
+                            candidate2.category !== 'boss' &&
+                            candidate2.category !== 'psycho') {
                             canAdd = false;
                             break;
                         }
@@ -347,6 +365,18 @@ function getVariatorsForLevel(level, mapName, playerCount) {
                         result.push(candidate2);
                         console.log('✅ Добавлен (принудительно):', candidate2.name);
                     }
+                }
+            }
+        }
+        
+        // Если все еще не хватает - добавляем любые
+        if (result.length < 8) {
+            console.log('⚠️ ВСЕ ЕЩЕ НЕ ХВАТАЕТ, добавляем любые...');
+            for (var k = 0; k < shuffled.length && result.length < 8; k++) {
+                var candidate3 = shuffled[k];
+                if (result.indexOf(candidate3) === -1) {
+                    result.push(candidate3);
+                    console.log('✅ Добавлен (любой):', candidate3.name);
                 }
             }
         }
