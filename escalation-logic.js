@@ -60,33 +60,33 @@ function checkDataLoaded() {
 
 function getAmpsByCategory(category) {
     if (typeof ampsData === 'undefined') return [];
-    return ampsData.filter(amp => amp.category === category);
+    return ampsData.filter(function(amp) { return amp.category === category; });
 }
 
 function getUnlockedAmpsByCategory(playerIndex, category) {
-    const unlocked = escState.unlockedAmps[playerIndex] || [];
-    return unlocked.filter(ampName => {
+    var unlocked = escState.unlockedAmps[playerIndex] || [];
+    return unlocked.filter(function(ampName) {
         if (typeof ampsData === 'undefined') return false;
-        const amp = ampsData.find(a => a.name === ampName);
+        var amp = ampsData.find(function(a) { return a.name === ampName; });
         return amp && amp.category === category;
     });
 }
 
 function getAvailableAmpsByCategory(playerIndex, category) {
-    const used = escState.usedAmps[playerIndex] || [];
-    const categoryAmps = getAmpsByCategory(category);
-    return categoryAmps.filter(amp => !used.includes(amp.name));
+    var used = escState.usedAmps[playerIndex] || [];
+    var categoryAmps = getAmpsByCategory(category);
+    return categoryAmps.filter(function(amp) { return used.indexOf(amp.name) === -1; });
 }
 
 function isCategoryComplete(playerIndex, category) {
-    const categoryAmps = getAmpsByCategory(category);
-    const used = escState.usedAmps[playerIndex] || [];
-    return categoryAmps.every(amp => used.includes(amp.name));
+    var categoryAmps = getAmpsByCategory(category);
+    var used = escState.usedAmps[playerIndex] || [];
+    return categoryAmps.every(function(amp) { return used.indexOf(amp.name) !== -1; });
 }
 
 function areAllCategoriesComplete(playerIndex) {
     if (typeof ampCategories === 'undefined') return false;
-    return ampCategories.every(cat => isCategoryComplete(playerIndex, cat));
+    return ampCategories.every(function(cat) { return isCategoryComplete(playerIndex, cat); });
 }
 
 function checkAllAmpsUsed(playerIndex) {
@@ -94,7 +94,7 @@ function checkAllAmpsUsed(playerIndex) {
 }
 
 function getAmpForCategory(playerIndex, category) {
-    const selections = escState.ampSelections[playerIndex] || {};
+    var selections = escState.ampSelections[playerIndex] || {};
     return selections[category] || null;
 }
 
@@ -102,7 +102,7 @@ function unlockAmpForPlayer(playerIndex, ampName) {
     if (!escState.unlockedAmps[playerIndex]) {
         escState.unlockedAmps[playerIndex] = [];
     }
-    if (!escState.unlockedAmps[playerIndex].includes(ampName)) {
+    if (escState.unlockedAmps[playerIndex].indexOf(ampName) === -1) {
         escState.unlockedAmps[playerIndex].push(ampName);
     }
 }
@@ -114,41 +114,41 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 function getVariatorsForLevel(level) {
     if (typeof allVariatorsData === 'undefined') return [];
     
-    const baseVariators = allVariatorsData.filter(v => 
-        v.name !== "Ультра II" && v.name !== "Психохирургия"
-    );
+    var baseVariators = allVariatorsData.filter(function(v) {
+        return v.name !== "Ультра II" && v.name !== "Психохирургия";
+    });
     
     if (level === 1) {
-        const shuffled = [...baseVariators].sort(() => Math.random() - 0.5);
+        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, 1);
     }
     
     if (level >= 2 && level <= 5) {
-        const count = Math.floor(Math.random() * 2) + 2;
-        const shuffled = [...baseVariators].sort(() => Math.random() - 0.5);
+        var count = Math.floor(Math.random() * 2) + 2;
+        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
     if (level >= 6 && level <= 15) {
-        const count = Math.floor(Math.random() * 2) + 3;
-        const shuffled = [...baseVariators].sort(() => Math.random() - 0.5);
+        var count = Math.floor(Math.random() * 2) + 3;
+        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
     if (level >= 16 && level <= 20) {
-        const count = Math.floor(Math.random() * 3) + 4;
-        const shuffled = [...baseVariators].sort(() => Math.random() - 0.5);
+        var count = Math.floor(Math.random() * 3) + 4;
+        var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
     if (level >= 21) {
-        const ultra = allVariatorsData.find(v => v.name === "Ультра II");
-        const psycho = allVariatorsData.find(v => v.name === "Психохирургия");
-        const others = allVariatorsData.filter(v => 
-            v.name !== "Ультра II" && v.name !== "Психохирургия"
-        );
-        const shuffled = others.sort(() => Math.random() - 0.5);
-        return [ultra, psycho, ...shuffled];
+        var ultra = allVariatorsData.find(function(v) { return v.name === "Ультра II"; });
+        var psycho = allVariatorsData.find(function(v) { return v.name === "Психохирургия"; });
+        var others = allVariatorsData.filter(function(v) {
+            return v.name !== "Ультра II" && v.name !== "Психохирургия";
+        });
+        var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
+        return [ultra, psycho].concat(shuffled);
     }
     
     return [];
@@ -172,38 +172,43 @@ function getDifficultyByLevel(level) {
 
 function goToEscStep(step) {
     escState.currentStep = step;
-    document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-    document.getElementById('escStep1').classList.add('hidden');
-    document.getElementById('escStep2').classList.add('hidden');
-    document.getElementById('escStep3').classList.add('hidden');
-    document.getElementById('escStep4').classList.add('hidden');
     
-    const result = document.getElementById('escResult');
+    var step1 = document.getElementById('escStep1');
+    var step2 = document.getElementById('escStep2');
+    var step3 = document.getElementById('escStep3');
+    var step4 = document.getElementById('escStep4');
+    var result = document.getElementById('escResult');
+    
+    if (step1) step1.classList.add('hidden');
+    if (step2) step2.classList.add('hidden');
+    if (step3) step3.classList.add('hidden');
+    if (step4) step4.classList.add('hidden');
+    
     if (result) {
         result.classList.remove('active');
         result.style.display = 'none';
     }
 
-    const stepMap = {
-        1: 'escStep1',
-        2: 'escStep2',
-        3: 'escStep3',
-        4: 'escStep4'
+    var stepMap = {
+        1: step1,
+        2: step2,
+        3: step3,
+        4: step4
     };
 
-    const target = document.getElementById(stepMap[step]);
+    var target = stepMap[step];
     if (target) target.classList.remove('hidden');
 }
 
 function updateLevelCounter() {
-    const levelNum = document.getElementById('levelNumber');
-    const levelDiff = document.getElementById('levelDifficulty');
-    const difficulty = getDifficultyByLevel(escState.level);
+    var levelNum = document.getElementById('levelNumber');
+    var levelDiff = document.getElementById('levelDifficulty');
+    var difficulty = getDifficultyByLevel(escState.level);
     
     if (levelNum) levelNum.textContent = escState.level;
     if (levelDiff) {
         levelDiff.textContent = difficulty.name;
-        levelDiff.className = `level-difficulty ${difficulty.class}`;
+        levelDiff.className = 'level-difficulty ' + difficulty.class;
     }
 }
 
@@ -212,105 +217,136 @@ function updateLevelCounter() {
 // ============================================================
 
 function initEscalation() {
-    // Проверяем загрузку данных
     if (!checkDataLoaded()) {
-        document.querySelector('.escalation-wrapper').innerHTML = `
-            <div style="text-align: center; padding: 3rem; color: #e16d48;">
-                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
-                <h2>Ошибка загрузки данных</h2>
-                <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
-            </div>
-        `;
+        var wrapper = document.querySelector('.escalation-wrapper');
+        if (wrapper) {
+            wrapper.innerHTML = `
+                <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                    <h2>Ошибка загрузки данных</h2>
+                    <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
+                </div>
+            `;
+        }
         return;
     }
 
-    // Шаг 1: Выбор игроков
-    const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
-    options.forEach(btn => {
-        btn.addEventListener('click', function() {
-            options.forEach(b => b.classList.remove('selected'));
-            this.classList.add('selected');
-            escState.playerCount = parseInt(this.dataset.count);
-            document.getElementById('escStep1Next').disabled = false;
-        });
-    });
+    var options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
+    var step1Next = document.getElementById('escStep1Next');
+    var step2Back = document.getElementById('escStep2Back');
+    var step2Next = document.getElementById('escStep2Next');
+    var step3Back = document.getElementById('escStep3Back');
+    var step3Next = document.getElementById('escStep3Next');
+    var step4Back = document.getElementById('escStep4Back');
+    var step4Next = document.getElementById('escStep4Next');
+    var nextLevelBtn = document.getElementById('escNextLevelBtn');
+    var exitBtn = document.getElementById('escExitBtn');
+    var restartBtn = document.getElementById('escRestartBtn');
 
-    document.getElementById('escStep1Next').addEventListener('click', function() {
-        goToEscStep(2);
-        renderEscPlayerNames();
-    });
-
-    // Шаг 2: Имена
-    document.getElementById('escStep2Back').addEventListener('click', function() { goToEscStep(1); });
-    document.getElementById('escStep2Next').addEventListener('click', function() {
-        const inputs = document.querySelectorAll('#escPlayerNameInputs input');
-        escState.players = [];
-        inputs.forEach((input, i) => {
-            escState.players.push(input.value.trim() || `Игрок ${i + 1}`);
-        });
-        // Инициализируем массивы для игроков
-        escState.players.forEach((_, idx) => {
-            if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-            if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
-            escState.allAmpsUsed[idx] = false;
-        });
-        goToEscStep(3);
-        renderEscEquipment();
-    });
-
-    // Шаг 3: Снаряжение
-    document.getElementById('escStep3Back').addEventListener('click', function() { goToEscStep(2); });
-    document.getElementById('escStep3Next').addEventListener('click', function() { 
-        goToEscStep(4);
-        renderEscAmps();
-    });
-
-    // Шаг 4: Ампы (первый выбор)
-    document.getElementById('escStep4Back').addEventListener('click', function() { goToEscStep(3); });
-    document.getElementById('escStep4Next').addEventListener('click', function() {
-        // Сохраняем выбранные ампы и разблокируем их
-        escState.players.forEach((_, idx) => {
-            const selected = escState.ampSelections[idx] || {};
-            Object.entries(selected).forEach(([category, ampName]) => {
-                if (ampName) {
-                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                    if (!escState.usedAmps[idx].includes(ampName)) {
-                        escState.usedAmps[idx].push(ampName);
-                    }
-                    unlockAmpForPlayer(idx, ampName);
-                }
+    if (options) {
+        options.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                options.forEach(function(b) { b.classList.remove('selected'); });
+                this.classList.add('selected');
+                escState.playerCount = parseInt(this.dataset.count);
+                if (step1Next) step1Next.disabled = false;
             });
         });
-        // Генерируем первое испытание
-        generateEscResult();
-    });
+    }
 
-    // Кнопка "Далее" для следующего уровня
-    document.getElementById('escNextLevelBtn').addEventListener('click', function() {
-        escState.level++;
-        updateLevelCounter();
-        
-        // Проверяем, все ли категории завершены для всех игроков
-        const allComplete = escState.players.every((_, idx) => areAllCategoriesComplete(idx));
-        
-        if (allComplete) {
-            alert('Не осталось выбора улучшения. Все улучшения были применены.');
+    if (step1Next) {
+        step1Next.addEventListener('click', function() {
+            goToEscStep(2);
+            renderEscPlayerNames();
+        });
+    }
+
+    if (step2Back) {
+        step2Back.addEventListener('click', function() { goToEscStep(1); });
+    }
+    
+    if (step2Next) {
+        step2Next.addEventListener('click', function() {
+            var inputs = document.querySelectorAll('#escPlayerNameInputs input');
+            escState.players = [];
+            inputs.forEach(function(input, i) {
+                escState.players.push(input.value.trim() || 'Игрок ' + (i + 1));
+            });
+            escState.players.forEach(function(_, idx) {
+                if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
+                escState.allAmpsUsed[idx] = false;
+            });
+            goToEscStep(3);
+            renderEscEquipment();
+        });
+    }
+
+    if (step3Back) {
+        step3Back.addEventListener('click', function() { goToEscStep(2); });
+    }
+    
+    if (step3Next) {
+        step3Next.addEventListener('click', function() { 
+            goToEscStep(4);
+            renderEscAmps();
+        });
+    }
+
+    if (step4Back) {
+        step4Back.addEventListener('click', function() { goToEscStep(3); });
+    }
+    
+    if (step4Next) {
+        step4Next.addEventListener('click', function() {
+            escState.players.forEach(function(_, idx) {
+                var selected = escState.ampSelections[idx] || {};
+                Object.keys(selected).forEach(function(category) {
+                    var ampName = selected[category];
+                    if (ampName) {
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (escState.usedAmps[idx].indexOf(ampName) === -1) {
+                            escState.usedAmps[idx].push(ampName);
+                        }
+                        unlockAmpForPlayer(idx, ampName);
+                    }
+                });
+            });
             generateEscResult();
-        } else {
-            showBreakModal();
-        }
-    });
+        });
+    }
 
-    // Кнопка выхода
-    document.getElementById('escExitBtn').addEventListener('click', function() {
-        document.getElementById('confirmModal').classList.add('active');
-    });
+    if (nextLevelBtn) {
+        nextLevelBtn.addEventListener('click', function() {
+            escState.level++;
+            updateLevelCounter();
+            
+            var allComplete = escState.players.every(function(_, idx) {
+                return areAllCategoriesComplete(idx);
+            });
+            
+            if (allComplete) {
+                alert('Не осталось выбора улучшения. Все улучшения были применены.');
+                generateEscResult();
+            } else {
+                showBreakModal();
+            }
+        });
+    }
 
-    // Перезапуск
-    document.getElementById('escRestartBtn').addEventListener('click', function() {
-        resetEscalation();
-    });
+    if (exitBtn) {
+        exitBtn.addEventListener('click', function() {
+            var modal = document.getElementById('confirmModal');
+            if (modal) modal.classList.add('active');
+        });
+    }
+
+    if (restartBtn) {
+        restartBtn.addEventListener('click', function() {
+            resetEscalation();
+        });
+    }
 }
 
 // ============================================================
@@ -318,11 +354,11 @@ function initEscalation() {
 // ============================================================
 
 function renderEscPlayerNames() {
-    const container = document.getElementById('escPlayerNameInputs');
+    var container = document.getElementById('escPlayerNameInputs');
     if (!container) return;
     container.innerHTML = '';
-    for (let i = 0; i < escState.playerCount; i++) {
-        const row = document.createElement('div');
+    for (var i = 0; i < escState.playerCount; i++) {
+        var row = document.createElement('div');
         row.className = 'input-row';
         row.innerHTML = `
             <label><i class="fas fa-user"></i> Игрок ${i + 1}</label>
@@ -330,51 +366,50 @@ function renderEscPlayerNames() {
         `;
         container.appendChild(row);
     }
-    const firstInput = container.querySelector('input');
-    if (firstInput) setTimeout(() => firstInput.focus(), 300);
+    var firstInput = container.querySelector('input');
+    if (firstInput) setTimeout(function() { firstInput.focus(); }, 300);
 }
 
 function renderEscEquipment() {
-    const container = document.getElementById('escStep3Content');
+    var container = document.getElementById('escStep3Content');
     if (!container) return;
     container.innerHTML = '';
     
-    // Проверяем наличие данных
     if (typeof equipmentData === 'undefined' || equipmentData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные снаряжения не загружены</div>';
         return;
     }
     
-    escState.players.forEach((player, idx) => {
-        const section = document.createElement('div');
+    escState.players.forEach(function(player, idx) {
+        var section = document.createElement('div');
         section.style.marginBottom = '1.8rem';
         section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
         section.style.paddingBottom = '1.2rem';
         
-        const title = document.createElement('div');
+        var title = document.createElement('div');
         title.style.fontWeight = '600';
         title.style.color = '#ffbc9a';
         title.style.marginBottom = '0.8rem';
         title.style.fontSize = '1.05rem';
         title.style.textAlign = 'center';
-        title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
         section.appendChild(title);
         
-        const wrapper = document.createElement('div');
+        var wrapper = document.createElement('div');
         wrapper.className = 'selection-wrapper';
         
-        const grid = document.createElement('div');
+        var grid = document.createElement('div');
         grid.className = 'selection-grid';
         
-        const shuffled = [...equipmentData].sort(() => Math.random() - 0.5);
-        const selectedEquip = shuffled.slice(0, 3);
+        var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
+        var selectedEquip = shuffled.slice(0, 3);
         
-        selectedEquip.forEach(eq => {
-            const item = document.createElement('div');
+        selectedEquip.forEach(function(eq) {
+            var item = document.createElement('div');
             item.className = 'selection-item';
             item.dataset.player = idx;
             item.dataset.equip = eq.name;
-            const isSelected = escState.equipSelections[idx] === eq.name;
+            var isSelected = escState.equipSelections[idx] === eq.name;
             if (isSelected) item.classList.add('selected');
             
             item.innerHTML = `
@@ -384,8 +419,8 @@ function renderEscEquipment() {
             `;
             
             item.addEventListener('click', function() {
-                const parent = this.closest('.selection-grid');
-                parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                var parent = this.closest('.selection-grid');
+                parent.querySelectorAll('.selection-item').forEach(function(el) { el.classList.remove('selected'); });
                 this.classList.add('selected');
                 escState.equipSelections[idx] = eq.name;
                 checkEscEquipReady();
@@ -402,16 +437,18 @@ function renderEscEquipment() {
 }
 
 function checkEscEquipReady() {
-    const allSelected = escState.players.every((_, idx) => escState.equipSelections[idx] !== undefined);
-    document.getElementById('escStep3Next').disabled = !allSelected;
+    var allSelected = escState.players.every(function(_, idx) {
+        return escState.equipSelections[idx] !== undefined;
+    });
+    var btn = document.getElementById('escStep3Next');
+    if (btn) btn.disabled = !allSelected;
 }
 
 function renderEscAmps() {
-    const container = document.getElementById('escStep4Content');
+    var container = document.getElementById('escStep4Content');
     if (!container) return;
     container.innerHTML = '';
     
-    // Проверяем наличие данных
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амп не загружены</div>';
         return;
@@ -422,25 +459,27 @@ function renderEscAmps() {
         return;
     }
     
-    escState.players.forEach((player, idx) => {
-        const section = document.createElement('div');
+    escState.players.forEach(function(player, idx) {
+        var section = document.createElement('div');
         section.style.marginBottom = '1.8rem';
         section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
         section.style.paddingBottom = '1.2rem';
         
-        const title = document.createElement('div');
+        var title = document.createElement('div');
         title.style.fontWeight = '600';
         title.style.color = '#ffbc9a';
         title.style.marginBottom = '0.8rem';
         title.style.fontSize = '1.05rem';
         title.style.textAlign = 'center';
-        title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
         section.appendChild(title);
 
-        // Выбираем случайную категорию для первого выбора
-        const availableCategories = ampCategories.filter(cat => !isCategoryComplete(idx, cat));
+        var availableCategories = ampCategories.filter(function(cat) {
+            return !isCategoryComplete(idx, cat);
+        });
+        
         if (availableCategories.length === 0) {
-            const msg = document.createElement('div');
+            var msg = document.createElement('div');
             msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem;';
             msg.textContent = 'Все улучшения применены';
             section.appendChild(msg);
@@ -448,30 +487,30 @@ function renderEscAmps() {
             return;
         }
         
-        const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
         
-        const catLabel = document.createElement('div');
+        var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.85rem; margin-bottom: 0.8rem;';
-        catLabel.innerHTML = `<i class="fas fa-tag"></i> Категория: ${randomCategory}`;
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> Категория: ' + randomCategory;
         section.appendChild(catLabel);
         
-        const wrapper = document.createElement('div');
+        var wrapper = document.createElement('div');
         wrapper.className = 'selection-wrapper';
         
-        const grid = document.createElement('div');
+        var grid = document.createElement('div');
         grid.className = 'selection-grid';
         
-        const availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        const shuffled = availableAmps.sort(() => Math.random() - 0.5);
-        const selectedAmps = shuffled.slice(0, 3);
+        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
+        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
+        var selectedAmps = shuffled.slice(0, 3);
         
-        selectedAmps.forEach(amp => {
-            const item = document.createElement('div');
+        selectedAmps.forEach(function(amp) {
+            var item = document.createElement('div');
             item.className = 'selection-item';
             item.dataset.player = idx;
             item.dataset.amp = amp.name;
-            const currentAmp = escState.ampSelections[idx]?.[randomCategory];
-            const isSelected = currentAmp === amp.name;
+            var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
+            var isSelected = currentAmp === amp.name;
             if (isSelected) item.classList.add('selected');
             
             item.innerHTML = `
@@ -482,8 +521,8 @@ function renderEscAmps() {
             `;
             
             item.addEventListener('click', function() {
-                const parent = this.closest('.selection-grid');
-                parent.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                var parent = this.closest('.selection-grid');
+                parent.querySelectorAll('.selection-item').forEach(function(el) { el.classList.remove('selected'); });
                 this.classList.add('selected');
                 if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                 escState.ampSelections[idx][randomCategory] = amp.name;
@@ -502,15 +541,20 @@ function renderEscAmps() {
 }
 
 function checkEscAmpsReady() {
-    let allSelected = true;
-    escState.players.forEach((_, idx) => {
-        const availableCategories = ampCategories.filter(cat => !isCategoryComplete(idx, cat));
+    var allSelected = true;
+    escState.players.forEach(function(_, idx) {
+        var availableCategories = ampCategories.filter(function(cat) {
+            return !isCategoryComplete(idx, cat);
+        });
         if (availableCategories.length > 0) {
-            const hasSelection = availableCategories.some(cat => escState.ampSelections[idx]?.[cat]);
+            var hasSelection = availableCategories.some(function(cat) {
+                return escState.ampSelections[idx] && escState.ampSelections[idx][cat];
+            });
             if (!hasSelection) allSelected = false;
         }
     });
-    document.getElementById('escStep4Next').disabled = !allSelected;
+    var btn = document.getElementById('escStep4Next');
+    if (btn) btn.disabled = !allSelected;
 }
 
 // ============================================================
@@ -520,7 +564,6 @@ function checkEscAmpsReady() {
 function generateEscResult() {
     console.log('🔄 Генерация результата...');
     
-    // Проверяем наличие данных
     if (typeof mapsData === 'undefined' || mapsData.length === 0) {
         console.error('❌ mapsData не загружен!');
         return;
@@ -531,36 +574,39 @@ function generateEscResult() {
         return;
     }
     
-    // Выбираем случайную карту
-    const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
+    var mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
     escState.map = mapData;
     console.log('📍 Карта:', mapData.name);
     
-    // Выбираем случайное испытание для этой карты
-    const trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
-    const trial = trials[Math.floor(Math.random() * trials.length)];
+    var trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
+    var trial = trials[Math.floor(Math.random() * trials.length)];
     escState.trial = trial;
     console.log('📋 Испытание:', trial.name);
     
-    // Определяем сложность
-    const difficulty = getDifficultyByLevel(escState.level);
+    var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     console.log('📊 Сложность:', difficulty.name);
     
-    // Получаем вариаторы
     escState.variators = getVariatorsForLevel(escState.level);
     console.log('🎯 Вариаторов:', escState.variators.length);
 
-    // Скрываем шаги, показываем результат
-    document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
-    const resultContainer = document.getElementById('escResult');
+    var step1 = document.getElementById('escStep1');
+    var step2 = document.getElementById('escStep2');
+    var step3 = document.getElementById('escStep3');
+    var step4 = document.getElementById('escStep4');
+    
+    if (step1) step1.classList.add('hidden');
+    if (step2) step2.classList.add('hidden');
+    if (step3) step3.classList.add('hidden');
+    if (step4) step4.classList.add('hidden');
+    
+    var resultContainer = document.getElementById('escResult');
     if (resultContainer) {
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
     }
 
-    // Карта
-    const resultMap = document.getElementById('escResultMap');
+    var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         resultMap.innerHTML = `
             <img class="map-image" src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
@@ -578,18 +624,18 @@ function generateEscResult() {
         `;
     }
 
-    // Вариаторы
-    const resultVariators = document.getElementById('escResultVariators');
+    var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
-        resultVariators.innerHTML = escState.variators.map(v => `
-            <div class="var-item">
-                <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
-                <span class="var-name">${v.name}</span>
-            </div>
-        `).join('');
+        resultVariators.innerHTML = escState.variators.map(function(v) {
+            return `
+                <div class="var-item">
+                    <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
+                    <span class="var-name">${v.name}</span>
+                </div>
+            `;
+        }).join('');
     }
 
-    // Игроки
     renderEscResultPlayers();
     
     if (resultContainer) {
@@ -604,46 +650,46 @@ function generateEscResult() {
 // ============================================================
 
 function renderEscResultPlayers() {
-    const container = document.getElementById('escResultPlayers');
+    var container = document.getElementById('escResultPlayers');
     if (!container) return;
     
-    let playersHtml = '';
-    escState.players.forEach((player, idx) => {
-        const equip = escState.equipSelections[idx] || 'Не выбрано';
-        const amps = escState.ampSelections[idx] || {};
-        const equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(e => e.name === equip) : null;
-        const allUsed = checkAllAmpsUsed(idx);
+    var playersHtml = '';
+    escState.players.forEach(function(player, idx) {
+        var equip = escState.equipSelections[idx] || 'Не выбрано';
+        var amps = escState.ampSelections[idx] || {};
+        var equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
+        var allUsed = checkAllAmpsUsed(idx);
         
         playersHtml += `
             <div class="player-result">
                 <div class="player-name"><i class="fas fa-user-circle"></i> ${player}</div>
                 <div class="player-equip">
-                    ${equipData ? `<img src="${equipData.image}" alt="${equip}" onerror="this.style.display='none'">` : ''}
+                    ${equipData ? '<img src="' + equipData.image + '" alt="' + equip + '" onerror="this.style.display=\'none\'">' : ''}
                     <span class="label">СНАРЯЖЕНИЕ:</span>
                     <span class="value">${equip}</span>
                 </div>
                 <div style="margin-top: 0.5rem;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
                         <span style="color: #888; font-size: 0.75rem; font-weight: 500;"><i class="fas fa-capsules"></i> УЛУЧШЕНИЯ:</span>
-                        ${!allUsed ? `<span style="color: #e16d48; font-size: 0.65rem;">Нажмите на категорию для смены</span>` : ''}
+                        ${!allUsed ? '<span style="color: #e16d48; font-size: 0.65rem;">Нажмите на категорию для смены</span>' : ''}
                     </div>
                     <div class="player-amps-categories">
-                        ${ampCategories.map(category => {
-                            const ampName = getAmpForCategory(idx, category);
-                            const ampData = typeof ampsData !== 'undefined' ? ampsData.find(a => a.name === ampName) : null;
-                            const isComplete = isCategoryComplete(idx, category);
+                        ${ampCategories.map(function(category) {
+                            var ampName = getAmpForCategory(idx, category);
+                            var ampData = typeof ampsData !== 'undefined' ? ampsData.find(function(a) { return a.name === ampName; }) : null;
+                            var isComplete = isCategoryComplete(idx, category);
                             
                             return `
-                                <div class="amp-category-block" onclick="${!allUsed ? `openAmpModal(${idx}, '${category}')` : ''}" style="cursor: ${!allUsed ? 'pointer' : 'default'};">
+                                <div class="amp-category-block" onclick="${!allUsed ? 'openAmpModal(' + idx + ', \'' + category + '\')' : ''}" style="cursor: ${!allUsed ? 'pointer' : 'default'};">
                                     <div class="category-header">
                                         <span class="category-name">${category}</span>
-                                        ${!allUsed ? `<button class="category-change-btn" onclick="event.stopPropagation(); openAmpModal(${idx}, '${category}')" title="Сменить ампу"><i class="fas fa-sync-alt"></i></button>` : ''}
+                                        ${!allUsed ? '<button class="category-change-btn" onclick="event.stopPropagation(); openAmpModal(' + idx + ', \'' + category + '\')" title="Сменить ампу"><i class="fas fa-sync-alt"></i></button>' : ''}
                                     </div>
                                     ${isComplete ? 
-                                        `<div class="category-complete"><i class="fas fa-check-circle"></i> Все ампы использованы</div>` :
+                                        '<div class="category-complete"><i class="fas fa-check-circle"></i> Все ампы использованы</div>' :
                                         (ampData ? 
-                                            `<div class="category-amp-name">${ampData.name}</div>` :
-                                            `<div class="category-amp-empty">Не выбрана</div>`
+                                            '<div class="category-amp-name">' + ampData.name + '</div>' :
+                                            '<div class="category-amp-empty">Не выбрана</div>'
                                         )
                                     }
                                 </div>
@@ -667,20 +713,23 @@ function renderEscResultPlayers() {
 // МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ
 // ============================================================
 
-let modalState = {
+var modalState = {
     playerIndex: null,
     selectedAmp: null,
     selectedCategory: "Инструмент"
 };
 
 function initAmpModal() {
-    const modal = document.getElementById('ampModal');
-    const closeBtn = document.getElementById('ampModalClose');
-    const confirmBtn = document.getElementById('ampModalConfirm');
+    var modal = document.getElementById('ampModal');
+    var closeBtn = document.getElementById('ampModalClose');
+    var confirmBtn = document.getElementById('ampModalConfirm');
 
     if (closeBtn) {
         closeBtn.addEventListener('click', function() {
-            if (modal) modal.classList.remove('active');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
         });
     }
 
@@ -688,39 +737,73 @@ function initAmpModal() {
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 modal.classList.remove('active');
+                modal.style.display = 'none';
             }
         });
     }
 
     if (confirmBtn) {
         confirmBtn.addEventListener('click', function() {
+            console.log('✅ Подтверждение выбора ампы');
+            console.log('playerIndex:', modalState.playerIndex);
+            console.log('selectedAmp:', modalState.selectedAmp);
+            console.log('selectedCategory:', modalState.selectedCategory);
+            
             if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
-                const idx = modalState.playerIndex;
-                const category = modalState.selectedCategory;
+                var idx = modalState.playerIndex;
+                var category = modalState.selectedCategory;
                 
-                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                var currentAmps = escState.ampSelections[idx] || {};
+                var oldAmp = currentAmps[category];
                 
-                const oldAmp = escState.ampSelections[idx][category];
-                if (oldAmp && escState.usedAmps[idx]) {
-                    escState.usedAmps[idx] = escState.usedAmps[idx].filter(a => a !== oldAmp);
+                if (oldAmp === modalState.selectedAmp) {
+                    if (modal) {
+                        modal.classList.remove('active');
+                        modal.style.display = 'none';
+                    }
+                    return;
                 }
                 
+                if (oldAmp && escState.usedAmps[idx]) {
+                    escState.usedAmps[idx] = escState.usedAmps[idx].filter(function(a) { return a !== oldAmp; });
+                }
+                
+                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                 escState.ampSelections[idx][category] = modalState.selectedAmp;
                 
                 if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                if (!escState.usedAmps[idx].includes(modalState.selectedAmp)) {
+                if (escState.usedAmps[idx].indexOf(modalState.selectedAmp) === -1) {
                     escState.usedAmps[idx].push(modalState.selectedAmp);
                 }
                 unlockAmpForPlayer(idx, modalState.selectedAmp);
 
                 renderEscResultPlayers();
-                if (modal) modal.classList.remove('active');
+                
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                }
+                
+                console.log('✅ Ампа успешно изменена!');
+            } else {
+                console.warn('⚠️ Не все данные для смены ампы заполнены');
             }
         });
     }
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (modal && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+        }
+    });
 }
 
 function openAmpModal(playerIndex, category) {
+    console.log('🔓 Открытие модального окна для:', playerIndex, category);
+    
     if (checkAllAmpsUsed(playerIndex)) {
         alert('Все улучшения уже применены. Смена амп невозможна.');
         return;
@@ -731,27 +814,28 @@ function openAmpModal(playerIndex, category) {
         return;
     }
 
-    const playerName = escState.players[playerIndex];
-    const currentAmp = getAmpForCategory(playerIndex, category);
+    var playerName = escState.players[playerIndex];
+    var currentAmp = getAmpForCategory(playerIndex, category);
     
     modalState.playerIndex = playerIndex;
     modalState.selectedCategory = category;
     modalState.selectedAmp = currentAmp;
 
-    const playerNameEl = document.getElementById('ampModalPlayerName');
+    var playerNameEl = document.getElementById('ampModalPlayerName');
     if (playerNameEl) {
-        playerNameEl.textContent = `${playerName} — ${category}`;
+        playerNameEl.textContent = playerName + ' — ' + category;
     }
 
-    // Создаем вкладки категорий
-    const tabsContainer = document.getElementById('ampCategoryTabs');
+    var tabsContainer = document.getElementById('ampCategoryTabs');
     if (tabsContainer) {
         tabsContainer.innerHTML = '';
         
-        const availableCategories = ampCategories.filter(cat => !isCategoryComplete(playerIndex, cat));
+        var availableCategories = ampCategories.filter(function(cat) {
+            return !isCategoryComplete(playerIndex, cat);
+        });
         
         if (availableCategories.length === 0) {
-            const grid = document.getElementById('ampModalGrid');
+            var grid = document.getElementById('ampModalGrid');
             if (grid) {
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; color: #2ecc71; padding: 2rem;">
@@ -760,15 +844,18 @@ function openAmpModal(playerIndex, category) {
                     </div>
                 `;
             }
-            const confirmBtn = document.getElementById('ampModalConfirm');
+            var confirmBtn = document.getElementById('ampModalConfirm');
             if (confirmBtn) confirmBtn.disabled = true;
-            const modal = document.getElementById('ampModal');
-            if (modal) modal.classList.add('active');
+            var modal = document.getElementById('ampModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.style.display = 'flex';
+            }
             return;
         }
 
-        availableCategories.forEach(cat => {
-            const tab = document.createElement('button');
+        availableCategories.forEach(function(cat) {
+            var tab = document.createElement('button');
             tab.textContent = cat;
             tab.dataset.category = cat;
             if (cat === category) {
@@ -776,9 +863,11 @@ function openAmpModal(playerIndex, category) {
             }
             tab.addEventListener('click', function() {
                 if (tabsContainer) {
-                    tabsContainer.querySelectorAll('button').forEach(t => t.classList.remove('active'));
+                    tabsContainer.querySelectorAll('button').forEach(function(t) {
+                        t.classList.remove('active');
+                    });
                     this.classList.add('active');
-                    const newCategory = this.dataset.category;
+                    var newCategory = this.dataset.category;
                     modalState.selectedCategory = newCategory;
                     modalState.selectedAmp = getAmpForCategory(playerIndex, newCategory);
                     renderAmpModalGrid(playerIndex, newCategory);
@@ -789,37 +878,39 @@ function openAmpModal(playerIndex, category) {
     }
 
     renderAmpModalGrid(playerIndex, category);
-    const modal = document.getElementById('ampModal');
-    if (modal) modal.classList.add('active');
+    var modal = document.getElementById('ampModal');
+    if (modal) {
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+    }
 }
 
 function renderAmpModalGrid(playerIndex, category) {
-    const grid = document.getElementById('ampModalGrid');
+    var grid = document.getElementById('ampModalGrid');
     if (!grid) return;
     
     grid.innerHTML = '';
 
-    // Проверяем наличие данных
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
         grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #e16d48; padding: 2rem;">Ошибка: данные амп не загружены</div>';
         return;
     }
 
-    const categoryAmps = getAmpsByCategory(category);
-    const used = escState.usedAmps[playerIndex] || [];
-    const unlocked = escState.unlockedAmps[playerIndex] || [];
-    const currentAmp = getAmpForCategory(playerIndex, category);
+    var categoryAmps = getAmpsByCategory(category);
+    var used = escState.usedAmps[playerIndex] || [];
+    var unlocked = escState.unlockedAmps[playerIndex] || [];
+    var currentAmp = getAmpForCategory(playerIndex, category);
 
-    let hasAvailable = false;
+    var hasAvailable = false;
 
-    categoryAmps.forEach(amp => {
-        const isUsed = used.includes(amp.name);
-        const isUnlocked = unlocked.includes(amp.name);
-        const isCurrent = currentAmp === amp.name;
+    categoryAmps.forEach(function(amp) {
+        var isUsed = used.indexOf(amp.name) !== -1;
+        var isUnlocked = unlocked.indexOf(amp.name) !== -1;
+        var isCurrent = currentAmp === amp.name;
         
-        const isAvailable = isUnlocked || isCurrent;
+        var isAvailable = isUnlocked || isCurrent;
 
-        const item = document.createElement('div');
+        var item = document.createElement('div');
         item.className = 'amp-modal-item';
         
         if (isCurrent) {
@@ -850,10 +941,12 @@ function renderAmpModalGrid(playerIndex, category) {
             `;
             item.addEventListener('click', function() {
                 if (this.classList.contains('locked')) return;
-                grid.querySelectorAll('.amp-modal-item').forEach(el => el.classList.remove('selected'));
+                grid.querySelectorAll('.amp-modal-item').forEach(function(el) {
+                    el.classList.remove('selected');
+                });
                 this.classList.add('selected');
                 modalState.selectedAmp = amp.name;
-                const confirmBtn = document.getElementById('ampModalConfirm');
+                var confirmBtn = document.getElementById('ampModalConfirm');
                 if (confirmBtn) confirmBtn.disabled = false;
             });
         }
@@ -861,13 +954,13 @@ function renderAmpModalGrid(playerIndex, category) {
     });
 
     if (!hasAvailable) {
-        const emptyMsg = document.createElement('div');
+        var emptyMsg = document.createElement('div');
         emptyMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; color: #888; padding: 2rem;';
         emptyMsg.textContent = 'В этой категории нет доступных амп. Выберите другую категорию.';
         grid.appendChild(emptyMsg);
     }
 
-    const confirmBtn = document.getElementById('ampModalConfirm');
+    var confirmBtn = document.getElementById('ampModalConfirm');
     if (confirmBtn) confirmBtn.disabled = true;
 }
 
@@ -876,8 +969,10 @@ function renderAmpModalGrid(playerIndex, category) {
 // ============================================================
 
 function showBreakModal() {
-    let hasAvailable = false;
-    escState.players.forEach((_, idx) => {
+    console.log('🔄 Показ модального окна ПЕРЕРЫВ');
+    
+    var hasAvailable = false;
+    escState.players.forEach(function(_, idx) {
         if (!areAllCategoriesComplete(idx)) {
             hasAvailable = true;
         }
@@ -889,7 +984,12 @@ function showBreakModal() {
         return;
     }
 
-    const overlay = document.createElement('div');
+    var oldModal = document.getElementById('breakModal');
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+    var overlay = document.createElement('div');
     overlay.className = 'amp-modal-overlay active';
     overlay.id = 'breakModal';
     overlay.style.display = 'flex';
@@ -913,9 +1013,12 @@ function showBreakModal() {
 
     document.body.appendChild(overlay);
 
-    document.getElementById('breakModalClose').addEventListener('click', function() {
-        overlay.remove();
-    });
+    var closeBtn = document.getElementById('breakModalClose');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            overlay.remove();
+        });
+    }
 
     overlay.addEventListener('click', function(e) {
         if (e.target === this) {
@@ -923,20 +1026,20 @@ function showBreakModal() {
         }
     });
 
-    const content = document.getElementById('breakModalContent');
-    const breakSelections = {};
+    var content = document.getElementById('breakModalContent');
+    var breakSelections = {};
 
-    escState.players.forEach((player, idx) => {
-        const section = document.createElement('div');
+    escState.players.forEach(function(player, idx) {
+        var section = document.createElement('div');
         section.style.cssText = 'margin-bottom: 1.5rem; border-bottom: 1px solid rgba(220,90,50,0.1); padding-bottom: 1rem;';
         
-        const title = document.createElement('div');
+        var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 0.8rem; text-align: center; font-size: 1.1rem;';
-        title.innerHTML = `<i class="fas fa-user"></i> ${player}`;
+        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
         section.appendChild(title);
 
         if (areAllCategoriesComplete(idx)) {
-            const completeMsg = document.createElement('div');
+            var completeMsg = document.createElement('div');
             completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem;';
             completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
             section.appendChild(completeMsg);
@@ -945,28 +1048,30 @@ function showBreakModal() {
             return;
         }
 
-        const availableCategories = ampCategories.filter(cat => !isCategoryComplete(idx, cat));
-        const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+        var availableCategories = ampCategories.filter(function(cat) {
+            return !isCategoryComplete(idx, cat);
+        });
+        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
         
-        const availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        const shuffled = availableAmps.sort(() => Math.random() - 0.5);
-        const displayAmps = shuffled.slice(0, 3);
+        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
+        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
+        var displayAmps = shuffled.slice(0, 3);
 
-        const catLabel = document.createElement('div');
+        var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.85rem; margin-bottom: 0.8rem;';
-        catLabel.innerHTML = `<i class="fas fa-tag"></i> Категория: ${randomCategory}`;
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> Категория: ' + randomCategory;
         section.appendChild(catLabel);
 
-        const wrapper = document.createElement('div');
+        var wrapper = document.createElement('div');
         wrapper.className = 'selection-wrapper';
 
-        const grid = document.createElement('div');
+        var grid = document.createElement('div');
         grid.className = 'selection-grid';
 
         breakSelections[idx] = null;
 
-        displayAmps.forEach(amp => {
-            const item = document.createElement('div');
+        displayAmps.forEach(function(amp) {
+            var item = document.createElement('div');
             item.className = 'selection-item';
             item.innerHTML = `
                 <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
@@ -974,7 +1079,9 @@ function showBreakModal() {
                 <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
             `;
             item.addEventListener('click', function() {
-                grid.querySelectorAll('.selection-item').forEach(el => el.classList.remove('selected'));
+                grid.querySelectorAll('.selection-item').forEach(function(el) {
+                    el.classList.remove('selected');
+                });
                 this.classList.add('selected');
                 breakSelections[idx] = amp.name;
                 unlockAmpForPlayer(idx, amp.name);
@@ -989,38 +1096,42 @@ function showBreakModal() {
     });
 
     function checkBreakReady() {
-        let ready = true;
-        escState.players.forEach((_, idx) => {
+        var ready = true;
+        escState.players.forEach(function(_, idx) {
             if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) {
                 ready = false;
             }
         });
-        document.getElementById('breakModalConfirm').disabled = !ready;
+        var confirmBtn = document.getElementById('breakModalConfirm');
+        if (confirmBtn) confirmBtn.disabled = !ready;
     }
     checkBreakReady();
 
-    document.getElementById('breakModalConfirm').addEventListener('click', function() {
-        escState.players.forEach((_, idx) => {
-            if (breakSelections[idx]) {
-                const category = ampCategories.find(cat => {
-                    const amp = ampsData.find(a => a.name === breakSelections[idx]);
-                    return amp && amp.category === cat;
-                });
-                if (category) {
-                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                    escState.ampSelections[idx][category] = breakSelections[idx];
-                    
-                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                    if (!escState.usedAmps[idx].includes(breakSelections[idx])) {
-                        escState.usedAmps[idx].push(breakSelections[idx]);
+    var confirmBtn = document.getElementById('breakModalConfirm');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            escState.players.forEach(function(_, idx) {
+                if (breakSelections[idx]) {
+                    var category = ampCategories.find(function(cat) {
+                        var amp = ampsData.find(function(a) { return a.name === breakSelections[idx]; });
+                        return amp && amp.category === cat;
+                    });
+                    if (category) {
+                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                        escState.ampSelections[idx][category] = breakSelections[idx];
+                        
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
+                            escState.usedAmps[idx].push(breakSelections[idx]);
+                        }
+                        unlockAmpForPlayer(idx, breakSelections[idx]);
                     }
-                    unlockAmpForPlayer(idx, breakSelections[idx]);
                 }
-            }
+            });
+            overlay.remove();
+            generateEscResult();
         });
-        overlay.remove();
-        generateEscResult();
-    });
+    }
 }
 
 // ============================================================
@@ -1045,12 +1156,26 @@ function resetEscalation() {
         isFirstRun: true
     };
     
-    document.querySelectorAll('#escPlayerCountOptions .player-count-btn').forEach(b => b.classList.remove('selected'));
-    document.getElementById('escStep1Next').disabled = true;
-    document.getElementById('escResult').classList.remove('active');
-    document.getElementById('escResult').style.display = 'none';
+    var buttons = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
+    buttons.forEach(function(b) { b.classList.remove('selected'); });
+    
+    var step1Next = document.getElementById('escStep1Next');
+    if (step1Next) step1Next.disabled = true;
+    
+    var result = document.getElementById('escResult');
+    if (result) {
+        result.classList.remove('active');
+        result.style.display = 'none';
+    }
+    
     updateLevelCounter();
     goToEscStep(1);
+    
+    var modal = document.getElementById('ampModal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+    }
 }
 
 // ============================================================
@@ -1058,20 +1183,30 @@ function resetEscalation() {
 // ============================================================
 
 function initConfirmModal() {
-    document.getElementById('confirmCancel').addEventListener('click', function() {
-        document.getElementById('confirmModal').classList.remove('active');
-    });
+    var cancelBtn = document.getElementById('confirmCancel');
+    var exitBtn = document.getElementById('confirmExit');
+    var modal = document.getElementById('confirmModal');
 
-    document.getElementById('confirmExit').addEventListener('click', function() {
-        document.getElementById('confirmModal').classList.remove('active');
-        resetEscalation();
-    });
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            if (modal) modal.classList.remove('active');
+        });
+    }
 
-    document.getElementById('confirmModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('active');
-        }
-    });
+    if (exitBtn) {
+        exitBtn.addEventListener('click', function() {
+            if (modal) modal.classList.remove('active');
+            resetEscalation();
+        });
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+    }
 }
 
 // ============================================================
@@ -1081,23 +1216,23 @@ function initConfirmModal() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Запуск эскалации...');
     
-    // Проверяем, что мы на странице эскалации
     if (document.getElementById('escalationWrapper')) {
         console.log('✅ Страница эскалации найдена');
         
-        // Небольшая задержка для загрузки данных
         setTimeout(function() {
-            // Проверяем загрузку данных
             if (typeof mapsData === 'undefined') {
                 console.error('❌ Данные не загружены!');
-                document.querySelector('.escalation-wrapper').innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: #e16d48;">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
-                        <h2>Ошибка загрузки данных</h2>
-                        <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
-                        <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
-                    </div>
-                `;
+                var wrapper = document.querySelector('.escalation-wrapper');
+                if (wrapper) {
+                    wrapper.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                            <h2>Ошибка загрузки данных</h2>
+                            <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
+                            <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
+                        </div>
+                    `;
+                }
                 return;
             }
             
