@@ -108,47 +108,55 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ
+// ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ (ИСПРАВЛЕННЫЕ)
 // ============================================================
 
 function getVariatorsForLevel(level) {
     if (typeof allVariatorsData === 'undefined') return [];
     
+    // Убираем Ультра II из списка (он больше не используется)
     var baseVariators = allVariatorsData.filter(function(v) {
-        return v.name !== "Ультра II" && v.name !== "Психохирургия";
+        return v.name !== "Ультра II";
     });
     
+    // Уровень 1 - только 1 вариатор
     if (level === 1) {
         var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, 1);
     }
     
+    // Уровни 2-5 (Начальная) - 2-3 вариатора
     if (level >= 2 && level <= 5) {
-        var count = Math.floor(Math.random() * 2) + 2;
+        var count = Math.floor(Math.random() * 2) + 2; // 2-3
         var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
+    // Уровни 6-15 (Нормальная) - 3-4 вариатора
     if (level >= 6 && level <= 15) {
-        var count = Math.floor(Math.random() * 2) + 3;
+        var count = Math.floor(Math.random() * 2) + 3; // 3-4
         var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
+    // Уровни 16-20 (Высокая) - 4-6 вариаторов
     if (level >= 16 && level <= 20) {
-        var count = Math.floor(Math.random() * 3) + 4;
+        var count = Math.floor(Math.random() * 3) + 4; // 4-6
         var shuffled = baseVariators.slice().sort(function() { return Math.random() - 0.5; });
         return shuffled.slice(0, count);
     }
     
+    // Уровни 21+ (Психохирургия) - все 8 вариаторов + Психохирургия
+    // Первый всегда Психохирургия
     if (level >= 21) {
-        var ultra = allVariatorsData.find(function(v) { return v.name === "Ультра II"; });
         var psycho = allVariatorsData.find(function(v) { return v.name === "Психохирургия"; });
+        // Убираем Ультра II и Психохирургия из списка для перемешивания
         var others = allVariatorsData.filter(function(v) {
             return v.name !== "Ультра II" && v.name !== "Психохирургия";
         });
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
-        return [ultra, psycho].concat(shuffled);
+        // Всегда ставим Психохирургия первым
+        return [psycho].concat(shuffled);
     }
     
     return [];
@@ -414,7 +422,7 @@ function renderEscEquipment() {
             
             item.innerHTML = `
                 <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
+                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/56x56/1a1a2e/e16d48?text=?'" style="width:56px; height:56px;">
                 <div class="item-name">${eq.name}</div>
             `;
             
@@ -515,7 +523,7 @@ function renderEscAmps() {
             
             item.innerHTML = `
                 <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
+                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px;">
                 <div class="item-name">${amp.name}</div>
                 <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
             `;
@@ -558,11 +566,12 @@ function checkEscAmpsReady() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (ИСПРАВЛЕННАЯ)
 // ============================================================
 
 function generateEscResult() {
     console.log('🔄 Генерация результата...');
+    console.log('Текущий уровень:', escState.level);
     
     if (typeof mapsData === 'undefined' || mapsData.length === 0) {
         console.error('❌ mapsData не загружен!');
@@ -587,8 +596,10 @@ function generateEscResult() {
     escState.difficulty = difficulty.name;
     console.log('📊 Сложность:', difficulty.name);
     
+    // Получаем вариаторы для уровня
     escState.variators = getVariatorsForLevel(escState.level);
     console.log('🎯 Вариаторов:', escState.variators.length);
+    console.log('📋 Вариаторы:', escState.variators.map(function(v) { return v.name; }).join(', '));
 
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
@@ -624,13 +635,14 @@ function generateEscResult() {
         `;
     }
 
+    // ВАРИАТОРЫ - размер 90px, название 0.75rem
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         resultVariators.innerHTML = escState.variators.map(function(v) {
             return `
                 <div class="var-item">
-                    <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/60x60/1a1a2e/e16d48?text=?'">
-                    <span class="var-name">${v.name}</span>
+                    <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
+                    <span class="var-name" style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
                 </div>
             `;
         }).join('');
@@ -664,7 +676,7 @@ function renderEscResultPlayers() {
             <div class="player-result">
                 <div class="player-name"><i class="fas fa-user-circle"></i> ${player}</div>
                 <div class="player-equip">
-                    ${equipData ? '<img src="' + equipData.image + '" alt="' + equip + '" onerror="this.style.display=\'none\'">' : ''}
+                    ${equipData ? '<img src="' + equipData.image + '" alt="' + equip + '" onerror="this.style.display=\'none\'" style="width:56px; height:56px; object-fit:contain;">' : ''}
                     <span class="label">СНАРЯЖЕНИЕ:</span>
                     <span class="value">${equip}</span>
                 </div>
@@ -1074,7 +1086,7 @@ function showBreakModal() {
             var item = document.createElement('div');
             item.className = 'selection-item';
             item.innerHTML = `
-                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'">
+                <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/90x90/1a1a2e/e16d48?text=?'" style="width:90px; height:90px;">
                 <div class="item-name">${amp.name}</div>
                 <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
             `;
