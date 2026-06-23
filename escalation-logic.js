@@ -1,5 +1,5 @@
 // ============================================================
-// ЛОГИКА ЭСКАЛАЦИИ (ПОЛНОСТЬЮ ИСПРАВЛЕННАЯ)
+// ЛОГИКА ЭСКАЛАЦИИ
 // ============================================================
 
 let escState = {
@@ -100,54 +100,6 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// КАТЕГОРИИ ВАРИАТОРОВ
-// ============================================================
-
-// Категории, которые не могут быть вместе
-var exclusiveCategories = [
-    'collection',  // Побочные задания (сбор крыс, схем и т.д.)
-    'hunters',     // Толкачи/бросатели/притворщики/егерь
-    'boss',        // Боссы
-    'traps',       // Ловушки
-    'psychosis',   // Психоз
-    'obstacles',   // Препятствия
-    'gates',       // Откатные ворота
-    'reagent',     // Модификаторы реагентов
-    'items',       // Предметы и инвентарь
-    'damage',      // Источники урона
-    'threat',      // Угрозы
-    'doors',       // Двери
-    'psycho',      // Психохирургия
-    'special'      // Особые события
-];
-
-// Вариаторы, которые блокируются сломанным реагентом
-var brokenReagentBlocked = [
-    'Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
-    'Урон Отключает Снаряжения', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжения',
-    'Урон Отключает Снаряжение', 'Первый Уровень', 'Ностофобия'
-];
-
-// Вариаторы, которые блокируются ностофобией
-var nostophobiaBlocked = [
-    'Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
-    'Урон Отключает Снаряжения', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжения',
-    'Урон Отключает Снаряжение', 'Первый Уровень', 'Сломанный Реагент'
-];
-
-// Ограничения боссов по картам
-var bossMapRestrictions = {
-    'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
-    'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
-    'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
-    'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
-    'Лилия Богомолова': ['Курорт']
-};
-
-// Вариаторы, которые блокируются глубоким ожогом
-var deepBurnBlocked = ['Больше Толкачей', 'Егерь', 'Больше Притворщиков'];
-
-// ============================================================
 // ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
 // ============================================================
 
@@ -177,6 +129,11 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         if (Math.random() > 0.02) {
             return false;
         }
+        var nostophobiaBlocked = [
+            'Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
+            'Урон Отключает Снаряжения', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжения',
+            'Урон Отключает Снаряжение', 'Первый Уровень', 'Сломанный Реагент'
+        ];
         for (var n = 0; n < nostophobiaBlocked.length; n++) {
             if (selectedNames.indexOf(nostophobiaBlocked[n]) !== -1) {
                 return false;
@@ -194,6 +151,13 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     }
     
     // Правило 9: Боссы ограничены по картам
+    var bossMapRestrictions = {
+        'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
+        'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
+        'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
+        'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
+        'Лилия Богомолова': ['Курорт']
+    };
     if (bossMapRestrictions[variatorName]) {
         var restrictedMaps = bossMapRestrictions[variatorName];
         if (restrictedMaps.indexOf(mapName) !== -1) {
@@ -250,6 +214,11 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     }
     
     // Правило 3: Сломанный Реагент блокирует определенные вариаторы
+    var brokenReagentBlocked = [
+        'Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
+        'Урон Отключает Снаряжения', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжения',
+        'Урон Отключает Снаряжение', 'Первый Уровень', 'Ностофобия'
+    ];
     if (variatorName === 'Сломанный Реагент') {
         for (var br = 0; br < brokenReagentBlocked.length; br++) {
             if (selectedNames.indexOf(brokenReagentBlocked[br]) !== -1) {
@@ -264,6 +233,7 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     }
     
     // Глубокий Ожог блокирует охотников
+    var deepBurnBlocked = ['Больше Толкачей', 'Егерь', 'Больше Притворщиков'];
     if (variatorName === 'Глубокий Ожог') {
         for (var db = 0; db < deepBurnBlocked.length; db++) {
             if (selectedNames.indexOf(deepBurnBlocked[db]) !== -1) {
@@ -304,7 +274,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     console.log('📍 Карта:', mapName);
     console.log('👥 Игроков:', playerCount);
     
-    // Копируем все вариаторы
     var availableVariators = allVariatorsData.slice();
     
     // Уровень 21+
@@ -700,7 +669,7 @@ function initEscalation() {
 }
 
 // ============================================================
-// ОТРИСОВКА ШАГОВ
+// ОТРИСОВКА ШАГОВ (КОРОТКАЯ ВЕРСИЯ)
 // ============================================================
 
 function renderEscPlayerNames() {
@@ -958,7 +927,6 @@ function generateEscResult() {
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     
-    // Генерируем вариаторы
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
     var step1 = document.getElementById('escStep1');
