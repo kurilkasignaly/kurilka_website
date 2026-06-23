@@ -21,7 +21,43 @@ let escState = {
 
 let escTimerInterval;
 
-// ===== ФУНКЦИИ ДЛЯ РАБОТЫ С АМФАМИ =====
+// ============================================================
+// ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ
+// ============================================================
+
+function checkDataLoaded() {
+    if (typeof mapsData === 'undefined') {
+        console.error('❌ mapsData не загружен!');
+        return false;
+    }
+    if (typeof equipmentData === 'undefined') {
+        console.error('❌ equipmentData не загружен!');
+        return false;
+    }
+    if (typeof ampsData === 'undefined') {
+        console.error('❌ ampsData не загружен!');
+        return false;
+    }
+    if (typeof ampCategories === 'undefined') {
+        console.error('❌ ampCategories не загружен!');
+        return false;
+    }
+    if (typeof trialsData === 'undefined') {
+        console.error('❌ trialsData не загружен!');
+        return false;
+    }
+    if (typeof allVariatorsData === 'undefined') {
+        console.error('❌ allVariatorsData не загружен!');
+        return false;
+    }
+    console.log('✅ Все данные загружены!');
+    return true;
+}
+
+// ============================================================
+// ФУНКЦИИ ДЛЯ РАБОТЫ С АМФАМИ
+// ============================================================
+
 function getAmpsByCategory(category) {
     if (typeof ampsData === 'undefined') return [];
     return ampsData.filter(amp => amp.category === category);
@@ -71,7 +107,10 @@ function unlockAmpForPlayer(playerIndex, ampName) {
     }
 }
 
-// ===== ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ =====
+// ============================================================
+// ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ
+// ============================================================
+
 function getVariatorsForLevel(level) {
     if (typeof allVariatorsData === 'undefined') return [];
     
@@ -173,6 +212,18 @@ function updateLevelCounter() {
 // ============================================================
 
 function initEscalation() {
+    // Проверяем загрузку данных
+    if (!checkDataLoaded()) {
+        document.querySelector('.escalation-wrapper').innerHTML = `
+            <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                <h2>Ошибка загрузки данных</h2>
+                <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
+            </div>
+        `;
+        return;
+    }
+
     // Шаг 1: Выбор игроков
     const options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
     options.forEach(btn => {
@@ -285,8 +336,14 @@ function renderEscPlayerNames() {
 
 function renderEscEquipment() {
     const container = document.getElementById('escStep3Content');
-    if (!container || typeof equipmentData === 'undefined') return;
+    if (!container) return;
     container.innerHTML = '';
+    
+    // Проверяем наличие данных
+    if (typeof equipmentData === 'undefined' || equipmentData.length === 0) {
+        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные снаряжения не загружены</div>';
+        return;
+    }
     
     escState.players.forEach((player, idx) => {
         const section = document.createElement('div');
@@ -351,8 +408,19 @@ function checkEscEquipReady() {
 
 function renderEscAmps() {
     const container = document.getElementById('escStep4Content');
-    if (!container || typeof ampsData === 'undefined' || typeof ampCategories === 'undefined') return;
+    if (!container) return;
     container.innerHTML = '';
+    
+    // Проверяем наличие данных
+    if (typeof ampsData === 'undefined' || ampsData.length === 0) {
+        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амп не загружены</div>';
+        return;
+    }
+    
+    if (typeof ampCategories === 'undefined' || ampCategories.length === 0) {
+        container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: категории амп не загружены</div>';
+        return;
+    }
     
     escState.players.forEach((player, idx) => {
         const section = document.createElement('div');
@@ -371,6 +439,15 @@ function renderEscAmps() {
 
         // Выбираем случайную категорию для первого выбора
         const availableCategories = ampCategories.filter(cat => !isCategoryComplete(idx, cat));
+        if (availableCategories.length === 0) {
+            const msg = document.createElement('div');
+            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem;';
+            msg.textContent = 'Все улучшения применены';
+            section.appendChild(msg);
+            container.appendChild(section);
+            return;
+        }
+        
         const randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
         
         const catLabel = document.createElement('div');
@@ -441,19 +518,40 @@ function checkEscAmpsReady() {
 // ============================================================
 
 function generateEscResult() {
-    if (typeof mapsData === 'undefined' || typeof trialsData === 'undefined' || typeof variatorsData === 'undefined') return;
+    console.log('🔄 Генерация результата...');
     
+    // Проверяем наличие данных
+    if (typeof mapsData === 'undefined' || mapsData.length === 0) {
+        console.error('❌ mapsData не загружен!');
+        return;
+    }
+    
+    if (typeof trialsData === 'undefined' || Object.keys(trialsData).length === 0) {
+        console.error('❌ trialsData не загружен!');
+        return;
+    }
+    
+    // Выбираем случайную карту
     const mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
     escState.map = mapData;
+    console.log('📍 Карта:', mapData.name);
     
+    // Выбираем случайное испытание для этой карты
     const trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
     const trial = trials[Math.floor(Math.random() * trials.length)];
     escState.trial = trial;
+    console.log('📋 Испытание:', trial.name);
     
+    // Определяем сложность
     const difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
+    console.log('📊 Сложность:', difficulty.name);
+    
+    // Получаем вариаторы
     escState.variators = getVariatorsForLevel(escState.level);
+    console.log('🎯 Вариаторов:', escState.variators.length);
 
+    // Скрываем шаги, показываем результат
     document.querySelectorAll('.step-container').forEach(el => el.classList.add('hidden'));
     const resultContainer = document.getElementById('escResult');
     if (resultContainer) {
@@ -497,6 +595,8 @@ function generateEscResult() {
     if (resultContainer) {
         resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    
+    console.log('✅ Результат сгенерирован!');
 }
 
 // ============================================================
@@ -695,9 +795,15 @@ function openAmpModal(playerIndex, category) {
 
 function renderAmpModalGrid(playerIndex, category) {
     const grid = document.getElementById('ampModalGrid');
-    if (!grid || typeof ampsData === 'undefined') return;
+    if (!grid) return;
     
     grid.innerHTML = '';
+
+    // Проверяем наличие данных
+    if (typeof ampsData === 'undefined' || ampsData.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #e16d48; padding: 2rem;">Ошибка: данные амп не загружены</div>';
+        return;
+    }
 
     const categoryAmps = getAmpsByCategory(category);
     const used = escState.usedAmps[playerIndex] || [];
@@ -973,10 +1079,42 @@ function initConfirmModal() {
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Запуск эскалации...');
+    
+    // Проверяем, что мы на странице эскалации
     if (document.getElementById('escalationWrapper')) {
-        initEscalation();
-        initAmpModal();
-        initConfirmModal();
-        updateLevelCounter();
+        console.log('✅ Страница эскалации найдена');
+        
+        // Небольшая задержка для загрузки данных
+        setTimeout(function() {
+            // Проверяем загрузку данных
+            if (typeof mapsData === 'undefined') {
+                console.error('❌ Данные не загружены!');
+                document.querySelector('.escalation-wrapper').innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #e16d48;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                        <h2>Ошибка загрузки данных</h2>
+                        <p style="color: #c2b9d4; margin-top: 0.5rem;">Не удалось загрузить необходимые данные.<br>Проверьте подключение JS файлов.</p>
+                        <a href="roulette.html" style="display: inline-block; margin-top: 1.5rem; color: #e16d48; text-decoration: none; border: 1px solid #e16d48; padding: 0.5rem 2rem; border-radius: 30px;">Вернуться к рулетке</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            console.log('✅ Данные загружены:');
+            console.log('  - mapsData:', mapsData.length, 'карт');
+            console.log('  - equipmentData:', equipmentData.length, 'снаряжений');
+            console.log('  - ampsData:', ampsData.length, 'амп');
+            console.log('  - ampCategories:', ampCategories);
+            console.log('  - trialsData:', Object.keys(trialsData).length, 'карт с испытаниями');
+            console.log('  - allVariatorsData:', allVariatorsData.length, 'вариаторов');
+            
+            initEscalation();
+            initAmpModal();
+            initConfirmModal();
+            updateLevelCounter();
+            
+            console.log('✅ Эскалация инициализирована!');
+        }, 300);
     }
 });
