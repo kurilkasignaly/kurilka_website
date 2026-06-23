@@ -36,7 +36,7 @@ const allVariatorsData = [
     // ===== СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ ЗАДАНИЯ =====
     // Эти вариаторы блокируют все остальные из категории collection
     { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp", category: "collection_special" },
-    { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" },
+    { name: "Двойные цели", image: "images/вариатор-д-задания.webp", category: "collection_special" },
     { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp", category: "collection_special" },
 
     // ===== НАБОРЫ (УГРОЗЫ) =====
