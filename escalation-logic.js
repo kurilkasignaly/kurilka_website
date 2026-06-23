@@ -1,5 +1,5 @@
 // ============================================================
-// ЛОГИКА ЭСКАЛАЦИИ (ИСПРАВЛЕННАЯ)
+// ЛОГИКА ЭСКАЛАЦИИ
 // ============================================================
 
 let escState = {
@@ -108,7 +108,7 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ (ИСПРАВЛЕННЫЕ)
+// ФУНКЦИИ ДЛЯ РАБОТЫ С ВАРИАТОРАМИ
 // ============================================================
 
 function getVariatorsForLevel(level) {
@@ -578,7 +578,7 @@ function checkEscAmpsReady() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (ИСПРАВЛЕННАЯ)
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С КАРТИНКАМИ ИСПЫТАНИЙ)
 // ============================================================
 
 function generateEscResult() {
@@ -595,15 +595,22 @@ function generateEscResult() {
         return;
     }
     
-    var mapData = mapsData[Math.floor(Math.random() * mapsData.length)];
-    escState.map = mapData;
-    console.log('📍 Карта:', mapData.name);
+    // Получаем все названия карт из trialsData
+    var mapNames = Object.keys(trialsData);
+    var randomMapName = mapNames[Math.floor(Math.random() * mapNames.length)];
+    var mapData = trialsData[randomMapName];
     
-    var trials = trialsData[mapData.name] || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
+    // Сохраняем информацию о карте
+    escState.map = { name: randomMapName, image: mapData.image };
+    console.log('📍 Карта:', randomMapName);
+    
+    // Выбираем случайное испытание для этой карты
+    var trials = mapData.trials || [{ name: "Стандартное задание", desc: "Выполните задание на карте." }];
     var trial = trials[Math.floor(Math.random() * trials.length)];
     escState.trial = trial;
     console.log('📋 Испытание:', trial.name);
     
+    // Определяем сложность
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     console.log('📊 Сложность:', difficulty.name);
@@ -616,6 +623,7 @@ function generateEscResult() {
     var variatorNames = escState.variators.map(function(v) { return v.name; });
     console.log('📋 Вариаторы:', variatorNames.join(', '));
 
+    // Скрываем шаги
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
     var step3 = document.getElementById('escStep3');
@@ -626,19 +634,24 @@ function generateEscResult() {
     if (step3) step3.classList.add('hidden');
     if (step4) step4.classList.add('hidden');
     
+    // Показываем результат
     var resultContainer = document.getElementById('escResult');
     if (resultContainer) {
         resultContainer.style.display = 'block';
         resultContainer.classList.add('active');
     }
 
+    // Карта и испытание с картинкой испытания
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
+        // Используем картинку испытания, если есть, иначе картинку карты
+        var trialImage = trial.image || mapData.image;
+        
         resultMap.innerHTML = `
-            <img class="map-image" src="${mapData.image}" alt="${mapData.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(mapData.name)}'">
+            <img class="map-image" src="${trialImage}" alt="${trial.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
             <div class="result-map-info">
                 <div class="map-label"><i class="fas fa-map"></i> Карта</div>
-                <div class="map-name">${mapData.name}</div>
+                <div class="map-name">${randomMapName}</div>
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
                 <div class="map-meta">
@@ -650,7 +663,7 @@ function generateEscResult() {
         `;
     }
 
-    // ВАРИАТОРЫ - размер 90px, название 0.75rem
+    // Вариаторы - размер 90px, название 0.75rem
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         if (escState.variators.length === 0) {
