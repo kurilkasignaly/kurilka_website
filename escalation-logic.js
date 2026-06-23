@@ -149,7 +149,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         'psychosis', 'obstacles', 'gates', 'reagent', 'items', 'damage'
     ];
     
-    // Проверка, что категория входит в список исключений
     if (exclusiveCategories.indexOf(category) !== -1) {
         for (var s = 0; s < selectedVariators.length; s++) {
             if (selectedVariators[s].category === category) {
@@ -158,7 +157,7 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         }
     }
     
-    // Проверка: collection_special блокирует collection
+    // collection_special блокирует collection
     if (category === 'collection') {
         for (var cs = 0; cs < selectedVariators.length; cs++) {
             if (selectedVariators[cs].category === 'collection_special') {
@@ -304,36 +303,43 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - 8 вариаторов');
         
-        // Ищем обязательные вариаторы
+        // Ищем Психохирургию
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTargets = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
         
-        // Если вариаторы не найдены - создаем искусственно
+        // Ищем Двойные задания (может быть под разными названиями)
+        var doubleTargets = availableVariators.find(function(v) { 
+            return v.name === "Двойные задания" || v.name === "Двойные цели";
+        });
+        
+        // Если Психохирургия не найдена - создаем
         if (!psycho) {
-            console.warn('⚠️ Психохирургия не найдена, создаем искусственно');
+            console.warn('⚠️ Психохирургия не найдена, создаем');
             psycho = { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" };
             availableVariators.push(psycho);
         }
         
+        // Если Двойные задания не найдены - создаем
         if (!doubleTargets) {
-            console.warn('⚠️ Двойные задания не найдены, создаем искусственно');
+            console.warn('⚠️ Двойные задания не найдены, создаем');
             doubleTargets = { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" };
             availableVariators.push(doubleTargets);
         }
         
-        // Начинаем с обязательных вариаторов
+        // Начинаем с обязательных
         var result = [psycho, doubleTargets];
         console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
-        // Остальные вариаторы (без психохирургии и двойных заданий)
+        // Остальные вариаторы
         var others = availableVariators.filter(function(v) {
-            return v.name !== "Психохирургия" && v.name !== "Двойные задания";
+            return v.name !== "Психохирургия" && 
+                   v.name !== "Двойные задания" && 
+                   v.name !== "Двойные цели";
         });
         
         // Перемешиваем
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
         
-        // Добавляем совместимые
+        // Добавляем совместимые до 8
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
             if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
@@ -342,7 +348,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             }
         }
         
-        // Если не хватает до 8 - добираем
+        // Если не хватает - добираем
         if (result.length < 8) {
             console.log('⚠️ Не хватает до 8, добираем...');
             var remaining = others.filter(function(v) {
@@ -351,32 +357,8 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             for (var j = 0; j < remaining.length && result.length < 8; j++) {
                 var candidate2 = remaining[j];
                 if (result.indexOf(candidate2) === -1) {
-                    var canAdd = true;
-                    for (var c = 0; c < result.length; c++) {
-                        if (result[c].category === candidate2.category && 
-                            candidate2.category !== 'special' && 
-                            candidate2.category !== 'boss' &&
-                            candidate2.category !== 'psycho') {
-                            canAdd = false;
-                            break;
-                        }
-                    }
-                    if (canAdd) {
-                        result.push(candidate2);
-                        console.log('✅ Добавлен (принудительно):', candidate2.name);
-                    }
-                }
-            }
-        }
-        
-        // Если все еще не хватает - добавляем любые
-        if (result.length < 8) {
-            console.log('⚠️ ВСЕ ЕЩЕ НЕ ХВАТАЕТ, добавляем любые...');
-            for (var k = 0; k < shuffled.length && result.length < 8; k++) {
-                var candidate3 = shuffled[k];
-                if (result.indexOf(candidate3) === -1) {
-                    result.push(candidate3);
-                    console.log('✅ Добавлен (любой):', candidate3.name);
+                    result.push(candidate2);
+                    console.log('✅ Добавлен (принудительно):', candidate2.name);
                 }
             }
         }
@@ -972,6 +954,7 @@ function generateEscResult() {
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     
+    // ГЕНЕРИРУЕМ НОВЫЕ ВАРИАТОРЫ
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
     var step1 = document.getElementById('escStep1');
@@ -1613,6 +1596,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('escalationWrapper')) {
         console.log('✅ Страница эскалации найдена');
         
+        // Небольшая задержка для загрузки данных
         setTimeout(function() {
             if (typeof mapsData === 'undefined') {
                 console.error('❌ Данные не загружены!');
@@ -1644,6 +1628,6 @@ document.addEventListener('DOMContentLoaded', function() {
             updateLevelCounter();
             
             console.log('✅ Эскалация инициализирована!');
-        }, 300);
+        }, 500);
     }
 });
