@@ -32,7 +32,7 @@ const allVariatorsData = [
     { name: "Расшифруйте Вещание", image: "images/вариатор-вещание.webp", category: "collection" },
     { name: "Потушите Огонь", image: "images/вариатор-потушите-огонь.webp", category: "collection" },
     { name: "Соберите плакаты", image: "images/вариатор-соберите-плакаты.webp", category: "collection" },
-    { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-задание.webp" },
+    { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp" },
     { name: "Двойные задания", image: "images/вариатор-д-задания.webp" },
     { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp" },
 
