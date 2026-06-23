@@ -1,5 +1,5 @@
 // ============================================================
-// ЛОГИКА ЭСКАЛАЦИИ
+// ЛОГИКА ЭСКАЛАЦИИ (ПОЛНАЯ ВЕРСИЯ)
 // ============================================================
 
 let escState = {
@@ -144,9 +144,33 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     
     // Правило 1: Вариаторы из одной категории не могут быть вместе
     var category = variator.category;
-    for (var s = 0; s < selectedVariators.length; s++) {
-        if (selectedVariators[s].category === category) {
-            return false;
+    var exclusiveCategories = [
+        'collection', 'collection_special', 'hunters', 'boss', 'traps',
+        'psychosis', 'obstacles', 'gates', 'reagent', 'items', 'damage'
+    ];
+    
+    // Проверка, что категория входит в список исключений
+    if (exclusiveCategories.indexOf(category) !== -1) {
+        for (var s = 0; s < selectedVariators.length; s++) {
+            if (selectedVariators[s].category === category) {
+                return false;
+            }
+        }
+    }
+    
+    // Проверка: collection_special блокирует collection
+    if (category === 'collection') {
+        for (var cs = 0; cs < selectedVariators.length; cs++) {
+            if (selectedVariators[cs].category === 'collection_special') {
+                return false;
+            }
+        }
+    }
+    if (category === 'collection_special') {
+        for (var cs2 = 0; cs2 < selectedVariators.length; cs2++) {
+            if (selectedVariators[cs2].category === 'collection') {
+                return false;
+            }
         }
     }
     
@@ -280,7 +304,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - 8 вариаторов');
         
-        // Находим обязательные вариаторы
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
         var doubleTargets = availableVariators.find(function(v) { return v.name === "Двойные цели"; });
         
@@ -289,19 +312,15 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             return availableVariators.slice(0, 8);
         }
         
-        // Результат начинается с обязательных вариаторов
         var result = [psycho, doubleTargets];
         console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
-        // Остальные вариаторы (без психохирургии и двойных целей)
         var others = availableVariators.filter(function(v) {
             return v.name !== "Психохирургия" && v.name !== "Двойные цели";
         });
         
-        // Перемешиваем
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
         
-        // Добавляем вариаторы с проверкой совместимости
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
             if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
@@ -310,13 +329,11 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             }
         }
         
-        // Если не хватает до 8 - добираем без жестких проверок
         if (result.length < 8) {
             console.log('⚠️ Не хватает до 8, добираем...');
             for (var j = 0; j < shuffled.length && result.length < 8; j++) {
                 var candidate2 = shuffled[j];
                 if (result.indexOf(candidate2) === -1) {
-                    // Проверяем только базовые категории
                     var canAdd = true;
                     for (var c = 0; c < result.length; c++) {
                         if (result[c].category === candidate2.category && 
@@ -348,7 +365,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     
     console.log('🎯 Нужно вариаторов:', count);
     
-    // Убираем запрещенные до 20 уровня
     var filtered = availableVariators.filter(function(v) {
         return v.name !== "Ностофобия" && v.name !== "Психохирургия";
     });
@@ -363,7 +379,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
     
-    // Добираем если не хватает
     if (result.length < count) {
         for (var m = 0; m < shuffled.length && result.length < count; m++) {
             var candidate2 = shuffled[m];
@@ -669,7 +684,7 @@ function initEscalation() {
 }
 
 // ============================================================
-// ОТРИСОВКА ШАГОВ (КОРОТКАЯ ВЕРСИЯ)
+// ОТРИСОВКА ШАГОВ
 // ============================================================
 
 function renderEscPlayerNames() {
