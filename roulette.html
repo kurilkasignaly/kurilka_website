@@ -1312,12 +1312,15 @@
     </footer>
 </div>
 
-<!-- ===== ПОДКЛЮЧЕНИЕ JS ФАЙЛОВ ===== -->
+<!-- ===== ПОДКЛЮЧЕНИЕ JS ФАЙЛОВ (ПРАВИЛЬНЫЙ ПОРЯДОК) ===== -->
+<!-- Сначала данные -->
 <script src="trials.js"></script>
 <script src="variators.js"></script>
 <script src="variators-all.js"></script>
 <script src="special-trials.js"></script>
+<!-- Потом диалог -->
 <script src="dialog.js"></script>
+<!-- Потом основная логика -->
 <script src="roulette.js"></script>
 
 </body>
