@@ -60,6 +60,10 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-6px); }
         }
+        @keyframes checkmarkAppear {
+            0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -308,8 +312,6 @@
             gap: 1.5rem;
             flex-wrap: wrap;
         }
-
-        /* БЛОК КАРТЫ — здесь будет картинка карты ИЛИ картинка испытания */
         .daily-mission .mission-map {
             display: flex;
             flex-direction: column;
@@ -337,7 +339,7 @@
         .daily-mission .mission-map .map-image-wrap img {
             width: 100%;
             height: 100%;
-            object-fit: contain;  /* ПОЛНАЯ КАРТИНКА, НЕ ОБРЕЗАННАЯ */
+            object-fit: contain;
             display: block;
         }
         .daily-mission .mission-map .map-name {
@@ -356,8 +358,6 @@
             border-radius: 20px;
             border: 1px solid rgba(220, 90, 50, 0.15);
         }
-
-        /* ЦЕНТР: Название + Описание */
         .daily-mission .mission-trial {
             flex: 1;
             min-width: 250px;
@@ -378,8 +378,6 @@
             font-size: 0.88rem;
             line-height: 1.5;
         }
-
-        /* ВАРИАТОРЫ (справа) */
         .daily-mission .mission-variators {
             display: flex;
             flex-direction: column;
@@ -435,7 +433,6 @@
             color: #888;
             margin-top: 0.1rem;
         }
-
         .timer-section {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
@@ -508,7 +505,7 @@
         }
         .special-trials .trials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
         .trial-card {
@@ -535,15 +532,19 @@
         .trial-card .trial-header .trial-icon {
             width: 56px;
             height: 56px;
-            border-radius: 50%;
-            background: rgba(220, 90, 50, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 12px;
             overflow: hidden;
             flex-shrink: 0;
             border: 2px solid rgba(220, 90, 50, 0.25);
-            font-size: 1.8rem;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .trial-card .trial-header .trial-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .trial-card .trial-header .trial-title { flex: 1; }
         .trial-card .trial-header .trial-title h3 {
@@ -551,21 +552,111 @@
             color: #ffbc9a;
             font-weight: 600;
         }
-        .trial-card .trial-body { padding: 0.8rem 1.2rem 1.2rem; }
+        .trial-card .trial-body { padding: 1rem 1.2rem 1.2rem; }
+        
+        .trial-card .trial-body .trial-desc-label {
+            font-size: 0.65rem;
+            color: #e16d48;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+        }
         .trial-card .trial-body .trial-desc {
             font-size: 0.85rem;
             color: #c2b9d4;
             line-height: 1.5;
-            margin-bottom: 0.8rem;
             padding: 0.5rem 0.8rem;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             border-left: 3px solid rgba(220, 90, 50, 0.3);
+            margin-bottom: 0.8rem;
         }
-        .trial-card .trial-body .trial-actions {
-            margin-top: 1rem;
+        
+        .trial-card .trial-body .trial-variators-label {
+            font-size: 0.65rem;
+            color: #e16d48;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+        }
+        .trial-card .trial-body .trial-variators-list {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+        
+        .trial-card .trial-body .trial-equipment-label {
+            font-size: 0.65rem;
+            color: #e16d48;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.1rem;
+        }
+        .trial-card .trial-body .trial-equipment {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            padding: 0.2rem 0.8rem;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            margin-bottom: 0.3rem;
+        }
+        
+        .trial-card .trial-body .trial-amf-label {
+            font-size: 0.65rem;
+            color: #e16d48;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.1rem;
+        }
+        .trial-card .trial-body .trial-amf {
+            font-size: 0.8rem;
+            color: #c2b9d4;
+            padding: 0.2rem 0.8rem;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+        }
+        
+        .trial-card .trial-body .trial-status {
             display: flex;
-            justify-content: flex-end;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.1);
+        }
+        .trial-card .trial-body .trial-status .status-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .trial-card .trial-body .trial-status .status-badge.in-progress {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        .trial-card .trial-body .trial-status .status-badge.completed {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            animation: checkmarkAppear 0.5s ease-out;
+        }
+        
+        .trial-card .trial-body .trial-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            align-items: center;
         }
         .trial-card .trial-body .trial-actions .complete-btn {
             background: linear-gradient(135deg, #bc4627, #e25d32);
@@ -579,9 +670,14 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-        .trial-card .trial-body .trial-actions .complete-btn:hover {
+        .trial-card .trial-body .trial-actions .complete-btn:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(188, 74, 40, 0.3);
+        }
+        .trial-card .trial-body .trial-actions .complete-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
         .trial-card .trial-body .trial-actions .complete-btn.completed {
             background: rgba(46, 204, 113, 0.2);
@@ -828,6 +924,8 @@
             .dialog-text { font-size: 0.75rem; min-height: 34px; }
             .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
             .daily-mission .mission-trial .trial-name { font-size: 1rem; }
+            .special-trials .trials-grid { grid-template-columns: 1fr; }
+            .trial-card .trial-body .trial-status { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -1116,7 +1214,7 @@
     };
 
     // ================================================================
-    //  ВАРИАТОРЫ (сокращенно для экономии места)
+    //  ВАРИАТОРЫ
     // ================================================================
     const variatorsData = [
         { name: "Сильнее Вместе", image: "images/вариатор-сильнее-вместе.webp", category: "special" },
@@ -1458,7 +1556,6 @@
 
         const missionContent = document.getElementById('missionContent');
 
-        // Картинка для блока — показываем картинку ИСПЫТАНИЯ (если есть) или карту
         const displayImage = trial.image || getMapImage(mapName);
 
         let variatorsHTML = variators.map(v => `
@@ -1471,7 +1568,6 @@
         `).join('');
 
         missionContent.innerHTML = `
-            <!-- БЛОК КАРТЫ — здесь картинка испытания -->
             <div class="mission-map">
                 <div class="map-image-wrap">
                     <img src="${displayImage}" alt="${trial.name}" 
@@ -1480,14 +1576,10 @@
                 <span class="map-name">${mapName}</span>
                 <span class="trial-label">🎯 Испытание дня</span>
             </div>
-
-            <!-- ЦЕНТР: Название + Описание -->
             <div class="mission-trial">
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
             </div>
-
-            <!-- ВАРИАТОРЫ -->
             <div class="mission-variators">
                 <div class="variator-items">${variatorsHTML}</div>
                 <div class="variator-count">${variators.length} вариаторов</div>
@@ -1520,36 +1612,134 @@
     setInterval(updateTimer, 1000);
 
     // ================================================================
-    //  ОСОБЫЕ ИСПЫТАНИЯ
+    //  ОСОБЫЕ ИСПЫТАНИЯ (С КАРТИНКАМИ, СТАТУСАМИ И СОХРАНЕНИЕМ)
     // ================================================================
     function renderSpecialTrials() {
         const grid = document.getElementById('specialTrialsGrid');
+        
+        // Данные особых испытаний
         const specials = [
-            { name: "Кошмар во сне", desc: "Пройдите испытание, не издав ни звука", icon: "🌙" },
-            { name: "Без оружия", desc: "Завершите миссию без использования оружия", icon: "🤚" },
-            { name: "Призрак", desc: "Не попадитесь ни разу за всё испытание", icon: "👻" },
-            { name: "Скорость", desc: "Завершите испытание за 5 минут", icon: "⚡" },
-            { name: "Милосердие", desc: "Не убивайте ни одного врага", icon: "🕊️" }
+            { 
+                id: "special_1",
+                name: "Кошмар во сне", 
+                desc: "Пройдите испытание, не издав ни звука. Любой шум привлекает внимание врагов и проваливает задание.", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Тишина", "Скрытность", "Без оружия"],
+                equipment: "Разрешено: Фонарь, АМФ",
+                amf: "Разрешены: АМФ-стимуляторы"
+            },
+            { 
+                id: "special_2",
+                name: "Без оружия", 
+                desc: "Завершите миссию без использования оружия. Никаких ударов, метательных предметов или защиты.", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Без оружия", "Уязвимость", "Скрытность"],
+                equipment: "Разрешено: Медицинские предметы",
+                amf: "Разрешены: АМФ-восстановление"
+            },
+            { 
+                id: "special_3",
+                name: "Призрак", 
+                desc: "Не попадитесь ни разу за всё испытание. Любое обнаружение врагом = провал.", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Скрытность", "Без шума", "Уклонение"],
+                equipment: "Разрешено: Укрытия, АМФ",
+                amf: "Разрешены: АМФ-скорость"
+            },
+            { 
+                id: "special_4",
+                name: "Скорость", 
+                desc: "Завершите испытание за 5 минут. Каждая секунда на счету, медлительность недопустима.", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Скорость", "Таймер", "Без остановок"],
+                equipment: "Разрешено: АМФ-ускорение",
+                amf: "Разрешены: Все АМФ"
+            },
+            { 
+                id: "special_5",
+                name: "Милосердие", 
+                desc: "Не убивайте ни одного врага. Только оглушение и обход, никаких смертей.", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Милосердие", "Скрытность", "Без убийств"],
+                equipment: "Разрешено: Успокоительное, АМФ",
+                amf: "Разрешены: АМФ-защита"
+            }
         ];
 
-        grid.innerHTML = specials.map((s, i) => `
-            <div class="trial-card">
+        // Загружаем статусы из localStorage
+        let completedStatus = {};
+        try {
+            const saved = localStorage.getItem('specialTrialsStatus');
+            if (saved) {
+                completedStatus = JSON.parse(saved);
+            }
+        } catch (e) {}
+
+        grid.innerHTML = specials.map((s, index) => {
+            const isCompleted = completedStatus[s.id] || false;
+            
+            return `
+            <div class="trial-card" data-id="${s.id}">
                 <div class="trial-header">
-                    <div class="trial-icon">${s.icon}</div>
-                    <div class="trial-title"><h3>${s.name}</h3></div>
+                    <div class="trial-icon">
+                        <img src="${s.icon}" alt="${s.name}" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-star\\' style=\\'font-size: 1.8rem; color: #e16d48;\\'></i>'">
+                    </div>
+                    <div class="trial-title">
+                        <h3>${s.name}</h3>
+                    </div>
                 </div>
                 <div class="trial-body">
+                    <div class="trial-desc-label">📋 ОПИСАНИЕ ЗАДАНИЯ:</div>
                     <div class="trial-desc">${s.desc}</div>
-                    <div class="trial-actions">
-                        <button class="complete-btn" onclick="this.textContent='✅ Выполнено'; this.classList.add('completed'); this.disabled=true;">
-                            Принять вызов
-                        </button>
+                    
+                    <div class="trial-variators-label">🎲 ВАРИАТОРЫ:</div>
+                    <div class="trial-variators-list">
+                        ${s.variators.map((v, i) => `${i+1}. ${v}`).join(' · ')}
+                    </div>
+                    
+                    <div class="trial-equipment-label">🎒 СНАРЯЖЕНИЕ:</div>
+                    <div class="trial-equipment">${s.equipment}</div>
+                    
+                    <div class="trial-amf-label">💉 АМФЫ:</div>
+                    <div class="trial-amf">${s.amf}</div>
+                    
+                    <div class="trial-status">
+                        <span class="status-badge ${isCompleted ? 'completed' : 'in-progress'}">
+                            ${isCompleted ? '✅ Выполнено' : '⏳ В выполнении'}
+                        </span>
+                        <div class="trial-actions">
+                            <button class="complete-btn ${isCompleted ? 'completed' : ''}" 
+                                    onclick="toggleSpecialTrial('${s.id}')" 
+                                    ${isCompleted ? 'disabled' : ''}>
+                                ${isCompleted ? '✅ Помечено как выполненное' : '📌 Пометить как выполненное'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     }
 
+    // Функция переключения статуса особого испытания
+    window.toggleSpecialTrial = function(id) {
+        let completedStatus = {};
+        try {
+            const saved = localStorage.getItem('specialTrialsStatus');
+            if (saved) {
+                completedStatus = JSON.parse(saved);
+            }
+        } catch (e) {}
+
+        // Переключаем статус
+        completedStatus[id] = !completedStatus[id];
+        localStorage.setItem('specialTrialsStatus', JSON.stringify(completedStatus));
+        
+        // Перерендериваем
+        renderSpecialTrials();
+    };
+
+    // Первоначальный рендеринг
     renderSpecialTrials();
 
     // ================================================================
