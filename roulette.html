@@ -56,6 +56,10 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
+        @keyframes floatAvatar {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -167,8 +171,8 @@
         }
         .dialog-avatar {
             flex-shrink: 0;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             border: 2px solid rgba(220, 90, 50, 0.4);
             overflow: hidden;
@@ -178,6 +182,7 @@
             justify-content: center;
             position: relative;
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.15);
+            animation: floatAvatar 4s ease-in-out infinite;
         }
         .dialog-avatar img {
             width: 100%;
@@ -282,7 +287,7 @@
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
             border-radius: 32px;
-            padding: 2rem;
+            padding: 2rem 2rem 1.5rem;
             margin-bottom: 2.5rem;
             border: 2px solid rgba(220, 90, 50, 0.3);
             animation: glowPulse 2s ease-in-out infinite;
@@ -294,11 +299,11 @@
             color: #e16d48;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         .daily-mission .mission-content {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: center;
             gap: 2rem;
             flex-wrap: wrap;
@@ -308,16 +313,18 @@
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
+            flex: 0 0 200px;
         }
         .daily-mission .mission-map img {
-            width: 160px;
-            height: 160px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.4);
             transition: transform 0.3s;
+            background: #1a1a2e;
         }
-        .daily-mission .mission-map img:hover { transform: scale(1.05); }
+        .daily-mission .mission-map img:hover { transform: scale(1.03); }
         .daily-mission .mission-map .map-name {
             font-size: 1rem;
             color: #fff;
@@ -325,61 +332,87 @@
         }
         .daily-mission .mission-trial {
             text-align: left;
-            max-width: 350px;
-            min-width: 200px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .daily-mission .mission-trial .trial-name {
             color: #ffbc9a;
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
         }
         .daily-mission .mission-trial .trial-desc {
             color: #c2b9d4;
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .daily-mission .mission-trial .trial-image {
+            margin-top: 0.8rem;
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+        .daily-mission .mission-trial .trial-image img {
+            width: 100%;
+            height: auto;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(220, 90, 50, 0.2);
         }
         .daily-mission .mission-variators {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.8rem;
+            flex: 0 0 auto;
+            min-width: 200px;
         }
         .daily-mission .variator-items {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
         }
         .daily-mission .variator-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            transition: all 0.3s;
+            min-width: 70px;
+        }
+        .daily-mission .variator-item:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            transform: translateY(-2px);
         }
         .daily-mission .variator-item img {
-            width: 75px;
-            height: 75px;
+            width: 55px;
+            height: 55px;
             object-fit: contain;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: transform 0.3s;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
         }
-        .daily-mission .variator-item img:hover { transform: scale(1.1); }
         .daily-mission .variator-item .var-name {
-            font-size: 0.75rem;
+            font-size: 0.55rem;
             color: #c2b9d4;
-            max-width: 100px;
             text-align: center;
-            line-height: 1.2;
+            line-height: 1.1;
+            max-width: 70px;
         }
         .daily-mission .variator-item .var-category {
-            font-size: 0.45rem;
+            font-size: 0.4rem;
             color: #666;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .daily-mission .variator-count {
             font-size: 0.8rem;
@@ -458,7 +491,7 @@
         }
         .special-trials .trials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
         .trial-card {
@@ -493,9 +526,8 @@
             overflow: hidden;
             flex-shrink: 0;
             border: 2px solid rgba(220, 90, 50, 0.25);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.1);
+            font-size: 1.8rem;
         }
-        .trial-card .trial-header .trial-icon .icon-fallback { font-size: 1.5rem; color: #e16d48; }
         .trial-card .trial-header .trial-title { flex: 1; }
         .trial-card .trial-header .trial-title h3 {
             font-size: 1.1rem;
@@ -539,10 +571,6 @@
             border: 1px solid rgba(46, 204, 113, 0.3);
             color: #2ecc71;
             cursor: default;
-        }
-        .trial-card .trial-body .trial-actions .complete-btn.completed:hover {
-            transform: none;
-            box-shadow: none;
         }
 
         /* Режимы */
@@ -745,39 +773,38 @@
             .logo h1 { font-size: 1.5rem; }
             .page-header h1 { font-size: 1.8rem; }
             .modes-grid { grid-template-columns: 1fr; }
-            .special-trials .trials-grid { grid-template-columns: 1fr; }
             .constructor-form { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: 1; }
-            .daily-mission .mission-content { flex-direction: column; align-items: center; gap: 1.5rem; }
-            .daily-mission .mission-map img { width: 120px; height: 120px; }
-            .daily-mission .variator-item img { width: 60px; height: 60px; }
+            .daily-mission .mission-content { flex-direction: column; align-items: center; }
+            .daily-mission .mission-trial { text-align: center; max-width: 100%; }
+            .daily-mission .mission-map img { width: 150px; height: 150px; }
+            .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+            .daily-mission .variator-item { min-width: 60px; padding: 0.3rem; }
+            .daily-mission .variator-item img { width: 40px; height: 40px; }
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
             .dialog-overlay { padding: 0.6rem 1rem; min-height: 70px; }
-            .dialog-avatar { width: 80px; height: 80px; }
+            .dialog-avatar { width: 70px; height: 70px; }
             .dialog-text { font-size: 0.82rem; min-height: 38px; }
             .dialog-btn { padding: 0.25rem 1rem; font-size: 0.7rem; }
-            .daily-mission .mission-trial { max-width: 100%; text-align: center; }
+            .special-trials .trials-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
-            .daily-mission .mission-map img { width: 100px; height: 100px; }
-            .daily-mission .variator-item img { width: 50px; height: 50px; }
-            .daily-mission .variator-item .var-name { font-size: 0.65rem; max-width: 70px; }
+            .daily-mission .mission-map img { width: 120px; height: 120px; }
+            .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.3rem; }
+            .daily-mission .variator-item { min-width: 50px; padding: 0.2rem; }
+            .daily-mission .variator-item img { width: 32px; height: 32px; }
+            .daily-mission .variator-item .var-name { font-size: 0.45rem; max-width: 50px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
             .dialog-overlay { padding: 0.5rem 0.8rem; min-height: 60px; }
-            .dialog-container { gap: 0.6rem; }
-            .dialog-avatar { width: 60px; height: 60px; flex-shrink: 0; }
+            .dialog-avatar { width: 50px; height: 50px; }
             .dialog-text { font-size: 0.75rem; min-height: 34px; }
-            .dialog-speaker .name { font-size: 0.75rem; }
-            .dialog-speaker .title { font-size: 0.5rem; }
             .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
-            .trial-card .trial-header { flex-direction: column; text-align: center; }
-            .trial-card .trial-body .trial-actions { justify-content: center; }
-            .daily-mission .mission-trial { max-width: 100%; text-align: center; }
+            .daily-mission .mission-trial .trial-name { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -818,7 +845,7 @@
         <div class="dialog-container">
             <div class="dialog-avatar" id="dialogAvatar">
                 <div class="avatar-glow"></div>
-                <img src="images/Арлекино.png" alt="Арлекино" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-mask\\' style=\\'font-size: 3.5rem; color: #e16d48;\\'></i>'">
+                <img src="images/Арлекино.png" alt="Арлекино" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\\'fas fa-mask\\' style=\\'font-size: 3rem; color: #e16d48;\\'></i>'">
             </div>
             <div class="dialog-content">
                 <div class="dialog-speaker">
@@ -830,7 +857,6 @@
                 </div>
                 <div class="dialog-actions" id="dialogActions">
                     <button class="dialog-btn dialog-btn-primary" id="dialogBtnPrimary">Продолжить</button>
-                    <button class="dialog-btn dialog-btn-secondary" id="dialogBtnSecondary" style="display: none;">Выбрать режим</button>
                     <button class="dialog-btn dialog-btn-skip" id="dialogBtnSkip">Пропустить</button>
                 </div>
             </div>
@@ -870,7 +896,7 @@
     </div>
 
     <!-- РЕЖИМЫ РУЛЕТКИ -->
-    <div class="modes-section" id="modesSection">
+    <div class="modes-section">
         <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
         <div class="modes-grid">
             <div class="mode-card active-mode" onclick="window.location.href='roulette.html'">
@@ -954,18 +980,21 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ ИСПЫТАНИЙ
+    //  ДАННЫЕ КАРТ С ИЗОБРАЖЕНИЯМИ
     // ================================================================
     const trialsData = {
-        "Полицейский участок": [
-            { name: "УБЕЙТЕ СТУКАЧА", desc: "Нельзя позволять лжесвидетелям распространять свою ложную правду. Доставьте стукача в камеру смерти и заставьте его замолчать.", image: "images/Убейте стукача.webp" },
-            { name: "Отмените вскрытие", desc: "Трупы предоставляют экспертно-криминалистические факты, несовместимые с нашей правдой. Измельчите тела в фактически правильную кашицу.", image: "images/Отмените вскрытие.webp" },
-            { name: "Саботируйте карантин", desc: "Если вы можете открывать двери, никакая тюрьма не сможет удержать вас. Включите генератор и обеспечьте себе побег.", image: "images/Карантин.webp" },
-            { name: "Освободите заключённых", desc: "Только Мёркоф вершит правосудие; освобождая осуждённых, ложно заключённых в тюрьму за их очевидную вину.", image: "images/Освободите заключенных.webp" },
-            { name: "Обучите полицейского", desc: "Формулировка законов порождает преступления. Подмените учебный фильм в полицейском участке видеороликами Мёркюф и создайте преступления будущего.", image: "images/Обучите полицейского.webp" },
-            { name: "Уничтожьте прошлое", desc: "Уничтожьте как можно больше исторических записей за отведённое время. Чем больше вы их уничтожите, тем меньше мы накажем вас.", image: "images/Прошлое.webp" },
-            { name: "Заберите наркотики", desc: "Ты — контролируемое вещество. Закон порабощает разум, заключая тела в клетку. Ты разрушаешь тела и освобождаешь разум, заставляя наркоманов ещё сильнее жаждать контроля. Найди наркотики и освободи себя.", image: "images/Заберите наркотики.webp" }
-        ],
+        "Полицейский участок": {
+            image: "images/полицейский-участок.webp",
+            trials: [
+                { name: "УБЕЙТЕ СТУКАЧА", desc: "Нельзя позволять лжесвидетелям распространять свою ложную правду. Доставьте стукача в камеру смерти и заставьте его замолчать.", image: "images/Убейте стукача.webp" },
+                { name: "Отмените вскрытие", desc: "Трупы предоставляют экспертно-криминалистические факты, несовместимые с нашей правдой. Измельчите тела в фактически правильную кашицу.", image: "images/Отмените вскрытие.webp" },
+                { name: "Саботируйте карантин", desc: "Если вы можете открывать двери, никакая тюрьма не сможет удержать вас. Включите генератор и обеспечьте себе побег.", image: "images/Карантин.webp" },
+                { name: "Освободите заключённых", desc: "Только Мёркоф вершит правосудие; освобождая осуждённых, ложно заключённых в тюрьму за их очевидную вину.", image: "images/Освободите заключенных.webp" },
+                { name: "Обучите полицейского", desc: "Формулировка законов порождает преступления. Подмените учебный фильм в полицейском участке видеороликами Мёркюф и создайте преступления будущего.", image: "images/Обучите полицейского.webp" },
+                { name: "Уничтожьте прошлое", desc: "Уничтожьте как можно больше исторических записей за отведённое время. Чем больше вы их уничтожите, тем меньше мы накажем вас.", image: "images/Прошлое.webp" },
+                { name: "Заберите наркотики", desc: "Ты — контролируемое вещество. Закон порабощает разум, заключая тела в клетку. Ты разрушаешь тела и освобождаешь разум, заставляя наркоманов ещё сильнее жаждать контроля. Найди наркотики и освободи себя.", image: "images/Заберите наркотики.webp" }
+            ]
+        },
         "Детский дом": {
             image: "images/детский-дом.webp",
             trials: [
@@ -1064,10 +1093,10 @@
     };
 
     // ================================================================
-    //  ВАРИАТОРЫ
+    //  ВАРИАТОРЫ С КАТЕГОРИЯМИ
     // ================================================================
     const variatorsData = [
-        // ===== ОСОБЫЕ СОБЫТИЯ =====
+        // ОСОБЫЕ СОБЫТИЯ
         { name: "Сильнее Вместе", image: "images/вариатор-сильнее-вместе.webp", category: "special" },
         { name: "Ностофобия", image: "images/вариатор-ностофобия.webp", category: "special" },
         { name: "Токсический Шок", image: "images/вариатор-токсический-шок.webp", category: "special" },
@@ -1077,15 +1106,13 @@
         { name: "Вечная Мерзлота", image: "images/вариатор-вечная-мерзлота.webp", category: "special" },
         { name: "Самое Главное", image: "images/вариатор-самое-главное.webp", category: "special" },
         { name: "Главная Рулетка", image: "images/вариатор-главная-рулетка.webp", category: "special" },
-        
-        // ===== БОССЫ =====
+        // БОССЫ
         { name: "Лиланд Койл", image: "images/вариатор-лиланд-койл.webp", category: "boss" },
         { name: "Матушка Гуссбери", image: "images/вариатор-матушка-гуссбери.webp", category: "boss" },
         { name: "Франко Барби", image: "images/вариатор-франко-барби.webp", category: "boss" },
         { name: "Близнецы Кресс", image: "images/вариатор-близнецы-кресс.webp", category: "boss" },
         { name: "Лилия Богомолова", image: "images/вариатор-лилия-богомолова.webp", category: "boss" },
-        
-        // ===== ПОБОЧНЫЕ ЗАДАНИЯ (СБОР) =====
+        // ПОБОЧНЫЕ ЗАДАНИЯ (СБОР)
         { name: "Сбор Подарков", image: "images/вариатор-сбор-подарков.webp", category: "collection" },
         { name: "Сбор Крыс", image: "images/вариатор-сбор-крыс.webp", category: "collection" },
         { name: "Сбор Амулетов", image: "images/вариатор-сбор-амулетов.webp", category: "collection" },
@@ -1099,35 +1126,30 @@
         { name: "Расшифруйте Вещание", image: "images/вариатор-вещание.webp", category: "collection" },
         { name: "Потушите Огонь", image: "images/вариатор-потушите-огонь.webp", category: "collection" },
         { name: "Соберите плакаты", image: "images/вариатор-соберите-плакаты.webp", category: "collection" },
-        
-        // ===== СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ =====
+        // СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ
         { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp", category: "collection_special" },
         { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" },
         { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp", category: "collection_special" },
-
-        // ===== НАБОРЫ (УГРОЗЫ) =====
+        // НАБОРЫ
         { name: "Повышенная Угроза", image: "images/вариатор-повышенная-угроза.webp", category: "threat" },
         { name: "Повышенная Угроза II", image: "images/вариатор-повышенная-угроза-2.webp", category: "threat" },
         { name: "Ненадежные Двери", image: "images/вариатор-ненадежные-двери.webp", category: "doors" },
         { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" },
-        
-        // ===== ЭКС-ПОПЫ =====
+        // ЭКС-ПОПЫ
         { name: "Низкая Плотность Врагов", image: "images/вариатор-низкая-плотность-врагов.webp", category: "enemies" },
         { name: "Много Противников", image: "images/вариатор-много-противников.webp", category: "enemies" },
         { name: "Больше Толкачей", image: "images/вариатор-больше-толкачей.webp", category: "hunters" },
         { name: "Больше Притворщиков", image: "images/вариатор-больше-притворщиков.webp", category: "hunters" },
         { name: "Больше Бросателей", image: "images/вариатор-больше-бросателей.webp", category: "hunters" },
         { name: "Егерь", image: "images/вариатор-егерь.webp", category: "hunters" },
-        
-        // ===== ИСТОЧНИКИ УРОНА =====
+        // ИСТОЧНИКИ УРОНА
         { name: "Враги Сильнее", image: "images/вариатор-враги-сильнее.webp", category: "damage" },
         { name: "Враги Сильнее II", image: "images/вариатор-враги-сильнее-2.webp", category: "damage" },
         { name: "Разъяренные Враги", image: "images/вариатор-разъяренные-враги.webp", category: "damage" },
         { name: "Кровотечение", image: "images/вариатор-кровотечение.webp", category: "damage" },
         { name: "Постоянный Урон", image: "images/вариатор-постоянный-урон.webp", category: "damage" },
         { name: "Смертельный Главный Актив", image: "images/вариатор-смертельный-главный-актив.webp", category: "damage" },
-        
-        // ===== МОДИФИКАТОРЫ РЕАГЕНТОВ =====
+        // МОДИФИКАТОРЫ РЕАГЕНТОВ
         { name: "Первый Уровень", image: "images/вариатор-первый-уровень.webp", category: "reagent" },
         { name: "Сломанный Реагент", image: "images/вариатор-сломанный-реагент.webp", category: "reagent" },
         { name: "Без Рецептов", image: "images/вариатор-без-рецептов.webp", category: "reagent" },
@@ -1138,8 +1160,7 @@
         { name: "Ограниченное Снаряжение", image: "images/вариатор-ограниченное-снаряжение.webp", category: "reagent" },
         { name: "Урон Перезапускает Снаряжение", image: "images/вариатор-урон-п-снаряжения.webp", category: "reagent" },
         { name: "Урон Отключает Снаряжение", image: "images/вариатор-урон-о-снаряжение.webp", category: "reagent" },
-        
-        // ===== ПРЕДМЕТЫ И ИНВЕНТАРЬ =====
+        // ПРЕДМЕТЫ И ИНВЕНТАРЬ
         { name: "Ограниченные Предметы", image: "images/вариатор-ограниченные-предметы.webp", category: "items" },
         { name: "Ограниченные Предметы II", image: "images/вариатор-ограниченные-предметы-2.webp", category: "items" },
         { name: "Без Медицинских Предметов", image: "images/вариатор без медецинских.webp", category: "items" },
@@ -1149,8 +1170,7 @@
         { name: "Только Предметы Для Бросания", image: "images/вариатор-предметы-для-бросания.webp", category: "items" },
         { name: "Ограниченный Инвентарь", image: "images/вариатор-ограниченный-инвентарь.webp", category: "items" },
         { name: "Ограниченный Инвентарь II", image: "images/вариатор-ограниченный-инвентарь-2.webp", category: "items" },
-        
-        // ===== ЛОВУШКИ =====
+        // ЛОВУШКИ
         { name: "Больше Ловушек", image: "images/вариатор-больше-ловушек.webp", category: "traps" },
         { name: "Больше Ловушек II", image: "images/вариатор-больше-ловушек-2.webp", category: "traps" },
         { name: "Смертельные Ловушки", image: "images/вариатор-смертельные-ловушки.webp", category: "traps" },
@@ -1165,29 +1185,25 @@
         { name: "Острое Стекло", image: "images/вариатор-острое-стекло.webp", category: "traps" },
         { name: "Опасные Трубы", image: "images/вариатор-опасные-трубы.webp", category: "traps" },
         { name: "Огнеметы", image: "images/вариатор-огнеметы.webp", category: "traps" },
-        
-        // ===== ПСИХОЗ =====
+        // ПСИХОЗ
         { name: "Бэд Трип", image: "images/вариатор-бэд-трип.webp", category: "psychosis" },
         { name: "Бэд Трип II", image: "images/вариатор-бэд-трип-2.webp", category: "psychosis" },
         { name: "Галлюцинации", image: "images/вариатор-галлюцинации.webp", category: "psychosis" },
         { name: "Урон С Психозом", image: "images/вариатор-урон-с-психозом.webp", category: "psychosis" },
         { name: "Экстремальный Психоз", image: "images/вариатор-экстремальный-психоз.webp", category: "psychosis" },
-        
-        // ===== ПРЕПЯТСТВИЯ =====
+        // ПРЕПЯТСТВИЯ
         { name: "Заблокированные Проходы", image: "images/вариатор-заблокированные-проходы.webp", category: "obstacles" },
         { name: "Запертые Двери", image: "images/вариатор-запертые-двери.webp", category: "obstacles" },
         { name: "Забитые Двери", image: "images/вариатор-забитые-двери.webp", category: "obstacles" },
         { name: "Заблокированные Двери", image: "images/вариатор-заблокированные-двери.webp", category: "obstacles" },
         { name: "Закрытые Откатные Ворота", image: "images/вариатор-закрытые-откатные-ворота.webp", category: "obstacles" },
-        
-        // ===== ОТКАТНЫЕ ВОРОТА =====
+        // ОТКАТНЫЕ ВОРОТА
         { name: "Ворота С Детектором Звука", image: "images/вариатор-ворота-детектор-звука.webp", category: "gates" },
         { name: "Дистанционные Ворота", image: "images/вариатор-дистанционные-ворота.webp", category: "gates" },
         { name: "Бесконтактные Ворота", image: "images/вариатор-бесконтактные-ворота.webp", category: "gates" },
         { name: "Времянные Ворота", image: "images/вариатор-времянные-ворота.webp", category: "gates" },
         { name: "Закрытые Ворота", image: "images/вариатор-закрытые-ворота.webp", category: "gates" },
-        
-        // ===== ДРУГИЕ =====
+        // ДРУГИЕ
         { name: "Ограниченные Укрытия", image: "images/вариатор-ограниченные-укрытия.webp", category: "other" },
         { name: "Ограниченные Укрытия II", image: "images/вариатор-ограниченные-укрытия-2.webp", category: "other" },
         { name: "Не Бегать", image: "images/вариатор-не бегать.webp", category: "other" },
@@ -1204,22 +1220,50 @@
     ];
 
     // ================================================================
+    //  ПРАВИЛА СОВМЕСТИМОСТИ ВАРИАТОРОВ
+    // ================================================================
+    // Категории, которые не могут быть вместе
+    const exclusiveCategories = [
+        'collection', 'collection_special', 'hunters', 'boss', 'traps',
+        'psychosis', 'obstacles', 'gates', 'reagent', 'items', 'damage'
+    ];
+
+    // Специальные блокировки: категория -> [категории, которые она блокирует]
+    const categoryBlockers = {
+        'collection_special': ['collection']
+    };
+
+    // Конкретные вариаторы, которые блокируют другие вариаторы
+    const specificBlockers = {
+        'Сломанный Реагент': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения', 
+                              'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
+                              'Первый Уровень', 'Ностофобия'],
+        'Ностофобия': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
+                       'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
+                       'Первый Уровень', 'Сломанный Реагент'],
+        'Глубокий Ожог': ['Больше Толкачей', 'Егерь', 'Больше Притворщиков']
+    };
+
+    // Боссы ограничены по картам
+    const bossMapRestrictions = {
+        'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
+        'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
+        'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
+        'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
+        'Лилия Богомолова': ['Курорт']
+    };
+
+    // ================================================================
     //  ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
     // ================================================================
     function getTrials(mapName) {
         const data = trialsData[mapName];
-        if (!data) return [];
-        return Array.isArray(data) ? data : (data.trials || []);
+        return data ? data.trials || [] : [];
     }
 
     function getMapImage(mapName) {
         const data = trialsData[mapName];
-        if (!data) return '';
-        if (data.image) return data.image;
-        if (Array.isArray(data) && data.length > 0 && data[0].image) {
-            return data[0].image.replace(/[^/]+\.webp$/, mapName + '.webp');
-        }
-        return 'images/' + mapName + '.webp';
+        return data ? data.image || '' : '';
     }
 
     function randomItem(arr) {
@@ -1232,6 +1276,80 @@
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
+    }
+
+    // Проверка совместимости вариаторов
+    function isVariatorCompatible(newVar, selectedVariators, mapName) {
+        const newCategory = newVar.category;
+        const newName = newVar.name;
+
+        // 1. Проверка категорийной совместимости (не более одного из каждой категории)
+        for (const sel of selectedVariators) {
+            if (sel.category === newCategory && newCategory !== 'special' && newCategory !== 'enemies' && newCategory !== 'other') {
+                return false;
+            }
+        }
+
+        // 2. Проверка блокировок категорий (collection_special блокирует collection)
+        for (const sel of selectedVariators) {
+            if (categoryBlockers[sel.category] && categoryBlockers[sel.category].includes(newCategory)) {
+                return false;
+            }
+            if (categoryBlockers[newCategory] && categoryBlockers[newCategory].includes(sel.category)) {
+                return false;
+            }
+        }
+
+        // 3. Проверка специфических блокировок
+        for (const sel of selectedVariators) {
+            if (specificBlockers[sel.name] && specificBlockers[sel.name].includes(newName)) {
+                return false;
+            }
+            if (specificBlockers[newName] && specificBlockers[newName].includes(sel.name)) {
+                return false;
+            }
+        }
+
+        // 4. Проверка ограничений боссов по картам
+        if (newCategory === 'boss') {
+            const allowedMaps = bossMapRestrictions[newName];
+            if (allowedMaps && !allowedMaps.includes(mapName)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Выбор 8 совместимых вариаторов
+    function selectCompatibleVariators(mapName, count = 8) {
+        const shuffled = shuffleArray([...variatorsData]);
+        const selected = [];
+
+        for (const v of shuffled) {
+            if (isVariatorCompatible(v, selected, mapName)) {
+                selected.push(v);
+                if (selected.length >= count) break;
+            }
+        }
+
+        // Если не хватает, добираем из оставшихся (с меньшей проверкой)
+        if (selected.length < count) {
+            for (const v of shuffled) {
+                if (!selected.includes(v) && selected.length < count) {
+                    let compatible = true;
+                    for (const sel of selected) {
+                        if (sel.category === v.category && v.category !== 'special' && v.category !== 'enemies' && v.category !== 'other') {
+                            compatible = false;
+                            break;
+                        }
+                    }
+                    if (compatible) selected.push(v);
+                }
+            }
+        }
+
+        return selected.slice(0, count);
     }
 
     // ================================================================
@@ -1265,7 +1383,7 @@
                 dialogCursor.style.display = 'none';
                 if (callback) callback();
             }
-        }, 30);
+        }, 25);
     }
 
     function showNextDialog() {
@@ -1276,7 +1394,7 @@
         } else {
             dialogIndex = 0;
             dialogBtnPrimary.textContent = 'Продолжить';
-            typeMessage('🎯 Выбери карту и испытание, и удача будет на твоей стороне!');
+            typeMessage('🎯 Задание дня уже ждёт тебя! Удачи, реагент.');
             dialogBtnPrimary.style.display = 'none';
             dialogBtnSkip.style.display = 'none';
         }
@@ -1285,31 +1403,69 @@
     dialogBtnPrimary.addEventListener('click', showNextDialog);
     dialogBtnSkip.addEventListener('click', () => {
         dialogIndex = dialogMessages.length;
-        typeMessage('🎯 Выбери карту и испытание, и удача будет на твоей стороне!');
+        typeMessage('🎯 Задание дня уже ждёт тебя! Удачи, реагент.');
         dialogBtnPrimary.style.display = 'none';
         dialogBtnSkip.style.display = 'none';
     });
 
-    // ================================================================
-    //  ЗАДАНИЕ ДНЯ (С ВАРИАТОРАМИ)
-    // ================================================================
-    function generateDailyMission() {
-        const mapNames = Object.keys(trialsData);
-        const mapName = randomItem(mapNames);
-        const trials = getTrials(mapName);
-        const trial = randomItem(trials);
+    // Запускаем диалог
+    setTimeout(showNextDialog, 300);
 
-        // Выбираем 2-3 случайных вариатора
-        const shuffled = shuffleArray([...variatorsData]);
-        const count = Math.min(3, shuffled.length);
-        const selectedVariators = shuffled.slice(0, count);
+    // ================================================================
+    //  ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage, МЕНЯЕТСЯ 1 РАЗ В 24 ЧАСА)
+    // ================================================================
+    function getDailyMission() {
+        const now = Date.now();
+        const dayStart = new Date();
+        dayStart.setHours(0, 0, 0, 0);
+        const dayKey = dayStart.getTime().toString();
+
+        let saved = localStorage.getItem('dailyMission');
+        let missionData = null;
+
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                if (parsed.dayKey === dayKey) {
+                    missionData = parsed.data;
+                }
+            } catch (e) {}
+        }
+
+        if (!missionData) {
+            // Генерируем новое задание дня
+            const mapNames = Object.keys(trialsData);
+            const mapName = randomItem(mapNames);
+            const trials = getTrials(mapName);
+            const trial = randomItem(trials);
+            const variators = selectCompatibleVariators(mapName, 8);
+
+            missionData = {
+                mapName,
+                trial,
+                variators,
+                timestamp: now
+            };
+
+            localStorage.setItem('dailyMission', JSON.stringify({
+                dayKey: dayKey,
+                data: missionData
+            }));
+        }
+
+        return missionData;
+    }
+
+    function renderDailyMission() {
+        const mission = getDailyMission();
+        const { mapName, trial, variators } = mission;
 
         const missionContent = document.getElementById('missionContent');
-        
-        let variatorsHTML = selectedVariators.map(v => `
+
+        let variatorsHTML = variators.map(v => `
             <div class="variator-item">
                 <img src="${v.image}" alt="${v.name}" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2275%22 height=%2275%22%3E%3Crect fill=%22%23222%22 width=%2275%22 height=%2275%22/%3E%3Ctext x=%2237.5%22 y=%2245%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2220%22 font-family=%22Arial%22%3E${v.category === 'boss' ? '👹' : v.category === 'collection' ? '📦' : '⚡'}%3C/text%3E%3C/svg%3E'">
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2255%22 height=%2255%22%3E%3Crect fill=%22%23222%22 width=%2255%22 height=%2255%22/%3E%3Ctext x=%2227.5%22 y=%2235%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2216%22 font-family=%22Arial%22%3E${v.category === 'boss' ? '👹' : v.category === 'collection' ? '📦' : '⚡'}%3C/text%3E%3C/svg%3E'">
                 <span class="var-name">${v.name}</span>
                 <span class="var-category">${v.category}</span>
             </div>
@@ -1318,24 +1474,25 @@
         missionContent.innerHTML = `
             <div class="mission-map">
                 <img src="${getMapImage(mapName)}" alt="${mapName}" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22%3E%3Crect fill=%22%23222%22 width=%22160%22 height=%22160%22/%3E%3Ctext x=%2280%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
                 <span class="map-name">${mapName}</span>
             </div>
             <div class="mission-trial">
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
+                ${trial.image ? `<div class="trial-image"><img src="${trial.image}" alt="${trial.name}" onerror="this.style.display='none'"></div>` : ''}
             </div>
             <div class="mission-variators">
                 <div class="variator-items">${variatorsHTML}</div>
-                <div class="variator-count">${selectedVariators.length} вариатора</div>
+                <div class="variator-count">${variators.length} вариаторов</div>
             </div>
         `;
     }
 
-    generateDailyMission();
+    renderDailyMission();
 
     // ================================================================
-    //  ТАЙМЕР
+    //  ТАЙМЕР ДО СЛЕДУЮЩЕГО ОБНОВЛЕНИЯ
     // ================================================================
     function updateTimer() {
         const now = new Date();
@@ -1372,12 +1529,8 @@
         grid.innerHTML = specials.map((s, i) => `
             <div class="trial-card">
                 <div class="trial-header">
-                    <div class="trial-icon">
-                        <span class="icon-fallback">${s.icon}</span>
-                    </div>
-                    <div class="trial-title">
-                        <h3>${s.name}</h3>
-                    </div>
+                    <div class="trial-icon">${s.icon}</div>
+                    <div class="trial-title"><h3>${s.name}</h3></div>
                 </div>
                 <div class="trial-body">
                     <div class="trial-desc">${s.desc}</div>
@@ -1471,10 +1624,8 @@
     console.log('✅ Рулетка загружена!');
     console.log('📊 Карт:', Object.keys(trialsData).length);
     console.log('📊 Вариаторов:', variatorsData.length);
-    console.log('📊 Всего испытаний:', Object.values(trialsData).reduce((sum, data) => {
-        const trials = Array.isArray(data) ? data : (data.trials || []);
-        return sum + trials.length;
-    }, 0));
+    const totalTrials = Object.values(trialsData).reduce((sum, data) => sum + (data.trials ? data.trials.length : 0), 0);
+    console.log('📊 Всего испытаний:', totalTrials);
 </script>
 
 </body>
