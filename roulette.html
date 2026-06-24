@@ -408,7 +408,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3rem;
+            gap: 2rem;
             flex-wrap: wrap;
         }
 
@@ -436,6 +436,25 @@
             font-size: 1rem;
             color: #fff;
             font-weight: 600;
+        }
+
+        .daily-mission .mission-trial {
+            text-align: left;
+            max-width: 350px;
+            min-width: 200px;
+        }
+
+        .daily-mission .mission-trial .trial-name {
+            color: #ffbc9a;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .daily-mission .mission-trial .trial-desc {
+            color: #c2b9d4;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         .daily-mission .mission-variators {
@@ -1070,6 +1089,11 @@
             .dialog-avatar { width: 80px; height: 80px; }
             .dialog-text { font-size: 0.82rem; min-height: 38px; }
             .dialog-btn { padding: 0.25rem 1rem; font-size: 0.7rem; }
+            
+            .daily-mission .mission-trial {
+                max-width: 100%;
+                text-align: center;
+            }
         }
 
         @media (max-width: 550px) {
@@ -1095,6 +1119,11 @@
             .trial-card .trial-body .trial-actions { justify-content: center; }
             .trial-card .trial-header .trial-icon { width: 48px; height: 48px; }
             .trial-card .trial-header .trial-icon img { width: 32px; height: 32px; }
+            
+            .daily-mission .mission-trial {
+                max-width: 100%;
+                text-align: center;
+            }
         }
 
         @media (max-width: 400px) {
@@ -1284,8 +1313,9 @@
 </div>
 
 <!-- ===== ПОДКЛЮЧЕНИЕ JS ФАЙЛОВ ===== -->
-<script src="maps.js"></script>
+<script src="trials.js"></script>
 <script src="variators.js"></script>
+<script src="variators-all.js"></script>
 <script src="special-trials.js"></script>
 <script src="dialog.js"></script>
 <script src="roulette.js"></script>
