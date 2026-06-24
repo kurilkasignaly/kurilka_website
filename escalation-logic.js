@@ -112,6 +112,11 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         return false;
     }
     
+    // Правило: Низкая плотность врагов только до 5 уровня
+    if (variatorName === 'Низкая Плотность Врагов' && level > 5) {
+        return false;
+    }
+    
     // Правило 7: Сильнее Вместе только для 2+ игроков
     if (variatorName === 'Сильнее Вместе' && playerCount === 1) {
         return false;
@@ -270,6 +275,77 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         }
     }
     
+    // ===== НОВЫЕ ПРАВИЛА ДЛЯ МИН =====
+    
+    // Группа мин: только одна из них может выпасть
+    var mineGroup = ['Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
+    
+    // Если добавляем мину - проверяем, нет ли других мин
+    if (mineGroup.indexOf(variatorName) !== -1) {
+        for (var mg = 0; mg < selectedVariators.length; mg++) {
+            if (mineGroup.indexOf(selectedVariators[mg].name) !== -1) {
+                return false;
+            }
+        }
+    }
+    
+    // Огненные Мины блокируют
+    var fireMineBlocked = [
+        'Больше Ловушек', 'Больше Ловушек II', 'Больше Мин Психоза',
+        'Больше Звуковых Ловушек', 'Дополнительные Ловушки Главного Актива',
+        'Взрывчатка', 'Ледяные Мины'
+    ];
+    if (variatorName === 'Огненные Мины') {
+        for (var fm = 0; fm < fireMineBlocked.length; fm++) {
+            if (selectedNames.indexOf(fireMineBlocked[fm]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Огненные Мины') !== -1) {
+        if (fireMineBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
+    // Ледяные Мины блокируют
+    var iceMineBlocked = [
+        'Больше Ловушек', 'Больше Ловушек II', 'Больше Мин Психоза',
+        'Больше Звуковых Ловушек', 'Дополнительные Ловушки Главного Актива',
+        'Взрывчатка', 'Огненные Мины'
+    ];
+    if (variatorName === 'Ледяные Мины') {
+        for (var im = 0; im < iceMineBlocked.length; im++) {
+            if (selectedNames.indexOf(iceMineBlocked[im]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Ледяные Мины') !== -1) {
+        if (iceMineBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
+    // Взрывчатка блокирует
+    var explosionBlocked = [
+        'Больше Ловушек', 'Больше Ловушек II', 'Больше Мин Психоза',
+        'Больше Звуковых Ловушек', 'Дополнительные Ловушки Главного Актива',
+        'Огненные Мины', 'Ледяные Мины', 'Опасные Трубы'
+    ];
+    if (variatorName === 'Взрывчатка') {
+        for (var ex = 0; ex < explosionBlocked.length; ex++) {
+            if (selectedNames.indexOf(explosionBlocked[ex]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Взрывчатка') !== -1) {
+        if (explosionBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
     // Ограничения реагентов: максимум 2
     if (variator.category === 'reagent') {
         var reagentCount = 0;
@@ -299,45 +375,43 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     
     var availableVariators = allVariatorsData.slice();
     
+    // Если уровень > 5, удаляем "Низкая Плотность Врагов" из доступных
+    if (level > 5) {
+        availableVariators = availableVariators.filter(function(v) {
+            return v.name !== "Низкая Плотность Врагов";
+        });
+    }
+    
     // Уровень 21+
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - 8 вариаторов');
         
-        // Ищем Психохирургию
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        
-        // Ищем Двойные задания (ТОЛЬКО это название!)
         var doubleTasks = availableVariators.find(function(v) { 
             return v.name === "Двойные задания";
         });
         
-        // Если Психохирургия не найдена - создаем
         if (!psycho) {
             console.warn('⚠️ Психохирургия не найдена, создаем');
             psycho = { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" };
             availableVariators.push(psycho);
         }
         
-        // Если Двойные задания не найдены - создаем
         if (!doubleTasks) {
             console.warn('⚠️ Двойные задания не найдены, создаем');
             doubleTasks = { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" };
             availableVariators.push(doubleTasks);
         }
         
-        // Начинаем с обязательных
         var result = [psycho, doubleTasks];
         console.log('📋 Обязательные:', result.map(function(v) { return v.name; }).join(', '));
         
-        // Остальные вариаторы (без психохирургии и двойных заданий)
         var others = availableVariators.filter(function(v) {
             return v.name !== "Психохирургия" && v.name !== "Двойные задания";
         });
         
-        // Перемешиваем
         var shuffled = others.slice().sort(function() { return Math.random() - 0.5; });
         
-        // Добавляем совместимые до 8
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
             if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
@@ -346,7 +420,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             }
         }
         
-        // Если не хватает - добираем
         if (result.length < 8) {
             console.log('⚠️ Не хватает до 8, добираем...');
             var remaining = others.filter(function(v) {
@@ -694,7 +767,7 @@ function initEscalation() {
 }
 
 // ============================================================
-// ОТРИСОВКА ШАГОВ
+// ОТРИСОВКА ШАГОВ (ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ)
 // ============================================================
 
 function renderEscPlayerNames() {
@@ -952,7 +1025,6 @@ function generateEscResult() {
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     
-    // ГЕНЕРИРУЕМ НОВЫЕ ВАРИАТОРЫ
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
     var step1 = document.getElementById('escStep1');
