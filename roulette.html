@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Рулетка заданий — Курилка Синьялы</title>
+    <title>🎰 Рулетка испытаний — Курилка Синьялы</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== БАЗОВЫЕ СТИЛИ ===== */
+        /* ===== ВСЕ СТИЛИ ЗДЕСЬ (ваши существующие стили) ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #f0eef7;
             overflow-x: hidden;
             min-height: 100vh;
-            position: relative;
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
-
         .background-video {
             position: fixed;
             top: 0;
@@ -32,7 +29,6 @@
             object-fit: cover;
             z-index: -2;
         }
-
         body::after {
             content: "";
             position: fixed;
@@ -43,51 +39,27 @@
             background: rgba(0, 0, 0, 0.78);
             z-index: -1;
         }
-
-        /* ===== АНИМАЦИИ ===== */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            0%, 100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
             50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
-
         @keyframes glowPulse {
             0% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0.3); }
             70% { box-shadow: 0 0 0 15px rgba(220, 90, 50, 0); }
             100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
         }
-
-        @keyframes countPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes typeCursor {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        @keyframes floatAvatar {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-        }
-
         @keyframes dialogAppear {
             0% { opacity: 0; transform: translateY(15px) scale(0.97); }
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        @keyframes checkmarkAppear {
-            0% { opacity: 0; transform: scale(0.5) rotate(-30deg); }
-            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        @keyframes typeCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
-
-        /* ===== КОНТЕЙНЕР ===== */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -95,8 +67,6 @@
             position: relative;
             z-index: 10;
         }
-
-        /* ===== ХЕДЕР ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -111,12 +81,6 @@
             border: 1px solid rgba(220, 90, 50, 0.25);
             animation: fadeInScale 0.6s ease-out;
         }
-
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
-        }
-
         .logo h1 {
             font-size: 2rem;
             font-weight: 800;
@@ -127,7 +91,6 @@
             color: transparent;
             animation: smokePulse 3s ease-in-out infinite;
         }
-
         .logo p {
             font-size: 0.75rem;
             color: #c2b9d4;
@@ -136,12 +99,7 @@
             align-items: center;
             gap: 6px;
         }
-
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
-        }
-
+        .logo p i { color: #e16d48; font-size: 0.7rem; }
         .nav-links {
             display: flex;
             flex-wrap: wrap;
@@ -153,7 +111,6 @@
             border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.25);
         }
-
         .nav-btn {
             background: transparent;
             border: none;
@@ -170,26 +127,17 @@
             gap: 8px;
             text-decoration: none;
         }
-
-        .nav-btn:hover {
-            color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220, 90, 50, 0.4);
-        }
-
+        .nav-btn:hover { color: white; transform: translateY(-2px); text-shadow: 0 0 6px rgba(220, 90, 50, 0.4); }
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
-
-        /* ===== ЗАГОЛОВОК СТРАНИЦЫ ===== */
         .page-header {
             text-align: center;
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
         }
-
         .page-header h1 {
             font-size: 2.5rem;
             font-weight: 800;
@@ -198,19 +146,10 @@
             background-clip: text;
             color: transparent;
         }
+        .page-header h1 i { font-size: 2.2rem; color: #e16d48; }
+        .page-header p { color: #c2b9d4; font-size: 1rem; margin-top: 0.5rem; }
 
-        .page-header h1 i {
-            font-size: 2.2rem;
-            color: #e16d48;
-        }
-
-        .page-header p {
-            color: #c2b9d4;
-            font-size: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        /* ===== ДИАЛОГОВОЕ ОКНО ===== */
+        /* Диалог */
         .dialog-overlay {
             background: rgba(18, 12, 28, 0.6);
             backdrop-filter: blur(12px);
@@ -223,18 +162,6 @@
             overflow: hidden;
             min-height: 80px;
         }
-
-        .dialog-overlay::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 70%, rgba(220, 90, 50, 0.04), transparent 70%);
-            pointer-events: none;
-        }
-
         .dialog-container {
             display: flex;
             align-items: center;
@@ -242,7 +169,6 @@
             position: relative;
             z-index: 1;
         }
-
         .dialog-avatar {
             flex-shrink: 0;
             width: 120px;
@@ -250,7 +176,6 @@
             border-radius: 50%;
             border: 2px solid rgba(220, 90, 50, 0.4);
             overflow: hidden;
-            animation: floatAvatar 4s ease-in-out infinite;
             background: linear-gradient(135deg, #1a1a2e, #2d1b2e);
             display: flex;
             align-items: center;
@@ -258,13 +183,11 @@
             position: relative;
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.15);
         }
-
         .dialog-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .dialog-avatar .avatar-glow {
             position: absolute;
             top: -8px;
@@ -275,25 +198,18 @@
             border: 1px solid rgba(220, 90, 50, 0.1);
             animation: glowPulse 3s ease-in-out infinite;
         }
-
-        .dialog-content {
-            flex: 1;
-            min-width: 0;
-        }
-
+        .dialog-content { flex: 1; min-width: 0; }
         .dialog-speaker {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 0.1rem;
         }
-
         .dialog-speaker .name {
             font-size: 0.9rem;
             font-weight: 700;
             color: #e16d48;
         }
-
         .dialog-speaker .title {
             font-size: 0.55rem;
             color: #888;
@@ -302,7 +218,6 @@
             border-radius: 20px;
             border: 1px solid rgba(220, 90, 50, 0.12);
         }
-
         .dialog-text {
             font-size: 0.88rem;
             line-height: 1.6;
@@ -310,7 +225,6 @@
             min-height: 44px;
             padding: 0.1rem 0;
         }
-
         .dialog-text .cursor {
             display: inline-block;
             width: 2px;
@@ -320,19 +234,12 @@
             vertical-align: text-bottom;
             animation: typeCursor 0.8s step-end infinite;
         }
-
-        .dialog-text .action-text {
-            color: #ffbc9a;
-            font-style: italic;
-        }
-
         .dialog-actions {
             display: flex;
             gap: 0.6rem;
             margin-top: 0.3rem;
             flex-wrap: wrap;
         }
-
         .dialog-btn {
             padding: 0.3rem 1.2rem;
             border-radius: 30px;
@@ -343,47 +250,38 @@
             font-family: inherit;
             border: none;
         }
-
         .dialog-btn-primary {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 3px 12px rgba(188, 74, 40, 0.25);
         }
-
         .dialog-btn-primary:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(188, 74, 40, 0.35);
         }
-
         .dialog-btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-
         .dialog-btn-secondary {
             background: rgba(220, 90, 50, 0.12);
             border: 1px solid rgba(220, 90, 50, 0.2);
             color: #c2b9d4;
         }
-
         .dialog-btn-secondary:hover {
             background: rgba(220, 90, 50, 0.2);
             color: white;
         }
-
         .dialog-btn-skip {
             background: transparent;
             color: #666;
             font-size: 0.7rem;
             padding: 0.3rem 0.8rem;
         }
+        .dialog-btn-skip:hover { color: #c2b9d4; }
 
-        .dialog-btn-skip:hover {
-            color: #c2b9d4;
-        }
-
-        /* ===== ЗАДАНИЕ ДНЯ ===== */
+        /* Задание дня */
         .daily-mission {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -395,7 +293,6 @@
             text-align: center;
             position: relative;
         }
-
         .daily-mission .label {
             font-size: 0.8rem;
             color: #e16d48;
@@ -403,7 +300,6 @@
             text-transform: uppercase;
             margin-bottom: 0.5rem;
         }
-
         .daily-mission .mission-content {
             display: flex;
             align-items: center;
@@ -411,14 +307,12 @@
             gap: 2rem;
             flex-wrap: wrap;
         }
-
         .daily-mission .mission-map {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
         }
-
         .daily-mission .mission-map img {
             width: 160px;
             height: 160px;
@@ -427,57 +321,46 @@
             border: 2px solid rgba(220, 90, 50, 0.4);
             transition: transform 0.3s;
         }
-
-        .daily-mission .mission-map img:hover {
-            transform: scale(1.05);
-        }
-
+        .daily-mission .mission-map img:hover { transform: scale(1.05); }
         .daily-mission .mission-map .map-name {
             font-size: 1rem;
             color: #fff;
             font-weight: 600;
         }
-
         .daily-mission .mission-trial {
             text-align: left;
             max-width: 350px;
             min-width: 200px;
         }
-
         .daily-mission .mission-trial .trial-name {
             color: #ffbc9a;
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: 0.3rem;
         }
-
         .daily-mission .mission-trial .trial-desc {
             color: #c2b9d4;
             font-size: 0.85rem;
             line-height: 1.4;
         }
-
         .daily-mission .mission-variators {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.8rem;
         }
-
         .daily-mission .variator-items {
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .daily-mission .variator-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
         }
-
         .daily-mission .variator-item img {
             width: 75px;
             height: 75px;
@@ -488,11 +371,7 @@
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: transform 0.3s;
         }
-
-        .daily-mission .variator-item img:hover {
-            transform: scale(1.1);
-        }
-
+        .daily-mission .variator-item img:hover { transform: scale(1.1); }
         .daily-mission .variator-item .var-name {
             font-size: 0.8rem;
             color: #c2b9d4;
@@ -500,39 +379,33 @@
             text-align: center;
             line-height: 1.2;
         }
-
         .daily-mission .variator-count {
             font-size: 0.8rem;
             color: #888;
             margin-top: 0.2rem;
         }
-
         .timer-section {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
-
         .timer-label {
             font-size: 0.7rem;
             color: #888;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-
         .timer-display {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
             margin-top: 0.5rem;
         }
-
         .timer-unit {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         .timer-unit .number {
             font-size: 2.5rem;
             font-weight: 700;
@@ -540,18 +413,15 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: countPulse 1s ease-in-out infinite;
             min-width: 50px;
             text-align: center;
         }
-
         .timer-unit .label {
             font-size: 0.6rem;
             color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .timer-separator {
             font-size: 2rem;
             color: #e16d48;
@@ -559,7 +429,6 @@
             display: flex;
             align-items: center;
         }
-
         .reroll-btn {
             background: rgba(220, 90, 50, 0.15);
             border: 1px solid rgba(220, 90, 50, 0.3);
@@ -573,11 +442,8 @@
             opacity: 0.5;
         }
 
-        /* ===== ОСОБЫЕ ИСПЫТАНИЯ ===== */
-        .special-trials {
-            margin-bottom: 2.5rem;
-        }
-
+        /* Особые испытания */
+        .special-trials { margin-bottom: 2.5rem; }
         .special-trials h2 {
             font-size: 1.5rem;
             color: #e16d48;
@@ -588,13 +454,11 @@
             border-left: 3px solid #e16d48;
             padding-left: 15px;
         }
-
         .special-trials .trials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.5rem;
         }
-
         .trial-card {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -604,13 +468,11 @@
             transition: all 0.3s ease;
             position: relative;
         }
-
         .trial-card:hover {
             transform: translateY(-6px);
             border-color: #e16d48;
             box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
         }
-
         .trial-card .trial-header {
             display: flex;
             align-items: center;
@@ -618,7 +480,6 @@
             padding: 1.2rem 1.2rem 0.8rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.1);
         }
-
         .trial-card .trial-header .trial-icon {
             width: 56px;
             height: 56px;
@@ -632,40 +493,29 @@
             border: 2px solid rgba(220, 90, 50, 0.25);
             box-shadow: 0 0 20px rgba(220, 90, 50, 0.1);
         }
-
         .trial-card .trial-header .trial-icon img {
             width: 40px;
             height: 40px;
             object-fit: contain;
             border-radius: 4px;
         }
-
         .trial-card .trial-header .trial-icon .icon-fallback {
             font-size: 1.5rem;
             color: #e16d48;
         }
-
-        .trial-card .trial-header .trial-title {
-            flex: 1;
-        }
-
+        .trial-card .trial-header .trial-title { flex: 1; }
         .trial-card .trial-header .trial-title h3 {
             font-size: 1.1rem;
             color: #ffbc9a;
             font-weight: 600;
         }
-
-        .trial-card .trial-body {
-            padding: 0.8rem 1.2rem 1.2rem;
-        }
-
+        .trial-card .trial-body { padding: 0.8rem 1.2rem 1.2rem; }
         .trial-card .trial-body .trial-map {
             display: flex;
             align-items: center;
             gap: 0.8rem;
             margin-bottom: 0.8rem;
         }
-
         .trial-card .trial-body .trial-map img {
             width: 70px;
             height: 70px;
@@ -673,13 +523,11 @@
             border-radius: 10px;
             border: 1px solid rgba(220, 90, 50, 0.2);
         }
-
         .trial-card .trial-body .trial-map .map-name {
             font-size: 0.9rem;
             color: #fff;
             font-weight: 500;
         }
-
         .trial-card .trial-body .trial-desc {
             font-size: 0.85rem;
             color: #c2b9d4;
@@ -690,14 +538,12 @@
             border-radius: 10px;
             border-left: 3px solid rgba(220, 90, 50, 0.3);
         }
-
         .trial-card .trial-body .trial-variators {
             display: flex;
             gap: 0.8rem;
             flex-wrap: wrap;
             margin-bottom: 0.8rem;
         }
-
         .trial-card .trial-body .trial-variators .var-block {
             display: flex;
             flex-direction: column;
@@ -709,14 +555,12 @@
             border: 1px solid rgba(220, 90, 50, 0.1);
             min-width: 60px;
         }
-
         .trial-card .trial-body .trial-variators .var-block img {
             width: 40px;
             height: 40px;
             object-fit: contain;
             border-radius: 8px;
         }
-
         .trial-card .trial-body .trial-variators .var-block .var-name {
             font-size: 0.55rem;
             color: #c2b9d4;
@@ -724,7 +568,6 @@
             max-width: 60px;
             line-height: 1.1;
         }
-
         .trial-card .trial-body .trial-conditions {
             margin-top: 0.8rem;
             padding: 0.6rem 0.8rem;
@@ -732,7 +575,6 @@
             border-radius: 10px;
             border: 1px solid rgba(220, 90, 50, 0.08);
         }
-
         .trial-card .trial-body .trial-conditions .cond-label {
             font-size: 0.6rem;
             color: #666;
@@ -740,19 +582,16 @@
             letter-spacing: 1px;
             margin-bottom: 0.3rem;
         }
-
         .trial-card .trial-body .trial-conditions .cond-text {
             font-size: 0.8rem;
             color: #c2b9d4;
             line-height: 1.4;
         }
-
         .trial-card .trial-body .trial-actions {
             margin-top: 1rem;
             display: flex;
             justify-content: flex-end;
         }
-
         .trial-card .trial-body .trial-actions .complete-btn {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             border: none;
@@ -765,52 +604,13 @@
             transition: all 0.3s ease;
             font-family: inherit;
         }
-
         .trial-card .trial-body .trial-actions .complete-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(188, 74, 40, 0.3);
         }
 
-        .trial-card .trial-body .trial-actions .complete-btn.completed {
-            background: rgba(46, 204, 113, 0.2);
-            border: 1px solid rgba(46, 204, 113, 0.3);
-            color: #2ecc71;
-            cursor: default;
-        }
-
-        .trial-card .trial-body .trial-actions .complete-btn.completed:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* ===== ГАЛОЧКА ВЫПОЛНЕНИЯ ===== */
-        .trial-card .completion-check {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 36px;
-            height: 36px;
-            animation: checkmarkAppear 0.5s ease-out;
-            display: none;
-            z-index: 5;
-        }
-
-        .trial-card .completion-check img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .trial-card .completion-check.visible {
-            display: block;
-        }
-
-        /* ===== РЕЖИМЫ РУЛЕТКИ ===== */
-        .modes-section {
-            margin-bottom: 2.5rem;
-            scroll-margin-top: 20px;
-        }
-
+        /* Режимы */
+        .modes-section { margin-bottom: 2.5rem; }
         .modes-section h2 {
             font-size: 1.5rem;
             color: #e16d48;
@@ -821,13 +621,11 @@
             border-left: 3px solid #e16d48;
             padding-left: 15px;
         }
-
         .modes-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
         }
-
         .mode-card {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -838,31 +636,14 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         .mode-card:hover {
             transform: translateY(-6px);
             border-color: #e16d48;
             box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
         }
-
-        .mode-card .icon {
-            font-size: 3rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-        }
-
-        .mode-card h3 {
-            font-size: 1.3rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .mode-card p {
-            font-size: 0.85rem;
-            color: #c2b9d4;
-            line-height: 1.5;
-        }
-
+        .mode-card .icon { font-size: 3rem; color: #e16d48; margin-bottom: 1rem; }
+        .mode-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
+        .mode-card p { font-size: 0.85rem; color: #c2b9d4; line-height: 1.5; }
         .mode-card .tag {
             display: inline-block;
             background: rgba(220, 90, 50, 0.2);
@@ -872,17 +653,13 @@
             color: #e16d48;
             margin-top: 0.8rem;
         }
-
         .mode-card.active-mode {
             border-color: #e16d48;
             background: rgba(220, 90, 50, 0.1);
         }
 
-        /* ===== КОНСТРУКТОР ===== */
-        .constructor-section {
-            margin-bottom: 2.5rem;
-        }
-
+        /* Конструктор */
+        .constructor-section { margin-bottom: 2.5rem; }
         .constructor-section h2 {
             font-size: 1.5rem;
             color: #e16d48;
@@ -893,7 +670,6 @@
             border-left: 3px solid #e16d48;
             padding-left: 15px;
         }
-
         .constructor-wrapper {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -901,26 +677,22 @@
             padding: 2rem;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
-
         .constructor-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.2rem;
         }
-
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
         }
-
         .form-group label {
             font-size: 0.8rem;
             color: #c2b9d4;
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-
         .form-group select,
         .form-group input {
             background: rgba(0, 0, 0, 0.3);
@@ -933,20 +705,10 @@
             outline: none;
             transition: border-color 0.3s;
         }
-
         .form-group select:focus,
-        .form-group input:focus {
-            border-color: #e16d48;
-        }
-
-        .form-group select option {
-            background: #1a1a2e;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
+        .form-group input:focus { border-color: #e16d48; }
+        .form-group select option { background: #1a1a2e; }
+        .form-group.full-width { grid-column: 1 / -1; }
         .form-group textarea {
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(220, 90, 50, 0.3);
@@ -960,11 +722,7 @@
             min-height: 80px;
             transition: border-color 0.3s;
         }
-
-        .form-group textarea:focus {
-            border-color: #e16d48;
-        }
-
+        .form-group textarea:focus { border-color: #e16d48; }
         .submit-btn {
             grid-column: 1 / -1;
             background: linear-gradient(135deg, #bc4627, #e25d32);
@@ -979,28 +737,21 @@
             font-family: inherit;
             margin-top: 0.5rem;
         }
-
         .submit-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
         }
-
-        .created-tasks {
-            margin-top: 1.5rem;
-        }
-
+        .created-tasks { margin-top: 1.5rem; }
         .created-tasks h3 {
             font-size: 1.1rem;
             color: #c2b9d4;
             margin-bottom: 1rem;
         }
-
         .tasks-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
         }
-
         .task-item {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 20px;
@@ -1008,29 +759,17 @@
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
         }
-
         .task-item:hover {
             border-color: #e16d48;
             transform: translateY(-3px);
         }
-
-        .task-item .task-name {
-            font-weight: 600;
-            color: #e16d48;
-        }
-
-        .task-item .task-meta {
-            font-size: 0.75rem;
-            color: #888;
-            margin-top: 0.3rem;
-        }
-
+        .task-item .task-name { font-weight: 600; color: #e16d48; }
+        .task-item .task-meta { font-size: 0.75rem; color: #888; margin-top: 0.3rem; }
         .task-item .task-actions {
             margin-top: 0.5rem;
             display: flex;
             gap: 0.5rem;
         }
-
         .task-item .task-actions button {
             background: rgba(220, 90, 50, 0.2);
             border: none;
@@ -1041,20 +780,16 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .task-item .task-actions button:hover {
             background: rgba(220, 90, 50, 0.4);
             color: white;
         }
-
         .empty-tasks {
             color: #888;
             text-align: center;
             padding: 1rem;
             font-size: 0.9rem;
         }
-
-        /* ===== ФУТЕР ===== */
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -1066,7 +801,6 @@
             border-radius: 50px;
         }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
@@ -1084,18 +818,12 @@
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
-            
             .dialog-overlay { padding: 0.6rem 1rem; min-height: 70px; }
             .dialog-avatar { width: 80px; height: 80px; }
             .dialog-text { font-size: 0.82rem; min-height: 38px; }
             .dialog-btn { padding: 0.25rem 1rem; font-size: 0.7rem; }
-            
-            .daily-mission .mission-trial {
-                max-width: 100%;
-                text-align: center;
-            }
+            .daily-mission .mission-trial { max-width: 100%; text-align: center; }
         }
-
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
@@ -1104,7 +832,6 @@
             .daily-mission .variator-item .var-name { font-size: 0.7rem; max-width: 70px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
-            
             .dialog-overlay { padding: 0.5rem 0.8rem; min-height: 60px; }
             .dialog-container { gap: 0.6rem; }
             .dialog-avatar { width: 60px; height: 60px; flex-shrink: 0; }
@@ -1112,30 +839,11 @@
             .dialog-speaker .name { font-size: 0.75rem; }
             .dialog-speaker .title { font-size: 0.5rem; }
             .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
-            
             .trial-card .trial-header { flex-direction: column; text-align: center; }
             .trial-card .trial-body .trial-map { flex-direction: column; text-align: center; }
             .trial-card .trial-body .trial-variators { justify-content: center; }
             .trial-card .trial-body .trial-actions { justify-content: center; }
-            .trial-card .trial-header .trial-icon { width: 48px; height: 48px; }
-            .trial-card .trial-header .trial-icon img { width: 32px; height: 32px; }
-            
-            .daily-mission .mission-trial {
-                max-width: 100%;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .dialog-avatar { width: 48px; height: 48px; }
-            .dialog-text { font-size: 0.7rem; min-height: 30px; }
-            .dialog-btn { padding: 0.15rem 0.6rem; font-size: 0.6rem; }
-            .dialog-overlay { padding: 0.4rem 0.6rem; min-height: 50px; }
-            
-            .trial-card .trial-body .trial-variators .var-block img { width: 32px; height: 32px; }
-            .trial-card .trial-body .trial-variators .var-block .var-name { font-size: 0.45rem; max-width: 45px; }
-            .trial-card .trial-header .trial-icon { width: 40px; height: 40px; }
-            .trial-card .trial-header .trial-icon img { width: 28px; height: 28px; }
+            .daily-mission .mission-trial { max-width: 100%; text-align: center; }
         }
     </style>
 </head>
@@ -1224,9 +932,7 @@
     <!-- ===== ОСОБЫЕ ИСПЫТАНИЯ ===== -->
     <div class="special-trials">
         <h2><i class="fas fa-star"></i> Особые испытания</h2>
-        <div class="trials-grid" id="specialTrialsGrid">
-            <!-- Карточки будут добавлены через JS -->
-        </div>
+        <div class="trials-grid" id="specialTrialsGrid"></div>
     </div>
 
     <!-- РЕЖИМЫ РУЛЕТКИ -->
@@ -1312,16 +1018,520 @@
     </footer>
 </div>
 
-<!-- ===== ПОДКЛЮЧЕНИЕ JS ФАЙЛОВ ===== -->
-<!-- Сначала данные для рулетки -->
-<script src="trials-roulette.js"></script>
-<script src="variators.js"></script>
-<script src="variators-all.js"></script>
-<script src="special-trials.js"></script>
-<!-- Потом диалог -->
-<script src="dialog.js"></script>
-<!-- Потом основная логика -->
-<script src="roulette.js"></script>
+<script>
+    // ================================================================
+    //  ВСЯ ЛОГИКА В ОДНОМ ФАЙЛЕ
+    // ================================================================
+
+    // ---------- ДАННЫЕ ИСПЫТАНИЙ ----------
+    const trialsData = {
+        "Полицейский участок": [{
+            name: "УБЕЙТЕ СТУКАЧА",
+            desc: "Нельзя позволять лжесвидетелям распространять свою ложную правду. Доставьте стукача в камеру смерти и заставьте его замолчать.",
+            image: "images/Убейте стукача.webp"
+        }, {
+            name: "Отмените вскрытие",
+            desc: "Трупы предоставляют экспертно-криминалистические факты, несовместимые с нашей правдой. Измельчите тела в фактически правильную кашицу.",
+            image: "images/Отмените вскрытие.webp"
+        }, {
+            name: "Саботируйте карантин",
+            desc: "Если вы можете открывать двери, никакая тюрьма не сможет удержать вас. Включите генератор и обеспечьте себе побег.",
+            image: "images/Карантин.webp"
+        }, {
+            name: "Освободите заключённых",
+            desc: "Только Мёркоф вершит правосудие; освобождая осуждённых, ложно заключённых в тюрьму за их очевидную вину.",
+            image: "images/Освободите заключенных.webp"
+        }, {
+            name: "Обучите полицейского",
+            desc: "Формулировка законов порождает преступления. Подмените учебный фильм в полицейском участке видеороликами Мёркюф и создайте преступления будущего.",
+            image: "images/Обучите полицейского.webp"
+        }, {
+            name: "Уничтожьте прошлое",
+            desc: "Уничтожьте как можно больше исторических записей за отведённое время. Чем больше вы их уничтожите, тем меньше мы накажем вас.",
+            image: "images/Прошлое.webp"
+        }, {
+            name: "Заберите наркотики",
+            desc: "Ты — контролируемое вещество. Закон порабощает разум, заключая тела в клетку. Ты разрушаешь тела и освобождаешь разум, заставляя наркоманов ещё сильнее жаждать контроля. Найди наркотики и освободи себя.",
+            image: "images/Заберите наркотики.webp"
+        }],
+        "Детский дом": {
+            image: "images/детский-дом.webp",
+            trials: [{
+                name: "ПРИЧАСТИТЕ СИРОТ",
+                desc: "Образование воспитывает послушание, а Вера делает его незыблемым. Научите детей, проведите им первое причастие и сделайте их нашими.",
+                image: "images/Причастите сирот.webp"
+            }, {
+                name: "Накормите детей",
+                desc: "В здоровом теле здоровый дух. Накормите детей тем, что они заслужили.",
+                image: "images/Накормите детей.webp"
+            }, {
+                name: "Соберите детей божьих",
+                desc: "Излишняя материнская любовь делает ребёнка слабым. Соберите детей и отведите их к священнику для более усердного обучения.",
+                image: "images/Соберите детей божьих.webp"
+            }, {
+                name: "Приютите сирот",
+                desc: "Спасите детей от Матушки Гусберри и отведите их в новый дом.",
+                image: "images/Приютите сирот.webp"
+            }, {
+                name: "Воссоедините семью",
+                desc: "Нуклеарная семья — идеал общества. Освободите сироту от оков государства и воссоедините его с матерью и отцом.",
+                image: "images/Воссоедените семью.webp"
+            }]
+        },
+        "Парк развлечений": {
+            image: "images/парк-развлечений.webp",
+            trials: [{
+                name: "ИЗМЕЛЬЧИТЕ НЕГОДЯЕВ",
+                desc: "Мы должны устранить непослушных детей. Отведите их в \"Зубной канал\", где хорошие дети не увидят, как вы мягко их исправляете.",
+                image: "images/Генезис-Фан парк.webp"
+            }, {
+                name: "Накажите негодяев",
+                desc: "Непослушные дети могут научится послушанию только через наказание. Научите детей вести себя прилично.",
+                image: "images/Парк МК-01.webp"
+            }, {
+                name: "Откройте ворота",
+                desc: "Ты не можешь позволить власти держать тебя в плену. Отключи электрические ворота и сбеги.",
+                image: "images/Парк МК-02.webp"
+            }, {
+                name: "Сломайте Футтерманов",
+                desc: "Детские воспоминания лишь замедляют рост. Избавьтесь от проблем из детства, засоряющих разум.",
+                image: "images/Парк МК-03.webp"
+            }, {
+                name: "Просверлите Футтермана",
+                desc: "Люди - это не игрушки. Не дайте матушке Гусберри собрать доктора Футтермана из человеческой плоти.",
+                image: "images/Парк МК-04.webp"
+            }, {
+                name: "Заберите свою свободу",
+                desc: "Валюта, как и ваше выживание, не стоит ничего, пока ей не придадут ценности верой. Собирайте билеты так усердно, словно от этого зависит ваша жизнь.",
+                image: "images/Парк МК-05.webp"
+            }, {
+                name: "Одурачьте детей",
+                desc: "Вы гипнотизёр, тихо шепчущий за маятником, направляющий ходящих во сне детей в мясорубку, что мы зовём приличиями. Смените канал, переключите программу и мы вас выпустим.",
+                image: "images/Парк МК-06.webp"
+            }, {
+                name: "Выиграйте истину",
+                desc: "Вы слепой наблюдатель, что потребляет скармливаемое с экрана невежество и раздувается от гениальности идиотских уловок. Отрыгните знание, которое приносит страдания мудрым, выиграйте игру, где наказывают лишь побеждённых, и мы вас выпустим.",
+                image: "images/Парк МК-07.webp"
+            }]
+        },
+        "Здание суда": {
+            image: "images/здание-суда.webp",
+            trials: [{
+                name: "ОПРАВДАТЬ ВИНОВНОГО",
+                desc: "Мы не можем допустить, чтобы наши неповинные структуры подвергались преследованиям за их явную вину. Помешайте судебному процессу, заставьте свидетелей замолчать и лишите полномочий судью.",
+                image: "images/Генезис-Суд.webp"
+            }, {
+                name: "Сбегите из суда",
+                desc: "Не позволяйте боли наших жертв ограничивать вашу свободу. Убейте козлов отпущения; освободите их от страданий, а себя от оков.",
+                image: "images/Суд МК-01.webp"
+            }, {
+                name: "Уничтожьте улики",
+                desc: "Если нет улик, нет и преступления. Уничтожьте доказательства наших ошибок, и пусть мы никогда не делали ничего плохого.",
+                image: "images/Суд МК-02.webp"
+            }, {
+                name: "Запитайте отпирающий механизм",
+                desc: "Правосудие, как и цивилизация, требует силы, а силу нужно подпитывать. Принесите топливо, запитайте суд и возьмите свою свободу.",
+                image: "images/Суд МК-03.webp"
+            }, {
+                name: "Склоните весы правосудия",
+                desc: "Могут ли реальные улики ложных преступлений преодолеть силу развращающего богатства? Положите груз на весы Юстиции и наблюдайте за результатом.",
+                image: "images/Суд МК-04.webp"
+            }, {
+                name: "Приговорите осужденного",
+                desc: "Приговор — это когда несколько проговоренных слов могут обречь человека на смерть. Расшифруйте обвинения и сделайте так, чтобы они были неотделимы от обвиняемого.",
+                image: "images/Суд МК-05.webp"
+            }]
+        },
+        "Фабрика игрушек": {
+            image: "images/фабрика-игрушек.webp",
+            trials: [{
+                name: "ИЗВРАТИТЬ ФУТТЕРМАНА",
+                desc: "Мы не можем позволить тайным посланиям и инсинуациям промывать мозги нашим детям, разоблачите и унизьте скрытого девианта, а затем уничтожьте его.",
+                image: "images/Генезис-Фабрика.webp"
+            }, {
+                name: "Раздавите секс-игрушки",
+                desc: "Неброская упаковка скрывает опасное извращение. Посветите, чтобы коробки с секс-игрушками стали видны, а затем раздавите их силой машины.",
+                image: "images/Фабрика МК-01.webp"
+            }, {
+                name: "Сожгите секс-игрушки",
+                desc: "Извращения в промышленных масштабах разжигают разложение и неповиновение. Отправьте тележки с секс-куклами в мусоросжигательную печь и испепелите хворь.",
+                image: "images/Фабрика МК-02.webp"
+            }, {
+                name: "Прекратите работу фабрики",
+                desc: "Мёркоф контролирует средства производства. Используйте экстренные остановки, чтобы прекратить работу фабрики.",
+                image: "images/Фабрика МК-03.webp"
+            }, {
+                name: "Обработайте фабрику газом",
+                desc: "Стареющие рабочие с их пенсиями и пособиями суть кровоточащие раны нашей экономики. Своим затянувшимся существованием они иссуждают тело корпорации. Прекратите это кровотечение стерилизующим газом, избавьте рабочих от мучений.",
+                image: "images/Фабрика МК-04.webp"
+            }, {
+                name: "Раздавите бригадира",
+                desc: "Индустриальному производству ставят палки в колёса гремлины по охране труда. Выбор потребителя между ценой и добродетелью — это не выбор вовсе. Убейте бригадира, сократите издержки производства и мы вас выпустим.",
+                image: "images/Фабрика МК-05.webp"
+            }]
+        },
+        "Пристань": {
+            image: "images/пристань.webp",
+            trials: [{
+                name: "ОТРАВИТЕ ЛЕКАРСТВО",
+                desc: "В безбожном мире опиум станет религией для народа. Захватив контроль над производством наркотиков, можно убивать с небрежностью небожителя.",
+                image: "images/Генезис-Лекарство.webp"
+            }, {
+                name: "Опустошите хранилище",
+                desc: "Казино — это храмы идиотских трат и добровольного провала. Крадите у тех, кто хочет красть у вас.",
+                image: "images/Пристань МК-01.webp"
+            }, {
+                name: "Отравите скот",
+                desc: "Молоко человеческой доброты должно быть загрязнено свободой и прогрессом. Отравите скот и испортите его молоко.",
+                image: "images/Пристань МК-02.webp"
+            }, {
+                name: "Спрячьте контрабанду",
+                desc: "Без основного рынка сбыла наркотическая экономика обречена на провал. Украдите наркотики, спрячьте их в надежное место и мы вас выпустим.",
+                image: "images/Пристань МК-03.webp"
+            }, {
+                name: "Поджарьте информатора",
+                desc: "Выдержать допрос с пытками не может никто, и любая смерть в таком случае — избавление. Поддерьте информатора в микроволновке так, чтобы его голова взорвалась, и мы вас выпустим.",
+                image: "images/Пристань МК-04.webp"
+            }]
+        },
+        "Центр города": {
+            image: "images/центр-города.webp",
+            trials: [{
+                name: "ПОРАДУЙТЕ ПРОКУРОРА",
+                desc: "Кто управляет желаниями правосудия, определяет черты закона. Удовлетворите особые запросы прокурора.",
+                image: "images/Генезис-Прокурор.webp"
+            }, {
+                name: "Похитьте любовницу",
+                desc: "Проституткам исповедуются честнее, чем священникам. Опознайте извращенца по его вкусам, похитьте его «госпожу», доставьте ее на допрос и мы вас отпустим.",
+                image: "images/Город МК-01.webp"
+            }, {
+                name: "Распространите болезнь",
+                desc: "Венерические заболевания — это тайное рукопожатие эволюционного суждения и божественное воздаяние. Распространите инфекцию и мы вас отпустим.",
+                image: "images/Город МК-02.webp"
+            }, {
+                name: "Развозите продукт",
+                desc: "Без прибыли не может быть здоровья. Вторгнитесь на территорию Франко, распространите экспериментальный опиоид Муркоффа и заберите деньги его народа. Зависимые потребители способствуют развитию здоровой экономики.",
+                image: "images/Город МК-03.webp"
+            }]
+        },
+        "Пригород": {
+            image: "images/пригород.webp",
+            trials: [{
+                name: "ЛИКВИДИРУЙТЕ ПРОФСОЮЗ",
+                desc: "Человеческий труд — основа свободы и процветания. Нельзя допустить, чтобы тщеславное стремление к самосохранению угрожало производительности. Перейдите линию пикета, убедите рабочих продолжить работу и ликвидируйте профсоюз.",
+                image: "images/Генезис-Профсоюз.webp"
+            }, {
+                name: "Соберите голоса",
+                desc: "Иллюзия выбора — предлог, под которым послушность подается, как свобода. Внесите свой вклад в реализацию мечты о демократии.",
+                image: "images/Пригород МК-01.webp"
+            }, {
+                name: "Нанесите вред району",
+                desc: "Сообщества, которые возводят свои собственные ворота, сами определяют свои границы. Устраните препятствия и пригласите вторжение. Отсутствие заборов делает соседей интересными.",
+                image: "images/Пригород МК-02.webp"
+            }, {
+                name: "Устранение устаревшего оборудования.",
+                desc: "Индоктринация — свет, на котором растут будущие поколения, наука о повторении. Сопоставьте символы, которые открывают ворота. Покажите детям, как следует учиться. Воспитайте поколение усердных и умелых слуг и мы вас выпустим.",
+                image: "images/Пригород МК-03.webp"
+            }]
+        },
+        "Торговый центр": {
+            image: "images/Торговый центр.webp",
+            trials: [{
+                name: "УБЕЙТЕ ПОЛИТИКА",
+                desc: "На перекрестье коммерции и политики стоит проклятый союз, чья цель — убедить вас, что вы якобы в безопасности и держите все под контролем. Голосуйте бумажником, покажите миру, за что вы выступаете.",
+                image: "images/Генезис-Политик.webp"
+            }, {
+                name: "Расследуйте дело Минотавра",
+                desc: "Вы зевака, что отказывается ограничить преступления, видимые вашему незоркому и лживому глазу. Осуждение, как и собственно убийство — лишь вопрос провокации. Принесите разоблачителю улики и мы вас выпустим.",
+                image: "images/ТЦ МК-01.webp"
+            }, {
+                name: "Сфабрикуйте скандал",
+                desc: "Ничто не обладает большей властью в политике, чем скандал. Короли лишались престолов, когда выходили на свет их извращённые развлечения, и целые королевства возводились на восславлении Господа. Если кто-то подлетел слишком близко к Солнцу, ему пора опалить крылышки. Очерните его имя, сфабрикуйте скандал и мы вас выпустим.",
+                image: "images/ТЦ МК-02.webp"
+            }]
+        },
+        "Курорт": {
+            image: "images/курорт.webp",
+            trials: [{
+                name: "РАЗОРИТЕ АУКЦИОН",
+                desc: "Вы посредник. Жизнь — лишь очередной товар, развлечение для тех, кто достаточно богат, чтобы делать всё, что хочет. Уничтожьте лот, лишите его ценности и мы вас выпустим.",
+                image: "images/Генезис-Аукцион.webp"
+            }, {
+                name: "Раскройте убийство",
+                desc: "Вы — фетишист, чья одержимость тотемами насилия позволяет вам определять удобную истину. Найдите улики, позволяющие обвинить нашего выбранного убийцу, и мы вас выпустим.",
+                image: "images/Курорт МК-01.webp"
+            }, {
+                name: "Сожгите реликвию",
+                desc: "Вы еретик и вы фанатик. Реликвии есть доказательство невозможной проповеди, вера, что делает целым справедливо закланного агнца. Оплатите свой путь на небеса, сожгите реликвию и мы вас выпустим.",
+                image: "images/Курорт МК-02.webp"
+            }]
+        },
+        "Телестудия": {
+            image: "images/телестудия.webp",
+            trials: [{
+                name: "ЗАТКНИТЕ РОТ ИДОЛУ",
+                desc: "Ты — электрический глаз, ненасытный паноптикон, который порождает и пожирает одним и тем же отверстием с бритвенно-острыми зубами. Разорви, сожги и раздави лицо ложной харизмы, и мы выпустим тебя.",
+                image: "images/Генезис-Идол.webp"
+            }]
+        }
+    };
+
+    // ---------- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ----------
+    function getTrials(mapName) {
+        const data = trialsData[mapName];
+        if (!data) return [];
+        return Array.isArray(data) ? data : (data.trials || []);
+    }
+
+    function getMapImage(mapName) {
+        const data = trialsData[mapName];
+        if (!data) return '';
+        if (data.image) return data.image;
+        if (Array.isArray(data) && data.length > 0 && data[0].image) {
+            return data[0].image.replace(/[^/]+\.webp$/, mapName + '.webp');
+        }
+        return 'images/' + mapName + '.webp';
+    }
+
+    function randomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // ---------- ДИАЛОГ ----------
+    const dialogMessages = [
+        "Приветствую, искатель приключений! 🎭",
+        "Готов ли ты к новым испытаниям?",
+        "Судьба уже выбрала твой путь...",
+        "Врата безумия открыты. Входи!",
+        "Мёркоф наблюдает за тобой...",
+        "Выбери свою судьбу, смельчак!"
+    ];
+
+    let dialogIndex = 0;
+    const dialogMessage = document.getElementById('dialogMessage');
+    const dialogCursor = document.getElementById('dialogCursor');
+    const dialogBtnPrimary = document.getElementById('dialogBtnPrimary');
+    const dialogBtnSkip = document.getElementById('dialogBtnSkip');
+
+    function typeMessage(text, callback) {
+        dialogMessage.textContent = '';
+        dialogCursor.style.display = 'inline-block';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < text.length) {
+                dialogMessage.textContent += text[i];
+                i++;
+            } else {
+                clearInterval(interval);
+                dialogCursor.style.display = 'none';
+                if (callback) callback();
+            }
+        }, 30);
+    }
+
+    function showNextDialog() {
+        if (dialogIndex < dialogMessages.length) {
+            typeMessage(dialogMessages[dialogIndex]);
+            dialogIndex++;
+            dialogBtnPrimary.textContent = dialogIndex < dialogMessages.length ? 'Продолжить' : 'Начать испытание';
+        } else {
+            dialogIndex = 0;
+            dialogBtnPrimary.textContent = 'Продолжить';
+            typeMessage('🎯 Выбери карту и испытание, и удача будет на твоей стороне!');
+            dialogBtnPrimary.style.display = 'none';
+            dialogBtnSkip.style.display = 'none';
+        }
+    }
+
+    dialogBtnPrimary.addEventListener('click', showNextDialog);
+    dialogBtnSkip.addEventListener('click', () => {
+        dialogIndex = dialogMessages.length;
+        typeMessage('🎯 Выбери карту и испытание, и удача будет на твоей стороне!');
+        dialogBtnPrimary.style.display = 'none';
+        dialogBtnSkip.style.display = 'none';
+    });
+
+    // ---------- ЗАДАНИЕ ДНЯ ----------
+    function generateDailyMission() {
+        const mapNames = Object.keys(trialsData);
+        const mapName = randomItem(mapNames);
+        const trials = getTrials(mapName);
+        const trial = randomItem(trials);
+
+        const missionContent = document.getElementById('missionContent');
+        missionContent.innerHTML = `
+            <div class="mission-map">
+                <img src="${getMapImage(mapName)}" alt="${mapName}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22%3E%3Crect fill=%22%23222%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2212%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
+                <span class="map-name">${mapName}</span>
+            </div>
+            <div class="mission-trial">
+                <div class="trial-name">${trial.name}</div>
+                <div class="trial-desc">${trial.desc}</div>
+            </div>
+            <div class="mission-variators">
+                <div class="variator-items">
+                    <div class="variator-item">
+                        <img src="images/вариатор1.png" alt="Вариатор" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2275%22 height=%2275%22%3E%3Crect fill=%22%23222%22 width=%2275%22 height=%2275%22/%3E%3Ctext x=%2237.5%22 y=%2245%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2220%22 font-family=%22Arial%22%3E⚡%3C/text%3E%3C/svg%3E'">
+                        <span class="var-name">Усиление</span>
+                    </div>
+                    <div class="variator-item">
+                        <img src="images/вариатор2.png" alt="Вариатор" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2275%22 height=%2275%22%3E%3Crect fill=%22%23222%22 width=%2275%22 height=%2275%22/%3E%3Ctext x=%2237.5%22 y=%2245%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2220%22 font-family=%22Arial%22%3E🛡️%3C/text%3E%3C/svg%3E'">
+                        <span class="var-name">Защита</span>
+                    </div>
+                </div>
+                <div class="variator-count">+ 2 вариатора</div>
+            </div>
+        `;
+    }
+
+    generateDailyMission();
+
+    // ---------- ТАЙМЕР ----------
+    function updateTimer() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        const diff = Math.max(0, tomorrow - now);
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // ---------- ОСОБЫЕ ИСПЫТАНИЯ ----------
+    function renderSpecialTrials() {
+        const grid = document.getElementById('specialTrialsGrid');
+        const specials = [
+            { name: "Кошмар во сне", desc: "Пройдите испытание, не издав ни звука", icon: "🌙" },
+            { name: "Без оружия", desc: "Завершите миссию без использования оружия", icon: "🤚" },
+            { name: "Призрак", desc: "Не попадитесь ни разу за всё испытание", icon: "👻" },
+            { name: "Скорость", desc: "Завершите испытание за 5 минут", icon: "⚡" },
+            { name: "Милосердие", desc: "Не убивайте ни одного врага", icon: "🕊️" }
+        ];
+
+        grid.innerHTML = specials.map((s, i) => `
+            <div class="trial-card">
+                <div class="trial-header">
+                    <div class="trial-icon">
+                        <span class="icon-fallback">${s.icon}</span>
+                    </div>
+                    <div class="trial-title">
+                        <h3>${s.name}</h3>
+                    </div>
+                </div>
+                <div class="trial-body">
+                    <div class="trial-desc">${s.desc}</div>
+                    <div class="trial-actions">
+                        <button class="complete-btn" onclick="this.textContent='✅ Выполнено'; this.classList.add('completed'); this.disabled=true;">
+                            Принять вызов
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderSpecialTrials();
+
+    // ---------- КОНСТРУКТОР ----------
+    function populateMapSelect() {
+        const select = document.getElementById('taskMap');
+        select.innerHTML = Object.keys(trialsData).map(name =>
+            `<option value="${name}">${name}</option>`
+        ).join('');
+    }
+    populateMapSelect();
+
+    const taskForm = document.getElementById('taskForm');
+    const tasksGrid = document.getElementById('tasksGrid');
+    let tasks = [];
+
+    taskForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const map = document.getElementById('taskMap').value;
+        const variators = document.getElementById('taskVariators').value;
+        const mode = document.getElementById('taskMode').value;
+        const difficulty = document.getElementById('taskDifficulty').value;
+        const description = document.getElementById('taskDescription').value || 'Без описания';
+
+        const task = {
+            id: Date.now(),
+            map,
+            variators: parseInt(variators),
+            mode,
+            difficulty,
+            description,
+            created: new Date().toLocaleString()
+        };
+
+        tasks.unshift(task);
+        renderTasks();
+        taskForm.reset();
+        populateMapSelect();
+        document.getElementById('taskDescription').value = '';
+    });
+
+    function renderTasks() {
+        if (tasks.length === 0) {
+            tasksGrid.innerHTML = '<div class="empty-tasks">Пока нет созданных заданий. Будьте первым!</div>';
+            return;
+        }
+
+        tasksGrid.innerHTML = tasks.map(task => `
+            <div class="task-item">
+                <div class="task-name">${task.map}</div>
+                <div class="task-meta">
+                    ${task.mode} · ${task.difficulty} · ${task.variators} вариаторов
+                </div>
+                <div class="task-meta" style="font-size:0.7rem;color:#666;">${task.description}</div>
+                <div class="task-meta" style="font-size:0.6rem;color:#555;">${task.created}</div>
+                <div class="task-actions">
+                    <button onclick="completeTask(${task.id})">✅ Выполнить</button>
+                    <button onclick="deleteTask(${task.id})">🗑️ Удалить</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    window.completeTask = function(id) {
+        const task = tasks.find(t => t.id === id);
+        if (task) {
+            alert(`🎯 Задание выполнено!\nКарта: ${task.map}\nСложность: ${task.difficulty}`);
+            deleteTask(id);
+        }
+    };
+
+    window.deleteTask = function(id) {
+        tasks = tasks.filter(t => t.id !== id);
+        renderTasks();
+    };
+
+    // ---------- РУЛЕТКА (нажатие на карту) ----------
+    document.addEventListener('click', function(e) {
+        const card = e.target.closest('.mode-card');
+        if (card) return;
+
+        // Если клик по карте в задании дня - показать случайное
+        const missionMap = e.target.closest('.mission-map');
+        if (missionMap) {
+            generateDailyMission();
+        }
+    });
+
+    console.log('✅ Рулетка загружена! Карт:', Object.keys(trialsData).length);
+    console.log('✅ Всего испытаний:', Object.values(trialsData).reduce((sum, data) => {
+        const trials = Array.isArray(data) ? data : (data.trials || []);
+        return sum + trials.length;
+    }, 0));
+</script>
 
 </body>
 </html>
