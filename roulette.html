@@ -505,7 +505,7 @@
         }
         .special-trials .trials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 1.5rem;
         }
         .trial-card {
@@ -651,6 +651,11 @@
             border: 1px solid rgba(46, 204, 113, 0.3);
             animation: checkmarkAppear 0.5s ease-out;
         }
+        .trial-card .trial-body .trial-status .status-badge.accepted {
+            background: rgba(76, 154, 255, 0.2);
+            color: #4c9aff;
+            border: 1px solid rgba(76, 154, 255, 0.3);
+        }
         
         .trial-card .trial-body .trial-actions {
             display: flex;
@@ -688,6 +693,15 @@
         .trial-card .trial-body .trial-actions .complete-btn.completed:hover {
             transform: none;
             box-shadow: none;
+        }
+        .trial-card .trial-body .trial-actions .complete-btn.accepted {
+            background: rgba(76, 154, 255, 0.15);
+            border: 1px solid rgba(76, 154, 255, 0.3);
+            color: #4c9aff;
+        }
+        .trial-card .trial-body .trial-actions .complete-btn.accepted:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 154, 255, 0.2);
         }
 
         /* ===== РЕЖИМЫ ===== */
@@ -1327,48 +1341,8 @@
     ];
 
     // ================================================================
-    //  ПРАВИЛА СОВМЕСТИМОСТИ
-    // ================================================================
-    const exclusiveCategories = [
-        'collection', 'collection_special', 'hunters', 'boss', 'traps',
-        'psychosis', 'obstacles', 'gates', 'reagent', 'items', 'damage'
-    ];
-
-    const categoryBlockers = {
-        'collection_special': ['collection']
-    };
-
-    const specificBlockers = {
-        'Сломанный Реагент': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения', 
-                              'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
-                              'Первый Уровень', 'Ностофобия'],
-        'Ностофобия': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
-                       'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
-                       'Первый Уровень', 'Сломанный Реагент'],
-        'Глубокий Ожог': ['Больше Толкачей', 'Егерь', 'Больше Притворщиков']
-    };
-
-    const bossMapRestrictions = {
-        'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
-        'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
-        'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
-        'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
-        'Лилия Богомолова': ['Курорт']
-    };
-
-    // ================================================================
     //  ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
     // ================================================================
-    function getTrials(mapName) {
-        const data = trialsData[mapName];
-        return data ? data.trials || [] : [];
-    }
-
-    function getMapImage(mapName) {
-        const data = trialsData[mapName];
-        return data ? data.image || '' : '';
-    }
-
     function randomItem(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
@@ -1381,6 +1355,16 @@
         return arr;
     }
 
+    function getTrials(mapName) {
+        const data = trialsData[mapName];
+        return data ? data.trials || [] : [];
+    }
+
+    function getMapImage(mapName) {
+        const data = trialsData[mapName];
+        return data ? data.image || '' : '';
+    }
+
     function isVariatorCompatible(newVar, selectedVariators, mapName) {
         const newCategory = newVar.category;
         const newName = newVar.name;
@@ -1391,6 +1375,10 @@
             }
         }
 
+        const categoryBlockers = {
+            'collection_special': ['collection']
+        };
+
         for (const sel of selectedVariators) {
             if (categoryBlockers[sel.category] && categoryBlockers[sel.category].includes(newCategory)) {
                 return false;
@@ -1400,6 +1388,16 @@
             }
         }
 
+        const specificBlockers = {
+            'Сломанный Реагент': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения', 
+                                  'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
+                                  'Первый Уровень', 'Ностофобия'],
+            'Ностофобия': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения',
+                           'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
+                           'Первый Уровень', 'Сломанный Реагент'],
+            'Глубокий Ожог': ['Больше Толкачей', 'Егерь', 'Больше Притворщиков']
+        };
+
         for (const sel of selectedVariators) {
             if (specificBlockers[sel.name] && specificBlockers[sel.name].includes(newName)) {
                 return false;
@@ -1408,6 +1406,14 @@
                 return false;
             }
         }
+
+        const bossMapRestrictions = {
+            'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
+            'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
+            'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
+            'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
+            'Лилия Богомолова': ['Курорт']
+        };
 
         if (newCategory === 'boss') {
             const allowedMaps = bossMapRestrictions[newName];
@@ -1612,7 +1618,7 @@
     setInterval(updateTimer, 1000);
 
     // ================================================================
-    //  ОСОБЫЕ ИСПЫТАНИЯ (С КАРТИНКАМИ, СТАТУСАМИ И СОХРАНЕНИЕМ)
+    //  ОСОБЫЕ ИСПЫТАНИЯ (С ПРАВИЛЬНОЙ ЛОГИКОЙ КНОПОК)
     // ================================================================
     function renderSpecialTrials() {
         const grid = document.getElementById('specialTrialsGrid');
@@ -1662,21 +1668,48 @@
                 icon: "images/Иконка задание.webp",
                 variators: ["Заблокированные проходы", "Сбор подарков", "Нехватка здоровья", "Сильнее вместе", "Огненные мины"],
                 equipment: "ВСЕ СНАРЯЖЕНИЯ РАЗРЕШЕНЫ",
-                amf: "РАЗРЕШЕНЫ ТОЛЬКО АМФЫ КАТЕГОРИИ НАВЫК"
+                amf: "РАЗРЕШЕНЫ ТОЛЬКО АМФЫ КАТЕГОРИИ - НАВЫК"
+            },
+            { 
+                id: "special_6",
+                name: "ИСПЫТАНИЕ ОТ АРЛЕКИНО", 
+                desc: "Пройдите испытание Сбегите от лжи отказавшись от одного из своих удобств (СНАРЯЖЕНИЕ, АМФЫ, РЕЦЕПТЫ) на свой выбор", 
+                icon: "images/Иконка задание.webp",
+                variators: ["Обязательное побочное задание", "Собирайте схемы", "Без медицинских предметов", "Егерь", "Взависимости от выбора ("БЕЗ АМФ", "БЕЗ СНАРЯЖЕНИЕ", "БЕЗ РЕЦЕПТОВ")],
+                equipment: "ВСЕ СНАРЯЖЕНИЯ РАЗРЕШЕНЫ (Взависимости от выбора)",
+                amf: "ВСЕ АМФЫ РАЗРЕШЕНЫ (Взависимости от выбора)"
             }
         ];
 
         // Загружаем статусы из localStorage
-        let completedStatus = {};
+        let statusData = {};
         try {
             const saved = localStorage.getItem('specialTrialsStatus');
             if (saved) {
-                completedStatus = JSON.parse(saved);
+                statusData = JSON.parse(saved);
             }
         } catch (e) {}
 
         grid.innerHTML = specials.map((s, index) => {
-            const isCompleted = completedStatus[s.id] || false;
+            const status = statusData[s.id] || 'pending'; // pending | accepted | completed
+            
+            let statusBadge = '';
+            let btnHTML = '';
+            
+            if (status === 'completed') {
+                statusBadge = `<span class="status-badge completed">✅ Выполнено</span>`;
+                btnHTML = `<button class="complete-btn completed" disabled>✅ Помечено как выполненное</button>`;
+            } else if (status === 'accepted') {
+                statusBadge = `<span class="status-badge accepted">📌 Принято</span>`;
+                btnHTML = `
+                    <button class="complete-btn accepted" onclick="markTrialComplete('${s.id}')">📋 Пометить как выполненное</button>
+                `;
+            } else {
+                statusBadge = `<span class="status-badge in-progress">⏳ В ожидании</span>`;
+                btnHTML = `
+                    <button class="complete-btn" onclick="acceptTrial('${s.id}')">📌 Принять вызов</button>
+                `;
+            }
             
             return `
             <div class="trial-card" data-id="${s.id}">
@@ -1705,15 +1738,9 @@
                     <div class="trial-amf">${s.amf}</div>
                     
                     <div class="trial-status">
-                        <span class="status-badge ${isCompleted ? 'completed' : 'in-progress'}">
-                            ${isCompleted ? '✅ Выполнено' : '⏳ В выполнении'}
-                        </span>
+                        ${statusBadge}
                         <div class="trial-actions">
-                            <button class="complete-btn ${isCompleted ? 'completed' : ''}" 
-                                    onclick="toggleSpecialTrial('${s.id}')" 
-                                    ${isCompleted ? 'disabled' : ''}>
-                                ${isCompleted ? '✅ Помечено как выполненное' : '📌 Пометить как выполненное'}
-                            </button>
+                            ${btnHTML}
                         </div>
                     </div>
                 </div>
@@ -1721,21 +1748,39 @@
         `}).join('');
     }
 
-    // Функция переключения статуса особого испытания
-    window.toggleSpecialTrial = function(id) {
-        let completedStatus = {};
+    // Принять вызов
+    window.acceptTrial = function(id) {
+        let statusData = {};
         try {
             const saved = localStorage.getItem('specialTrialsStatus');
             if (saved) {
-                completedStatus = JSON.parse(saved);
+                statusData = JSON.parse(saved);
             }
         } catch (e) {}
-
-        // Переключаем статус
-        completedStatus[id] = !completedStatus[id];
-        localStorage.setItem('specialTrialsStatus', JSON.stringify(completedStatus));
         
-        // Перерендериваем
+        statusData[id] = 'accepted';
+        localStorage.setItem('specialTrialsStatus', JSON.stringify(statusData));
+        renderSpecialTrials();
+    };
+
+    // Пометить как выполненное
+    window.markTrialComplete = function(id) {
+        let statusData = {};
+        try {
+            const saved = localStorage.getItem('specialTrialsStatus');
+            if (saved) {
+                statusData = JSON.parse(saved);
+            }
+        } catch (e) {}
+        
+        statusData[id] = 'completed';
+        localStorage.setItem('specialTrialsStatus', JSON.stringify(statusData));
+        renderSpecialTrials();
+    };
+
+    // Сброс статусов (для тестирования - можно удалить)
+    window.resetSpecialTrials = function() {
+        localStorage.removeItem('specialTrialsStatus');
         renderSpecialTrials();
     };
 
