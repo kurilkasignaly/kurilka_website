@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== ВСЕ СТИЛИ ===== */
+        /* ===== БАЗОВЫЕ СТИЛИ ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -149,7 +149,7 @@
         .page-header h1 i { font-size: 2.2rem; color: #e16d48; }
         .page-header p { color: #c2b9d4; font-size: 1rem; margin-top: 0.5rem; }
 
-        /* Диалог */
+        /* ===== ДИАЛОГ ===== */
         .dialog-overlay {
             background: rgba(18, 12, 28, 0.6);
             backdrop-filter: blur(12px);
@@ -282,7 +282,7 @@
         }
         .dialog-btn-skip:hover { color: #c2b9d4; }
 
-        /* Задание дня */
+        /* ===== ЗАДАНИЕ ДНЯ ===== */
         .daily-mission {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
@@ -305,19 +305,20 @@
             display: flex;
             align-items: stretch;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
+        /* КАРТА (слева) */
         .daily-mission .mission-map {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            flex: 0 0 200px;
+            flex: 0 0 180px;
         }
         .daily-mission .mission-map img {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             object-fit: cover;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.4);
@@ -326,87 +327,97 @@
         }
         .daily-mission .mission-map img:hover { transform: scale(1.03); }
         .daily-mission .mission-map .map-name {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #fff;
             font-weight: 600;
         }
+
+        /* ЦЕНТР: Название + Описание + Картинка испытания */
         .daily-mission .mission-trial {
-            text-align: left;
             flex: 1;
-            min-width: 250px;
-            max-width: 450px;
+            min-width: 280px;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            text-align: left;
+            gap: 0.4rem;
         }
         .daily-mission .mission-trial .trial-name {
             color: #ffbc9a;
             font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
         }
         .daily-mission .mission-trial .trial-desc {
             color: #c2b9d4;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             line-height: 1.5;
         }
-        .daily-mission .mission-trial .trial-image {
-            margin-top: 0.8rem;
+        /* КАРТИНКА ИСПЫТАНИЯ — справа от описания, полная, не обрезанная */
+        .daily-mission .mission-trial .trial-image-wrap {
+            margin-top: 0.3rem;
             border-radius: 12px;
             overflow: hidden;
-            max-width: 300px;
-        }
-        .daily-mission .mission-trial .trial-image img {
-            width: 100%;
-            height: auto;
-            max-height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
             border: 1px solid rgba(220, 90, 50, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        .daily-mission .mission-trial .trial-image-wrap img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;  /* НЕ ОБРЕЗАЕТ — показывает полностью */
+            display: block;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+
+        /* ВАРИАТОРЫ (справа) */
         .daily-mission .mission-variators {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.6rem;
             flex: 0 0 auto;
-            min-width: 200px;
+            min-width: 180px;
         }
         .daily-mission .variator-items {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.8rem;
+            gap: 0.6rem;
         }
         .daily-mission .variator-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.15rem;
             background: rgba(0, 0, 0, 0.3);
-            padding: 0.5rem;
+            padding: 0.4rem 0.3rem;
             border-radius: 12px;
             border: 1px solid rgba(220, 90, 50, 0.15);
             transition: all 0.3s;
-            min-width: 70px;
+            min-width: 60px;
         }
         .daily-mission .variator-item:hover {
             border-color: rgba(220, 90, 50, 0.4);
             transform: translateY(-2px);
         }
         .daily-mission .variator-item img {
-            width: 55px;
-            height: 55px;
+            width: 48px;
+            height: 48px;
             object-fit: contain;
-            border-radius: 10px;
+            border-radius: 8px;
             background: rgba(0, 0, 0, 0.2);
-            padding: 4px;
+            padding: 3px;
         }
         .daily-mission .variator-item .var-name {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: #c2b9d4;
             text-align: center;
             line-height: 1.1;
-            max-width: 70px;
+            max-width: 60px;
         }
         .daily-mission .variator-item .var-category {
             font-size: 0.4rem;
@@ -415,10 +426,11 @@
             letter-spacing: 0.3px;
         }
         .daily-mission .variator-count {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #888;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
         }
+
         .timer-section {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
@@ -477,7 +489,7 @@
             opacity: 0.5;
         }
 
-        /* Особые испытания */
+        /* ===== ОСОБЫЕ ИСПЫТАНИЯ ===== */
         .special-trials { margin-bottom: 2.5rem; }
         .special-trials h2 {
             font-size: 1.5rem;
@@ -572,8 +584,12 @@
             color: #2ecc71;
             cursor: default;
         }
+        .trial-card .trial-body .trial-actions .complete-btn.completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
 
-        /* Режимы */
+        /* ===== РЕЖИМЫ ===== */
         .modes-section { margin-bottom: 2.5rem; }
         .modes-section h2 {
             font-size: 1.5rem;
@@ -622,7 +638,7 @@
             background: rgba(220, 90, 50, 0.1);
         }
 
-        /* Конструктор */
+        /* ===== КОНСТРУКТОР ===== */
         .constructor-section { margin-bottom: 2.5rem; }
         .constructor-section h2 {
             font-size: 1.5rem;
@@ -776,11 +792,12 @@
             .constructor-form { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: 1; }
             .daily-mission .mission-content { flex-direction: column; align-items: center; }
-            .daily-mission .mission-trial { text-align: center; max-width: 100%; }
-            .daily-mission .mission-map img { width: 150px; height: 150px; }
-            .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-            .daily-mission .variator-item { min-width: 60px; padding: 0.3rem; }
+            .daily-mission .mission-trial { text-align: center; max-width: 100%; min-width: unset; }
+            .daily-mission .mission-map img { width: 140px; height: 140px; }
+            .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
+            .daily-mission .variator-item { min-width: 55px; padding: 0.3rem; }
             .daily-mission .variator-item img { width: 40px; height: 40px; }
+            .daily-mission .mission-trial .trial-image-wrap img { max-height: 140px; }
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
@@ -793,18 +810,19 @@
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
-            .daily-mission .mission-map img { width: 120px; height: 120px; }
+            .daily-mission .mission-map img { width: 100px; height: 100px; }
             .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.3rem; }
-            .daily-mission .variator-item { min-width: 50px; padding: 0.2rem; }
-            .daily-mission .variator-item img { width: 32px; height: 32px; }
-            .daily-mission .variator-item .var-name { font-size: 0.45rem; max-width: 50px; }
+            .daily-mission .variator-item { min-width: 45px; padding: 0.2rem; }
+            .daily-mission .variator-item img { width: 30px; height: 30px; }
+            .daily-mission .variator-item .var-name { font-size: 0.4rem; max-width: 45px; }
+            .daily-mission .mission-trial .trial-image-wrap img { max-height: 100px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
             .dialog-overlay { padding: 0.5rem 0.8rem; min-height: 60px; }
             .dialog-avatar { width: 50px; height: 50px; }
             .dialog-text { font-size: 0.75rem; min-height: 34px; }
             .dialog-btn { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
-            .daily-mission .mission-trial .trial-name { font-size: 1.1rem; }
+            .daily-mission .mission-trial .trial-name { font-size: 1rem; }
         }
     </style>
 </head>
@@ -840,7 +858,7 @@
         <p>Случайные задания для разнообразия прохождения The Outlast Trials</p>
     </div>
 
-    <!-- ДИАЛОГОВОЕ ОКНО -->
+    <!-- ДИАЛОГ -->
     <div class="dialog-overlay" id="dialogOverlay">
         <div class="dialog-container">
             <div class="dialog-avatar" id="dialogAvatar">
@@ -895,7 +913,7 @@
         <div class="trials-grid" id="specialTrialsGrid"></div>
     </div>
 
-    <!-- РЕЖИМЫ РУЛЕТКИ -->
+    <!-- РЕЖИМЫ -->
     <div class="modes-section">
         <h2><i class="fas fa-sliders-h"></i> Режимы рулетки</h2>
         <div class="modes-grid">
@@ -920,7 +938,7 @@
         </div>
     </div>
 
-    <!-- КОНСТРУКТОР ИСПЫТАНИЙ -->
+    <!-- КОНСТРУКТОР -->
     <div class="constructor-section">
         <h2><i class="fas fa-tools"></i> Конструктор испытаний</h2>
         <div class="constructor-wrapper">
@@ -980,7 +998,7 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ КАРТ С ИЗОБРАЖЕНИЯМИ
+    //  ДАННЫЕ КАРТ (ВСЕ КАРТЫ С ИЗОБРАЖЕНИЯМИ)
     // ================================================================
     const trialsData = {
         "Полицейский участок": {
@@ -1093,7 +1111,7 @@
     };
 
     // ================================================================
-    //  ВАРИАТОРЫ С КАТЕГОРИЯМИ
+    //  ВАРИАТОРЫ
     // ================================================================
     const variatorsData = [
         // ОСОБЫЕ СОБЫТИЯ
@@ -1220,20 +1238,17 @@
     ];
 
     // ================================================================
-    //  ПРАВИЛА СОВМЕСТИМОСТИ ВАРИАТОРОВ
+    //  ПРАВИЛА СОВМЕСТИМОСТИ
     // ================================================================
-    // Категории, которые не могут быть вместе
     const exclusiveCategories = [
         'collection', 'collection_special', 'hunters', 'boss', 'traps',
         'psychosis', 'obstacles', 'gates', 'reagent', 'items', 'damage'
     ];
 
-    // Специальные блокировки: категория -> [категории, которые она блокирует]
     const categoryBlockers = {
         'collection_special': ['collection']
     };
 
-    // Конкретные вариаторы, которые блокируют другие вариаторы
     const specificBlockers = {
         'Сломанный Реагент': ['Без Рецептов', 'Без Амф', 'Без Снаряжения', 'Увеличенная Перезарядка Снаряжения', 
                               'Урон Отключает Снаряжение', 'Без Улучшения Снаряжения', 'Урон Перезапускает Снаряжение',
@@ -1244,7 +1259,6 @@
         'Глубокий Ожог': ['Больше Толкачей', 'Егерь', 'Больше Притворщиков']
     };
 
-    // Боссы ограничены по картам
     const bossMapRestrictions = {
         'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
         'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
@@ -1278,19 +1292,16 @@
         return arr;
     }
 
-    // Проверка совместимости вариаторов
     function isVariatorCompatible(newVar, selectedVariators, mapName) {
         const newCategory = newVar.category;
         const newName = newVar.name;
 
-        // 1. Проверка категорийной совместимости (не более одного из каждой категории)
         for (const sel of selectedVariators) {
             if (sel.category === newCategory && newCategory !== 'special' && newCategory !== 'enemies' && newCategory !== 'other') {
                 return false;
             }
         }
 
-        // 2. Проверка блокировок категорий (collection_special блокирует collection)
         for (const sel of selectedVariators) {
             if (categoryBlockers[sel.category] && categoryBlockers[sel.category].includes(newCategory)) {
                 return false;
@@ -1300,7 +1311,6 @@
             }
         }
 
-        // 3. Проверка специфических блокировок
         for (const sel of selectedVariators) {
             if (specificBlockers[sel.name] && specificBlockers[sel.name].includes(newName)) {
                 return false;
@@ -1310,7 +1320,6 @@
             }
         }
 
-        // 4. Проверка ограничений боссов по картам
         if (newCategory === 'boss') {
             const allowedMaps = bossMapRestrictions[newName];
             if (allowedMaps && !allowedMaps.includes(mapName)) {
@@ -1321,7 +1330,6 @@
         return true;
     }
 
-    // Выбор 8 совместимых вариаторов
     function selectCompatibleVariators(mapName, count = 8) {
         const shuffled = shuffleArray([...variatorsData]);
         const selected = [];
@@ -1333,7 +1341,6 @@
             }
         }
 
-        // Если не хватает, добираем из оставшихся (с меньшей проверкой)
         if (selected.length < count) {
             for (const v of shuffled) {
                 if (!selected.includes(v) && selected.length < count) {
@@ -1408,11 +1415,10 @@
         dialogBtnSkip.style.display = 'none';
     });
 
-    // Запускаем диалог
     setTimeout(showNextDialog, 300);
 
     // ================================================================
-    //  ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage, МЕНЯЕТСЯ 1 РАЗ В 24 ЧАСА)
+    //  ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage, 1 РАЗ В 24 ЧАСА)
     // ================================================================
     function getDailyMission() {
         const now = Date.now();
@@ -1433,7 +1439,6 @@
         }
 
         if (!missionData) {
-            // Генерируем новое задание дня
             const mapNames = Object.keys(trialsData);
             const mapName = randomItem(mapNames);
             const trials = getTrials(mapName);
@@ -1465,23 +1470,32 @@
         let variatorsHTML = variators.map(v => `
             <div class="variator-item">
                 <img src="${v.image}" alt="${v.name}" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2255%22 height=%2255%22%3E%3Crect fill=%22%23222%22 width=%2255%22 height=%2255%22/%3E%3Ctext x=%2227.5%22 y=%2235%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2216%22 font-family=%22Arial%22%3E${v.category === 'boss' ? '👹' : v.category === 'collection' ? '📦' : '⚡'}%3C/text%3E%3C/svg%3E'">
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22%3E%3Crect fill=%22%23222%22 width=%2248%22 height=%2248%22/%3E%3Ctext x=%2224%22 y=%2232%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2216%22 font-family=%22Arial%22%3E${v.category === 'boss' ? '👹' : v.category === 'collection' ? '📦' : '⚡'}%3C/text%3E%3C/svg%3E'">
                 <span class="var-name">${v.name}</span>
                 <span class="var-category">${v.category}</span>
             </div>
         `).join('');
 
         missionContent.innerHTML = `
+            <!-- КАРТА (слева) -->
             <div class="mission-map">
                 <img src="${getMapImage(mapName)}" alt="${mapName}" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Crect fill=%22%23222%22 width=%22180%22 height=%22180%22/%3E%3Ctext x=%2290%22 y=%22100%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
                 <span class="map-name">${mapName}</span>
             </div>
+
+            <!-- ЦЕНТР: Название + Описание + Картинка испытания -->
             <div class="mission-trial">
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
-                ${trial.image ? `<div class="trial-image"><img src="${trial.image}" alt="${trial.name}" onerror="this.style.display='none'"></div>` : ''}
+                ${trial.image ? `
+                    <div class="trial-image-wrap">
+                        <img src="${trial.image}" alt="${trial.name}" onerror="this.style.display='none'">
+                    </div>
+                ` : ''}
             </div>
+
+            <!-- ВАРИАТОРЫ (справа) -->
             <div class="mission-variators">
                 <div class="variator-items">${variatorsHTML}</div>
                 <div class="variator-count">${variators.length} вариаторов</div>
@@ -1492,7 +1506,7 @@
     renderDailyMission();
 
     // ================================================================
-    //  ТАЙМЕР ДО СЛЕДУЮЩЕГО ОБНОВЛЕНИЯ
+    //  ТАЙМЕР
     // ================================================================
     function updateTimer() {
         const now = new Date();
