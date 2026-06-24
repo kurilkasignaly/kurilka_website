@@ -112,6 +112,25 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         return false;
     }
     
+    // ===== ПРАВИЛО: Психохирургия несовместима с некоторыми вариаторами =====
+    var psychoBlocked = [
+        'Повышенная Угроза', 'Повышенная Угроза II', 'Низкая Плотность Врагов',
+        'Много Противников', 'Враги Сильнее', 'Враги Сильнее II',
+        'Экстремальный Психоз', 'Без Имён'
+    ];
+    if (variatorName === 'Психохирургия') {
+        for (var pb = 0; pb < psychoBlocked.length; pb++) {
+            if (selectedNames.indexOf(psychoBlocked[pb]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Психохирургия') !== -1) {
+        if (psychoBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
     // Правило: Низкая плотность врагов только до 5 уровня
     if (variatorName === 'Низкая Плотность Врагов' && level > 5) {
         return false;
@@ -279,8 +298,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     
     // Группа мин: только одна из них может выпасть
     var mineGroup = ['Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
-    
-    // Если добавляем мину - проверяем, нет ли других мин
     if (mineGroup.indexOf(variatorName) !== -1) {
         for (var mg = 0; mg < selectedVariators.length; mg++) {
             if (mineGroup.indexOf(selectedVariators[mg].name) !== -1) {
@@ -767,7 +784,7 @@ function initEscalation() {
 }
 
 // ============================================================
-// ОТРИСОВКА ШАГОВ (ОСТАЛЬНЫЕ ФУНКЦИИ БЕЗ ИЗМЕНЕНИЙ)
+// ОТРИСОВКА ШАГОВ
 // ============================================================
 
 function renderEscPlayerNames() {
@@ -993,7 +1010,7 @@ function checkEscAmpsReady() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С ИСПРАВЛЕННЫМ ОТОБРАЖЕНИЕМ КАРТИНОК)
 // ============================================================
 
 function generateEscResult() {
@@ -1043,21 +1060,24 @@ function generateEscResult() {
         resultContainer.classList.add('active');
     }
 
+    // ===== ИСПРАВЛЕННОЕ ОТОБРАЖЕНИЕ КАРТИНКИ =====
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         var trialImage = trial.image || mapImage;
         
         resultMap.innerHTML = `
-            <img class="map-image" src="${trialImage}" alt="${trial.name}" onerror="this.src='https://placehold.co/160x160/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
-            <div class="result-map-info">
-                <div class="map-label"><i class="fas fa-map"></i> Карта</div>
-                <div class="map-name">${mapName}</div>
-                <div class="trial-name">${trial.name}</div>
-                <div class="trial-desc">${trial.desc}</div>
-                <div class="map-meta">
-                    <span class="map-meta-item"><strong>№ Эскалационной терапии:</strong> #${escState.level}</span>
-                    <span class="map-meta-item"><strong>Сложность:</strong> ${escState.difficulty}</span>
-                    <span class="map-meta-item"><strong>Вариаторов:</strong> ${escState.variators.length}</span>
+            <div class="result-map-row">
+                <img class="map-image" src="${trialImage}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
+                <div class="result-map-info" style="flex:1; min-width:200px;">
+                    <div class="map-label" style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px;"><i class="fas fa-map"></i> Карта</div>
+                    <div class="map-name" style="font-size:1.4rem; color:#e16d48; font-weight:700; margin:0.2rem 0 0.3rem;">${mapName}</div>
+                    <div class="trial-name" style="font-size:1.1rem; color:#ffbc9a; font-weight:600; margin-bottom:0.3rem;">${trial.name}</div>
+                    <div class="trial-desc" style="color:#c2b9d4; font-size:0.85rem; line-height:1.5;">${trial.desc}</div>
+                    <div class="map-meta" style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(220,90,50,0.15);">
+                        <span class="map-meta-item" style="font-size:0.8rem; color:#888;"><strong style="color:#ffbc9a;">№ Эскалационной терапии:</strong> #${escState.level}</span>
+                        <span class="map-meta-item" style="font-size:0.8rem; color:#888;"><strong style="color:#ffbc9a;">Сложность:</strong> ${escState.difficulty}</span>
+                        <span class="map-meta-item" style="font-size:0.8rem; color:#888;"><strong style="color:#ffbc9a;">Вариаторов:</strong> ${escState.variators.length}</span>
+                    </div>
                 </div>
             </div>
         `;
@@ -1070,9 +1090,9 @@ function generateEscResult() {
         } else {
             resultVariators.innerHTML = escState.variators.map(function(v) {
                 return `
-                    <div class="var-item">
-                        <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);">
-                        <span class="var-name" style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
+                    <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem;">
+                        <img src="${v.image}" alt="${v.name}" style="width:100px; height:100px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'">
+                        <span style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
                     </div>
                 `;
             }).join('');
@@ -1089,7 +1109,7 @@ function generateEscResult() {
 }
 
 // ============================================================
-// ОТОБРАЖЕНИЕ ИГРОКОВ В РЕЗУЛЬТАТЕ
+// ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ)
 // ============================================================
 
 function renderEscResultPlayers() {
