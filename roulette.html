@@ -308,35 +308,60 @@
             gap: 1.5rem;
             flex-wrap: wrap;
         }
-        /* КАРТА (слева) */
+
+        /* БЛОК КАРТЫ — здесь будет картинка карты ИЛИ картинка испытания */
         .daily-mission .mission-map {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            flex: 0 0 180px;
+            flex: 0 0 200px;
+            max-width: 200px;
         }
-        .daily-mission .mission-map img {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
+        .daily-mission .mission-map .map-image-wrap {
+            width: 200px;
+            height: 200px;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.4);
-            transition: transform 0.3s;
+            overflow: hidden;
             background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+            position: relative;
         }
-        .daily-mission .mission-map img:hover { transform: scale(1.03); }
+        .daily-mission .mission-map .map-image-wrap:hover {
+            transform: scale(1.03);
+        }
+        .daily-mission .mission-map .map-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;  /* ПОЛНАЯ КАРТИНКА, НЕ ОБРЕЗАННАЯ */
+            display: block;
+        }
         .daily-mission .mission-map .map-name {
             font-size: 0.95rem;
             color: #fff;
             font-weight: 600;
+            text-align: center;
+        }
+        .daily-mission .mission-map .trial-label {
+            font-size: 0.6rem;
+            color: #ffbc9a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(220, 90, 50, 0.15);
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
-        /* ЦЕНТР: Название + Описание + Картинка испытания */
+        /* ЦЕНТР: Название + Описание */
         .daily-mission .mission-trial {
             flex: 1;
-            min-width: 280px;
-            max-width: 500px;
+            min-width: 250px;
+            max-width: 450px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -352,26 +377,6 @@
             color: #c2b9d4;
             font-size: 0.88rem;
             line-height: 1.5;
-        }
-        /* КАРТИНКА ИСПЫТАНИЯ — справа от описания, полная, не обрезанная */
-        .daily-mission .mission-trial .trial-image-wrap {
-            margin-top: 0.3rem;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            background: rgba(0, 0, 0, 0.2);
-            max-width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .daily-mission .mission-trial .trial-image-wrap img {
-            width: 100%;
-            max-height: 180px;
-            object-fit: contain;  /* НЕ ОБРЕЗАЕТ — показывает полностью */
-            display: block;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
         }
 
         /* ВАРИАТОРЫ (справа) */
@@ -793,11 +798,11 @@
             .form-group.full-width { grid-column: 1; }
             .daily-mission .mission-content { flex-direction: column; align-items: center; }
             .daily-mission .mission-trial { text-align: center; max-width: 100%; min-width: unset; }
-            .daily-mission .mission-map img { width: 140px; height: 140px; }
+            .daily-mission .mission-map { flex: 0 0 160px; max-width: 160px; }
+            .daily-mission .mission-map .map-image-wrap { width: 160px; height: 160px; }
             .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
             .daily-mission .variator-item { min-width: 55px; padding: 0.3rem; }
             .daily-mission .variator-item img { width: 40px; height: 40px; }
-            .daily-mission .mission-trial .trial-image-wrap img { max-height: 140px; }
             .timer-display { gap: 0.8rem; }
             .timer-unit .number { font-size: 1.8rem; min-width: 35px; }
             .timer-separator { font-size: 1.5rem; }
@@ -810,12 +815,12 @@
         @media (max-width: 550px) {
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .mode-card { padding: 1.2rem; }
-            .daily-mission .mission-map img { width: 100px; height: 100px; }
+            .daily-mission .mission-map { flex: 0 0 120px; max-width: 120px; }
+            .daily-mission .mission-map .map-image-wrap { width: 120px; height: 120px; }
             .daily-mission .variator-items { grid-template-columns: repeat(4, 1fr); gap: 0.3rem; }
             .daily-mission .variator-item { min-width: 45px; padding: 0.2rem; }
             .daily-mission .variator-item img { width: 30px; height: 30px; }
             .daily-mission .variator-item .var-name { font-size: 0.4rem; max-width: 45px; }
-            .daily-mission .mission-trial .trial-image-wrap img { max-height: 100px; }
             .timer-unit .number { font-size: 1.5rem; min-width: 28px; }
             .timer-separator { font-size: 1.2rem; }
             .dialog-overlay { padding: 0.5rem 0.8rem; min-height: 60px; }
@@ -998,7 +1003,7 @@
 
 <script>
     // ================================================================
-    //  ДАННЫЕ КАРТ (ВСЕ КАРТЫ С ИЗОБРАЖЕНИЯМИ)
+    //  ДАННЫЕ КАРТ
     // ================================================================
     const trialsData = {
         "Полицейский участок": {
@@ -1111,10 +1116,9 @@
     };
 
     // ================================================================
-    //  ВАРИАТОРЫ
+    //  ВАРИАТОРЫ (сокращенно для экономии места)
     // ================================================================
     const variatorsData = [
-        // ОСОБЫЕ СОБЫТИЯ
         { name: "Сильнее Вместе", image: "images/вариатор-сильнее-вместе.webp", category: "special" },
         { name: "Ностофобия", image: "images/вариатор-ностофобия.webp", category: "special" },
         { name: "Токсический Шок", image: "images/вариатор-токсический-шок.webp", category: "special" },
@@ -1124,13 +1128,11 @@
         { name: "Вечная Мерзлота", image: "images/вариатор-вечная-мерзлота.webp", category: "special" },
         { name: "Самое Главное", image: "images/вариатор-самое-главное.webp", category: "special" },
         { name: "Главная Рулетка", image: "images/вариатор-главная-рулетка.webp", category: "special" },
-        // БОССЫ
         { name: "Лиланд Койл", image: "images/вариатор-лиланд-койл.webp", category: "boss" },
         { name: "Матушка Гуссбери", image: "images/вариатор-матушка-гуссбери.webp", category: "boss" },
         { name: "Франко Барби", image: "images/вариатор-франко-барби.webp", category: "boss" },
         { name: "Близнецы Кресс", image: "images/вариатор-близнецы-кресс.webp", category: "boss" },
         { name: "Лилия Богомолова", image: "images/вариатор-лилия-богомолова.webp", category: "boss" },
-        // ПОБОЧНЫЕ ЗАДАНИЯ (СБОР)
         { name: "Сбор Подарков", image: "images/вариатор-сбор-подарков.webp", category: "collection" },
         { name: "Сбор Крыс", image: "images/вариатор-сбор-крыс.webp", category: "collection" },
         { name: "Сбор Амулетов", image: "images/вариатор-сбор-амулетов.webp", category: "collection" },
@@ -1144,30 +1146,25 @@
         { name: "Расшифруйте Вещание", image: "images/вариатор-вещание.webp", category: "collection" },
         { name: "Потушите Огонь", image: "images/вариатор-потушите-огонь.webp", category: "collection" },
         { name: "Соберите плакаты", image: "images/вариатор-соберите-плакаты.webp", category: "collection" },
-        // СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ
         { name: "Случайное Побочное Задание", image: "images/вариатор-случайное-побочное-задание.webp", category: "collection_special" },
         { name: "Двойные задания", image: "images/вариатор-д-задания.webp", category: "collection_special" },
         { name: "Обязательное Побочное Задание", image: "images/вариатор-обязательное-задание.webp", category: "collection_special" },
-        // НАБОРЫ
         { name: "Повышенная Угроза", image: "images/вариатор-повышенная-угроза.webp", category: "threat" },
         { name: "Повышенная Угроза II", image: "images/вариатор-повышенная-угроза-2.webp", category: "threat" },
         { name: "Ненадежные Двери", image: "images/вариатор-ненадежные-двери.webp", category: "doors" },
         { name: "Психохирургия", image: "images/вариатор-психохирургия.webp", category: "psycho" },
-        // ЭКС-ПОПЫ
         { name: "Низкая Плотность Врагов", image: "images/вариатор-низкая-плотность-врагов.webp", category: "enemies" },
         { name: "Много Противников", image: "images/вариатор-много-противников.webp", category: "enemies" },
         { name: "Больше Толкачей", image: "images/вариатор-больше-толкачей.webp", category: "hunters" },
         { name: "Больше Притворщиков", image: "images/вариатор-больше-притворщиков.webp", category: "hunters" },
         { name: "Больше Бросателей", image: "images/вариатор-больше-бросателей.webp", category: "hunters" },
         { name: "Егерь", image: "images/вариатор-егерь.webp", category: "hunters" },
-        // ИСТОЧНИКИ УРОНА
         { name: "Враги Сильнее", image: "images/вариатор-враги-сильнее.webp", category: "damage" },
         { name: "Враги Сильнее II", image: "images/вариатор-враги-сильнее-2.webp", category: "damage" },
         { name: "Разъяренные Враги", image: "images/вариатор-разъяренные-враги.webp", category: "damage" },
         { name: "Кровотечение", image: "images/вариатор-кровотечение.webp", category: "damage" },
         { name: "Постоянный Урон", image: "images/вариатор-постоянный-урон.webp", category: "damage" },
         { name: "Смертельный Главный Актив", image: "images/вариатор-смертельный-главный-актив.webp", category: "damage" },
-        // МОДИФИКАТОРЫ РЕАГЕНТОВ
         { name: "Первый Уровень", image: "images/вариатор-первый-уровень.webp", category: "reagent" },
         { name: "Сломанный Реагент", image: "images/вариатор-сломанный-реагент.webp", category: "reagent" },
         { name: "Без Рецептов", image: "images/вариатор-без-рецептов.webp", category: "reagent" },
@@ -1178,7 +1175,6 @@
         { name: "Ограниченное Снаряжение", image: "images/вариатор-ограниченное-снаряжение.webp", category: "reagent" },
         { name: "Урон Перезапускает Снаряжение", image: "images/вариатор-урон-п-снаряжения.webp", category: "reagent" },
         { name: "Урон Отключает Снаряжение", image: "images/вариатор-урон-о-снаряжение.webp", category: "reagent" },
-        // ПРЕДМЕТЫ И ИНВЕНТАРЬ
         { name: "Ограниченные Предметы", image: "images/вариатор-ограниченные-предметы.webp", category: "items" },
         { name: "Ограниченные Предметы II", image: "images/вариатор-ограниченные-предметы-2.webp", category: "items" },
         { name: "Без Медицинских Предметов", image: "images/вариатор без медецинских.webp", category: "items" },
@@ -1188,7 +1184,6 @@
         { name: "Только Предметы Для Бросания", image: "images/вариатор-предметы-для-бросания.webp", category: "items" },
         { name: "Ограниченный Инвентарь", image: "images/вариатор-ограниченный-инвентарь.webp", category: "items" },
         { name: "Ограниченный Инвентарь II", image: "images/вариатор-ограниченный-инвентарь-2.webp", category: "items" },
-        // ЛОВУШКИ
         { name: "Больше Ловушек", image: "images/вариатор-больше-ловушек.webp", category: "traps" },
         { name: "Больше Ловушек II", image: "images/вариатор-больше-ловушек-2.webp", category: "traps" },
         { name: "Смертельные Ловушки", image: "images/вариатор-смертельные-ловушки.webp", category: "traps" },
@@ -1203,25 +1198,21 @@
         { name: "Острое Стекло", image: "images/вариатор-острое-стекло.webp", category: "traps" },
         { name: "Опасные Трубы", image: "images/вариатор-опасные-трубы.webp", category: "traps" },
         { name: "Огнеметы", image: "images/вариатор-огнеметы.webp", category: "traps" },
-        // ПСИХОЗ
         { name: "Бэд Трип", image: "images/вариатор-бэд-трип.webp", category: "psychosis" },
         { name: "Бэд Трип II", image: "images/вариатор-бэд-трип-2.webp", category: "psychosis" },
         { name: "Галлюцинации", image: "images/вариатор-галлюцинации.webp", category: "psychosis" },
         { name: "Урон С Психозом", image: "images/вариатор-урон-с-психозом.webp", category: "psychosis" },
         { name: "Экстремальный Психоз", image: "images/вариатор-экстремальный-психоз.webp", category: "psychosis" },
-        // ПРЕПЯТСТВИЯ
         { name: "Заблокированные Проходы", image: "images/вариатор-заблокированные-проходы.webp", category: "obstacles" },
         { name: "Запертые Двери", image: "images/вариатор-запертые-двери.webp", category: "obstacles" },
         { name: "Забитые Двери", image: "images/вариатор-забитые-двери.webp", category: "obstacles" },
         { name: "Заблокированные Двери", image: "images/вариатор-заблокированные-двери.webp", category: "obstacles" },
         { name: "Закрытые Откатные Ворота", image: "images/вариатор-закрытые-откатные-ворота.webp", category: "obstacles" },
-        // ОТКАТНЫЕ ВОРОТА
         { name: "Ворота С Детектором Звука", image: "images/вариатор-ворота-детектор-звука.webp", category: "gates" },
         { name: "Дистанционные Ворота", image: "images/вариатор-дистанционные-ворота.webp", category: "gates" },
         { name: "Бесконтактные Ворота", image: "images/вариатор-бесконтактные-ворота.webp", category: "gates" },
         { name: "Времянные Ворота", image: "images/вариатор-времянные-ворота.webp", category: "gates" },
         { name: "Закрытые Ворота", image: "images/вариатор-закрытые-ворота.webp", category: "gates" },
-        // ДРУГИЕ
         { name: "Ограниченные Укрытия", image: "images/вариатор-ограниченные-укрытия.webp", category: "other" },
         { name: "Ограниченные Укрытия II", image: "images/вариатор-ограниченные-укрытия-2.webp", category: "other" },
         { name: "Не Бегать", image: "images/вариатор-не бегать.webp", category: "other" },
@@ -1418,7 +1409,7 @@
     setTimeout(showNextDialog, 300);
 
     // ================================================================
-    //  ЗАДАНИЕ ДНЯ (СОХРАНЯЕТСЯ В localStorage, 1 РАЗ В 24 ЧАСА)
+    //  ЗАДАНИЕ ДНЯ
     // ================================================================
     function getDailyMission() {
         const now = Date.now();
@@ -1467,6 +1458,9 @@
 
         const missionContent = document.getElementById('missionContent');
 
+        // Картинка для блока — показываем картинку ИСПЫТАНИЯ (если есть) или карту
+        const displayImage = trial.image || getMapImage(mapName);
+
         let variatorsHTML = variators.map(v => `
             <div class="variator-item">
                 <img src="${v.image}" alt="${v.name}" 
@@ -1477,25 +1471,23 @@
         `).join('');
 
         missionContent.innerHTML = `
-            <!-- КАРТА (слева) -->
+            <!-- БЛОК КАРТЫ — здесь картинка испытания -->
             <div class="mission-map">
-                <img src="${getMapImage(mapName)}" alt="${mapName}" 
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Crect fill=%22%23222%22 width=%22180%22 height=%22180%22/%3E%3Ctext x=%2290%22 y=%22100%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
+                <div class="map-image-wrap">
+                    <img src="${displayImage}" alt="${trial.name}" 
+                         onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23222%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%22100%22 y=%22110%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22 font-family=%22Arial%22%3E🗺️%3C/text%3E%3C/svg%3E'">
+                </div>
                 <span class="map-name">${mapName}</span>
+                <span class="trial-label">🎯 Испытание дня</span>
             </div>
 
-            <!-- ЦЕНТР: Название + Описание + Картинка испытания -->
+            <!-- ЦЕНТР: Название + Описание -->
             <div class="mission-trial">
                 <div class="trial-name">${trial.name}</div>
                 <div class="trial-desc">${trial.desc}</div>
-                ${trial.image ? `
-                    <div class="trial-image-wrap">
-                        <img src="${trial.image}" alt="${trial.name}" onerror="this.style.display='none'">
-                    </div>
-                ` : ''}
             </div>
 
-            <!-- ВАРИАТОРЫ (справа) -->
+            <!-- ВАРИАТОРЫ -->
             <div class="mission-variators">
                 <div class="variator-items">${variatorsHTML}</div>
                 <div class="variator-count">${variators.length} вариаторов</div>
