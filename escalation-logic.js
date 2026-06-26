@@ -817,15 +817,26 @@ function renderEscPlayerNames() {
     var container = document.getElementById('escPlayerNameInputs');
     if (!container) return;
     container.innerHTML = '';
+    
+    // Создаем сетку 2 колонки для имен игроков
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; max-width: 600px; margin: 0 auto;';
+    
     for (var i = 0; i < escState.playerCount; i++) {
         var row = document.createElement('div');
-        row.className = 'input-row';
+        row.style.cssText = 'display: flex; flex-direction: column; gap: 4px;';
         row.innerHTML = `
-            <label><i class="fas fa-user"></i> Игрок ${i + 1}</label>
-            <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}">
+            <label style="font-size: 0.8rem; color: #888; font-weight: 500; letter-spacing: 0.5px;">
+                <i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i>
+                Игрок ${i + 1}
+            </label>
+            <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(220,90,50,0.2); background: rgba(255,255,255,0.05); color: #ffbc9a; font-size: 0.95rem; outline: none; transition: border-color 0.3s; box-sizing: border-box;">
         `;
-        container.appendChild(row);
+        grid.appendChild(row);
     }
+    
+    container.appendChild(grid);
+    
     var firstInput = container.querySelector('input');
     if (firstInput) setTimeout(function() { firstInput.focus(); }, 300);
 }
@@ -840,19 +851,17 @@ function renderEscEquipment() {
         return;
     }
     
+    // Создаем сетку 2 колонки для игроков
+    var gridWrapper = document.createElement('div');
+    gridWrapper.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;';
+    
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.marginBottom = '1.8rem';
-        section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
-        section.style.paddingBottom = '1.2rem';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
         var title = document.createElement('div');
-        title.style.fontWeight = '600';
-        title.style.color = '#ffbc9a';
-        title.style.marginBottom = '0.8rem';
-        title.style.fontSize = '1.05rem';
-        title.style.textAlign = 'center';
-        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
         
         var wrapper = document.createElement('div');
@@ -860,6 +869,7 @@ function renderEscEquipment() {
         
         var grid = document.createElement('div');
         grid.className = 'selection-grid';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
         
         var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
         var selectedEquip = shuffled.slice(0, 3);
@@ -872,16 +882,33 @@ function renderEscEquipment() {
             var isSelected = escState.equipSelections[idx] === eq.name;
             if (isSelected) item.classList.add('selected');
             
+            item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease;';
+            if (isSelected) {
+                item.style.borderColor = '#e16d48';
+                item.style.background = 'rgba(220,90,50,0.1)';
+            }
+            
             item.innerHTML = `
-                <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
-                <div class="item-name">${eq.name}</div>
+                <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${eq.name}</div>
+                <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
             `;
+            item.style.position = 'relative';
             
             item.addEventListener('click', function() {
                 var parent = this.closest('.selection-grid');
-                parent.querySelectorAll('.selection-item').forEach(function(el) { el.classList.remove('selected'); });
+                parent.querySelectorAll('.selection-item').forEach(function(el) {
+                    el.classList.remove('selected');
+                    el.style.borderColor = 'rgba(255,255,255,0.06)';
+                    el.style.background = 'rgba(255,255,255,0.03)';
+                    var check = el.querySelector('.check-mark');
+                    if (check) check.style.display = 'none';
+                });
                 this.classList.add('selected');
+                this.style.borderColor = '#e16d48';
+                this.style.background = 'rgba(220,90,50,0.1)';
+                var check = this.querySelector('.check-mark');
+                if (check) check.style.display = 'block';
                 escState.equipSelections[idx] = eq.name;
                 checkEscEquipReady();
             });
@@ -891,8 +918,10 @@ function renderEscEquipment() {
         
         wrapper.appendChild(grid);
         section.appendChild(wrapper);
-        container.appendChild(section);
+        gridWrapper.appendChild(section);
     });
+    
+    container.appendChild(gridWrapper);
     checkEscEquipReady();
 }
 
@@ -919,19 +948,17 @@ function renderEscAmps() {
         return;
     }
     
+    // Создаем сетку 2 колонки для игроков
+    var gridWrapper = document.createElement('div');
+    gridWrapper.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;';
+    
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.marginBottom = '1.8rem';
-        section.style.borderBottom = '1px solid rgba(220,90,50,0.1)';
-        section.style.paddingBottom = '1.2rem';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
         var title = document.createElement('div');
-        title.style.fontWeight = '600';
-        title.style.color = '#ffbc9a';
-        title.style.marginBottom = '0.8rem';
-        title.style.fontSize = '1.05rem';
-        title.style.textAlign = 'center';
-        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
 
         var availableCategories = ampCategories.filter(function(cat) {
@@ -940,18 +967,18 @@ function renderEscAmps() {
         
         if (availableCategories.length === 0) {
             var msg = document.createElement('div');
-            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem;';
-            msg.textContent = 'Все улучшения применены';
+            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
+            msg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
             section.appendChild(msg);
-            container.appendChild(section);
+            gridWrapper.appendChild(section);
             return;
         }
         
         var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
         
         var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.85rem; margin-bottom: 0.8rem;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> Категория: ' + randomCategory;
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
         section.appendChild(catLabel);
         
         var wrapper = document.createElement('div');
@@ -959,22 +986,21 @@ function renderEscAmps() {
         
         var grid = document.createElement('div');
         grid.className = 'selection-grid';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
         
         var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
         var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
         
-        var ampCount = Math.floor(Math.random() * 4);
+        var ampCount = Math.min(shuffled.length, 3);
         var selectedAmps = shuffled.slice(0, ampCount);
         
         if (selectedAmps.length === 0) {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
-                emptyItem.className = 'selection-item';
-                emptyItem.style.opacity = '0.5';
-                emptyItem.style.cursor = 'default';
+                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                 emptyItem.innerHTML = `
-                    <div style="font-size: 3rem; color: #555;">⛔</div>
-                    <div class="item-name" style="color: #555;">ПУСТО</div>
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
                 `;
                 grid.appendChild(emptyItem);
             }
@@ -986,19 +1012,34 @@ function renderEscAmps() {
                 item.dataset.amp = amp.name;
                 var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
                 var isSelected = currentAmp === amp.name;
-                if (isSelected) item.classList.add('selected');
+                
+                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
+                if (isSelected) {
+                    item.style.borderColor = '#e16d48';
+                    item.style.background = 'rgba(220,90,50,0.1)';
+                }
                 
                 item.innerHTML = `
-                    <div class="check-mark"><i class="fas fa-check-circle"></i></div>
-                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
-                    <div class="item-name">${amp.name}</div>
-                    <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
+                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
+                    <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
                 `;
                 
                 item.addEventListener('click', function() {
                     var parent = this.closest('.selection-grid');
-                    parent.querySelectorAll('.selection-item').forEach(function(el) { el.classList.remove('selected'); });
+                    parent.querySelectorAll('.selection-item').forEach(function(el) {
+                        el.classList.remove('selected');
+                        el.style.borderColor = 'rgba(255,255,255,0.06)';
+                        el.style.background = 'rgba(255,255,255,0.03)';
+                        var check = el.querySelector('.check-mark');
+                        if (check) check.style.display = 'none';
+                    });
                     this.classList.add('selected');
+                    this.style.borderColor = '#e16d48';
+                    this.style.background = 'rgba(220,90,50,0.1)';
+                    var check = this.querySelector('.check-mark');
+                    if (check) check.style.display = 'block';
                     if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                     escState.ampSelections[idx][randomCategory] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
@@ -1011,12 +1052,10 @@ function renderEscAmps() {
             if (selectedAmps.length < 3) {
                 for (var j = selectedAmps.length; j < 3; j++) {
                     var emptyItem = document.createElement('div');
-                    emptyItem.className = 'selection-item';
-                    emptyItem.style.opacity = '0.5';
-                    emptyItem.style.cursor = 'default';
+                    emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                     emptyItem.innerHTML = `
-                        <div style="font-size: 3rem; color: #555;">⛔</div>
-                        <div class="item-name" style="color: #555;">ПУСТО</div>
+                        <div style="font-size: 2rem; color: #555;">⛔</div>
+                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
                     `;
                     grid.appendChild(emptyItem);
                 }
@@ -1025,8 +1064,10 @@ function renderEscAmps() {
         
         wrapper.appendChild(grid);
         section.appendChild(wrapper);
-        container.appendChild(section);
+        gridWrapper.appendChild(section);
     });
+    
+    container.appendChild(gridWrapper);
     checkEscAmpsReady();
 }
 
@@ -1238,7 +1279,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var maxWidth;
         
         if (isLevel21Plus) {
-            // Для 8 вариаторов - увеличиваем размеры для читабельности
             if (v.name.length > 24) {
                 fontSize = '0.5rem';
                 maxWidth = '80px';
@@ -1259,7 +1299,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
                 maxWidth = '100px';
             }
         } else {
-            // Обычные размеры для уровней 1-20
             if (v.name.length > 22) {
                 fontSize = '0.5rem';
                 maxWidth = '90px';
@@ -1286,7 +1325,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
         `;
     }).join('');
 
-    // Номер эскалации
     var levelDisplay = '#' + level;
 
     modalContent.innerHTML = `
@@ -1308,20 +1346,16 @@ function showPreviewModal(trialName, mapName, variators, level) {
     overlay.appendChild(modalContent);
     document.body.appendChild(overlay);
 
-    // Закрытие по клику
     overlay.addEventListener('click', function(e) {
-        // Анимация закрытия
         modalContent.style.animation = 'slideDownPreview 0.3s ease forwards';
         overlay.style.animation = 'fadeInPreview 0.3s ease reverse';
         
         setTimeout(function() {
             overlay.remove();
-            // После закрытия показываем полное задание
             showFullResult();
         }, 350);
     });
 
-    // Закрытие по ESC
     document.addEventListener('keydown', function escHandler(e) {
         if (e.key === 'Escape') {
             document.removeEventListener('keydown', escHandler);
@@ -1344,7 +1378,7 @@ function showFullResult() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С ИСПРАВЛЕННЫМ ОТОБРАЖЕНИЕМ)
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА
 // ============================================================
 
 function generateEscResult() {
@@ -1378,7 +1412,6 @@ function generateEscResult() {
     
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
-    // Скрываем шаги
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
     var step3 = document.getElementById('escStep3');
@@ -1389,7 +1422,6 @@ function generateEscResult() {
     if (step3) step3.classList.add('hidden');
     if (step4) step4.classList.add('hidden');
     
-    // Сначала показываем превью
     showPreviewModal(
         trial.name,
         mapName,
@@ -1397,7 +1429,6 @@ function generateEscResult() {
         escState.level
     );
 
-    // Подготавливаем полный результат (будет показан после закрытия превью)
     prepareFullResult(mapName, mapImage, trial, difficulty);
 }
 
@@ -1409,11 +1440,9 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
     var resultContainer = document.getElementById('escResult');
     if (!resultContainer) return;
     
-    // Скрываем пока
     resultContainer.style.display = 'none';
     resultContainer.classList.remove('active');
 
-    // ===== ОТОБРАЖЕНИЕ КАРТЫ =====
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         var trialImage = trial.image || mapImage;
@@ -1438,7 +1467,6 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
         `;
     }
 
-    // ===== ОТОБРАЖЕНИЕ ВАРИАТОРОВ =====
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         if (escState.variators.length === 0) {
@@ -1446,7 +1474,6 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
         } else {
             resultVariators.innerHTML = escState.variators.map(function(v) {
                 var varNameUpper = v.name.toUpperCase();
-                // Адаптивный размер шрифта для длинных названий
                 var fontSize = '0.75rem';
                 if (v.name.length > 20) {
                     fontSize = '0.55rem';
@@ -1469,7 +1496,7 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
 }
 
 // ============================================================
-// ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ)
+// ОСТАЛЬНЫЕ ФУНКЦИИ
 // ============================================================
 
 function renderEscResultPlayers() {
@@ -1806,7 +1833,7 @@ function showBreakModal() {
             <div style="margin-bottom: 1.5rem; color: #c2b9d4; text-align: center;">
                 Каждому игроку нужно выбрать 1 амфу из доступной категории
             </div>
-            <div id="breakModalContent"></div>
+            <div id="breakModalContent" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;"></div>
             <div class="amp-modal-confirm">
                 <button id="breakModalConfirm">Продолжить →</button>
             </div>
@@ -1826,16 +1853,16 @@ function showBreakModal() {
 
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'margin-bottom: 1.5rem; border-bottom: 1px solid rgba(220,90,50,0.1); padding-bottom: 1rem;';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
         var title = document.createElement('div');
-        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 0.8rem; text-align: center; font-size: 1.1rem;';
-        title.innerHTML = '<i class="fas fa-user"></i> ' + player;
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
 
         if (areAllCategoriesComplete(idx)) {
             var completeMsg = document.createElement('div');
-            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem;';
+            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
             completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
             section.appendChild(completeMsg);
             content.appendChild(section);
@@ -1853,8 +1880,8 @@ function showBreakModal() {
         var displayAmps = shuffled.slice(0, 3);
 
         var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.85rem; margin-bottom: 0.8rem;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> Категория: ' + randomCategory;
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
         section.appendChild(catLabel);
 
         var wrapper = document.createElement('div');
@@ -1862,18 +1889,17 @@ function showBreakModal() {
 
         var grid = document.createElement('div');
         grid.className = 'selection-grid';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
         breakSelections[idx] = null;
 
         if (displayAmps.length === 0) {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
-                emptyItem.className = 'selection-item';
-                emptyItem.style.opacity = '0.5';
-                emptyItem.style.cursor = 'default';
+                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                 emptyItem.innerHTML = `
-                    <div style="font-size: 3rem; color: #555;">⛔</div>
-                    <div class="item-name" style="color: #555;">ПУСТО</div>
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
                 `;
                 grid.appendChild(emptyItem);
             }
@@ -1882,16 +1908,19 @@ function showBreakModal() {
             displayAmps.forEach(function(amp) {
                 var item = document.createElement('div');
                 item.className = 'selection-item';
+                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
                 item.innerHTML = `
-                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'" style="width:100px; height:100px;">
-                    <div class="item-name">${amp.name}</div>
-                    <div style="font-size: 0.6rem; color: #666;">${amp.category}</div>
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
+                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
                 `;
                 item.addEventListener('click', function() {
                     grid.querySelectorAll('.selection-item').forEach(function(el) {
-                        el.classList.remove('selected');
+                        el.style.borderColor = 'rgba(255,255,255,0.06)';
+                        el.style.background = 'rgba(255,255,255,0.03)';
                     });
-                    this.classList.add('selected');
+                    this.style.borderColor = '#e16d48';
+                    this.style.background = 'rgba(220,90,50,0.1)';
                     breakSelections[idx] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
                     checkBreakReady();
@@ -1902,12 +1931,10 @@ function showBreakModal() {
             if (displayAmps.length < 3) {
                 for (var j = displayAmps.length; j < 3; j++) {
                     var emptyItem = document.createElement('div');
-                    emptyItem.className = 'selection-item';
-                    emptyItem.style.opacity = '0.5';
-                    emptyItem.style.cursor = 'default';
+                    emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                     emptyItem.innerHTML = `
-                        <div style="font-size: 3rem; color: #555;">⛔</div>
-                        <div class="item-name" style="color: #555;">ПУСТО</div>
+                        <div style="font-size: 2rem; color: #555;">⛔</div>
+                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
                     `;
                     grid.appendChild(emptyItem);
                 }
