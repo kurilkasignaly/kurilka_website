@@ -1528,67 +1528,69 @@ function renderEscResultPlayers() {
     `;
     container.appendChild(header);
     
-    var gridWrapper = document.createElement('div');
-    gridWrapper.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;';
-    
+    // Каждый игрок в отдельном блоке вертикально
     escState.players.forEach(function(player, idx) {
         var equip = escState.equipSelections[idx] || 'Не выбрано';
         var equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
         var allUsed = checkAllAmpsUsed(idx);
         
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden;';
+        section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
         
+        // Шапка-шторка (всегда видима)
         var toggleBtn = document.createElement('div');
-        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
+        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
         toggleBtn.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.95rem;">${player}</span>
-                <span style="font-size: 0.65rem; color: #888; margin-left: 4px; background: rgba(0,0,0,0.3); padding: 2px 10px; border-radius: 10px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-user" style="color: #e16d48; font-size: 1rem;"></i>
+                <span style="font-weight: 700; color: #ffbc9a; font-size: 1rem; letter-spacing: 0.5px;">${player}</span>
+                <span style="font-size: 0.65rem; color: #888; margin-left: 4px; background: rgba(0,0,0,0.3); padding: 2px 12px; border-radius: 12px;">
                     ${allUsed ? '✅ Все амфы' : '⏳ В процессе'}
                 </span>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:28px; height:28px; object-fit:contain; border-radius:6px; background:rgba(0,0,0,0.3); padding:2px;" onerror="this.style.display='none'">` : ''}
-                <span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${equip}</span>
-                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:32px; height:32px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:3px;" onerror="this.style.display='none'">` : ''}
+                <span style="font-size: 0.8rem; color: #ffbc9a; font-weight: 500; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${equip}</span>
+                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.9rem; transition: transform 0.3s;"></i>
             </div>
         `;
         section.appendChild(toggleBtn);
         
+        // Контент (разворачивается)
         var content = document.createElement('div');
-        content.style.cssText = 'padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
+        content.style.cssText = 'padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
         content.id = 'resultContent_' + idx;
         section.appendChild(content);
         
         var innerContent = document.createElement('div');
-        innerContent.style.cssText = 'padding: 4px 0 12px 0;';
+        innerContent.style.cssText = 'padding: 6px 0 16px 0;';
         
+        // Снаряжение
         var equipBlock = document.createElement('div');
-        equipBlock.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 10px;';
+        equipBlock.style.cssText = 'display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);';
         equipBlock.innerHTML = `
-            ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:40px; height:40px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:4px;" onerror="this.style.display='none'">` : ''}
+            ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:48px; height:48px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:5px;" onerror="this.style.display='none'">` : ''}
             <div>
-                <div style="font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">Снаряжение</div>
-                <div style="font-size: 0.9rem; color: #ffbc9a; font-weight: 500;">${equip}</div>
+                <div style="font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Снаряжение</div>
+                <div style="font-size: 1rem; color: #ffbc9a; font-weight: 600;">${equip}</div>
             </div>
         `;
         innerContent.appendChild(equipBlock);
         
+        // Улучшения
         var ampsLabel = document.createElement('div');
-        ampsLabel.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; padding: 0 4px;';
+        ampsLabel.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;';
         ampsLabel.innerHTML = `
-            <span style="font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">
-                <i class="fas fa-capsules" style="color: #e16d48; margin-right: 4px;"></i>
+            <span style="font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                <i class="fas fa-capsules" style="color: #e16d48; margin-right: 6px;"></i>
                 Улучшения
             </span>
-            ${!allUsed ? '<span style="font-size: 0.6rem; color: #e16d48;">Нажмите на категорию для смены</span>' : '<span style="font-size: 0.6rem; color: #2ecc71;"><i class="fas fa-check-circle"></i> Все применены</span>'}
+            ${!allUsed ? '<span style="font-size: 0.6rem; color: #e16d48; font-weight: 500;">Нажмите на категорию для смены</span>' : '<span style="font-size: 0.6rem; color: #2ecc71; font-weight: 500;"><i class="fas fa-check-circle"></i> Все применены</span>'}
         `;
         innerContent.appendChild(ampsLabel);
         
         var ampsGrid = document.createElement('div');
-        ampsGrid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;';
+        ampsGrid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;';
         
         ampCategories.forEach(function(category) {
             var ampName = getAmpForCategory(idx, category);
@@ -1596,26 +1598,26 @@ function renderEscResultPlayers() {
             var isComplete = isCategoryComplete(idx, category);
             
             var block = document.createElement('div');
-            block.style.cssText = 'background: rgba(255,255,255,0.03); border-radius: 10px; padding: 8px 10px; text-align: center; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.05);';
+            block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.06);';
             if (!allUsed) {
                 block.onclick = function() { openAmpModal(idx, category); };
-                block.onmouseover = function() { this.style.borderColor = 'rgba(220,90,50,0.3)'; };
-                block.onmouseout = function() { this.style.borderColor = 'rgba(255,255,255,0.05)'; };
+                block.onmouseover = function() { this.style.borderColor = 'rgba(220,90,50,0.3)'; this.style.background = 'rgba(255,255,255,0.07)'; };
+                block.onmouseout = function() { this.style.borderColor = 'rgba(255,255,255,0.06)'; this.style.background = 'rgba(255,255,255,0.04)'; };
             }
             
             var categoryName = document.createElement('div');
-            categoryName.style.cssText = 'font-size: 0.55rem; color: #e16d48; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 4px;';
+            categoryName.style.cssText = 'font-size: 0.55rem; color: #e16d48; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 4px;';
             categoryName.textContent = category;
             block.appendChild(categoryName);
             
             if (isComplete) {
                 var complete = document.createElement('div');
-                complete.style.cssText = 'font-size: 0.5rem; color: #2ecc71;';
+                complete.style.cssText = 'font-size: 0.5rem; color: #2ecc71; font-weight: 500;';
                 complete.innerHTML = '<i class="fas fa-check-circle"></i> Все';
                 block.appendChild(complete);
             } else if (ampData) {
                 var ampNameEl = document.createElement('div');
-                ampNameEl.style.cssText = 'font-size: 0.7rem; color: #ffbc9a; font-weight: 500; line-height: 1.2;';
+                ampNameEl.style.cssText = 'font-size: 0.75rem; color: #ffbc9a; font-weight: 600; line-height: 1.2;';
                 ampNameEl.textContent = ampData.name;
                 block.appendChild(ampNameEl);
                 
@@ -1625,7 +1627,7 @@ function renderEscResultPlayers() {
                 block.appendChild(ampCat);
             } else {
                 var empty = document.createElement('div');
-                empty.style.cssText = 'font-size: 0.65rem; color: #555;';
+                empty.style.cssText = 'font-size: 0.7rem; color: #555; font-weight: 500;';
                 empty.textContent = 'Не выбрана';
                 block.appendChild(empty);
             }
@@ -1635,25 +1637,27 @@ function renderEscResultPlayers() {
         
         innerContent.appendChild(ampsGrid);
         content.appendChild(innerContent);
-        gridWrapper.appendChild(section);
+        container.appendChild(section);
         
+        // Функция сворачивания/разворачивания
         function toggleResultContent(idx) {
             var contentEl = document.getElementById('resultContent_' + idx);
             var sectionEl = contentEl.closest('div');
             var chevron = sectionEl.querySelector('.fa-chevron-down');
             if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
-                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
-                contentEl.style.padding = '0 16px 16px 16px';
+                contentEl.style.maxHeight = contentEl.scrollHeight + 30 + 'px';
+                contentEl.style.padding = '0 20px 20px 20px';
                 if (chevron) chevron.style.transform = 'rotate(180deg)';
             } else {
                 contentEl.style.maxHeight = '0px';
-                contentEl.style.padding = '0 16px';
+                contentEl.style.padding = '0 20px';
                 if (chevron) chevron.style.transform = 'rotate(0deg)';
             }
         }
         
         toggleBtn.onclick = function() { toggleResultContent(idx); };
         
+        // По умолчанию разворачиваем если есть выборы или все амфы
         var hasSelections = false;
         for (var c = 0; c < ampCategories.length; c++) {
             if (getAmpForCategory(idx, ampCategories[c])) {
@@ -1663,12 +1667,15 @@ function renderEscResultPlayers() {
         }
         if (hasSelections || allUsed) {
             setTimeout(function() {
-                toggleResultContent(idx);
-            }, 150);
+                var contentEl = document.getElementById('resultContent_' + idx);
+                var sectionEl = contentEl.closest('div');
+                var chevron = sectionEl.querySelector('.fa-chevron-down');
+                contentEl.style.maxHeight = contentEl.scrollHeight + 30 + 'px';
+                contentEl.style.padding = '0 20px 20px 20px';
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            }, 100);
         }
     });
-    
-    container.appendChild(gridWrapper);
 }
 
 // ============================================================
