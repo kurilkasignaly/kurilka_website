@@ -1551,21 +1551,32 @@ function renderEscResultPlayers() {
         var section = document.createElement('div');
         section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
         
+        // Определяем размер шрифта для ника в зависимости от длины
+        var playerNameFontSize = '1rem';
+        var playerNameMaxWidth = '180px';
+        if (player.length > 15) {
+            playerNameFontSize = '0.85rem';
+            playerNameMaxWidth = '150px';
+        } else if (player.length > 10) {
+            playerNameFontSize = '0.9rem';
+            playerNameMaxWidth = '160px';
+        }
+        
         // Шапка-шторка (всегда видима)
         var toggleBtn = document.createElement('div');
         toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
         toggleBtn.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <i class="fas fa-user" style="color: #e16d48; font-size: 1rem;"></i>
-                <span style="font-weight: 700; color: #ffbc9a; font-size: 1rem; letter-spacing: 0.5px;">${player}</span>
-                <span style="font-size: 0.65rem; color: #888; margin-left: 4px; background: rgba(0,0,0,0.3); padding: 2px 12px; border-radius: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1;">
+                <i class="fas fa-user" style="color: #e16d48; font-size: 1rem; flex-shrink: 0;"></i>
+                <span style="font-weight: 700; color: #ffbc9a; font-size: ${playerNameFontSize}; letter-spacing: 0.5px; max-width: ${playerNameMaxWidth}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 1;">${player}</span>
+                <span style="font-size: 0.65rem; color: #888; margin-left: 4px; background: rgba(0,0,0,0.3); padding: 2px 12px; border-radius: 12px; flex-shrink: 0;">
                     ${allUsed ? '✅ Все амфы' : '⏳ В процессе'}
                 </span>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:32px; height:32px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:3px;" onerror="this.style.display='none'">` : ''}
-                <span style="font-size: 0.8rem; color: #ffbc9a; font-weight: 500; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${equip}</span>
-                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.9rem; transition: transform 0.3s;"></i>
+            <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:32px; height:32px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:3px; flex-shrink:0;" onerror="this.style.display='none'">` : ''}
+                <span style="font-size: 0.8rem; color: #ffbc9a; font-weight: 500; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 1;">${equip}</span>
+                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.9rem; transition: transform 0.3s; flex-shrink: 0;"></i>
             </div>
         `;
         section.appendChild(toggleBtn);
@@ -1689,7 +1700,7 @@ function renderEscResultPlayers() {
                 if (chevron) chevron.style.transform = 'rotate(180deg)';
             }, 100);
         } else {
-            // Если нет выборов - показываем в свернутом виде (только имя, иконка и название снаряжения)
+            // Если нет выборов - показываем в свернутом виде
             contentEl.style.maxHeight = '0px';
             contentEl.style.padding = '0 20px';
         }
