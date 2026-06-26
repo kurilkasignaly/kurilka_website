@@ -1071,7 +1071,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
         padding: 40px 50px;
-        max-width: 600px;
+        max-width: 650px;
         width: 90%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
@@ -1107,10 +1107,14 @@ function showPreviewModal(trialName, mapName, variators, level) {
             }
         }
         .preview-variator-item {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
+            margin: 0 6px;
         }
         @keyframes variatorAppear {
             from {
@@ -1129,28 +1133,36 @@ function showPreviewModal(trialName, mapName, variators, level) {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
+        .preview-variator-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            text-align: center;
+            letter-spacing: 0.3px;
+            max-width: 70px;
+            line-height: 1.2;
+            word-break: keep-all;
+            overflow-wrap: normal;
+            white-space: normal;
+        }
     `;
     document.head.appendChild(style);
 
-    // Собираем HTML
+    // Собираем HTML с картинками и подписями
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.08;
+        // Определяем размер шрифта для длинных названий
+        var fontSize = '0.7rem';
+        if (v.name.length > 18) {
+            fontSize = '0.55rem';
+        } else if (v.name.length > 12) {
+            fontSize = '0.6rem';
+        }
         return `
-            <div class="preview-variator-item" style="animation-delay: ${delay}s; display:inline-block; margin: 4px 6px;">
-                <span style="
-                    display: inline-block;
-                    background: rgba(220, 90, 50, 0.15);
-                    border: 1px solid rgba(220, 90, 50, 0.25);
-                    border-radius: 20px;
-                    padding: 6px 16px;
-                    color: #ffbc9a;
-                    font-size: 0.95rem;
-                    font-weight: 600;
-                    letter-spacing: 0.5px;
-                    white-space: nowrap;
-                    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-                ">${nameUpper}</span>
+            <div class="preview-variator-item" style="animation-delay: ${delay}s;">
+                <img src="${v.image}" alt="${v.name}" style="width:55px; height:55px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
+                <span class="preview-variator-name" style="font-size:${fontSize};">${nameUpper}</span>
             </div>
         `;
     }).join('');
@@ -1177,7 +1189,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
             text-shadow: 0 2px 20px rgba(220, 90, 50, 0.3);
         ">${levelDisplay}</div>
         <div style="
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 900;
             color: #ffbc9a;
             letter-spacing: 2px;
@@ -1185,7 +1197,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
             line-height: 1.2;
         ">${trialName.toUpperCase()}</div>
         <div style="
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 300;
             color: #c2b9d4;
             letter-spacing: 3px;
@@ -1196,12 +1208,12 @@ function showPreviewModal(trialName, mapName, variators, level) {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 6px;
-            padding: 16px 0 8px 0;
+            gap: 6px 12px;
+            padding: 16px 0 12px 0;
             border-top: 1px solid rgba(220, 90, 50, 0.15);
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
             margin-bottom: 20px;
-            min-height: 50px;
+            min-height: 90px;
         ">
             ${variatorsHtml}
         </div>
@@ -1360,14 +1372,16 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
                 // Адаптивный размер шрифта для длинных названий
                 var fontSize = '0.75rem';
                 if (v.name.length > 20) {
-                    fontSize = '0.6rem';
+                    fontSize = '0.55rem';
                 } else if (v.name.length > 14) {
+                    fontSize = '0.6rem';
+                } else if (v.name.length > 10) {
                     fontSize = '0.65rem';
                 }
                 return `
                     <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem; max-width:100px;">
                         <img src="${v.image}" alt="${v.name}" style="width:80px; height:80px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:6px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'">
-                        <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; letter-spacing:0.3px; word-wrap:break-word; hyphens:auto;">${varNameUpper}</span>
+                        <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; letter-spacing:0.3px; word-break:keep-all; overflow-wrap:normal; white-space:normal;">${varNameUpper}</span>
                     </div>
                 `;
             }).join('');
@@ -1376,6 +1390,7 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
 
     renderEscResultPlayers();
 }
+
 // ============================================================
 // ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ)
 // ============================================================
