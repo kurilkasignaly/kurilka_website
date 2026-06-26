@@ -1086,18 +1086,23 @@ function generateEscResult() {
         resultContainer.classList.add('active');
     }
 
-    // ===== ИСПРАВЛЕННОЕ ОТОБРАЖЕНИЕ КАРТИНКИ =====
+    // ===== ИСПРАВЛЕННОЕ ОТОБРАЖЕНИЕ =====
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         var trialImage = trial.image || mapImage;
+        
+        // Приводим название испытания к верхнему регистру (как на картинке)
+        var trialNameUpper = trial.name.toUpperCase();
+        // Название карты тоже в верхнем регистре, но тонким шрифтом
+        var mapNameUpper = mapName.toUpperCase();
         
         resultMap.innerHTML = `
             <div class="result-map-row">
                 <img class="map-image" src="${trialImage}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
                 <div class="result-map-info" style="flex:1; min-width:200px;">
                     <div class="map-label" style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px;"><i class="fas fa-map"></i> Карта</div>
-                    <div class="map-name" style="font-size:1.4rem; color:#e16d48; font-weight:700; margin:0.2rem 0 0.3rem;">${mapName}</div>
-                    <div class="trial-name" style="font-size:1.1rem; color:#ffbc9a; font-weight:600; margin-bottom:0.3rem;">${trial.name}</div>
+                    <div class="trial-name" style="font-size:1.6rem; color:#e16d48; font-weight:900; margin:0.2rem 0 0.1rem; letter-spacing:1px;">${trialNameUpper}</div>
+                    <div class="map-name" style="font-size:1.2rem; color:#ffbc9a; font-weight:300; margin-bottom:0.3rem; letter-spacing:2px; text-transform:uppercase;">${mapNameUpper}</div>
                     <div class="trial-desc" style="color:#c2b9d4; font-size:0.85rem; line-height:1.5;">${trial.desc}</div>
                     <div class="map-meta" style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(220,90,50,0.15);">
                         <span class="map-meta-item" style="font-size:0.8rem; color:#888;"><strong style="color:#ffbc9a;">№ Эскалационной терапии:</strong> #${escState.level}</span>
@@ -1115,10 +1120,12 @@ function generateEscResult() {
             resultVariators.innerHTML = '<div style="color: #888; text-align: center; padding: 1rem;">Нет вариаторов</div>';
         } else {
             resultVariators.innerHTML = escState.variators.map(function(v) {
+                // Приводим название вариатора к верхнему регистру
+                var varNameUpper = v.name.toUpperCase();
                 return `
                     <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem;">
                         <img src="${v.image}" alt="${v.name}" style="width:100px; height:100px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'">
-                        <span style="font-size:0.75rem; color:#c2b9d4; text-align:center; max-width:85px; line-height:1.2;">${v.name}</span>
+                        <span style="font-size:0.8rem; color:#ffbc9a; text-align:center; max-width:85px; line-height:1.2; font-weight:600; letter-spacing:0.5px;">${varNameUpper}</span>
                     </div>
                 `;
             }).join('');
