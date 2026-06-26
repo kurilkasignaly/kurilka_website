@@ -1073,9 +1073,9 @@ function showPreviewModal(trialName, mapName, variators, level) {
     modalContent.style.cssText = `
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
-        padding: ${isLevel21Plus ? '20px 25px' : '35px 45px'};
-        max-width: ${isLevel21Plus ? '1200px' : '1000px'};
-        width: 95%;
+        padding: ${isLevel21Plus ? '25px 30px' : '35px 45px'};
+        max-width: ${isLevel21Plus ? '1300px' : '1000px'};
+        width: 96%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 90, 50, 0.1);
@@ -1113,13 +1113,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            gap: ${isLevel21Plus ? '3px' : '6px'};
+            gap: ${isLevel21Plus ? '5px' : '6px'};
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
-            margin: ${isLevel21Plus ? '0 1px' : '0 5px'};
-            max-width: ${isLevel21Plus ? '75px' : '110px'};
-            min-width: ${isLevel21Plus ? '45px' : '70px'};
+            margin: ${isLevel21Plus ? '0 4px' : '0 5px'};
+            max-width: ${isLevel21Plus ? '100px' : '110px'};
+            min-width: ${isLevel21Plus ? '65px' : '70px'};
             flex: 0 1 auto;
         }
         @keyframes variatorAppear {
@@ -1143,9 +1143,9 @@ function showPreviewModal(trialName, mapName, variators, level) {
             font-weight: 700;
             color: #ffbc9a;
             text-align: center;
-            letter-spacing: 0.1px;
-            max-width: ${isLevel21Plus ? '75px' : '110px'};
-            line-height: 1.15;
+            letter-spacing: 0.2px;
+            max-width: ${isLevel21Plus ? '100px' : '110px'};
+            line-height: 1.2;
             word-break: keep-all;
             overflow-wrap: normal;
             white-space: normal;
@@ -1153,12 +1153,12 @@ function showPreviewModal(trialName, mapName, variators, level) {
             text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         .preview-variator-img {
-            width: ${isLevel21Plus ? '45px' : '70px'};
-            height: ${isLevel21Plus ? '45px' : '70px'};
+            width: ${isLevel21Plus ? '60px' : '70px'};
+            height: ${isLevel21Plus ? '60px' : '70px'};
             object-fit: contain;
-            border-radius: ${isLevel21Plus ? '8px' : '12px'};
+            border-radius: ${isLevel21Plus ? '10px' : '12px'};
             background: rgba(0,0,0,0.3);
-            padding: ${isLevel21Plus ? '2px' : '6px'};
+            padding: ${isLevel21Plus ? '4px' : '6px'};
             border: 1px solid rgba(220,90,50,0.15);
             flex-shrink: 0;
         }
@@ -1167,12 +1167,12 @@ function showPreviewModal(trialName, mapName, variators, level) {
             flex-wrap: nowrap;
             justify-content: center;
             align-items: flex-start;
-            gap: ${isLevel21Plus ? '2px 4px' : '8px 14px'};
-            padding: ${isLevel21Plus ? '8px 0 6px 0' : '16px 0 12px 0'};
+            gap: ${isLevel21Plus ? '6px 10px' : '8px 14px'};
+            padding: ${isLevel21Plus ? '12px 0 10px 0' : '16px 0 12px 0'};
             border-top: 1px solid rgba(220, 90, 50, 0.15);
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            margin-bottom: ${isLevel21Plus ? '10px' : '18px'};
-            min-height: ${isLevel21Plus ? '75px' : '110px'};
+            margin-bottom: ${isLevel21Plus ? '14px' : '18px'};
+            min-height: ${isLevel21Plus ? '100px' : '110px'};
             overflow-x: auto;
             overflow-y: visible;
             scrollbar-width: thin;
@@ -1189,31 +1189,31 @@ function showPreviewModal(trialName, mapName, variators, level) {
             border-radius: 3px;
         }
         .preview-level-number {
-            font-size: ${isLevel21Plus ? '2.2rem' : '3rem'};
+            font-size: ${isLevel21Plus ? '2.5rem' : '3rem'};
             font-weight: 900;
             color: #e16d48;
             letter-spacing: 2px;
-            margin-bottom: ${isLevel21Plus ? '2px' : '8px'};
+            margin-bottom: ${isLevel21Plus ? '4px' : '8px'};
             text-shadow: 0 2px 20px rgba(220, 90, 50, 0.3);
         }
         .preview-trial-name {
-            font-size: ${isLevel21Plus ? '1.4rem' : '2rem'};
+            font-size: ${isLevel21Plus ? '1.7rem' : '2rem'};
             font-weight: 900;
             color: #ffbc9a;
             letter-spacing: 2px;
-            margin-bottom: ${isLevel21Plus ? '1px' : '4px'};
+            margin-bottom: ${isLevel21Plus ? '2px' : '4px'};
             line-height: 1.2;
         }
         .preview-map-name {
-            font-size: ${isLevel21Plus ? '0.9rem' : '1.2rem'};
+            font-size: ${isLevel21Plus ? '1.1rem' : '1.2rem'};
             font-weight: 300;
             color: #c2b9d4;
             letter-spacing: 3px;
-            margin-bottom: ${isLevel21Plus ? '10px' : '18px'};
+            margin-bottom: ${isLevel21Plus ? '14px' : '18px'};
             text-transform: uppercase;
         }
         .preview-label {
-            font-size: ${isLevel21Plus ? '0.65rem' : '0.85rem'};
+            font-size: ${isLevel21Plus ? '0.7rem' : '0.85rem'};
             color: #888;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -1221,19 +1221,14 @@ function showPreviewModal(trialName, mapName, variators, level) {
         }
         .preview-hint {
             color: #666;
-            font-size: ${isLevel21Plus ? '0.6rem' : '0.75rem'};
+            font-size: ${isLevel21Plus ? '0.65rem' : '0.75rem'};
             letter-spacing: 1px;
             text-transform: uppercase;
         }
     `;
     document.head.appendChild(style);
 
-    // НЕ СОРТИРУЕМ! Сохраняем исходный порядок вариаторов
-    // var sortedVariators = variators.slice().sort(function(a, b) {
-    //     return a.name.length - b.name.length;
-    // });
-
-    // Собираем HTML с картинками и подписями в ТОМ ЖЕ порядке, что и в основном окне
+    // Собираем HTML с картинками и подписями в ТОМ ЖЕ порядке
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
@@ -1243,25 +1238,25 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var maxWidth;
         
         if (isLevel21Plus) {
-            // Для 8 вариаторов - более мелкие размеры, чтобы все влезли в ряд
+            // Для 8 вариаторов - увеличиваем размеры для читабельности
             if (v.name.length > 24) {
-                fontSize = '0.35rem';
-                maxWidth = '60px';
+                fontSize = '0.5rem';
+                maxWidth = '80px';
             } else if (v.name.length > 20) {
-                fontSize = '0.38rem';
-                maxWidth = '65px';
-            } else if (v.name.length > 16) {
-                fontSize = '0.42rem';
-                maxWidth = '70px';
-            } else if (v.name.length > 12) {
-                fontSize = '0.48rem';
-                maxWidth = '75px';
-            } else if (v.name.length > 8) {
                 fontSize = '0.55rem';
-                maxWidth = '75px';
-            } else {
+                maxWidth = '85px';
+            } else if (v.name.length > 16) {
                 fontSize = '0.6rem';
-                maxWidth = '75px';
+                maxWidth = '90px';
+            } else if (v.name.length > 12) {
+                fontSize = '0.65rem';
+                maxWidth = '95px';
+            } else if (v.name.length > 8) {
+                fontSize = '0.7rem';
+                maxWidth = '100px';
+            } else {
+                fontSize = '0.75rem';
+                maxWidth = '100px';
             }
         } else {
             // Обычные размеры для уровней 1-20
@@ -1285,7 +1280,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
         
         return `
             <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: ${maxWidth};">
-                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/${isLevel21Plus ? '45x45' : '70x70'}/1a1a2e/e16d48?text=?'">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/${isLevel21Plus ? '60x60' : '70x70'}/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize}; max-width:${maxWidth};">${nameUpper}</span>
             </div>
         `;
