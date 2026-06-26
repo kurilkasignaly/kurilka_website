@@ -481,13 +481,27 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         return result;
     }
     
-    // Уровни 1-20
+    // Уровни 1-20 - НОВАЯ ЛОГИКА КОЛИЧЕСТВА ВАРИАТОРОВ
     var count;
-    if (level === 1) count = 1;
-    else if (level >= 2 && level <= 5) count = Math.floor(Math.random() * 2) + 2;
-    else if (level >= 6 && level <= 15) count = Math.floor(Math.random() * 2) + 3;
-    else if (level >= 16 && level <= 20) count = Math.floor(Math.random() * 3) + 4;
-    else count = 1;
+    if (level === 1) {
+        count = 2;
+    } else if (level >= 2 && level <= 2) {
+        count = 3;
+    } else if (level >= 3 && level <= 3) {
+        count = 3;
+    } else if (level >= 4 && level <= 4) {
+        count = 4;
+    } else if (level >= 5 && level <= 5) {
+        count = 5;
+    } else if (level >= 6 && level <= 15) {
+        count = 6;
+    } else if (level >= 16 && level <= 19) {
+        count = 7;
+    } else if (level >= 20 && level <= 20) {
+        count = 7;
+    } else {
+        count = 2;
+    }
     
     console.log('🎯 Нужно вариаторов:', count);
     
@@ -1674,6 +1688,10 @@ function renderEscResultPlayers() {
                 contentEl.style.padding = '0 20px 20px 20px';
                 if (chevron) chevron.style.transform = 'rotate(180deg)';
             }, 100);
+        } else {
+            // Если нет выборов - показываем в свернутом виде (только имя, иконка и название снаряжения)
+            contentEl.style.maxHeight = '0px';
+            contentEl.style.padding = '0 20px';
         }
     });
 }
