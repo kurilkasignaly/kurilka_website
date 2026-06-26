@@ -106,11 +106,127 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 function isVariatorCompatible(variator, selectedVariators, mapName, playerCount, level) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
+    var trialName = escState.trial ? escState.trial.name : '';
     
     // Проверка на дубликаты
     if (selectedNames.indexOf(variatorName) !== -1) {
         return false;
     }
+    
+    // ============================================================
+    // НОВЫЕ ПРАВИЛА СОВМЕСТИМОСТИ
+    // ============================================================
+    
+    // ПРАВИЛО: Все на выход не может попадаться на испытаниях "Раздавите бригадира" и "Устранение устаревшего оборудования"
+    if (variatorName === 'Все На Выход') {
+        var blockedTrials = ['Раздавите бригадира', 'Устранение устаревшего оборудования'];
+        if (blockedTrials.indexOf(trialName) !== -1) {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Сильнее Вместе не может попадаться в одиночном режиме
+    if (variatorName === 'Сильнее Вместе' && playerCount === 1) {
+        return false;
+    }
+    
+    // ПРАВИЛО: Сильнее Вместе при 2-3 игроках не может попадаться на определенных картах
+    if (variatorName === 'Сильнее Вместе' && (playerCount === 2 || playerCount === 3)) {
+        var blockedMaps = ['Сожгите секс-игрушки', 'Обработайте фабрику газом', 'Освободите заключенных', 'Заберите наркотики'];
+        if (blockedMaps.indexOf(mapName) !== -1) {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Сильнее Вместе блокирует выпадение других вариаторов
+    var strongerTogetherBlocked = [
+        'Главная Рулетка', 'Самое Главное', 'Токсический Шок',
+        'Лиланд Койл', 'Матушка Гуссбери', 'Франко Барби',
+        'Близнецы Кресс', 'Лилия Богомолова',
+        'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей', 'Егерь',
+        'Больше Ловушек', 'Больше Ловушек II',
+        'Огнеметы', 'Опасные Трубы',
+        'Больше Мин Психоза', 'Больше Звуковых Ловушек',
+        'Дополнительные Ловушки Главного Актива'
+    ];
+    if (variatorName === 'Сильнее Вместе') {
+        for (var stb = 0; stb < strongerTogetherBlocked.length; stb++) {
+            if (selectedNames.indexOf(strongerTogetherBlocked[stb]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Сильнее Вместе') !== -1) {
+        if (strongerTogetherBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Вечная Мерзлота не совместима с Резкое Похолодание и Токсический Шок
+    if (variatorName === 'Вечная Мерзлота') {
+        if (selectedNames.indexOf('Резкое Похолодание') !== -1 || selectedNames.indexOf('Токсический Шок') !== -1) {
+            return false;
+        }
+    }
+    if (selectedNames.indexOf('Вечная Мерзлота') !== -1) {
+        if (variatorName === 'Резкое Похолодание' || variatorName === 'Токсический Шок') {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Самое Главное и Главная Рулетка не совместимы друг с другом
+    if (variatorName === 'Самое Главное' && selectedNames.indexOf('Главная Рулетка') !== -1) {
+        return false;
+    }
+    if (variatorName === 'Главная Рулетка' && selectedNames.indexOf('Самое Главное') !== -1) {
+        return false;
+    }
+    
+    // ПРАВИЛО: Самое Главное блокирует охотников и боссов
+    var samoGlavnoeBlocked = [
+        'Лиланд Койл', 'Матушка Гуссбери', 'Франко Барби',
+        'Близнецы Кресс', 'Лилия Богомолова',
+        'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей', 'Егерь'
+    ];
+    if (variatorName === 'Самое Главное' || variatorName === 'Главная Рулетка') {
+        for (var sgb = 0; sgb < samoGlavnoeBlocked.length; sgb++) {
+            if (selectedNames.indexOf(samoGlavnoeBlocked[sgb]) !== -1) {
+                return false;
+            }
+        }
+    }
+    if (selectedNames.indexOf('Самое Главное') !== -1 || selectedNames.indexOf('Главная Рулетка') !== -1) {
+        if (samoGlavnoeBlocked.indexOf(variatorName) !== -1) {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Таймер Бомбы не совместим с испытанием "Устранение устаревшего оборудования"
+    if (variatorName === 'Таймер Бомбы') {
+        if (trialName === 'Устранение устаревшего оборудования') {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Таймер Бомбы не совместим с вариатором "Разбейте Телевизоры"
+    if (variatorName === 'Таймер Бомбы' && selectedNames.indexOf('Разбейте Телевизоры') !== -1) {
+        return false;
+    }
+    if (selectedNames.indexOf('Таймер Бомбы') !== -1 && variatorName === 'Разбейте Телевизоры') {
+        return false;
+    }
+    
+    // ПРАВИЛО: Токсический Шок блокирует Глубокий Ожог
+    if (variatorName === 'Токсический Шок' && selectedNames.indexOf('Глубокий Ожог') !== -1) {
+        return false;
+    }
+    if (selectedNames.indexOf('Токсический Шок') !== -1 && variatorName === 'Глубокий Ожог') {
+        return false;
+    }
+    
+    // ============================================================
+    // СТАРЫЕ ПРАВИЛА (СОХРАНЕНЫ)
+    // ============================================================
     
     // ============================================================
     // НОВОЕ ПРАВИЛО: ВАРИАТОРЫ С ДВЕРЬМИ И ПРОХОДАМИ НЕ МОГУТ БЫТЬ ВМЕСТЕ
@@ -129,7 +245,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         'Закрытые Ворота'
     ];
     
-    // Если добавляемый вариатор из списка дверей/проходов
     if (doorsAndPassages.indexOf(variatorName) !== -1) {
         for (var d = 0; d < selectedVariators.length; d++) {
             if (doorsAndPassages.indexOf(selectedVariators[d].name) !== -1) {
@@ -159,11 +274,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     
     // Правило: Низкая плотность врагов только до 5 уровня
     if (variatorName === 'Низкая Плотность Врагов' && level > 5) {
-        return false;
-    }
-    
-    // Правило 7: Сильнее Вместе только для 2+ игроков
-    if (variatorName === 'Сильнее Вместе' && playerCount === 1) {
         return false;
     }
     
@@ -270,21 +380,8 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         }
     }
     
-    // Правило 5: Главная Рулетка/Самое Главное блокируют охотников
-    if (variatorName === 'Главная Рулетка' || variatorName === 'Самое Главное') {
-        for (var h2 = 0; h2 < selectedVariators.length; h2++) {
-            if (selectedVariators[h2].category === 'hunters') {
-                return false;
-            }
-        }
-    }
-    if (variator.category === 'hunters') {
-        for (var m = 0; m < selectedVariators.length; m++) {
-            if (selectedVariators[m].name === 'Главная Рулетка' || selectedVariators[m].name === 'Самое Главное') {
-                return false;
-            }
-        }
-    }
+    // Правило 5: Главная Рулетка/Самое Главное блокируют охотников (уже есть выше, но оставляем для совместимости)
+    // (дублируется в новых правилах)
     
     // Правило 3: Сломанный Реагент блокирует определенные вариаторы
     var brokenReagentBlocked = [
@@ -1551,15 +1648,12 @@ function renderEscResultPlayers() {
         var section = document.createElement('div');
         section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
         
-        // Определяем размер шрифта для ника в зависимости от длины
+        // Определяем размер шрифта для ника в зависимости от длины (без сокращения, просто уменьшаем шрифт)
         var playerNameFontSize = '1rem';
-        var playerNameMaxWidth = '180px';
         if (player.length > 15) {
-            playerNameFontSize = '0.85rem';
-            playerNameMaxWidth = '150px';
+            playerNameFontSize = '0.8rem';
         } else if (player.length > 10) {
-            playerNameFontSize = '0.9rem';
-            playerNameMaxWidth = '160px';
+            playerNameFontSize = '0.85rem';
         }
         
         // Шапка-шторка (всегда видима)
@@ -1568,7 +1662,7 @@ function renderEscResultPlayers() {
         toggleBtn.innerHTML = `
             <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1;">
                 <i class="fas fa-user" style="color: #e16d48; font-size: 1rem; flex-shrink: 0;"></i>
-                <span style="font-weight: 700; color: #ffbc9a; font-size: ${playerNameFontSize}; letter-spacing: 0.5px; max-width: ${playerNameMaxWidth}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-shrink: 1;">${player}</span>
+                <span style="font-weight: 700; color: #ffbc9a; font-size: ${playerNameFontSize}; letter-spacing: 0.5px; white-space: nowrap; flex-shrink: 1;">${player}</span>
                 <span style="font-size: 0.65rem; color: #888; margin-left: 4px; background: rgba(0,0,0,0.3); padding: 2px 12px; border-radius: 12px; flex-shrink: 0;">
                     ${allUsed ? '✅ Все амфы' : '⏳ В процессе'}
                 </span>
@@ -1699,10 +1793,6 @@ function renderEscResultPlayers() {
                 contentEl.style.padding = '0 20px 20px 20px';
                 if (chevron) chevron.style.transform = 'rotate(180deg)';
             }, 100);
-        } else {
-            // Если нет выборов - показываем в свернутом виде
-            contentEl.style.maxHeight = '0px';
-            contentEl.style.padding = '0 20px';
         }
     });
 }
