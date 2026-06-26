@@ -1036,7 +1036,226 @@ function checkEscAmpsReady() {
 }
 
 // ============================================================
-// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С ИСПРАВЛЕННЫМ ОТОБРАЖЕНИЕМ КАРТИНОК)
+// ВСПЛЫВАЮЩЕЕ ОКНО-ПРЕВЬЮ
+// ============================================================
+
+function showPreviewModal(trialName, mapName, variators, level) {
+    // Удаляем старое окно если есть
+    var oldModal = document.getElementById('previewModal');
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+    // Создаем затемнение
+    var overlay = document.createElement('div');
+    overlay.className = 'preview-overlay';
+    overlay.id = 'previewModal';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        cursor: pointer;
+        animation: fadeInPreview 0.5s ease;
+    `;
+
+    // Создаем контент окна
+    var modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+        border-radius: 24px;
+        padding: 40px 50px;
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+        border: 1px solid rgba(220, 90, 50, 0.3);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 90, 50, 0.1);
+        animation: slideUpPreview 0.6s ease;
+    `;
+
+    // Добавляем стили анимации
+    var style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeInPreview {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUpPreview {
+            from { 
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        @keyframes slideDownPreview {
+            from { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to { 
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+        }
+        .preview-variator-item {
+            display: inline-block;
+            animation: variatorAppear 0.4s ease forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        @keyframes variatorAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        .preview-close-hint {
+            animation: pulseHint 2s ease-in-out infinite;
+        }
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Собираем HTML
+    var variatorsHtml = variators.map(function(v, index) {
+        var nameUpper = v.name.toUpperCase();
+        var delay = index * 0.08;
+        return `
+            <div class="preview-variator-item" style="animation-delay: ${delay}s; display:inline-block; margin: 4px 6px;">
+                <span style="
+                    display: inline-block;
+                    background: rgba(220, 90, 50, 0.15);
+                    border: 1px solid rgba(220, 90, 50, 0.25);
+                    border-radius: 20px;
+                    padding: 6px 16px;
+                    color: #ffbc9a;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                    white-space: nowrap;
+                    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+                ">${nameUpper}</span>
+            </div>
+        `;
+    }).join('');
+
+    // Номер эскалации
+    var levelDisplay = '#' + level;
+
+    modalContent.innerHTML = `
+        <div style="margin-bottom: 4px;">
+            <span style="
+                font-size: 0.85rem;
+                color: #888;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                font-weight: 300;
+            ">Эскалационная терапия</span>
+        </div>
+        <div style="
+            font-size: 3rem;
+            font-weight: 900;
+            color: #e16d48;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 20px rgba(220, 90, 50, 0.3);
+        ">${levelDisplay}</div>
+        <div style="
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #ffbc9a;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        ">${trialName.toUpperCase()}</div>
+        <div style="
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #c2b9d4;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        ">${mapName.toUpperCase()}</div>
+        <div style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            padding: 16px 0 8px 0;
+            border-top: 1px solid rgba(220, 90, 50, 0.15);
+            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
+            margin-bottom: 20px;
+            min-height: 50px;
+        ">
+            ${variatorsHtml}
+        </div>
+        <div class="preview-close-hint" style="
+            color: #666;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        ">
+            <i class="fas fa-mouse-pointer" style="margin-right: 6px;"></i>
+            Нажмите в любом месте для продолжения
+        </div>
+    `;
+
+    overlay.appendChild(modalContent);
+    document.body.appendChild(overlay);
+
+    // Закрытие по клику
+    overlay.addEventListener('click', function(e) {
+        // Анимация закрытия
+        modalContent.style.animation = 'slideDownPreview 0.3s ease forwards';
+        overlay.style.animation = 'fadeInPreview 0.3s ease reverse';
+        
+        setTimeout(function() {
+            overlay.remove();
+            // После закрытия показываем полное задание
+            showFullResult();
+        }, 350);
+    });
+
+    // Закрытие по ESC
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            document.removeEventListener('keydown', escHandler);
+            overlay.click();
+        }
+    });
+}
+
+// ============================================================
+// ПОКАЗ ПОЛНОГО РЕЗУЛЬТАТА
+// ============================================================
+
+function showFullResult() {
+    var resultContainer = document.getElementById('escResult');
+    if (resultContainer) {
+        resultContainer.style.display = 'block';
+        resultContainer.classList.add('active');
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// ============================================================
+// ГЕНЕРАЦИЯ РЕЗУЛЬТАТА (С ИСПРАВЛЕННЫМ ОТОБРАЖЕНИЕМ)
 // ============================================================
 
 function generateEscResult() {
@@ -1070,6 +1289,7 @@ function generateEscResult() {
     
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
+    // Скрываем шаги
     var step1 = document.getElementById('escStep1');
     var step2 = document.getElementById('escStep2');
     var step3 = document.getElementById('escStep3');
@@ -1080,20 +1300,35 @@ function generateEscResult() {
     if (step3) step3.classList.add('hidden');
     if (step4) step4.classList.add('hidden');
     
-    var resultContainer = document.getElementById('escResult');
-    if (resultContainer) {
-        resultContainer.style.display = 'block';
-        resultContainer.classList.add('active');
-    }
+    // Сначала показываем превью
+    showPreviewModal(
+        trial.name,
+        mapName,
+        escState.variators,
+        escState.level
+    );
 
-    // ===== ИСПРАВЛЕННОЕ ОТОБРАЖЕНИЕ =====
+    // Подготавливаем полный результат (будет показан после закрытия превью)
+    prepareFullResult(mapName, mapImage, trial, difficulty);
+}
+
+// ============================================================
+// ПОДГОТОВКА ПОЛНОГО РЕЗУЛЬТАТА
+// ============================================================
+
+function prepareFullResult(mapName, mapImage, trial, difficulty) {
+    var resultContainer = document.getElementById('escResult');
+    if (!resultContainer) return;
+    
+    // Скрываем пока
+    resultContainer.style.display = 'none';
+    resultContainer.classList.remove('active');
+
+    // ===== ОТОБРАЖЕНИЕ КАРТЫ =====
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         var trialImage = trial.image || mapImage;
-        
-        // Приводим название испытания к верхнему регистру (как на картинке)
         var trialNameUpper = trial.name.toUpperCase();
-        // Название карты тоже в верхнем регистре, но тонким шрифтом
         var mapNameUpper = mapName.toUpperCase();
         
         resultMap.innerHTML = `
@@ -1114,18 +1349,25 @@ function generateEscResult() {
         `;
     }
 
+    // ===== ОТОБРАЖЕНИЕ ВАРИАТОРОВ =====
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         if (escState.variators.length === 0) {
             resultVariators.innerHTML = '<div style="color: #888; text-align: center; padding: 1rem;">Нет вариаторов</div>';
         } else {
             resultVariators.innerHTML = escState.variators.map(function(v) {
-                // Приводим название вариатора к верхнему регистру
                 var varNameUpper = v.name.toUpperCase();
+                // Адаптивный размер шрифта для длинных названий
+                var fontSize = '0.75rem';
+                if (v.name.length > 20) {
+                    fontSize = '0.6rem';
+                } else if (v.name.length > 14) {
+                    fontSize = '0.65rem';
+                }
                 return `
-                    <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem;">
-                        <img src="${v.image}" alt="${v.name}" style="width:100px; height:100px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:8px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/100x100/1a1a2e/e16d48?text=?'">
-                        <span style="font-size:0.8rem; color:#ffbc9a; text-align:center; max-width:85px; line-height:1.2; font-weight:600; letter-spacing:0.5px;">${varNameUpper}</span>
+                    <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem; max-width:100px;">
+                        <img src="${v.image}" alt="${v.name}" style="width:80px; height:80px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:6px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'">
+                        <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; letter-spacing:0.3px; word-wrap:break-word; hyphens:auto;">${varNameUpper}</span>
                     </div>
                 `;
             }).join('');
@@ -1133,14 +1375,7 @@ function generateEscResult() {
     }
 
     renderEscResultPlayers();
-    
-    if (resultContainer) {
-        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    
-    console.log('✅ Результат сгенерирован!');
 }
-
 // ============================================================
 // ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ)
 // ============================================================
