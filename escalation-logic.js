@@ -130,10 +130,10 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         return false;
     }
     
-    // ПРАВИЛО: Сильнее Вместе при 2-3 игроках не может попадаться на определенных картах
+    // ПРАВИЛО: Сильнее Вместе при 2-3 игроках не может попадаться на определенных испытаниях
     if (variatorName === 'Сильнее Вместе' && (playerCount === 2 || playerCount === 3)) {
-        var blockedMaps = ['Сожгите секс-игрушки', 'Обработайте фабрику газом', 'Освободите заключенных', 'Заберите наркотики'];
-        if (blockedMaps.indexOf(mapName) !== -1) {
+        var blockedTrialsForStronger = ['Сожгите секс-игрушки', 'Обработайте фабрику газом', 'Освободите заключенных', 'Заберите наркотики'];
+        if (blockedTrialsForStronger.indexOf(trialName) !== -1) {
             return false;
         }
     }
@@ -379,9 +379,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
             }
         }
     }
-    
-    // Правило 5: Главная Рулетка/Самое Главное блокируют охотников (уже есть выше, но оставляем для совместимости)
-    // (дублируется в новых правилах)
     
     // Правило 3: Сломанный Реагент блокирует определенные вариаторы
     var brokenReagentBlocked = [
@@ -715,6 +712,9 @@ function getMapAndTrial(level) {
     var selected = availableTrials[randomIndex];
     
     console.log('✅ Выбрано:', selected.trial.name, 'на', selected.mapName);
+    
+    // Сохраняем название испытания в escState для проверок совместимости
+    escState.currentTrialName = selected.trial.name;
     
     if (selected.trial.name === selected.trial.name.toUpperCase()) {
         escState.usedBigTrials.push(selected.trial.name);
