@@ -1046,6 +1046,9 @@ function showPreviewModal(trialName, mapName, variators, level) {
         oldModal.remove();
     }
 
+    // Определяем, уровень 21+ (8 вариаторов)
+    var isLevel21Plus = level >= 21;
+
     // Создаем затемнение
     var overlay = document.createElement('div');
     overlay.className = 'preview-overlay';
@@ -1070,8 +1073,8 @@ function showPreviewModal(trialName, mapName, variators, level) {
     modalContent.style.cssText = `
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
-        padding: 35px 45px;
-        max-width: 1000px;
+        padding: ${isLevel21Plus ? '20px 25px' : '35px 45px'};
+        max-width: ${isLevel21Plus ? '1200px' : '1000px'};
         width: 95%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
@@ -1110,13 +1113,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: ${isLevel21Plus ? '3px' : '6px'};
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
-            margin: 0 5px;
-            max-width: 110px;
-            min-width: 70px;
+            margin: ${isLevel21Plus ? '0 1px' : '0 5px'};
+            max-width: ${isLevel21Plus ? '75px' : '110px'};
+            min-width: ${isLevel21Plus ? '45px' : '70px'};
             flex: 0 1 auto;
         }
         @keyframes variatorAppear {
@@ -1140,9 +1143,9 @@ function showPreviewModal(trialName, mapName, variators, level) {
             font-weight: 700;
             color: #ffbc9a;
             text-align: center;
-            letter-spacing: 0.2px;
-            max-width: 110px;
-            line-height: 1.3;
+            letter-spacing: 0.1px;
+            max-width: ${isLevel21Plus ? '75px' : '110px'};
+            line-height: 1.15;
             word-break: keep-all;
             overflow-wrap: normal;
             white-space: normal;
@@ -1150,26 +1153,77 @@ function showPreviewModal(trialName, mapName, variators, level) {
             text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         .preview-variator-img {
-            width: 70px;
-            height: 70px;
+            width: ${isLevel21Plus ? '45px' : '70px'};
+            height: ${isLevel21Plus ? '45px' : '70px'};
             object-fit: contain;
-            border-radius: 12px;
+            border-radius: ${isLevel21Plus ? '8px' : '12px'};
             background: rgba(0,0,0,0.3);
-            padding: 6px;
+            padding: ${isLevel21Plus ? '2px' : '6px'};
             border: 1px solid rgba(220,90,50,0.15);
             flex-shrink: 0;
         }
         .preview-variators-container {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
             align-items: flex-start;
-            gap: 8px 14px;
-            padding: 16px 0 12px 0;
+            gap: ${isLevel21Plus ? '2px 4px' : '8px 14px'};
+            padding: ${isLevel21Plus ? '8px 0 6px 0' : '16px 0 12px 0'};
             border-top: 1px solid rgba(220, 90, 50, 0.15);
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            margin-bottom: 18px;
-            min-height: 110px;
+            margin-bottom: ${isLevel21Plus ? '10px' : '18px'};
+            min-height: ${isLevel21Plus ? '75px' : '110px'};
+            overflow-x: auto;
+            overflow-y: visible;
+            scrollbar-width: thin;
+        }
+        .preview-variators-container::-webkit-scrollbar {
+            height: 3px;
+        }
+        .preview-variators-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+        }
+        .preview-variators-container::-webkit-scrollbar-thumb {
+            background: rgba(220,90,50,0.3);
+            border-radius: 3px;
+        }
+        .preview-level-number {
+            font-size: ${isLevel21Plus ? '2.2rem' : '3rem'};
+            font-weight: 900;
+            color: #e16d48;
+            letter-spacing: 2px;
+            margin-bottom: ${isLevel21Plus ? '2px' : '8px'};
+            text-shadow: 0 2px 20px rgba(220, 90, 50, 0.3);
+        }
+        .preview-trial-name {
+            font-size: ${isLevel21Plus ? '1.4rem' : '2rem'};
+            font-weight: 900;
+            color: #ffbc9a;
+            letter-spacing: 2px;
+            margin-bottom: ${isLevel21Plus ? '1px' : '4px'};
+            line-height: 1.2;
+        }
+        .preview-map-name {
+            font-size: ${isLevel21Plus ? '0.9rem' : '1.2rem'};
+            font-weight: 300;
+            color: #c2b9d4;
+            letter-spacing: 3px;
+            margin-bottom: ${isLevel21Plus ? '10px' : '18px'};
+            text-transform: uppercase;
+        }
+        .preview-label {
+            font-size: ${isLevel21Plus ? '0.65rem' : '0.85rem'};
+            color: #888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        .preview-hint {
+            color: #666;
+            font-size: ${isLevel21Plus ? '0.6rem' : '0.75rem'};
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
     `;
     document.head.appendChild(style);
@@ -1182,28 +1236,56 @@ function showPreviewModal(trialName, mapName, variators, level) {
     // Собираем HTML с картинками и подписями
     var variatorsHtml = sortedVariators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
-        var delay = index * 0.08;
+        var delay = index * 0.05;
         
-        // Определяем размер шрифта в зависимости от длины названия
-        var fontSize = '0.75rem';
-        var maxWidth = '110px';
-        if (v.name.length > 22) {
-            fontSize = '0.5rem';
-            maxWidth = '90px';
-        } else if (v.name.length > 18) {
-            fontSize = '0.55rem';
-            maxWidth = '95px';
-        } else if (v.name.length > 14) {
-            fontSize = '0.6rem';
-            maxWidth = '100px';
-        } else if (v.name.length > 10) {
-            fontSize = '0.65rem';
-            maxWidth = '105px';
+        // Определяем размер шрифта в зависимости от длины названия и уровня
+        var fontSize;
+        var maxWidth;
+        
+        if (isLevel21Plus) {
+            // Для 8 вариаторов - более мелкие размеры, чтобы все влезли в ряд
+            if (v.name.length > 24) {
+                fontSize = '0.35rem';
+                maxWidth = '60px';
+            } else if (v.name.length > 20) {
+                fontSize = '0.38rem';
+                maxWidth = '65px';
+            } else if (v.name.length > 16) {
+                fontSize = '0.42rem';
+                maxWidth = '70px';
+            } else if (v.name.length > 12) {
+                fontSize = '0.48rem';
+                maxWidth = '75px';
+            } else if (v.name.length > 8) {
+                fontSize = '0.55rem';
+                maxWidth = '75px';
+            } else {
+                fontSize = '0.6rem';
+                maxWidth = '75px';
+            }
+        } else {
+            // Обычные размеры для уровней 1-20
+            if (v.name.length > 22) {
+                fontSize = '0.5rem';
+                maxWidth = '90px';
+            } else if (v.name.length > 18) {
+                fontSize = '0.55rem';
+                maxWidth = '95px';
+            } else if (v.name.length > 14) {
+                fontSize = '0.6rem';
+                maxWidth = '100px';
+            } else if (v.name.length > 10) {
+                fontSize = '0.65rem';
+                maxWidth = '105px';
+            } else {
+                fontSize = '0.75rem';
+                maxWidth = '110px';
+            }
         }
         
         return `
             <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: ${maxWidth};">
-                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/${isLevel21Plus ? '45x45' : '70x70'}/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize}; max-width:${maxWidth};">${nameUpper}</span>
             </div>
         `;
@@ -1213,48 +1295,16 @@ function showPreviewModal(trialName, mapName, variators, level) {
     var levelDisplay = '#' + level;
 
     modalContent.innerHTML = `
-        <div style="margin-bottom: 4px;">
-            <span style="
-                font-size: 0.85rem;
-                color: #888;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                font-weight: 300;
-            ">Эскалационная терапия</span>
+        <div style="margin-bottom: 2px;">
+            <span class="preview-label">Эскалационная терапия</span>
         </div>
-        <div style="
-            font-size: 3rem;
-            font-weight: 900;
-            color: #e16d48;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 20px rgba(220, 90, 50, 0.3);
-        ">${levelDisplay}</div>
-        <div style="
-            font-size: 2rem;
-            font-weight: 900;
-            color: #ffbc9a;
-            letter-spacing: 2px;
-            margin-bottom: 4px;
-            line-height: 1.2;
-        ">${trialName.toUpperCase()}</div>
-        <div style="
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: #c2b9d4;
-            letter-spacing: 3px;
-            margin-bottom: 18px;
-            text-transform: uppercase;
-        ">${mapName.toUpperCase()}</div>
+        <div class="preview-level-number">${levelDisplay}</div>
+        <div class="preview-trial-name">${trialName.toUpperCase()}</div>
+        <div class="preview-map-name">${mapName.toUpperCase()}</div>
         <div class="preview-variators-container">
             ${variatorsHtml}
         </div>
-        <div class="preview-close-hint" style="
-            color: #666;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        ">
+        <div class="preview-hint">
             <i class="fas fa-mouse-pointer" style="margin-right: 6px;"></i>
             Нажмите в любом месте для продолжения
         </div>
