@@ -1071,8 +1071,8 @@ function showPreviewModal(trialName, mapName, variators, level) {
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
         padding: 40px 50px;
-        max-width: 650px;
-        width: 90%;
+        max-width: 750px;
+        width: 92%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 90, 50, 0.1);
@@ -1110,11 +1110,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
-            margin: 0 6px;
+            margin: 0 4px;
+            max-width: 80px;
+            min-width: 50px;
         }
         @keyframes variatorAppear {
             from {
@@ -1134,35 +1136,77 @@ function showPreviewModal(trialName, mapName, variators, level) {
             50% { opacity: 1; }
         }
         .preview-variator-name {
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #ffbc9a;
             text-align: center;
             letter-spacing: 0.3px;
-            max-width: 70px;
+            max-width: 80px;
             line-height: 1.2;
             word-break: keep-all;
             overflow-wrap: normal;
             white-space: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .preview-variator-img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            padding: 4px;
+            border: 1px solid rgba(220,90,50,0.15);
+            flex-shrink: 0;
+        }
+        .preview-variators-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 8px 14px;
+            padding: 16px 0 12px 0;
+            border-top: 1px solid rgba(220, 90, 50, 0.15);
+            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
+            margin-bottom: 20px;
+            min-height: 90px;
         }
     `;
     document.head.appendChild(style);
 
+    // Сортируем вариаторы по длине названия (короткие сначала, чтобы длинные не перекрывали)
+    var sortedVariators = variators.slice().sort(function(a, b) {
+        return a.name.length - b.name.length;
+    });
+
     // Собираем HTML с картинками и подписями
-    var variatorsHtml = variators.map(function(v, index) {
+    var variatorsHtml = sortedVariators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.08;
-        // Определяем размер шрифта для длинных названий
+        
+        // Определяем размер шрифта в зависимости от длины названия
         var fontSize = '0.7rem';
-        if (v.name.length > 18) {
+        var maxWidth = '80px';
+        if (v.name.length > 20) {
+            fontSize = '0.5rem';
+            maxWidth = '70px';
+        } else if (v.name.length > 16) {
             fontSize = '0.55rem';
+            maxWidth = '75px';
         } else if (v.name.length > 12) {
             fontSize = '0.6rem';
+            maxWidth = '80px';
+        } else if (v.name.length > 8) {
+            fontSize = '0.65rem';
+            maxWidth = '80px';
         }
+        
         return `
-            <div class="preview-variator-item" style="animation-delay: ${delay}s;">
-                <img src="${v.image}" alt="${v.name}" style="width:55px; height:55px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
-                <span class="preview-variator-name" style="font-size:${fontSize};">${nameUpper}</span>
+            <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: ${maxWidth};">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
+                <span class="preview-variator-name" style="font-size:${fontSize}; max-width:${maxWidth};">${nameUpper}</span>
             </div>
         `;
     }).join('');
@@ -1204,17 +1248,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
             margin-bottom: 20px;
             text-transform: uppercase;
         ">${mapName.toUpperCase()}</div>
-        <div style="
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px 12px;
-            padding: 16px 0 12px 0;
-            border-top: 1px solid rgba(220, 90, 50, 0.15);
-            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            margin-bottom: 20px;
-            min-height: 90px;
-        ">
+        <div class="preview-variators-container">
             ${variatorsHtml}
         </div>
         <div class="preview-close-hint" style="
