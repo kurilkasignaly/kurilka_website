@@ -1065,13 +1065,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
         animation: fadeInPreview 0.5s ease;
     `;
 
-    // Создаем контент окна - УВЕЛИЧИВАЕМ ШИРИНУ для 8 вариаторов в ряд
+    // Создаем контент окна
     var modalContent = document.createElement('div');
     modalContent.style.cssText = `
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
         padding: 35px 45px;
-        max-width: 960px;
+        max-width: 1000px;
         width: 95%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
@@ -1110,13 +1110,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
-            margin: 0 3px;
-            max-width: 95px;
-            min-width: 60px;
+            margin: 0 5px;
+            max-width: 110px;
+            min-width: 70px;
             flex: 0 1 auto;
         }
         @keyframes variatorAppear {
@@ -1141,20 +1141,21 @@ function showPreviewModal(trialName, mapName, variators, level) {
             color: #ffbc9a;
             text-align: center;
             letter-spacing: 0.2px;
-            max-width: 95px;
-            line-height: 1.2;
+            max-width: 110px;
+            line-height: 1.3;
             word-break: keep-all;
             overflow-wrap: normal;
             white-space: normal;
             display: block;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
         .preview-variator-img {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            border-radius: 10px;
+            border-radius: 12px;
             background: rgba(0,0,0,0.3);
-            padding: 4px;
+            padding: 6px;
             border: 1px solid rgba(220,90,50,0.15);
             flex-shrink: 0;
         }
@@ -1163,12 +1164,12 @@ function showPreviewModal(trialName, mapName, variators, level) {
             flex-wrap: wrap;
             justify-content: center;
             align-items: flex-start;
-            gap: 6px 10px;
-            padding: 14px 0 10px 0;
+            gap: 8px 14px;
+            padding: 16px 0 12px 0;
             border-top: 1px solid rgba(220, 90, 50, 0.15);
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
             margin-bottom: 18px;
-            min-height: 85px;
+            min-height: 110px;
         }
     `;
     document.head.appendChild(style);
@@ -1184,25 +1185,25 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var delay = index * 0.08;
         
         // Определяем размер шрифта в зависимости от длины названия
-        var fontSize = '0.65rem';
-        var maxWidth = '95px';
+        var fontSize = '0.75rem';
+        var maxWidth = '110px';
         if (v.name.length > 22) {
-            fontSize = '0.45rem';
-            maxWidth = '80px';
-        } else if (v.name.length > 18) {
-            fontSize = '0.48rem';
-            maxWidth = '85px';
-        } else if (v.name.length > 14) {
-            fontSize = '0.52rem';
+            fontSize = '0.5rem';
             maxWidth = '90px';
-        } else if (v.name.length > 10) {
-            fontSize = '0.58rem';
+        } else if (v.name.length > 18) {
+            fontSize = '0.55rem';
             maxWidth = '95px';
+        } else if (v.name.length > 14) {
+            fontSize = '0.6rem';
+            maxWidth = '100px';
+        } else if (v.name.length > 10) {
+            fontSize = '0.65rem';
+            maxWidth = '105px';
         }
         
         return `
             <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: ${maxWidth};">
-                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize}; max-width:${maxWidth};">${nameUpper}</span>
             </div>
         `;
