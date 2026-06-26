@@ -841,7 +841,7 @@ function renderEscPlayerNames() {
 }
 
 // ============================================================
-// ОТРИСОВКА СНАРЯЖЕНИЯ С ШТОРКАМИ
+// ОТРИСОВКА СНАРЯЖЕНИЯ (БЕЗ ШТОРОК)
 // ============================================================
 
 function renderEscEquipment() {
@@ -868,36 +868,19 @@ function renderEscEquipment() {
     
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
-        var toggleBtn = document.createElement('div');
-        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
-        toggleBtn.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
-                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
-                    ${escState.equipSelections[idx] ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
-                </span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                ${escState.equipSelections[idx] ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${escState.equipSelections[idx]}</span>` : ''}
-                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-            </div>
-        `;
-        section.appendChild(toggleBtn);
-        
-        var content = document.createElement('div');
-        content.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
-        content.id = 'equipContent_' + idx;
-        section.appendChild(content);
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
+        section.appendChild(title);
         
         var wrapper = document.createElement('div');
         wrapper.className = 'selection-wrapper';
         
         var grid = document.createElement('div');
         grid.className = 'selection-grid';
-        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
         
         var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
         var selectedEquip = shuffled.slice(0, 3);
@@ -936,7 +919,6 @@ function renderEscEquipment() {
                 var check = this.querySelector('.check-mark');
                 if (check) check.style.display = 'block';
                 escState.equipSelections[idx] = eq.name;
-                updateEquipHeader(idx, player);
                 checkEscEquipReady();
             });
             
@@ -944,55 +926,8 @@ function renderEscEquipment() {
         });
         
         wrapper.appendChild(grid);
-        content.appendChild(wrapper);
+        section.appendChild(wrapper);
         gridWrapper.appendChild(section);
-        
-        function updateEquipHeader(idx, playerName) {
-            var sectionEl = gridWrapper.querySelectorAll('div')[idx * 2];
-            if (sectionEl) {
-                var header = sectionEl.querySelector('div:first-child');
-                if (header) {
-                    var selected = escState.equipSelections[idx];
-                    header.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                            <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${playerName}</span>
-                            <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
-                                ${selected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
-                            </span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            ${selected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${selected}</span>` : ''}
-                            <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-                        </div>
-                    `;
-                    header.onclick = function() { toggleEquipContent(idx); };
-                }
-            }
-        }
-        
-        function toggleEquipContent(idx) {
-            var contentEl = document.getElementById('equipContent_' + idx);
-            var sectionEl = contentEl.closest('div');
-            var chevron = sectionEl.querySelector('.fa-chevron-down');
-            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
-                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
-                contentEl.style.padding = '0 16px 16px 16px';
-                if (chevron) chevron.style.transform = 'rotate(180deg)';
-            } else {
-                contentEl.style.maxHeight = '0px';
-                contentEl.style.padding = '0 16px';
-                if (chevron) chevron.style.transform = 'rotate(0deg)';
-            }
-        }
-        
-        toggleBtn.onclick = function() { toggleEquipContent(idx); };
-        
-        if (escState.equipSelections[idx]) {
-            setTimeout(function() {
-                toggleEquipContent(idx);
-            }, 100);
-        }
     });
     
     container.appendChild(gridWrapper);
@@ -1008,7 +943,7 @@ function checkEscEquipReady() {
 }
 
 // ============================================================
-// ОТРИСОВКА АМФ С ШТОРКАМИ
+// ОТРИСОВКА АМФ (БЕЗ ШТОРОК)
 // ============================================================
 
 function renderEscAmps() {
@@ -1040,71 +975,103 @@ function renderEscAmps() {
     
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
-        var toggleBtn = document.createElement('div');
-        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
-        
-        var hasAmpSelected = false;
-        var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
-        if (ampCategoriesList.length > 0) {
-            var firstCat = ampCategoriesList[0];
-            if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
-                hasAmpSelected = true;
-            }
-        }
-        
-        toggleBtn.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
-                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
-                    ${hasAmpSelected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
-                </span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                ${hasAmpSelected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">Выбрано</span>` : ''}
-                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-            </div>
-        `;
-        section.appendChild(toggleBtn);
-        
-        var content = document.createElement('div');
-        content.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
-        content.id = 'ampContent_' + idx;
-        section.appendChild(content);
-        
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
+        section.appendChild(title);
+
         var availableCategories = ampCategories.filter(function(cat) {
             return !isCategoryComplete(idx, cat);
         });
         
         if (availableCategories.length === 0) {
             var msg = document.createElement('div');
-            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem; margin-top: 12px;';
+            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
             msg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            content.appendChild(msg);
+            section.appendChild(msg);
+            gridWrapper.appendChild(section);
+            return;
+        }
+        
+        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+        
+        var catLabel = document.createElement('div');
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
+        section.appendChild(catLabel);
+        
+        var wrapper = document.createElement('div');
+        wrapper.className = 'selection-wrapper';
+        
+        var grid = document.createElement('div');
+        grid.className = 'selection-grid';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
+        
+        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
+        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
+        
+        var ampCount = Math.min(shuffled.length, 3);
+        var selectedAmps = shuffled.slice(0, ampCount);
+        
+        if (selectedAmps.length === 0) {
+            for (var i = 0; i < 3; i++) {
+                var emptyItem = document.createElement('div');
+                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                emptyItem.innerHTML = `
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                `;
+                grid.appendChild(emptyItem);
+            }
         } else {
-            var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+            selectedAmps.forEach(function(amp) {
+                var item = document.createElement('div');
+                item.className = 'selection-item';
+                item.dataset.player = idx;
+                item.dataset.amp = amp.name;
+                var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
+                var isSelected = currentAmp === amp.name;
+                
+                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
+                if (isSelected) {
+                    item.style.borderColor = '#e16d48';
+                    item.style.background = 'rgba(220,90,50,0.1)';
+                }
+                
+                item.innerHTML = `
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
+                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
+                    <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
+                `;
+                
+                item.addEventListener('click', function() {
+                    var parent = this.closest('.selection-grid');
+                    parent.querySelectorAll('.selection-item').forEach(function(el) {
+                        el.classList.remove('selected');
+                        el.style.borderColor = 'rgba(255,255,255,0.06)';
+                        el.style.background = 'rgba(255,255,255,0.03)';
+                        var check = el.querySelector('.check-mark');
+                        if (check) check.style.display = 'none';
+                    });
+                    this.classList.add('selected');
+                    this.style.borderColor = '#e16d48';
+                    this.style.background = 'rgba(220,90,50,0.1)';
+                    var check = this.querySelector('.check-mark');
+                    if (check) check.style.display = 'block';
+                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                    escState.ampSelections[idx][randomCategory] = amp.name;
+                    unlockAmpForPlayer(idx, amp.name);
+                    checkEscAmpsReady();
+                });
+                
+                grid.appendChild(item);
+            });
             
-            var catLabel = document.createElement('div');
-            catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-top: 12px; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
-            catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
-            content.appendChild(catLabel);
-            
-            var wrapper = document.createElement('div');
-            wrapper.className = 'selection-wrapper';
-            
-            var grid = document.createElement('div');
-            grid.className = 'selection-grid';
-            grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-            
-            var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-            var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
-            var ampCount = Math.min(shuffled.length, 3);
-            var selectedAmps = shuffled.slice(0, ampCount);
-            
-            if (selectedAmps.length === 0) {
-                for (var i = 0; i < 3; i++) {
+            if (selectedAmps.length < 3) {
+                for (var j = selectedAmps.length; j < 3; j++) {
                     var emptyItem = document.createElement('div');
                     emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                     emptyItem.innerHTML = `
@@ -1113,132 +1080,12 @@ function renderEscAmps() {
                     `;
                     grid.appendChild(emptyItem);
                 }
-            } else {
-                selectedAmps.forEach(function(amp) {
-                    var item = document.createElement('div');
-                    item.className = 'selection-item';
-                    item.dataset.player = idx;
-                    item.dataset.amp = amp.name;
-                    var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
-                    var isSelected = currentAmp === amp.name;
-                    
-                    item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-                    if (isSelected) {
-                        item.style.borderColor = '#e16d48';
-                        item.style.background = 'rgba(220,90,50,0.1)';
-                    }
-                    
-                    item.innerHTML = `
-                        <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
-                        <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
-                        <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
-                        <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
-                    `;
-                    
-                    item.addEventListener('click', function() {
-                        var parent = this.closest('.selection-grid');
-                        parent.querySelectorAll('.selection-item').forEach(function(el) {
-                            el.classList.remove('selected');
-                            el.style.borderColor = 'rgba(255,255,255,0.06)';
-                            el.style.background = 'rgba(255,255,255,0.03)';
-                            var check = el.querySelector('.check-mark');
-                            if (check) check.style.display = 'none';
-                        });
-                        this.classList.add('selected');
-                        this.style.borderColor = '#e16d48';
-                        this.style.background = 'rgba(220,90,50,0.1)';
-                        var check = this.querySelector('.check-mark');
-                        if (check) check.style.display = 'block';
-                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                        escState.ampSelections[idx][randomCategory] = amp.name;
-                        unlockAmpForPlayer(idx, amp.name);
-                        updateAmpHeader(idx, player);
-                        checkEscAmpsReady();
-                    });
-                    
-                    grid.appendChild(item);
-                });
-                
-                if (selectedAmps.length < 3) {
-                    for (var j = selectedAmps.length; j < 3; j++) {
-                        var emptyItem = document.createElement('div');
-                        emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                        emptyItem.innerHTML = `
-                            <div style="font-size: 2rem; color: #555;">⛔</div>
-                            <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                        `;
-                        grid.appendChild(emptyItem);
-                    }
-                }
             }
-            
-            wrapper.appendChild(grid);
-            content.appendChild(wrapper);
         }
         
+        wrapper.appendChild(grid);
+        section.appendChild(wrapper);
         gridWrapper.appendChild(section);
-        
-        function updateAmpHeader(idx, playerName) {
-            var sectionEl = gridWrapper.querySelectorAll('div')[idx * 2];
-            if (sectionEl) {
-                var header = sectionEl.querySelector('div:first-child');
-                if (header) {
-                    var hasSelected = false;
-                    var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
-                    if (ampCategoriesList.length > 0) {
-                        var firstCat = ampCategoriesList[0];
-                        if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
-                            hasSelected = true;
-                        }
-                    }
-                    header.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                            <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${playerName}</span>
-                            <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
-                                ${hasSelected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
-                            </span>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            ${hasSelected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">Выбрано</span>` : ''}
-                            <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-                        </div>
-                    `;
-                    header.onclick = function() { toggleAmpContent(idx); };
-                }
-            }
-        }
-        
-        function toggleAmpContent(idx) {
-            var contentEl = document.getElementById('ampContent_' + idx);
-            var sectionEl = contentEl.closest('div');
-            var chevron = sectionEl.querySelector('.fa-chevron-down');
-            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
-                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
-                contentEl.style.padding = '0 16px 16px 16px';
-                if (chevron) chevron.style.transform = 'rotate(180deg)';
-            } else {
-                contentEl.style.maxHeight = '0px';
-                contentEl.style.padding = '0 16px';
-                if (chevron) chevron.style.transform = 'rotate(0deg)';
-            }
-        }
-        
-        toggleBtn.onclick = function() { toggleAmpContent(idx); };
-        
-        var hasSelected = false;
-        var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
-        if (ampCategoriesList.length > 0) {
-            var firstCat = ampCategoriesList[0];
-            if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
-                hasSelected = true;
-            }
-        }
-        if (hasSelected) {
-            setTimeout(function() {
-                toggleAmpContent(idx);
-            }, 100);
-        }
     });
     
     container.appendChild(gridWrapper);
@@ -2060,7 +1907,7 @@ function renderAmpModalGrid(playerIndex, category) {
 }
 
 // ============================================================
-// ПЕРЕРЫВ (выбор амф) С ШТОРКАМИ
+// ПЕРЕРЫВ (выбор амф) БЕЗ ШТОРОК
 // ============================================================
 
 function showBreakModal() {
@@ -2111,41 +1958,20 @@ function showBreakModal() {
 
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
         
-        var toggleBtn = document.createElement('div');
-        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
-        toggleBtn.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
-                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">Ожидает выбора</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-            </div>
-        `;
-        section.appendChild(toggleBtn);
-        
-        var contentWrapper = document.createElement('div');
-        contentWrapper.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
-        contentWrapper.id = 'breakContent_' + idx;
-        section.appendChild(contentWrapper);
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
+        section.appendChild(title);
 
         if (areAllCategoriesComplete(idx)) {
             var completeMsg = document.createElement('div');
-            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem; margin-top: 12px;';
+            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
             completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            contentWrapper.appendChild(completeMsg);
+            section.appendChild(completeMsg);
             content.appendChild(section);
             breakSelections[idx] = null;
-            
-            setTimeout(function() {
-                contentWrapper.style.maxHeight = contentWrapper.scrollHeight + 20 + 'px';
-                contentWrapper.style.padding = '0 16px 16px 16px';
-                var chevron = section.querySelector('.fa-chevron-down');
-                if (chevron) chevron.style.transform = 'rotate(180deg)';
-            }, 100);
             return;
         }
 
@@ -2159,11 +1985,15 @@ function showBreakModal() {
         var displayAmps = shuffled.slice(0, 3);
 
         var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-top: 12px; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
         catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
-        contentWrapper.appendChild(catLabel);
+        section.appendChild(catLabel);
+
+        var wrapper = document.createElement('div');
+        wrapper.className = 'selection-wrapper';
 
         var grid = document.createElement('div');
+        grid.className = 'selection-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
         breakSelections[idx] = null;
@@ -2198,25 +2028,6 @@ function showBreakModal() {
                     this.style.background = 'rgba(220,90,50,0.1)';
                     breakSelections[idx] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
-                    
-                    var header = section.querySelector('div:first-child');
-                    if (header) {
-                        header.innerHTML = `
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
-                                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
-                                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
-                                    <span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>
-                                </span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${amp.name}</span>
-                                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
-                            </div>
-                        `;
-                        header.onclick = function() { toggleBreakContent(idx); };
-                    }
-                    
                     checkBreakReady();
                 });
                 grid.appendChild(item);
@@ -2235,31 +2046,9 @@ function showBreakModal() {
             }
         }
 
-        contentWrapper.appendChild(grid);
+        wrapper.appendChild(grid);
+        section.appendChild(wrapper);
         content.appendChild(section);
-        
-        function toggleBreakContent(idx) {
-            var contentEl = document.getElementById('breakContent_' + idx);
-            var sectionEl = contentEl.closest('div');
-            var chevron = sectionEl.querySelector('.fa-chevron-down');
-            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
-                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
-                contentEl.style.padding = '0 16px 16px 16px';
-                if (chevron) chevron.style.transform = 'rotate(180deg)';
-            } else {
-                contentEl.style.maxHeight = '0px';
-                contentEl.style.padding = '0 16px';
-                if (chevron) chevron.style.transform = 'rotate(0deg)';
-            }
-        }
-        
-        toggleBtn.onclick = function() { toggleBreakContent(idx); };
-        
-        if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
-            setTimeout(function() {
-                toggleBreakContent(idx);
-            }, 100);
-        }
     });
 
     function checkBreakReady() {
