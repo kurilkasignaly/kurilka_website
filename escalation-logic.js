@@ -1228,13 +1228,13 @@ function showPreviewModal(trialName, mapName, variators, level) {
     `;
     document.head.appendChild(style);
 
-    // Сортируем вариаторы по длине названия (короткие сначала)
-    var sortedVariators = variators.slice().sort(function(a, b) {
-        return a.name.length - b.name.length;
-    });
+    // НЕ СОРТИРУЕМ! Сохраняем исходный порядок вариаторов
+    // var sortedVariators = variators.slice().sort(function(a, b) {
+    //     return a.name.length - b.name.length;
+    // });
 
-    // Собираем HTML с картинками и подписями
-    var variatorsHtml = sortedVariators.map(function(v, index) {
+    // Собираем HTML с картинками и подписями в ТОМ ЖЕ порядке, что и в основном окне
+    var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
         
