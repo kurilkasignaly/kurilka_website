@@ -818,7 +818,6 @@ function renderEscPlayerNames() {
     if (!container) return;
     container.innerHTML = '';
     
-    // Создаем сетку 2 колонки для имен игроков
     var grid = document.createElement('div');
     grid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; max-width: 600px; margin: 0 auto;';
     
@@ -841,6 +840,10 @@ function renderEscPlayerNames() {
     if (firstInput) setTimeout(function() { firstInput.focus(); }, 300);
 }
 
+// ============================================================
+// ОТРИСОВКА СНАРЯЖЕНИЯ С ШТОРКАМИ
+// ============================================================
+
 function renderEscEquipment() {
     var container = document.getElementById('escStep3Content');
     if (!container) return;
@@ -851,25 +854,53 @@ function renderEscEquipment() {
         return;
     }
     
-    // Создаем сетку 2 колонки для игроков
+    // Заголовок
+    var header = document.createElement('div');
+    header.style.cssText = 'text-align: center; margin-bottom: 20px;';
+    header.innerHTML = `
+        <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">Шаг 3</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор снаряжения</div>
+        <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных снаряжения на выбор (нужно выбрать 1)</div>
+    `;
+    container.appendChild(header);
+    
     var gridWrapper = document.createElement('div');
     gridWrapper.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;';
     
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
         
-        var title = document.createElement('div');
-        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
-        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
-        section.appendChild(title);
+        // Шапка-шторка (всегда видима)
+        var toggleBtn = document.createElement('div');
+        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
+        toggleBtn.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
+                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
+                    ${escState.equipSelections[idx] ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
+                </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                ${escState.equipSelections[idx] ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${escState.equipSelections[idx]}</span>` : ''}
+                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+            </div>
+        `;
+        section.appendChild(toggleBtn);
+        
+        // Контент (разворачивается)
+        var content = document.createElement('div');
+        content.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
+        content.id = 'equipContent_' + idx;
+        section.appendChild(content);
         
         var wrapper = document.createElement('div');
         wrapper.className = 'selection-wrapper';
         
         var grid = document.createElement('div');
         grid.className = 'selection-grid';
-        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px;';
         
         var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
         var selectedEquip = shuffled.slice(0, 3);
@@ -880,9 +911,8 @@ function renderEscEquipment() {
             item.dataset.player = idx;
             item.dataset.equip = eq.name;
             var isSelected = escState.equipSelections[idx] === eq.name;
-            if (isSelected) item.classList.add('selected');
             
-            item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease;';
+            item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
             if (isSelected) {
                 item.style.borderColor = '#e16d48';
                 item.style.background = 'rgba(220,90,50,0.1)';
@@ -893,7 +923,6 @@ function renderEscEquipment() {
                 <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${eq.name}</div>
                 <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
             `;
-            item.style.position = 'relative';
             
             item.addEventListener('click', function() {
                 var parent = this.closest('.selection-grid');
@@ -910,6 +939,8 @@ function renderEscEquipment() {
                 var check = this.querySelector('.check-mark');
                 if (check) check.style.display = 'block';
                 escState.equipSelections[idx] = eq.name;
+                // Обновляем шапку
+                updateEquipHeader(idx, player);
                 checkEscEquipReady();
             });
             
@@ -917,8 +948,60 @@ function renderEscEquipment() {
         });
         
         wrapper.appendChild(grid);
-        section.appendChild(wrapper);
+        content.appendChild(wrapper);
         gridWrapper.appendChild(section);
+        
+        // Функция обновления шапки
+        function updateEquipHeader(idx, playerName) {
+            var sectionEl = gridWrapper.querySelectorAll('div')[idx * 2];
+            if (sectionEl) {
+                var header = sectionEl.querySelector('div:first-child');
+                if (header) {
+                    var selected = escState.equipSelections[idx];
+                    header.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                            <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${playerName}</span>
+                            <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
+                                ${selected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
+                            </span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            ${selected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${selected}</span>` : ''}
+                            <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+                        </div>
+                    `;
+                    // Перепривязываем событие
+                    header.onclick = function() { toggleEquipContent(idx); };
+                }
+            }
+        }
+        
+        // Функция сворачивания/разворачивания
+        function toggleEquipContent(idx) {
+            var contentEl = document.getElementById('equipContent_' + idx);
+            var sectionEl = contentEl.closest('div');
+            var chevron = sectionEl.querySelector('.fa-chevron-down');
+            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
+                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
+                contentEl.style.padding = '0 16px 16px 16px';
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            } else {
+                contentEl.style.maxHeight = '0px';
+                contentEl.style.padding = '0 16px';
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // Назначаем событие на шапку
+        toggleBtn.onclick = function() { toggleEquipContent(idx); };
+        
+        // Если уже есть выбор - разворачиваем
+        if (escState.equipSelections[idx]) {
+            setTimeout(function() {
+                toggleEquipContent(idx);
+            }, 100);
+        }
     });
     
     container.appendChild(gridWrapper);
@@ -932,6 +1015,10 @@ function checkEscEquipReady() {
     var btn = document.getElementById('escStep3Next');
     if (btn) btn.disabled = !allSelected;
 }
+
+// ============================================================
+// ОТРИСОВКА АМФ С ШТОРКАМИ
+// ============================================================
 
 function renderEscAmps() {
     var container = document.getElementById('escStep4Content');
@@ -948,109 +1035,88 @@ function renderEscAmps() {
         return;
     }
     
-    // Создаем сетку 2 колонки для игроков
+    // Заголовок
+    var header = document.createElement('div');
+    header.style.cssText = 'text-align: center; margin-bottom: 20px;';
+    header.innerHTML = `
+        <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">Шаг 4</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор АМФ</div>
+        <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных амфы на выбор (нужно выбрать 1)</div>
+    `;
+    container.appendChild(header);
+    
     var gridWrapper = document.createElement('div');
     gridWrapper.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;';
     
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
         
-        var title = document.createElement('div');
-        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
-        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
-        section.appendChild(title);
-
+        // Шапка-шторка
+        var toggleBtn = document.createElement('div');
+        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
+        
+        var hasAmpSelected = false;
+        var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
+        if (ampCategoriesList.length > 0) {
+            var firstCat = ampCategoriesList[0];
+            if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
+                hasAmpSelected = true;
+            }
+        }
+        
+        toggleBtn.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
+                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
+                    ${hasAmpSelected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
+                </span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                ${hasAmpSelected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">Выбрано</span>` : ''}
+                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+            </div>
+        `;
+        section.appendChild(toggleBtn);
+        
+        // Контент
+        var content = document.createElement('div');
+        content.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
+        content.id = 'ampContent_' + idx;
+        section.appendChild(content);
+        
         var availableCategories = ampCategories.filter(function(cat) {
             return !isCategoryComplete(idx, cat);
         });
         
         if (availableCategories.length === 0) {
             var msg = document.createElement('div');
-            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
+            msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem; margin-top: 12px;';
             msg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            section.appendChild(msg);
-            gridWrapper.appendChild(section);
-            return;
-        }
-        
-        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-        
-        var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
-        section.appendChild(catLabel);
-        
-        var wrapper = document.createElement('div');
-        wrapper.className = 'selection-wrapper';
-        
-        var grid = document.createElement('div');
-        grid.className = 'selection-grid';
-        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-        
-        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
-        
-        var ampCount = Math.min(shuffled.length, 3);
-        var selectedAmps = shuffled.slice(0, ampCount);
-        
-        if (selectedAmps.length === 0) {
-            for (var i = 0; i < 3; i++) {
-                var emptyItem = document.createElement('div');
-                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `
-                    <div style="font-size: 2rem; color: #555;">⛔</div>
-                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                `;
-                grid.appendChild(emptyItem);
-            }
+            content.appendChild(msg);
         } else {
-            selectedAmps.forEach(function(amp) {
-                var item = document.createElement('div');
-                item.className = 'selection-item';
-                item.dataset.player = idx;
-                item.dataset.amp = amp.name;
-                var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
-                var isSelected = currentAmp === amp.name;
-                
-                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-                if (isSelected) {
-                    item.style.borderColor = '#e16d48';
-                    item.style.background = 'rgba(220,90,50,0.1)';
-                }
-                
-                item.innerHTML = `
-                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
-                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
-                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
-                    <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
-                `;
-                
-                item.addEventListener('click', function() {
-                    var parent = this.closest('.selection-grid');
-                    parent.querySelectorAll('.selection-item').forEach(function(el) {
-                        el.classList.remove('selected');
-                        el.style.borderColor = 'rgba(255,255,255,0.06)';
-                        el.style.background = 'rgba(255,255,255,0.03)';
-                        var check = el.querySelector('.check-mark');
-                        if (check) check.style.display = 'none';
-                    });
-                    this.classList.add('selected');
-                    this.style.borderColor = '#e16d48';
-                    this.style.background = 'rgba(220,90,50,0.1)';
-                    var check = this.querySelector('.check-mark');
-                    if (check) check.style.display = 'block';
-                    if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                    escState.ampSelections[idx][randomCategory] = amp.name;
-                    unlockAmpForPlayer(idx, amp.name);
-                    checkEscAmpsReady();
-                });
-                
-                grid.appendChild(item);
-            });
+            var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
             
-            if (selectedAmps.length < 3) {
-                for (var j = selectedAmps.length; j < 3; j++) {
+            var catLabel = document.createElement('div');
+            catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-top: 12px; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+            catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
+            content.appendChild(catLabel);
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'selection-wrapper';
+            
+            var grid = document.createElement('div');
+            grid.className = 'selection-grid';
+            grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
+            
+            var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
+            var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
+            var ampCount = Math.min(shuffled.length, 3);
+            var selectedAmps = shuffled.slice(0, ampCount);
+            
+            if (selectedAmps.length === 0) {
+                for (var i = 0; i < 3; i++) {
                     var emptyItem = document.createElement('div');
                     emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
                     emptyItem.innerHTML = `
@@ -1059,12 +1125,137 @@ function renderEscAmps() {
                     `;
                     grid.appendChild(emptyItem);
                 }
+            } else {
+                selectedAmps.forEach(function(amp) {
+                    var item = document.createElement('div');
+                    item.className = 'selection-item';
+                    item.dataset.player = idx;
+                    item.dataset.amp = amp.name;
+                    var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
+                    var isSelected = currentAmp === amp.name;
+                    
+                    item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
+                    if (isSelected) {
+                        item.style.borderColor = '#e16d48';
+                        item.style.background = 'rgba(220,90,50,0.1)';
+                    }
+                    
+                    item.innerHTML = `
+                        <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                        <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
+                        <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
+                        <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
+                    `;
+                    
+                    item.addEventListener('click', function() {
+                        var parent = this.closest('.selection-grid');
+                        parent.querySelectorAll('.selection-item').forEach(function(el) {
+                            el.classList.remove('selected');
+                            el.style.borderColor = 'rgba(255,255,255,0.06)';
+                            el.style.background = 'rgba(255,255,255,0.03)';
+                            var check = el.querySelector('.check-mark');
+                            if (check) check.style.display = 'none';
+                        });
+                        this.classList.add('selected');
+                        this.style.borderColor = '#e16d48';
+                        this.style.background = 'rgba(220,90,50,0.1)';
+                        var check = this.querySelector('.check-mark');
+                        if (check) check.style.display = 'block';
+                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                        escState.ampSelections[idx][randomCategory] = amp.name;
+                        unlockAmpForPlayer(idx, amp.name);
+                        // Обновляем шапку
+                        updateAmpHeader(idx, player);
+                        checkEscAmpsReady();
+                    });
+                    
+                    grid.appendChild(item);
+                });
+                
+                if (selectedAmps.length < 3) {
+                    for (var j = selectedAmps.length; j < 3; j++) {
+                        var emptyItem = document.createElement('div');
+                        emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                        emptyItem.innerHTML = `
+                            <div style="font-size: 2rem; color: #555;">⛔</div>
+                            <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                        `;
+                        grid.appendChild(emptyItem);
+                    }
+                }
+            }
+            
+            wrapper.appendChild(grid);
+            content.appendChild(wrapper);
+        }
+        
+        gridWrapper.appendChild(section);
+        
+        // Функция обновления шапки
+        function updateAmpHeader(idx, playerName) {
+            var sectionEl = gridWrapper.querySelectorAll('div')[idx * 2];
+            if (sectionEl) {
+                var header = sectionEl.querySelector('div:first-child');
+                if (header) {
+                    var hasSelected = false;
+                    var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
+                    if (ampCategoriesList.length > 0) {
+                        var firstCat = ampCategoriesList[0];
+                        if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
+                            hasSelected = true;
+                        }
+                    }
+                    header.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                            <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${playerName}</span>
+                            <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
+                                ${hasSelected ? '<span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>' : 'Ожидает выбора'}
+                            </span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            ${hasSelected ? `<span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">Выбрано</span>` : ''}
+                            <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+                        </div>
+                    `;
+                    header.onclick = function() { toggleAmpContent(idx); };
+                }
             }
         }
         
-        wrapper.appendChild(grid);
-        section.appendChild(wrapper);
-        gridWrapper.appendChild(section);
+        // Функция сворачивания/разворачивания
+        function toggleAmpContent(idx) {
+            var contentEl = document.getElementById('ampContent_' + idx);
+            var sectionEl = contentEl.closest('div');
+            var chevron = sectionEl.querySelector('.fa-chevron-down');
+            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
+                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
+                contentEl.style.padding = '0 16px 16px 16px';
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            } else {
+                contentEl.style.maxHeight = '0px';
+                contentEl.style.padding = '0 16px';
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // Назначаем событие на шапку
+        toggleBtn.onclick = function() { toggleAmpContent(idx); };
+        
+        // Если уже есть выбор - разворачиваем
+        var hasSelected = false;
+        var ampCategoriesList = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
+        if (ampCategoriesList.length > 0) {
+            var firstCat = ampCategoriesList[0];
+            if (escState.ampSelections[idx] && escState.ampSelections[idx][firstCat]) {
+                hasSelected = true;
+            }
+        }
+        if (hasSelected) {
+            setTimeout(function() {
+                toggleAmpContent(idx);
+            }, 100);
+        }
     });
     
     container.appendChild(gridWrapper);
@@ -1081,16 +1272,13 @@ function checkEscAmpsReady() {
 // ============================================================
 
 function showPreviewModal(trialName, mapName, variators, level) {
-    // Удаляем старое окно если есть
     var oldModal = document.getElementById('previewModal');
     if (oldModal) {
         oldModal.remove();
     }
 
-    // Определяем, уровень 21+ (8 вариаторов)
     var isLevel21Plus = level >= 21;
 
-    // Создаем затемнение
     var overlay = document.createElement('div');
     overlay.className = 'preview-overlay';
     overlay.id = 'previewModal';
@@ -1109,7 +1297,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
         animation: fadeInPreview 0.5s ease;
     `;
 
-    // Создаем контент окна
     var modalContent = document.createElement('div');
     modalContent.style.cssText = `
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
@@ -1123,7 +1310,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
         animation: slideUpPreview 0.6s ease;
     `;
 
-    // Добавляем стили анимации
     var style = document.createElement('style');
     style.textContent = `
         @keyframes fadeInPreview {
@@ -1269,12 +1455,10 @@ function showPreviewModal(trialName, mapName, variators, level) {
     `;
     document.head.appendChild(style);
 
-    // Собираем HTML с картинками и подписями в ТОМ ЖЕ порядке
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
         
-        // Определяем размер шрифта в зависимости от длины названия и уровня
         var fontSize;
         var maxWidth;
         
@@ -1795,7 +1979,7 @@ function renderAmpModalGrid(playerIndex, category) {
 }
 
 // ============================================================
-// ПЕРЕРЫВ (выбор амф)
+// ПЕРЕРЫВ (выбор амф) С ШТОРКАМИ
 // ============================================================
 
 function showBreakModal() {
@@ -1820,53 +2004,70 @@ function showBreakModal() {
     var overlay = document.createElement('div');
     overlay.className = 'amp-modal-overlay active';
     overlay.id = 'breakModal';
-    overlay.style.display = 'flex';
-    overlay.style.zIndex = '1500';
-    overlay.style.pointerEvents = 'auto';
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; overflow-y: auto; padding: 20px;';
 
-    overlay.innerHTML = `
-        <div class="amp-modal">
-            <div class="amp-modal-header">
-                <h2><i class="fas fa-coffee"></i> ПЕРЕРЫВ — выбор амф</h2>
-                <button class="amp-modal-close" id="breakModalClose" style="display:none;">&times;</button>
-            </div>
-            <div style="margin-bottom: 1.5rem; color: #c2b9d4; text-align: center;">
-                Каждому игроку нужно выбрать 1 амфу из доступной категории
-            </div>
-            <div id="breakModalContent" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;"></div>
-            <div class="amp-modal-confirm">
-                <button id="breakModalConfirm">Продолжить →</button>
-            </div>
+    var modal = document.createElement('div');
+    modal.className = 'amp-modal';
+    modal.style.cssText = 'background: linear-gradient(145deg, #1a1a2e, #2a1a3e); border-radius: 24px; padding: 30px 35px; max-width: 900px; width: 100%; border: 1px solid rgba(220,90,50,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;';
+
+    modal.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;"><i class="fas fa-coffee"></i> Перерыв</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор АМФ</div>
+            <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку нужно выбрать 1 амфу из доступной категории</div>
+        </div>
+        <div id="breakModalContent" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="breakModalConfirm" disabled style="padding: 12px 40px; border-radius: 30px; border: none; background: rgba(220,90,50,0.2); color: #888; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; letter-spacing: 1px;">Продолжить →</button>
         </div>
     `;
 
+    overlay.appendChild(modal);
     document.body.appendChild(overlay);
-
-    overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-            // Не закрываем
-        }
-    });
 
     var content = document.getElementById('breakModalContent');
     var breakSelections = {};
 
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(220,90,50,0.08); overflow: hidden;';
         
-        var title = document.createElement('div');
-        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
-        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
-        section.appendChild(title);
+        // Шапка-шторка
+        var toggleBtn = document.createElement('div');
+        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; transition: background 0.3s; background: rgba(0,0,0,0.15);';
+        toggleBtn.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
+                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">Ожидает выбора</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+            </div>
+        `;
+        section.appendChild(toggleBtn);
+        
+        // Контент
+        var contentWrapper = document.createElement('div');
+        contentWrapper.style.cssText = 'padding: 0 16px 16px 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
+        contentWrapper.id = 'breakContent_' + idx;
+        section.appendChild(contentWrapper);
 
         if (areAllCategoriesComplete(idx)) {
             var completeMsg = document.createElement('div');
-            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
+            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem; margin-top: 12px;';
             completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            section.appendChild(completeMsg);
+            contentWrapper.appendChild(completeMsg);
             content.appendChild(section);
             breakSelections[idx] = null;
+            
+            // Разворачиваем если завершено
+            setTimeout(function() {
+                contentWrapper.style.maxHeight = contentWrapper.scrollHeight + 20 + 'px';
+                contentWrapper.style.padding = '0 16px 16px 16px';
+                var chevron = section.querySelector('.fa-chevron-down');
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            }, 100);
             return;
         }
 
@@ -1880,15 +2081,11 @@ function showBreakModal() {
         var displayAmps = shuffled.slice(0, 3);
 
         var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-top: 12px; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
         catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
-        section.appendChild(catLabel);
-
-        var wrapper = document.createElement('div');
-        wrapper.className = 'selection-wrapper';
+        contentWrapper.appendChild(catLabel);
 
         var grid = document.createElement('div');
-        grid.className = 'selection-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
         breakSelections[idx] = null;
@@ -1923,6 +2120,26 @@ function showBreakModal() {
                     this.style.background = 'rgba(220,90,50,0.1)';
                     breakSelections[idx] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
+                    
+                    // Обновляем шапку
+                    var header = section.querySelector('div:first-child');
+                    if (header) {
+                        header.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fas fa-user" style="color: #e16d48; font-size: 0.9rem;"></i>
+                                <span style="font-weight: 600; color: #ffbc9a; font-size: 0.9rem;">${player}</span>
+                                <span style="font-size: 0.7rem; color: #888; margin-left: 4px;">
+                                    <span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Выбрано</span>
+                                </span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 0.7rem; color: #ffbc9a; font-weight: 500;">${amp.name}</span>
+                                <i class="fas fa-chevron-down" style="color: #888; font-size: 0.8rem; transition: transform 0.3s;"></i>
+                            </div>
+                        `;
+                        header.onclick = function() { toggleBreakContent(idx); };
+                    }
+                    
                     checkBreakReady();
                 });
                 grid.appendChild(item);
@@ -1941,9 +2158,33 @@ function showBreakModal() {
             }
         }
 
-        wrapper.appendChild(grid);
-        section.appendChild(wrapper);
+        contentWrapper.appendChild(grid);
         content.appendChild(section);
+        
+        // Функция сворачивания/разворачивания
+        function toggleBreakContent(idx) {
+            var contentEl = document.getElementById('breakContent_' + idx);
+            var sectionEl = contentEl.closest('div');
+            var chevron = sectionEl.querySelector('.fa-chevron-down');
+            if (contentEl.style.maxHeight === '0px' || contentEl.style.maxHeight === '') {
+                contentEl.style.maxHeight = contentEl.scrollHeight + 20 + 'px';
+                contentEl.style.padding = '0 16px 16px 16px';
+                if (chevron) chevron.style.transform = 'rotate(180deg)';
+            } else {
+                contentEl.style.maxHeight = '0px';
+                contentEl.style.padding = '0 16px';
+                if (chevron) chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        toggleBtn.onclick = function() { toggleBreakContent(idx); };
+        
+        // Разворачиваем если есть выбор
+        if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
+            setTimeout(function() {
+                toggleBreakContent(idx);
+            }, 100);
+        }
     });
 
     function checkBreakReady() {
@@ -1954,13 +2195,25 @@ function showBreakModal() {
             }
         });
         var confirmBtn = document.getElementById('breakModalConfirm');
-        if (confirmBtn) confirmBtn.disabled = !ready;
+        if (confirmBtn) {
+            confirmBtn.disabled = !ready;
+            if (ready) {
+                confirmBtn.style.background = 'linear-gradient(135deg, #e16d48, #c0392b)';
+                confirmBtn.style.color = '#fff';
+                confirmBtn.style.cursor = 'pointer';
+            } else {
+                confirmBtn.style.background = 'rgba(220,90,50,0.2)';
+                confirmBtn.style.color = '#888';
+                confirmBtn.style.cursor = 'default';
+            }
+        }
     }
     checkBreakReady();
 
     var confirmBtn = document.getElementById('breakModalConfirm');
     if (confirmBtn) {
         confirmBtn.addEventListener('click', function() {
+            if (this.disabled) return;
             escState.players.forEach(function(_, idx) {
                 if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
                     var category = ampCategories.find(function(cat) {
