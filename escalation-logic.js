@@ -1065,14 +1065,14 @@ function showPreviewModal(trialName, mapName, variators, level) {
         animation: fadeInPreview 0.5s ease;
     `;
 
-    // Создаем контент окна
+    // Создаем контент окна - УВЕЛИЧИВАЕМ ШИРИНУ для 8 вариаторов в ряд
     var modalContent = document.createElement('div');
     modalContent.style.cssText = `
         background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px;
-        padding: 40px 50px;
-        max-width: 750px;
-        width: 92%;
+        padding: 35px 45px;
+        max-width: 960px;
+        width: 95%;
         text-align: center;
         border: 1px solid rgba(220, 90, 50, 0.3);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(220, 90, 50, 0.1);
@@ -1114,9 +1114,10 @@ function showPreviewModal(trialName, mapName, variators, level) {
             animation: variatorAppear 0.4s ease forwards;
             opacity: 0;
             transform: scale(0.8);
-            margin: 0 4px;
-            max-width: 80px;
-            min-width: 50px;
+            margin: 0 3px;
+            max-width: 95px;
+            min-width: 60px;
+            flex: 0 1 auto;
         }
         @keyframes variatorAppear {
             from {
@@ -1139,21 +1140,17 @@ function showPreviewModal(trialName, mapName, variators, level) {
             font-weight: 700;
             color: #ffbc9a;
             text-align: center;
-            letter-spacing: 0.3px;
-            max-width: 80px;
+            letter-spacing: 0.2px;
+            max-width: 95px;
             line-height: 1.2;
             word-break: keep-all;
             overflow-wrap: normal;
             white-space: normal;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: block;
         }
         .preview-variator-img {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
             border-radius: 10px;
             background: rgba(0,0,0,0.3);
@@ -1166,17 +1163,17 @@ function showPreviewModal(trialName, mapName, variators, level) {
             flex-wrap: wrap;
             justify-content: center;
             align-items: flex-start;
-            gap: 8px 14px;
-            padding: 16px 0 12px 0;
+            gap: 6px 10px;
+            padding: 14px 0 10px 0;
             border-top: 1px solid rgba(220, 90, 50, 0.15);
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            margin-bottom: 20px;
-            min-height: 90px;
+            margin-bottom: 18px;
+            min-height: 85px;
         }
     `;
     document.head.appendChild(style);
 
-    // Сортируем вариаторы по длине названия (короткие сначала, чтобы длинные не перекрывали)
+    // Сортируем вариаторы по длине названия (короткие сначала)
     var sortedVariators = variators.slice().sort(function(a, b) {
         return a.name.length - b.name.length;
     });
@@ -1187,25 +1184,25 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var delay = index * 0.08;
         
         // Определяем размер шрифта в зависимости от длины названия
-        var fontSize = '0.7rem';
-        var maxWidth = '80px';
-        if (v.name.length > 20) {
-            fontSize = '0.5rem';
-            maxWidth = '70px';
-        } else if (v.name.length > 16) {
-            fontSize = '0.55rem';
-            maxWidth = '75px';
-        } else if (v.name.length > 12) {
-            fontSize = '0.6rem';
+        var fontSize = '0.65rem';
+        var maxWidth = '95px';
+        if (v.name.length > 22) {
+            fontSize = '0.45rem';
             maxWidth = '80px';
-        } else if (v.name.length > 8) {
-            fontSize = '0.65rem';
-            maxWidth = '80px';
+        } else if (v.name.length > 18) {
+            fontSize = '0.48rem';
+            maxWidth = '85px';
+        } else if (v.name.length > 14) {
+            fontSize = '0.52rem';
+            maxWidth = '90px';
+        } else if (v.name.length > 10) {
+            fontSize = '0.58rem';
+            maxWidth = '95px';
         }
         
         return `
             <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: ${maxWidth};">
-                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/50x50/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize}; max-width:${maxWidth};">${nameUpper}</span>
             </div>
         `;
@@ -1245,7 +1242,7 @@ function showPreviewModal(trialName, mapName, variators, level) {
             font-weight: 300;
             color: #c2b9d4;
             letter-spacing: 3px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-transform: uppercase;
         ">${mapName.toUpperCase()}</div>
         <div class="preview-variators-container">
