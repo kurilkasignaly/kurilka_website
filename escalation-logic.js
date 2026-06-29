@@ -100,6 +100,796 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
+// МИНИ-ИГРЫ С АРЛЕКИНО
+// ============================================================
+
+// Состояние для мини-игр
+let gameState = {
+    currentGame: null,
+    playerIndex: null,
+    isPlaying: false,
+    gameResult: null
+};
+
+// Константы для карточек
+var CARD_TYPES = {
+    BUFF: 'buff',
+    DEBUFF: 'debuff',
+    NOTHING: 'nothing'
+};
+
+var BUFFS = [
+    { name: 'Ускорение', desc: 'Скорость передвижения +15%', icon: 'fa-bolt' },
+    { name: 'Броня', desc: 'Получение урона -10%', icon: 'fa-shield-halved' },
+    { name: 'Лечение', desc: 'Восстановление здоровья +20%', icon: 'fa-heart' },
+    { name: 'Удача', desc: 'Шанс критического урона +10%', icon: 'fa-clover' },
+    { name: 'Сила', desc: 'Урон +15%', icon: 'fa-hand-fist' }
+];
+
+var DEBUFFS = [
+    { name: 'Замедление', desc: 'Скорость передвижения -15%', icon: 'fa-snowflake' },
+    { name: 'Уязвимость', desc: 'Получение урона +10%', icon: 'fa-skull' },
+    { name: 'Ослабление', desc: 'Урон -15%', icon: 'fa-weight-hanging' },
+    { name: 'Слабость', desc: 'Здоровье -20%', icon: 'fa-droplet' },
+    { name: 'Проклятие', desc: 'Шанс критического урона -10%', icon: 'fa-wand-sparkles' }
+];
+
+function shuffleArray(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    return arr;
+}
+
+// ============================================================
+// ГЛАВНАЯ ФУНКЦИЯ ЗАПУСКА МИНИ-ИГРЫ
+// ============================================================
+
+function startMiniGame() {
+    // Проверяем, есть ли у кого-то еще выбор амф
+    var hasAvailable = false;
+    escState.players.forEach(function(_, idx) {
+        if (!areAllCategoriesComplete(idx)) {
+            hasAvailable = true;
+        }
+    });
+    
+    if (hasAvailable) {
+        // Если есть кто-то без выбора - сначала показываем перерыв
+        showBreakModal();
+        return;
+    }
+    
+    // Если все выбрали амфы - показываем диалог с Арлекино
+    showGameDialog();
+}
+
+// ============================================================
+// ДИАЛОГ ПЕРЕД ИГРОЙ
+// ============================================================
+
+function showGameDialog() {
+    var playerIndex = Math.floor(Math.random() * escState.players.length);
+    var playerName = escState.players[playerIndex];
+    
+    var overlay = document.createElement('div');
+    overlay.id = 'gameDialogOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2999;
+        animation: fadeInPreview 0.5s ease;
+        padding: 20px;
+    `;
+    
+    var modal = document.createElement('div');
+    modal.style.cssText = `
+        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+        border-radius: 24px;
+        padding: 35px 40px;
+        max-width: 500px;
+        width: 100%;
+        border: 2px solid rgba(220,90,50,0.3);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        animation: slideUpPreview 0.6s ease;
+        text-align: center;
+    `;
+    
+    var jesterPhrases = [
+        'О-хо-хо! Смертный, судьба зовет тебя! Готов ли ты испытать свою удачу?',
+        'Ха-ха-ха! Я, Великий Арлекино, предлагаю тебе игру! Сыграешь со мной?',
+        'Смотри-ка, еще один храбрец! Хочешь проверить, насколько ты удачлив?',
+        'Ой-ой-ой! Какая интересная компания! Кто хочет поиграть с самим Арлекино?',
+        'Тысяча чертей! Я чувствую азарт в воздухе! Кто составит мне компанию?'
+    ];
+    
+    var refusePhrases = [
+        'Ой-ой-ой! Трусишка! Ну да ладно, я и сам поиграю с тенью!',
+        'Ха-ха! Боишься проиграть? Правильно, я бы тоже испугался!',
+        'Как хочешь! Но удача улыбается только смелым!',
+        'Жаль, жаль... А я уже приготовил монетку! Ну да ладно, в другой раз!',
+        'О-хо-хо! Ну и трусишка! Но я не обижаюсь, всем же не угодишь!'
+    ];
+    
+    var randomPhrase = jesterPhrases[Math.floor(Math.random() * jesterPhrases.length)];
+    var randomRefuse = refusePhrases[Math.floor(Math.random() * refusePhrases.length)];
+    
+    modal.innerHTML = `
+        <div style="margin-bottom: 16px;">
+            <i class="fas fa-hat-jester" style="font-size: 3.5rem; color: #e16d48; display: block; margin-bottom: 8px;"></i>
+        </div>
+        <div style="font-size: 1.4rem; font-weight: 700; color: #ffbc9a; margin-bottom: 4px;">Арлекино</div>
+        <div style="font-size: 0.9rem; color: #c2b9d4; margin-bottom: 16px; line-height: 1.6;">
+            <i class="fas fa-quote-left" style="color: #e16d48; opacity: 0.5; margin-right: 4px; font-size: 0.8rem;"></i>
+            ${randomPhrase}
+            <i class="fas fa-quote-right" style="color: #e16d48; opacity: 0.5; margin-left: 4px; font-size: 0.8rem;"></i>
+        </div>
+        <div style="font-size: 0.85rem; color: #888; margin-bottom: 16px;">
+            <i class="fas fa-info-circle" style="color: #e16d48; margin-right: 4px;"></i>
+            ${playerName}, тебе выпала честь!
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <button onclick="acceptGame()" style="padding: 12px 32px; border-radius: 30px; border: none; background: linear-gradient(135deg, #e16d48, #c0392b); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                <i class="fas fa-check"></i> Сыграть!
+            </button>
+            <button onclick="refuseGame('${randomRefuse}')" style="padding: 12px 32px; border-radius: 30px; border: 1px solid rgba(220,90,50,0.2); background: transparent; color: #888; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                <i class="fas fa-times"></i> Не сегодня
+            </button>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    // Сохраняем данные для диалога
+    window._gameDialogOverlay = overlay;
+    window._gameDialogPlayerIndex = playerIndex;
+}
+
+// ============================================================
+// ПРИНЯТИЕ ИГРЫ
+// ============================================================
+
+function acceptGame() {
+    var overlay = document.getElementById('gameDialogOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    // Показываем правила игры перед началом
+    showGameRules();
+}
+
+// ============================================================
+// ОТКАЗ ОТ ИГРЫ
+// ============================================================
+
+function refuseGame(phrase) {
+    var overlay = document.getElementById('gameDialogOverlay');
+    if (overlay) {
+        var modal = overlay.querySelector('div');
+        if (modal) {
+            modal.innerHTML = `
+                <div style="text-align: center; padding: 10px 0;">
+                    <i class="fas fa-hat-jester" style="font-size: 3rem; color: #e16d48; display: block; margin-bottom: 8px;"></i>
+                    <div style="font-size: 1rem; color: #c2b9d4; margin-bottom: 12px; line-height: 1.6;">
+                        <i class="fas fa-quote-left" style="color: #e16d48; opacity: 0.5; margin-right: 4px; font-size: 0.8rem;"></i>
+                        ${phrase}
+                        <i class="fas fa-quote-right" style="color: #e16d48; opacity: 0.5; margin-left: 4px; font-size: 0.8rem;"></i>
+                    </div>
+                    <button onclick="closeGameDialog()" style="padding: 10px 32px; border-radius: 30px; border: none; background: linear-gradient(135deg, #e16d48, #c0392b); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Продолжить</button>
+                </div>
+            `;
+        }
+    }
+}
+
+// ============================================================
+// ЗАКРЫТИЕ ДИАЛОГА
+// ============================================================
+
+function closeGameDialog() {
+    var overlay = document.getElementById('gameDialogOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    // Переходим к результату без игры
+    generateEscResult();
+}
+
+// ============================================================
+// ПОКАЗ ПРАВИЛ ИГРЫ
+// ============================================================
+
+function showGameRules() {
+    // Выбираем случайную игру
+    var gameType = Math.floor(Math.random() * 2);
+    var gameName = gameType === 0 ? 'Карты Судьбы' : 'Орел или Решка';
+    var gameDesc = gameType === 0 
+        ? 'Перед тобой 9 карт. Среди них есть удача, испытание и ничего. Выбери одну и узнай свою судьбу!'
+        : 'Простая игра! Выбери "Орел" или "Решка", и мы подбросим монету. Угадаешь - получишь удачу!';
+    var gameIcon = gameType === 0 ? 'fa-cards' : 'fa-coins';
+    
+    var overlay = document.createElement('div');
+    overlay.id = 'gameRulesOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2998;
+        animation: fadeInPreview 0.5s ease;
+        padding: 20px;
+    `;
+    
+    var modal = document.createElement('div');
+    modal.style.cssText = `
+        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+        border-radius: 24px;
+        padding: 35px 40px;
+        max-width: 480px;
+        width: 100%;
+        border: 2px solid rgba(220,90,50,0.3);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        animation: slideUpPreview 0.6s ease;
+        text-align: center;
+    `;
+    
+    modal.innerHTML = `
+        <div style="margin-bottom: 12px;">
+            <i class="fas ${gameIcon}" style="font-size: 2.5rem; color: #e16d48; display: block; margin-bottom: 8px;"></i>
+        </div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-bottom: 4px;">${gameName}</div>
+        <div style="font-size: 0.9rem; color: #c2b9d4; margin-bottom: 16px; line-height: 1.6;">
+            <i class="fas fa-quote-left" style="color: #e16d48; opacity: 0.5; margin-right: 4px; font-size: 0.8rem;"></i>
+            ${gameDesc}
+            <i class="fas fa-quote-right" style="color: #e16d48; opacity: 0.5; margin-left: 4px; font-size: 0.8rem;"></i>
+        </div>
+        <div style="font-size: 0.85rem; color: #888; margin-bottom: 16px;">
+            <i class="fas fa-clock" style="color: #e16d48; margin-right: 4px;"></i>
+            Готов начать?
+        </div>
+        <button onclick="startSelectedGame(${gameType})" style="padding: 12px 40px; border-radius: 30px; border: none; background: linear-gradient(135deg, #e16d48, #c0392b); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+            <i class="fas fa-play"></i> Начать игру!
+        </button>
+        <div style="margin-top: 12px;">
+            <button onclick="closeRulesDialog()" style="padding: 8px 24px; border-radius: 20px; border: 1px solid rgba(220,90,50,0.2); background: transparent; color: #888; cursor: pointer; font-size: 0.8rem; transition: all 0.3s;">Пропустить</button>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    window._gameRulesOverlay = overlay;
+    window._selectedGameType = gameType;
+}
+
+// ============================================================
+// ЗАКРЫТИЕ ПРАВИЛ
+// ============================================================
+
+function closeRulesDialog() {
+    var overlay = document.getElementById('gameRulesOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    generateEscResult();
+}
+
+// ============================================================
+// ЗАПУСК ВЫБРАННОЙ ИГРЫ
+// ============================================================
+
+function startSelectedGame(gameType) {
+    var overlay = document.getElementById('gameRulesOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+    
+    var playerIndex = Math.floor(Math.random() * escState.players.length);
+    
+    if (gameType === 0) {
+        startCardGame(playerIndex);
+    } else {
+        startCoinGame(playerIndex);
+    }
+}
+
+// ============================================================
+// ИГРА 1: КАРТОЧКИ
+// ============================================================
+
+function startCardGame(playerIndex) {
+    gameState.isPlaying = true;
+    gameState.currentGame = 'cards';
+    gameState.playerIndex = playerIndex;
+    gameState.gameResult = null;
+    
+    var playerName = escState.players[playerIndex];
+    
+    // Создаем затемнение
+    var overlay = document.createElement('div');
+    overlay.id = 'gameOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        animation: fadeInPreview 0.5s ease;
+        padding: 20px;
+        overflow-y: auto;
+    `;
+    
+    // Добавляем стили
+    var style = document.createElement('style');
+    style.textContent = `
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(180deg); }
+        }
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .game-card {
+            perspective: 1000px;
+            width: 110px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+        .game-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .game-card.flipped .game-card-inner {
+            transform: rotateY(180deg);
+        }
+        .game-card-front, .game-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .game-card-front {
+            background: linear-gradient(145deg, #2a1a3e, #1a1a2e);
+            border: 2px solid rgba(220,90,50,0.3);
+            transform: rotateY(0deg);
+        }
+        .game-card-back {
+            background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+            border: 2px solid rgba(220,90,50,0.3);
+            transform: rotateY(180deg);
+        }
+        .game-card-back .card-result-icon {
+            font-size: 2.5rem;
+            margin-bottom: 6px;
+        }
+        .game-card-back .card-result-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #ffbc9a;
+        }
+        .game-card-back .card-result-desc {
+            font-size: 0.65rem;
+            color: #c2b9d4;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Создаем контент
+    var modal = document.createElement('div');
+    modal.style.cssText = `
+        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+        border-radius: 24px;
+        padding: 25px 30px;
+        max-width: 700px;
+        width: 100%;
+        border: 2px solid rgba(220,90,50,0.3);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        animation: slideUpPreview 0.6s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+    `;
+    
+    // Генерируем 9 карточек (3 баффа, 3 дебаффа, 3 ничего)
+    var cards = [];
+    var buffs = shuffleArray(BUFFS.slice()).slice(0, 3);
+    var debuffs = shuffleArray(DEBUFFS.slice()).slice(0, 3);
+    
+    buffs.forEach(function(buff) {
+        cards.push({ type: CARD_TYPES.BUFF, data: buff });
+    });
+    debuffs.forEach(function(debuff) {
+        cards.push({ type: CARD_TYPES.DEBUFF, data: debuff });
+    });
+    for (var i = 0; i < 3; i++) {
+        cards.push({ type: CARD_TYPES.NOTHING, data: null });
+    }
+    
+    cards = shuffleArray(cards);
+    
+    var cardHtml = cards.map(function(card, index) {
+        var backIcon = 'fa-face-smile';
+        var backColor = '#888';
+        var backName = 'Ничего';
+        var backDesc = 'Судьба решила за тебя';
+        
+        if (card.type === CARD_TYPES.BUFF) {
+            backIcon = card.data.icon;
+            backColor = '#2ecc71';
+            backName = card.data.name;
+            backDesc = card.data.desc;
+        } else if (card.type === CARD_TYPES.DEBUFF) {
+            backIcon = card.data.icon;
+            backColor = '#e74c3c';
+            backName = card.data.name;
+            backDesc = card.data.desc;
+        } else {
+            backIcon = 'fa-hat-jester';
+            backColor = '#f1c40f';
+            backName = 'Ничего';
+            backDesc = 'Сегодня твой день!';
+        }
+        
+        return `
+            <div class="game-card" data-index="${index}" onclick="selectCard(${index})">
+                <div class="game-card-inner">
+                    <div class="game-card-front">
+                        <i class="fas fa-question" style="font-size: 2.5rem; color: #e16d48;"></i>
+                        <div style="font-size: 0.65rem; color: #888; margin-top: 6px;">Выбери карту</div>
+                    </div>
+                    <div class="game-card-back">
+                        <i class="fas ${backIcon} card-result-icon" style="color: ${backColor};"></i>
+                        <div class="card-result-name">${backName}</div>
+                        <div class="card-result-desc">${backDesc}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    modal.innerHTML = `
+        <div style="text-align: center; margin-bottom: 16px;">
+            <div style="font-size: 0.7rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">
+                <i class="fas fa-hat-jester" style="color: #e16d48; margin-right: 8px;"></i>
+                Мини-игра
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Карты Судьбы</div>
+            <div style="font-size: 0.8rem; color: #c2b9d4; margin-top: 4px; max-width: 450px; margin-left: auto; margin-right: auto;">
+                <i class="fas fa-quote-left" style="color: #e16d48; opacity: 0.5; margin-right: 4px;"></i>
+                ${playerName}, выбери одну карту... Она может принести удачу или испытание!
+                <i class="fas fa-quote-right" style="color: #e16d48; opacity: 0.5; margin-left: 4px;"></i>
+            </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 400px; margin: 0 auto;">
+            ${cardHtml}
+        </div>
+        <div style="text-align: center; margin-top: 12px; color: #666; font-size: 0.7rem; letter-spacing: 1px;">
+            <i class="fas fa-mouse-pointer"></i> Нажми на карту, чтобы выбрать
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <button onclick="closeGame()" style="padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(220,90,50,0.2); background: transparent; color: #888; cursor: pointer; font-size: 0.75rem; transition: all 0.3s;">Пропустить</button>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    window._gameCards = cards;
+    window._gamePlayerIndex = playerIndex;
+    window._gameOverlay = overlay;
+}
+
+// ============================================================
+// ВЫБОР КАРТЫ
+// ============================================================
+
+function selectCard(index) {
+    if (gameState.gameResult !== null) return;
+    
+    var cards = window._gameCards;
+    var card = cards[index];
+    var overlay = window._gameOverlay;
+    
+    // Переворачиваем выбранную карту
+    var cardElement = document.querySelectorAll('.game-card')[index];
+    if (cardElement) {
+        cardElement.classList.add('flipped');
+    }
+    
+    // Блокируем остальные карты
+    document.querySelectorAll('.game-card').forEach(function(el, i) {
+        if (i !== index) {
+            el.style.opacity = '0.5';
+            el.style.cursor = 'default';
+            el.onclick = null;
+        }
+    });
+    
+    // Определяем результат
+    var resultText = '';
+    var resultColor = '#888';
+    var resultIcon = '';
+    
+    if (card.type === CARD_TYPES.BUFF) {
+        resultText = '🎉 УСПЕХ! Ты получил усиление: ' + card.data.name;
+        resultColor = '#2ecc71';
+        resultIcon = 'fa-bolt';
+        gameState.gameResult = { type: 'buff', data: card.data };
+    } else if (card.type === CARD_TYPES.DEBUFF) {
+        resultText = '😈 ИСПЫТАНИЕ! Ты получил ослабление: ' + card.data.name;
+        resultColor = '#e74c3c';
+        resultIcon = 'fa-skull';
+        gameState.gameResult = { type: 'debuff', data: card.data };
+    } else {
+        resultText = '🍀 УДАЧА! Тебе ничего не выпало... Сегодня ты под защитой!';
+        resultColor = '#f1c40f';
+        resultIcon = 'fa-hat-jester';
+        gameState.gameResult = { type: 'nothing', data: null };
+    }
+    
+    // Показываем результат
+    setTimeout(function() {
+        var resultDiv = document.createElement('div');
+        resultDiv.style.cssText = `
+            text-align: center;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid ${resultColor};
+            animation: cardAppear 0.5s ease;
+        `;
+        resultDiv.innerHTML = `
+            <i class="fas ${resultIcon}" style="font-size: 1.8rem; color: ${resultColor}; display: block; margin-bottom: 6px;"></i>
+            <div style="font-size: 1rem; font-weight: 600; color: ${resultColor};">${resultText}</div>
+            ${card.type !== CARD_TYPES.NOTHING ? `<div style="font-size: 0.75rem; color: #c2b9d4; margin-top: 4px;">${card.data.desc}</div>` : ''}
+            <button onclick="closeGame()" style="margin-top: 10px; padding: 8px 28px; border-radius: 30px; border: none; background: linear-gradient(135deg, #e16d48, #c0392b); color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Продолжить</button>
+        `;
+        
+        var modal = overlay.querySelector('div');
+        if (modal) {
+            modal.appendChild(resultDiv);
+        }
+    }, 800);
+}
+
+// ============================================================
+// ИГРА 2: ОРЕЛ И РЕШКА
+// ============================================================
+
+function startCoinGame(playerIndex) {
+    gameState.isPlaying = true;
+    gameState.currentGame = 'coin';
+    gameState.playerIndex = playerIndex;
+    gameState.gameResult = null;
+    
+    var playerName = escState.players[playerIndex];
+    
+    var overlay = document.createElement('div');
+    overlay.id = 'gameOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+        animation: fadeInPreview 0.5s ease;
+        padding: 20px;
+        overflow-y: auto;
+    `;
+    
+    var style = document.createElement('style');
+    style.textContent = `
+        @keyframes coinFlip {
+            0% { transform: rotateY(0deg) scale(1); }
+            25% { transform: rotateY(720deg) scale(1.1); }
+            50% { transform: rotateY(1440deg) scale(0.9); }
+            75% { transform: rotateY(2160deg) scale(1.1); }
+            100% { transform: rotateY(2880deg) scale(1); }
+        }
+        .coin-animation {
+            animation: coinFlip 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .choice-btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 2px solid rgba(220,90,50,0.3);
+            background: rgba(255,255,255,0.05);
+            color: #ffbc9a;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 100px;
+        }
+        .choice-btn:hover {
+            background: rgba(220,90,50,0.15);
+            border-color: #e16d48;
+            transform: translateY(-2px);
+        }
+        .choice-btn.selected {
+            border-color: #e16d48;
+            background: rgba(220,90,50,0.2);
+        }
+        .choice-btn.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    var modal = document.createElement('div');
+    modal.className = 'amp-modal';
+    modal.style.cssText = `
+        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+        border-radius: 24px;
+        padding: 25px 30px;
+        max-width: 500px;
+        width: 100%;
+        border: 2px solid rgba(220,90,50,0.3);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        animation: slideUpPreview 0.6s ease;
+    `;
+    
+    modal.innerHTML = `
+        <div style="text-align: center; margin-bottom: 16px;">
+            <div style="font-size: 0.7rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">
+                <i class="fas fa-coins" style="color: #e16d48; margin-right: 8px;"></i>
+                Мини-игра
+            </div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Орел или Решка</div>
+            <div style="font-size: 0.8rem; color: #c2b9d4; margin-top: 4px;">
+                <i class="fas fa-quote-left" style="color: #e16d48; opacity: 0.5; margin-right: 4px;"></i>
+                ${playerName}, сделай свой выбор... Судьба бросит монету!
+                <i class="fas fa-quote-right" style="color: #e16d48; opacity: 0.5; margin-left: 4px;"></i>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 15px; margin: 16px 0;">
+            <button class="choice-btn" data-choice="heads" onclick="coinChoice('heads')">
+                <i class="fas fa-crown" style="color: #f1c40f; margin-right: 8px;"></i>
+                Орел
+            </button>
+            <button class="choice-btn" data-choice="tails" onclick="coinChoice('tails')">
+                <i class="fas fa-feather" style="color: #3498db; margin-right: 8px;"></i>
+                Решка
+            </button>
+        </div>
+        <div id="coinResult" style="text-align: center; min-height: 80px; display: none;">
+            <div id="coinDisplay" style="font-size: 4rem; margin: 8px 0;">🪙</div>
+            <div id="coinText" style="font-size: 1.1rem; font-weight: 600;"></div>
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <button onclick="closeGame()" style="padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(220,90,50,0.2); background: transparent; color: #888; cursor: pointer; font-size: 0.75rem; transition: all 0.3s;">Пропустить</button>
+        </div>
+    `;
+    
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    window._coinOverlay = overlay;
+    window._coinPlayerIndex = playerIndex;
+    window._coinChoice = null;
+    window._coinResult = null;
+}
+
+// ============================================================
+// ВЫБОР В ИГРЕ ОРЕЛ/РЕШКА
+// ============================================================
+
+function coinChoice(choice) {
+    if (window._coinResult !== null) return;
+    
+    window._coinChoice = choice;
+    
+    // Подсвечиваем выбор
+    document.querySelectorAll('.choice-btn').forEach(function(el) {
+        el.classList.add('disabled');
+        if (el.dataset.choice === choice) {
+            el.classList.add('selected');
+        }
+    });
+    
+    // Определяем результат (случайно)
+    var result = Math.random() < 0.5 ? 'heads' : 'tails';
+    window._coinResult = result;
+    
+    var isWin = choice === result;
+    var resultText = isWin ? '🎉 ПОБЕДА!' : '😔 ПОВЕЗЛО В ДРУГОЙ РАЗ...';
+    var resultColor = isWin ? '#2ecc71' : '#e74c3c';
+    var coinDisplay = result === 'heads' ? '👑' : '🪶';
+    var coinName = result === 'heads' ? 'ОРЕЛ' : 'РЕШКА';
+    
+    var resultDiv = document.getElementById('coinResult');
+    var coinDisplayEl = document.getElementById('coinDisplay');
+    var coinTextEl = document.getElementById('coinText');
+    
+    resultDiv.style.display = 'block';
+    
+    // Анимация монеты
+    coinDisplayEl.className = 'coin-animation';
+    coinDisplayEl.textContent = '🪙';
+    
+    setTimeout(function() {
+        coinDisplayEl.textContent = coinDisplay;
+        coinDisplayEl.className = '';
+        coinTextEl.innerHTML = `
+            <div style="color: ${resultColor}; font-size: 1.3rem; margin-bottom: 4px;">${resultText}</div>
+            <div style="color: #c2b9d4; font-size: 0.85rem;">Выпало: <strong style="color: #ffbc9a;">${coinName}</strong></div>
+            <div style="color: #888; font-size: 0.75rem; margin-top: 6px;">
+                ${isWin ? 'Ты угадал! 🍀' : 'В следующий раз повезет! 😄'}
+            </div>
+            <button onclick="closeGame()" style="margin-top: 10px; padding: 8px 28px; border-radius: 30px; border: none; background: linear-gradient(135deg, #e16d48, #c0392b); color: #fff; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s;">Продолжить</button>
+        `;
+        
+        gameState.gameResult = { type: 'coin', choice: choice, result: result, isWin: isWin };
+    }, 2000);
+}
+
+// ============================================================
+// ЗАКРЫТИЕ ИГРЫ
+// ============================================================
+
+function closeGame() {
+    var overlay = document.getElementById('gameOverlay');
+    if (overlay) {
+        overlay.style.animation = 'slideDownPreview 0.3s ease forwards';
+        setTimeout(function() {
+            overlay.remove();
+            gameState.isPlaying = false;
+            // Показываем результат эскалации
+            generateEscResult();
+        }, 300);
+    }
+}
+
+// ============================================================
+// ФУНКЦИИ ДЛЯ РАБОТЫ С АМФАМИ (ПРОДОЛЖЕНИЕ)
+// ============================================================
+
+// ... (остальные функции остаются без изменений)
+
+// ============================================================
 // ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
 // ============================================================
 
@@ -904,7 +1694,8 @@ function initEscalation() {
                     }
                 });
             });
-            generateEscResult();
+            // Запускаем мини-игру вместо прямого показа результата
+            startMiniGame();
         });
     }
 
@@ -920,7 +1711,8 @@ function initEscalation() {
             
             if (allComplete) {
                 alert('Не осталось выбора улучшения. Все улучшения были применены.');
-                generateEscResult();
+                // Запускаем мини-игру
+                startMiniGame();
             } else {
                 showBreakModal();
             }
@@ -1227,6 +2019,203 @@ function renderEscAmps() {
 function checkEscAmpsReady() {
     var btn = document.getElementById('escStep4Next');
     if (btn) btn.disabled = false;
+}
+
+// ============================================================
+// ПЕРЕРЫВ (выбор амф) БЕЗ ШТОРОК
+// ============================================================
+
+function showBreakModal() {
+    var hasAvailable = false;
+    escState.players.forEach(function(_, idx) {
+        if (!areAllCategoriesComplete(idx)) {
+            hasAvailable = true;
+        }
+    });
+
+    if (!hasAvailable) {
+        alert('Не осталось выбора улучшения. Все улучшения были применены.');
+        startMiniGame();
+        return;
+    }
+
+    var oldModal = document.getElementById('breakModal');
+    if (oldModal) {
+        oldModal.remove();
+    }
+
+    var overlay = document.createElement('div');
+    overlay.className = 'amp-modal-overlay active';
+    overlay.id = 'breakModal';
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; overflow-y: auto; padding: 20px;';
+
+    var modal = document.createElement('div');
+    modal.className = 'amp-modal';
+    modal.style.cssText = 'background: linear-gradient(145deg, #1a1a2e, #2a1a3e); border-radius: 24px; padding: 30px 35px; max-width: 900px; width: 100%; border: 1px solid rgba(220,90,50,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;';
+
+    modal.innerHTML = `
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;"><i class="fas fa-coffee"></i> Перерыв</div>
+            <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор АМФ</div>
+            <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку нужно выбрать 1 амфу из доступной категории</div>
+        </div>
+        <div id="breakModalContent" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="breakModalConfirm" disabled style="padding: 12px 40px; border-radius: 30px; border: none; background: rgba(220,90,50,0.2); color: #888; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; letter-spacing: 1px;">Продолжить →</button>
+        </div>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    var content = document.getElementById('breakModalContent');
+    var breakSelections = {};
+
+    escState.players.forEach(function(player, idx) {
+        var section = document.createElement('div');
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
+        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
+        section.appendChild(title);
+
+        if (areAllCategoriesComplete(idx)) {
+            var completeMsg = document.createElement('div');
+            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
+            completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
+            section.appendChild(completeMsg);
+            content.appendChild(section);
+            breakSelections[idx] = null;
+            return;
+        }
+
+        var availableCategories = ampCategories.filter(function(cat) {
+            return !isCategoryComplete(idx, cat);
+        });
+        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+        
+        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
+        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
+        var displayAmps = shuffled.slice(0, 3);
+
+        var catLabel = document.createElement('div');
+        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
+        section.appendChild(catLabel);
+
+        var wrapper = document.createElement('div');
+        wrapper.className = 'selection-wrapper';
+
+        var grid = document.createElement('div');
+        grid.className = 'selection-grid';
+        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
+
+        breakSelections[idx] = null;
+
+        if (displayAmps.length === 0) {
+            for (var i = 0; i < 3; i++) {
+                var emptyItem = document.createElement('div');
+                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                emptyItem.innerHTML = `
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                `;
+                grid.appendChild(emptyItem);
+            }
+            breakSelections[idx] = 'skip';
+        } else {
+            displayAmps.forEach(function(amp) {
+                var item = document.createElement('div');
+                item.className = 'selection-item';
+                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
+                item.innerHTML = `
+                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
+                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
+                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
+                `;
+                item.addEventListener('click', function() {
+                    grid.querySelectorAll('.selection-item').forEach(function(el) {
+                        el.style.borderColor = 'rgba(255,255,255,0.06)';
+                        el.style.background = 'rgba(255,255,255,0.03)';
+                    });
+                    this.style.borderColor = '#e16d48';
+                    this.style.background = 'rgba(220,90,50,0.1)';
+                    breakSelections[idx] = amp.name;
+                    unlockAmpForPlayer(idx, amp.name);
+                    checkBreakReady();
+                });
+                grid.appendChild(item);
+            });
+            
+            if (displayAmps.length < 3) {
+                for (var j = displayAmps.length; j < 3; j++) {
+                    var emptyItem = document.createElement('div');
+                    emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                    emptyItem.innerHTML = `
+                        <div style="font-size: 2rem; color: #555;">⛔</div>
+                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                    `;
+                    grid.appendChild(emptyItem);
+                }
+            }
+        }
+
+        wrapper.appendChild(grid);
+        section.appendChild(wrapper);
+        content.appendChild(section);
+    });
+
+    function checkBreakReady() {
+        var ready = true;
+        escState.players.forEach(function(_, idx) {
+            if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) {
+                ready = false;
+            }
+        });
+        var confirmBtn = document.getElementById('breakModalConfirm');
+        if (confirmBtn) {
+            confirmBtn.disabled = !ready;
+            if (ready) {
+                confirmBtn.style.background = 'linear-gradient(135deg, #e16d48, #c0392b)';
+                confirmBtn.style.color = '#fff';
+                confirmBtn.style.cursor = 'pointer';
+            } else {
+                confirmBtn.style.background = 'rgba(220,90,50,0.2)';
+                confirmBtn.style.color = '#888';
+                confirmBtn.style.cursor = 'default';
+            }
+        }
+    }
+    checkBreakReady();
+
+    var confirmBtn = document.getElementById('breakModalConfirm');
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+            if (this.disabled) return;
+            escState.players.forEach(function(_, idx) {
+                if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
+                    var category = ampCategories.find(function(cat) {
+                        var amp = ampsData.find(function(a) { return a.name === breakSelections[idx]; });
+                        return amp && amp.category === cat;
+                    });
+                    if (category) {
+                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+                        escState.ampSelections[idx][category] = breakSelections[idx];
+                        
+                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                        if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
+                            escState.usedAmps[idx].push(breakSelections[idx]);
+                        }
+                        unlockAmpForPlayer(idx, breakSelections[idx]);
+                    }
+                }
+            });
+            overlay.remove();
+            // После перерыва запускаем мини-игру
+            startMiniGame();
+        });
+    }
 }
 
 // ============================================================
@@ -2051,202 +3040,6 @@ function renderAmpModalGrid(playerIndex, category) {
 
     var confirmBtn = document.getElementById('ampModalConfirm');
     if (confirmBtn) confirmBtn.disabled = true;
-}
-
-// ============================================================
-// ПЕРЕРЫВ (выбор амф) БЕЗ ШТОРОК
-// ============================================================
-
-function showBreakModal() {
-    var hasAvailable = false;
-    escState.players.forEach(function(_, idx) {
-        if (!areAllCategoriesComplete(idx)) {
-            hasAvailable = true;
-        }
-    });
-
-    if (!hasAvailable) {
-        alert('Не осталось выбора улучшения. Все улучшения были применены.');
-        generateEscResult();
-        return;
-    }
-
-    var oldModal = document.getElementById('breakModal');
-    if (oldModal) {
-        oldModal.remove();
-    }
-
-    var overlay = document.createElement('div');
-    overlay.className = 'amp-modal-overlay active';
-    overlay.id = 'breakModal';
-    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; overflow-y: auto; padding: 20px;';
-
-    var modal = document.createElement('div');
-    modal.className = 'amp-modal';
-    modal.style.cssText = 'background: linear-gradient(145deg, #1a1a2e, #2a1a3e); border-radius: 24px; padding: 30px 35px; max-width: 900px; width: 100%; border: 1px solid rgba(220,90,50,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto;';
-
-    modal.innerHTML = `
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;"><i class="fas fa-coffee"></i> Перерыв</div>
-            <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор АМФ</div>
-            <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку нужно выбрать 1 амфу из доступной категории</div>
-        </div>
-        <div id="breakModalContent" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px;"></div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button id="breakModalConfirm" disabled style="padding: 12px 40px; border-radius: 30px; border: none; background: rgba(220,90,50,0.2); color: #888; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; letter-spacing: 1px;">Продолжить →</button>
-        </div>
-    `;
-
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-
-    var content = document.getElementById('breakModalContent');
-    var breakSelections = {};
-
-    escState.players.forEach(function(player, idx) {
-        var section = document.createElement('div');
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
-        
-        var title = document.createElement('div');
-        title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
-        title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
-        section.appendChild(title);
-
-        if (areAllCategoriesComplete(idx)) {
-            var completeMsg = document.createElement('div');
-            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
-            completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            section.appendChild(completeMsg);
-            content.appendChild(section);
-            breakSelections[idx] = null;
-            return;
-        }
-
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(idx, cat);
-        });
-        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-        
-        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
-        var displayAmps = shuffled.slice(0, 3);
-
-        var catLabel = document.createElement('div');
-        catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
-        section.appendChild(catLabel);
-
-        var wrapper = document.createElement('div');
-        wrapper.className = 'selection-wrapper';
-
-        var grid = document.createElement('div');
-        grid.className = 'selection-grid';
-        grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-
-        breakSelections[idx] = null;
-
-        if (displayAmps.length === 0) {
-            for (var i = 0; i < 3; i++) {
-                var emptyItem = document.createElement('div');
-                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `
-                    <div style="font-size: 2rem; color: #555;">⛔</div>
-                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                `;
-                grid.appendChild(emptyItem);
-            }
-            breakSelections[idx] = 'skip';
-        } else {
-            displayAmps.forEach(function(amp) {
-                var item = document.createElement('div');
-                item.className = 'selection-item';
-                item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-                item.innerHTML = `
-                    <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
-                    <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
-                    <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
-                `;
-                item.addEventListener('click', function() {
-                    grid.querySelectorAll('.selection-item').forEach(function(el) {
-                        el.style.borderColor = 'rgba(255,255,255,0.06)';
-                        el.style.background = 'rgba(255,255,255,0.03)';
-                    });
-                    this.style.borderColor = '#e16d48';
-                    this.style.background = 'rgba(220,90,50,0.1)';
-                    breakSelections[idx] = amp.name;
-                    unlockAmpForPlayer(idx, amp.name);
-                    checkBreakReady();
-                });
-                grid.appendChild(item);
-            });
-            
-            if (displayAmps.length < 3) {
-                for (var j = displayAmps.length; j < 3; j++) {
-                    var emptyItem = document.createElement('div');
-                    emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                    emptyItem.innerHTML = `
-                        <div style="font-size: 2rem; color: #555;">⛔</div>
-                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                    `;
-                    grid.appendChild(emptyItem);
-                }
-            }
-        }
-
-        wrapper.appendChild(grid);
-        section.appendChild(wrapper);
-        content.appendChild(section);
-    });
-
-    function checkBreakReady() {
-        var ready = true;
-        escState.players.forEach(function(_, idx) {
-            if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) {
-                ready = false;
-            }
-        });
-        var confirmBtn = document.getElementById('breakModalConfirm');
-        if (confirmBtn) {
-            confirmBtn.disabled = !ready;
-            if (ready) {
-                confirmBtn.style.background = 'linear-gradient(135deg, #e16d48, #c0392b)';
-                confirmBtn.style.color = '#fff';
-                confirmBtn.style.cursor = 'pointer';
-            } else {
-                confirmBtn.style.background = 'rgba(220,90,50,0.2)';
-                confirmBtn.style.color = '#888';
-                confirmBtn.style.cursor = 'default';
-            }
-        }
-    }
-    checkBreakReady();
-
-    var confirmBtn = document.getElementById('breakModalConfirm');
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
-            if (this.disabled) return;
-            escState.players.forEach(function(_, idx) {
-                if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
-                    var category = ampCategories.find(function(cat) {
-                        var amp = ampsData.find(function(a) { return a.name === breakSelections[idx]; });
-                        return amp && amp.category === cat;
-                    });
-                    if (category) {
-                        if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                        escState.ampSelections[idx][category] = breakSelections[idx];
-                        
-                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                        if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
-                            escState.usedAmps[idx].push(breakSelections[idx]);
-                        }
-                        unlockAmpForPlayer(idx, breakSelections[idx]);
-                    }
-                }
-            });
-            overlay.remove();
-            generateEscResult();
-        });
-    }
 }
 
 // ============================================================
