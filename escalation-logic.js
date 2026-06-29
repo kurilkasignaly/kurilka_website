@@ -103,10 +103,9 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 // ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
 // ============================================================
 
-function isVariatorCompatible(variator, selectedVariators, mapName, playerCount, level) {
+function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
-    var trialName = escState.trial ? escState.trial.name : '';
     
     // Проверка на дубликаты
     if (selectedNames.indexOf(variatorName) !== -1) {
@@ -117,10 +116,29 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     // НОВЫЕ ПРАВИЛА СОВМЕСТИМОСТИ
     // ============================================================
     
-    // ПРАВИЛО: Все на выход не может попадаться на испытаниях "Раздавите бригадира" и "Устранение устаревшего оборудования"
+    // ПРАВИЛО: Все на выход не может попадаться на испытании "Устранение устаревшего оборудования"
     if (variatorName === 'Все На Выход') {
-        var blockedTrials = ['Раздавите бригадира', 'Устранение устаревшего оборудования'];
-        if (blockedTrials.indexOf(trialName) !== -1) {
+        var blockedTrialsForAllExit = ['Устранение устаревшего оборудования'];
+        if (blockedTrialsForAllExit.indexOf(trialName) !== -1) {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Таймер Бомбы не может попадаться на испытании "Устранение устаревшего оборудования"
+    if (variatorName === 'Таймер Бомбы') {
+        if (trialName === 'Устранение устаревшего оборудования') {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Глубокий Ожог не совместим с Вечная Мерзлота и Резкое Похолодание
+    if (variatorName === 'Глубокий Ожог') {
+        if (selectedNames.indexOf('Вечная Мерзлота') !== -1 || selectedNames.indexOf('Резкое Похолодание') !== -1) {
+            return false;
+        }
+    }
+    if (selectedNames.indexOf('Глубокий Ожог') !== -1) {
+        if (variatorName === 'Вечная Мерзлота' || variatorName === 'Резкое Похолодание') {
             return false;
         }
     }
@@ -162,14 +180,26 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         }
     }
     
-    // ПРАВИЛО: Вечная Мерзлота не совместима с Резкое Похолодание и Токсический Шок
+    // ПРАВИЛО: Вечная Мерзлота не совместима с Резкое Похолодание, Токсический Шок и Глубокий Ожог
     if (variatorName === 'Вечная Мерзлота') {
-        if (selectedNames.indexOf('Резкое Похолодание') !== -1 || selectedNames.indexOf('Токсический Шок') !== -1) {
+        if (selectedNames.indexOf('Резкое Похолодание') !== -1 || selectedNames.indexOf('Токсический Шок') !== -1 || selectedNames.indexOf('Глубокий Ожог') !== -1) {
             return false;
         }
     }
     if (selectedNames.indexOf('Вечная Мерзлота') !== -1) {
-        if (variatorName === 'Резкое Похолодание' || variatorName === 'Токсический Шок') {
+        if (variatorName === 'Резкое Похолодание' || variatorName === 'Токсический Шок' || variatorName === 'Глубокий Ожог') {
+            return false;
+        }
+    }
+    
+    // ПРАВИЛО: Резкое Похолодание не совместимо с Глубокий Ожог и Вечная Мерзлота
+    if (variatorName === 'Резкое Похолодание') {
+        if (selectedNames.indexOf('Глубокий Ожог') !== -1 || selectedNames.indexOf('Вечная Мерзлота') !== -1) {
+            return false;
+        }
+    }
+    if (selectedNames.indexOf('Резкое Похолодание') !== -1) {
+        if (variatorName === 'Глубокий Ожог' || variatorName === 'Вечная Мерзлота') {
             return false;
         }
     }
@@ -197,13 +227,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
     }
     if (selectedNames.indexOf('Самое Главное') !== -1 || selectedNames.indexOf('Главная Рулетка') !== -1) {
         if (samoGlavnoeBlocked.indexOf(variatorName) !== -1) {
-            return false;
-        }
-    }
-    
-    // ПРАВИЛО: Таймер Бомбы не совместим с испытанием "Устранение устаревшего оборудования"
-    if (variatorName === 'Таймер Бомбы') {
-        if (trialName === 'Устранение устаревшего оборудования') {
             return false;
         }
     }
@@ -237,12 +260,7 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
         'Запертые Двери',
         'Забитые Двери',
         'Заблокированные Двери',
-        'Закрытые Откатные Ворота',
-        'Ворота С Детектором Звука',
-        'Дистанционные Ворота',
-        'Бесконтактные Ворота',
-        'Времянные Ворота',
-        'Закрытые Ворота'
+        'Закрытые Откатные Ворота'
     ];
     
     if (doorsAndPassages.indexOf(variatorName) !== -1) {
@@ -330,21 +348,6 @@ function isVariatorCompatible(variator, selectedVariators, mapName, playerCount,
             if (selectedVariators[cs2].category === 'collection') {
                 return false;
             }
-        }
-    }
-    
-    // Правило 9: Боссы ограничены по картам
-    var bossMapRestrictions = {
-        'Лиланд Койл': ['Полицейский участок', 'Здание суда'],
-        'Матушка Гуссбери': ['Парк развлечений', 'Детский дом', 'Фабрика игрушек'],
-        'Франко Барби': ['Пристань', 'Центр города', 'Пригород'],
-        'Близнецы Кресс': ['Торговый центр', 'Телестудия'],
-        'Лилия Богомолова': ['Курорт']
-    };
-    if (bossMapRestrictions[variatorName]) {
-        var restrictedMaps = bossMapRestrictions[variatorName];
-        if (restrictedMaps.indexOf(mapName) !== -1) {
-            return false;
         }
     }
     
@@ -534,6 +537,9 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         });
     }
     
+    // Получаем название испытания из escState
+    var trialName = escState.trial ? escState.trial.name : '';
+    
     // Уровень 21+
     if (level >= 21) {
         console.log('🎯 Уровень 21+ - 8 вариаторов');
@@ -566,7 +572,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         
         for (var i = 0; i < shuffled.length && result.length < 8; i++) {
             var candidate = shuffled[i];
-            if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
+            if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
                 result.push(candidate);
                 console.log('✅ Добавлен:', candidate.name);
             }
@@ -590,7 +596,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         return result;
     }
     
-    // Уровни 1-20 - НОВАЯ ЛОГИКА КОЛИЧЕСТВА ВАРИАТОРОВ
+    // Уровни 1-20
     var count;
     if (level === 1) {
         count = 2;
@@ -623,7 +629,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     
     for (var k = 0; k < shuffled.length && result.length < count; k++) {
         var candidate = shuffled[k];
-        if (isVariatorCompatible(candidate, result, mapName, playerCount, level)) {
+        if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
             result.push(candidate);
         }
     }
