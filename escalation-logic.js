@@ -512,6 +512,21 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     
     var availableVariators = allVariatorsData.slice();
     
+    // ============================================================
+    // ИСКЛЮЧЕННЫЕ ВАРИАТОРЫ (НИКОГДА НЕ ВЫПАДАЮТ)
+    // ============================================================
+    var excludedVariators = [
+        'Ворота С Детектором Звука',
+        'Дистанционные Ворота',
+        'Бесконтактные Ворота',
+        'Времянные Ворота',
+        'Закрытые Ворота'
+    ];
+    
+    availableVariators = availableVariators.filter(function(v) {
+        return excludedVariators.indexOf(v.name) === -1;
+    });
+    
     // Если уровень > 5, удаляем "Низкая Плотность Врагов" из доступных
     if (level > 5) {
         availableVariators = availableVariators.filter(function(v) {
