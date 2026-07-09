@@ -2,218 +2,179 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Новости - The Outlast Trials RU</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Новости — Курилка Синьялы | The Outlast Trials</title>
   <link rel="icon" href="logo.png" sizes="any">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      font-weight: 380;
     }
 
     body {
-      background-color: #0a0a0f;
-      color: #f0f0f0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f0eef7;
+      overflow-x: hidden;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      font-weight: 380;
+      position: relative;
     }
 
-    /* Модальное окно для просмотра изображений */
-    .image-modal {
-      display: none;
+    /* Видео фон */
+    .video-background {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.95);
-      z-index: 10000;
-      cursor: pointer;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(5px);
-    }
-
-    .image-modal.active {
-      display: flex;
-    }
-
-    .image-modal img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .image-modal-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 40px;
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 10001;
-    }
-
-    .image-modal-close:hover {
-      color: #ff6b6b;
-      transform: scale(1.1);
-    }
-
-    /* Основной контейнер с фоновым изображением */
-    .main-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      object-fit: cover;
       z-index: -2;
     }
 
-    /* Фон для ПК */
-    .bg-image {
-      position: absolute;
+    body::after {
+      content: "";
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('bg-prime-time.png');
-      background-size: cover;
-      background-position: center 50px;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: -1;
     }
 
-    /* Фон для мобильных устройств */
-    .bg-image-mobile {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-repeat: no-repeat;
+    @keyframes floatSmoke {
+      0% { transform: translateY(0) scale(1); opacity: 0; }
+      20% { opacity: 0.2; }
+      80% { opacity: 0.1; }
+      100% { transform: translateY(-200px) scale(2.5); opacity: 0; }
     }
 
-    .bg-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, 
-        rgba(10, 10, 15, 0.85) 0%, 
-        rgba(26, 26, 46, 0.8) 50%, 
-        rgba(22, 33, 62, 0.75) 100%);
+    .smoke-particle {
+      position: fixed;
+      bottom: -50px;
+      background: radial-gradient(circle, rgba(220,90,50,0.12) 0%, rgba(220,90,50,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatSmoke linear infinite;
     }
 
-    /* Навбар - адаптивный */
-    .navbar {
-      background-color: rgba(26, 26, 46, 0.9);
-      padding: 15px 20px;
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    @keyframes smokePulse {
+      0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+      50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+      100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 1.8rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Header */
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #ff2a2a;
-      box-shadow: 0 4px 12px rgba(255, 42, 42, 0.3);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+      padding: 1.2rem 2rem;
+      background: rgba(8, 6, 15, 0.5);
+      backdrop-filter: blur(16px);
+      border-radius: 80px;
+      margin-bottom: 2rem;
+      gap: 1rem;
+      border: 1px solid rgba(220, 90, 50, 0.25);
+      animation: fadeInScale 0.6s ease-out;
+      transition: all 0.3s;
     }
 
-    .nav-left {
+    .header:hover {
+      border-color: rgba(220, 90, 50, 0.5);
+      box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+    }
+
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: smokePulse 3s ease-in-out infinite;
+    }
+
+    .logo p {
+      font-size: 0.8rem;
+      color: #c2b9d4;
       display: flex;
       align-items: center;
+      gap: 8px;
     }
 
-    .logo {
+    /* Навигация */
+    .nav-links {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+      background: rgba(15, 10, 20, 0.4);
+      backdrop-filter: blur(12px);
+      padding: 0.6rem 1.3rem;
+      border-radius: 60px;
+      border: 1px solid rgba(210, 100, 55, 0.25);
     }
 
-    .logo-img {
-      height: 45px;
-      width: auto;
-      border-radius: 8px;
-    }
-
-    .site-name {
-      font-size: 20px;
-      font-weight: 500;
-      color: #ff2a2a;
-      text-shadow: 0 0 10px rgba(255, 42, 42, 0.5);
-    }
-
-    .nav-right {
-      display: flex;
-    }
-
-    .nav-menu {
-      display: flex;
-      list-style: none;
-      gap: 15px;
-    }
-
-    .nav-menu li a {
-      color: #f0f0f0;
-      text-decoration: none;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 5px;
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
       transition: all 0.3s ease;
-      display: flex;
+      color: #e2d9f0;
+      font-family: inherit;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-weight: 400;
-      background-color: rgba(40, 41, 45, 0.5);
+      gap: 8px;
+      text-decoration: none;
     }
 
-    .nav-menu li a:hover {
-      background-color: #ff2a2a;
+    .nav-btn:hover {
       color: white;
       transform: translateY(-2px);
+      text-shadow: 0 0 6px rgba(220,90,50,0.4);
     }
 
-    .nav-menu li a.active {
-      background-color: #ff2a2a;
+    .nav-btn.active {
+      background: linear-gradient(135deg, #bc4627, #e25d32);
       color: white;
+      box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
     }
 
-    /* Мобильное меню */
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: #f0f0f0;
-      font-size: 24px;
-      cursor: pointer;
-      padding: 5px;
-      z-index: 1001;
+    /* Бейдж для новостей */
+    .news-badge {
+      margin-left: 4px;
+      background: #ff2a2a;
+      color: white;
+      border-radius: 10px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 700;
     }
 
     /* Основной контент */
-    .content {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 15px;
-      flex: 1;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
-
     .page-header {
       text-align: center;
       padding: 20px 0;
@@ -224,56 +185,46 @@
     }
 
     .page-title {
-      color: #f0f0f0;
-      font-size: 42px;
-      margin-bottom: 15px;
-      letter-spacing: 1.2px;
-      font-weight: 700;
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateY(-30px);
-      transition: opacity 1s ease, transform 1s ease;
-      font-size: 5rem;
-      text-shadow: 0 0 15px #252dfa, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, -1px -1px 0 #fff;
-      margin-bottom: 40px;
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: smokePulse 3s ease-in-out infinite;
+      margin-bottom: 20px;
     }
 
     .page-title i {
-      font-size: 2.5rem;
-      color: #ff6b6b;
-      text-shadow: 0 0 8px #ff6b6b;
+      color: #e25d32;
+      text-shadow: 0 0 20px rgba(225, 93, 50, 0.4);
     }
 
     .page-description {
-      font-size: 1.1rem;
-      color: #f0f0f0;
+      font-size: 1.05rem;
+      color: #d1cce6;
       max-width: 800px;
       margin: 0 auto;
-      line-height: 1.5;
-      padding: 15px 20px;
+      line-height: 1.6;
+      padding: 18px 24px;
       text-align: center;
-      background-color: rgba(40, 41, 45, 0.7);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      backdrop-filter: blur(5px);
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease 0.2s, transform 1s ease 0.2s;
-      font-weight: 380;
+      background: rgba(30, 23, 43, 0.5);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(220, 90, 50, 0.25);
     }
 
-    /* Панель фильтров для новостей */
+    /* Панель фильтров */
     .filter-panel {
-      background-color: rgba(30, 31, 34, 0.9);
-      border-radius: 8px;
-      padding: 15px;
+      background: rgba(18, 12, 28, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 20px 24px;
       margin-bottom: 20px;
-      border: 2px solid rgba(255, 107, 107, 0.4);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(220, 90, 50, 0.25);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
-      backdrop-filter: blur(5px);
     }
 
     .filter-container {
@@ -283,203 +234,186 @@
       align-items: center;
       justify-content: center;
       min-height: 50px;
-      min-width: 0;
     }
 
-    /* Поле поиска */
     .search-box {
       position: relative;
       flex: 1;
-      min-width: 250px;
-      height: 40px;
-      display: flex;
-      align-items: center;
+      min-width: 220px;
+      height: 44px;
     }
 
     .search-icon {
       position: absolute;
-      left: 10px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: #ff6b6b;
+      color: #e25d32;
       font-size: 0.9rem;
-      z-index: 2;
     }
 
     .search-input {
       width: 100%;
       height: 100%;
-      padding: 0 35px 0 30px;
-      background-color: rgba(40, 41, 45, 0.8);
-      border: 1px solid rgba(255, 107, 107, 0.5);
-      border-radius: 6px;
-      color: white;
+      padding: 0 40px 0 40px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
       font-size: 0.9rem;
       transition: all 0.3s ease;
-      box-sizing: border-box;
-      font-weight: 380;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .search-input:focus {
       outline: none;
-      border-color: #ff6b6b;
-      box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
     }
 
     .clear-btn {
       position: absolute;
-      right: 8px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
       border: none;
-      color: #ff6b6b;
+      color: #888;
       cursor: pointer;
       font-size: 0.9rem;
       padding: 4px;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      z-index: 2;
     }
 
     .clear-btn:hover {
-      color: #ff8e8e;
-      transform: translateY(-50%) scale(1.1);
+      color: #e25d32;
     }
 
-    /* Фильтр категорий новостей */
     .category-filter {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
       flex: 1;
-      min-width: 200px;
-      height: 40px;
+      min-width: 180px;
+      height: 44px;
     }
 
     .filter-label {
-      color: #f0f0f0;
+      color: #c2b9d4;
       font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-weight: 500;
       white-space: nowrap;
-      height: 100%;
-      align-items: center;
-      font-weight: 400;
+    }
+
+    .filter-label i {
+      color: #e25d32;
     }
 
     .category-select {
       flex: 1;
-      padding: 0 10px;
-      height: 40px;
-      background-color: rgba(40, 41, 45, 0.8);
-      border: 1px solid rgba(255, 107, 107, 0.5);
-      border-radius: 6px;
-      color: white;
+      padding: 0 14px;
+      height: 44px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
       font-size: 0.85rem;
       cursor: pointer;
-      box-sizing: border-box;
-      font-weight: 380;
-      min-width: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all 0.3s ease;
     }
 
-    /* Кнопки действий */
+    .category-select:focus {
+      outline: none;
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
+    }
+
     .filter-actions {
       display: flex;
       align-items: center;
       gap: 12px;
       flex: 1;
-      min-width: 250px;
+      min-width: 200px;
       justify-content: flex-end;
     }
 
     .reset-btn {
-      padding: 0 8px;
-      height: 40px;
-      background: linear-gradient(135deg, #ff6b6b, #ff4757);
+      padding: 0 20px;
+      height: 44px;
+      background: linear-gradient(135deg, #bc4627, #e25d32);
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
-      box-sizing: border-box;
-      white-space: nowrap;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .reset-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 4px 15px rgba(225, 93, 50, 0.3);
     }
 
     .results-count {
-      color: #f0f0f0;
+      color: #c2b9d4;
       font-size: 0.85rem;
-      background-color: rgba(40, 41, 45, 0.8);
-      padding: 0 12px;
-      height: 40px;
+      background: rgba(40, 41, 45, 0.6);
+      padding: 0 16px;
+      height: 44px;
       display: flex;
       align-items: center;
-      border-radius: 4px;
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      box-sizing: border-box;
+      border-radius: 12px;
+      border: 1px solid rgba(220, 90, 50, 0.2);
       white-space: nowrap;
-      font-weight: 380;
+      font-weight: 500;
     }
 
-    /* Отображение текущей категории */
+    .results-count span {
+      color: #e25d32;
+      font-weight: 700;
+    }
+
+    /* Текущая категория */
     .current-category {
       text-align: center;
       margin-bottom: 15px;
       padding: 12px 20px;
-      background-color: rgba(40, 41, 45, 0.8);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 107, 107, 0.3);
+      background: rgba(18, 12, 28, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(220, 90, 50, 0.2);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
-      backdrop-filter: blur(5px);
     }
 
     .current-category-text {
-      color: #ffffff;
-      font-size: 1.2rem;
+      color: #c2b9d4;
+      font-size: 1.1rem;
       font-weight: 500;
-      margin: 0;
     }
 
     .current-category-text .category-name {
-      color: #ff6b6b;
-      font-weight: 500;
+      color: #e25d32;
+      font-weight: 700;
     }
 
     /* Панель сортировки */
     .sort-panel {
-      background-color: rgba(30, 31, 34, 0.9);
-      border-radius: 8px;
-      padding: 15px;
+      background: rgba(18, 12, 28, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 16px 24px;
       margin-bottom: 20px;
-      border: 2px solid rgba(88, 101, 242, 0.4);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(220, 90, 50, 0.25);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
-      backdrop-filter: blur(5px);
     }
 
     .sort-container {
@@ -491,134 +425,121 @@
       min-height: 50px;
     }
 
-    /* Сортировка по дате */
     .sort-order {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex: 1;
-      min-width: 300px;
+      min-width: 200px;
     }
 
     .sort-label {
-      color: #f0f0f0;
-      font-size: 0.9rem;
+      color: #c2b9d4;
+      font-size: 0.85rem;
       font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       white-space: nowrap;
     }
 
     .sort-label i {
-      color: #5865F2;
+      color: #e25d32;
     }
 
     .sort-select {
       flex: 1;
-      padding: 0 12px;
-      height: 40px;
-      background-color: rgba(40, 41, 45, 0.8);
-      border: 1px solid rgba(88, 101, 242, 0.5);
-      border-radius: 6px;
-      color: white;
-      font-size: 0.9rem;
+      padding: 0 14px;
+      height: 44px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
+      font-size: 0.85rem;
       cursor: pointer;
-      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       transition: all 0.3s ease;
-      font-weight: 380;
     }
 
     .sort-select:focus {
       outline: none;
-      border-color: #5865F2;
-      box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.2);
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
     }
 
-    /* Информация о сортировке */
     .sort-info {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       flex: 1;
-      min-width: 300px;
+      min-width: 200px;
       justify-content: flex-end;
     }
 
     .sort-status {
-      color: #f0f0f0;
+      color: #c2b9d4;
       font-size: 0.85rem;
-      background-color: rgba(40, 41, 45, 0.8);
-      padding: 8px 15px;
-      border-radius: 4px;
-      border: 1px solid rgba(88, 101, 242, 0.3);
-      font-weight: 380;
+      background: rgba(40, 41, 45, 0.6);
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(220, 90, 50, 0.2);
+      font-weight: 500;
     }
 
     .sort-status .status-text {
-      color: #5865F2;
-      font-weight: 500;
-      margin-left: 5px;
+      color: #e25d32;
+      font-weight: 700;
     }
 
     .sort-reset-btn {
-      padding: 0 15px;
-      height: 40px;
-      background: linear-gradient(135deg, #5865F2, #4752c4);
+      padding: 0 20px;
+      height: 44px;
+      background: linear-gradient(135deg, #5865F2, #4752C4);
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
-      box-sizing: border-box;
-      white-space: nowrap;
+      gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .sort-reset-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.4);
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
     }
 
     /* Контейнер новостей */
     .news-container {
-      background-color: rgba(30, 31, 34, 0.9);
-      border-radius: 8px;
-      padding: 20px;
-      border: 2px solid rgba(255, 107, 107, 0.3);
+      background: rgba(18, 12, 28, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 24px;
+      border: 1px solid rgba(220, 90, 50, 0.25);
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
       min-height: 200px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s;
-      backdrop-filter: blur(5px);
     }
 
     .news-list {
       display: grid;
-      gap: 15px;
+      gap: 16px;
     }
 
     /* Карточка новости */
     .news-card-detailed {
-      background-color: rgba(40, 41, 45, 0.9);
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(30, 23, 43, 0.6);
+      border-radius: 20px;
+      padding: 20px 24px;
+      border: 1px solid rgba(220, 90, 50, 0.15);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 14px;
       opacity: 0;
       transform: translateY(20px);
-      backdrop-filter: blur(5px);
-      min-width: 0;
     }
 
     .news-card-detailed.animated {
@@ -628,27 +549,25 @@
     }
 
     .news-card-detailed:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 107, 107, 0.5);
-      background-color: rgba(40, 41, 45, 0.95);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      border-color: rgba(220, 90, 50, 0.4);
+      background: rgba(30, 23, 43, 0.8);
     }
 
     .news-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 5px;
       flex-wrap: wrap;
       gap: 10px;
     }
 
     .news-category-badge {
-      padding: 6px 15px;
-      border-radius: 25px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border: 1px solid;
@@ -679,22 +598,20 @@
     }
 
     .news-date {
-      color: #999;
-      font-size: 0.9rem;
+      color: #888;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
     .news-title {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: #ffffff;
-      font-weight: 500;
-      margin-bottom: 5px;
+      font-weight: 700;
       line-height: 1.3;
     }
 
-    /* Заголовок карточки с кнопкой */
     .news-card-header {
       display: flex;
       align-items: flex-start;
@@ -710,30 +627,28 @@
 
     .more-btn {
       background: none;
-      border: none;
-      color: #ff6b6b;
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      color: #e25d32;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 8px 15px;
-      border-radius: 4px;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 50px;
       transition: all 0.3s ease;
-      font-weight: 500;
+      font-weight: 600;
       white-space: nowrap;
-      background-color: rgba(255, 107, 107, 0.1);
-      border: 1px solid rgba(255, 107, 107, 0.3);
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     .more-btn:hover {
-      background-color: rgba(255, 107, 107, 0.2);
+      background: rgba(220, 90, 50, 0.15);
       transform: translateY(-2px);
     }
 
     .more-btn i {
       transition: transform 0.3s ease;
-      font-size: 0.8rem;
     }
 
     .more-btn.expanded i {
@@ -741,23 +656,21 @@
     }
 
     .more-btn.expanded {
-      background-color: rgba(255, 107, 107, 0.2);
-      border-color: #ff6b6b;
+      background: rgba(220, 90, 50, 0.15);
+      border-color: #e25d32;
     }
 
-    /* Контент новости (скрыт по умолчанию) */
     .news-content-detailed {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      background-color: rgba(30, 31, 34, 0.7);
-      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
       margin-top: 0;
       opacity: 0;
-      color: #cccccc;
-      line-height: 1.6;
-      font-size: 1rem;
-      font-weight: 380;
+      color: #c2b9d4;
+      line-height: 1.7;
+      font-size: 0.95rem;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
@@ -765,15 +678,12 @@
     .news-content-detailed strong,
     .news-content-detailed b {
       font-weight: 700 !important;
-    }
-
-    .news-content-detailed strong {
-      color: #ff6b6b;
+      color: #e25d32;
     }
 
     .news-content-detailed.expanded {
       max-height: none;
-      padding: 15px;
+      padding: 16px 20px;
       margin-top: 10px;
       opacity: 1;
       transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -781,20 +691,19 @@
                   margin-top 0.3s ease;
     }
 
-    /* Стили для изображений в новостях */
     .news-content-detailed img {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
-      margin: 15px 0;
-      border: 2px solid rgba(255, 107, 107, 0.3);
+      border-radius: 12px;
+      margin: 12px 0;
+      border: 1px solid rgba(220, 90, 50, 0.2);
       display: block;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
 
     .news-content-detailed img:hover {
-      transform: scale(1.02);
+      transform: scale(1.01);
     }
 
     .news-content-detailed ul, 
@@ -810,358 +719,319 @@
       margin-bottom: 10px;
     }
 
-    /* Сообщение "ничего не найдено" и "нет новостей" */
+    /* Лайки */
+    .news-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .vote-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50px;
+      color: #c2b9d4;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .vote-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .like-btn.active {
+      background: rgba(46, 204, 113, 0.15);
+      border-color: #2ecc71;
+      color: #2ecc71;
+    }
+
+    .dislike-btn.active {
+      background: rgba(231, 76, 60, 0.15);
+      border-color: #e74c3c;
+      color: #e74c3c;
+    }
+
+    .vote-btn i {
+      font-size: 14px;
+    }
+
+    .vote-btn span {
+      font-weight: 600;
+    }
+
+    /* Пустые состояния */
     .no-results, .empty-news {
       text-align: center;
       padding: 60px 20px;
-      background-color: rgba(40, 41, 45, 0.9);
-      border-radius: 8px;
-      border: 2px dashed rgba(255, 107, 107, 0.3);
+      background: rgba(30, 23, 43, 0.5);
+      border-radius: 20px;
+      border: 2px dashed rgba(220, 90, 50, 0.2);
       margin: 20px auto;
       max-width: 600px;
-      backdrop-filter: blur(5px);
     }
 
     .no-results i, .empty-news i {
-      color: #ff6b6b;
-      margin-bottom: 20px;
+      color: #e25d32;
+      margin-bottom: 16px;
       font-size: 3rem;
     }
 
     .no-results h3, .empty-news h3 {
       color: #ffffff;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-      font-weight: 500;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      font-weight: 700;
     }
 
     .no-results p, .empty-news p {
-      color: #cccccc;
-      font-size: 1.1rem;
-      font-weight: 380;
+      color: #c2b9d4;
+      font-size: 1rem;
       max-width: 400px;
       margin: 0 auto;
       line-height: 1.6;
     }
 
     .empty-news .suggestion {
-      margin-top: 20px;
-      font-size: 0.95rem;
-      color: #ff6b6b;
+      margin-top: 16px;
+      color: #e25d32;
       font-style: italic;
     }
 
-    /* Стили для кнопок лайков/дизлайков */
-    .news-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .vote-btn {
-      display: inline-flex;
+    /* Модальное окно для изображений */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 10000;
+      cursor: pointer;
+      justify-content: center;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: #fff;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-modal.active {
+      display: flex;
+    }
+
+    .image-modal img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-size: 14px;
+      z-index: 10001;
     }
-    
-    .vote-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
+
+    .image-modal-close:hover {
+      color: #e25d32;
+      transform: scale(1.1);
     }
-    
-    .vote-btn.active {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
+
+    /* Social block */
+    .social-block {
+      margin-top: 3rem;
+      text-align: center;
+      background: rgba(18, 12, 28, 0.45);
+      backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 2.5rem;
+      border: 1px solid rgba(220, 90, 50, 0.25);
     }
-    
-    .like-btn.active {
-      background: rgba(40, 167, 69, 0.2);
-      border-color: #28a745;
-      color: #28a745;
+
+    .social-block h2 {
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 0.8rem;
     }
-    
-    .dislike-btn.active {
-      background: rgba(220, 53, 69, 0.2);
-      border-color: #dc3545;
-      color: #dc3545;
+
+    .social-block p {
+      color: #c2b9d4;
+      margin-bottom: 1.5rem;
     }
-    
-    .vote-btn i {
-      font-size: 16px;
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
-    
-    .vote-btn span {
+
+    .social-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-icon i {
+      font-size: 2.8rem;
+      transition: all 0.3s;
+    }
+
+    .social-icon span {
+      color: #c2b9d4;
+      font-size: 0.85rem;
       font-weight: 500;
     }
 
-    /* Адаптивность */
-    @media (max-width: 992px) {
-      .sort-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-      }
-      
-      .search-box,
-      .category-filter,
-      .filter-actions,
-      .sort-order,
-      .sort-info {
-        min-width: 100%;
-      }
-      
-      .filter-actions,
-      .sort-info {
-        justify-content: center;
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .reset-btn,
-      .sort-reset-btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .results-count,
-      .sort-status {
-        width: 100%;
-        justify-content: center;
-        display: flex;
-      }
+    .social-icon:hover {
+      transform: translateY(-4px);
     }
 
-    @media (max-width: 768px) {
-      .bg-image {
-        display: none;
-      }
-      
-      .bg-image-mobile {
-        display: block;
-        background-image: url('bg-prime-time-mobile.png');
-        background-position: center top;
-        background-attachment: scroll;
-        background-position-y: 65px;
-        width: 100%;
-        height: 100%;
-      }
-      
-      .navbar {
-        padding: 12px 15px;
-        flex-wrap: wrap;
-      }
-      
-      .logo-img {
-        height: 40px;
-      }
-      
-      .site-name {
-        font-size: 18px;
-      }
-      
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: rgba(26, 26, 46, 0.95);
-        flex-direction: column;
-        padding: 15px;
-        border-top: 1px solid #2a2a3e;
-        border-bottom: 2px solid #ff2a2a;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        z-index: 999;
-        backdrop-filter: blur(10px);
-      }
-      
-      .nav-menu.active {
-        display: flex !important;
-      }
-      
-      .nav-menu li {
-        width: 100%;
-      }
-      
-      .nav-menu li a {
-        justify-content: center;
-        padding: 12px;
-        font-size: 18px;
-        width: 100%;
-      }
-      
-      .page-title {
-        font-size: 2rem;
-        flex-direction: column;
-        gap: 10px;
-      }
-      
-      .page-title i {
-        font-size: 1.8rem;
-      }
-      
-      .page-description {
-        font-size: 0.95rem;
-        padding: 12px 15px;
-      }
-      
-      .filter-panel,
-      .sort-panel {
-        padding: 12px;
-      }
-      
-      .current-category {
-        padding: 8px 15px;
-      }
-      
-      .current-category-text {
-        font-size: 1rem;
-      }
-      
-      .news-container {
-        padding: 15px;
-      }
-      
-      .news-list {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      
-      .news-card-detailed {
-        padding: 15px;
-      }
-      
-      .news-title {
-        font-size: 1.4rem;
-      }
-      
-      .news-date {
-        font-size: 0.8rem;
-      }
-      
-      .empty-news h3 {
-        font-size: 1.5rem;
-      }
-      
-      .empty-news p {
-        font-size: 1rem;
-      }
-      
-      .news-card-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-      
-      .more-btn {
-        width: 100%;
-        justify-content: center;
-      }
+    .social-icon:hover i {
+      transform: scale(1.08);
+    }
+
+    .social-icon.discord i { color: #5865F2; }
+    .social-icon.twitch i { color: #9146FF; }
+
+    .discord-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #5865F2, #4752C4);
+      padding: 12px 36px;
+      border-radius: 60px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.25);
+      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .discord-button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(105, 58, 40, 0.3);
+      font-size: 0.75rem;
+      background: rgba(8, 6, 15, 0.3);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 850px) {
+      .container { padding: 1rem; }
+      .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+      .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+      .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.65rem; }
+      .logo h1 { font-size: 1.5rem; }
+      .page-title { font-size: 2.5rem; }
+      .filter-container { flex-direction: column; }
+      .search-box, .category-filter, .filter-actions { min-width: 100%; width: 100%; }
+      .filter-actions { justify-content: center; flex-wrap: wrap; }
+      .sort-container { flex-direction: column; align-items: stretch; }
+      .sort-order, .sort-info { min-width: 100%; width: 100%; }
+      .sort-info { justify-content: center; flex-wrap: wrap; }
+      .news-container { padding: 16px; }
+      .news-card-detailed { padding: 16px; }
+      .news-title { font-size: 1.3rem; }
+      .news-card-header { flex-direction: column; align-items: flex-start; }
+      .more-btn { width: 100%; justify-content: center; }
+      .social-icon i { font-size: 2.2rem; }
     }
 
     @media (max-width: 480px) {
-      .page-title {
-        font-size: 1.6rem;
-      }
-      
-      .page-title i {
-        font-size: 1.5rem;
-      }
-      
-      .page-description {
-        font-size: 0.85rem;
-        padding: 10px;
-      }
-      
-      .search-input,
-      .category-select,
-      .sort-select {
-        font-size: 0.8rem;
-      }
-      .search-input {
-        height: 3em;
-      }
-      
-      .reset-btn,
-      .sort-reset-btn {
-        font-size: 0.8rem;
-        padding: 0 12px;
-      }
-      
-      .results-count,
-      .sort-status {
-        font-size: 0.8rem;
-      }
-      
-      .news-title {
-        font-size: 1.2rem;
-      }
-      
-      .news-category-badge {
-        font-size: 0.75rem;
-        padding: 4px 12px;
-      }
+      .page-title { font-size: 1.8rem; }
+      .page-description { font-size: 0.9rem; padding: 14px 16px; }
+      .news-title { font-size: 1.1rem; }
+      .filter-panel, .sort-panel { padding: 14px 16px; }
+      .results-count { font-size: 0.75rem; padding: 0 12px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Видео фон -->
+  <video class="video-background" autoplay muted loop playsinline>
+    <source src="фон индекс.webm" type="video/webm">
+    <source src="фон индекс.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    function createSmoke() {
+      const smoke = document.createElement('div');
+      smoke.className = 'smoke-particle';
+      const size = Math.random() * 70 + 30;
+      smoke.style.width = size + 'px';
+      smoke.style.height = size + 'px';
+      smoke.style.left = Math.random() * 100 + '%';
+      smoke.style.animationDuration = Math.random() * 10 + 8 + 's';
+      smoke.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(smoke);
+      setTimeout(() => smoke.remove(), 14000);
+    }
+    setInterval(createSmoke, 4000);
+  </script>
+
   <!-- Модальное окно для просмотра изображений -->
   <div id="imageModal" class="image-modal" onclick="closeImageModal()">
     <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
     <img id="modalImage" src="" alt="Полноэкранный просмотр">
   </div>
 
-  <div class="main-background">
-    <div class="bg-image"></div>
-    <div class="bg-image-mobile"></div>
-    <div class="bg-overlay"></div>
-  </div>
-
-  <nav class="navbar">
-    <div class="nav-left">
+  <div class="container">
+    <!-- Шапка -->
+    <div class="header">
       <div class="logo">
-        <img src="logo.png" alt="Логотип" class="logo-img">
-        <span class="site-name">The Outlast Trials RU</span>
+        <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+        <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+        <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
+        <a href="news.html" class="nav-btn active" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
+        <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+        <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
+        <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+        <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
       </div>
     </div>
-    <button class="mobile-menu-btn" id="mobile-menu-btn">
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="nav-right">
-      <ul class="nav-menu" id="nav-menu">
-        <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
-        <li><a href="roles.html"><i class="fas fa-users"></i> Справочник ролей</a></li>
-        <li><a href="news.html" class="active"><i class="fas fa-newspaper"></i> Новости игры</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <main class="content">
+    <!-- Заголовок -->
     <section class="page-header">
       <h1 class="page-title">
-        НОВОСТИ ИГРЫ
+        <i class="fas fa-newspaper"></i> НОВОСТИ
       </h1>
       <p class="page-description">
-        В этом разделе Вы сможете ознакомиться со всеми грядущими или уже вышедшими обновлениями игры The Outlast Trials, 
-        исправлениями ошибок, а также с новыми ролями и контентом, которые появятся в игре.<br><br>
-        Следите за актуальными новостями, чтобы всегда быть в курсе последних событий и изменений в мире Маунт-Массива!
+        Будь в курсе всех событий Маунт-Массива!<br>
+        Обновления игры, новости сервера, анонсы ивентов — всё в одном месте.
       </p>
     </section>
 
+    <!-- Фильтры -->
     <section class="filter-panel">
       <div class="filter-container">
         <div class="search-box">
@@ -1187,26 +1057,26 @@
 
         <div class="filter-actions">
           <button id="reset-filters" class="reset-btn">
-            <i class="fas fa-redo"></i> Сбросить фильтры
+            <i class="fas fa-redo"></i> Сбросить
           </button>
           <span id="results-count" class="results-count">Новостей: <span>0</span></span>
         </div>
       </div>
     </section>
 
-    <!-- Блок отображения текущей категории -->
+    <!-- Текущая категория -->
     <div class="current-category">
       <p id="current-category-text" class="current-category-text">
         Категория: <span class="category-name">Все</span>
       </p>
     </div>
 
-    <!-- Панель сортировки -->
+    <!-- Сортировка -->
     <section class="sort-panel">
       <div class="sort-container">
         <div class="sort-order">
           <label for="sort-select" class="sort-label">
-            <i class="fas fa-sort-amount-down"></i> Сортировать по дате:
+            <i class="fas fa-sort-amount-down"></i> Сортировать:
           </label>
           <select id="sort-select" class="sort-select">
             <option value="newest">Сначала новые</option>
@@ -1219,40 +1089,61 @@
             Сортировка: <span class="status-text">Сначала новые</span>
           </span>
           <button id="reset-sort" class="sort-reset-btn">
-            <i class="fas fa-sync-alt"></i> Сбросить сортировку
+            <i class="fas fa-sync-alt"></i> Сбросить
           </button>
         </div>
       </div>
     </section>
 
+    <!-- Новости -->
     <section class="news-container">
       <div id="news-list" class="news-list"></div>
       <div id="empty-news" class="empty-news" style="display: none;">
-        <i class="fas fa-newspaper fa-3x"></i>
+        <i class="fas fa-newspaper"></i>
         <h3>Новостей пока нет</h3>
-        <p>На данный момент актуальные новости игры отсутствуют. Загляните позже, чтобы узнать о последних обновлениях и событиях в Маунт-Массиве!</p>
-        <p class="suggestion">Следите за обновлениями в нашем Discord сервере</p>
+        <p>Актуальные новости отсутствуют. Загляни позже!</p>
+        <p class="suggestion">Следи за обновлениями в нашем Discord</p>
       </div>
       <div id="no-results" class="no-results" style="display: none;">
-        <i class="fas fa-search fa-3x"></i>
+        <i class="fas fa-search"></i>
         <h3>Новости не найдены</h3>
-        <p>Попробуйте изменить параметры поиска или выбрать другую категорию</p>
+        <p>Попробуй изменить параметры поиска или категорию</p>
       </div>
     </section>
-  </main>
+
+    <!-- Соцсети -->
+    <div class="social-block">
+      <h2><i class="fas fa-users"></i> Присоединяйся к сообществу</h2>
+      <p>Будь в курсе всех событий и ивентов</p>
+      <div class="social-icons">
+        <a href="https://discord.gg/HFdReFSx7" target="_blank" class="social-icon discord">
+          <i class="fab fa-discord"></i>
+          <span>Discord</span>
+        </a>
+        <a href="https://www.twitch.tv/lili___kim" target="_blank" class="social-icon twitch">
+          <i class="fab fa-twitch"></i>
+          <span>Twitch</span>
+        </a>
+      </div>
+      <a href="https://discord.gg/HFdReFSx7" target="_blank" class="discord-button">
+        <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+      <p style="margin-top: 10px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br>Дым, ужас и папиросы ❤️‍🔥</p>
+      <p style="margin-top: 6px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
+    </footer>
+  </div>
 
   <script src="news.js"></script>
-  <script src="maintenance-mode.js"></script>
-
   <script type="module">
-    // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    import { getFirestore, doc, getDoc, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyCwnCrLwtLJ6iaHjTBMyLRCHvuRlKqziCM",
       authDomain: "the-outlast-trials-ru.firebaseapp.com",
@@ -1262,12 +1153,11 @@
       appId: "1:842074198989:web:8266b4b1e1a8dbd5a1aa84",
       measurementId: "G-T10LF86WYQ"
     };
-  
-    // Initialize Firebase
+
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const db = getFirestore(app);
 
-    // Функция для открытия изображения в полноэкранном режиме
     function openImageModal(imageSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
@@ -1276,29 +1166,19 @@
       document.body.style.overflow = 'hidden';
     }
 
-    // Функция для закрытия модального окна
     function closeImageModal() {
       const modal = document.getElementById('imageModal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    // Переменная для хранения текущих отфильтрованных новостей
     let currentFilteredNews = [];
-    
-    // Функция для форматирования даты
+
     function formatDate(dateString) {
-      const options = { 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
+      const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
       return new Date(dateString).toLocaleDateString('ru-RU', options);
     }
 
-    // Функция для получения названия категории
     function getCategoryName(category) {
       const categories = {
         'major': '🔥 Крупное обновление',
@@ -1309,7 +1189,6 @@
       return categories[category] || '📰 Новость';
     }
 
-    // Функция для анимации появления карточек новостей
     function animateNewsCards() {
       const newsCards = document.querySelectorAll('.news-card-detailed');
       newsCards.forEach((card, index) => {
@@ -1319,63 +1198,32 @@
       });
     }
 
-    // Функция для обновления отображения текущей категории
     function updateCurrentCategory(category) {
       const categoryText = document.getElementById('current-category-text');
       let categoryDisplay = 'Все';
-      
       if (category !== 'all') {
         categoryDisplay = getCategoryName(category);
       }
-      
       categoryText.innerHTML = `Категория: <span class="category-name">${categoryDisplay}</span>`;
     }
 
-    // Функция для обновления статуса сортировки
     function updateSortStatus(sortType) {
       const statusElement = document.getElementById('sort-status');
-      let statusText = '';
-      
-      switch(sortType) {
-        case 'newest':
-          statusText = 'Сначала новые';
-          break;
-        case 'oldest':
-          statusText = 'Сначала старые';
-          break;
-        default:
-          statusText = 'Сначала новые';
-      }
-      
+      let statusText = sortType === 'newest' ? 'Сначала новые' : 'Сначала старые';
       statusElement.innerHTML = `Сортировка: <span class="status-text">${statusText}</span>`;
     }
 
-    // Функция для сортировки новостей (только по дате)
     function sortNews(newsToSort, sortType) {
       const sortedNews = [...newsToSort];
-      
-      switch(sortType) {
-        case 'newest':
-          return sortedNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-          
-        case 'oldest':
-          return sortedNews.sort((a, b) => new Date(a.date) - new Date(b.date));
-          
-        default:
-          return sortedNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      if (sortType === 'newest') {
+        return sortedNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else {
+        return sortedNews.sort((a, b) => new Date(a.date) - new Date(b.date));
       }
     }
 
-    // Импортируем необходимые модули Firebase для Firestore
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, runTransaction } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
-    
-    // Инициализируем Firestore
-    const db = getFirestore(app);
-    
-    // Глобальный объект для хранения ID пользователя (сессия)
     let currentUserId = null;
-    
-    // Получаем или создаем ID пользователя для сессии
+
     function getCurrentUserId() {
       if (!currentUserId) {
         currentUserId = localStorage.getItem('news_user_id');
@@ -1386,50 +1234,49 @@
       }
       return currentUserId;
     }
-    
+
     function displayNews(newsToDisplay) {
       const newsList = document.getElementById('news-list');
       const emptyNews = document.getElementById('empty-news');
       const noResults = document.getElementById('no-results');
       const resultsCount = document.querySelector('#results-count span');
-      
+
       newsList.innerHTML = '';
       resultsCount.textContent = newsToDisplay.length;
-      
+
       if (typeof news === 'undefined' || news.length === 0) {
         emptyNews.style.display = 'block';
         noResults.style.display = 'none';
         return;
       }
-      
+
       if (newsToDisplay.length === 0) {
         emptyNews.style.display = 'none';
         noResults.style.display = 'block';
         return;
       }
-      
+
       emptyNews.style.display = 'none';
       noResults.style.display = 'none';
-      
+
       newsToDisplay.forEach(item => {
         const newsCard = document.createElement('div');
         newsCard.className = 'news-card-detailed';
-        
+
         const categoryClass = item.category || 'regular';
         const categoryName = getCategoryName(item.category);
         const formattedDate = formatDate(item.date);
-        
-        // Инициализируем поля для Firestore
+
         if (item.likes === undefined) item.likes = 0;
         if (item.dislikes === undefined) item.dislikes = 0;
         if (item.userVote === undefined) item.userVote = null;
-        
+
         let formattedContent = item.content
           .replace(/\\n/g, '\n')
           .replace(/\n/g, '<br>')
           .replace(/- /g, '• ')
           .replace(/• /g, '<span style="margin-left: 20px; display: inline-block;">• </span>');
-        
+
         newsCard.innerHTML = `
           <div class="news-header">
             <span class="news-category-badge ${categoryClass}">${categoryName}</span>
@@ -1454,33 +1301,14 @@
             </button>
           </div>
         `;
-        
+
         newsList.appendChild(newsCard);
-        
-        // Обработчик для кнопки "Подробнее"
+
         const moreBtn = newsCard.querySelector('.more-btn');
         const contentBlock = newsCard.querySelector('.news-content-detailed');
 
-        function updateBadge(total, viewed) {
-          const unread = Math.max(total - viewed, 0);
-          const newsLink = document.querySelector('a[href="news.html"]');
-      
-          if (!newsLink) return;
-      
-          const badge = newsLink.querySelector(".news-badge");
-      
-          if (unread <= 0) {
-            if (badge) badge.remove();
-          } else {
-            if (badge) {
-              badge.textContent = unread;
-            }
-          }
-        }
-        
         moreBtn.addEventListener('click', function() {
           const isExpanded = this.getAttribute('data-expanded') === 'true';
-          
           if (isExpanded) {
             this.setAttribute('data-expanded', 'false');
             this.classList.remove('expanded');
@@ -1491,7 +1319,6 @@
             this.classList.add('expanded');
             contentBlock.classList.add('expanded');
             this.innerHTML = '<span>Скрыть</span><i class="fas fa-chevron-up"></i>';
-            
             setTimeout(() => {
               const images = contentBlock.querySelectorAll('img');
               images.forEach(img => {
@@ -1504,282 +1331,187 @@
                 }
               });
             }, 50);
-
-            // VIEWED NEWS
-            let viewed = parseInt(localStorage.getItem("viewedNews") || "0", 10);
-            const totalNews = typeof news !== "undefined" ? news.length : 0;
-      
-            if (viewed < totalNews) {
-              viewed++;
-              localStorage.setItem("viewedNews", viewed);
-            }
-      
-            updateBadge(totalNews, viewed);
           }
         });
-        
-        // Обработчики для кнопок лайков/дизлайков
+
         const likeBtn = newsCard.querySelector('.like-btn');
         const dislikeBtn = newsCard.querySelector('.dislike-btn');
         const likeCountSpan = newsCard.querySelector('.like-count');
         const dislikeCountSpan = newsCard.querySelector('.dislike-count');
-        
+
         async function handleVote(voteType) {
-            const newsId = item.id;
-            if (newsId == null) {
-                console.error('Нет ID новости');
-                return;
-            }
-            
-            const userId = getCurrentUserId();
-            const newsRef = doc(db, 'news', newsId.toString());
-            const userVoteRef = doc(db, 'news', newsId.toString(), 'votes', userId);
-            
-            // Сохраняем состояние ДО изменения (для отката)
-            const previousState = {
-                likes: item.likes,
-                dislikes: item.dislikes,
-                userVote: item.userVote,
-                likeActive: likeBtn.classList.contains('active'),
-                dislikeActive: dislikeBtn.classList.contains('active')
-            };
-            
-            // Вычисляем новое состояние (оптимистичное)
-            let newLikes = item.likes;
-            let newDislikes = item.dislikes;
-            let newUserVote = null;
-            
-            // Отменяем предыдущий голос
-            if (item.userVote === 'like') {
-                newLikes--;
-            } else if (item.userVote === 'dislike') {
-                newDislikes--;
-            }
-            
-            // Если голосуем за тот же тип - просто отменяем
-            if (item.userVote === voteType) {
-                newUserVote = null;
-            } else {
-                // Добавляем новый голос
-                if (voteType === 'like') {
-                    newLikes++;
-                } else {
-                    newDislikes++;
-                }
-                newUserVote = voteType;
-            }
-            
-            // 1. МГНОВЕННО МЕНЯЕМ UI (цвет кнопок меняется сразу)
-            item.likes = newLikes;
-            item.dislikes = newDislikes;
-            item.userVote = newUserVote;
-            
-            likeCountSpan.textContent = newLikes;
-            dislikeCountSpan.textContent = newDislikes;
-            
-            if (newUserVote === 'like') {
+          const newsId = item.id;
+          if (newsId == null) return;
+
+          const userId = getCurrentUserId();
+          const newsRef = doc(db, 'news', newsId.toString());
+          const userVoteRef = doc(db, 'news', newsId.toString(), 'votes', userId);
+
+          const previousState = {
+            likes: item.likes,
+            dislikes: item.dislikes,
+            userVote: item.userVote,
+            likeActive: likeBtn.classList.contains('active'),
+            dislikeActive: dislikeBtn.classList.contains('active')
+          };
+
+          let newLikes = item.likes;
+          let newDislikes = item.dislikes;
+          let newUserVote = null;
+
+          if (item.userVote === 'like') newLikes--;
+          else if (item.userVote === 'dislike') newDislikes--;
+
+          if (item.userVote === voteType) {
+            newUserVote = null;
+          } else {
+            if (voteType === 'like') newLikes++;
+            else newDislikes++;
+            newUserVote = voteType;
+          }
+
+          item.likes = newLikes;
+          item.dislikes = newDislikes;
+          item.userVote = newUserVote;
+
+          likeCountSpan.textContent = newLikes;
+          dislikeCountSpan.textContent = newDislikes;
+
+          if (newUserVote === 'like') {
+            likeBtn.classList.add('active');
+            dislikeBtn.classList.remove('active');
+          } else if (newUserVote === 'dislike') {
+            dislikeBtn.classList.add('active');
+            likeBtn.classList.remove('active');
+          } else {
+            likeBtn.classList.remove('active');
+            dislikeBtn.classList.remove('active');
+          }
+
+          likeBtn.disabled = true;
+          dislikeBtn.disabled = true;
+
+          try {
+            await runTransaction(db, async (transaction) => {
+              const newsDoc = await transaction.get(newsRef);
+              let currentLikes = 0, currentDislikes = 0, currentVote = null;
+              if (newsDoc.exists()) {
+                const data = newsDoc.data();
+                currentLikes = data.likes || 0;
+                currentDislikes = data.dislikes || 0;
+              }
+              const userVoteDoc = await transaction.get(userVoteRef);
+              if (userVoteDoc.exists()) {
+                currentVote = userVoteDoc.data().vote;
+              }
+
+              let finalLikes = currentLikes;
+              let finalDislikes = currentDislikes;
+
+              if (currentVote === 'like') finalLikes--;
+              else if (currentVote === 'dislike') finalDislikes--;
+
+              if (currentVote === voteType) {
+                transaction.delete(userVoteRef);
+                transaction.update(newsRef, {
+                  likes: finalLikes,
+                  dislikes: finalDislikes,
+                  lastUpdated: new Date().toISOString()
+                });
+              } else {
+                if (voteType === 'like') finalLikes++;
+                else finalDislikes++;
+                transaction.set(userVoteRef, {
+                  vote: voteType,
+                  timestamp: new Date().toISOString(),
+                  userId: userId
+                });
+                transaction.set(newsRef, {
+                  likes: finalLikes,
+                  dislikes: finalDislikes,
+                  lastUpdated: new Date().toISOString()
+                }, { merge: true });
+              }
+            });
+
+            const updatedDoc = await getDoc(newsRef);
+            if (updatedDoc.exists()) {
+              const data = updatedDoc.data();
+              item.likes = data.likes || 0;
+              item.dislikes = data.dislikes || 0;
+              const userVoteDoc = await getDoc(userVoteRef);
+              item.userVote = userVoteDoc.exists() ? userVoteDoc.data().vote : null;
+              likeCountSpan.textContent = item.likes;
+              dislikeCountSpan.textContent = item.dislikes;
+              if (item.userVote === 'like') {
                 likeBtn.classList.add('active');
                 dislikeBtn.classList.remove('active');
-            } else if (newUserVote === 'dislike') {
+              } else if (item.userVote === 'dislike') {
                 dislikeBtn.classList.add('active');
                 likeBtn.classList.remove('active');
-            } else {
+              } else {
                 likeBtn.classList.remove('active');
                 dislikeBtn.classList.remove('active');
+              }
             }
-            
-            // Блокируем кнопки на время запроса
-            likeBtn.disabled = true;
-            dislikeBtn.disabled = true;
-            
-            try {
-                // 2. ВЫПОЛНЯЕМ ЗАПРОС К СЕРВЕРУ
-                await runTransaction(db, async (transaction) => {
-                    const newsDoc = await transaction.get(newsRef);
-                    
-                    let currentLikes = 0;
-                    let currentDislikes = 0;
-                    let currentVote = null;
-                    
-                    if (newsDoc.exists()) {
-                        const data = newsDoc.data();
-                        currentLikes = data.likes || 0;
-                        currentDislikes = data.dislikes || 0;
-                    }
-                    
-                    // Получаем текущий голос пользователя
-                    const userVoteDoc = await transaction.get(userVoteRef);
-                    if (userVoteDoc.exists()) {
-                        currentVote = userVoteDoc.data().vote;
-                    }
-                    
-                    let finalLikes = currentLikes;
-                    let finalDislikes = currentDislikes;
-                    
-                    // Отменяем предыдущий голос
-                    if (currentVote === 'like') {
-                        finalLikes--;
-                    } else if (currentVote === 'dislike') {
-                        finalDislikes--;
-                    }
-                    
-                    // Если голосуем за тот же тип - просто отменяем
-                    if (currentVote === voteType) {
-                        transaction.delete(userVoteRef);
-                        transaction.update(newsRef, {
-                            likes: finalLikes,
-                            dislikes: finalDislikes,
-                            lastUpdated: new Date().toISOString()
-                        });
-                    } else {
-                        // Добавляем новый голос
-                        if (voteType === 'like') {
-                            finalLikes++;
-                        } else {
-                            finalDislikes++;
-                        }
-                        
-                        transaction.set(userVoteRef, {
-                            vote: voteType,
-                            timestamp: new Date().toISOString(),
-                            userId: userId
-                        });
-                        
-                        transaction.set(newsRef, {
-                            likes: finalLikes,
-                            dislikes: finalDislikes,
-                            lastUpdated: new Date().toISOString()
-                        }, { merge: true });
-                    }
-                });
-                
-                // 3. ОБНОВЛЯЕМ UI СЕРВЕРНЫМИ ДАННЫМИ
-                const updatedDoc = await getDoc(newsRef);
-                if (updatedDoc.exists()) {
-                    const data = updatedDoc.data();
-                    item.likes = data.likes || 0;
-                    item.dislikes = data.dislikes || 0;
-                    
-                    const userVoteDoc = await getDoc(userVoteRef);
-                    item.userVote = userVoteDoc.exists() ? userVoteDoc.data().vote : null;
-                    
-                    // Обновляем отображение финальными данными с сервера
-                    likeCountSpan.textContent = item.likes;
-                    dislikeCountSpan.textContent = item.dislikes;
-                    
-                    if (item.userVote === 'like') {
-                        likeBtn.classList.add('active');
-                        dislikeBtn.classList.remove('active');
-                    } else if (item.userVote === 'dislike') {
-                        dislikeBtn.classList.add('active');
-                        likeBtn.classList.remove('active');
-                    } else {
-                        likeBtn.classList.remove('active');
-                        dislikeBtn.classList.remove('active');
-                    }
-                }
-                
-            } catch (error) {
-                console.error('Ошибка при сохранении голоса:', error);
-                
-                // 4. ОТКАТЫВАЕМ ИЗМЕНЕНИЯ ПРИ ОШИБКЕ
-                item.likes = previousState.likes;
-                item.dislikes = previousState.dislikes;
-                item.userVote = previousState.userVote;
-                
-                likeCountSpan.textContent = previousState.likes;
-                dislikeCountSpan.textContent = previousState.dislikes;
-                
-                if (previousState.likeActive) {
-                    likeBtn.classList.add('active');
-                    dislikeBtn.classList.remove('active');
-                } else if (previousState.dislikeActive) {
-                    dislikeBtn.classList.add('active');
-                    likeBtn.classList.remove('active');
-                } else {
-                    likeBtn.classList.remove('active');
-                    dislikeBtn.classList.remove('active');
-                }
-                
-                alert('Не удалось сохранить голос. Попробуйте позже.');
-                
-            } finally {
-                // Разблокируем кнопки
-                likeBtn.disabled = false;
-                dislikeBtn.disabled = false;
+          } catch (error) {
+            console.error('Ошибка:', error);
+            item.likes = previousState.likes;
+            item.dislikes = previousState.dislikes;
+            item.userVote = previousState.userVote;
+            likeCountSpan.textContent = previousState.likes;
+            dislikeCountSpan.textContent = previousState.dislikes;
+            if (previousState.likeActive) {
+              likeBtn.classList.add('active');
+              dislikeBtn.classList.remove('active');
+            } else if (previousState.dislikeActive) {
+              dislikeBtn.classList.add('active');
+              likeBtn.classList.remove('active');
+            } else {
+              likeBtn.classList.remove('active');
+              dislikeBtn.classList.remove('active');
             }
+          } finally {
+            likeBtn.disabled = false;
+            dislikeBtn.disabled = false;
+          }
         }
-        
+
         likeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleVote('like');
+          e.stopPropagation();
+          handleVote('like');
         });
-        
+
         dislikeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleVote('dislike');
+          e.stopPropagation();
+          handleVote('dislike');
         });
       });
-      
+
       setTimeout(animateNewsCards, 100);
-      
-      setTimeout(() => {
-        const allImages = document.querySelectorAll('.news-content-detailed img');
-        allImages.forEach(img => {
-          if (!img.hasAttribute('data-modal-attached')) {
-            img.setAttribute('data-modal-attached', 'true');
-            img.addEventListener('click', function(e) {
-              e.stopPropagation();
-              openImageModal(this.src);
-            });
-          }
-        });
-      }, 150);
     }
-    
-    // Функция загрузки голосов из Firestore
+
     async function loadVotesFromFirestore() {
       const userId = getCurrentUserId();
-      
-      // Проходим по существующему массиву news
       for (let i = 0; i < news.length; i++) {
         const item = news[i];
-        // СОЗДАЕМ ID на основе индекса или заголовка
-        const newsId = i; // или item.title
-        
-        // ДОБАВЛЯЕМ ID В ОБЪЕКТ НОВОСТИ
+        const newsId = i;
         news[i].id = newsId;
-        
         const newsRef = doc(db, 'news', newsId.toString());
         const userVoteRef = doc(db, 'news', newsId.toString(), 'votes', userId);
-        
         try {
           const newsDoc = await getDoc(newsRef);
-          
           if (newsDoc.exists()) {
             const data = newsDoc.data();
             news[i].likes = data.likes || 0;
             news[i].dislikes = data.dislikes || 0;
           } else {
-            await setDoc(newsRef, {
-              likes: 0,
-              dislikes: 0,
-              createdAt: new Date().toISOString()
-            });
+            await setDoc(newsRef, { likes: 0, dislikes: 0, createdAt: new Date().toISOString() });
             news[i].likes = 0;
             news[i].dislikes = 0;
           }
-          
           const userVoteDoc = await getDoc(userVoteRef);
           news[i].userVote = userVoteDoc.exists() ? userVoteDoc.data().vote : null;
-          
-          console.log(`Новость ${newsId} загружена:`, {
-            likes: news[i].likes,
-            dislikes: news[i].dislikes,
-            userVote: news[i].userVote,
-            id: news[i].id
-          });
-          
         } catch (error) {
           console.error('Ошибка загрузки голосов для новости', newsId, error);
           news[i].likes = 0;
@@ -1787,74 +1519,46 @@
           news[i].userVote = null;
         }
       }
-      
       return news;
     }
-    
-    // Добавьте эту функцию ПЕРЕД initNews()
+
     function addIdsToNews() {
-        if (typeof news !== 'undefined' && news.length > 0) {
-            news.forEach((item, index) => {
-                if (!item.id) {
-                    item.id = index; // или используйте item.title + index для уникальности
-                }
-                // Инициализируем поля, если их нет
-                if (item.likes === undefined) item.likes = 0;
-                if (item.dislikes === undefined) item.dislikes = 0;
-                if (item.userVote === undefined) item.userVote = null;
-            });
-            console.log('ID добавлены новостям:', news.map(n => ({ id: n.id, title: n.title })));
-        }
+      if (typeof news !== 'undefined' && news.length > 0) {
+        news.forEach((item, index) => {
+          if (!item.id) item.id = index;
+          if (item.likes === undefined) item.likes = 0;
+          if (item.dislikes === undefined) item.dislikes = 0;
+          if (item.userVote === undefined) item.userVote = null;
+        });
+      }
     }
-    
+
     async function initNews() {
-        console.log('До добавления ID:', news?.length);
-        
-        // СНАЧАЛА добавляем ID
-        addIdsToNews();
-        
-        // ЗАГРУЖАЕМ голоса из Firestore
-        await loadVotesFromFirestore();
-        
-        // ✅ ДОБАВЬТЕ СОРТИРОВКУ (если у вас есть поле date для сортировки)
-        // Предполагаем, что новости должны быть отсортированы по дате (новые сверху)
-        if (news.length > 0 && news[0].date) {
-            news.sort((a, b) => {
-                // Преобразуем даты в timestamp для сравнения
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return dateB - dateA; // Новые сверху
-            });
-        }
-        
-        console.log('После загрузки голосов:', news.map(n => ({ id: n.id, title: n.title, date: n.date })));
-        
-        // И только потом отображаем
-        displayNews(news);
+      addIdsToNews();
+      await loadVotesFromFirestore();
+      if (news.length > 0 && news[0].date) {
+        news.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
+      displayNews(news);
     }
-    
-    // Запускаем
+
     initNews();
 
     function filterNews() {
       const searchTerm = document.getElementById('news-search').value.toLowerCase();
       const selectedCategory = document.getElementById('category-select').value;
       const sortType = document.getElementById('sort-select').value;
-      
+
       updateCurrentCategory(selectedCategory);
-      
+
       let filteredNews = news;
-      
       if (selectedCategory !== 'all') {
         filteredNews = filteredNews.filter(item => item.category === selectedCategory);
       }
-      
       if (searchTerm) {
-        filteredNews = filteredNews.filter(item => 
-          item.title.toLowerCase().includes(searchTerm)
-        );
+        filteredNews = filteredNews.filter(item => item.title.toLowerCase().includes(searchTerm));
       }
-      
+
       currentFilteredNews = filteredNews;
       const sortedNews = sortNews(currentFilteredNews, sortType);
       updateSortStatus(sortType);
@@ -1863,180 +1567,86 @@
 
     function applySorting() {
       const sortType = document.getElementById('sort-select').value;
-      
       if (currentFilteredNews.length === 0 && news && news.length > 0) {
         currentFilteredNews = news;
       }
-      
       const sortedNews = sortNews(currentFilteredNews, sortType);
       updateSortStatus(sortType);
       displayNews(sortedNews);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Запуск анимации заголовков
       setTimeout(() => {
         const pageTitle = document.querySelector('.page-title');
         const pageDesc = document.querySelector('.page-description');
         const currentCategory = document.querySelector('.current-category');
         const sortPanel = document.querySelector('.sort-panel');
         const newsContainer = document.querySelector('.news-container');
-        
-        if (pageTitle) {
-          pageTitle.style.opacity = '1';
-          pageTitle.style.transform = 'translateY(0)';
-        }
-        
-        if (pageDesc) {
-          pageDesc.style.opacity = '1';
-          pageDesc.style.transform = 'translateY(0)';
-        }
-        
-        if (currentCategory) {
-          currentCategory.style.opacity = '1';
-          currentCategory.style.transform = 'translateY(0)';
-        }
-        
-        if (sortPanel) {
-          sortPanel.style.opacity = '1';
-          sortPanel.style.transform = 'translateY(0)';
-        }
-        
-        if (newsContainer) {
-          newsContainer.style.opacity = '1';
-          newsContainer.style.transform = 'translateY(0)';
-        }
+        if (pageTitle) { pageTitle.style.opacity = '1'; pageTitle.style.transform = 'translateY(0)'; }
+        if (pageDesc) { pageDesc.style.opacity = '1'; pageDesc.style.transform = 'translateY(0)'; }
+        if (currentCategory) { currentCategory.style.opacity = '1'; currentCategory.style.transform = 'translateY(0)'; }
+        if (sortPanel) { sortPanel.style.opacity = '1'; sortPanel.style.transform = 'translateY(0)'; }
+        if (newsContainer) { newsContainer.style.opacity = '1'; newsContainer.style.transform = 'translateY(0)'; }
       }, 100);
-      
-      // Проверяем наличие новостей
+
       if (typeof news === 'undefined' || news.length === 0) {
         document.getElementById('empty-news').style.display = 'block';
         document.getElementById('results-count').querySelector('span').textContent = '0';
         return;
       }
-      
-      // Инициализация
+
       updateCurrentCategory('all');
       updateSortStatus('newest');
       currentFilteredNews = news;
-      
       const sortedNews = sortNews(news, 'newest');
       displayNews(sortedNews);
-      
-      // Обработчики для фильтрации
+
       document.getElementById('news-search').addEventListener('input', filterNews);
       document.getElementById('category-select').addEventListener('change', filterNews);
-      
-      // Обработчики для сортировки
       document.getElementById('sort-select').addEventListener('change', applySorting);
-      
-      // Кнопка очистки поиска
+
       document.getElementById('clear-search').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         filterNews();
       });
-      
-      // Кнопка сброса фильтров
+
       document.getElementById('reset-filters').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         document.getElementById('category-select').value = 'all';
         updateCurrentCategory('all');
         filterNews();
       });
-      
-      // Кнопка сброса сортировки
+
       document.getElementById('reset-sort').addEventListener('click', function() {
         document.getElementById('sort-select').value = 'newest';
         updateSortStatus('newest');
-        
         if (currentFilteredNews.length === 0 && news && news.length > 0) {
           currentFilteredNews = news;
         }
-        
         const sortedNews = sortNews(currentFilteredNews, 'newest');
         displayNews(sortedNews);
       });
-      
-      // Мобильное меню
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      const navMenu = document.getElementById('nav-menu');
-      
-      if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener('click', function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-          navMenu.classList.toggle('active');
-          const icon = this.querySelector('i');
-          if (navMenu.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-          } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-          }
-        });
-        
-        // Закрытие меню при клике на ссылку
-        const navLinks = document.querySelectorAll('.nav-menu a');
-        navLinks.forEach(link => {
-          link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon) {
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
-            }
-          });
-        });
-        
-        // Закрытие меню при клике вне его
-        document.addEventListener('click', function(event) {
-          if (!navMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
-            navMenu.classList.remove('active');
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon) {
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
-            }
-          }
-        });
-      }
-      
-      // Закрытие модального окна по Escape
+
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeImageModal();
-        }
+        if (e.key === 'Escape') closeImageModal();
       });
 
-      // VIEWED NEWS
+      // VIEWED NEWS BADGE
       const totalNews = news.length;
-      const viewed = parseInt(localStorage.getItem("viewedNews") || "0", 10);
+      const viewed = parseInt(localStorage.getItem('viewedNews') || '0', 10);
       const unread = Math.max(totalNews - viewed, 0);
-    
-      const newsLink = document.querySelector('a[href="news.html"]');
-    
-      if (!newsLink) return;
-    
-      // удаляем старый индикатор если есть
-      const oldBadge = newsLink.querySelector(".news-badge");
-      if (oldBadge) oldBadge.remove();
-    
-      if (unread > 0) {
-        const badge = document.createElement("span");
-        badge.className = "news-badge";
-        badge.textContent = unread;
-    
-        badge.style.marginLeft = "6px";
-        badge.style.background = "red";
-        badge.style.color = "white";
-        badge.style.borderRadius = "10px";
-        badge.style.padding = "2px 6px";
-        badge.style.fontSize = "12px";
-    
-        newsLink.appendChild(badge);
+      const newsLink = document.getElementById('newsLink');
+      if (newsLink) {
+        const oldBadge = newsLink.querySelector('.news-badge');
+        if (oldBadge) oldBadge.remove();
+        if (unread > 0) {
+          const badge = document.createElement('span');
+          badge.className = 'news-badge';
+          badge.textContent = unread;
+          newsLink.appendChild(badge);
+        }
       }
     });
-  </script>     
+  </script>
 </body>
 </html>
