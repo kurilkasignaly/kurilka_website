@@ -1,706 +1,604 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Курилка Синьялы | Главная — The Outlast Trials</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>The Outlast Trials RU</title>
+  <link rel="icon" href="logo.png" sizes="any">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #f0eef7;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
+    body {
+      background-color: #0a0a0f;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        /* Видео фон */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
+    /* Навбар - адаптивный */
+    .navbar {
+      background-color: #1a1a2e;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ff2a2a;
+      box-shadow: 0 4px 12px rgba(255, 42, 42, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-        /* Темный оверлей поверх видео — мягкий, без ряби */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.65);
-            z-index: -1;
-        }
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
 
-        /* УБРАН анимированный шум/зернистость — больше не мешает глазам */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        /* Плавные частицы дыма (мягкие, без резкости) */
-        @keyframes floatSmoke {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.2; }
-            80% { opacity: 0.1; }
-            100% { transform: translateY(-200px) scale(2.5); opacity: 0; }
-        }
+    .logo-img {
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+    }
 
-        .smoke-particle {
-            position: fixed;
-            bottom: -50px;
-            background: radial-gradient(circle, rgba(220,90,50,0.12) 0%, rgba(220,90,50,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            animation: floatSmoke linear infinite;
-        }
+    .site-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff2a2a;
+      text-shadow: 0 0 10px rgba(255, 42, 42, 0.5);
+    }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
+    .nav-right {
+      display: flex;
+    }
 
-        @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-        }
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+    }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
-        }
+    .nav-menu li a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            animation: fadeInScale 0.6s ease-out;
-            transition: all 0.3s;
-        }
+    .nav-menu li a:hover {
+      background-color: #ff2a2a;
+      color: white;
+      transform: translateY(-2px);
+    }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
-        }
+    .nav-menu li a.active {
+      background-color: #ff2a2a;
+      color: white;
+    }
 
-        .logo h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: smokePulse 3s ease-in-out infinite;
-        }
+    /* Бейдж для новостей */
+    .news-badge {
+      margin-left: 6px;
+      background: red;
+      color: white;
+      border-radius: 10px;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-        .logo p {
-            font-size: 0.8rem;
-            color: #c2b9d4;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    /* Мобильное меню */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #f0f0f0;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
 
-        /* Навигация */
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
-            border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
-        }
+    /* Основной контент - адаптивный */
+    .content {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
 
-        .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
+    /* Секция с приветствием - адаптивная */
+    .welcome-section {
+      background-color: #1a1a2e;
+      border-radius: 12px;
+      padding: 40px 20px;
+      margin-bottom: 25px;
+      border: 1px solid #2a2a3e;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 350px;
+    }
 
-        .nav-btn:hover {
-            color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
-        }
+    .welcome-title {
+      color: #f0f0f0;
+      font-size: 42px;
+      margin-bottom: 15px;
+      letter-spacing: 1.2px;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
 
-        .nav-btn.active {
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
-        }
+    .roles-title {
+      color: #ff2a2a;
+      font-size: 36px;
+      text-shadow: 0 0 15px rgba(255, 42, 42, 0.4);
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: opacity 1s ease 0.2s, transform 1s ease 0.2s;
+    }
 
-        /* Статистика */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
+    .description-text {
+      color: #d0d0d0;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 18px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      border-left: 4px solid #ff2a2a;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
+    }
 
-        .stat-card {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 1.8rem;
-            text-align: center;
-            border: 1px solid rgba(220,90,50,0.25);
-            transition: all 0.3s;
-            animation: fadeInScale 0.6s ease-out;
-        }
+    /* Панель соцсетей - адаптивная */
+    .social-panel {
+      background-color: #141422;
+      border-radius: 10px;
+      padding: 20px 15px;
+      border: 2px solid #2a2a3e;
+      text-align: center;
+      margin-top: auto;
+      margin-bottom: 20px;
+    }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: #e16d48;
-            background: rgba(28, 20, 40, 0.7);
-        }
+    .social-panel-title {
+      color: #f0f0f0;
+      font-size: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffbc9a, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    .social-icons-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin-bottom: 20px;
+    }
 
-        /* СЛАЙДЕР БЛОК */
-        .slider-block {
-            position: relative;
-            margin: 4rem 0;
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            border: 1px solid rgba(220,90,50,0.25);
-            animation: fadeInScale 0.6s ease-out;
-            overflow: hidden;
-        }
+    .social-icon-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      width: 80px;
+    }
 
-        .slider-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+    .social-icon-link:hover {
+      transform: translateY(-5px);
+    }
 
-        .slider-btn {
-            position: absolute;
-            background: rgba(188, 74, 40, 0.7);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(220,90,50,0.6);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.4rem;
-            color: white;
-            z-index: 20;
-        }
+    .social-icon-container {
+      width: 65px;
+      height: 65px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
 
-        .slider-btn:hover {
-            background: #e25d32;
-            transform: scale(1.05);
-        }
+    .social-icon-link:hover .social-icon-container {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
 
-        .slider-btn-left {
-            left: 20px;
-        }
+    .social-icon-container i {
+      font-size: 30px;
+      color: white;
+    }
 
-        .slider-btn-right {
-            right: 20px;
-        }
+    .social-name {
+      color: #f0f0f0;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 3px;
+    }
 
-        .slider-track-wrapper {
-            flex: 1;
-            overflow: hidden;
-            border-radius: 48px;
-        }
+    /* Кнопка присоединиться */
+    .join-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
 
-        .slider-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
+    .join-button-large {
+      background-color: #ff2a2a;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(255, 42, 42, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        .slider-slide {
-            min-width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 3rem;
-            padding: 2rem;
-        }
+    .join-button-large:hover {
+      background-color: #ff4a4a;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(255, 42, 42, 0.4);
+    }
 
-        .slide-image {
-            flex: 1;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
+    /* Цвета для иконок соцсетей */
+    .discord-bg {
+      background: linear-gradient(135deg, #5865F2, #3d48b3);
+    }
 
-        .slide-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.4s ease;
-        }
+    .twitch-bg {
+      background: linear-gradient(135deg, #9146FF, #5c2a9d);
+    }
 
-        .slide-image img:hover {
-            transform: scale(1.02);
-        }
+    .youtube-bg {
+      background: linear-gradient(135deg, #FF0000, #b30000);
+    }
 
-        .slide-text {
-            flex: 1;
-            text-align: left;
-        }
+    .telegram-bg {
+      background: linear-gradient(135deg, #0088cc, #006699);
+    }
 
-        .slide-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    /* Адаптивность для мобильных */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 12px 15px;
+        flex-wrap: wrap;
+      }
+      
+      .logo-img {
+        height: 40px;
+      }
+      
+      .site-name {
+        font-size: 18px;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #1a1a2e;
+        flex-direction: column;
+        padding: 15px;
+        border-top: 1px solid #2a2a3e;
+        border-bottom: 2px solid #ff2a2a;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+      }
+      
+      .nav-menu.active {
+        display: flex;
+      }
+      
+      .nav-menu li {
+        width: 100%;
+      }
+      
+      .nav-menu li a {
+        justify-content: center;
+        padding: 12px;
+        font-size: 18px;
+      }
+      
+      .welcome-section {
+        padding: 30px 15px;
+        min-height: 300px;
+      }
+      
+      .welcome-title {
+        font-size: 32px;
+      }
+      
+      .roles-title {
+        font-size: 28px;
+      }
+      
+      .description-text {
+        font-size: 16px;
+        padding: 15px;
+      }
+      
+      .social-icons-row {
+        gap: 20px;
+      }
+      
+      .social-icon-link {
+        width: 70px;
+      }
+      
+      .social-icon-container {
+        width: 55px;
+        height: 55px;
+      }
+      
+      .social-icon-container i {
+        font-size: 25px;
+      }
+      
+      .social-name {
+        font-size: 12px;
+      }
+      
+      .join-button-large {
+        padding: 12px 25px;
+        font-size: 14px;
+      }
+    }
 
-        .slide-text p {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #d1cce6;
-            margin-bottom: 1.2rem;
-        }
-
-        .slide-text .badge-slider {
-            display: inline-block;
-            background: linear-gradient(135deg, #e25d32, #bc4627);
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1rem 0 1.5rem 0;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            background: #e25d32;
-            width: 28px;
-            border-radius: 20px;
-        }
-
-        /* Блок соцсетей */
-        .social-block {
-            margin-top: 4rem;
-            text-align: center;
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 2.5rem;
-            border: 1px solid rgba(220,90,50,0.25);
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .social-block h2 {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            color: #fff;
-        }
-
-        .social-block p {
-            color: #c2b9d4;
-            margin-bottom: 1.5rem;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .social-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-icon i {
-            font-size: 2.8rem;
-            transition: all 0.3s;
-        }
-
-        .social-icon span {
-            color: #c2b9d4;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-4px);
-        }
-
-        .social-icon:hover i {
-            transform: scale(1.08);
-        }
-
-        .social-icon.discord i { color: #5865F2; }
-        .social-icon.twitch i { color: #9146FF; }
-
-        .discord-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #5865F2, #4752C4);
-            padding: 12px 36px;
-            border-radius: 60px;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(88,101,242,0.25);
-            font-size: 0.95rem;
-        }
-
-        .discord-button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(88,101,242,0.4);
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 5rem;
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
-            background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
-        }
-
-        /* Адаптация */
-        @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.65rem; }
-            .logo h1 { font-size: 1.5rem; }
-            .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; gap: 1.5rem; }
-            .slide-text { text-align: center; }
-            .slide-text h2 { font-size: 1.8rem; }
-            .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
-            .slider-btn-left { left: 10px; }
-            .slider-btn-right { right: 10px; }
-            .social-icon i { font-size: 2.2rem; }
-        }
-
-        @media (max-width: 550px) {
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.55rem; }
-            .stat-number { font-size: 1.8rem; }
-            .social-block h2 { font-size: 1.4rem; }
-            .slide-text h2 { font-size: 1.4rem; }
-        }
-    </style>
+    @media (max-width: 480px) {
+      .welcome-title {
+        font-size: 28px;
+      }
+      
+      .roles-title {
+        font-size: 24px;
+      }
+      
+      .social-icons-row {
+        gap: 15px;
+      }
+      
+      .social-icon-link {
+        width: 65px;
+      }
+      
+      .social-icon-container {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .social-icon-container i {
+        font-size: 22px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<!-- ВИДЕО НА ЗАДНИЙ ФОН -->
-<video class="video-background" autoplay muted loop playsinline>
-    <source src="фон индекс.webm" type="video/webm">
-    <source src="фон индекс.mp4" type="video/mp4">
-</video>
-
-<script>
-    // Мягкие дымовые частицы — без резких эффектов
-    function createSmoke() {
-        const smoke = document.createElement('div');
-        smoke.className = 'smoke-particle';
-        const size = Math.random() * 70 + 30;
-        smoke.style.width = size + 'px';
-        smoke.style.height = size + 'px';
-        smoke.style.left = Math.random() * 100 + '%';
-        smoke.style.animationDuration = Math.random() * 10 + 8 + 's';
-        smoke.style.animationDelay = Math.random() * 5 + 's';
-        document.body.appendChild(smoke);
-        setTimeout(() => smoke.remove(), 14000);
-    }
-    // Меньше частиц, чтобы не отвлекали
-    setInterval(createSmoke, 4000);
-</script>
-
-<div class="container">
-    <!-- Шапка -->
-    <div class="header">
-        <div class="logo">
-            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
-        </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
-            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-            <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-            <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
-            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-        </div>
+  <!-- Навбар -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <img src="logo.png" alt="Логотип" class="logo-img">
+        <span class="site-name">The Outlast Trials RU</span>
+      </div>
     </div>
-
-    <!-- Герой-секция -->
-    <div style="text-align: center; margin: 2rem 0 2rem 0;">
-        <div style="animation: smokePulse 2s ease-in-out infinite;">
-            <h2 style="font-size: 3.2rem; font-weight: 800; background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                 Добро пожаловать в Курилку
-            </h2>
-        </div>
-        <p style="font-size: 1.1rem; max-width: 650px; margin: 1.2rem auto; background: rgba(30, 23, 43, 0.5); backdrop-filter: blur(10px); padding: 0.8rem 1.8rem; border-radius: 60px; border: 1px solid rgba(220,90,50,0.25);">
-            <i class="fas fa-skull"></i> Место, где сигаретный дым встречает безумие терапии
-        </p>
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-right">
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Главная</a></li>
+        <li><a href="roles.html"><i class="fas fa-users"></i> Справочник ролей</a></li>
+        <li><a href="news.html" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a></li>
+        <li><a href="about.html"><i class="fas fa-info-circle"></i> Об игре</a></li>
+      </ul>
     </div>
+  </nav>
 
-    <!-- Статистика сервера -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <i class="fas fa-users" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">340+</div>
-            <p>активных выживших</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-calendar-week" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">12+</div>
-            <p>рейдов в месяц</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-trophy" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">28</div>
-            <p>уникальных ролей</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-fire" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">100%</div>
-            <p>атмосферы дыма</p>
-        </div>
-    </div>
+  <main class="content">
+    <!-- Добро пожаловать и Справочник ролей -->
+    <section class="welcome-section">
+      <h1 class="welcome-title">Добро пожаловать!</h1>
+      <h2 class="roles-title">Справочник ролей</h2>
+      <p class="description-text">
+        Здесь вы найдете полную информацию о своих и интересующих вас ролях нашего Discord сервера
+      </p>
+    </section>
 
-    <!-- ГЛАВНЫЙ СЛАЙДЕР (РЕКЛАМНЫЙ БИЛБОРД) -->
-    <div class="slider-block">
-        <div class="slider-container">
-            <div class="slider-btn slider-btn-left" id="prevBtn">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-            
-            <div class="slider-track-wrapper">
-                <div class="slider-track" id="sliderTrack">
-                    <!-- СЛАЙД 1: Краб-убежище -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб-мутант" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Краб-убежище'">
-                        </div>
-                        <div class="slide-text">
-                            <h2>Сезон «Краб-убежище»</h2>
-                            <p>Новое испытание ждёт вас! Уникальный краб-мутант появился на территории убежища. Соберите команду и пройдите новый ивент с эксклюзивными наградами.</p>
-                            <span class="badge-slider"><i class="fas fa-calendar-alt"></i> До конца сезона: 14 дней</span>
-                        </div>
-                    </div>
-                    
-                    <!-- СЛАЙД 2: Турнир "Дымная битва" -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/3Lp7Q4M.png" alt="Турнир" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Дымная+битва'">
-                        </div>
-                        <div class="slide-text">
-                            <h2>🏆 Турнир «Дымная битва»</h2>
-                            <p>Стартовал ежегодный турнир по прохождению испытаний на скорость. Победителей ждут эксклюзивные роли, Nitro и призы от администрации. Регистрация до 20 июня!</p>
-                            <span class="badge-slider"><i class="fas fa-trophy"></i> Призовой фонд: 5000₽</span>
-                        </div>
-                    </div>
-                    
-                    <!-- СЛАЙД 3: Новый контент -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/8YxqZ5L.png" alt="Новое обновление" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Новое+обновление'">
-                        </div>
-                        <div class="slide-text">
-                            <h2>🎮 Обновление «Терапия 2.0»</h2>
-                            <p>Red Barrels выпустили масштабное обновление: новая карта «Заброшенная клиника», 3 типа врагов и улучшенная система прогрессии. Уже доступно на сервере!</p>
-                            <span class="badge-slider"><i class="fas fa-download"></i> Обновитесь сейчас</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="slider-btn slider-btn-right" id="nextBtn">
-                <i class="fas fa-chevron-right"></i>
-            </div>
-        </div>
-        
-        <div class="slider-dots" id="sliderDots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
-
-    <!-- БЛОК СОЦСЕТЕЙ -->
-    <div class="social-block">
-        <h2>Присоединяйтесь к нашему сообществу</h2>
-        <p>Будьте в курсе всех событий и ивентов</p>
-        
-        <div class="social-icons">
-            <a href="https://discord.gg/HFdReFSx7" target="_blank" class="social-icon discord">
-                <i class="fab fa-discord"></i>
-                <span>Discord</span>
-            </a>
-            <a href="https://www.twitch.tv/lili___kim" target="_blank" class="social-icon twitch">
-                <i class="fab fa-twitch"></i>
-                <span>Twitch</span>
-            </a>
-        </div>
-        
-        <a href="https://discord.gg/HFdReFSx7" target="_blank" class="discord-button">
-            <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
+    <!-- Панель соцсетей -->
+    <div class="social-panel">
+      <h3 class="social-panel-title"><i class="fas fa-users"></i> Присоединяйтесь к нашему сообществу</h3>
+      
+      <div class="social-icons-row">
+        <!-- Discord -->
+        <a href="https://discord.gg/the-outlast-trials-ru-1112365468435628102" target="_blank" class="social-icon-link">
+          <div class="social-icon-container discord-bg">
+            <i class="fab fa-discord"></i>
+          </div>
+          <span class="social-name">Discord</span>
         </a>
+        
+        <!-- Twitch -->
+        <a href="https://www.twitch.tv/outlasttrialscl" target="_blank" class="social-icon-link">
+          <div class="social-icon-container twitch-bg">
+            <i class="fab fa-twitch"></i>
+          </div>
+          <span class="social-name">Twitch</span>
+        </a>
+        
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@TrialsRU" target="_blank" class="social-icon-link">
+          <div class="social-icon-container youtube-bg">
+            <i class="fab fa-youtube"></i>
+          </div>
+          <span class="social-name">YouTube</span>
+        </a>
+        
+        <!-- Telegram -->
+        <a href="https://t.me/+SlROwVI_pM8zYmYy" target="_blank" class="social-icon-link">
+          <div class="social-icon-container telegram-bg">
+            <i class="fab fa-telegram"></i>
+          </div>
+          <span class="social-name">Telegram</span>
+        </a>
+      </div>
+      
+      <!-- Кнопка "Присоединиться" -->
+      <div class="join-container">
+        <a href="https://discord.gg/the-outlast-trials-ru-1112365468435628102" target="_blank" class="join-button-large">
+          <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
+        </a>
+      </div>
     </div>
+  </main>
 
-    <!-- Footer -->
-    <footer>
-        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 10px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
-        <p style="margin-top: 6px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
-    </footer>
-</div>
-
-<script>
-    // ГЛАВНЫЙ СЛАЙДЕР
-    const track = document.getElementById('sliderTrack');
-    const slides = document.querySelectorAll('.slider-slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    let autoSlideInterval;
-    
-    function updateSlider() {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
+  <script>
+    // Анимация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      const welcomeTitle = document.querySelector('.welcome-title');
+      const rolesTitle = document.querySelector('.roles-title');
+      const description = document.querySelector('.description-text');
+      const socialIcons = document.querySelectorAll('.social-icon-link');
+      
+      // Запуск анимации заголовков
+      setTimeout(() => {
+        welcomeTitle.style.opacity = '1';
+        welcomeTitle.style.transform = 'translateY(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        rolesTitle.style.opacity = '1';
+        rolesTitle.style.transform = 'translateY(0)';
+      }, 300);
+      
+      setTimeout(() => {
+        description.style.opacity = '1';
+        description.style.transform = 'translateY(0)';
+      }, 500);
+      
+      // Последовательная анимация иконок соцсетей
+      socialIcons.forEach((icon, index) => {
+        setTimeout(() => {
+          icon.style.opacity = '1';
+          icon.style.transform = 'translateY(0)';
+        }, 700 + (index * 100));
+      });
+      
+      // Изначальные стили для анимации
+      socialIcons.forEach(icon => {
+        icon.style.opacity = '0';
+        icon.style.transform = 'translateY(20px)';
+        icon.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      });
+      
+      // Мобильное меню
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const navMenu = document.getElementById('nav-menu');
+      
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          navMenu.classList.toggle('active');
+          const icon = this.querySelector('i');
+          if (navMenu.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
         });
-    }
-    
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function goToSlide(index) {
-        currentIndex = index;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 30000);
-    }
-    
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
-    
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-    dots.forEach((dot, index) => dot.addEventListener('click', () => goToSlide(index)));
-    
-    startAutoSlide();
-    
-    const sliderBlock = document.querySelector('.slider-block');
-    sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-    sliderBlock.addEventListener('mouseleave', startAutoSlide);
-</script>
-
-<script>
-    // Плавное появление при скролле
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+        
+        // Закрытие меню при клике на ссылку
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
             }
+          });
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-    
-    document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.5s ease-out';
-        observer.observe(el);
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', function(event) {
+          if (!navMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+            navMenu.classList.remove('active');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon) {
+              icon.classList.remove('fa-times');
+              icon.classList.add('fa-bars');
+            }
+          }
+        });
+      }
+      
+      // Подсветка активной вкладки
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav-menu a');
+      
+      navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
     });
-</script>
-
+  </script>
+  <script src="maintenance-mode.js"></script>
 </body>
 </html>
