@@ -581,26 +581,6 @@
       font-size: 0.7rem;
     }
 
-    .news-category-badge.major {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      border-color: #4a6fa5;
-    }
-
-    .news-category-badge.regular {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      border-color: #4a6fa5;
-    }
-
-    .news-category-badge.hotfix {
-      background: linear-gradient(135deg, #4a4a4a, #2d2d2d);
-      border-color: #666;
-    }
-
-    .news-category-badge.news {
-      background: linear-gradient(135deg, #2c3e50, #3498db);
-      border-color: #5dade2;
-    }
-
     .news-date {
       color: #888;
       font-size: 0.85rem;
@@ -664,6 +644,9 @@
       border-color: #e25d32;
     }
 
+    /* ============================================================
+       ОСНОВНЫЕ СТИЛИ ДЛЯ КОНТЕНТА НОВОСТЕЙ (ЖИРНЫЙ + ОРАНЖЕВЫЙ)
+    ============================================================ */
     .news-content-detailed {
       max-height: 0;
       overflow: hidden;
@@ -672,17 +655,33 @@
       border-radius: 12px;
       margin-top: 0;
       opacity: 0;
-      color: #c2b9d4;
+      color: #d1cce6;
       line-height: 1.7;
       font-size: 0.95rem;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
 
+    /* ВСЕ ЗАГЛАВНЫЕ СЛОВА В КОНТЕНТЕ — ЖИРНЫЕ И ОРАНЖЕВЫЕ */
     .news-content-detailed strong,
     .news-content-detailed b {
       font-weight: 700 !important;
-      color: #e25d32;
+      color: #e16d48 !important;
+    }
+
+    /* Любой текст в верхнем регистре (капс) внутри контента */
+    .news-content-detailed {
+      text-transform: none;
+    }
+
+    /* Дополнительно: стили для заголовков внутри новостей */
+    .news-content-detailed h1,
+    .news-content-detailed h2,
+    .news-content-detailed h3,
+    .news-content-detailed h4 {
+      color: #ffbc9a;
+      font-weight: 700;
+      margin: 12px 0 8px 0;
     }
 
     .news-content-detailed.expanded {
@@ -721,6 +720,11 @@
 
     .news-content-detailed p {
       margin-bottom: 10px;
+    }
+
+    /* Стиль для маркеров списка */
+    .news-content-detailed ul li::marker {
+      color: #e16d48;
     }
 
     /* Лайки */
@@ -1162,8 +1166,8 @@
     // Функция для получения цвета подкатегории
     function getSubcategoryColor(subcategoryName) {
       if (!subcategoryName) return '#888';
-      if (subcategoryName === 'Новости игры') return '#3498db';
-      if (subcategoryName === 'Новости сервера') return '#e67e22';
+      if (subcategoryName === 'Новости игры') return '#e16d48';
+      if (subcategoryName === 'Новости сервера') return '#f1c40f';
       if (subcategoryName === 'Новости сайта') return '#2ecc71';
       return '#888';
     }
@@ -1228,12 +1232,20 @@
         const subcolor = getSubcategoryColor(subcategoryName);
         const subicon = getSubcategoryIcon(subcategoryName);
         
-        // Форматируем контент с поддержкой HTML
+        // Форматируем контент с поддержкой HTML и делаем заглавные слова жирными
         let formattedContent = item.content
           .replace(/\\n/g, '\n')
           .replace(/\n/g, '<br>')
           .replace(/- /g, '• ')
           .replace(/• /g, '<span style="margin-left: 20px; display: inline-block;">• </span>');
+        
+        // Автоматически оборачиваем заглавные слова в <strong> для жирности и оранжевого цвета
+        // Ищем последовательности из 3+ заглавных букв (кириллица или латиница)
+        formattedContent = formattedContent.replace(/([А-ЯЁA-Z]{3,})/g, function(match) {
+          // Если текст уже внутри HTML-тега, пропускаем
+          if (match.indexOf('<') !== -1) return match;
+          return '<strong>' + match + '</strong>';
+        });
         
         newsCard.innerHTML = `
           <div class="news-header">
