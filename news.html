@@ -571,29 +571,33 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       border: 1px solid;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .news-category-badge i {
+      font-size: 0.7rem;
     }
 
     .news-category-badge.major {
       background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
       border-color: #4a6fa5;
     }
 
     .news-category-badge.regular {
       background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
       border-color: #4a6fa5;
     }
 
     .news-category-badge.hotfix {
       background: linear-gradient(135deg, #4a4a4a, #2d2d2d);
-      color: white;
       border-color: #666;
     }
 
     .news-category-badge.news {
       background: linear-gradient(135deg, #2c3e50, #3498db);
-      color: white;
       border-color: #5dade2;
     }
 
@@ -1048,10 +1052,9 @@
           </label>
           <select id="category-select" class="category-select">
             <option value="all">Все категории</option>
-            <option value="major">🔥 Крупное обновление</option>
-            <option value="regular">📰 Обычное обновление</option>
-            <option value="hotfix">🔧 Hotfix Patch Note</option>
-            <option value="news">📢 Новости</option>
+            <option value="game">🎮 Новости игры</option>
+            <option value="server">🖥️ Новости сервера</option>
+            <option value="site">💻 Новости сайта</option>
           </select>
         </div>
 
@@ -1071,7 +1074,7 @@
       </p>
     </div>
 
-    <!-- Сортировка -->
+    <!-- Панель сортировки -->
     <section class="sort-panel">
       <div class="sort-container">
         <div class="sort-order">
@@ -1139,56 +1142,42 @@
   </div>
 
   <script src="news.js"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-    import { getFirestore, doc, getDoc, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+  <script>
+    // ============================================================
+    // ОСНОВНАЯ ЛОГИКА НОВОСТЕЙ
+    // ============================================================
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCwnCrLwtLJ6iaHjTBMyLRCHvuRlKqziCM",
-      authDomain: "the-outlast-trials-ru.firebaseapp.com",
-      projectId: "the-outlast-trials-ru",
-      storageBucket: "the-outlast-trials-ru.firebasestorage.app",
-      messagingSenderId: "842074198989",
-      appId: "1:842074198989:web:8266b4b1e1a8dbd5a1aa84",
-      measurementId: "G-T10LF86WYQ"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const db = getFirestore(app);
-
-    function openImageModal(imageSrc) {
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      modalImg.src = imageSrc;
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeImageModal() {
-      const modal = document.getElementById('imageModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    let currentFilteredNews = [];
-
+    // Функция для форматирования даты
     function formatDate(dateString) {
-      const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const options = { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
       return new Date(dateString).toLocaleDateString('ru-RU', options);
     }
 
-    function getCategoryName(category) {
-      const categories = {
-        'major': '🔥 Крупное обновление',
-        'regular': '📰 Обычное обновление',
-        'hotfix': '🔧 Hotfix Patch Note',
-        'news': '📢 Новости'
-      };
-      return categories[category] || '📰 Новость';
+    // Функция для получения цвета подкатегории
+    function getSubcategoryColor(subcategoryName) {
+      if (!subcategoryName) return '#888';
+      if (subcategoryName === 'Новости игры') return '#3498db';
+      if (subcategoryName === 'Новости сервера') return '#e67e22';
+      if (subcategoryName === 'Новости сайта') return '#2ecc71';
+      return '#888';
     }
 
+    // Функция для получения иконки подкатегории
+    function getSubcategoryIcon(subcategoryName) {
+      if (!subcategoryName) return 'fa-tag';
+      if (subcategoryName === 'Новости игры') return 'fa-gamepad';
+      if (subcategoryName === 'Новости сервера') return 'fa-server';
+      if (subcategoryName === 'Новости сайта') return 'fa-code';
+      return 'fa-tag';
+    }
+
+    // Функция для анимации появления карточек
     function animateNewsCards() {
       const newsCards = document.querySelectorAll('.news-card-detailed');
       newsCards.forEach((card, index) => {
@@ -1198,88 +1187,60 @@
       });
     }
 
-    function updateCurrentCategory(category) {
-      const categoryText = document.getElementById('current-category-text');
-      let categoryDisplay = 'Все';
-      if (category !== 'all') {
-        categoryDisplay = getCategoryName(category);
-      }
-      categoryText.innerHTML = `Категория: <span class="category-name">${categoryDisplay}</span>`;
-    }
-
-    function updateSortStatus(sortType) {
-      const statusElement = document.getElementById('sort-status');
-      let statusText = sortType === 'newest' ? 'Сначала новые' : 'Сначала старые';
-      statusElement.innerHTML = `Сортировка: <span class="status-text">${statusText}</span>`;
-    }
-
-    function sortNews(newsToSort, sortType) {
-      const sortedNews = [...newsToSort];
-      if (sortType === 'newest') {
-        return sortedNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-      } else {
-        return sortedNews.sort((a, b) => new Date(a.date) - new Date(b.date));
-      }
-    }
-
-    let currentUserId = null;
-
-    function getCurrentUserId() {
-      if (!currentUserId) {
-        currentUserId = localStorage.getItem('news_user_id');
-        if (!currentUserId) {
-          currentUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-          localStorage.setItem('news_user_id', currentUserId);
-        }
-      }
-      return currentUserId;
-    }
-
+    // Функция для отображения новостей
     function displayNews(newsToDisplay) {
       const newsList = document.getElementById('news-list');
       const emptyNews = document.getElementById('empty-news');
       const noResults = document.getElementById('no-results');
       const resultsCount = document.querySelector('#results-count span');
-
+      
       newsList.innerHTML = '';
       resultsCount.textContent = newsToDisplay.length;
-
+      
       if (typeof news === 'undefined' || news.length === 0) {
         emptyNews.style.display = 'block';
         noResults.style.display = 'none';
         return;
       }
-
+      
       if (newsToDisplay.length === 0) {
         emptyNews.style.display = 'none';
         noResults.style.display = 'block';
         return;
       }
-
+      
       emptyNews.style.display = 'none';
       noResults.style.display = 'none';
-
-      newsToDisplay.forEach(item => {
+      
+      newsToDisplay.forEach(function(item, index) {
         const newsCard = document.createElement('div');
         newsCard.className = 'news-card-detailed';
-
+        
+        // Определяем основную категорию для бейджа
         const categoryClass = item.category || 'regular';
-        const categoryName = getCategoryName(item.category);
+        const categoryName = item.category === 'major' ? '🔥 Крупное обновление' :
+                             item.category === 'hotfix' ? '🔧 Hotfix' :
+                             item.category === 'regular' ? '📰 Обновление' :
+                             '📢 Новости';
+        
         const formattedDate = formatDate(item.date);
-
-        if (item.likes === undefined) item.likes = 0;
-        if (item.dislikes === undefined) item.dislikes = 0;
-        if (item.userVote === undefined) item.userVote = null;
-
+        const subcategoryName = item.subcategory || 'Новости';
+        const subcolor = getSubcategoryColor(subcategoryName);
+        const subicon = getSubcategoryIcon(subcategoryName);
+        
+        // Форматируем контент с поддержкой HTML
         let formattedContent = item.content
           .replace(/\\n/g, '\n')
           .replace(/\n/g, '<br>')
           .replace(/- /g, '• ')
           .replace(/• /g, '<span style="margin-left: 20px; display: inline-block;">• </span>');
-
+        
         newsCard.innerHTML = `
           <div class="news-header">
-            <span class="news-category-badge ${categoryClass}">${categoryName}</span>
+            <span class="news-category-badge ${categoryClass}" style="background: ${subcolor}; border-color: ${subcolor};">
+              <i class="fas ${subicon}"></i>
+              ${subcategoryName}
+            </span>
             <span class="news-date"><i class="far fa-calendar-alt"></i> ${formattedDate}</span>
           </div>
           <div class="news-card-header">
@@ -1291,24 +1252,26 @@
           </div>
           <div class="news-content-detailed">${formattedContent}</div>
           <div class="news-actions">
-            <button class="vote-btn like-btn ${item.userVote === 'like' ? 'active' : ''}" data-vote="like">
+            <button class="vote-btn like-btn" data-vote="like">
               <i class="fas fa-thumbs-up"></i>
-              <span class="like-count">${item.likes}</span>
+              <span class="like-count">0</span>
             </button>
-            <button class="vote-btn dislike-btn ${item.userVote === 'dislike' ? 'active' : ''}" data-vote="dislike">
+            <button class="vote-btn dislike-btn" data-vote="dislike">
               <i class="fas fa-thumbs-down"></i>
-              <span class="dislike-count">${item.dislikes}</span>
+              <span class="dislike-count">0</span>
             </button>
           </div>
         `;
-
+        
         newsList.appendChild(newsCard);
-
+        
+        // Обработчик для кнопки "Подробнее"
         const moreBtn = newsCard.querySelector('.more-btn');
         const contentBlock = newsCard.querySelector('.news-content-detailed');
-
+        
         moreBtn.addEventListener('click', function() {
           const isExpanded = this.getAttribute('data-expanded') === 'true';
+          
           if (isExpanded) {
             this.setAttribute('data-expanded', 'false');
             this.classList.remove('expanded');
@@ -1319,9 +1282,11 @@
             this.classList.add('expanded');
             contentBlock.classList.add('expanded');
             this.innerHTML = '<span>Скрыть</span><i class="fas fa-chevron-up"></i>';
-            setTimeout(() => {
+            
+            // Добавляем обработчики для изображений внутри новости
+            setTimeout(function() {
               const images = contentBlock.querySelectorAll('img');
-              images.forEach(img => {
+              images.forEach(function(img) {
                 if (!img.hasAttribute('data-modal-attached')) {
                   img.setAttribute('data-modal-attached', 'true');
                   img.addEventListener('click', function(e) {
@@ -1333,302 +1298,196 @@
             }, 50);
           }
         });
-
+        
+        // Обработчики для лайков
         const likeBtn = newsCard.querySelector('.like-btn');
         const dislikeBtn = newsCard.querySelector('.dislike-btn');
-        const likeCountSpan = newsCard.querySelector('.like-count');
-        const dislikeCountSpan = newsCard.querySelector('.dislike-count');
-
-        async function handleVote(voteType) {
-          const newsId = item.id;
-          if (newsId == null) return;
-
-          const userId = getCurrentUserId();
-          const newsRef = doc(db, 'news', newsId.toString());
-          const userVoteRef = doc(db, 'news', newsId.toString(), 'votes', userId);
-
-          const previousState = {
-            likes: item.likes,
-            dislikes: item.dislikes,
-            userVote: item.userVote,
-            likeActive: likeBtn.classList.contains('active'),
-            dislikeActive: dislikeBtn.classList.contains('active')
-          };
-
-          let newLikes = item.likes;
-          let newDislikes = item.dislikes;
-          let newUserVote = null;
-
-          if (item.userVote === 'like') newLikes--;
-          else if (item.userVote === 'dislike') newDislikes--;
-
-          if (item.userVote === voteType) {
-            newUserVote = null;
-          } else {
-            if (voteType === 'like') newLikes++;
-            else newDislikes++;
-            newUserVote = voteType;
-          }
-
-          item.likes = newLikes;
-          item.dislikes = newDislikes;
-          item.userVote = newUserVote;
-
-          likeCountSpan.textContent = newLikes;
-          dislikeCountSpan.textContent = newDislikes;
-
-          if (newUserVote === 'like') {
-            likeBtn.classList.add('active');
-            dislikeBtn.classList.remove('active');
-          } else if (newUserVote === 'dislike') {
-            dislikeBtn.classList.add('active');
-            likeBtn.classList.remove('active');
-          } else {
-            likeBtn.classList.remove('active');
-            dislikeBtn.classList.remove('active');
-          }
-
-          likeBtn.disabled = true;
-          dislikeBtn.disabled = true;
-
-          try {
-            await runTransaction(db, async (transaction) => {
-              const newsDoc = await transaction.get(newsRef);
-              let currentLikes = 0, currentDislikes = 0, currentVote = null;
-              if (newsDoc.exists()) {
-                const data = newsDoc.data();
-                currentLikes = data.likes || 0;
-                currentDislikes = data.dislikes || 0;
-              }
-              const userVoteDoc = await transaction.get(userVoteRef);
-              if (userVoteDoc.exists()) {
-                currentVote = userVoteDoc.data().vote;
-              }
-
-              let finalLikes = currentLikes;
-              let finalDislikes = currentDislikes;
-
-              if (currentVote === 'like') finalLikes--;
-              else if (currentVote === 'dislike') finalDislikes--;
-
-              if (currentVote === voteType) {
-                transaction.delete(userVoteRef);
-                transaction.update(newsRef, {
-                  likes: finalLikes,
-                  dislikes: finalDislikes,
-                  lastUpdated: new Date().toISOString()
-                });
-              } else {
-                if (voteType === 'like') finalLikes++;
-                else finalDislikes++;
-                transaction.set(userVoteRef, {
-                  vote: voteType,
-                  timestamp: new Date().toISOString(),
-                  userId: userId
-                });
-                transaction.set(newsRef, {
-                  likes: finalLikes,
-                  dislikes: finalDislikes,
-                  lastUpdated: new Date().toISOString()
-                }, { merge: true });
-              }
-            });
-
-            const updatedDoc = await getDoc(newsRef);
-            if (updatedDoc.exists()) {
-              const data = updatedDoc.data();
-              item.likes = data.likes || 0;
-              item.dislikes = data.dislikes || 0;
-              const userVoteDoc = await getDoc(userVoteRef);
-              item.userVote = userVoteDoc.exists() ? userVoteDoc.data().vote : null;
-              likeCountSpan.textContent = item.likes;
-              dislikeCountSpan.textContent = item.dislikes;
-              if (item.userVote === 'like') {
-                likeBtn.classList.add('active');
-                dislikeBtn.classList.remove('active');
-              } else if (item.userVote === 'dislike') {
-                dislikeBtn.classList.add('active');
-                likeBtn.classList.remove('active');
-              } else {
-                likeBtn.classList.remove('active');
-                dislikeBtn.classList.remove('active');
-              }
-            }
-          } catch (error) {
-            console.error('Ошибка:', error);
-            item.likes = previousState.likes;
-            item.dislikes = previousState.dislikes;
-            item.userVote = previousState.userVote;
-            likeCountSpan.textContent = previousState.likes;
-            dislikeCountSpan.textContent = previousState.dislikes;
-            if (previousState.likeActive) {
-              likeBtn.classList.add('active');
-              dislikeBtn.classList.remove('active');
-            } else if (previousState.dislikeActive) {
-              dislikeBtn.classList.add('active');
-              likeBtn.classList.remove('active');
-            } else {
-              likeBtn.classList.remove('active');
-              dislikeBtn.classList.remove('active');
-            }
-          } finally {
-            likeBtn.disabled = false;
-            dislikeBtn.disabled = false;
-          }
-        }
-
-        likeBtn.addEventListener('click', (e) => {
+        
+        likeBtn.addEventListener('click', function(e) {
           e.stopPropagation();
-          handleVote('like');
+          const count = this.querySelector('.like-count');
+          const current = parseInt(count.textContent);
+          if (this.classList.contains('active')) {
+            this.classList.remove('active');
+            count.textContent = current - 1;
+          } else {
+            this.classList.add('active');
+            count.textContent = current + 1;
+            dislikeBtn.classList.remove('active');
+          }
         });
-
-        dislikeBtn.addEventListener('click', (e) => {
+        
+        dislikeBtn.addEventListener('click', function(e) {
           e.stopPropagation();
-          handleVote('dislike');
+          const count = this.querySelector('.dislike-count');
+          const current = parseInt(count.textContent);
+          if (this.classList.contains('active')) {
+            this.classList.remove('active');
+            count.textContent = current - 1;
+          } else {
+            this.classList.add('active');
+            count.textContent = current + 1;
+            likeBtn.classList.remove('active');
+          }
         });
       });
-
+      
       setTimeout(animateNewsCards, 100);
     }
 
-    async function loadVotesFromFirestore() {
-      const userId = getCurrentUserId();
-      for (let i = 0; i < news.length; i++) {
-        const item = news[i];
-        const newsId = i;
-        news[i].id = newsId;
-        const newsRef = doc(db, 'news', newsId.toString());
-        const userVoteRef = doc(db, 'news', newsId.toString(), 'votes', userId);
-        try {
-          const newsDoc = await getDoc(newsRef);
-          if (newsDoc.exists()) {
-            const data = newsDoc.data();
-            news[i].likes = data.likes || 0;
-            news[i].dislikes = data.dislikes || 0;
-          } else {
-            await setDoc(newsRef, { likes: 0, dislikes: 0, createdAt: new Date().toISOString() });
-            news[i].likes = 0;
-            news[i].dislikes = 0;
-          }
-          const userVoteDoc = await getDoc(userVoteRef);
-          news[i].userVote = userVoteDoc.exists() ? userVoteDoc.data().vote : null;
-        } catch (error) {
-          console.error('Ошибка загрузки голосов для новости', newsId, error);
-          news[i].likes = 0;
-          news[i].dislikes = 0;
-          news[i].userVote = null;
-        }
-      }
-      return news;
+    // Функция для открытия изображения в полноэкранном режиме
+    function openImageModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
-    function addIdsToNews() {
-      if (typeof news !== 'undefined' && news.length > 0) {
-        news.forEach((item, index) => {
-          if (!item.id) item.id = index;
-          if (item.likes === undefined) item.likes = 0;
-          if (item.dislikes === undefined) item.dislikes = 0;
-          if (item.userVote === undefined) item.userVote = null;
-        });
+    // Функция для закрытия модального окна
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Переменная для хранения текущих отфильтрованных новостей
+    let currentFilteredNews = [];
+
+    // Функция для обновления отображения текущей категории
+    function updateCurrentCategory(category) {
+      const categoryText = document.getElementById('current-category-text');
+      let categoryDisplay = 'Все';
+      if (category === 'game') categoryDisplay = 'Новости игры';
+      else if (category === 'server') categoryDisplay = 'Новости сервера';
+      else if (category === 'site') categoryDisplay = 'Новости сайта';
+      
+      categoryText.innerHTML = `Категория: <span class="category-name">${categoryDisplay}</span>`;
+    }
+
+    // Функция для обновления статуса сортировки
+    function updateSortStatus(sortType) {
+      const statusElement = document.getElementById('sort-status');
+      let statusText = sortType === 'newest' ? 'Сначала новые' : 'Сначала старые';
+      statusElement.innerHTML = `Сортировка: <span class="status-text">${statusText}</span>`;
+    }
+
+    // Функция для сортировки новостей
+    function sortNews(newsToSort, sortType) {
+      const sortedNews = [...newsToSort];
+      if (sortType === 'newest') {
+        return sortedNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+      } else {
+        return sortedNews.sort((a, b) => new Date(a.date) - new Date(b.date));
       }
     }
 
-    async function initNews() {
-      addIdsToNews();
-      await loadVotesFromFirestore();
-      if (news.length > 0 && news[0].date) {
-        news.sort((a, b) => new Date(b.date) - new Date(a.date));
-      }
-      displayNews(news);
-    }
-
-    initNews();
-
+    // Функция фильтрации новостей
     function filterNews() {
       const searchTerm = document.getElementById('news-search').value.toLowerCase();
       const selectedCategory = document.getElementById('category-select').value;
       const sortType = document.getElementById('sort-select').value;
-
+      
       updateCurrentCategory(selectedCategory);
-
+      
       let filteredNews = news;
+      
       if (selectedCategory !== 'all') {
-        filteredNews = filteredNews.filter(item => item.category === selectedCategory);
+        const categoryMap = {
+          'game': 'Новости игры',
+          'server': 'Новости сервера',
+          'site': 'Новости сайта'
+        };
+        const targetSubcategory = categoryMap[selectedCategory];
+        if (targetSubcategory) {
+          filteredNews = filteredNews.filter(function(item) {
+            return item.subcategory === targetSubcategory;
+          });
+        }
       }
+      
       if (searchTerm) {
-        filteredNews = filteredNews.filter(item => item.title.toLowerCase().includes(searchTerm));
+        filteredNews = filteredNews.filter(function(item) {
+          return item.title.toLowerCase().includes(searchTerm);
+        });
       }
-
+      
       currentFilteredNews = filteredNews;
       const sortedNews = sortNews(currentFilteredNews, sortType);
       updateSortStatus(sortType);
       displayNews(sortedNews);
     }
 
+    // Функция применения сортировки
     function applySorting() {
       const sortType = document.getElementById('sort-select').value;
+      
       if (currentFilteredNews.length === 0 && news && news.length > 0) {
         currentFilteredNews = news;
       }
+      
       const sortedNews = sortNews(currentFilteredNews, sortType);
       updateSortStatus(sortType);
       displayNews(sortedNews);
     }
 
+    // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(() => {
-        const pageTitle = document.querySelector('.page-title');
-        const pageDesc = document.querySelector('.page-description');
-        const currentCategory = document.querySelector('.current-category');
-        const sortPanel = document.querySelector('.sort-panel');
-        const newsContainer = document.querySelector('.news-container');
-        if (pageTitle) { pageTitle.style.opacity = '1'; pageTitle.style.transform = 'translateY(0)'; }
-        if (pageDesc) { pageDesc.style.opacity = '1'; pageDesc.style.transform = 'translateY(0)'; }
-        if (currentCategory) { currentCategory.style.opacity = '1'; currentCategory.style.transform = 'translateY(0)'; }
-        if (sortPanel) { sortPanel.style.opacity = '1'; sortPanel.style.transform = 'translateY(0)'; }
-        if (newsContainer) { newsContainer.style.opacity = '1'; newsContainer.style.transform = 'translateY(0)'; }
-      }, 100);
-
+      
+      // Проверяем наличие новостей
       if (typeof news === 'undefined' || news.length === 0) {
         document.getElementById('empty-news').style.display = 'block';
         document.getElementById('results-count').querySelector('span').textContent = '0';
         return;
       }
-
+      
+      // Инициализация
       updateCurrentCategory('all');
       updateSortStatus('newest');
       currentFilteredNews = news;
+      
       const sortedNews = sortNews(news, 'newest');
       displayNews(sortedNews);
-
+      
+      // Обработчики для фильтрации
       document.getElementById('news-search').addEventListener('input', filterNews);
       document.getElementById('category-select').addEventListener('change', filterNews);
+      
+      // Обработчики для сортировки
       document.getElementById('sort-select').addEventListener('change', applySorting);
-
+      
+      // Кнопка очистки поиска
       document.getElementById('clear-search').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         filterNews();
       });
-
+      
+      // Кнопка сброса фильтров
       document.getElementById('reset-filters').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         document.getElementById('category-select').value = 'all';
         updateCurrentCategory('all');
         filterNews();
       });
-
+      
+      // Кнопка сброса сортировки
       document.getElementById('reset-sort').addEventListener('click', function() {
         document.getElementById('sort-select').value = 'newest';
         updateSortStatus('newest');
+        
         if (currentFilteredNews.length === 0 && news && news.length > 0) {
           currentFilteredNews = news;
         }
+        
         const sortedNews = sortNews(currentFilteredNews, 'newest');
         displayNews(sortedNews);
       });
-
+      
+      // Закрытие модального окна по Escape
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeImageModal();
+        if (e.key === 'Escape') {
+          closeImageModal();
+        }
       });
 
       // VIEWED NEWS BADGE
@@ -1636,6 +1495,7 @@
       const viewed = parseInt(localStorage.getItem('viewedNews') || '0', 10);
       const unread = Math.max(totalNews - viewed, 0);
       const newsLink = document.getElementById('newsLink');
+      
       if (newsLink) {
         const oldBadge = newsLink.querySelector('.news-badge');
         if (oldBadge) oldBadge.remove();
