@@ -765,6 +765,7 @@
 
 <!-- Фоновый слайдер -->
 <div class="bg-slider" id="bgSlider">
+    <img src="images/фон-1.webp" alt="фон 1" class="active">
 <img src="images/фон-1.webp" alt="фон 1" class="active">
 <img src="images/фон-2.webp" alt="фон 2">
 <img src="images/фон-3.webp" alt="фон 3">
@@ -822,7 +823,7 @@
 <div class="smoke-overlay"></div>
 
 <script>
-    // ===== НАДЕЖНЫЙ СЛАЙДЕР ФОНА (без ускорения при переключении вкладок) =====
+    // ===== НАДЕЖНЫЙ СЛАЙДЕР ФОНА =====
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
@@ -830,7 +831,6 @@
         let isTransitioning = false;
         let timerId = null;
 
-        // Устанавливаем начальное состояние
         imgs.forEach((img, i) => {
             img.classList.toggle('active', i === 0);
         });
@@ -839,16 +839,10 @@
             if (isTransitioning) return;
             isTransitioning = true;
 
-            // Убираем активный класс у текущего
             imgs[current].classList.remove('active');
-            
-            // Переходим к следующему
             current = (current + 1) % total;
-            
-            // Добавляем активный класс новому (transition сработает автоматически)
             imgs[current].classList.add('active');
 
-            // Разрешаем следующий переход через 3.5 секунды (чуть больше transition)
             setTimeout(() => {
                 isTransitioning = false;
             }, 3500);
@@ -866,22 +860,17 @@
             }
         }
 
-        // Запускаем
         startInterval();
 
-        // Если страница становится видимой — перезапускаем интервал, чтобы избежать накопления
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
                 stopInterval();
             } else {
-                // При возвращении на страницу — перезапускаем с чистым интервалом
                 startInterval();
-                // Также сбрасываем флаг, если он завис
                 isTransitioning = false;
             }
         });
 
-        // Очистка при выгрузке страницы
         window.addEventListener('beforeunload', function() {
             stopInterval();
         });
@@ -901,14 +890,61 @@
             document.body.appendChild(p);
         }
     })();
+
+    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
+    function selectAudioFile() {
+        // Определяем качество сети через navigator.connection (если доступно)
+        let isSlowNetwork = false;
+        let isSavingData = false;
+
+        if (navigator.connection) {
+            const conn = navigator.connection;
+            // Медленная сеть: effectiveType 'slow-2g', '2g', '3g' с низкой пропускной способностью
+            if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
+                isSlowNetwork = true;
+            }
+            // Экономия трафика
+            if (conn.saveData) {
+                isSavingData = true;
+            }
+            // Дополнительно: если rtt > 300ms или downlink < 0.5 Mbps
+            if (conn.rtt && conn.rtt > 300) {
+                isSlowNetwork = true;
+            }
+            if (conn.downlink && conn.downlink < 0.5) {
+                isSlowNetwork = true;
+            }
+        }
+
+        // Также можно проверить загрузку страницы — если долго грузилась
+        const loadTime = performance.now();
+        const isSlowLoad = loadTime > 3000; // если страница грузилась больше 3 секунд
+
+        // При медленной сети, экономии трафика или медленной загрузке — loading 3.mp3
+        if (isSlowNetwork || isSavingData || isSlowLoad) {
+            return 'loading 3.mp3';
+        }
+
+        // В остальных случаях — взвешенный выбор между loading.mp3 и loading 2.mp3
+        // loading 2.mp3 — 70% (чаще всего)
+        // loading.mp3 — 30% (реже)
+        const rand = Math.random();
+        if (rand < 0.70) {
+            return 'loading 2.mp3';
+        } else {
+            return 'loading.mp3';
+        }
+    }
+
+    // Выбираем файл и устанавливаем его в аудио
+    const audio = document.getElementById('bgAudio');
+    const selectedFile = selectAudioFile();
+    audio.src = 'images/' + selectedFile;
+    console.log('Выбран аудиофайл:', selectedFile);
 </script>
 
-<!-- Аудио — несколько файлов для экрана загрузки -->
-<audio id="bgAudio" loop preload="auto" style="display:none;">
-    <source src="images/loading.mp3" type="audio/mpeg">
-    <source src="images/loading 2.mp3" type="audio/mpeg">
-    <source src="images/loading 3.mp3" type="audio/mpeg">
-</audio>
+<!-- Аудио — динамически выбирается в скрипте выше -->
+<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <div class="main-wrapper">
     <!-- ====== СТРАНИЦА ВХОДА ====== -->
@@ -1074,6 +1110,7 @@
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
+            // Запускаем аудио (уже выбранный файл)
             const audio = document.getElementById('bgAudio');
             audio.volume = 0.35;
             audio.currentTime = 0;
