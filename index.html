@@ -1234,8 +1234,23 @@
     ];
     const COMMON_PASSWORD = 'outlast';
 
+    // ===== ПРОВЕРКА MAINTENANCE.TXT =====
+    async function checkMaintenance() {
+        try {
+            const response = await fetch('maintenance.txt?_=' + Date.now());
+            if (!response.ok) {
+                return 0; // Если файл не найден — считаем что всё работает
+            }
+            const text = await response.text();
+            const status = parseInt(text.trim(), 10);
+            return isNaN(status) ? 0 : status;
+        } catch (error) {
+            return 0; // При ошибке загрузки — считаем что всё работает
+        }
+    }
+
     // ===== ЛОГИКА ВХОДА =====
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
         const pass = document.getElementById('userPassword').value.trim();
@@ -1249,13 +1264,25 @@
 
             const audio = document.getElementById('bgAudio');
             if (audio) {
-                // Переключаем на loading 3.mp3 и запускаем
                 audio.src = 'images/loading 3.mp3';
                 audio.volume = 0.35;
                 audio.currentTime = 0;
                 audio.load();
                 audio.play().catch(() => {});
             }
+
+            // Сразу проверяем maintenance.txt
+            const maintenanceStatus = await checkMaintenance();
+            
+            if (maintenanceStatus === 1) {
+                // Если maintenance = 1 — сразу показываем ошибку
+                connectScreen.classList.remove('active');
+                document.getElementById('errorScreen').classList.add('active');
+                return;
+            }
+
+            // Если всё ок — показываем процесс подключения
+            // (дальше будет ждать нажатия кнопки)
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
@@ -1270,31 +1297,44 @@
     let isProcessing = false;
     let connectionTimer = null;
 
-    // Функция запуска процесса подключения
-    function startConnectionProcess() {
+    // Функция запуска процесса подключения с проверкой maintenance
+    async function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
 
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
-        // Аудио уже должно играть loading 3.mp3, но если нет — запускаем
-        if (audio) {
-            if (audio.paused) {
-                audio.play().catch(() => {});
-            }
+        if (audio && audio.paused) {
+            audio.play().catch(() => {});
         }
 
+        // Случайное время от 30 до 50 секунд
         const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
         console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
 
-        connectionTimer = setTimeout(() => {
-            // Показываем ошибку, музыка продолжает играть
+        // Ждём указанное время
+        await new Promise(resolve => {
+            connectionTimer = setTimeout(resolve, delay);
+        });
+
+        // После ожидания — проверяем maintenance.txt
+        const maintenanceStatus = await checkMaintenance();
+
+        if (maintenanceStatus === 1) {
+            // Ошибка — показываем экран ошибки, музыка продолжает играть
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
-            isProcessing = false;
-            connectionTimer = null;
-        }, delay);
+        } else {
+            // Успех — переходим на главную
+            connectScreen.classList.remove('active');
+            document.getElementById('mainContent').classList.add('active');
+            document.body.classList.add('scroll-enabled');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        isProcessing = false;
+        connectionTimer = null;
     }
 
     // Клик по экрану или по кнопке
@@ -1320,30 +1360,22 @@
 
     // ===== ПОВТОРНАЯ ПОПЫТКА (кнопка "Перезагрузить") =====
     document.getElementById('retryBtn').addEventListener('click', function() {
-        // Очищаем старый таймер если есть
         if (connectionTimer) {
             clearTimeout(connectionTimer);
             connectionTimer = null;
         }
         isProcessing = false;
 
-        // Скрываем ошибку, показываем экран подключения
         errorScreen.classList.remove('active');
         connectScreen.classList.add('active');
-
-        // Показываем кнопку и скрываем спиннер
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
 
-        // АУДИО НЕ ПЕРЕЗАПУСКАЕМ — оно продолжает играть с текущего момента
-        // Убеждаемся что оно играет
-        if (audio) {
-            if (audio.paused) {
-                audio.play().catch(() => {});
-            }
+        if (audio && audio.paused) {
+            audio.play().catch(() => {});
         }
 
-        // Автоматически запускаем процесс подключения через небольшую задержку
+        // Автоматически запускаем процесс подключения через задержку
         setTimeout(() => {
             if (connectScreen.classList.contains('active') && !isProcessing) {
                 startConnectionProcess();
