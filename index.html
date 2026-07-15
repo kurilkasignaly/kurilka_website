@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Курилка Синьялы | Главная — The Outlast Trials</title>
+    <title>Курилка Синьялы — вход / главная</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -15,96 +15,93 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0b0811;
             color: #f0eef7;
-            overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Видео фон */
-        .video-background {
+        /* Тёмный фон с текстурой и дымом */
+        body::before {
+            content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(100, 40, 20, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(180, 70, 30, 0.15) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, rgba(20, 15, 25, 0.4) 0px, rgba(20, 15, 25, 0.4) 2px, transparent 2px, transparent 6px);
             z-index: -2;
         }
 
-        /* Темный оверлей поверх видео */
-        body::after {
-            content: "";
+        /* Дымовые частицы поверх фона */
+        .smoke-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.65);
+            inset: 0;
+            pointer-events: none;
             z-index: -1;
+            background: 
+                radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.06) 0%, transparent 40%);
         }
 
-        /* Плавные частицы дыма */
-        @keyframes floatSmoke {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.2; }
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            30% { opacity: 0.25; }
             80% { opacity: 0.1; }
-            100% { transform: translateY(-200px) scale(2.5); opacity: 0; }
+            100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
 
         .smoke-particle {
             position: fixed;
-            bottom: -50px;
-            background: radial-gradient(circle, rgba(220,90,50,0.12) 0%, rgba(220,90,50,0) 70%);
+            bottom: -40px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(200, 100, 50, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 1;
-            animation: floatSmoke linear infinite;
+            z-index: 0;
+            animation: floatParticle 14s linear infinite;
         }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-        }
-
-        .container {
+        /* Основной контейнер — имитация страницы входа + главная */
+        .main-wrapper {
+            width: 100%;
             max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
+            padding: 1.5rem 2rem;
             position: relative;
             z-index: 10;
         }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            animation: fadeInScale 0.6s ease-out;
-            transition: all 0.3s;
+        /* ===== СТРАНИЦА ВХОДА ===== */
+        .login-overlay {
+            background: rgba(10, 7, 18, 0.88);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(200, 100, 50, 0.3);
+            border-radius: 60px;
+            padding: 3rem 2.5rem;
+            max-width: 520px;
+            margin: 2rem auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(200, 80, 40, 0.15);
+            transition: all 0.3s ease;
+            animation: fadeInScale 0.7s ease-out;
         }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        .login-overlay:hover {
+            border-color: rgba(220, 100, 50, 0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(200, 80, 40, 0.1);
         }
 
-        .logo h1 {
-            font-size: 2rem;
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h1 {
+            font-size: 2.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
             background-size: 200% auto;
@@ -112,96 +109,223 @@
             background-clip: text;
             color: transparent;
             animation: smokePulse 3s ease-in-out infinite;
+            letter-spacing: -0.5px;
         }
 
-        .logo p {
+        .login-header .sub {
+            color: #a090b0;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            padding-top: 0.6rem;
+            margin-top: 0.3rem;
+        }
+
+        .login-header .sub i {
+            color: #e25d32;
+            margin: 0 6px;
+        }
+
+        .input-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
             font-size: 0.8rem;
-            color: #c2b9d4;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #b5a8c8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
 
-        /* Навигация */
+        .input-group .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 42px;
+            color: #7a6a8a;
+            font-size: 1.1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            background: rgba(20, 15, 30, 0.7);
+            border: 1px solid rgba(200, 100, 50, 0.25);
+            border-radius: 40px;
+            color: #f0eef7;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #e25d32;
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+            background: rgba(20, 15, 30, 0.9);
+        }
+
+        .input-group input::placeholder {
+            color: #5a4a6a;
+            font-weight: 300;
+        }
+
+        .login-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .login-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(188, 70, 39, 0.3);
+            letter-spacing: 1px;
+            font-family: inherit;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 28px rgba(188, 70, 39, 0.5);
+        }
+
+        .login-btn i {
+            margin-right: 10px;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.75rem;
+            color: #5a4a6a;
+            border-top: 1px solid rgba(200, 100, 50, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .login-footer a {
+            color: #e25d32;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ===== ОСНОВНАЯ ГЛАВНАЯ (скрыта до входа) ===== */
+        .main-content {
+            display: none;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        /* Стили для главной — мрачный, индустриальный, с дымом */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 1rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo p {
+            font-size: 0.7rem;
+            color: #7a6a8a;
+        }
+
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
+            gap: 0.5rem;
             background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1rem;
             border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
+            color: #b5a8c8;
+            transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
         }
 
         .nav-btn:hover {
             color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+            text-shadow: 0 0 8px rgba(220,90,50,0.3);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* Бейдж для новостей */
-        .news-badge {
-            margin-left: 4px;
-            background: #ff2a2a;
-            color: white;
-            border-radius: 10px;
-            padding: 1px 8px;
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        /* Статистика */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
         .stat-card {
             background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border-radius: 28px;
-            padding: 1.8rem;
+            padding: 1.5rem;
             text-align: center;
-            border: 1px solid rgba(220,90,50,0.25);
+            border: 1px solid rgba(220,90,50,0.15);
             transition: all 0.3s;
-            animation: fadeInScale 0.6s ease-out;
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
             border-color: #e16d48;
-            background: rgba(28, 20, 40, 0.7);
+            transform: translateY(-4px);
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: 2.4rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffbc9a, #e25d32);
             -webkit-background-clip: text;
@@ -209,15 +333,14 @@
             color: transparent;
         }
 
-        /* СЛАЙДЕР БЛОК */
+        /* Слайдер в стиле индустриального ужаса */
         .slider-block {
             position: relative;
-            margin: 4rem 0;
-            background: rgba(18, 12, 28, 0.45);
+            margin: 3rem 0;
+            background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
             border-radius: 48px;
-            border: 1px solid rgba(220,90,50,0.25);
-            animation: fadeInScale 0.6s ease-out;
+            border: 1px solid rgba(220,90,50,0.2);
             overflow: hidden;
         }
 
@@ -229,34 +352,28 @@
 
         .slider-btn {
             position: absolute;
-            background: rgba(188, 74, 40, 0.7);
+            background: rgba(188, 74, 40, 0.6);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(220,90,50,0.6);
-            width: 48px;
-            height: 48px;
+            border: 1px solid rgba(220,90,50,0.4);
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1.4rem;
             color: white;
             z-index: 20;
+            font-size: 1.2rem;
         }
 
         .slider-btn:hover {
             background: #e25d32;
-            transform: scale(1.05);
         }
 
-        .slider-btn-left {
-            left: 20px;
-        }
-
-        .slider-btn-right {
-            right: 20px;
-        }
+        .slider-btn-left { left: 16px; }
+        .slider-btn-right { right: 16px; }
 
         .slider-track-wrapper {
             flex: 1;
@@ -266,78 +383,76 @@
 
         .slider-track {
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.5s ease;
         }
 
         .slider-slide {
             min-width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 3rem;
+            gap: 2.5rem;
             padding: 2rem;
         }
 
         .slide-image {
             flex: 1;
-            border-radius: 28px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(200, 100, 50, 0.2);
         }
 
         .slide-image img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.4s ease;
+            filter: grayscale(0.3) contrast(1.1);
+            transition: filter 0.4s;
         }
 
         .slide-image img:hover {
-            transform: scale(1.02);
+            filter: grayscale(0) contrast(1.2);
         }
 
         .slide-text {
             flex: 1;
-            text-align: left;
         }
 
         .slide-text h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, #fff, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 0.8rem;
         }
 
         .slide-text p {
-            font-size: 1rem;
+            color: #b5a8c8;
             line-height: 1.5;
-            color: #d1cce6;
-            margin-bottom: 1.2rem;
         }
 
-        .slide-text .badge-slider {
+        .badge-slider {
             display: inline-block;
-            background: linear-gradient(135deg, #e25d32, #bc4627);
-            padding: 6px 18px;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            padding: 4px 18px;
             border-radius: 40px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
+            margin-top: 0.8rem;
         }
 
         .slider-dots {
             display: flex;
             justify-content: center;
             gap: 0.8rem;
-            padding: 1rem 0 1.5rem 0;
+            padding: 1rem 0 1.5rem;
         }
 
         .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -348,44 +463,32 @@
             border-radius: 20px;
         }
 
-        /* Блок соцсетей */
         .social-block {
-            margin-top: 4rem;
+            margin-top: 3rem;
             text-align: center;
-            background: rgba(18, 12, 28, 0.45);
+            background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
             border-radius: 48px;
             padding: 2.5rem;
-            border: 1px solid rgba(220,90,50,0.25);
-            animation: fadeInScale 0.6s ease-out;
-        }
-
-        .social-block h2 {
-            font-size: 2rem;
-            margin-bottom: 0.8rem;
-            color: #fff;
-        }
-
-        .social-block p {
-            color: #c2b9d4;
-            margin-bottom: 1.5rem;
+            border: 1px solid rgba(220,90,50,0.15);
         }
 
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 2.5rem;
             flex-wrap: wrap;
+            margin: 1.5rem 0;
         }
 
         .social-icon {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
             text-decoration: none;
             transition: all 0.3s;
+            color: #b5a8c8;
         }
 
         .social-icon i {
@@ -393,22 +496,12 @@
             transition: all 0.3s;
         }
 
-        .social-icon span {
-            color: #c2b9d4;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
+        .social-icon.discord i { color: #5865F2; }
+        .social-icon.twitch i { color: #9146FF; }
 
         .social-icon:hover {
             transform: translateY(-4px);
         }
-
-        .social-icon:hover i {
-            transform: scale(1.08);
-        }
-
-        .social-icon.discord i { color: #5865F2; }
-        .social-icon.twitch i { color: #9146FF; }
 
         .discord-button {
             display: inline-block;
@@ -417,299 +510,252 @@
             border-radius: 60px;
             color: white;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(88,101,242,0.25);
-            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(88,101,242,0.2);
+            font-size: 0.9rem;
         }
 
         .discord-button:hover {
             transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(88,101,242,0.4);
+            box-shadow: 0 6px 24px rgba(88,101,242,0.4);
         }
 
-        /* Footer */
         footer {
-            margin-top: 5rem;
+            margin-top: 4rem;
             text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
+            padding: 1.8rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.2);
+            font-size: 0.7rem;
             background: rgba(8, 6, 15, 0.3);
             backdrop-filter: blur(8px);
             border-radius: 50px;
         }
 
-        /* Адаптация */
-        @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.65rem; }
-            .logo h1 { font-size: 1.5rem; }
-            .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; gap: 1.5rem; }
-            .slide-text { text-align: center; }
-            .slide-text h2 { font-size: 1.8rem; }
-            .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
-            .slider-btn-left { left: 10px; }
-            .slider-btn-right { right: 10px; }
-            .social-icon i { font-size: 2.2rem; }
+        /* Анимации */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @media (max-width: 550px) {
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.55rem; }
+        @keyframes smokePulse {
+            0%, 100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+        }
+
+        /* Адаптив */
+        @media (max-width: 850px) {
+            .main-wrapper { padding: 1rem; }
+            .login-overlay { padding: 2rem 1.5rem; margin: 1rem; }
+            .login-header h1 { font-size: 2.2rem; }
+            .header { flex-direction: column; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; }
+            .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .slide-text { text-align: center; }
+            .slide-text h2 { font-size: 1.6rem; }
+            .slider-btn { width: 36px; height: 36px; font-size: 1rem; }
+            .slider-btn-left { left: 8px; }
+            .slider-btn-right { right: 8px; }
+        }
+
+        @media (max-width: 500px) {
+            .login-overlay { padding: 1.5rem 1rem; }
+            .login-header h1 { font-size: 1.8rem; }
             .stat-number { font-size: 1.8rem; }
-            .social-block h2 { font-size: 1.4rem; }
-            .slide-text h2 { font-size: 1.4rem; }
+            .nav-btn { font-size: 0.65rem; padding: 0.3rem 0.7rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- ВИДЕО НА ЗАДНИЙ ФОН -->
-<video class="video-background" autoplay muted loop playsinline>
-    <source src="фон индекс.webm" type="video/webm">
-    <source src="фон индекс.mp4" type="video/mp4">
-</video>
-
+<!-- Дымовые частицы -->
+<div class="smoke-overlay"></div>
 <script>
-    // Мягкие дымовые частицы
-    function createSmoke() {
-        const smoke = document.createElement('div');
-        smoke.className = 'smoke-particle';
-        const size = Math.random() * 70 + 30;
-        smoke.style.width = size + 'px';
-        smoke.style.height = size + 'px';
-        smoke.style.left = Math.random() * 100 + '%';
-        smoke.style.animationDuration = Math.random() * 10 + 8 + 's';
-        smoke.style.animationDelay = Math.random() * 5 + 's';
-        document.body.appendChild(smoke);
-        setTimeout(() => smoke.remove(), 14000);
-    }
-    setInterval(createSmoke, 4000);
+    (function createParticles() {
+        for (let i = 0; i < 6; i++) {
+            const p = document.createElement('div');
+            p.className = 'smoke-particle';
+            p.style.left = (10 + Math.random() * 80) + '%';
+            p.style.width = (80 + Math.random() * 100) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDelay = (i * 2.5) + 's';
+            p.style.animationDuration = (12 + Math.random() * 8) + 's';
+            document.body.appendChild(p);
+        }
+    })();
 </script>
 
-<div class="container">
-    <!-- Шапка -->
-    <div class="header">
-        <div class="logo">
+<div class="main-wrapper">
+    <!-- ====== СТРАНИЦА ВХОДА ====== -->
+    <div id="loginPage" class="login-overlay">
+        <div class="login-header">
             <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            <div class="sub"><i class="fas fa-skull"></i> идентификация · терапия <i class="fas fa-skull"></i></div>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
-            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="news.html" class="nav-btn" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
-            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-        </div>
-    </div>
 
-    <!-- Герой-секция -->
-    <div style="text-align: center; margin: 2rem 0 2rem 0;">
-        <div style="animation: smokePulse 2s ease-in-out infinite;">
-            <h2 style="font-size: 3.2rem; font-weight: 800; background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a); -webkit-background-clip: text; background-clip: text; color: transparent;">
-                 Добро пожаловать в Курилку
-            </h2>
-        </div>
-        <p style="font-size: 1.1rem; max-width: 650px; margin: 1.2rem auto; background: rgba(30, 23, 43, 0.5); backdrop-filter: blur(10px); padding: 0.8rem 1.8rem; border-radius: 60px; border: 1px solid rgba(220,90,50,0.25);">
-            <i class="fas fa-skull"></i> Место, где сигаретный дым встречает безумие терапии
-        </p>
-    </div>
-
-    <!-- Статистика сервера -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <i class="fas fa-users" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">340+</div>
-            <p>активных выживших</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-calendar-week" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">12+</div>
-            <p>рейдов в месяц</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-trophy" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">28</div>
-            <p>уникальных ролей</p>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-fire" style="font-size: 2.2rem; color: #e16d48;"></i>
-            <div class="stat-number">100%</div>
-            <p>атмосферы дыма</p>
-        </div>
-    </div>
-
-    <!-- ГЛАВНЫЙ СЛАЙДЕР -->
-    <div class="slider-block">
-        <div class="slider-container">
-            <div class="slider-btn slider-btn-left" id="prevBtn">
-                <i class="fas fa-chevron-left"></i>
+        <form id="loginForm" autocomplete="off">
+            <div class="input-group">
+                <label><i class="fas fa-id-card"></i> Идентификационный номер</label>
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="userId" placeholder="Введите ID (например, 1842)" value="1842">
             </div>
-            
-            <div class="slider-track-wrapper">
-                <div class="slider-track" id="sliderTrack">
-                    <!-- СЛАЙД 1: Краб-убежище -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб-мутант" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Краб-убежище'">
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> Пароль доступа</label>
+                <i class="fas fa-key input-icon"></i>
+                <input type="password" id="userPassword" placeholder="Введите пароль" value="outlast">
+            </div>
+            <div class="login-actions">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Войти в убежище</button>
+            </div>
+            <div class="login-footer">
+                <i class="fas fa-shield-alt"></i> защищено безумием · <a href="#">забыли данные?</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
+    <div id="mainContent" class="main-content">
+        <!-- Шапка -->
+        <div class="header">
+            <div class="logo">
+                <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
+                <a href="#" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+                <a href="#" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+                <a href="#" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+                <a href="#" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
+                <a href="#" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            </div>
+        </div>
+
+        <!-- Герой -->
+        <div style="text-align:center; margin: 1.5rem 0;">
+            <h2 style="font-size: 2.6rem; font-weight:800; background:linear-gradient(135deg,#fff,#e25d32); -webkit-background-clip:text; background-clip:text; color:transparent;">
+                Добро пожаловать в Курилку
+            </h2>
+            <p style="color:#a090b0; background:rgba(20,15,30,0.5); backdrop-filter:blur(8px); padding:0.5rem 1.8rem; border-radius:60px; display:inline-block; border:1px solid rgba(220,90,50,0.15);">
+                <i class="fas fa-skull"></i> дым, ужас и папиросы
+            </p>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-users" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">340+</div><p>выживших</p></div>
+            <div class="stat-card"><i class="fas fa-calendar-week" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">12+</div><p>рейдов в месяц</p></div>
+            <div class="stat-card"><i class="fas fa-trophy" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">28</div><p>ролей</p></div>
+            <div class="stat-card"><i class="fas fa-fire" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">100%</div><p>атмосферы</p></div>
+        </div>
+
+        <!-- Слайдер -->
+        <div class="slider-block">
+            <div class="slider-container">
+                <div class="slider-btn slider-btn-left" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
+                <div class="slider-track-wrapper">
+                    <div class="slider-track" id="sliderTrack">
+                        <div class="slider-slide">
+                            <div class="slide-image"><img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб-убежище" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Краб-убежище'"></div>
+                            <div class="slide-text">
+                                <h2>Сезон «Краб-убежище»</h2>
+                                <p>Новое испытание с крабом-мутантом. Эксклюзивные награды ждут смельчаков.</p>
+                                <span class="badge-slider"><i class="fas fa-calendar-alt"></i> 14 дней до конца</span>
+                            </div>
                         </div>
-                        <div class="slide-text">
-                            <h2>Сезон «Краб-убежище»</h2>
-                            <p>Новое испытание ждёт вас! Уникальный краб-мутант появился на территории убежища. Соберите команду и пройдите новый ивент с эксклюзивными наградами.</p>
-                            <span class="badge-slider"><i class="fas fa-calendar-alt"></i> До конца сезона: 14 дней</span>
+                        <div class="slider-slide">
+                            <div class="slide-image"><img src="https://i.imgur.com/3Lp7Q4M.png" alt="Турнир" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Дымная+битва'"></div>
+                            <div class="slide-text">
+                                <h2>🏆 Турнир «Дымная битва»</h2>
+                                <p>Соревнования на скорость. Призовой фонд 5000₽, регистрация до 20 июня.</p>
+                                <span class="badge-slider"><i class="fas fa-trophy"></i> Призовой фонд: 5000₽</span>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <!-- СЛАЙД 2: Турнир "Дымная битва" -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/3Lp7Q4M.png" alt="Турнир" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Дымная+битва'">
-                        </div>
-                        <div class="slide-text">
-                            <h2>🏆 Турнир «Дымная битва»</h2>
-                            <p>Стартовал ежегодный турнир по прохождению испытаний на скорость. Победителей ждут эксклюзивные роли, Nitro и призы от администрации. Регистрация до 20 июня!</p>
-                            <span class="badge-slider"><i class="fas fa-trophy"></i> Призовой фонд: 5000₽</span>
-                        </div>
-                    </div>
-                    
-                    <!-- СЛАЙД 3: Новый контент -->
-                    <div class="slider-slide">
-                        <div class="slide-image">
-                            <img src="https://i.imgur.com/8YxqZ5L.png" alt="Новое обновление" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Новое+обновление'">
-                        </div>
-                        <div class="slide-text">
-                            <h2>🎮 Обновление «Терапия 2.0»</h2>
-                            <p>Red Barrels выпустили масштабное обновление: новая карта «Заброшенная клиника», 3 типа врагов и улучшенная система прогрессии. Уже доступно на сервере!</p>
-                            <span class="badge-slider"><i class="fas fa-download"></i> Обновитесь сейчас</span>
+                        <div class="slider-slide">
+                            <div class="slide-image"><img src="https://i.imgur.com/8YxqZ5L.png" alt="Обновление" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Терапия+2.0'"></div>
+                            <div class="slide-text">
+                                <h2>🎮 Обновление «Терапия 2.0»</h2>
+                                <p>Новая карта, враги и система прогрессии. Уже доступно на сервере.</p>
+                                <span class="badge-slider"><i class="fas fa-download"></i> Обновитесь сейчас</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="slider-btn slider-btn-right" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
             </div>
-            
-            <div class="slider-btn slider-btn-right" id="nextBtn">
-                <i class="fas fa-chevron-right"></i>
+            <div class="slider-dots" id="sliderDots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
         </div>
-        
-        <div class="slider-dots" id="sliderDots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
 
-    <!-- БЛОК СОЦСЕТЕЙ -->
-    <div class="social-block">
-        <h2>Присоединяйтесь к нашему сообществу</h2>
-        <p>Будьте в курсе всех событий и ивентов</p>
-        
-        <div class="social-icons">
-            <a href="https://discord.gg/HFdReFSx7" target="_blank" class="social-icon discord">
-                <i class="fab fa-discord"></i>
-                <span>Discord</span>
-            </a>
-            <a href="https://www.twitch.tv/lili___kim" target="_blank" class="social-icon twitch">
-                <i class="fab fa-twitch"></i>
-                <span>Twitch</span>
-            </a>
+        <!-- Соцблок -->
+        <div class="social-block">
+            <h2>Присоединяйтесь к сообществу</h2>
+            <p>Будьте в курсе событий и ивентов</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon discord"><i class="fab fa-discord"></i><span>Discord</span></a>
+                <a href="#" class="social-icon twitch"><i class="fab fa-twitch"></i><span>Twitch</span></a>
+            </div>
+            <a href="#" class="discord-button"><i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD</a>
         </div>
-        
-        <a href="https://discord.gg/HFdReFSx7" target="_blank" class="discord-button">
-            <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
-        </a>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 10px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
-        <p style="margin-top: 6px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
-    </footer>
+        <footer>
+            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+            <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
+            <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
+        </footer>
+    </div>
 </div>
 
 <script>
-    // ГЛАВНЫЙ СЛАЙДЕР
+    // ЛОГИКА ВХОДА
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('userId').value.trim();
+        const pass = document.getElementById('userPassword').value.trim();
+
+        // Демо-проверка: ID 1842, пароль outlast (или любые непустые)
+        if ((id === '1842' && pass === 'outlast') || (id.length > 0 && pass.length > 0)) {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('mainContent').classList.add('active');
+        } else {
+            alert('❌ Неверный идентификатор или пароль. Попробуйте снова.\n(подсказка: ID 1842, пароль outlast)');
+        }
+    });
+
+    // СЛАЙДЕР
     const track = document.getElementById('sliderTrack');
     const slides = document.querySelectorAll('.slider-slide');
     const dots = document.querySelectorAll('.dot');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    
     let currentIndex = 0;
     const totalSlides = slides.length;
-    let autoSlideInterval;
-    
+    let autoSlide;
+
     function updateSlider() {
         track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-        });
+        dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentIndex));
     }
-    
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function goToSlide(index) {
-        currentIndex = index;
-        updateSlider();
-        resetAutoSlide();
-    }
-    
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 30000);
-    }
-    
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
-    
+
+    function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateSlider(); resetAuto(); }
+    function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateSlider(); resetAuto(); }
+    function goToSlide(idx) { currentIndex = idx; updateSlider(); resetAuto(); }
+
+    function startAuto() { autoSlide = setInterval(nextSlide, 30000); }
+    function resetAuto() { clearInterval(autoSlide); startAuto(); }
+
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
-    dots.forEach((dot, index) => dot.addEventListener('click', () => goToSlide(index)));
-    
-    startAutoSlide();
-    
+    dots.forEach((dot, idx) => dot.addEventListener('click', () => goToSlide(idx)));
+
     const sliderBlock = document.querySelector('.slider-block');
-    sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-    sliderBlock.addEventListener('mouseleave', startAutoSlide);
+    sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    sliderBlock.addEventListener('mouseleave', startAuto);
+    startAuto();
 
-    // VIEWED NEWS BADGE
-    document.addEventListener('DOMContentLoaded', function() {
-        const totalNews = typeof news !== 'undefined' ? news.length : 0;
-        const viewed = parseInt(localStorage.getItem('viewedNews') || '0', 10);
-        const unread = Math.max(totalNews - viewed, 0);
-
-        const newsLink = document.getElementById('newsLink');
-
-        if (!newsLink) return;
-
-        const oldBadge = newsLink.querySelector('.news-badge');
-        if (oldBadge) oldBadge.remove();
-
-        if (unread > 0) {
-            const badge = document.createElement('span');
-            badge.className = 'news-badge';
-            badge.textContent = unread;
-            newsLink.appendChild(badge);
-        }
-    });
-</script>
-
-<script>
     // Плавное появление при скролле
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -720,7 +766,7 @@
             }
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-    
+
     document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
@@ -728,6 +774,5 @@
         observer.observe(el);
     });
 </script>
-
 </body>
 </html>
