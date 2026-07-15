@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* Фоновый слайдер */
         .bg-slider {
             position: fixed;
             inset: 0;
@@ -53,7 +52,6 @@
             z-index: -1;
         }
 
-        /* Дым */
         .smoke-overlay {
             position: fixed;
             inset: 0;
@@ -235,7 +233,7 @@
             padding-top: 1.5rem;
         }
 
-        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ (как на картинке) ===== */
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
         .connect-screen {
             display: none;
             position: fixed;
@@ -261,24 +259,22 @@
         .connect-logo {
             font-size: 5rem;
             font-weight: 900;
-            letter-spacing: 6px;
-            line-height: 1.1;
-            text-transform: uppercase;
-            text-shadow: 0 0 40px rgba(220, 90, 50, 0.3);
+            letter-spacing: 4px;
+            line-height: 1.15;
             margin-bottom: 1rem;
         }
 
         .connect-logo .line1 {
             display: block;
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             font-weight: 300;
-            letter-spacing: 12px;
-            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 10px;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .connect-logo .line2 {
             display: block;
-            font-size: 5.5rem;
+            font-size: 5rem;
             font-weight: 900;
             background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
             background-size: 200% auto;
@@ -286,24 +282,18 @@
             background-clip: text;
             color: transparent;
             animation: smokePulse 3s ease-in-out infinite;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
         }
 
         .connect-logo .line3 {
             display: block;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 300;
-            letter-spacing: 8px;
-            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 6px;
+            color: rgba(255, 255, 255, 0.3);
             margin-top: 0.2rem;
         }
 
-        .connect-logo .line3 i {
-            color: #e25d32;
-            margin: 0 6px;
-        }
-
-        /* Состояние ожидания */
         .connect-prompt {
             margin-top: 3.5rem;
             font-size: 1.2rem;
@@ -331,7 +321,6 @@
             color: #e25d32;
         }
 
-        /* Состояние подключения */
         .connect-status {
             display: none;
             align-items: center;
@@ -722,9 +711,9 @@
             .slider-btn-left { left: 8px; }
             .slider-btn-right { right: 8px; }
 
-            .connect-logo .line1 { font-size: 2rem; letter-spacing: 8px; }
-            .connect-logo .line2 { font-size: 3.8rem; }
-            .connect-logo .line3 { font-size: 1.6rem; letter-spacing: 6px; }
+            .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
+            .connect-logo .line2 { font-size: 3.6rem; }
+            .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
             .connect-prompt { font-size: 1rem; padding: 0.6rem 1.6rem; }
             .connect-status .label { font-size: 1.4rem; }
             .connect-status .spinner { width: 32px; height: 32px; }
@@ -736,9 +725,9 @@
             .stat-number { font-size: 1.8rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
 
-            .connect-logo .line1 { font-size: 1.4rem; letter-spacing: 6px; }
-            .connect-logo .line2 { font-size: 2.8rem; letter-spacing: 2px; }
-            .connect-logo .line3 { font-size: 1.2rem; letter-spacing: 4px; }
+            .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
+            .connect-logo .line2 { font-size: 2.6rem; letter-spacing: 1px; }
+            .connect-logo .line3 { font-size: 1rem; letter-spacing: 3px; }
             .connect-prompt { font-size: 0.8rem; padding: 0.5rem 1.2rem; margin-top: 2.5rem; }
             .connect-status .label { font-size: 1.1rem; letter-spacing: 2px; }
             .connect-status .spinner { width: 28px; height: 28px; }
@@ -760,7 +749,6 @@
 <div class="smoke-overlay"></div>
 
 <script>
-    // Фоновый слайдер
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
@@ -771,7 +759,6 @@
         }, 5000);
     })();
 
-    // Дым
     (function createParticles() {
         for (let i = 0; i < 6; i++) {
             const p = document.createElement('div');
@@ -786,7 +773,6 @@
     })();
 </script>
 
-<!-- АУДИО -->
 <audio id="bgAudio" loop preload="auto" style="display:none;">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
@@ -820,22 +806,19 @@
         </form>
     </div>
 
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ (как на картинке) ====== -->
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
     <div id="connectScreen" class="connect-screen">
         <div class="connect-content">
-            <!-- Логотип как на картинке: THE / MODIFICATION / THE OUTLAST TRIALS -->
             <div class="connect-logo">
-                <span class="line1">THE</span>
-                <span class="line2">MODIFICATION</span>
-                <span class="line3"><i class="fas fa-skull"></i> THE OUTLAST TRIALS <i class="fas fa-skull"></i></span>
+                <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
+                <span class="line2">Курилка Синьялы</span>
+                <span class="line3">THE OUTLAST TRIALS</span>
             </div>
 
-            <!-- Состояние: ожидание нажатия -->
             <div id="connectPrompt" class="connect-prompt">
                 <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
             </div>
 
-            <!-- Состояние: подключение -->
             <div id="connectStatus" class="connect-status">
                 <div class="spinner"></div>
                 <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
@@ -847,7 +830,6 @@
 
     <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
     <div id="mainContent" class="main-content">
-        <!-- Шапка -->
         <div class="header">
             <div class="logo">
                 <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
@@ -864,7 +846,6 @@
             </div>
         </div>
 
-        <!-- Герой -->
         <div style="text-align:center; margin: 1.5rem 0;">
             <h2 style="font-size: 2.6rem; font-weight:800; background:linear-gradient(135deg,#fff,#e25d32); -webkit-background-clip:text; background-clip:text; color:transparent;">
                 Добро пожаловать в Курилку
@@ -874,7 +855,6 @@
             </p>
         </div>
 
-        <!-- Статистика -->
         <div class="stats-grid">
             <div class="stat-card"><i class="fas fa-users" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">340+</div><p>выживших</p></div>
             <div class="stat-card"><i class="fas fa-calendar-week" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">12+</div><p>рейдов в месяц</p></div>
@@ -882,7 +862,6 @@
             <div class="stat-card"><i class="fas fa-fire" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">100%</div><p>атмосферы</p></div>
         </div>
 
-        <!-- Слайдер -->
         <div class="slider-block">
             <div class="slider-container">
                 <div class="slider-btn slider-btn-left" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
@@ -923,7 +902,6 @@
             </div>
         </div>
 
-        <!-- Соцблок -->
         <div class="social-block">
             <h2>Присоединяйтесь к сообществу</h2>
             <p>Будьте в курсе событий и ивентов</p>
@@ -943,14 +921,12 @@
 </div>
 
 <script>
-    // ===== СПИСОК ДОПУЩЕННЫХ ID =====
     const validIds = [
         '1842', '2710', '3356', '4098', '5123',
         '6271', '7345', '8429', '9562', '1083'
     ];
     const COMMON_PASSWORD = 'outlast';
 
-    // ===== ЛОГИКА ВХОДА =====
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
@@ -971,7 +947,6 @@
         }
     });
 
-    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
     const connectScreen = document.getElementById('connectScreen');
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
@@ -1024,7 +999,6 @@
     }
     startAuto();
 
-    // Плавное появление
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
