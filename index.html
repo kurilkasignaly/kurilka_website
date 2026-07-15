@@ -1249,8 +1249,11 @@
 
             const audio = document.getElementById('bgAudio');
             if (audio) {
+                // Переключаем на loading 3.mp3 и запускаем
+                audio.src = 'images/loading 3.mp3';
                 audio.volume = 0.35;
                 audio.currentTime = 0;
+                audio.load();
                 audio.play().catch(() => {});
             }
         } else {
@@ -1275,23 +1278,20 @@
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
-        // Переключаем аудио на loading 3.mp3
+        // Аудио уже должно играть loading 3.mp3, но если нет — запускаем
         if (audio) {
-            audio.src = 'images/loading 3.mp3';
-            audio.volume = 0.35;
-            audio.currentTime = 0;
-            audio.load();
-            audio.play().catch(() => {});
+            if (audio.paused) {
+                audio.play().catch(() => {});
+            }
         }
 
         const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
         console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
 
         connectionTimer = setTimeout(() => {
-            // Показываем ошибку, НО НЕ ОСТАНАВЛИВАЕМ МУЗЫКУ
+            // Показываем ошибку, музыка продолжает играть
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
-            // Музыка продолжает играть!
             isProcessing = false;
             connectionTimer = null;
         }, delay);
@@ -1335,13 +1335,12 @@
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
 
-        // Переключаем аудио обратно на loading 3.mp3 и запускаем
+        // АУДИО НЕ ПЕРЕЗАПУСКАЕМ — оно продолжает играть с текущего момента
+        // Убеждаемся что оно играет
         if (audio) {
-            audio.src = 'images/loading 3.mp3';
-            audio.volume = 0.35;
-            audio.currentTime = 0;
-            audio.load();
-            audio.play().catch(() => {});
+            if (audio.paused) {
+                audio.play().catch(() => {});
+            }
         }
 
         // Автоматически запускаем процесс подключения через небольшую задержку
