@@ -13,19 +13,23 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #0b0811;
             color: #f0eef7;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
-        /* Фоновый слайдер — плавная смена без мерцаний */
+        /* Фоновый слайдер — фиксирован на всю страницу */
         .bg-slider {
             position: fixed;
             inset: 0;
@@ -49,7 +53,6 @@
             opacity: 1;
         }
 
-        /* Более мягкий оверлей, чтобы картинки не перебивали текст */
         .bg-overlay {
             position: fixed;
             inset: 0;
@@ -57,7 +60,6 @@
             z-index: -1;
         }
 
-        /* Дымовая атмосфера */
         .smoke-overlay {
             position: fixed;
             inset: 0;
@@ -92,6 +94,7 @@
             padding: 1.5rem 2rem;
             position: relative;
             z-index: 10;
+            min-height: 100vh;
         }
 
         /* ===== СТРАНИЦА ВХОДА ===== */
@@ -239,7 +242,7 @@
             padding-top: 1.5rem;
         }
 
-        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ — теперь не блокирует прокрутку ===== */
         .connect-screen {
             display: none;
             position: fixed;
@@ -250,6 +253,9 @@
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             cursor: pointer;
+            background: rgba(8, 6, 15, 0.7);
+            backdrop-filter: blur(6px);
+            pointer-events: auto;
         }
 
         .connect-screen.active {
@@ -260,6 +266,7 @@
             text-align: center;
             user-select: none;
             padding: 2rem;
+            pointer-events: none;
         }
 
         .connect-logo {
@@ -315,6 +322,8 @@
             backdrop-filter: blur(4px);
             background: rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         .connect-prompt:hover {
@@ -333,6 +342,7 @@
             justify-content: center;
             gap: 1.5rem;
             margin-top: 3.5rem;
+            pointer-events: none;
         }
 
         .connect-status.active {
@@ -384,10 +394,12 @@
             pointer-events: none;
         }
 
-        /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
+        /* ===== ОСНОВНАЯ ГЛАВНАЯ — теперь с прокруткой ===== */
         .main-content {
             display: none;
             animation: fadeInScale 0.6s ease-out;
+            position: relative;
+            z-index: 5;
         }
 
         .main-content.active {
@@ -744,7 +756,7 @@
 </head>
 <body>
 
-<!-- Фоновый слайдер с картинками из папки images/ -->
+<!-- Фоновый слайдер -->
 <div class="bg-slider" id="bgSlider">
     <img src="images/фон-1.webp" alt="фон 1" class="active">
     <img src="images/фон-2.webp" alt="фон 2">
@@ -756,29 +768,28 @@
     <img src="images/фон-8.webp" alt="фон 8">
     <img src="images/фон-9.webp" alt="фон 9">
     <img src="images/фон-10.webp" alt="фон 10">
-    <img src="images/фон-11.webp" alt="фон 11">
+    <img src="images/фон-11.png" alt="фон 11">
+    <img src="images/фон-12.webp" alt="фон 12">
+    <img src="images/фон-13.webp" alt="фон 13">
+    <img src="images/фон-14.webp" alt="фон 14">
 </div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
 <script>
-    // Плавная смена фоновых картинок без мерцаний
+    // Плавная смена фоновых картинок
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
         const total = imgs.length;
 
-        // Убедимся, что только первая активна
         imgs.forEach((img, i) => {
             img.classList.toggle('active', i === 0);
         });
 
         setInterval(() => {
-            // Убираем активный класс у текущего
             imgs[current].classList.remove('active');
-            // Переходим к следующему
             current = (current + 1) % total;
-            // Добавляем активный класс новому
             imgs[current].classList.add('active');
         }, 6000);
     })();
@@ -980,7 +991,8 @@
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
 
-    connectScreen.addEventListener('click', function(e) {
+    // Клик по экрану или по кнопке
+    function handleConnect() {
         if (connectStatus.classList.contains('active')) return;
 
         connectPrompt.style.display = 'none';
@@ -992,7 +1004,15 @@
             const audio = document.getElementById('bgAudio');
             audio.pause();
             audio.currentTime = 0;
+            // Разрешаем прокрутку
+            document.body.style.overflow = 'auto';
         }, 2500);
+    }
+
+    connectScreen.addEventListener('click', handleConnect);
+    connectPrompt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        handleConnect();
     });
 
     // ===== СЛАЙДЕР =====
