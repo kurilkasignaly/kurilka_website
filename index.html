@@ -768,28 +768,26 @@
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
+<!-- Аудио — элемент должен быть в DOM до того, как скрипт его попытается использовать -->
+<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
+
 <script>
     // ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
         
         // Массив всех файлов с правильными расширениями
-        // Убираем дубли (фон-11 и фон-31 были повторены)
         const bgFiles = [
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
-            'фон-11.webp', // только webp, убираем png дубликат
-            'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
-            'фон-16.webp', 'фон-17.webp', 'фон-18.webp', 'фон-19.jpeg',
-            'фон-20.webp', 'фон-21.webp', 'фон-22.jpg', 'фон-23.webp',
-            'фон-24.jpg', 'фон-25.png', 'фон-26.jpg', 'фон-27.webp',
-            'фон-28.webp', 'фон-29.webp', 'фон-30.webp',
-            'фон-31.webp', // только webp, убираем jpg дубликат
-            'фон-32.jpg', 'фон-33.webp', 'фон-34.webp', 'фон-35.webp',
-            'фон-36.webp', 'фон-37.webp', 'фон-38.webp', 'фон-39.webp',
-            'фон-40.webp', 'фон-41.webp', 'фон-42.webp', 'фон-43.webp',
-            'фон-44.webp', 'фон-45.webp', 'фон-46.webp', 'фон-47.webp',
-            'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
+            'фон-11.webp', 'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
+            'фон-16.webp', 'фон-17.webp', 'фон-18.webp', 'фон-19.jpeg', 'фон-20.webp',
+            'фон-21.webp', 'фон-22.jpg', 'фон-23.webp', 'фон-24.jpg', 'фон-25.png',
+            'фон-26.jpg', 'фон-27.webp', 'фон-28.webp', 'фон-29.webp', 'фон-30.webp',
+            'фон-31.webp', 'фон-32.jpg', 'фон-33.webp', 'фон-34.webp', 'фон-35.webp',
+            'фон-36.webp', 'фон-37.webp', 'фон-38.webp', 'фон-39.webp', 'фон-40.webp',
+            'фон-41.webp', 'фон-42.webp', 'фон-43.webp', 'фон-44.webp', 'фон-45.webp',
+            'фон-46.webp', 'фон-47.webp', 'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
         ];
 
         // Создаем img элементы
@@ -864,51 +862,56 @@
         }
     })();
 
-    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
-    function selectAudioFile() {
-        let isSlowNetwork = false;
-        let isSavingData = false;
+    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА (с проверкой существования элемента) =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('bgAudio');
+        
+        // Проверяем, существует ли элемент
+        if (!audio) {
+            console.error('❌ Элемент #bgAudio не найден в DOM');
+            return;
+        }
 
-        if (navigator.connection) {
-            const conn = navigator.connection;
-            if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
-                isSlowNetwork = true;
+        function selectAudioFile() {
+            let isSlowNetwork = false;
+            let isSavingData = false;
+
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
+                    isSlowNetwork = true;
+                }
+                if (conn.saveData) {
+                    isSavingData = true;
+                }
+                if (conn.rtt && conn.rtt > 300) {
+                    isSlowNetwork = true;
+                }
+                if (conn.downlink && conn.downlink < 0.5) {
+                    isSlowNetwork = true;
+                }
             }
-            if (conn.saveData) {
-                isSavingData = true;
+
+            const loadTime = performance.now();
+            const isSlowLoad = loadTime > 3000;
+
+            if (isSlowNetwork || isSavingData || isSlowLoad) {
+                return 'loading 3.mp3';
             }
-            if (conn.rtt && conn.rtt > 300) {
-                isSlowNetwork = true;
-            }
-            if (conn.downlink && conn.downlink < 0.5) {
-                isSlowNetwork = true;
+
+            const rand = Math.random();
+            if (rand < 0.70) {
+                return 'loading 2.mp3';
+            } else {
+                return 'loading.mp3';
             }
         }
 
-        const loadTime = performance.now();
-        const isSlowLoad = loadTime > 3000;
-
-        if (isSlowNetwork || isSavingData || isSlowLoad) {
-            return 'loading 3.mp3';
-        }
-
-        const rand = Math.random();
-        if (rand < 0.70) {
-            return 'loading 2.mp3';
-        } else {
-            return 'loading.mp3';
-        }
-    }
-
-    // Выбираем файл и устанавливаем его в аудио
-    const audio = document.getElementById('bgAudio');
-    const selectedFile = selectAudioFile();
-    audio.src = 'images/' + selectedFile;
-    console.log('Выбран аудиофайл:', selectedFile);
+        const selectedFile = selectAudioFile();
+        audio.src = 'images/' + selectedFile;
+        console.log('✅ Выбран аудиофайл:', selectedFile);
+    });
 </script>
-
-<!-- Аудио — динамически выбирается в скрипте выше -->
-<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <div class="main-wrapper">
     <!-- ====== СТРАНИЦА ВХОДА ====== -->
@@ -1076,9 +1079,11 @@
 
             // Запускаем аудио
             const audio = document.getElementById('bgAudio');
-            audio.volume = 0.35;
-            audio.currentTime = 0;
-            audio.play().catch(() => {});
+            if (audio) {
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.play().catch(() => {});
+            }
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
@@ -1104,8 +1109,10 @@
             document.body.classList.add('scroll-enabled');
             
             const audio = document.getElementById('bgAudio');
-            audio.pause();
-            audio.currentTime = 0;
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 2500);
