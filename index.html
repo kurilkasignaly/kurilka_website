@@ -764,76 +764,49 @@
 <body>
 
 <!-- Фоновый слайдер -->
-<div class="bg-slider" id="bgSlider">
-    <img src="images/фон-1.webp" alt="фон 1" class="active">
-<img src="images/фон-1.webp" alt="фон 1" class="active">
-<img src="images/фон-2.webp" alt="фон 2">
-<img src="images/фон-3.webp" alt="фон 3">
-<img src="images/фон-4.webp" alt="фон 4">
-<img src="images/фон-5.webp" alt="фон 5">
-<img src="images/фон-6.webp" alt="фон 6">
-<img src="images/фон-7.webp" alt="фон 7">
-<img src="images/фон-8.webp" alt="фон 8">
-<img src="images/фон-9.webp" alt="фон 9">
-<img src="images/фон-10.webp" alt="фон 10">
-<img src="images/фон-11.webp" alt="фон 11">
-<img src="images/фон-11.png" alt="фон 11">
-<img src="images/фон-12.png" alt="фон 12">
-<img src="images/фон-13.webp" alt="фон 13">
-<img src="images/фон-14.webp" alt="фон 14">
-<img src="images/фон-15.webp" alt="фон 15">
-<img src="images/фон-16.webp" alt="фон 16">
-<img src="images/фон-17.webp" alt="фон 17">
-<img src="images/фон-18.webp" alt="фон 18">
-<img src="images/фон-19.jpeg" alt="фон 19">
-<img src="images/фон-20.webp" alt="фон 20">
-<img src="images/фон-21.webp" alt="фон 21">
-<img src="images/фон-22.jpg" alt="фон 22">
-<img src="images/фон-23.webp" alt="фон 23">
-<img src="images/фон-24.jpg" alt="фон 24">
-<img src="images/фон-25.png" alt="фон 25">
-<img src="images/фон-26.jpg" alt="фон 26">
-<img src="images/фон-27.webp" alt="фон 27">
-<img src="images/фон-28.webp" alt="фон 28">
-<img src="images/фон-29.webp" alt="фон 29">
-<img src="images/фон-30.webp" alt="фон 30">
-<img src="images/фон-31.webp" alt="фон 31">
-<img src="images/фон-31.jpg" alt="фон 31">    
-<img src="images/фон-32.jpg" alt="фон 32">
-<img src="images/фон-33.webp" alt="фон 33">
-<img src="images/фон-34.webp" alt="фон 34">
-<img src="images/фон-35.webp" alt="фон 35">
-<img src="images/фон-36.webp" alt="фон 36">
-<img src="images/фон-37.webp" alt="фон 37">
-<img src="images/фон-38.webp" alt="фон 38">
-<img src="images/фон-39.webp" alt="фон 39">
-<img src="images/фон-40.webp" alt="фон 40">
-<img src="images/фон-41.webp" alt="фон 41">
-<img src="images/фон-42.webp" alt="фон 42">
-<img src="images/фон-43.webp" alt="фон 43">
-<img src="images/фон-44.webp" alt="фон 44">
-<img src="images/фон-45.webp" alt="фон 45">
-<img src="images/фон-46.webp" alt="фон 46">
-<img src="images/фон-47.webp" alt="фон 47">
-<img src="images/фон-48.webp" alt="фон 48">
-<img src="images/фон-49.webp" alt="фон 49">
-<img src="images/фон-50.webp" alt="фон 50">
-</div>
+<div class="bg-slider" id="bgSlider"></div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
 <script>
-    // ===== НАДЕЖНЫЙ СЛАЙДЕР ФОНА =====
-    (function bgSlider() {
-        const imgs = document.querySelectorAll('#bgSlider img');
+    // ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
+    (function initBackgrounds() {
+        const bgSlider = document.getElementById('bgSlider');
+        
+        // Массив всех файлов с правильными расширениями
+        // Убираем дубли (фон-11 и фон-31 были повторены)
+        const bgFiles = [
+            'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
+            'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
+            'фон-11.webp', // только webp, убираем png дубликат
+            'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
+            'фон-16.webp', 'фон-17.webp', 'фон-18.webp', 'фон-19.jpeg',
+            'фон-20.webp', 'фон-21.webp', 'фон-22.jpg', 'фон-23.webp',
+            'фон-24.jpg', 'фон-25.png', 'фон-26.jpg', 'фон-27.webp',
+            'фон-28.webp', 'фон-29.webp', 'фон-30.webp',
+            'фон-31.webp', // только webp, убираем jpg дубликат
+            'фон-32.jpg', 'фон-33.webp', 'фон-34.webp', 'фон-35.webp',
+            'фон-36.webp', 'фон-37.webp', 'фон-38.webp', 'фон-39.webp',
+            'фон-40.webp', 'фон-41.webp', 'фон-42.webp', 'фон-43.webp',
+            'фон-44.webp', 'фон-45.webp', 'фон-46.webp', 'фон-47.webp',
+            'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
+        ];
+
+        // Создаем img элементы
+        bgFiles.forEach((file, index) => {
+            const img = document.createElement('img');
+            img.src = 'images/' + file;
+            img.alt = 'фон ' + (index + 1);
+            if (index === 0) img.classList.add('active');
+            bgSlider.appendChild(img);
+        });
+
+        // Запускаем слайдер
+        const imgs = bgSlider.querySelectorAll('img');
         let current = 0;
         const total = imgs.length;
         let isTransitioning = false;
         let timerId = null;
-
-        imgs.forEach((img, i) => {
-            img.classList.toggle('active', i === 0);
-        });
 
         function switchToNext() {
             if (isTransitioning) return;
@@ -893,21 +866,17 @@
 
     // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
     function selectAudioFile() {
-        // Определяем качество сети через navigator.connection (если доступно)
         let isSlowNetwork = false;
         let isSavingData = false;
 
         if (navigator.connection) {
             const conn = navigator.connection;
-            // Медленная сеть: effectiveType 'slow-2g', '2g', '3g' с низкой пропускной способностью
             if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
                 isSlowNetwork = true;
             }
-            // Экономия трафика
             if (conn.saveData) {
                 isSavingData = true;
             }
-            // Дополнительно: если rtt > 300ms или downlink < 0.5 Mbps
             if (conn.rtt && conn.rtt > 300) {
                 isSlowNetwork = true;
             }
@@ -916,18 +885,13 @@
             }
         }
 
-        // Также можно проверить загрузку страницы — если долго грузилась
         const loadTime = performance.now();
-        const isSlowLoad = loadTime > 3000; // если страница грузилась больше 3 секунд
+        const isSlowLoad = loadTime > 3000;
 
-        // При медленной сети, экономии трафика или медленной загрузке — loading 3.mp3
         if (isSlowNetwork || isSavingData || isSlowLoad) {
             return 'loading 3.mp3';
         }
 
-        // В остальных случаях — взвешенный выбор между loading.mp3 и loading 2.mp3
-        // loading 2.mp3 — 70% (чаще всего)
-        // loading.mp3 — 30% (реже)
         const rand = Math.random();
         if (rand < 0.70) {
             return 'loading 2.mp3';
@@ -1110,7 +1074,7 @@
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
-            // Запускаем аудио (уже выбранный файл)
+            // Запускаем аудио
             const audio = document.getElementById('bgAudio');
             audio.volume = 0.35;
             audio.currentTime = 0;
