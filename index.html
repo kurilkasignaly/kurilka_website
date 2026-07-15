@@ -25,7 +25,7 @@
             overflow: hidden;
         }
 
-        /* Фоновый видео-слайдер */
+        /* Фоновый слайдер */
         .bg-slider {
             position: fixed;
             inset: 0;
@@ -39,7 +39,7 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 1.2s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
         }
 
         .bg-slider img.active {
@@ -49,7 +49,7 @@
         .bg-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.55);
             z-index: -1;
         }
 
@@ -59,14 +59,14 @@
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.06) 0%, transparent 40%);
+            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.06) 0%, transparent 50%),
+                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.04) 0%, transparent 40%);
         }
 
         @keyframes floatParticle {
             0% { transform: translateY(0) scale(0.8); opacity: 0; }
-            30% { opacity: 0.2; }
-            80% { opacity: 0.1; }
+            30% { opacity: 0.15; }
+            80% { opacity: 0.08; }
             100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
 
@@ -75,7 +75,7 @@
             bottom: -40px;
             width: 120px;
             height: 120px;
-            background: radial-gradient(circle, rgba(200, 100, 50, 0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(200, 100, 50, 0.06) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
@@ -235,72 +235,95 @@
             padding-top: 1.5rem;
         }
 
-        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ (как на картинке) ===== */
         .connect-screen {
             display: none;
             position: fixed;
             inset: 0;
             z-index: 50;
-            background: rgba(8, 6, 15, 0.75);
-            backdrop-filter: blur(12px);
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            animation: fadeInScale 0.5s ease-out;
+            animation: fadeInScale 0.6s ease-out;
+            cursor: pointer;
         }
 
         .connect-screen.active {
             display: flex;
         }
 
-        .connect-box {
-            background: rgba(10, 7, 18, 0.85);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(200, 100, 50, 0.3);
-            border-radius: 60px;
-            padding: 3.5rem 4rem;
-            max-width: 600px;
-            width: 90%;
+        .connect-content {
             text-align: center;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9);
-            position: relative;
-            overflow: hidden;
+            user-select: none;
+            padding: 2rem;
         }
 
-        .connect-box h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+        .connect-logo {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            text-shadow: 0 0 40px rgba(220, 90, 50, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .connect-logo .line1 {
+            display: block;
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .connect-logo .line2 {
+            display: block;
+            font-size: 5.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            animation: smokePulse 3s ease-in-out infinite;
+            letter-spacing: 4px;
         }
 
-        .connect-box .sub {
-            color: #a090b0;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
+        .connect-logo .line3 {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 0.2rem;
         }
 
+        .connect-logo .line3 i {
+            color: #e25d32;
+            margin: 0 6px;
+        }
+
+        /* Состояние ожидания */
         .connect-prompt {
+            margin-top: 3.5rem;
             font-size: 1.2rem;
             font-weight: 500;
-            color: #d0c8e0;
-            padding: 1.2rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            border-radius: 40px;
-            background: rgba(20, 15, 30, 0.4);
-            cursor: pointer;
+            color: rgba(200, 190, 210, 0.7);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulseText 2s ease-in-out infinite;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
-            margin-bottom: 1.5rem;
-            user-select: none;
         }
 
         .connect-prompt:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            background: rgba(30, 20, 40, 0.6);
+            border-color: rgba(220, 90, 50, 0.4);
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .connect-prompt i {
@@ -308,24 +331,27 @@
             color: #e25d32;
         }
 
+        /* Состояние подключения */
         .connect-status {
             display: none;
-            flex-direction: column;
             align-items: center;
-            gap: 1.2rem;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3.5rem;
         }
 
         .connect-status.active {
             display: flex;
         }
 
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(220, 90, 50, 0.15);
-            border-top: 4px solid #e25d32;
+        .connect-status .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(220, 90, 50, 0.15);
+            border-top: 3px solid #e25d32;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.9s linear infinite;
+            flex-shrink: 0;
         }
 
         @keyframes spin {
@@ -334,14 +360,15 @@
         }
 
         .connect-status .label {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             background: linear-gradient(135deg, #ffbc9a, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: pulseText 1.5s ease-in-out infinite;
+            animation: pulseText 1.2s ease-in-out infinite;
+            text-transform: uppercase;
         }
 
         @keyframes pulseText {
@@ -349,11 +376,17 @@
             50% { opacity: 0.5; }
         }
 
-        .connect-box .hint {
-            margin-top: 1.5rem;
+        .connect-hint {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.7rem;
-            color: #5a4a6a;
-            letter-spacing: 1px;
+            color: rgba(120, 100, 130, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 51;
+            pointer-events: none;
         }
 
         /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
@@ -688,8 +721,13 @@
             .slider-btn { width: 36px; height: 36px; font-size: 1rem; }
             .slider-btn-left { left: 8px; }
             .slider-btn-right { right: 8px; }
-            .connect-box { padding: 2.5rem 1.5rem; }
-            .connect-box h2 { font-size: 1.8rem; }
+
+            .connect-logo .line1 { font-size: 2rem; letter-spacing: 8px; }
+            .connect-logo .line2 { font-size: 3.8rem; }
+            .connect-logo .line3 { font-size: 1.6rem; letter-spacing: 6px; }
+            .connect-prompt { font-size: 1rem; padding: 0.6rem 1.6rem; }
+            .connect-status .label { font-size: 1.4rem; }
+            .connect-status .spinner { width: 32px; height: 32px; }
         }
 
         @media (max-width: 500px) {
@@ -697,15 +735,21 @@
             .login-header h1 { font-size: 1.8rem; }
             .stat-number { font-size: 1.8rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
-            .connect-box { padding: 2rem 1rem; }
-            .connect-box h2 { font-size: 1.5rem; }
-            .connect-prompt { font-size: 1rem; padding: 1rem; }
+
+            .connect-logo .line1 { font-size: 1.4rem; letter-spacing: 6px; }
+            .connect-logo .line2 { font-size: 2.8rem; letter-spacing: 2px; }
+            .connect-logo .line3 { font-size: 1.2rem; letter-spacing: 4px; }
+            .connect-prompt { font-size: 0.8rem; padding: 0.5rem 1.2rem; margin-top: 2.5rem; }
+            .connect-status .label { font-size: 1.1rem; letter-spacing: 2px; }
+            .connect-status .spinner { width: 28px; height: 28px; }
+            .connect-status { gap: 1rem; margin-top: 2.5rem; }
+            .connect-hint { bottom: 1.5rem; font-size: 0.6rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Фоновый слайдер картинок -->
+<!-- Фоновый слайдер -->
 <div class="bg-slider" id="bgSlider">
     <img src="https://i.imgur.com/6ZRqjqY.png" alt="bg1" class="active">
     <img src="https://i.imgur.com/3Lp7Q4M.png" alt="bg2">
@@ -742,7 +786,7 @@
     })();
 </script>
 
-<!-- АУДИО (автозапуск при открытии страницы) -->
+<!-- АУДИО -->
 <audio id="bgAudio" loop preload="auto" style="display:none;">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
@@ -776,15 +820,19 @@
         </form>
     </div>
 
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ (как на картинке) ====== -->
     <div id="connectScreen" class="connect-screen">
-        <div class="connect-box">
-            <h2><i class="fas fa-smoking"></i> Курилка Синьялы</h2>
-            <div class="sub"><i class="fas fa-skull"></i> установка связи <i class="fas fa-skull"></i></div>
+        <div class="connect-content">
+            <!-- Логотип как на картинке: THE / MODIFICATION / THE OUTLAST TRIALS -->
+            <div class="connect-logo">
+                <span class="line1">THE</span>
+                <span class="line2">MODIFICATION</span>
+                <span class="line3"><i class="fas fa-skull"></i> THE OUTLAST TRIALS <i class="fas fa-skull"></i></span>
+            </div>
 
             <!-- Состояние: ожидание нажатия -->
             <div id="connectPrompt" class="connect-prompt">
-                <i class="fas fa-hand-pointer"></i> [нажмите любую кнопку для подключения]
+                <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
             </div>
 
             <!-- Состояние: подключение -->
@@ -792,9 +840,9 @@
                 <div class="spinner"></div>
                 <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
             </div>
-
-            <div class="hint"><i class="fas fa-shield-alt"></i> защищенный канал · терапия</div>
         </div>
+
+        <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
     </div>
 
     <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
@@ -910,15 +958,13 @@
         const errorEl = document.getElementById('loginError');
 
         if (validIds.includes(id) && pass === COMMON_PASSWORD) {
-            // Скрываем вход, показываем экран подключения
             document.getElementById('loginPage').style.display = 'none';
             const connectScreen = document.getElementById('connectScreen');
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
-            // Запускаем аудио
             const audio = document.getElementById('bgAudio');
-            audio.volume = 0.4;
+            audio.volume = 0.35;
             audio.play().catch(() => {});
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
@@ -930,20 +976,15 @@
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
 
-    // Любое нажатие на экране подключения запускает процесс
     connectScreen.addEventListener('click', function(e) {
-        // Если уже в процессе — игнорируем
         if (connectStatus.classList.contains('active')) return;
 
-        // Переключаем состояния
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
-        // Через 2.5 секунды переходим на главную
         setTimeout(() => {
             connectScreen.classList.remove('active');
             document.getElementById('mainContent').classList.add('active');
-            // Останавливаем аудио
             const audio = document.getElementById('bgAudio');
             audio.pause();
             audio.currentTime = 0;
