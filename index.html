@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Курилка Синьялы</title>
-    <!-- Favicon с увеличенным размером -->
     <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="images/лого.png">
@@ -260,7 +259,7 @@
             justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
-            cursor: pointer;
+            cursor: default;
             background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
@@ -387,6 +386,125 @@
             text-transform: uppercase;
             z-index: 51;
             pointer-events: none;
+        }
+
+        /* ===== ЭКРАН ОШИБКИ ===== */
+        .error-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeInScale 0.6s ease-out;
+            background: rgba(8, 6, 15, 0.7);
+            backdrop-filter: blur(8px);
+            pointer-events: auto;
+            padding: 2rem;
+        }
+
+        .error-screen.active {
+            display: flex;
+        }
+
+        .error-box {
+            background: rgba(10, 7, 18, 0.92);
+            border: 1px solid rgba(200, 60, 40, 0.4);
+            border-radius: 60px;
+            padding: 3rem 3.5rem;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(200, 60, 40, 0.15);
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        .error-box .error-icon {
+            font-size: 4rem;
+            color: #e25d32;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-box h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ff6b4a;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .error-box .error-sub {
+            color: #b5a8c8;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .error-box .error-desc {
+            color: #8a7a9a;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .error-box .error-code {
+            display: inline-block;
+            background: rgba(200, 60, 40, 0.1);
+            border: 1px solid rgba(200, 60, 40, 0.2);
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e25d32;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 4px 20px rgba(188, 70, 39, 0.3);
+        }
+
+        .error-btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5);
+        }
+
+        .error-btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #b5a8c8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
         }
 
         /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
@@ -754,6 +872,10 @@
             .connect-prompt { font-size: 1rem; padding: 0.6rem 1.6rem; }
             .connect-status .label { font-size: 1.4rem; }
             .connect-status .spinner { width: 32px; height: 32px; }
+
+            .error-box { padding: 2rem 1.5rem; }
+            .error-box h2 { font-size: 1.8rem; }
+            .error-box .error-icon { font-size: 3rem; }
         }
 
         @media (max-width: 500px) {
@@ -779,6 +901,13 @@
             .connect-status { gap: 1rem; margin-top: 2rem; }
             .connect-hint { bottom: 1.5rem; font-size: 0.6rem; }
             .footer-logo { max-height: 24px; }
+
+            .error-box { padding: 1.5rem 1rem; }
+            .error-box h2 { font-size: 1.4rem; }
+            .error-box .error-icon { font-size: 2.5rem; }
+            .error-box .error-desc { font-size: 0.8rem; }
+            .error-actions { flex-direction: column; align-items: center; }
+            .error-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -881,7 +1010,6 @@
     })();
 
     // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
-    // Используем событие load, чтобы гарантировать, что все элементы загружены
     window.addEventListener('load', function() {
         const audio = document.getElementById('bgAudio');
         
@@ -893,7 +1021,6 @@
         function selectAudioFile() {
             let selected = 'loading 2.mp3';
             
-            // Проверяем сеть
             if (navigator.connection) {
                 const conn = navigator.connection;
                 
@@ -910,7 +1037,6 @@
                 }
             }
             
-            // Проверяем время загрузки
             try {
                 const perfData = performance.getEntriesByType('navigation')[0];
                 if (perfData) {
@@ -934,8 +1060,6 @@
         const selectedFile = selectAudioFile();
         audio.src = 'images/' + selectedFile;
         console.log('✅ Выбран аудиофайл:', selectedFile);
-        
-        // Предзагружаем аудио
         audio.load();
     });
 </script>
@@ -989,6 +1113,25 @@
         </div>
 
         <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
+    </div>
+
+    <!-- ====== ЭКРАН ОШИБКИ ====== -->
+    <div id="errorScreen" class="error-screen">
+        <div class="error-box">
+            <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
+            <p class="error-sub">Не удалось установить соединение с сервером</p>
+            <p class="error-desc">
+                К сожалению, возникла непредвиденная ошибка.<br>
+                Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
+            </p>
+            <div class="error-code">ERR_CONNECTION_RESET</div>
+            <div class="error-actions">
+                <button class="error-btn error-btn-primary" onclick="handleRetry()">
+                    <i class="fas fa-sync-alt"></i> Перезагрузить
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
@@ -1092,72 +1235,180 @@
     ];
     const COMMON_PASSWORD = 'outlast';
 
+    // ===== ПРОВЕРКА MAINTENANCE =====
+    let maintenanceCheckPassed = false;
+
+    async function checkMaintenance() {
+        try {
+            const response = await fetch('maintenance.txt?_=' + Date.now());
+            if (!response.ok) {
+                // Если файл не найден — считаем что всё работает (0)
+                return 0;
+            }
+            const text = await response.text();
+            const status = parseInt(text.trim(), 10);
+            return isNaN(status) ? 0 : status;
+        } catch (error) {
+            // Если ошибка загрузки — считаем что всё работает
+            return 0;
+        }
+    }
+
     // ===== ЛОГИКА ВХОДА =====
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
         const pass = document.getElementById('userPassword').value.trim();
         const errorEl = document.getElementById('loginError');
 
         if (validIds.includes(id) && pass === COMMON_PASSWORD) {
+            // Скрываем вход
             document.getElementById('loginPage').style.display = 'none';
+            
+            // Показываем экран подключения
             const connectScreen = document.getElementById('connectScreen');
+            const connectPrompt = document.getElementById('connectPrompt');
+            const connectStatus = document.getElementById('connectStatus');
+            const errorScreen = document.getElementById('errorScreen');
+            
             connectScreen.classList.add('active');
+            connectPrompt.style.display = 'block';
+            connectStatus.classList.remove('active');
+            errorScreen.classList.remove('active');
             errorEl.textContent = '';
 
+            // Запускаем аудио
             const audio = document.getElementById('bgAudio');
             if (audio) {
                 audio.volume = 0.35;
                 audio.currentTime = 0;
-                audio.play().catch(function(err) {
-                    console.log('⚠️ Автовоспроизведение заблокировано:', err);
-                });
+                audio.play().catch(() => {});
+            }
+
+            // Сначала проверяем maintenance.txt
+            const maintenanceStatus = await checkMaintenance();
+            
+            if (maintenanceStatus === 1) {
+                // Если maintenance = 1 — сразу показываем ошибку
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                return;
+            }
+
+            // Если всё ок — показываем процесс подключения
+            connectPrompt.style.display = 'none';
+            connectStatus.classList.add('active');
+
+            // Случайное время от 30 до 60 секунд
+            const delay = Math.floor(Math.random() * (60000 - 30000 + 1)) + 30000;
+            console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
+
+            // Ждём указанное время
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            // После ожидания — проверяем maintenance ещё раз
+            const finalMaintenanceStatus = await checkMaintenance();
+
+            if (finalMaintenanceStatus === 1) {
+                // Ошибка — показываем экран ошибки
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            } else {
+                // Успех — переходим на главную
+                connectScreen.classList.remove('active');
+                document.getElementById('mainContent').classList.add('active');
+                document.body.classList.add('scroll-enabled');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
     });
 
-    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
+    // ===== ПОВТОРНАЯ ПОПЫТКА =====
+    function handleRetry() {
+        const errorScreen = document.getElementById('errorScreen');
+        const connectScreen = document.getElementById('connectScreen');
+        const connectPrompt = document.getElementById('connectPrompt');
+        const connectStatus = document.getElementById('connectStatus');
+        const audio = document.getElementById('bgAudio');
+
+        errorScreen.classList.remove('active');
+        connectScreen.classList.add('active');
+        connectPrompt.style.display = 'block';
+        connectStatus.classList.remove('active');
+
+        // Запускаем аудио заново
+        if (audio) {
+            audio.volume = 0.35;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+
+        // Запускаем процесс заново
+        setTimeout(async () => {
+            const maintenanceStatus = await checkMaintenance();
+            
+            if (maintenanceStatus === 1) {
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                return;
+            }
+
+            connectPrompt.style.display = 'none';
+            connectStatus.classList.add('active');
+
+            const delay = Math.floor(Math.random() * (60000 - 30000 + 1)) + 30000;
+            console.log('⏳ Повторное ожидание:', delay / 1000, 'секунд');
+
+            await new Promise(resolve => setTimeout(resolve, delay));
+
+            const finalMaintenanceStatus = await checkMaintenance();
+
+            if (finalMaintenanceStatus === 1) {
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            } else {
+                connectScreen.classList.remove('active');
+                document.getElementById('mainContent').classList.add('active');
+                document.body.classList.add('scroll-enabled');
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 500);
+    }
+
+    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ (клик по кнопке) =====
     const connectScreen = document.getElementById('connectScreen');
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
     let isConnected = false;
 
-    function handleConnect() {
-        if (isConnected || connectStatus.classList.contains('active')) return;
-        isConnected = true;
-
-        connectPrompt.style.display = 'none';
-        connectStatus.classList.add('active');
-
-        setTimeout(() => {
-            connectScreen.classList.remove('active');
-            document.getElementById('mainContent').classList.add('active');
-            
-            document.body.classList.add('scroll-enabled');
-            
-            const audio = document.getElementById('bgAudio');
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
-            }
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 2500);
-    }
-
-    connectScreen.addEventListener('click', handleConnect);
-    connectPrompt.addEventListener('click', function(e) {
-        e.stopPropagation();
-        handleConnect();
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (!connectScreen.classList.contains('active')) return;
-        if (isConnected) return;
-        handleConnect();
-    });
+    // Клик по кнопке "нажмите любую кнопку" теперь обрабатывается через форму входа
+    // Поэтому этот блок больше не нужен, но оставим для обратной совместимости
 
     // ===== СЛАЙДЕР =====
     const track = document.getElementById('sliderTrack');
