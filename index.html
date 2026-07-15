@@ -25,9 +25,14 @@
             align-items: flex-start;
             justify-content: center;
             position: relative;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden; /* скролл отключен по умолчанию */
             min-height: 100vh;
+        }
+
+        /* Когда главная страница активна — включаем скролл */
+        body.scroll-enabled {
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         /* Фоновый слайдер — фиксирован на всю страницу */
@@ -46,7 +51,7 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 2.5s ease-in-out;
+            transition: opacity 3s ease-in-out;
             will-change: opacity;
         }
 
@@ -773,15 +778,23 @@
     <img src="images/фон-9.webp" alt="фон 9">
     <img src="images/фон-10.webp" alt="фон 10">
     <img src="images/фон-11.png" alt="фон 11">
+    <img src="images/фон-11.webp" alt="фон 11">
     <img src="images/фон-12.webp" alt="фон 12">
     <img src="images/фон-13.webp" alt="фон 13">
     <img src="images/фон-14.webp" alt="фон 14">
+    <img src="images/фон-15.webp" alt="фон 15">
+    <img src="images/фон-16.webp" alt="фон 16">
+    <img src="images/фон-17.webp" alt="фон 17">
+    <img src="images/фон-18.webp" alt="фон 18">
+    <img src="images/фон-19.jpeg" alt="фон 19">
+    <img src="images/фон-20.webp" alt="фон 20">
+    <img src="images/фон-21.webp" alt="фон 21">
 </div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
 <script>
-    // Плавная смена фоновых картинок
+    // Плавная смена фоновых картинок — медленнее (каждые 10 секунд)
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
@@ -795,7 +808,7 @@
             imgs[current].classList.remove('active');
             current = (current + 1) % total;
             imgs[current].classList.add('active');
-        }, 6000);
+        }, 10000); // 10 секунд между сменами
     })();
 
     // Дымовые частицы
@@ -1009,6 +1022,9 @@
         setTimeout(() => {
             connectScreen.classList.remove('active');
             document.getElementById('mainContent').classList.add('active');
+            
+            // Включаем скролл на body
+            document.body.classList.add('scroll-enabled');
             
             // Останавливаем аудио
             const audio = document.getElementById('bgAudio');
