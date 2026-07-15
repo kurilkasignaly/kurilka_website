@@ -259,7 +259,7 @@
             justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
-            cursor: default;
+            cursor: pointer;
             background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
@@ -479,7 +479,6 @@
             cursor: pointer;
             transition: all 0.3s;
             font-family: inherit;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -1235,27 +1234,8 @@
     ];
     const COMMON_PASSWORD = 'outlast';
 
-    // ===== ПРОВЕРКА MAINTENANCE =====
-    let maintenanceCheckPassed = false;
-
-    async function checkMaintenance() {
-        try {
-            const response = await fetch('maintenance.txt?_=' + Date.now());
-            if (!response.ok) {
-                // Если файл не найден — считаем что всё работает (0)
-                return 0;
-            }
-            const text = await response.text();
-            const status = parseInt(text.trim(), 10);
-            return isNaN(status) ? 0 : status;
-        } catch (error) {
-            // Если ошибка загрузки — считаем что всё работает
-            return 0;
-        }
-    }
-
     // ===== ЛОГИКА ВХОДА =====
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
         const pass = document.getElementById('userPassword').value.trim();
@@ -1267,148 +1247,107 @@
             
             // Показываем экран подключения
             const connectScreen = document.getElementById('connectScreen');
-            const connectPrompt = document.getElementById('connectPrompt');
-            const connectStatus = document.getElementById('connectStatus');
-            const errorScreen = document.getElementById('errorScreen');
-            
             connectScreen.classList.add('active');
-            connectPrompt.style.display = 'block';
-            connectStatus.classList.remove('active');
-            errorScreen.classList.remove('active');
             errorEl.textContent = '';
 
-            // Запускаем аудио
+            // Запускаем аудио (то, которое было выбрано при загрузке)
             const audio = document.getElementById('bgAudio');
             if (audio) {
                 audio.volume = 0.35;
                 audio.currentTime = 0;
                 audio.play().catch(() => {});
             }
-
-            // Сначала проверяем maintenance.txt
-            const maintenanceStatus = await checkMaintenance();
-            
-            if (maintenanceStatus === 1) {
-                // Если maintenance = 1 — сразу показываем ошибку
-                connectScreen.classList.remove('active');
-                errorScreen.classList.add('active');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                return;
-            }
-
-            // Если всё ок — показываем процесс подключения
-            connectPrompt.style.display = 'none';
-            connectStatus.classList.add('active');
-
-            // Случайное время от 30 до 60 секунд
-            const delay = Math.floor(Math.random() * (60000 - 30000 + 1)) + 30000;
-            console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
-
-            // Ждём указанное время
-            await new Promise(resolve => setTimeout(resolve, delay));
-
-            // После ожидания — проверяем maintenance ещё раз
-            const finalMaintenanceStatus = await checkMaintenance();
-
-            if (finalMaintenanceStatus === 1) {
-                // Ошибка — показываем экран ошибки
-                connectScreen.classList.remove('active');
-                errorScreen.classList.add('active');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-            } else {
-                // Успех — переходим на главную
-                connectScreen.classList.remove('active');
-                document.getElementById('mainContent').classList.add('active');
-                document.body.classList.add('scroll-enabled');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
     });
 
+    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
+    const connectScreen = document.getElementById('connectScreen');
+    const connectPrompt = document.getElementById('connectPrompt');
+    const connectStatus = document.getElementById('connectStatus');
+    const errorScreen = document.getElementById('errorScreen');
+    const audio = document.getElementById('bgAudio');
+    let isProcessing = false;
+
+    // Функция запуска процесса подключения
+    function startConnectionProcess() {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        // Скрываем кнопку, показываем спиннер
+        connectPrompt.style.display = 'none';
+        connectStatus.classList.add('active');
+
+        // Переключаем аудио на loading 3.mp3
+        if (audio) {
+            audio.src = 'images/loading 3.mp3';
+            audio.volume = 0.35;
+            audio.currentTime = 0;
+            audio.load();
+            audio.play().catch(() => {});
+        }
+
+        // Случайное время от 30 до 50 секунд
+        const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
+        console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
+
+        // Ждём указанное время
+        setTimeout(() => {
+            // Показываем ошибку
+            connectScreen.classList.remove('active');
+            errorScreen.classList.add('active');
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            isProcessing = false;
+        }, delay);
+    }
+
+    // Клик по экрану или по кнопке
+    connectScreen.addEventListener('click', function(e) {
+        // Если уже идёт процесс — игнорируем
+        if (isProcessing) return;
+        // Если кликнули не по кнопке, но кнопка видна — запускаем
+        if (connectPrompt.style.display !== 'none') {
+            startConnectionProcess();
+        }
+    });
+
+    connectPrompt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isProcessing) return;
+        startConnectionProcess();
+    });
+
+    // Нажатие любой клавиши на клавиатуре
+    document.addEventListener('keydown', function(e) {
+        if (!connectScreen.classList.contains('active')) return;
+        if (isProcessing) return;
+        if (connectPrompt.style.display === 'none') return;
+        startConnectionProcess();
+    });
+
     // ===== ПОВТОРНАЯ ПОПЫТКА =====
     function handleRetry() {
-        const errorScreen = document.getElementById('errorScreen');
-        const connectScreen = document.getElementById('connectScreen');
-        const connectPrompt = document.getElementById('connectPrompt');
-        const connectStatus = document.getElementById('connectStatus');
-        const audio = document.getElementById('bgAudio');
-
         errorScreen.classList.remove('active');
         connectScreen.classList.add('active');
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
+        isProcessing = false;
 
-        // Запускаем аудио заново
+        // Возвращаем обычное аудио
         if (audio) {
-            audio.volume = 0.35;
+            // Переключаем обратно на выбранный при загрузке файл
+            const selectedFile = audio.src.split('/').pop();
+            if (selectedFile !== 'loading 3.mp3') {
+                // Если файл не loading 3, оставляем как есть
+            }
+            audio.pause();
             audio.currentTime = 0;
-            audio.play().catch(() => {});
         }
-
-        // Запускаем процесс заново
-        setTimeout(async () => {
-            const maintenanceStatus = await checkMaintenance();
-            
-            if (maintenanceStatus === 1) {
-                connectScreen.classList.remove('active');
-                errorScreen.classList.add('active');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                return;
-            }
-
-            connectPrompt.style.display = 'none';
-            connectStatus.classList.add('active');
-
-            const delay = Math.floor(Math.random() * (60000 - 30000 + 1)) + 30000;
-            console.log('⏳ Повторное ожидание:', delay / 1000, 'секунд');
-
-            await new Promise(resolve => setTimeout(resolve, delay));
-
-            const finalMaintenanceStatus = await checkMaintenance();
-
-            if (finalMaintenanceStatus === 1) {
-                connectScreen.classList.remove('active');
-                errorScreen.classList.add('active');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-            } else {
-                connectScreen.classList.remove('active');
-                document.getElementById('mainContent').classList.add('active');
-                document.body.classList.add('scroll-enabled');
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }, 500);
     }
-
-    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ (клик по кнопке) =====
-    const connectScreen = document.getElementById('connectScreen');
-    const connectPrompt = document.getElementById('connectPrompt');
-    const connectStatus = document.getElementById('connectStatus');
-    let isConnected = false;
-
-    // Клик по кнопке "нажмите любую кнопку" теперь обрабатывается через форму входа
-    // Поэтому этот блок больше не нужен, но оставим для обратной совместимости
 
     // ===== СЛАЙДЕР =====
     const track = document.getElementById('sliderTrack');
