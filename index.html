@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Курилка Синьялы</title>
-    <!-- favicon в нескольких форматах для лучшей поддержки -->
-    <link rel="icon" href="images/лого.png" type="image/png">
+    <!-- Favicon с увеличенным размером -->
+    <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -881,7 +881,8 @@
     })();
 
     // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
-    document.addEventListener('DOMContentLoaded', function() {
+    // Используем событие load, чтобы гарантировать, что все элементы загружены
+    window.addEventListener('load', function() {
         const audio = document.getElementById('bgAudio');
         
         if (!audio) {
@@ -892,6 +893,7 @@
         function selectAudioFile() {
             let selected = 'loading 2.mp3';
             
+            // Проверяем сеть
             if (navigator.connection) {
                 const conn = navigator.connection;
                 
@@ -908,6 +910,7 @@
                 }
             }
             
+            // Проверяем время загрузки
             try {
                 const perfData = performance.getEntriesByType('navigation')[0];
                 if (perfData) {
@@ -931,6 +934,9 @@
         const selectedFile = selectAudioFile();
         audio.src = 'images/' + selectedFile;
         console.log('✅ Выбран аудиофайл:', selectedFile);
+        
+        // Предзагружаем аудио
+        audio.load();
     });
 </script>
 
@@ -1010,9 +1016,6 @@
             <h2 style="font-size: 2.6rem; font-weight:800; background:linear-gradient(135deg,#fff,#e25d32); -webkit-background-clip:text; background-clip:text; color:transparent;">
                 Добро пожаловать в Курилку
             </h2>
-            <p style="color:#a090b0; background:rgba(20,15,30,0.5); backdrop-filter:blur(8px); padding:0.5rem 1.8rem; border-radius:60px; display:inline-block; border:1px solid rgba(220,90,50,0.15);">
-                <i class="fas fa-skull"></i> дым, ужас и папиросы
-            </p>
         </div>
 
         <div class="stats-grid">
@@ -1106,7 +1109,9 @@
             if (audio) {
                 audio.volume = 0.35;
                 audio.currentTime = 0;
-                audio.play().catch(() => {});
+                audio.play().catch(function(err) {
+                    console.log('⚠️ Автовоспроизведение заблокировано:', err);
+                });
             }
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
