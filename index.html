@@ -22,11 +22,12 @@
             background: #0b0811;
             color: #f0eef7;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             position: relative;
             overflow-x: hidden;
             overflow-y: auto;
+            min-height: 100vh;
         }
 
         /* Фоновый слайдер — фиксирован на всю страницу */
@@ -95,6 +96,9 @@
             position: relative;
             z-index: 10;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         /* ===== СТРАНИЦА ВХОДА ===== */
@@ -242,7 +246,7 @@
             padding-top: 1.5rem;
         }
 
-        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ — теперь не блокирует прокрутку ===== */
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ — прозрачный фон, без размытия ===== */
         .connect-screen {
             display: none;
             position: fixed;
@@ -253,8 +257,7 @@
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             cursor: pointer;
-            background: rgba(8, 6, 15, 0.7);
-            backdrop-filter: blur(6px);
+            background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
 
@@ -394,12 +397,13 @@
             pointer-events: none;
         }
 
-        /* ===== ОСНОВНАЯ ГЛАВНАЯ — теперь с прокруткой ===== */
+        /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
         .main-content {
             display: none;
             animation: fadeInScale 0.6s ease-out;
             position: relative;
             z-index: 5;
+            width: 100%;
         }
 
         .main-content.active {
@@ -973,11 +977,14 @@
         const errorEl = document.getElementById('loginError');
 
         if (validIds.includes(id) && pass === COMMON_PASSWORD) {
+            // Скрываем форму входа
             document.getElementById('loginPage').style.display = 'none';
+            // Показываем экран подключения
             const connectScreen = document.getElementById('connectScreen');
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
+            // Запускаем аудио
             const audio = document.getElementById('bgAudio');
             audio.volume = 0.35;
             audio.play().catch(() => {});
@@ -991,24 +998,29 @@
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
 
-    // Клик по экрану или по кнопке
     function handleConnect() {
         if (connectStatus.classList.contains('active')) return;
 
+        // Меняем состояние на "подключение"
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
+        // Через 2.5 секунды переходим на главную
         setTimeout(() => {
             connectScreen.classList.remove('active');
             document.getElementById('mainContent').classList.add('active');
+            
+            // Останавливаем аудио
             const audio = document.getElementById('bgAudio');
             audio.pause();
             audio.currentTime = 0;
-            // Разрешаем прокрутку
-            document.body.style.overflow = 'auto';
+            
+            // Прокручиваем страницу вверх
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 2500);
     }
 
+    // Клик по экрану или по кнопке
     connectScreen.addEventListener('click', handleConnect);
     connectPrompt.addEventListener('click', function(e) {
         e.stopPropagation();
