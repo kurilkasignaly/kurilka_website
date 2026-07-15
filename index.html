@@ -1057,8 +1057,10 @@
         }
 
         const selectedFile = selectAudioFile();
+        // Сохраняем выбранный файл как "обычный" (для штатного режима)
+        window.normalAudioFile = selectedFile;
         audio.src = 'images/' + selectedFile;
-        console.log('✅ Выбран аудиофайл:', selectedFile);
+        console.log('✅ Выбран обычный аудиофайл:', selectedFile);
         audio.load();
     });
 </script>
@@ -1239,13 +1241,13 @@
         try {
             const response = await fetch('maintenance.txt?_=' + Date.now());
             if (!response.ok) {
-                return 0; // Если файл не найден — считаем что всё работает
+                return 0;
             }
             const text = await response.text();
             const status = parseInt(text.trim(), 10);
             return isNaN(status) ? 0 : status;
         } catch (error) {
-            return 0; // При ошибке загрузки — считаем что всё работает
+            return 0;
         }
     }
 
@@ -1264,25 +1266,31 @@
 
             const audio = document.getElementById('bgAudio');
             if (audio) {
-                audio.src = 'images/loading 3.mp3';
-                audio.volume = 0.35;
-                audio.currentTime = 0;
-                audio.load();
-                audio.play().catch(() => {});
+                // Сразу проверяем maintenance.txt
+                const maintenanceStatus = await checkMaintenance();
+                
+                if (maintenanceStatus === 1) {
+                    // Режим ошибки — loading 3.mp3
+                    audio.src = 'images/loading 3.mp3';
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.play().catch(() => {});
+                    
+                    // Сразу показываем ошибку
+                    connectScreen.classList.remove('active');
+                    document.getElementById('errorScreen').classList.add('active');
+                    return;
+                } else {
+                    // Штатный режим — loading или loading 2
+                    const normalFile = window.normalAudioFile || 'loading 2.mp3';
+                    audio.src = 'images/' + normalFile;
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.play().catch(() => {});
+                }
             }
-
-            // Сразу проверяем maintenance.txt
-            const maintenanceStatus = await checkMaintenance();
-            
-            if (maintenanceStatus === 1) {
-                // Если maintenance = 1 — сразу показываем ошибку
-                connectScreen.classList.remove('active');
-                document.getElementById('errorScreen').classList.add('active');
-                return;
-            }
-
-            // Если всё ок — показываем процесс подключения
-            // (дальше будет ждать нажатия кнопки)
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
@@ -1297,7 +1305,7 @@
     let isProcessing = false;
     let connectionTimer = null;
 
-    // Функция запуска процесса подключения с проверкой maintenance
+    // Функция запуска процесса подключения
     async function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
@@ -1309,28 +1317,69 @@
             audio.play().catch(() => {});
         }
 
-        // Случайное время от 30 до 50 секунд
-        const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
-        console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
-
-        // Ждём указанное время
-        await new Promise(resolve => {
-            connectionTimer = setTimeout(resolve, delay);
-        });
-
-        // После ожидания — проверяем maintenance.txt
+        // Проверяем maintenance.txt перед ожиданием
         const maintenanceStatus = await checkMaintenance();
 
         if (maintenanceStatus === 1) {
-            // Ошибка — показываем экран ошибки, музыка продолжает играть
+            // Режим ошибки — 30-50 секунд с loading 3.mp3
+            if (audio) {
+                audio.src = 'images/loading 3.mp3';
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.load();
+                audio.play().catch(() => {});
+            }
+            
+            const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
+            console.log('⏳ Ошибка, ожидание:', delay / 1000, 'секунд');
+            
+            await new Promise(resolve => {
+                connectionTimer = setTimeout(resolve, delay);
+            });
+
+            // Показываем ошибку
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
+            
         } else {
-            // Успех — переходим на главную
-            connectScreen.classList.remove('active');
-            document.getElementById('mainContent').classList.add('active');
-            document.body.classList.add('scroll-enabled');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Штатный режим — 10-15 секунд с обычным аудио
+            if (audio) {
+                const normalFile = window.normalAudioFile || 'loading 2.mp3';
+                audio.src = 'images/' + normalFile;
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.load();
+                audio.play().catch(() => {});
+            }
+            
+            const delay = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+            console.log('⏳ Штатный режим, ожидание:', delay / 1000, 'секунд');
+            
+            await new Promise(resolve => {
+                connectionTimer = setTimeout(resolve, delay);
+            });
+
+            // Повторная проверка maintenance.txt
+            const finalStatus = await checkMaintenance();
+
+            if (finalStatus === 1) {
+                // За время ожидания включился режим ошибки
+                if (audio) {
+                    audio.src = 'images/loading 3.mp3';
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.play().catch(() => {});
+                }
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+            } else {
+                // Успех — переходим на главную
+                connectScreen.classList.remove('active');
+                document.getElementById('mainContent').classList.add('active');
+                document.body.classList.add('scroll-enabled');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
         
         isProcessing = false;
@@ -1371,11 +1420,17 @@
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
 
-        if (audio && audio.paused) {
+        // Возвращаем обычное аудио для штатного режима
+        if (audio) {
+            const normalFile = window.normalAudioFile || 'loading 2.mp3';
+            audio.src = 'images/' + normalFile;
+            audio.volume = 0.35;
+            audio.currentTime = 0;
+            audio.load();
             audio.play().catch(() => {});
         }
 
-        // Автоматически запускаем процесс подключения через задержку
+        // Автоматически запускаем процесс подключения
         setTimeout(() => {
             if (connectScreen.classList.contains('active') && !isProcessing) {
                 startConnectionProcess();
