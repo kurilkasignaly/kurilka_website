@@ -1126,7 +1126,7 @@
             </p>
             <div class="error-code">ERR_CONNECTION_RESET</div>
             <div class="error-actions">
-                <button class="error-btn error-btn-primary" onclick="handleRetry()">
+                <button class="error-btn error-btn-primary" id="retryBtn">
                     <i class="fas fa-sync-alt"></i> Перезагрузить
                 </button>
             </div>
@@ -1242,15 +1242,11 @@
         const errorEl = document.getElementById('loginError');
 
         if (validIds.includes(id) && pass === COMMON_PASSWORD) {
-            // Скрываем вход
             document.getElementById('loginPage').style.display = 'none';
-            
-            // Показываем экран подключения
             const connectScreen = document.getElementById('connectScreen');
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
-            // Запускаем аудио (то, которое было выбрано при загрузке)
             const audio = document.getElementById('bgAudio');
             if (audio) {
                 audio.volume = 0.35;
@@ -1269,13 +1265,13 @@
     const errorScreen = document.getElementById('errorScreen');
     const audio = document.getElementById('bgAudio');
     let isProcessing = false;
+    let connectionTimer = null;
 
     // Функция запуска процесса подключения
     function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
 
-        // Скрываем кнопку, показываем спиннер
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
@@ -1288,28 +1284,22 @@
             audio.play().catch(() => {});
         }
 
-        // Случайное время от 30 до 50 секунд
         const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
         console.log('⏳ Ожидание подключения:', delay / 1000, 'секунд');
 
-        // Ждём указанное время
-        setTimeout(() => {
-            // Показываем ошибку
+        connectionTimer = setTimeout(() => {
+            // Показываем ошибку, НО НЕ ОСТАНАВЛИВАЕМ МУЗЫКУ
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
-            if (audio) {
-                audio.pause();
-                audio.currentTime = 0;
-            }
+            // Музыка продолжает играть!
             isProcessing = false;
+            connectionTimer = null;
         }, delay);
     }
 
     // Клик по экрану или по кнопке
     connectScreen.addEventListener('click', function(e) {
-        // Если уже идёт процесс — игнорируем
         if (isProcessing) return;
-        // Если кликнули не по кнопке, но кнопка видна — запускаем
         if (connectPrompt.style.display !== 'none') {
             startConnectionProcess();
         }
@@ -1321,7 +1311,6 @@
         startConnectionProcess();
     });
 
-    // Нажатие любой клавиши на клавиатуре
     document.addEventListener('keydown', function(e) {
         if (!connectScreen.classList.contains('active')) return;
         if (isProcessing) return;
@@ -1329,25 +1318,39 @@
         startConnectionProcess();
     });
 
-    // ===== ПОВТОРНАЯ ПОПЫТКА =====
-    function handleRetry() {
-        errorScreen.classList.remove('active');
-        connectScreen.classList.add('active');
-        connectPrompt.style.display = 'block';
-        connectStatus.classList.remove('active');
+    // ===== ПОВТОРНАЯ ПОПЫТКА (кнопка "Перезагрузить") =====
+    document.getElementById('retryBtn').addEventListener('click', function() {
+        // Очищаем старый таймер если есть
+        if (connectionTimer) {
+            clearTimeout(connectionTimer);
+            connectionTimer = null;
+        }
         isProcessing = false;
 
-        // Возвращаем обычное аудио
+        // Скрываем ошибку, показываем экран подключения
+        errorScreen.classList.remove('active');
+        connectScreen.classList.add('active');
+
+        // Показываем кнопку и скрываем спиннер
+        connectPrompt.style.display = 'block';
+        connectStatus.classList.remove('active');
+
+        // Переключаем аудио обратно на loading 3.mp3 и запускаем
         if (audio) {
-            // Переключаем обратно на выбранный при загрузке файл
-            const selectedFile = audio.src.split('/').pop();
-            if (selectedFile !== 'loading 3.mp3') {
-                // Если файл не loading 3, оставляем как есть
-            }
-            audio.pause();
+            audio.src = 'images/loading 3.mp3';
+            audio.volume = 0.35;
             audio.currentTime = 0;
+            audio.load();
+            audio.play().catch(() => {});
         }
-    }
+
+        // Автоматически запускаем процесс подключения через небольшую задержку
+        setTimeout(() => {
+            if (connectScreen.classList.contains('active') && !isProcessing) {
+                startConnectionProcess();
+            }
+        }, 800);
+    });
 
     // ===== СЛАЙДЕР =====
     const track = document.getElementById('sliderTrack');
