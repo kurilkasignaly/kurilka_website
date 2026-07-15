@@ -768,7 +768,7 @@
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
-<!-- Аудио — элемент должен быть в DOM до того, как скрипт его попытается использовать -->
+<!-- Аудио -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <script>
@@ -776,7 +776,6 @@
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
         
-        // Массив всех файлов с правильными расширениями
         const bgFiles = [
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
@@ -790,7 +789,6 @@
             'фон-46.webp', 'фон-47.webp', 'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
         ];
 
-        // Создаем img элементы
         bgFiles.forEach((file, index) => {
             const img = document.createElement('img');
             img.src = 'images/' + file;
@@ -799,7 +797,6 @@
             bgSlider.appendChild(img);
         });
 
-        // Запускаем слайдер
         const imgs = bgSlider.querySelectorAll('img');
         let current = 0;
         const total = imgs.length;
@@ -862,49 +859,65 @@
         }
     })();
 
-    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА (с проверкой существования элемента) =====
+    // ===== ИСПРАВЛЕННАЯ ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
     document.addEventListener('DOMContentLoaded', function() {
         const audio = document.getElementById('bgAudio');
         
-        // Проверяем, существует ли элемент
         if (!audio) {
             console.error('❌ Элемент #bgAudio не найден в DOM');
             return;
         }
 
         function selectAudioFile() {
-            let isSlowNetwork = false;
-            let isSavingData = false;
-
+            // По умолчанию — loading 2.mp3 (самый частый)
+            let selected = 'loading 2.mp3';
+            
+            // Проверяем сеть только если API доступен
             if (navigator.connection) {
                 const conn = navigator.connection;
-                if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') {
-                    isSlowNetwork = true;
+                
+                // Реальные проблемы с сетью:
+                // - очень медленный тип сети (slow-2g или 2g)
+                // - очень высокий пинг (> 500ms)
+                // - очень низкая скорость (< 0.3 Mbps)
+                const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
+                const isHighLatency = conn.rtt && conn.rtt > 500;
+                const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
+                
+                if (isVerySlow || isHighLatency || isVeryLowBandwidth) {
+                    return 'loading 3.mp3';
                 }
+                
+                // Экономия трафика — тоже loading 3
                 if (conn.saveData) {
-                    isSavingData = true;
-                }
-                if (conn.rtt && conn.rtt > 300) {
-                    isSlowNetwork = true;
-                }
-                if (conn.downlink && conn.downlink < 0.5) {
-                    isSlowNetwork = true;
+                    return 'loading 3.mp3';
                 }
             }
-
-            const loadTime = performance.now();
-            const isSlowLoad = loadTime > 3000;
-
-            if (isSlowNetwork || isSavingData || isSlowLoad) {
-                return 'loading 3.mp3';
+            
+            // Проверяем время загрузки страницы (только если очень долго)
+            // Используем navigation timing для более точной оценки
+            try {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                    // Если страница грузилась больше 5 секунд — возможно проблемы
+                    if (loadTime > 5000) {
+                        return 'loading 3.mp3';
+                    }
+                }
+            } catch(e) {
+                // Если не удалось получить данные — игнорируем
             }
-
+            
+            // Основной выбор: loading 2.mp3 — 70%, loading.mp3 — 30%
             const rand = Math.random();
             if (rand < 0.70) {
-                return 'loading 2.mp3';
+                selected = 'loading 2.mp3';
             } else {
-                return 'loading.mp3';
+                selected = 'loading.mp3';
             }
+            
+            return selected;
         }
 
         const selectedFile = selectAudioFile();
@@ -1077,7 +1090,6 @@
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
-            // Запускаем аудио
             const audio = document.getElementById('bgAudio');
             if (audio) {
                 audio.volume = 0.35;
