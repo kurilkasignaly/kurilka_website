@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* Тёмный фон с текстурой и дымом */
         body::before {
             content: "";
             position: fixed;
@@ -37,7 +36,6 @@
             z-index: -2;
         }
 
-        /* Дымовые частицы поверх фона */
         .smoke-overlay {
             position: fixed;
             inset: 0;
@@ -67,7 +65,6 @@
             animation: floatParticle 14s linear infinite;
         }
 
-        /* Основной контейнер — имитация страницы входа + главная */
         .main-wrapper {
             width: 100%;
             max-width: 1400px;
@@ -205,6 +202,15 @@
             margin-right: 10px;
         }
 
+        .login-error {
+            color: #ff6b4a;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 0.8rem;
+            min-height: 1.6rem;
+            font-weight: 500;
+        }
+
         .login-footer {
             text-align: center;
             margin-top: 1.8rem;
@@ -214,13 +220,7 @@
             padding-top: 1.5rem;
         }
 
-        .login-footer a {
-            color: #e25d32;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        /* ===== ОСНОВНАЯ ГЛАВНАЯ (скрыта до входа) ===== */
+        /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
         .main-content {
             display: none;
             animation: fadeInScale 0.6s ease-out;
@@ -230,7 +230,6 @@
             display: block;
         }
 
-        /* Стили для главной — мрачный, индустриальный, с дымом */
         .header {
             display: flex;
             justify-content: space-between;
@@ -266,7 +265,7 @@
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
             padding: 0.5rem 1rem;
@@ -277,17 +276,17 @@
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.9rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
             color: #b5a8c8;
             transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             text-decoration: none;
         }
 
@@ -304,7 +303,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
@@ -333,7 +332,6 @@
             color: transparent;
         }
 
-        /* Слайдер в стиле индустриального ужаса */
         .slider-block {
             position: relative;
             margin: 3rem 0;
@@ -532,7 +530,6 @@
             border-radius: 50px;
         }
 
-        /* Анимации */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.96) translateY(12px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -543,7 +540,6 @@
             50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
         }
 
-        /* Адаптив */
         @media (max-width: 850px) {
             .main-wrapper { padding: 1rem; }
             .login-overlay { padding: 2rem 1.5rem; margin: 1rem; }
@@ -562,13 +558,12 @@
             .login-overlay { padding: 1.5rem 1rem; }
             .login-header h1 { font-size: 1.8rem; }
             .stat-number { font-size: 1.8rem; }
-            .nav-btn { font-size: 0.65rem; padding: 0.3rem 0.7rem; }
+            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Дымовые частицы -->
 <div class="smoke-overlay"></div>
 <script>
     (function createParticles() {
@@ -597,18 +592,19 @@
             <div class="input-group">
                 <label><i class="fas fa-id-card"></i> Идентификационный номер</label>
                 <i class="fas fa-user input-icon"></i>
-                <input type="text" id="userId" placeholder="Введите ID (например, 1842)" value="1842">
+                <input type="text" id="userId" placeholder="Введите ID" value="">
             </div>
             <div class="input-group">
                 <label><i class="fas fa-lock"></i> Пароль доступа</label>
                 <i class="fas fa-key input-icon"></i>
-                <input type="password" id="userPassword" placeholder="Введите пароль" value="outlast">
+                <input type="password" id="userPassword" placeholder="Введите пароль" value="">
             </div>
             <div class="login-actions">
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Войти в убежище</button>
             </div>
+            <div id="loginError" class="login-error"></div>
             <div class="login-footer">
-                <i class="fas fa-shield-alt"></i> защищено безумием · <a href="#">забыли данные?</a>
+                <i class="fas fa-shield-alt"></i> доступ только для избранных
             </div>
         </form>
     </div>
@@ -628,6 +624,7 @@
                 <a href="#" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
                 <a href="#" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
                 <a href="#" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+                <a href="#" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
             </div>
         </div>
 
@@ -710,22 +707,31 @@
 </div>
 
 <script>
-    // ЛОГИКА ВХОДА
+    // ===== СПИСОК ДОПУЩЕННЫХ ID (10 участников) =====
+    const validIds = [
+        '1842', '2710', '3356', '4098', '5123',
+        '6271', '7345', '8429', '9562', '1083'
+    ];
+    const COMMON_PASSWORD = 'outlast';
+
+    // ===== ЛОГИКА ВХОДА =====
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
         const pass = document.getElementById('userPassword').value.trim();
+        const errorEl = document.getElementById('loginError');
 
-        // Демо-проверка: ID 1842, пароль outlast (или любые непустые)
-        if ((id === '1842' && pass === 'outlast') || (id.length > 0 && pass.length > 0)) {
+        if (validIds.includes(id) && pass === COMMON_PASSWORD) {
+            // успех
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('mainContent').classList.add('active');
+            errorEl.textContent = '';
         } else {
-            alert('❌ Неверный идентификатор или пароль. Попробуйте снова.\n(подсказка: ID 1842, пароль outlast)');
+            errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
     });
 
-    // СЛАЙДЕР
+    // ===== СЛАЙДЕР =====
     const track = document.getElementById('sliderTrack');
     const slides = document.querySelectorAll('.slider-slide');
     const dots = document.querySelectorAll('.dot');
@@ -756,7 +762,7 @@
     sliderBlock.addEventListener('mouseleave', startAuto);
     startAuto();
 
-    // Плавное появление при скролле
+    // Плавное появление
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
