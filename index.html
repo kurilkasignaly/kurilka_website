@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Курилка Синьялы — вход / главная</title>
+    <title>Курилка Синьялы — подключение</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -22,33 +22,50 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        body::before {
-            content: "";
+        /* Фоновый видео-слайдер */
+        .bg-slider {
             position: fixed;
             inset: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(100, 40, 20, 0.3) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(180, 70, 30, 0.15) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, rgba(20, 15, 25, 0.4) 0px, rgba(20, 15, 25, 0.4) 2px, transparent 2px, transparent 6px);
             z-index: -2;
+            overflow: hidden;
         }
 
+        .bg-slider img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .bg-slider img.active {
+            opacity: 1;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Дым */
         .smoke-overlay {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: -1;
-            background: 
-                radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.06) 0%, transparent 40%);
+            z-index: 0;
+            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.06) 0%, transparent 40%);
         }
 
         @keyframes floatParticle {
             0% { transform: translateY(0) scale(0.8); opacity: 0; }
-            30% { opacity: 0.25; }
+            30% { opacity: 0.2; }
             80% { opacity: 0.1; }
             100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
@@ -58,7 +75,7 @@
             bottom: -40px;
             width: 120px;
             height: 120px;
-            background: radial-gradient(circle, rgba(200, 100, 50, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(200, 100, 50, 0.07) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
@@ -89,7 +106,6 @@
 
         .login-overlay:hover {
             border-color: rgba(220, 100, 50, 0.5);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(200, 80, 40, 0.1);
         }
 
         .login-header {
@@ -106,7 +122,6 @@
             background-clip: text;
             color: transparent;
             animation: smokePulse 3s ease-in-out infinite;
-            letter-spacing: -0.5px;
         }
 
         .login-header .sub {
@@ -218,6 +233,127 @@
             color: #5a4a6a;
             border-top: 1px solid rgba(200, 100, 50, 0.1);
             padding-top: 1.5rem;
+        }
+
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
+        .connect-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: rgba(8, 6, 15, 0.75);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        .connect-screen.active {
+            display: flex;
+        }
+
+        .connect-box {
+            background: rgba(10, 7, 18, 0.85);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(200, 100, 50, 0.3);
+            border-radius: 60px;
+            padding: 3.5rem 4rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connect-box h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .connect-box .sub {
+            color: #a090b0;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .connect-prompt {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #d0c8e0;
+            padding: 1.2rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            border-radius: 40px;
+            background: rgba(20, 15, 30, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+            user-select: none;
+        }
+
+        .connect-prompt:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            background: rgba(30, 20, 40, 0.6);
+        }
+
+        .connect-prompt i {
+            margin-right: 10px;
+            color: #e25d32;
+        }
+
+        .connect-status {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .connect-status.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(220, 90, 50, 0.15);
+            border-top: 4px solid #e25d32;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .connect-status .label {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffbc9a, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .connect-box .hint {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            color: #5a4a6a;
+            letter-spacing: 1px;
         }
 
         /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
@@ -552,6 +688,8 @@
             .slider-btn { width: 36px; height: 36px; font-size: 1rem; }
             .slider-btn-left { left: 8px; }
             .slider-btn-right { right: 8px; }
+            .connect-box { padding: 2.5rem 1.5rem; }
+            .connect-box h2 { font-size: 1.8rem; }
         }
 
         @media (max-width: 500px) {
@@ -559,13 +697,37 @@
             .login-header h1 { font-size: 1.8rem; }
             .stat-number { font-size: 1.8rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+            .connect-box { padding: 2rem 1rem; }
+            .connect-box h2 { font-size: 1.5rem; }
+            .connect-prompt { font-size: 1rem; padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
+<!-- Фоновый слайдер картинок -->
+<div class="bg-slider" id="bgSlider">
+    <img src="https://i.imgur.com/6ZRqjqY.png" alt="bg1" class="active">
+    <img src="https://i.imgur.com/3Lp7Q4M.png" alt="bg2">
+    <img src="https://i.imgur.com/8YxqZ5L.png" alt="bg3">
+    <img src="https://i.imgur.com/4m7YxZp.png" alt="bg4" onerror="this.style.display='none'">
+</div>
+<div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
+
 <script>
+    // Фоновый слайдер
+    (function bgSlider() {
+        const imgs = document.querySelectorAll('#bgSlider img');
+        let current = 0;
+        setInterval(() => {
+            imgs[current].classList.remove('active');
+            current = (current + 1) % imgs.length;
+            imgs[current].classList.add('active');
+        }, 5000);
+    })();
+
+    // Дым
     (function createParticles() {
         for (let i = 0; i < 6; i++) {
             const p = document.createElement('div');
@@ -579,6 +741,11 @@
         }
     })();
 </script>
+
+<!-- АУДИО (автозапуск при открытии страницы) -->
+<audio id="bgAudio" loop preload="auto" style="display:none;">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
 <div class="main-wrapper">
     <!-- ====== СТРАНИЦА ВХОДА ====== -->
@@ -607,6 +774,27 @@
                 <i class="fas fa-shield-alt"></i> доступ только для избранных
             </div>
         </form>
+    </div>
+
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
+    <div id="connectScreen" class="connect-screen">
+        <div class="connect-box">
+            <h2><i class="fas fa-smoking"></i> Курилка Синьялы</h2>
+            <div class="sub"><i class="fas fa-skull"></i> установка связи <i class="fas fa-skull"></i></div>
+
+            <!-- Состояние: ожидание нажатия -->
+            <div id="connectPrompt" class="connect-prompt">
+                <i class="fas fa-hand-pointer"></i> [нажмите любую кнопку для подключения]
+            </div>
+
+            <!-- Состояние: подключение -->
+            <div id="connectStatus" class="connect-status">
+                <div class="spinner"></div>
+                <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
+            </div>
+
+            <div class="hint"><i class="fas fa-shield-alt"></i> защищенный канал · терапия</div>
+        </div>
     </div>
 
     <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
@@ -707,7 +895,7 @@
 </div>
 
 <script>
-    // ===== СПИСОК ДОПУЩЕННЫХ ID (10 участников) =====
+    // ===== СПИСОК ДОПУЩЕННЫХ ID =====
     const validIds = [
         '1842', '2710', '3356', '4098', '5123',
         '6271', '7345', '8429', '9562', '1083'
@@ -722,13 +910,44 @@
         const errorEl = document.getElementById('loginError');
 
         if (validIds.includes(id) && pass === COMMON_PASSWORD) {
-            // успех
+            // Скрываем вход, показываем экран подключения
             document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainContent').classList.add('active');
+            const connectScreen = document.getElementById('connectScreen');
+            connectScreen.classList.add('active');
             errorEl.textContent = '';
+
+            // Запускаем аудио
+            const audio = document.getElementById('bgAudio');
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
         } else {
             errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
         }
+    });
+
+    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
+    const connectScreen = document.getElementById('connectScreen');
+    const connectPrompt = document.getElementById('connectPrompt');
+    const connectStatus = document.getElementById('connectStatus');
+
+    // Любое нажатие на экране подключения запускает процесс
+    connectScreen.addEventListener('click', function(e) {
+        // Если уже в процессе — игнорируем
+        if (connectStatus.classList.contains('active')) return;
+
+        // Переключаем состояния
+        connectPrompt.style.display = 'none';
+        connectStatus.classList.add('active');
+
+        // Через 2.5 секунды переходим на главную
+        setTimeout(() => {
+            connectScreen.classList.remove('active');
+            document.getElementById('mainContent').classList.add('active');
+            // Останавливаем аудио
+            const audio = document.getElementById('bgAudio');
+            audio.pause();
+            audio.currentTime = 0;
+        }, 2500);
     });
 
     // ===== СЛАЙДЕР =====
@@ -758,8 +977,10 @@
     dots.forEach((dot, idx) => dot.addEventListener('click', () => goToSlide(idx)));
 
     const sliderBlock = document.querySelector('.slider-block');
-    sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlide));
-    sliderBlock.addEventListener('mouseleave', startAuto);
+    if (sliderBlock) {
+        sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        sliderBlock.addEventListener('mouseleave', startAuto);
+    }
     startAuto();
 
     // Плавное появление
