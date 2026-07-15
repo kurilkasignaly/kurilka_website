@@ -25,6 +25,7 @@
             overflow: hidden;
         }
 
+        /* Фоновый слайдер — плавная смена без мерцаний */
         .bg-slider {
             position: fixed;
             inset: 0;
@@ -34,37 +35,42 @@
 
         .bg-slider img {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 2.5s ease-in-out;
+            will-change: opacity;
         }
 
         .bg-slider img.active {
             opacity: 1;
         }
 
+        /* Более мягкий оверлей, чтобы картинки не перебивали текст */
         .bg-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.50);
             z-index: -1;
         }
 
+        /* Дымовая атмосфера */
         .smoke-overlay {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 0;
-            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.06) 0%, transparent 50%),
-                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.04) 0%, transparent 40%);
+            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.05) 0%, transparent 50%),
+                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.03) 0%, transparent 40%);
         }
 
         @keyframes floatParticle {
             0% { transform: translateY(0) scale(0.8); opacity: 0; }
-            30% { opacity: 0.15; }
-            80% { opacity: 0.08; }
+            30% { opacity: 0.12; }
+            80% { opacity: 0.06; }
             100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
 
@@ -73,11 +79,11 @@
             bottom: -40px;
             width: 120px;
             height: 120px;
-            background: radial-gradient(circle, rgba(200, 100, 50, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(200, 100, 50, 0.05) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
-            animation: floatParticle 14s linear infinite;
+            animation: floatParticle 16s linear infinite;
         }
 
         .main-wrapper {
@@ -738,27 +744,40 @@
 </head>
 <body>
 
-<!-- Фоновый слайдер -->
+<!-- Фоновый слайдер с картинками из папки images/ -->
 <div class="bg-slider" id="bgSlider">
-    <img src="https://i.imgur.com/6ZRqjqY.png" alt="bg1" class="active">
-    <img src="https://i.imgur.com/3Lp7Q4M.png" alt="bg2">
-    <img src="https://i.imgur.com/8YxqZ5L.png" alt="bg3">
-    <img src="https://i.imgur.com/4m7YxZp.png" alt="bg4" onerror="this.style.display='none'">
+    <img src="images/фон-1.webp" alt="фон 1" class="active">
+    <img src="images/фон-2.webp" alt="фон 2">
+    <img src="images/фон-3.webp" alt="фон 3">
+    <img src="images/фон-4.webp" alt="фон 4">
+    <img src="images/фон-5.webp" alt="фон 5">
 </div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
 <script>
+    // Плавная смена фоновых картинок без мерцаний
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
+        const total = imgs.length;
+
+        // Убедимся, что только первая активна
+        imgs.forEach((img, i) => {
+            img.classList.toggle('active', i === 0);
+        });
+
         setInterval(() => {
+            // Убираем активный класс у текущего
             imgs[current].classList.remove('active');
-            current = (current + 1) % imgs.length;
+            // Переходим к следующему
+            current = (current + 1) % total;
+            // Добавляем активный класс новому
             imgs[current].classList.add('active');
-        }, 5000);
+        }, 6000);
     })();
 
+    // Дымовые частицы
     (function createParticles() {
         for (let i = 0; i < 6; i++) {
             const p = document.createElement('div');
@@ -767,12 +786,13 @@
             p.style.width = (80 + Math.random() * 100) + 'px';
             p.style.height = p.style.width;
             p.style.animationDelay = (i * 2.5) + 's';
-            p.style.animationDuration = (12 + Math.random() * 8) + 's';
+            p.style.animationDuration = (14 + Math.random() * 8) + 's';
             document.body.appendChild(p);
         }
     })();
 </script>
 
+<!-- Аудио фон -->
 <audio id="bgAudio" loop preload="auto" style="display:none;">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
@@ -921,12 +941,14 @@
 </div>
 
 <script>
+    // ===== СПИСОК ДОПУЩЕННЫХ ID =====
     const validIds = [
         '1842', '2710', '3356', '4098', '5123',
         '6271', '7345', '8429', '9562', '1083'
     ];
     const COMMON_PASSWORD = 'outlast';
 
+    // ===== ЛОГИКА ВХОДА =====
     document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('userId').value.trim();
@@ -947,6 +969,7 @@
         }
     });
 
+    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
     const connectScreen = document.getElementById('connectScreen');
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
@@ -999,6 +1022,7 @@
     }
     startAuto();
 
+    // Плавное появление элементов
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
