@@ -765,31 +765,127 @@
 
 <!-- Фоновый слайдер -->
 <div class="bg-slider" id="bgSlider">
-    <img src="images/фон-1.webp" alt="фон 1" class="active">
-    <img src="images/фон-2.webp" alt="фон 2">
-    <img src="images/фон-3.webp" alt="фон 3">
-    <img src="images/фон-4.webp" alt="фон 4">
-    <img src="images/фон-5.webp" alt="фон 5">
+<img src="images/фон-1.webp" alt="фон 1" class="active">
+<img src="images/фон-2.webp" alt="фон 2">
+<img src="images/фон-3.webp" alt="фон 3">
+<img src="images/фон-4.webp" alt="фон 4">
+<img src="images/фон-5.webp" alt="фон 5">
+<img src="images/фон-6.webp" alt="фон 6">
+<img src="images/фон-7.webp" alt="фон 7">
+<img src="images/фон-8.webp" alt="фон 8">
+<img src="images/фон-9.webp" alt="фон 9">
+<img src="images/фон-10.webp" alt="фон 10">
+<img src="images/фон-11.webp" alt="фон 11">
+<img src="images/фон-11.png" alt="фон 11">
+<img src="images/фон-12.png" alt="фон 12">
+<img src="images/фон-13.webp" alt="фон 13">
+<img src="images/фон-14.webp" alt="фон 14">
+<img src="images/фон-15.webp" alt="фон 15">
+<img src="images/фон-16.webp" alt="фон 16">
+<img src="images/фон-17.webp" alt="фон 17">
+<img src="images/фон-18.webp" alt="фон 18">
+<img src="images/фон-19.jpeg" alt="фон 19">
+<img src="images/фон-20.webp" alt="фон 20">
+<img src="images/фон-21.webp" alt="фон 21">
+<img src="images/фон-22.jpg" alt="фон 22">
+<img src="images/фон-23.webp" alt="фон 23">
+<img src="images/фон-24.jpg" alt="фон 24">
+<img src="images/фон-25.png" alt="фон 25">
+<img src="images/фон-26.jpg" alt="фон 26">
+<img src="images/фон-27.webp" alt="фон 27">
+<img src="images/фон-28.webp" alt="фон 28">
+<img src="images/фон-29.webp" alt="фон 29">
+<img src="images/фон-30.webp" alt="фон 30">
+<img src="images/фон-31.webp" alt="фон 31">
+<img src="images/фон-31.jpg" alt="фон 31">    
+<img src="images/фон-32.jpg" alt="фон 32">
+<img src="images/фон-33.webp" alt="фон 33">
+<img src="images/фон-34.webp" alt="фон 34">
+<img src="images/фон-35.webp" alt="фон 35">
+<img src="images/фон-36.webp" alt="фон 36">
+<img src="images/фон-37.webp" alt="фон 37">
+<img src="images/фон-38.webp" alt="фон 38">
+<img src="images/фон-39.webp" alt="фон 39">
+<img src="images/фон-40.webp" alt="фон 40">
+<img src="images/фон-41.webp" alt="фон 41">
+<img src="images/фон-42.webp" alt="фон 42">
+<img src="images/фон-43.webp" alt="фон 43">
+<img src="images/фон-44.webp" alt="фон 44">
+<img src="images/фон-45.webp" alt="фон 45">
+<img src="images/фон-46.webp" alt="фон 46">
+<img src="images/фон-47.webp" alt="фон 47">
+<img src="images/фон-48.webp" alt="фон 48">
+<img src="images/фон-49.webp" alt="фон 49">
+<img src="images/фон-50.webp" alt="фон 50">
 </div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
 <script>
-    // Плавная смена фоновых картинок — 10 секунд
+    // ===== НАДЕЖНЫЙ СЛАЙДЕР ФОНА (без ускорения при переключении вкладок) =====
     (function bgSlider() {
         const imgs = document.querySelectorAll('#bgSlider img');
         let current = 0;
         const total = imgs.length;
+        let isTransitioning = false;
+        let timerId = null;
 
+        // Устанавливаем начальное состояние
         imgs.forEach((img, i) => {
             img.classList.toggle('active', i === 0);
         });
 
-        setInterval(() => {
+        function switchToNext() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            // Убираем активный класс у текущего
             imgs[current].classList.remove('active');
+            
+            // Переходим к следующему
             current = (current + 1) % total;
+            
+            // Добавляем активный класс новому (transition сработает автоматически)
             imgs[current].classList.add('active');
-        }, 10000);
+
+            // Разрешаем следующий переход через 3.5 секунды (чуть больше transition)
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 3500);
+        }
+
+        function startInterval() {
+            if (timerId) clearInterval(timerId);
+            timerId = setInterval(switchToNext, 10000);
+        }
+
+        function stopInterval() {
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        }
+
+        // Запускаем
+        startInterval();
+
+        // Если страница становится видимой — перезапускаем интервал, чтобы избежать накопления
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                stopInterval();
+            } else {
+                // При возвращении на страницу — перезапускаем с чистым интервалом
+                startInterval();
+                // Также сбрасываем флаг, если он завис
+                isTransitioning = false;
+            }
+        });
+
+        // Очистка при выгрузке страницы
+        window.addEventListener('beforeunload', function() {
+            stopInterval();
+        });
+
     })();
 
     // Дымовые частицы
@@ -807,9 +903,11 @@
     })();
 </script>
 
-<!-- Аудио — только для экрана загрузки -->
+<!-- Аудио — несколько файлов для экрана загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="images/loading.mp3" type="audio/mpeg">
+    <source src="images/loading 2.mp3" type="audio/mpeg">
+    <source src="images/loading 3.mp3" type="audio/mpeg">
 </audio>
 
 <div class="main-wrapper">
@@ -976,7 +1074,6 @@
             connectScreen.classList.add('active');
             errorEl.textContent = '';
 
-            // Аудио запускается ТОЛЬКО здесь — на экране подключения
             const audio = document.getElementById('bgAudio');
             audio.volume = 0.35;
             audio.currentTime = 0;
@@ -990,9 +1087,11 @@
     const connectScreen = document.getElementById('connectScreen');
     const connectPrompt = document.getElementById('connectPrompt');
     const connectStatus = document.getElementById('connectStatus');
+    let isConnected = false;
 
     function handleConnect() {
-        if (connectStatus.classList.contains('active')) return;
+        if (isConnected || connectStatus.classList.contains('active')) return;
+        isConnected = true;
 
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
@@ -1001,10 +1100,8 @@
             connectScreen.classList.remove('active');
             document.getElementById('mainContent').classList.add('active');
             
-            // Включаем скролл
             document.body.classList.add('scroll-enabled');
             
-            // ОСТАНАВЛИВАЕМ АУДИО — на главной странице звука НЕТ
             const audio = document.getElementById('bgAudio');
             audio.pause();
             audio.currentTime = 0;
@@ -1016,6 +1113,12 @@
     connectScreen.addEventListener('click', handleConnect);
     connectPrompt.addEventListener('click', function(e) {
         e.stopPropagation();
+        handleConnect();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!connectScreen.classList.contains('active')) return;
+        if (isConnected) return;
         handleConnect();
     });
 
@@ -1052,7 +1155,6 @@
     }
     startAuto();
 
-    // Плавное появление элементов
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
