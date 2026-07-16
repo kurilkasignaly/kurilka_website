@@ -569,10 +569,11 @@
         .nav-links {
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
             gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
@@ -603,6 +604,54 @@
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+        }
+
+        /* Кнопка управления музыкой */
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.9rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .music-toggle.playing {
+            border-color: rgba(220, 90, 50, 0.3);
+            color: #e25d32;
+        }
+
+        .music-toggle .icon {
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .music-toggle .icon.pulse {
+            animation: musicPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        .music-toggle .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .stats-grid {
@@ -855,7 +904,7 @@
             .login-overlay { padding: 1.5rem 1.5rem 1.8rem 1.5rem; max-width: 400px; margin: 0.5rem auto; }
             .login-header .logo-img { max-width: 150px; }
             .header { flex-direction: column; padding: 0.8rem 1rem; }
-            .nav-links { width: 100%; justify-content: center; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
             .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; }
             .slide-text { text-align: center; }
             .slide-text h2 { font-size: 1.6rem; }
@@ -887,6 +936,8 @@
             .login-btn { font-size: 0.85rem; padding: 10px; }
             .stat-number { font-size: 1.8rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+            .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .music-toggle .label { font-size: 0.6rem; }
             .logo .logo-img { max-height: 32px; }
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
@@ -919,6 +970,11 @@
 
 <!-- Аудио для загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
+
+<!-- Аудио для главной страницы -->
+<audio id="mainAudio" loop preload="auto" style="display:none;">
+    <source src="images/комната отдыха.mp3" type="audio/mpeg">
+</audio>
 
 <script>
     // ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
@@ -1062,6 +1118,81 @@
         console.log('✅ Выбран обычный аудиофайл:', selectedFile);
         audio.load();
     });
+
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ =====
+    let mainAudioStarted = false;
+
+    function toggleMainMusic() {
+        const audio = document.getElementById('mainAudio');
+        const btn = document.getElementById('musicToggleBtn');
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+
+        if (!audio) return;
+
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            audio.volume = 0.4;
+            btn.classList.add('playing');
+            icon.classList.remove('fa-volume-xmark');
+            icon.classList.add('fa-volume-high', 'pulse');
+            label.textContent = 'Вкл';
+            mainAudioStarted = true;
+        } else {
+            audio.pause();
+            btn.classList.remove('playing');
+            icon.classList.remove('fa-volume-high', 'pulse');
+            icon.classList.add('fa-volume-xmark');
+            label.textContent = 'Выкл';
+        }
+    }
+
+    // Запуск музыки на главной при появлении
+    function startMainMusic() {
+        const audio = document.getElementById('mainAudio');
+        const btn = document.getElementById('musicToggleBtn');
+        
+        if (!audio || mainAudioStarted) return;
+        if (!document.getElementById('mainContent').classList.contains('active')) return;
+
+        // Проверяем, не играет ли уже загрузочная музыка
+        const loadingAudio = document.getElementById('bgAudio');
+        if (loadingAudio && !loadingAudio.paused) {
+            // Ждём остановки загрузочной музыки
+            setTimeout(startMainMusic, 500);
+            return;
+        }
+
+        audio.volume = 0.4;
+        audio.play().catch(() => {});
+        mainAudioStarted = true;
+        
+        if (btn) {
+            btn.classList.add('playing');
+            const icon = btn.querySelector('.icon');
+            const label = btn.querySelector('.label');
+            if (icon) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high', 'pulse');
+            }
+            if (label) label.textContent = 'Вкл';
+        }
+    }
+
+    // Следим за появлением главной страницы
+    const mainObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const mainContent = document.getElementById('mainContent');
+                if (mainContent.classList.contains('active')) {
+                    setTimeout(startMainMusic, 500);
+                }
+            }
+        });
+    });
+    
+    const mainContent = document.getElementById('mainContent');
+    mainObserver.observe(mainContent, { attributes: true });
 </script>
 
 <div class="main-wrapper">
@@ -1152,6 +1283,12 @@
                 <a href="#" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
                 <a href="#" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
                 <a href="#" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+                
+                <!-- Кнопка управления музыкой -->
+                <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
+                    <span class="icon fa-solid fa-volume-xmark"></span>
+                    <span class="label">Выкл</span>
+                </button>
             </div>
         </div>
 
@@ -1268,7 +1405,6 @@
                 const maintenanceStatus = await checkMaintenance();
                 
                 if (maintenanceStatus === 1) {
-                    // Режим ошибки — сразу показываем ошибку
                     audio.src = 'images/loading 3.mp3';
                     audio.volume = 0.35;
                     audio.currentTime = 0;
@@ -1278,7 +1414,6 @@
                     document.getElementById('errorScreen').classList.add('active');
                     return;
                 } else {
-                    // Штатный режим — загружаем обычное аудио
                     const normalFile = window.normalAudioFile || 'loading 2.mp3';
                     if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src || audio.src === '') {
                         audio.src = 'images/' + normalFile;
@@ -1302,17 +1437,14 @@
     let isProcessing = false;
     let connectionTimer = null;
 
-    // Запуск аудио при появлении экрана подключения
     function startAudioOnConnect() {
         if (!audio) return;
         if (!connectScreen.classList.contains('active')) return;
-        if (!audio.paused) return; // уже играет
+        if (!audio.paused) return;
         
-        // Если аудио загружено, запускаем
         if (audio.readyState >= 2) {
             audio.play().catch(() => {});
         } else {
-            // Ждём загрузки
             audio.addEventListener('canplaythrough', function onPlay() {
                 audio.play().catch(() => {});
                 audio.removeEventListener('canplaythrough', onPlay);
@@ -1320,12 +1452,10 @@
         }
     }
 
-    // Следим за появлением экрана подключения через MutationObserver
     const connectObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                 if (connectScreen.classList.contains('active')) {
-                    // Экран появился — запускаем аудио с небольшой задержкой
                     setTimeout(startAudioOnConnect, 200);
                 }
             }
@@ -1333,12 +1463,10 @@
     });
     connectObserver.observe(connectScreen, { attributes: true });
 
-    // Функция запуска процесса подключения
     async function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
 
-        // Убеждаемся, что аудио играет
         if (audio && audio.paused) {
             audio.play().catch(() => {});
         }
@@ -1349,7 +1477,6 @@
         const maintenanceStatus = await checkMaintenance();
 
         if (maintenanceStatus === 1) {
-            // Режим ошибки
             if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
                 audio.src = 'images/loading 3.mp3';
                 audio.volume = 0.35;
@@ -1374,7 +1501,6 @@
             errorScreen.classList.add('active');
             
         } else {
-            // Штатный режим
             if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
                 const normalFile = window.normalAudioFile || 'loading 2.mp3';
                 audio.src = 'images/' + normalFile;
@@ -1429,7 +1555,6 @@
         connectionTimer = null;
     }
 
-    // Клик по экрану или по кнопке
     connectScreen.addEventListener('click', function(e) {
         if (isProcessing) return;
         if (connectPrompt.style.display !== 'none') {
@@ -1450,7 +1575,7 @@
         startConnectionProcess();
     });
 
-    // ===== ПОВТОРНАЯ ПОПЫТКА (кнопка "Перезагрузить") =====
+    // ===== ПОВТОРНАЯ ПОПЫТКА =====
     document.getElementById('retryBtn').addEventListener('click', function() {
         if (connectionTimer) {
             clearTimeout(connectionTimer);
@@ -1471,7 +1596,6 @@
                 audio.currentTime = 0;
                 audio.load();
             }
-            // Запускаем аудио при появлении экрана
             setTimeout(startAudioOnConnect, 300);
         }
 
