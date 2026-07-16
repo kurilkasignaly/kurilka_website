@@ -688,9 +688,10 @@
             overflow: visible;
         }
 
+        /* Ваши настройки размера телевизора */
         .tv-card .tv-image img {
-            width: 100%;
-            height: 100%;
+            width: 158%;
+            height: 158%;
             object-fit: contain;
             display: block;
             transition: transform 0.4s ease;
@@ -701,7 +702,7 @@
             transform: scale(1.02);
         }
 
-        /* Экран телевизора — затемнённая область с текстом */
+        /* Экран телевизора — без тёмного фона */
         .tv-screen-content {
             position: absolute;
             top: 13%;
@@ -715,89 +716,88 @@
             text-align: center;
             padding: 0.8rem;
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.45);
+            /* Фон убран */
+            background: transparent;
             border-radius: 8px;
-            backdrop-filter: blur(2px);
-            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
         }
 
         .tv-screen-content .tv-badge {
-            background: linear-gradient(135deg, #ff6b4a, #e25d32);
+            background: linear-gradient(135deg, #2a4a7f, #1a2f4f);
             padding: 4px 16px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #fff;
-            box-shadow: 0 2px 16px rgba(226, 93, 50, 0.3);
+            color: #7ab8ff;
+            box-shadow: 0 2px 16px rgba(42, 74, 127, 0.3);
             letter-spacing: 0.5px;
             display: inline-block;
             margin-bottom: 0.3rem;
             white-space: nowrap;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            border: 1px solid rgba(122, 184, 255, 0.15);
         }
 
         .tv-screen-content .tv-category {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #ff8a6e;
+            color: #4a8ad4;
             margin-bottom: 0.2rem;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
         }
 
         .tv-screen-content .tv-title {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: #ffffff;
+            color: #1a2f4f;
             margin-bottom: 0.2rem;
-            text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
             line-height: 1.2;
             padding: 0 0.2rem;
         }
 
         .tv-screen-content .tv-player {
-            font-size: 0.85rem;
-            color: #d0c8e0;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            font-size: 0.9rem;
+            color: #2a4a7f;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         .tv-screen-content .tv-player i {
-            color: #ff8a6e;
+            color: #4a8ad4;
             margin-right: 6px;
         }
 
-        /* Мотивирующие сообщения */
+        /* Мотивирующие сообщения — синие тона */
         .tv-screen-content .tv-motivation {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 0 30px rgba(226, 93, 50, 0.3), 0 0 60px rgba(0, 0, 0, 0.6);
+            color: #0d1f3a;
+            text-shadow: 0 0 30px rgba(74, 138, 212, 0.2), 0 0 60px rgba(255, 255, 255, 0.1);
             line-height: 1.3;
             padding: 0 0.3rem;
         }
 
         .tv-screen-content .tv-motivation .highlight {
-            color: #ff8a6e;
+            color: #4a8ad4;
             display: inline-block;
             animation: glowText 2s ease-in-out infinite;
         }
 
         @keyframes glowText {
-            0%, 100% { text-shadow: 0 0 20px rgba(226, 93, 50, 0.2), 0 0 40px rgba(226, 93, 50, 0.05); }
-            50% { text-shadow: 0 0 40px rgba(226, 93, 50, 0.5), 0 0 80px rgba(226, 93, 50, 0.15); }
+            0%, 100% { text-shadow: 0 0 20px rgba(74, 138, 212, 0.2), 0 0 40px rgba(74, 138, 212, 0.05); }
+            50% { text-shadow: 0 0 40px rgba(74, 138, 212, 0.5), 0 0 80px rgba(74, 138, 212, 0.15); }
         }
 
         .tv-screen-content .tv-sub-motivation {
-            font-size: 0.8rem;
-            color: rgba(200, 190, 210, 0.7);
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+            font-size: 0.85rem;
+            color: #2a4a7f;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             margin-top: 0.3rem;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
-        /* Анимация смены контента — медленная и плавная */
+        /* Анимация смены контента */
         .tv-screen-content.fade-transition {
             animation: tvFade 1.2s ease-in-out;
         }
@@ -1093,14 +1093,19 @@
                 max-width: 380px;
             }
 
+            .tv-card .tv-image img {
+                width: 140%;
+                height: 140%;
+            }
+
             .tv-screen-content .tv-title {
                 font-size: 1.1rem;
             }
             .tv-screen-content .tv-category {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
             }
             .tv-screen-content .tv-player {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
             }
             .tv-screen-content .tv-badge {
                 font-size: 0.6rem;
@@ -1154,14 +1159,19 @@
                 max-width: 320px;
             }
 
+            .tv-card .tv-image img {
+                width: 130%;
+                height: 130%;
+            }
+
             .tv-screen-content .tv-title {
                 font-size: 0.95rem;
             }
             .tv-screen-content .tv-category {
-                font-size: 0.55rem;
+                font-size: 0.6rem;
             }
             .tv-screen-content .tv-player {
-                font-size: 0.7rem;
+                font-size: 0.75rem;
             }
             .tv-screen-content .tv-badge {
                 font-size: 0.5rem;
@@ -1634,7 +1644,7 @@
             }, 400);
         }
 
-        // Запуск ротации для каждого телевизора — медленная смена (15 секунд)
+        // Запуск ротации для каждого телевизора
         function startTvRotation() {
             const tvCount = 3;
             const achievementCount = 3;
@@ -1679,7 +1689,7 @@
                 }
             }, 500);
 
-            // Ротация каждые 15 секунд (медленнее)
+            // Ротация каждые 15 секунд
             setInterval(rotateAll, 15000);
         }
 
