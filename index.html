@@ -653,6 +653,115 @@
             letter-spacing: 0.5px;
         }
 
+        /* ===== БЛОК С ТЕЛЕВИЗОРАМИ ===== */
+        .tv-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 1.5rem 0 3rem 0;
+        }
+
+        .tv-card {
+            background: rgba(10, 7, 18, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .tv-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(220, 90, 50, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .tv-card .tv-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #0a0712;
+            position: relative;
+        }
+
+        .tv-card .tv-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            display: block;
+        }
+
+        .tv-card:hover .tv-image img {
+            transform: scale(1.03);
+        }
+
+        .tv-card .tv-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+            background: linear-gradient(to top, rgba(8, 6, 15, 0.9) 0%, transparent 100%);
+        }
+
+        .tv-card .tv-overlay .tv-category {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #e25d32;
+            margin-bottom: 0.3rem;
+        }
+
+        .tv-card .tv-overlay .tv-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.2rem;
+        }
+
+        .tv-card .tv-overlay .tv-player {
+            font-size: 0.85rem;
+            color: #b5a8c8;
+        }
+
+        .tv-card .tv-overlay .tv-player i {
+            color: #e25d32;
+            margin-right: 6px;
+        }
+
+        .tv-card .tv-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #e25d32, #bc4627);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 2px 12px rgba(188, 70, 39, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
+        .hero-title {
+            text-align: center;
+            margin: 1rem 0 1.5rem 0;
+        }
+
+        .hero-title h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -913,6 +1022,15 @@
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
 
+            .tv-section {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .hero-title h2 {
+                font-size: 2.2rem;
+            }
+
             .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
             .connect-logo .logo-img { max-width: 260px; }
             .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
@@ -940,6 +1058,19 @@
             .logo .logo-img { max-height: 32px; }
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
+
+            .tv-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .tv-card .tv-overlay .tv-title {
+                font-size: 0.95rem;
+            }
+
+            .hero-title h2 {
+                font-size: 1.8rem;
+            }
 
             .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
             .connect-logo .logo-img { max-width: 200px; }
@@ -970,7 +1101,7 @@
 <!-- Аудио для загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
-<!-- Аудио для главной страницы (3 трека) -->
+<!-- Аудио для главной страницы -->
 <div id="mainAudioContainer" style="display:none;">
     <audio id="mainAudio1" preload="auto">
         <source src="images/комната отдыха 1.mp3" type="audio/mpeg">
@@ -1126,19 +1257,16 @@
         audio.load();
     });
 
-    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ (ПЛЕЙЛИСТ ИЗ 3 ТРЕКОВ) =====
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ =====
     let mainAudioStarted = false;
     let currentTrackIndex = 0;
     let mainAudioFiles = [];
-    let isPlaying = false;
     let currentAudioElement = null;
 
-    // Инициализация аудио для главной страницы
     function initMainAudio() {
         const container = document.getElementById('mainAudioContainer');
         if (!container) return;
         
-        // Очищаем контейнер и создаём новые элементы
         container.innerHTML = '';
         mainAudioFiles = [];
         
@@ -1157,17 +1285,14 @@
         }
     }
 
-    // Воспроизведение следующего трека
     function playNextMainTrack() {
         if (!mainAudioStarted) return;
         
-        // Останавливаем текущий
         if (currentAudioElement) {
             currentAudioElement.pause();
             currentAudioElement.currentTime = 0;
         }
         
-        // Переход к следующему треку
         currentTrackIndex = (currentTrackIndex + 1) % mainAudioFiles.length;
         const audio = mainAudioFiles[currentTrackIndex];
         if (!audio) return;
@@ -1177,7 +1302,6 @@
         audio.currentTime = 0;
         audio.play().catch(() => {});
         
-        // Слушаем окончание
         audio.addEventListener('ended', function onEnd() {
             audio.removeEventListener('ended', onEnd);
             if (!mainAudioStarted) return;
@@ -1185,19 +1309,17 @@
         });
     }
 
-    // Запуск музыки на главной
     function startMainMusic() {
         if (mainAudioStarted) return;
-        if (!document.getElementById('mainContent').classList.contains('active')) return;
+        const mainContent = document.getElementById('mainContent');
+        if (!mainContent || !mainContent.classList.contains('active')) return;
 
-        // Проверяем загрузочную музыку
         const loadingAudio = document.getElementById('bgAudio');
         if (loadingAudio && !loadingAudio.paused) {
             setTimeout(startMainMusic, 500);
             return;
         }
 
-        // Инициализируем аудио
         initMainAudio();
         
         if (mainAudioFiles.length === 0) {
@@ -1206,9 +1328,7 @@
         }
 
         mainAudioStarted = true;
-        isPlaying = true;
         
-        // Начинаем с первого трека
         currentTrackIndex = 0;
         const audio = mainAudioFiles[0];
         if (!audio) return;
@@ -1218,18 +1338,15 @@
         audio.currentTime = 0;
         audio.play().catch(() => {});
         
-        // Слушаем окончание первого трека
         audio.addEventListener('ended', function onEnd() {
             audio.removeEventListener('ended', onEnd);
             if (!mainAudioStarted) return;
             playNextMainTrack();
         });
         
-        // Обновляем кнопку
         updateMusicButton(true);
     }
 
-    // Обновление состояния кнопки
     function updateMusicButton(state) {
         const btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
@@ -1254,19 +1371,15 @@
         }
     }
 
-    // Переключение музыки
     function toggleMainMusic() {
         if (mainAudioStarted) {
-            // Выключаем
             mainAudioStarted = false;
-            isPlaying = false;
             
             if (currentAudioElement) {
                 currentAudioElement.pause();
                 currentAudioElement.currentTime = 0;
             }
             
-            // Останавливаем все
             mainAudioFiles.forEach(a => {
                 a.pause();
                 a.currentTime = 0;
@@ -1274,11 +1387,8 @@
             
             updateMusicButton(false);
         } else {
-            // Включаем
             mainAudioStarted = true;
-            isPlaying = true;
             
-            // Пересоздаём аудио
             initMainAudio();
             
             if (mainAudioFiles.length === 0) {
@@ -1286,7 +1396,6 @@
                 return;
             }
             
-            // Начинаем с первого трека
             currentTrackIndex = 0;
             const audio = mainAudioFiles[0];
             if (!audio) {
@@ -1321,12 +1430,10 @@
         });
     });
 
-    // Ждём, пока элемент появится в DOM
     function observeMainContent() {
         const mainContent = document.getElementById('mainContent');
         if (mainContent) {
             mainObserver.observe(mainContent, { attributes: true });
-            // Если уже активна — запускаем музыку
             if (mainContent.classList.contains('active')) {
                 setTimeout(startMainMusic, 500);
             }
@@ -1335,17 +1442,14 @@
         }
     }
 
-    // Запускаем наблюдение после загрузки страницы
     document.addEventListener('DOMContentLoaded', function() {
         observeMainContent();
     });
 
-    // Также проверяем при полной загрузке
     window.addEventListener('load', function() {
         setTimeout(observeMainContent, 100);
     });
 
-    // Экспортируем функцию для кнопки
     window.toggleMainMusic = toggleMainMusic;
 </script>
 
@@ -1445,12 +1549,54 @@
             </div>
         </div>
 
-        <div style="text-align:center; margin: 1.5rem 0;">
-            <h2 style="font-size: 2.6rem; font-weight:800; background:linear-gradient(135deg,#fff,#e25d32); -webkit-background-clip:text; background-clip:text; color:transparent;">
-                Добро пожаловать в Курилку
-            </h2>
+        <!-- Увеличенный заголовок -->
+        <div class="hero-title">
+            <h2>Добро пожаловать в Курилку</h2>
         </div>
 
+        <!-- ====== 3 ТЕЛЕВИЗОРА С ДОСТИЖЕНИЯМИ ====== -->
+        <div class="tv-section">
+            <!-- Телевизор 1 -->
+            <div class="tv-card">
+                <div class="tv-image">
+                    <img src="images/телевизор.jpg" alt="Лучший игрок" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Лучший+игрок'">
+                    <div class="tv-badge">🏆 Рекорд</div>
+                    <div class="tv-overlay">
+                        <div class="tv-category"><i class="fas fa-trophy"></i> Достижения</div>
+                        <div class="tv-title">Лучший игрок сезона</div>
+                        <div class="tv-player"><i class="fas fa-user"></i> Player_1842</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Телевизор 2 -->
+            <div class="tv-card">
+                <div class="tv-image">
+                    <img src="images/телевизор.jpg" alt="Быстрое прохождение" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Быстрое+прохождение'">
+                    <div class="tv-badge">⚡ Рекорд</div>
+                    <div class="tv-overlay">
+                        <div class="tv-category"><i class="fas fa-clock"></i> Скорость</div>
+                        <div class="tv-title">Самое быстрое прохождение</div>
+                        <div class="tv-player"><i class="fas fa-user"></i> SpeedDemon_2710</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Телевизор 3 -->
+            <div class="tv-card">
+                <div class="tv-image">
+                    <img src="images/телевизор.jpg" alt="Больше всех убийств" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Больше+всех+убийств'">
+                    <div class="tv-badge">💀 Рекорд</div>
+                    <div class="tv-overlay">
+                        <div class="tv-category"><i class="fas fa-skull"></i> Убийства</div>
+                        <div class="tv-title">Больше всех убийств</div>
+                        <div class="tv-player"><i class="fas fa-user"></i> Killer_3356</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== СТАТИСТИКА ====== -->
         <div class="stats-grid">
             <div class="stat-card"><i class="fas fa-users" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">340+</div><p>выживших</p></div>
             <div class="stat-card"><i class="fas fa-calendar-week" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">12+</div><p>рейдов в месяц</p></div>
@@ -1458,6 +1604,7 @@
             <div class="stat-card"><i class="fas fa-fire" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">100%</div><p>атмосферы</p></div>
         </div>
 
+        <!-- ====== СЛАЙДЕР ====== -->
         <div class="slider-block">
             <div class="slider-container">
                 <div class="slider-btn slider-btn-left" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
@@ -1498,6 +1645,7 @@
             </div>
         </div>
 
+        <!-- ====== СОЦИАЛЬНЫЙ БЛОК ====== -->
         <div class="social-block">
             <h2>Присоединяйтесь к сообществу</h2>
             <p>Будьте в курсе событий и ивентов</p>
@@ -1508,6 +1656,7 @@
             <a href="#" class="discord-button"><i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD</a>
         </div>
 
+        <!-- ====== ФУТЕР ====== -->
         <footer>
             <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
             <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
@@ -1605,7 +1754,6 @@
         }
     }
 
-    // Наблюдаем за экраном подключения
     const connectObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
@@ -1615,8 +1763,7 @@
             }
         });
     });
-    
-    // Проверяем, существует ли элемент, перед тем как начать наблюдение
+
     if (connectScreen) {
         connectObserver.observe(connectScreen, { attributes: true });
     }
