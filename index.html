@@ -917,7 +917,7 @@
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
-<!-- Аудио для загрузки -->
+<!-- Аудио -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <script>
@@ -1057,6 +1057,7 @@
         }
 
         const selectedFile = selectAudioFile();
+        // Сохраняем выбранный файл как "обычный" (для штатного режима)
         window.normalAudioFile = selectedFile;
         audio.src = 'images/' + selectedFile;
         console.log('✅ Выбран обычный аудиофайл:', selectedFile);
@@ -1265,37 +1266,29 @@
 
             const audio = document.getElementById('bgAudio');
             if (audio) {
+                // Сразу проверяем maintenance.txt
                 const maintenanceStatus = await checkMaintenance();
                 
                 if (maintenanceStatus === 1) {
-                    // Режим ошибки — сразу показываем ошибку
+                    // Режим ошибки — loading 3.mp3
                     audio.src = 'images/loading 3.mp3';
                     audio.volume = 0.35;
                     audio.currentTime = 0;
                     audio.load();
-                    // Пытаемся запустить сразу
                     audio.play().catch(() => {});
                     
+                    // Сразу показываем ошибку
                     connectScreen.classList.remove('active');
                     document.getElementById('errorScreen').classList.add('active');
                     return;
                 } else {
-                    // Штатный режим — загружаем обычное аудио
+                    // Штатный режим — loading или loading 2
                     const normalFile = window.normalAudioFile || 'loading 2.mp3';
-                    if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src || audio.src === '') {
-                        audio.src = 'images/' + normalFile;
-                        audio.volume = 0.35;
-                        audio.currentTime = 0;
-                        audio.load();
-                    }
-                    // Пытаемся запустить аудио сразу при появлении экрана
-                    // Используем небольшую задержку, чтобы экран успел отобразиться
-                    setTimeout(() => {
-                        audio.play().catch(() => {
-                            // Если автовоспроизведение заблокировано, запустим при клике
-                            console.log('Автовоспроизведение заблокировано, ожидаем взаимодействия');
-                        });
-                    }, 300);
+                    audio.src = 'images/' + normalFile;
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.play().catch(() => {});
                 }
             }
         } else {
@@ -1317,28 +1310,23 @@
         if (isProcessing) return;
         isProcessing = true;
 
-        // Убеждаемся, что аудио играет
+        connectPrompt.style.display = 'none';
+        connectStatus.classList.add('active');
+
         if (audio && audio.paused) {
             audio.play().catch(() => {});
         }
 
-        connectPrompt.style.display = 'none';
-        connectStatus.classList.add('active');
-
+        // Проверяем maintenance.txt перед ожиданием
         const maintenanceStatus = await checkMaintenance();
 
         if (maintenanceStatus === 1) {
-            // Режим ошибки
-            if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
+            // Режим ошибки — 30-50 секунд с loading 3.mp3
+            if (audio) {
                 audio.src = 'images/loading 3.mp3';
                 audio.volume = 0.35;
                 audio.currentTime = 0;
                 audio.load();
-                audio.addEventListener('canplaythrough', function onPlay() {
-                    audio.play().catch(() => {});
-                    audio.removeEventListener('canplaythrough', onPlay);
-                }, { once: true });
-            } else if (audio && audio.paused) {
                 audio.play().catch(() => {});
             }
             
@@ -1349,22 +1337,18 @@
                 connectionTimer = setTimeout(resolve, delay);
             });
 
+            // Показываем ошибку
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
             
         } else {
-            // Штатный режим
-            if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
+            // Штатный режим — 10-15 секунд с обычным аудио
+            if (audio) {
                 const normalFile = window.normalAudioFile || 'loading 2.mp3';
                 audio.src = 'images/' + normalFile;
                 audio.volume = 0.35;
                 audio.currentTime = 0;
                 audio.load();
-                audio.addEventListener('canplaythrough', function onPlay() {
-                    audio.play().catch(() => {});
-                    audio.removeEventListener('canplaythrough', onPlay);
-                }, { once: true });
-            } else if (audio && audio.paused) {
                 audio.play().catch(() => {});
             }
             
@@ -1375,31 +1359,25 @@
                 connectionTimer = setTimeout(resolve, delay);
             });
 
+            // Повторная проверка maintenance.txt
             const finalStatus = await checkMaintenance();
 
             if (finalStatus === 1) {
+                // За время ожидания включился режим ошибки
                 if (audio) {
                     audio.src = 'images/loading 3.mp3';
                     audio.volume = 0.35;
                     audio.currentTime = 0;
                     audio.load();
-                    audio.addEventListener('canplaythrough', function onPlay() {
-                        audio.play().catch(() => {});
-                        audio.removeEventListener('canplaythrough', onPlay);
-                    }, { once: true });
+                    audio.play().catch(() => {});
                 }
                 connectScreen.classList.remove('active');
                 errorScreen.classList.add('active');
             } else {
+                // Успех — переходим на главную
                 connectScreen.classList.remove('active');
                 document.getElementById('mainContent').classList.add('active');
                 document.body.classList.add('scroll-enabled');
-                
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -1410,10 +1388,6 @@
 
     // Клик по экрану или по кнопке
     connectScreen.addEventListener('click', function(e) {
-        // Если аудио ещё не играет, пытаемся запустить
-        if (audio && audio.paused && !isProcessing) {
-            audio.play().catch(() => {});
-        }
         if (isProcessing) return;
         if (connectPrompt.style.display !== 'none') {
             startConnectionProcess();
@@ -1422,18 +1396,12 @@
 
     connectPrompt.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (audio && audio.paused && !isProcessing) {
-            audio.play().catch(() => {});
-        }
         if (isProcessing) return;
         startConnectionProcess();
     });
 
     document.addEventListener('keydown', function(e) {
         if (!connectScreen.classList.contains('active')) return;
-        if (audio && audio.paused && !isProcessing) {
-            audio.play().catch(() => {});
-        }
         if (isProcessing) return;
         if (connectPrompt.style.display === 'none') return;
         startConnectionProcess();
@@ -1452,20 +1420,17 @@
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
 
+        // Возвращаем обычное аудио для штатного режима
         if (audio) {
             const normalFile = window.normalAudioFile || 'loading 2.mp3';
-            if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
-                audio.src = 'images/' + normalFile;
-                audio.volume = 0.35;
-                audio.currentTime = 0;
-                audio.load();
-            }
-            // Запускаем аудио
-            setTimeout(() => {
-                audio.play().catch(() => {});
-            }, 300);
+            audio.src = 'images/' + normalFile;
+            audio.volume = 0.35;
+            audio.currentTime = 0;
+            audio.load();
+            audio.play().catch(() => {});
         }
 
+        // Автоматически запускаем процесс подключения
         setTimeout(() => {
             if (connectScreen.classList.contains('active') && !isProcessing) {
                 startConnectionProcess();
