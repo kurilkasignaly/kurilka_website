@@ -653,89 +653,64 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== БЛОК С ТЕЛЕВИЗОРАМИ ===== */
+        /* ===== БЛОК С ТЕЛЕВИЗОРАМИ (ПРОЗРАЧНЫЙ ФОН) ===== */
         .tv-section {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 2rem;
             margin: 1.5rem 0 3rem 0;
         }
 
         .tv-card {
-            background: rgba(10, 7, 18, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            border: 1px solid rgba(220, 90, 50, 0.15);
-            overflow: hidden;
-            transition: all 0.4s ease;
             position: relative;
+            transition: transform 0.4s ease;
+            cursor: default;
         }
 
         .tv-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(220, 90, 50, 0.4);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
 
         .tv-card .tv-image {
             width: 100%;
             aspect-ratio: 16/9;
-            overflow: hidden;
-            background: #0a0712;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .tv-card .tv-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
+            object-fit: contain;
             display: block;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
         }
 
         .tv-card:hover .tv-image img {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
-        .tv-card .tv-overlay {
+        /* Экран телевизора — все надписи внутри */
+        .tv-screen-content {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 1.2rem 1.2rem 1.2rem;
-            background: linear-gradient(to top, rgba(8, 6, 15, 0.9) 0%, transparent 100%);
+            top: 12%;
+            left: 18%;
+            right: 18%;
+            bottom: 12%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0.5rem;
+            overflow: hidden;
         }
 
-        .tv-card .tv-overlay .tv-category {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #e25d32;
-            margin-bottom: 0.3rem;
-        }
-
-        .tv-card .tv-overlay .tv-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 0.2rem;
-        }
-
-        .tv-card .tv-overlay .tv-player {
-            font-size: 0.85rem;
-            color: #b5a8c8;
-        }
-
-        .tv-card .tv-overlay .tv-player i {
-            color: #e25d32;
-            margin-right: 6px;
-        }
-
-        .tv-card .tv-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
+        .tv-screen-content .tv-badge {
             background: linear-gradient(135deg, #e25d32, #bc4627);
             padding: 4px 14px;
             border-radius: 20px;
@@ -744,6 +719,41 @@
             color: white;
             box-shadow: 0 2px 12px rgba(188, 70, 39, 0.3);
             letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+            font-size: 0.65rem;
+            padding: 3px 12px;
+        }
+
+        .tv-screen-content .tv-category {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #e25d32;
+            margin-bottom: 0.2rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .tv-screen-content .tv-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.2rem;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            line-height: 1.2;
+        }
+
+        .tv-screen-content .tv-player {
+            font-size: 0.8rem;
+            color: #c0b8d0;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .tv-screen-content .tv-player i {
+            color: #e25d32;
+            margin-right: 6px;
         }
 
         /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
@@ -1024,7 +1034,21 @@
 
             .tv-section {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                gap: 1.5rem;
+            }
+
+            .tv-screen-content .tv-title {
+                font-size: 0.9rem;
+            }
+            .tv-screen-content .tv-category {
+                font-size: 0.6rem;
+            }
+            .tv-screen-content .tv-player {
+                font-size: 0.7rem;
+            }
+            .tv-screen-content .tv-badge {
+                font-size: 0.55rem;
+                padding: 2px 10px;
             }
 
             .hero-title h2 {
@@ -1061,11 +1085,24 @@
 
             .tv-section {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.5rem;
+                max-width: 380px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
-            .tv-card .tv-overlay .tv-title {
-                font-size: 0.95rem;
+            .tv-screen-content .tv-title {
+                font-size: 0.85rem;
+            }
+            .tv-screen-content .tv-category {
+                font-size: 0.55rem;
+            }
+            .tv-screen-content .tv-player {
+                font-size: 0.65rem;
+            }
+            .tv-screen-content .tv-badge {
+                font-size: 0.5rem;
+                padding: 2px 8px;
             }
 
             .hero-title h2 {
@@ -1554,14 +1591,14 @@
             <h2>Добро пожаловать в Курилку</h2>
         </div>
 
-        <!-- ====== 3 ТЕЛЕВИЗОРА С ДОСТИЖЕНИЯМИ ====== -->
+        <!-- ====== 3 ТЕЛЕВИЗОРА С ДОСТИЖЕНИЯМИ (ПРОЗРАЧНЫЙ ФОН) ====== -->
         <div class="tv-section">
             <!-- Телевизор 1 -->
             <div class="tv-card">
                 <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Лучший игрок" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Лучший+игрок'">
-                    <div class="tv-badge">🏆 Рекорд</div>
-                    <div class="tv-overlay">
+                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
+                    <div class="tv-screen-content">
+                        <span class="tv-badge">🏆 Рекорд</span>
                         <div class="tv-category"><i class="fas fa-trophy"></i> Достижения</div>
                         <div class="tv-title">Лучший игрок сезона</div>
                         <div class="tv-player"><i class="fas fa-user"></i> Player_1842</div>
@@ -1572,9 +1609,9 @@
             <!-- Телевизор 2 -->
             <div class="tv-card">
                 <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Быстрое прохождение" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Быстрое+прохождение'">
-                    <div class="tv-badge">⚡ Рекорд</div>
-                    <div class="tv-overlay">
+                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
+                    <div class="tv-screen-content">
+                        <span class="tv-badge">⚡ Рекорд</span>
                         <div class="tv-category"><i class="fas fa-clock"></i> Скорость</div>
                         <div class="tv-title">Самое быстрое прохождение</div>
                         <div class="tv-player"><i class="fas fa-user"></i> SpeedDemon_2710</div>
@@ -1585,9 +1622,9 @@
             <!-- Телевизор 3 -->
             <div class="tv-card">
                 <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Больше всех убийств" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Больше+всех+убийств'">
-                    <div class="tv-badge">💀 Рекорд</div>
-                    <div class="tv-overlay">
+                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
+                    <div class="tv-screen-content">
+                        <span class="tv-badge">💀 Рекорд</span>
                         <div class="tv-category"><i class="fas fa-skull"></i> Убийства</div>
                         <div class="tv-title">Больше всех убийств</div>
                         <div class="tv-player"><i class="fas fa-user"></i> Killer_3356</div>
