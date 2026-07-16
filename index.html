@@ -1268,25 +1268,34 @@
                 const maintenanceStatus = await checkMaintenance();
                 
                 if (maintenanceStatus === 1) {
+                    // Режим ошибки — сразу показываем ошибку
                     audio.src = 'images/loading 3.mp3';
                     audio.volume = 0.35;
                     audio.currentTime = 0;
                     audio.load();
+                    // Пытаемся запустить сразу
+                    audio.play().catch(() => {});
                     
                     connectScreen.classList.remove('active');
                     document.getElementById('errorScreen').classList.add('active');
                     return;
                 } else {
+                    // Штатный режим — загружаем обычное аудио
                     const normalFile = window.normalAudioFile || 'loading 2.mp3';
-                    // Если аудио ещё не загружено или это loading 3.mp3
                     if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src || audio.src === '') {
                         audio.src = 'images/' + normalFile;
                         audio.volume = 0.35;
                         audio.currentTime = 0;
                         audio.load();
                     }
-                    // Аудио будет запущено при первом клике/нажатии на экране
-                    // Не вызываем play() здесь, чтобы избежать блокировки браузером
+                    // Пытаемся запустить аудио сразу при появлении экрана
+                    // Используем небольшую задержку, чтобы экран успел отобразиться
+                    setTimeout(() => {
+                        audio.play().catch(() => {
+                            // Если автовоспроизведение заблокировано, запустим при клике
+                            console.log('Автовоспроизведение заблокировано, ожидаем взаимодействия');
+                        });
+                    }, 300);
                 }
             }
         } else {
@@ -1302,53 +1311,15 @@
     const audio = document.getElementById('bgAudio');
     let isProcessing = false;
     let connectionTimer = null;
-    let audioStarted = false; // Флаг, что аудио уже запущено
-
-    // Функция для запуска аудио при первом взаимодействии
-    function startAudioOnInteraction() {
-        if (audioStarted) return;
-        if (!audio) return;
-        if (!connectScreen.classList.contains('active')) return;
-        
-        // Проверяем, что аудио готово к воспроизведению
-        if (audio.readyState >= 2) {
-            audio.play().catch(() => {});
-            audioStarted = true;
-        } else {
-            // Если аудио ещё не загружено, ждём событие canplaythrough
-            audio.addEventListener('canplaythrough', function onCanPlay() {
-                audio.play().catch(() => {});
-                audioStarted = true;
-                audio.removeEventListener('canplaythrough', onCanPlay);
-            }, { once: true });
-        }
-    }
-
-    // Запускаем аудио при первом клике/нажатии на экране подключения
-    function handleFirstInteraction(e) {
-        if (!connectScreen.classList.contains('active')) return;
-        if (audioStarted) return;
-        startAudioOnInteraction();
-    }
-
-    // Слушаем события для первого запуска аудио
-    connectScreen.addEventListener('click', handleFirstInteraction);
-    connectScreen.addEventListener('touchstart', handleFirstInteraction);
-    document.addEventListener('keydown', function firstKeyHandler(e) {
-        if (!connectScreen.classList.contains('active')) return;
-        if (audioStarted) return;
-        startAudioOnInteraction();
-        document.removeEventListener('keydown', firstKeyHandler);
-    });
 
     // Функция запуска процесса подключения
     async function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
 
-        // Убеждаемся, что аудио запущено
-        if (!audioStarted && audio) {
-            startAudioOnInteraction();
+        // Убеждаемся, что аудио играет
+        if (audio && audio.paused) {
+            audio.play().catch(() => {});
         }
 
         connectPrompt.style.display = 'none';
@@ -1363,7 +1334,6 @@
                 audio.volume = 0.35;
                 audio.currentTime = 0;
                 audio.load();
-                // Запускаем после загрузки
                 audio.addEventListener('canplaythrough', function onPlay() {
                     audio.play().catch(() => {});
                     audio.removeEventListener('canplaythrough', onPlay);
@@ -1428,7 +1398,6 @@
                 if (audio) {
                     audio.pause();
                     audio.currentTime = 0;
-                    audioStarted = false;
                 }
                 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1441,6 +1410,10 @@
 
     // Клик по экрану или по кнопке
     connectScreen.addEventListener('click', function(e) {
+        // Если аудио ещё не играет, пытаемся запустить
+        if (audio && audio.paused && !isProcessing) {
+            audio.play().catch(() => {});
+        }
         if (isProcessing) return;
         if (connectPrompt.style.display !== 'none') {
             startConnectionProcess();
@@ -1449,12 +1422,18 @@
 
     connectPrompt.addEventListener('click', function(e) {
         e.stopPropagation();
+        if (audio && audio.paused && !isProcessing) {
+            audio.play().catch(() => {});
+        }
         if (isProcessing) return;
         startConnectionProcess();
     });
 
     document.addEventListener('keydown', function(e) {
         if (!connectScreen.classList.contains('active')) return;
+        if (audio && audio.paused && !isProcessing) {
+            audio.play().catch(() => {});
+        }
         if (isProcessing) return;
         if (connectPrompt.style.display === 'none') return;
         startConnectionProcess();
@@ -1481,8 +1460,10 @@
                 audio.currentTime = 0;
                 audio.load();
             }
-            // Аудио запустится при первом взаимодействии
-            audioStarted = false;
+            // Запускаем аудио
+            setTimeout(() => {
+                audio.play().catch(() => {});
+            }, 300);
         }
 
         setTimeout(() => {
