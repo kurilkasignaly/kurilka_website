@@ -606,7 +606,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* Кнопка управления музыкой */
         .music-toggle {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -971,10 +970,18 @@
 <!-- Аудио для загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
-<!-- Аудио для главной страницы -->
-<audio id="mainAudio" loop preload="auto" style="display:none;">
-    <source src="images/комната отдыха.mp3" type="audio/mpeg">
-</audio>
+<!-- Аудио для главной страницы (3 трека) -->
+<div id="mainAudioContainer" style="display:none;">
+    <audio id="mainAudio1" preload="auto">
+        <source src="images/комната отдыха 1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mainAudio2" preload="auto">
+        <source src="images/комната отдыха 2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mainAudio3" preload="auto">
+        <source src="images/комната отдыха 3.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
 <script>
     // ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
@@ -1064,7 +1071,7 @@
         }
     })();
 
-    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
+    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА ДЛЯ ЗАГРУЗКИ =====
     window.addEventListener('load', function() {
         const audio = document.getElementById('bgAudio');
         
@@ -1119,54 +1126,220 @@
         audio.load();
     });
 
-    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ =====
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ (ПЛЕЙЛИСТ ИЗ 3 ТРЕКОВ) =====
     let mainAudioStarted = false;
+    let currentTrackIndex = 0;
+    const mainAudioFiles = [
+        document.getElementById('mainAudio1'),
+        document.getElementById('mainAudio2'),
+        document.getElementById('mainAudio3')
+    ];
 
-    function toggleMainMusic() {
-        const audio = document.getElementById('mainAudio');
-        const btn = document.getElementById('musicToggleBtn');
-        const icon = btn.querySelector('.icon');
-        const label = btn.querySelector('.label');
-
-        if (!audio) return;
-
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            audio.volume = 0.4;
-            btn.classList.add('playing');
-            icon.classList.remove('fa-volume-xmark');
-            icon.classList.add('fa-volume-high', 'pulse');
-            label.textContent = 'Вкл';
-            mainAudioStarted = true;
-        } else {
-            audio.pause();
-            btn.classList.remove('playing');
-            icon.classList.remove('fa-volume-high', 'pulse');
-            icon.classList.add('fa-volume-xmark');
-            label.textContent = 'Выкл';
+    function playNextMainTrack() {
+        if (!mainAudioStarted) return;
+        
+        // Останавливаем все треки
+        mainAudioFiles.forEach(a => a.pause());
+        
+        // Ищем первый загруженный трек
+        let found = false;
+        for (let i = 0; i < mainAudioFiles.length; i++) {
+            const idx = (currentTrackIndex + i) % mainAudioFiles.length;
+            const audio = mainAudioFiles[idx];
+            if (audio && audio.readyState >= 2) {
+                currentTrackIndex = idx;
+                audio.volume = 0.4;
+                audio.currentTime = 0;
+                audio.play().catch(() => {});
+                found = true;
+                break;
+            }
+        }
+        
+        // Если ни один не загружен, пробуем через 500 мс
+        if (!found) {
+            setTimeout(playNextMainTrack, 500);
         }
     }
 
-    // Запуск музыки на главной при появлении
     function startMainMusic() {
-        const audio = document.getElementById('mainAudio');
-        const btn = document.getElementById('musicToggleBtn');
-        
-        if (!audio || mainAudioStarted) return;
+        if (mainAudioStarted) return;
         if (!document.getElementById('mainContent').classList.contains('active')) return;
 
-        // Проверяем, не играет ли уже загрузочная музыка
+        // Проверяем загрузочную музыку
         const loadingAudio = document.getElementById('bgAudio');
         if (loadingAudio && !loadingAudio.paused) {
-            // Ждём остановки загрузочной музыки
             setTimeout(startMainMusic, 500);
             return;
         }
 
-        audio.volume = 0.4;
-        audio.play().catch(() => {});
         mainAudioStarted = true;
         
+        // Начинаем с первого трека
+        currentTrackIndex = 0;
+        const audio = mainAudioFiles[0];
+        if (audio) {
+            audio.volume = 0.4;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+        
+        // Обновляем кнопку
+        const btn = document.getElementById('musicToggleBtn');
+        if (btn) {
+            btn.classList.add('playing');
+            const icon = btn.querySelector('.icon');
+            const label = btn.querySelector('.label');
+            if (icon) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high', 'pulse');
+            }
+            if (label) label.textContent = 'Вкл';
+        }
+
+        // Следующие треки включаются после окончания предыдущего
+        mainAudioFiles.forEach((a, index) => {
+            if (a) {
+                a.addEventListener('ended', function onEnd() {
+                    a.removeEventListener('ended', onEnd);
+                    if (!mainAudioStarted) return;
+                    
+                    // Переход к следующему треку
+                    currentTrackIndex = (index + 1) % mainAudioFiles.length;
+                    const nextAudio = mainAudioFiles[currentTrackIndex];
+                    if (nextAudio) {
+                        nextAudio.volume = 0.4;
+                        nextAudio.currentTime = 0;
+                        nextAudio.play().catch(() => {});
+                        
+                        // Слушаем окончание следующего трека
+                        nextAudio.addEventListener('ended', function nextEnd() {
+                            nextAudio.removeEventListener('ended', nextEnd);
+                            if (!mainAudioStarted) return;
+                            
+                            // Если это был последний трек (индекс 2), переходим к первому
+                            if (currentTrackIndex === 2) {
+                                currentTrackIndex = 0;
+                                const firstAudio = mainAudioFiles[0];
+                                if (firstAudio) {
+                                    firstAudio.volume = 0.4;
+                                    firstAudio.currentTime = 0;
+                                    firstAudio.play().catch(() => {});
+                                    // Заново вешаем обработчик на первый трек
+                                    firstAudio.addEventListener('ended', function firstEnd() {
+                                        firstAudio.removeEventListener('ended', firstEnd);
+                                        if (!mainAudioStarted) return;
+                                        // Переход ко второму
+                                        currentTrackIndex = 1;
+                                        const secondAudio = mainAudioFiles[1];
+                                        if (secondAudio) {
+                                            secondAudio.volume = 0.4;
+                                            secondAudio.currentTime = 0;
+                                            secondAudio.play().catch(() => {});
+                                            // Вешаем обработчик на второй трек для перехода к третьему
+                                            secondAudio.addEventListener('ended', function secondEnd() {
+                                                secondAudio.removeEventListener('ended', secondEnd);
+                                                if (!mainAudioStarted) return;
+                                                currentTrackIndex = 2;
+                                                const thirdAudio = mainAudioFiles[2];
+                                                if (thirdAudio) {
+                                                    thirdAudio.volume = 0.4;
+                                                    thirdAudio.currentTime = 0;
+                                                    thirdAudio.play().catch(() => {});
+                                                    // Вешаем обработчик на третий трек для перехода к первому
+                                                    thirdAudio.addEventListener('ended', function thirdEnd() {
+                                                        thirdAudio.removeEventListener('ended', thirdEnd);
+                                                        if (!mainAudioStarted) return;
+                                                        // Возвращаемся к первому — цикл замкнут
+                                                        currentTrackIndex = 0;
+                                                        const firstAudio2 = mainAudioFiles[0];
+                                                        if (firstAudio2) {
+                                                            firstAudio2.volume = 0.4;
+                                                            firstAudio2.currentTime = 0;
+                                                            firstAudio2.play().catch(() => {});
+                                                            // Заново вешаем обработчик на первый
+                                                            firstAudio2.addEventListener('ended', function firstEnd2() {
+                                                                firstAudio2.removeEventListener('ended', firstEnd2);
+                                                                if (!mainAudioStarted) return;
+                                                                currentTrackIndex = 1;
+                                                                const secondAudio2 = mainAudioFiles[1];
+                                                                if (secondAudio2) {
+                                                                    secondAudio2.volume = 0.4;
+                                                                    secondAudio2.currentTime = 0;
+                                                                    secondAudio2.play().catch(() => {});
+                                                                    // Вешаем обработчик на второй...
+                                                                    // Для упрощения — рекурсивно вызываем функцию воспроизведения
+                                                                    playNextTrackLoop(1);
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    // Простая рекурсивная функция для зацикливания плейлиста
+    function playNextTrackLoop(startIndex) {
+        if (!mainAudioStarted) return;
+        let idx = startIndex;
+        
+        function playTrack(index) {
+            if (!mainAudioStarted) return;
+            const audio = mainAudioFiles[index];
+            if (!audio) return;
+            
+            audio.volume = 0.4;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            
+            audio.addEventListener('ended', function onEnd() {
+                audio.removeEventListener('ended', onEnd);
+                if (!mainAudioStarted) return;
+                const nextIdx = (index + 1) % mainAudioFiles.length;
+                playTrack(nextIdx);
+            }, { once: false });
+        }
+        
+        playTrack(startIndex);
+    }
+
+    // Обновленная функция запуска с рекурсивным циклом
+    function startMainMusicSimple() {
+        if (mainAudioStarted) return;
+        if (!document.getElementById('mainContent').classList.contains('active')) return;
+
+        const loadingAudio = document.getElementById('bgAudio');
+        if (loadingAudio && !loadingAudio.paused) {
+            setTimeout(startMainMusicSimple, 500);
+            return;
+        }
+
+        mainAudioStarted = true;
+        
+        // Начинаем с первого трека и запускаем цикл
+        const audio = mainAudioFiles[0];
+        if (audio) {
+            audio.volume = 0.4;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            
+            audio.addEventListener('ended', function onEnd() {
+                audio.removeEventListener('ended', onEnd);
+                if (!mainAudioStarted) return;
+                playNextTrackLoop(1);
+            }, { once: true });
+        }
+        
+        const btn = document.getElementById('musicToggleBtn');
         if (btn) {
             btn.classList.add('playing');
             const icon = btn.querySelector('.icon');
@@ -1179,20 +1352,72 @@
         }
     }
 
+    function toggleMainMusic() {
+        const btn = document.getElementById('musicToggleBtn');
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+
+        if (mainAudioStarted) {
+            // Выключаем
+            mainAudioStarted = false;
+            mainAudioFiles.forEach(a => {
+                a.pause();
+                a.currentTime = 0;
+                // Удаляем все обработчики ended
+                const newAudio = a.cloneNode(true);
+                a.parentNode.replaceChild(newAudio, a);
+                // Обновляем ссылку в массиве
+                const idx = mainAudioFiles.indexOf(a);
+                if (idx !== -1) {
+                    mainAudioFiles[idx] = newAudio;
+                }
+            });
+            btn.classList.remove('playing');
+            icon.classList.remove('fa-volume-high', 'pulse');
+            icon.classList.add('fa-volume-xmark');
+            label.textContent = 'Выкл';
+        } else {
+            // Включаем
+            mainAudioStarted = true;
+            // Заново создаем аудио элементы с обработчиками
+            recreateMainAudio();
+            // Запускаем
+            setTimeout(startMainMusicSimple, 200);
+        }
+    }
+
+    function recreateMainAudio() {
+        const container = document.getElementById('mainAudioContainer');
+        container.innerHTML = '';
+        
+        const names = ['комната отдыха 1.mp3', 'комната отдыха 2.mp3', 'комната отдыха 3.mp3'];
+        for (let i = 0; i < 3; i++) {
+            const audio = document.createElement('audio');
+            audio.id = 'mainAudio' + (i + 1);
+            audio.preload = 'auto';
+            const source = document.createElement('source');
+            source.src = 'images/' + names[i];
+            source.type = 'audio/mpeg';
+            audio.appendChild(source);
+            container.appendChild(audio);
+            mainAudioFiles[i] = audio;
+        }
+    }
+
     // Следим за появлением главной страницы
     const mainObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                 const mainContent = document.getElementById('mainContent');
                 if (mainContent.classList.contains('active')) {
-                    setTimeout(startMainMusic, 500);
+                    setTimeout(startMainMusicSimple, 500);
                 }
             }
         });
     });
     
-    const mainContent = document.getElementById('mainContent');
-    mainObserver.observe(mainContent, { attributes: true });
+    const mainContentEl = document.getElementById('mainContent');
+    mainObserver.observe(mainContentEl, { attributes: true });
 </script>
 
 <div class="main-wrapper">
@@ -1284,7 +1509,6 @@
                 <a href="#" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
                 <a href="#" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
                 
-                <!-- Кнопка управления музыкой -->
                 <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
                     <span class="icon fa-solid fa-volume-xmark"></span>
                     <span class="label">Выкл</span>
