@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Invasion — Статистика | Курилка Синьялы</title>
+    <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -13,65 +16,95 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0b0811;
             color: #f0eef7;
-            overflow-x: hidden;
-            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
             position: relative;
+            overflow: hidden;
+            min-height: 100vh;
         }
 
-        .background-slideshow {
+        body.scroll-enabled {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .bg-slider {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: -2;
+            overflow: hidden;
         }
 
-        .bg-slide {
+        .bg-slider img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            object-fit: cover;
             opacity: 0;
-            transition: opacity 1.8s ease-in-out;
+            transition: opacity 3s ease-in-out;
+            will-change: opacity;
         }
 
-        .bg-slide.active {
+        .bg-slider img.active {
             opacity: 1;
         }
 
-        body::after {
-            content: "";
+        .bg-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.50);
             z-index: -1;
         }
 
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        .smoke-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.05) 0%, transparent 50%),
+                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.03) 0%, transparent 40%);
         }
 
-        @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            30% { opacity: 0.12; }
+            80% { opacity: 0.06; }
+            100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .smoke-particle {
+            position: fixed;
+            bottom: -40px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(200, 100, 50, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatParticle 16s linear infinite;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            padding: 1.5rem 2rem;
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .click-waiting-overlay {
@@ -143,7 +176,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: transparent;
             z-index: 10000;
             display: flex;
             justify-content: flex-end;
@@ -184,6 +216,11 @@
             animation: spin 0.8s linear infinite;
         }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .loader-text {
             font-size: 1rem;
             color: #e16d48;
@@ -195,121 +232,178 @@
             display: block;
             opacity: 0;
             transition: opacity 0.5s ease;
+            width: 100%;
         }
 
         .main-content.visible {
             opacity: 1;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
+        /* ===== СТРАНИЦА ВХОДА (сохраняем для единообразия) ===== */
+        .login-overlay {
+            display: none;
         }
 
+        /* ===== ШАПКА ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
+            padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
             border-radius: 80px;
             margin-bottom: 2rem;
             gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            animation: fadeInScale 0.6s ease-out;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
         }
 
         .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+            border-color: rgba(220, 90, 50, 0.4);
         }
 
-        .logo h1 {
-            font-size: 2rem;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .logo .logo-text {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-            background-size: 200% auto;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: smokePulse 3s ease-in-out infinite;
+            white-space: nowrap;
         }
 
         .logo p {
-            font-size: 0.75rem;
-            color: #c2b9d4;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+            color: #7a6a8a;
+            margin-top: 0px;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
+            align-items: center;
+            gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
             border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 0.9rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
+            color: #b5a8c8;
+            transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             text-decoration: none;
         }
 
         .nav-btn:hover {
             color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+            text-shadow: 0 0 8px rgba(220,90,50,0.3);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.9rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .music-toggle.playing {
+            border-color: rgba(220, 90, 50, 0.3);
+            color: #e25d32;
+        }
+
+        .music-toggle .icon {
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .music-toggle .icon.pulse {
+            animation: musicPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        .music-toggle .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .page-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .page-header h1 {
-            font-size: 2rem;
+            font-size: 2.8rem;
+            font-weight: 800;
             background: linear-gradient(135deg, #fff, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            letter-spacing: 1px;
         }
 
         .page-header h1 i {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
+        }
+
+        .page-header .sub {
+            color: #a090b0;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 0.2rem;
         }
 
         .alert-block {
@@ -338,7 +432,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
@@ -383,10 +477,185 @@
             font-size: 0.9rem;
         }
 
+        /* ===== СЛАЙДЕР ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЛИДЕРБОРДОВ ===== */
+        .leaderboard-slider {
+            position: relative;
+            margin: 2rem 0;
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220,90,50,0.25);
+            overflow: hidden;
+        }
+
+        .leaderboard-slider .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem 0 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .leaderboard-slider .slider-header .section-title {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #e25d32;
+            padding-left: 15px;
+            margin: 0;
+        }
+
+        .leaderboard-slider .slider-header .section-title i {
+            color: #ffd700;
+        }
+
+        .slider-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .slider-controls .slider-btn {
+            background: rgba(188, 74, 40, 0.3);
+            border: 1px solid rgba(220,90,50,0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #b5a8c8;
+            font-size: 1.2rem;
+        }
+
+        .slider-controls .slider-btn:hover {
+            background: rgba(188, 74, 40, 0.6);
+            border-color: #e25d32;
+            color: white;
+        }
+
+        .slider-controls .slider-indicator {
+            font-size: 0.85rem;
+            color: #b5a8c8;
+            font-weight: 600;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .slider-controls .slider-indicator .current-mode {
+            color: #e25d32;
+        }
+
+        .slider-track-wrapper {
+            overflow: hidden;
+            padding: 0 0.5rem 0.5rem 0.5rem;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .slider-slide {
+            min-width: 100%;
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        }
+
+        .table-wrapper {
+            background: rgba(18, 12, 28, 0.3);
+            border-radius: 20px;
+            overflow-x: auto;
+            border: 1px solid rgba(220,90,50,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            text-align: center;
+            padding: 0.9rem 0.8rem;
+            background: rgba(220, 90, 50, 0.12);
+            color: #ffbc9a;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            text-align: center;
+            padding: 0.8rem 0.8rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
+            vertical-align: middle;
+        }
+
+        td:first-child {
+            text-align: center;
+            width: 50px;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .platform-icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 8px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .player-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        tr:hover {
+            background: rgba(220, 90, 50, 0.06);
+        }
+
+        .rank-1 {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.12), rgba(255, 215, 0, 0.02));
+            border-left: 3px solid #ffd700;
+        }
+        .rank-1 td:first-child { color: #ffd700; font-weight: bold; }
+
+        .rank-2 {
+            background: linear-gradient(90deg, rgba(192, 192, 192, 0.10), rgba(192, 192, 192, 0.02));
+            border-left: 3px solid #c0c0c0;
+        }
+        .rank-2 td:first-child { color: #c0c0c0; font-weight: bold; }
+
+        .rank-3 {
+            background: linear-gradient(90deg, rgba(205, 127, 50, 0.10), rgba(205, 127, 50, 0.02));
+            border-left: 3px solid #cd7f32;
+        }
+        .rank-3 td:first-child { color: #cd7f32; font-weight: bold; }
+
+        .medal {
+            display: inline-block;
+            width: 28px;
+            text-align: center;
+        }
+        .medal-gold { color: #ffd700; }
+        .medal-silver { color: #c0c0c0; }
+        .medal-bronze { color: #cd7f32; }
+
+        /* ===== МОДЫ ===== */
         .modes-block {
             display: flex;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
         }
 
@@ -405,7 +674,7 @@
             align-items: center;
             justify-content: flex-end;
             padding-bottom: 2.5rem;
-            min-height: 280px;
+            min-height: 240px;
             position: relative;
             z-index: 1;
         }
@@ -422,17 +691,16 @@
             z-index: -1;
         }
 
-        .mode-card.reagent { cursor: pointer; }
-        .mode-card.impostor { cursor: pointer; }
+        .mode-card:hover {
+            transform: translateY(-5px);
+        }
 
         .mode-card.reagent:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(76, 154, 255, 0.3);
+            box-shadow: 0 0 25px rgba(76, 154, 255, 0.2);
         }
 
         .mode-card.impostor:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(220, 90, 50, 0.3);
+            box-shadow: 0 0 25px rgba(220, 90, 50, 0.2);
         }
 
         .mode-stats {
@@ -457,202 +725,383 @@
         .reagent .mode-stat-value { color: #4c9aff; }
         .impostor .mode-stat-value { color: #e25d32; }
 
-        .section-title {
-            font-size: 1.5rem;
-            margin: 2rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 4px solid #e25d32;
-            padding-left: 15px;
-        }
-
-        .update-badge {
-            font-size: 0.8rem;
-            margin-left: auto;
-            background: rgba(18, 12, 28, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            border: 1px solid rgba(220,90,50,0.3);
-        }
-
-        .update-badge i {
-            color: #e16d48;
-            margin-right: 5px;
-        }
-
-        .table-wrapper {
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            border: 1px solid rgba(220,90,50,0.25);
-            overflow-x: auto;
-            margin-bottom: 2rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-
-        th {
-            text-align: center;
-            padding: 1rem 0.8rem;
-            background: rgba(220, 90, 50, 0.15);
-            color: #ffbc9a;
-            font-weight: 600;
-        }
-
-        td {
-            text-align: center;
-            padding: 0.9rem 0.8rem;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            vertical-align: middle;
-        }
-
-        td:first-child {
-            text-align: center;
-        }
-
-        td:nth-child(2) {
-            text-align: left;
-            font-weight: 500;
-        }
-
-        .platform-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            vertical-align: middle;
-            display: inline-block;
-        }
-
-        .player-name {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        tr:hover {
-            background: rgba(220, 90, 50, 0.08);
-        }
-
-        .rank-1 {
-            background: linear-gradient(90deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.03));
-            border-left: 3px solid #ffd700;
-        }
-        .rank-1 td:first-child { color: #ffd700; font-weight: bold; }
-
-        .rank-2 {
-            background: linear-gradient(90deg, rgba(192, 192, 192, 0.12), rgba(192, 192, 192, 0.03));
-            border-left: 3px solid #c0c0c0;
-        }
-        .rank-2 td:first-child { color: #c0c0c0; font-weight: bold; }
-
-        .rank-3 {
-            background: linear-gradient(90deg, rgba(205, 127, 50, 0.12), rgba(205, 127, 50, 0.03));
-            border-left: 3px solid #cd7f32;
-        }
-        .rank-3 td:first-child { color: #cd7f32; font-weight: bold; }
-
-        .medal {
-            display: inline-block;
-            width: 28px;
-            text-align: center;
-        }
-        .medal-gold { color: #ffd700; }
-        .medal-silver { color: #c0c0c0; }
-        .medal-bronze { color: #cd7f32; }
-
+        /* ===== ФУТЕР ===== */
         footer {
-            margin-top: 2rem;
+            margin-top: 3rem;
             text-align: center;
-            padding: 1rem 0;
-            border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
+            padding: 1.8rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.2);
+            font-size: 0.7rem;
             background: rgba(8, 6, 15, 0.3);
             backdrop-filter: blur(8px);
             border-radius: 50px;
         }
 
+        .footer-logo {
+            max-height: 32px;
+            width: auto;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes smokePulse {
+            0%, 100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
+            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+        }
+
         @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
-            .logo h1 { font-size: 1.5rem; }
-            .page-header h1 { font-size: 1.5rem; }
+            .main-wrapper { padding: 1rem; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
+            .logo p { font-size: 0.55rem; }
+            .page-header h1 { font-size: 2rem; }
             .modes-block { flex-direction: column; }
             .mode-stat-value { font-size: 2rem; }
             .mode-stat-label { font-size: 0.85rem; }
-            th, td { padding: 0.7rem 0.5rem; font-size: 0.8rem; }
+            .mode-card { min-height: 180px; }
+            .stats-cards { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            th, td { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
+            .slider-controls .slider-indicator { min-width: 70px; font-size: 0.7rem; }
+            .leaderboard-slider .slider-header .section-title { font-size: 1rem; }
             .click-waiting-content { padding: 1.5rem 2rem; }
             .click-waiting-title { font-size: 1.3rem; }
             .click-waiting-icon { font-size: 3rem; }
             .loader-content { bottom: 15px; right: 15px; padding: 8px 16px; }
             .loader-text { font-size: 0.85rem; }
             .loader-spinner { width: 20px; height: 20px; }
-            .stat-card .stat-icon { width: 55px; height: 55px; }
-            .mode-card { min-height: 220px; }
-            .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; }
+            .stat-card .stat-icon { width: 45px; height: 45px; }
+            .stat-card i { font-size: 2rem; }
+            .stat-card .stat-value { font-size: 1.6rem; }
+            .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; flex-wrap: wrap; }
             .alert-block i { font-size: 1.2rem; }
-            .update-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
-            .section-title { font-size: 1.2rem; flex-wrap: wrap; gap: 10px; }
-            .update-badge { margin-left: 0; }
-            .platform-icon { width: 20px; height: 20px; margin-right: 6px; }
+            .platform-icon { width: 18px; height: 18px; margin-right: 4px; }
+            .slider-btn { width: 32px; height: 32px; font-size: 0.9rem; }
+        }
+
+        @media (max-width: 500px) {
+            .main-wrapper { padding: 0.8rem; }
+            .stats-cards { grid-template-columns: 1fr; }
+            .header { padding: 0.6rem 0.8rem; }
+            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+            .logo .logo-img { max-height: 30px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .page-header h1 { font-size: 1.5rem; }
+            .page-header h1 i { font-size: 1.2rem; }
+            .mode-card { min-height: 150px; padding: 1rem; padding-bottom: 1.5rem; }
+            .mode-stat-value { font-size: 1.6rem; }
+            .mode-stat-label { font-size: 0.7rem; }
+            .click-waiting-content { padding: 1rem 1.2rem; }
+            .click-waiting-title { font-size: 1rem; }
+            .click-waiting-icon { font-size: 2.5rem; }
+            .click-waiting-text { font-size: 0.75rem; }
+            .slider-controls .slider-indicator { min-width: 60px; font-size: 0.6rem; }
+            .leaderboard-slider .slider-header .section-title { font-size: 0.85rem; padding-left: 10px; }
+            .slider-controls .slider-btn { width: 28px; height: 28px; font-size: 0.7rem; }
+            th, td { padding: 0.4rem 0.3rem; font-size: 0.65rem; }
+            .platform-icon { width: 16px; height: 16px; margin-right: 3px; }
+            .medal { width: 20px; font-size: 0.7rem; }
+            .loader-content { bottom: 10px; right: 10px; padding: 6px 12px; }
+            .loader-text { font-size: 0.7rem; }
+            .loader-spinner { width: 16px; height: 16px; }
+            .footer-logo { max-height: 20px; }
+            .stat-card { padding: 1rem; }
+            .stat-card .stat-value { font-size: 1.4rem; }
+            .stat-card .stat-label { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-<div class="background-slideshow">
-    <div class="bg-slide active" style="background-image: url('images/загрузка-1.webp');"></div>
-    <div class="bg-slide" style="background-image: url('images/загрузка-2.webp');"></div>
-</div>
+<!-- Фоновый слайдер -->
+<div class="bg-slider" id="bgSlider"></div>
+<div class="bg-overlay"></div>
+<div class="smoke-overlay"></div>
 
-<div id="clickWaitingOverlay" class="click-waiting-overlay">
-    <div class="click-waiting-content">
-        <div class="click-waiting-icon">
-            <i class="fas fa-mouse-pointer"></i>
+<!-- Аудио для загрузки -->
+<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
+
+<script>
+    // ===== ГЕНЕРАЦИЯ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
+    (function initBackgrounds() {
+        const bgSlider = document.getElementById('bgSlider');
+        
+        const bgFiles = [
+            'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
+            'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp'
+        ];
+
+        bgFiles.forEach((file, index) => {
+            const img = document.createElement('img');
+            img.src = 'images/' + file;
+            img.alt = 'фон ' + (index + 1);
+            if (index === 0) img.classList.add('active');
+            bgSlider.appendChild(img);
+        });
+
+        const imgs = bgSlider.querySelectorAll('img');
+        let current = 0;
+        const total = imgs.length;
+        let isTransitioning = false;
+        let timerId = null;
+
+        function switchToNext() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            imgs[current].classList.remove('active');
+            current = (current + 1) % total;
+            imgs[current].classList.add('active');
+
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 3500);
+        }
+
+        function startInterval() {
+            if (timerId) clearInterval(timerId);
+            timerId = setInterval(switchToNext, 10000);
+        }
+
+        function stopInterval() {
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        }
+
+        startInterval();
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                stopInterval();
+            } else {
+                startInterval();
+                isTransitioning = false;
+            }
+        });
+
+        window.addEventListener('beforeunload', function() {
+            stopInterval();
+        });
+
+    })();
+
+    // Дымовые частицы
+    (function createParticles() {
+        for (let i = 0; i < 6; i++) {
+            const p = document.createElement('div');
+            p.className = 'smoke-particle';
+            p.style.left = (10 + Math.random() * 80) + '%';
+            p.style.width = (80 + Math.random() * 100) + 'px';
+            p.style.height = p.style.width;
+            p.style.animationDelay = (i * 2.5) + 's';
+            p.style.animationDuration = (14 + Math.random() * 8) + 's';
+            document.body.appendChild(p);
+        }
+    })();
+
+    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
+    window.addEventListener('load', function() {
+        const audio = document.getElementById('bgAudio');
+        
+        if (!audio) {
+            console.error('❌ Элемент #bgAudio не найден в DOM');
+            return;
+        }
+
+        function selectAudioFile() {
+            let selected = 'loading 2.mp3';
+            
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                
+                const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
+                const isHighLatency = conn.rtt && conn.rtt > 500;
+                const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
+                
+                if (isVerySlow || isHighLatency || isVeryLowBandwidth) {
+                    return 'loading 3.mp3';
+                }
+                
+                if (conn.saveData) {
+                    return 'loading 3.mp3';
+                }
+            }
+            
+            try {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                    if (loadTime > 5000) {
+                        return 'loading 3.mp3';
+                    }
+                }
+            } catch(e) {}
+            
+            const rand = Math.random();
+            if (rand < 0.70) {
+                selected = 'loading 2.mp3';
+            } else {
+                selected = 'loading.mp3';
+            }
+            
+            return selected;
+        }
+
+        const selectedFile = selectAudioFile();
+        window.normalAudioFile = selectedFile;
+        audio.src = 'images/' + selectedFile;
+        console.log('✅ Выбран обычный аудиофайл:', selectedFile);
+        audio.load();
+    });
+
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА СТРАНИЦЕ =====
+    let pageAudioStarted = false;
+
+    function startPageMusic() {
+        const audio = document.getElementById('bgAudio');
+        if (!audio || pageAudioStarted) return;
+        if (!document.getElementById('mainContent').classList.contains('visible')) return;
+
+        audio.volume = 0.35;
+        audio.play().catch(() => {});
+        pageAudioStarted = true;
+        updateMusicButton(true);
+    }
+
+    function updateMusicButton(state) {
+        const btn = document.getElementById('musicToggleBtn');
+        if (!btn) return;
+        
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+        
+        if (state) {
+            btn.classList.add('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high', 'pulse');
+            }
+            if (label) label.textContent = 'Вкл';
+        } else {
+            btn.classList.remove('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-high', 'pulse');
+                icon.classList.add('fa-volume-xmark');
+            }
+            if (label) label.textContent = 'Выкл';
+        }
+    }
+
+    function togglePageMusic() {
+        const audio = document.getElementById('bgAudio');
+        if (!audio) return;
+        
+        if (audio.paused) {
+            audio.play().catch(() => {});
+            pageAudioStarted = true;
+            updateMusicButton(true);
+        } else {
+            audio.pause();
+            updateMusicButton(false);
+        }
+    }
+
+    window.togglePageMusic = togglePageMusic;
+
+    // Следим за появлением контента
+    const contentObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const mainContent = document.getElementById('mainContent');
+                if (mainContent && mainContent.classList.contains('visible')) {
+                    setTimeout(startPageMusic, 500);
+                }
+            }
+        });
+    });
+
+    function observeContent() {
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) {
+            contentObserver.observe(mainContent, { attributes: true });
+            if (mainContent.classList.contains('visible')) {
+                setTimeout(startPageMusic, 500);
+            }
+        } else {
+            setTimeout(observeContent, 200);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        observeContent();
+    });
+
+    window.addEventListener('load', function() {
+        setTimeout(observeContent, 100);
+    });
+</script>
+
+<div class="main-wrapper">
+    <!-- ====== СТРАНИЦА ВХОДА (скрыта) ====== -->
+    <div id="loginPage" class="login-overlay"></div>
+
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
+    <div id="clickWaitingOverlay" class="click-waiting-overlay">
+        <div class="click-waiting-content">
+            <div class="click-waiting-icon">
+                <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="click-waiting-title">Нажмите для загрузки</div>
+            <div class="click-waiting-text">Нажмите мышью или любую клавишу на клавиатуре</div>
+            <div class="click-waiting-key-hint">⌨️ Любая клавиша для старта</div>
         </div>
-        <div class="click-waiting-title">Нажмите для загрузки</div>
-        <div class="click-waiting-text">Нажмите мышью или любую клавишу на клавиатуре</div>
-        <div class="click-waiting-key-hint">⌨️ Любая клавиша для старта</div>
     </div>
-</div>
 
-<!-- ЗАГРУЗКА -->
-<div id="loaderOverlay" class="loader-overlay">
-    <div class="loader-content">
-        <div class="loader-spinner"></div>
-        <div class="loader-text">Подождите, идет загрузка данных...</div>
+    <!-- ====== ЗАГРУЗКА ====== -->
+    <div id="loaderOverlay" class="loader-overlay">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Подождите, идет загрузка данных...</div>
+        </div>
     </div>
-</div>
 
-<div id="mainContent" class="main-content">
-    <div class="container">
+    <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
+    <div id="mainContent" class="main-content">
         <div class="header">
             <div class="logo">
-                <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-                <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                <div>
+                    <span class="logo-text">Курилка Синьялы</span>
+                    <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+                </div>
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-                <a href="server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-                <a href="game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-                <a href="site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
+                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+                <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
                 <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                <a href="invasion.html" class="nav-btn active"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+                <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
                 <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
                 <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+                <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
+                
+                <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
+                    <span class="icon fa-solid fa-volume-xmark"></span>
+                    <span class="label">Выкл</span>
+                </button>
             </div>
         </div>
 
         <div class="page-header">
-            <h1><i class="fas fa-knife"></i> Invasion — Статистика 6 сезона</h1>
+            <h1><i class="fas fa-biohazard"></i> Invasion — Статистика 6 сезона</h1>
+            <div class="sub"><i class="fas fa-skull"></i> Режим «Вторжение» · Сезон 6 <i class="fas fa-skull"></i></div>
         </div>
 
         <div class="alert-block">
@@ -677,89 +1126,68 @@
             </div>
         </div>
 
-        <div class="section-title">
-            <i class="fas fa-crown" style="color: #ffd700;"></i>
-            Общий рейтинг игроков
-            <span class="update-badge"><i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026</span>
-        </div>
-        <div class="table-wrapper">
-            <table id="overallTable">
-                <thead>
-                    <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
-                </thead>
-                <tbody id="overallTableBody"></tbody>
-            </table>
+        <!-- ====== СЛАЙДЕР ЛИДЕРБОРДОВ ====== -->
+        <div class="leaderboard-slider" id="leaderboardSlider">
+            <div class="slider-header">
+                <div class="section-title">
+                    <i class="fas fa-crown"></i>
+                    <span id="sliderTitle">Общий рейтинг игроков</span>
+                    <span class="update-badge" style="font-size:0.7rem; margin-left:0.5rem; background:rgba(18,12,28,0.6); padding:0.3rem 0.8rem; border-radius:40px; border:1px solid rgba(220,90,50,0.3);">
+                        <i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026
+                    </span>
+                </div>
+                <div class="slider-controls">
+                    <button class="slider-btn" id="prevSlideBtn"><i class="fas fa-chevron-left"></i></button>
+                    <span class="slider-indicator" id="sliderIndicator">
+                        <span class="current-mode" id="currentModeName">Invasion</span>
+                        <span style="color:#666;"> / </span>
+                        <span id="totalModesCount">2</span>
+                    </span>
+                    <button class="slider-btn" id="nextSlideBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="slider-track-wrapper">
+                <div class="slider-track" id="sliderTrack">
+                    <!-- Слайд 1: Invasion -->
+                    <div class="slider-slide" data-mode="invasion">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
+                                </thead>
+                                <tbody id="invasionTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Слайд 2: Эскалация -->
+                    <div class="slider-slide" data-mode="escalation">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr><th>#</th><th>Игрок</th><th>Уровень</th><th>Идентификатор</th><th>Максимум (Время)</th></tr>
+                                </thead>
+                                <tbody id="escalationTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer>
+            <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
             <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-            <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+            <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+            <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
         </footer>
     </div>
 </div>
 
 <script>
-    const bgSlides = document.querySelectorAll('.bg-slide');
-    let currentBgIndex = 0;
-
-    function switchBackground() {
-        bgSlides[currentBgIndex].classList.remove('active');
-        currentBgIndex = (currentBgIndex + 1) % bgSlides.length;
-        bgSlides[currentBgIndex].classList.add('active');
-    }
-    setInterval(switchBackground, 8000);
-
+    // ===== ЛОГИКА ЗАГРУЗКИ =====
     const clickWaitingOverlay = document.getElementById('clickWaitingOverlay');
     const loaderOverlay = document.getElementById('loaderOverlay');
     const mainContent = document.getElementById('mainContent');
-
-    // АУДИО
-    const randomNum = Math.random();
-    let audioSrc;
-    if (randomNum < 0.2) {
-        audioSrc = 'images/loading.mp3';
-        console.log('🎵 Выбран трек с музыкой (редкий)');
-    } else {
-        audioSrc = 'images/loading 1.1.mp3';
-        console.log('🔇 Выбран тихий трек без слов (частый)');
-    }
-    
-    const audio = new Audio(audioSrc);
-    audio.loop = true;
-    audio.volume = 0.4;
-    
-    let savedAudioTime = localStorage.getItem('audioTime');
-    if (savedAudioTime && !isNaN(parseFloat(savedAudioTime))) {
-        audio.currentTime = parseFloat(savedAudioTime);
-    }
-    
-    let audioSaveInterval;
-    
-    window.addEventListener('beforeunload', () => {
-        if (!audio.paused && !audio.ended) {
-            localStorage.setItem('audioTime', audio.currentTime);
-        }
-    });
-
-    // ИКОНКИ ПЛАТФОРМ - ТОЛЬКО КАРТИНКИ
-    function getPlatformIcon(platform) {
-        const iconPaths = {
-            'xbox': 'images/иконка х-бокс.webp',
-            'steam': 'images/иконка стим.webp',
-            'ps': 'images/иконка пс.webp',
-            'epic': 'images/иконка эпик.webp'
-        };
-        
-        const iconPath = iconPaths[platform];
-        if (iconPath) {
-            // Возвращаем картинку, если она не загрузится - показываем пустоту
-            return `<img src="${iconPath}" class="platform-icon" alt="${platform}" onerror="this.style.display='none'">`;
-        }
-        return '';
-    }
-
-    const platforms = ['xbox', 'steam', 'ps', 'epic'];
-
     let loadStarted = false;
 
     function startLoad() {
@@ -767,13 +1195,11 @@
         loadStarted = true;
 
         clickWaitingOverlay.classList.add('hidden');
-        audio.play().catch(e => console.log('Аудио не запущено:', e));
-        
-        audioSaveInterval = setInterval(() => {
-            if (!audio.paused && !audio.ended) {
-                localStorage.setItem('audioTime', audio.currentTime);
-            }
-        }, 1000);
+
+        const audio = document.getElementById('bgAudio');
+        if (audio) {
+            audio.play().catch(() => {});
+        }
 
         loaderOverlay.classList.add('active');
 
@@ -784,11 +1210,6 @@
         console.log(`Загрузка займет ${Math.round(randomLoadTime / 1000)} секунд`);
 
         setTimeout(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            clearInterval(audioSaveInterval);
-            localStorage.removeItem('audioTime');
-            
             loaderOverlay.classList.remove('active');
             mainContent.classList.add('visible');
             
@@ -802,7 +1223,7 @@
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
             
-            document.querySelectorAll('.stats-cards, .modes-block, .table-wrapper, .section-title, .alert-block').forEach(el => {
+            document.querySelectorAll('.stats-cards, .modes-block, .leaderboard-slider, .alert-block, .page-header').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.style.transition = 'all 0.5s ease-out';
@@ -821,7 +1242,10 @@
         if (!loadStarted) { startLoad(); document.removeEventListener('keydown', startOnKey); }
     });
 
-    const playersData = [
+    // ===== ДАННЫЕ =====
+    const platforms = ['xbox', 'steam', 'ps', 'epic'];
+
+    const invasionPlayers = [
         { name: "Player_1", invasionPoints: 8750, reagentMatches: 52, impostorMatches: 38 },
         { name: "Player_2", invasionPoints: 7340, reagentMatches: 48, impostorMatches: 41 },
         { name: "Player_3", invasionPoints: 6980, reagentMatches: 45, impostorMatches: 35 },
@@ -838,36 +1262,57 @@
         { name: "Player_14", invasionPoints: 2980, reagentMatches: 24, impostorMatches: 25 },
         { name: "Player_15", invasionPoints: 2650, reagentMatches: 22, impostorMatches: 23 }
     ];
-    
-    let players = [...playersData];
-    players.sort((a, b) => b.invasionPoints - a.invasionPoints);
-    players.forEach((player, idx) => { player.rank = idx + 1; });
-    
-    players.forEach(player => {
-        const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
-        player.platform = randomPlatform;
-    });
-    
-    const totalPlayers = players.length;
-    const totalInvasionPoints = players.reduce((sum, p) => sum + p.invasionPoints, 0);
-    const totalReagentMatches = players.reduce((sum, p) => sum + p.reagentMatches, 0);
-    const totalImpostorMatches = players.reduce((sum, p) => sum + p.impostorMatches, 0);
-    
+
+    const escalationPlayers = [
+        { rank: 1, name: "DASCERA", level: 150, time: "28:50" },
+        { rank: 2, name: "TSUQUOIA", level: 150, time: "28:50" },
+        { rank: 3, name: "BLUE F", level: 99, time: "13:12" },
+        { rank: 4, name: "魔法桃心蛋 (证人BUG不修)", level: 99, time: "13:12" },
+        { rank: 5, name: "绿猫大人", level: 70, time: "09:04" },
+        { rank: 6, name: "LEI_GE", level: 68, time: "08:32" },
+        { rank: 7, name: "小虎阿", level: 66, time: "06:08" },
+        { rank: 8, name: "冰", level: 66, time: "06:08" },
+        { rank: 9, name: "封心", level: 65, time: "06:01" },
+        { rank: 10, name: "蓉蓉", level: 65, time: "06:01" },
+        { rank: 11, name: "荔枝冻", level: 65, time: "07:16" },
+        { rank: 12, name: "它的狗", level: 65, time: "07:23" }
+    ];
+
+    // ===== ФУНКЦИИ =====
+    function getPlatformIcon(platform) {
+        const iconPaths = {
+            'xbox': 'images/иконка х-бокс.webp',
+            'steam': 'images/иконка стим.webp',
+            'ps': 'images/иконка пс.webp',
+            'epic': 'images/иконка эпик.webp'
+        };
+        const iconPath = iconPaths[platform];
+        if (iconPath) {
+            return `<img src="${iconPath}" class="platform-icon" alt="${platform}" onerror="this.style.display='none'">`;
+        }
+        return '';
+    }
+
     function getRankClass(rank) {
         if (rank === 1) return 'rank-1';
         if (rank === 2) return 'rank-2';
         if (rank === 3) return 'rank-3';
         return '';
     }
-    
+
     function getMedalIcon(rank) {
         if (rank === 1) return '<span class="medal medal-gold"><i class="fas fa-crown"></i></span>';
         if (rank === 2) return '<span class="medal medal-silver"><i class="fas fa-medal"></i></span>';
         if (rank === 3) return '<span class="medal medal-bronze"><i class="fas fa-medal"></i></span>';
         return `${rank}`;
     }
-    
+
     function populateStats() {
+        const totalPlayers = invasionPlayers.length;
+        const totalInvasionPoints = invasionPlayers.reduce((sum, p) => sum + p.invasionPoints, 0);
+        const totalReagentMatches = invasionPlayers.reduce((sum, p) => sum + p.reagentMatches, 0);
+        const totalImpostorMatches = invasionPlayers.reduce((sum, p) => sum + p.impostorMatches, 0);
+
         const statsCards = document.getElementById('statsCards');
         statsCards.innerHTML = `
             <div class="stat-card">
@@ -894,11 +1339,23 @@
         
         document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
         document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
+    }
+
+    function populateInvasionTable() {
+        const sorted = [...invasionPlayers];
+        sorted.sort((a, b) => b.invasionPoints - a.invasionPoints);
+        sorted.forEach((player, idx) => { player.rank = idx + 1; });
         
-        const overallBody = document.getElementById('overallTableBody');
-        overallBody.innerHTML = '';
+        sorted.forEach(player => {
+            if (!player.platform) {
+                player.platform = platforms[Math.floor(Math.random() * platforms.length)];
+            }
+        });
+
+        const body = document.getElementById('invasionTableBody');
+        body.innerHTML = '';
         
-        players.forEach(player => {
+        sorted.forEach(player => {
             const row = document.createElement('tr');
             row.className = getRankClass(player.rank);
             const rating = Math.floor(player.invasionPoints / 10 + player.reagentMatches + player.impostorMatches);
@@ -908,7 +1365,7 @@
             else if (player.rank === 3) pointsColor = '#cd7f32';
             
             row.innerHTML = `
-                <td style="width: 60px;">${getMedalIcon(player.rank)}</td>
+                <td style="width: 50px;">${getMedalIcon(player.rank)}</td>
                 <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
                     <span class="player-name">
                         ${getPlatformIcon(player.platform)}
@@ -920,12 +1377,86 @@
                 <td>${player.impostorMatches}</td>
                 <td>${rating}</td>
             `;
-            overallBody.appendChild(row);
+            body.appendChild(row);
         });
     }
-    
-    populateStats();
-</script>
 
+    function populateEscalationTable() {
+        const body = document.getElementById('escalationTableBody');
+        body.innerHTML = '';
+        
+        escalationPlayers.forEach(player => {
+            const row = document.createElement('tr');
+            row.className = getRankClass(player.rank);
+            
+            row.innerHTML = `
+                <td style="width: 50px;">${getMedalIcon(player.rank)}</td>
+                <td style="text-align: left; font-weight: ${player.rank <= 3 ? '600' : 'normal'};">
+                    <span class="player-name">${player.name}</span>
+                </td>
+                <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48'};">${player.level}</td>
+                <td>#${player.rank}</td>
+                <td>${player.time}</td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    // ===== СЛАЙДЕР =====
+    const sliderTrack = document.getElementById('sliderTrack');
+    const slides = document.querySelectorAll('.slider-slide');
+    const prevBtn = document.getElementById('prevSlideBtn');
+    const nextBtn = document.getElementById('nextSlideBtn');
+    const currentModeName = document.getElementById('currentModeName');
+    const totalModesCount = document.getElementById('totalModesCount');
+    const sliderTitle = document.getElementById('sliderTitle');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    const modeNames = ['Invasion', 'Эскалация'];
+    const modeTitles = ['Общий рейтинг игроков', 'Лучшие реагенты (Эскалация)'];
+
+    totalModesCount.textContent = totalSlides;
+
+    function updateSlider() {
+        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        currentModeName.textContent = modeNames[currentSlide];
+        sliderTitle.textContent = modeTitles[currentSlide];
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlider();
+    });
+
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    populateStats();
+    populateInvasionTable();
+    populateEscalationTable();
+    updateSlider();
+
+    // Плавное появление элементов при скролле
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.stat-card, .mode-card, .leaderboard-slider, .alert-block').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.5s ease-out';
+        observer.observe(el);
+    });
+</script>
 </body>
 </html>
