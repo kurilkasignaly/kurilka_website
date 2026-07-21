@@ -1161,11 +1161,11 @@
             <!-- Картинки-кнопки слева -->
             <div class="mode-buttons" id="modeButtons">
                 <div class="mode-btn active" data-mode="escalation" onclick="switchMode('escalation')">
-                    <img src="images/эскалация.png" alt="Эскалация" onerror="this.src='https://placehold.co/400x225/1a1a2e/e25d32?text=Эскалация'">
+                    <img src="images/эскалация баннер.png" alt="Эскалация" onerror="this.src='https://placehold.co/400x225/1a1a2e/e25d32?text=Эскалация'">
                     <div class="btn-label">ЭСКАЛАЦИЯ</div>
                 </div>
                 <div class="mode-btn" data-mode="invasion" onclick="switchMode('invasion')">
-                    <img src="images/вторжение.png" alt="Вторжение" onerror="this.src='https://placehold.co/400x225/1a1a2e/e25d32?text=Вторжение'">
+                    <img src="images/вторжение баннер.png" alt="Вторжение" onerror="this.src='https://placehold.co/400x225/1a1a2e/e25d32?text=Вторжение'">
                     <div class="btn-label">ВТОРЖЕНИЕ</div>
                 </div>
             </div>
@@ -1500,83 +1500,161 @@
         if (currentMode === 'escalation') {
             title.textContent = 'ЭСКАЛАЦИЯ';
             
-            subTabs.innerHTML = `
-                <span class="sub-tab ${currentSubTab === 'weekly' ? 'active' : ''}" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
-                <span class="sub-tab ${currentSubTab === 'infinite' ? 'active' : ''}" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
-            `;
-            
-            const data = currentSubTab === 'weekly' ? escalationData.weekly : escalationData.infinite;
-            const colTitle = currentSubTab === 'weekly' ? 'ЕЖЕНЕДЕЛЬНАЯ' : 'БЕСКОНЕЧНАЯ';
-            
-            let html = `<table>
-                <thead>
-                    <tr><th>ПРОЙДЕНО</th><th>${colTitle}</th><th>ОЦЕНКА (ВРЕМЯ)</th></tr>
-                </thead>
-                <tbody>`;
-            
-            data.forEach(player => {
-                const rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
-                const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
-                
-                html += `
-                    <tr class="${getRankClass(player.rank)}">
-                        <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
-                        <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
-                            <span class="player-name">${player.name}</span>
-                        </td>
-                        <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'};">
-                            ${player.level} (${player.time})
-                        </td>
-                    </tr>
+            if (currentSubTab === 'weekly') {
+                subTabs.innerHTML = `
+                    <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                    <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
                 `;
-            });
-            
-            html += `</tbody></table>`;
-            container.innerHTML = html;
+                
+                const data = escalationData.weekly;
+                
+                let html = `<table>
+                    <thead>
+                        <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ПРОЙДЕНО</th><th>ОЦЕНКА</th><th>ВРЕМЯ</th></tr>
+                    </thead>
+                    <tbody>`;
+                
+                data.forEach(player => {
+                    const rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
+                    const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                    
+                    html += `
+                        <tr class="${getRankClass(player.rank)}">
+                            <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
+                            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                <span class="player-name">${player.name}</span>
+                            </td>
+                            <td>${player.level}</td>
+                            <td>${player.level}</td>
+                            <td>${player.time}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+                
+            } else {
+                // Бесконечная
+                subTabs.innerHTML = `
+                    <span class="sub-tab" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                    <span class="sub-tab active" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
+                `;
+                
+                const data = escalationData.infinite;
+                
+                let html = `<table>
+                    <thead>
+                        <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАКСИМУМ (ВРЕМЯ)</th></tr>
+                    </thead>
+                    <tbody>`;
+                
+                data.forEach(player => {
+                    const rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
+                    const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                    
+                    html += `
+                        <tr class="${getRankClass(player.rank)}">
+                            <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
+                            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                <span class="player-name">${player.name}</span>
+                            </td>
+                            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'};">
+                                ${player.level} (${player.time})
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            }
             
         } else {
             // Invasion
             title.textContent = 'ВТОРЖЕНИЕ';
             
-            subTabs.innerHTML = `
-                <span class="sub-tab ${currentSubTab === 'reagent' ? 'active' : ''}" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
-                <span class="sub-tab ${currentSubTab === 'impostor' ? 'active' : ''}" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
-            `;
-            
-            const data = currentSubTab === 'reagent' ? invasionData.reagent : invasionData.impostor;
-            const colTitle = currentSubTab === 'reagent' ? 'РЕАГЕНТ' : 'САМОЗВАНЕЦ';
-            
-            let html = `<table>
-                <thead>
-                    <tr><th>ПРОЙДЕНО</th><th>${colTitle}</th><th>ОЧКИ</th><th>МАТЧЕЙ</th><th>РЕЙТИНГ</th></tr>
-                </thead>
-                <tbody>`;
-            
-            data.forEach(player => {
-                const platform = platforms[Math.floor(Math.random() * platforms.length)];
-                const rating = Math.floor(player.points / 10 + player.matches);
-                const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
-                
-                html += `
-                    <tr class="${getRankClass(player.rank)}">
-                        <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
-                        <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
-                            <span class="player-name">
-                                ${getPlatformIcon(platform)}
-                                ${player.name}
-                            </span>
-                        </td>
-                        <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${color};">
-                            ${player.points.toLocaleString()}
-                        </td>
-                        <td>${player.matches}</td>
-                        <td>${rating}</td>
-                    </tr>
+            if (currentSubTab === 'reagent') {
+                subTabs.innerHTML = `
+                    <span class="sub-tab active" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                    <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                 `;
-            });
-            
-            html += `</tbody></table>`;
-            container.innerHTML = html;
+                
+                const data = invasionData.reagent;
+                
+                let html = `<table>
+                    <thead>
+                        <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ОЧКИ</th><th>МАТЧЕЙ</th><th>РЕЙТИНГ</th></tr>
+                    </thead>
+                    <tbody>`;
+                
+                data.forEach(player => {
+                    const platform = platforms[Math.floor(Math.random() * platforms.length)];
+                    const rating = Math.floor(player.points / 10 + player.matches);
+                    const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                    
+                    html += `
+                        <tr class="${getRankClass(player.rank)}">
+                            <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
+                            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                <span class="player-name">
+                                    ${getPlatformIcon(platform)}
+                                    ${player.name}
+                                </span>
+                            </td>
+                            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${color};">
+                                ${player.points.toLocaleString()}
+                            </td>
+                            <td>${player.matches}</td>
+                            <td>${rating}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+                
+            } else {
+                // Самозванец
+                subTabs.innerHTML = `
+                    <span class="sub-tab" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                    <span class="sub-tab active" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
+                `;
+                
+                const data = invasionData.impostor;
+                
+                let html = `<table>
+                    <thead>
+                        <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ОЧКИ</th><th>МАТЧЕЙ</th><th>РЕЙТИНГ</th></tr>
+                    </thead>
+                    <tbody>`;
+                
+                data.forEach(player => {
+                    const platform = platforms[Math.floor(Math.random() * platforms.length)];
+                    const rating = Math.floor(player.points / 10 + player.matches);
+                    const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                    
+                    html += `
+                        <tr class="${getRankClass(player.rank)}">
+                            <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
+                            <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                <span class="player-name">
+                                    ${getPlatformIcon(platform)}
+                                    ${player.name}
+                                </span>
+                            </td>
+                            <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${color};">
+                                ${player.points.toLocaleString()}
+                            </td>
+                            <td>${player.matches}</td>
+                            <td>${rating}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            }
         }
     }
 
