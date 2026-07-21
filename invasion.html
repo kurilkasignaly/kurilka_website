@@ -1187,6 +1187,13 @@
     let isProcessing = false;
     let connectionTimer = null;
 
+    // Активируем экран подключения сразу после загрузки страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        connectScreen.classList.add('active');
+        // Запускаем аудио при появлении экрана
+        setTimeout(startAudioOnConnect, 300);
+    });
+
     function startAudioOnConnect() {
         if (!audio) return;
         if (!connectScreen.classList.contains('active')) return;
@@ -1199,20 +1206,6 @@
                 audio.removeEventListener('canplaythrough', onPlay);
             }, { once: true });
         }
-    }
-
-    // Наблюдаем за экраном подключения
-    const connectObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                if (connectScreen.classList.contains('active')) {
-                    setTimeout(startAudioOnConnect, 200);
-                }
-            }
-        });
-    });
-    if (connectScreen) {
-        connectObserver.observe(connectScreen, { attributes: true });
     }
 
     async function startConnectionProcess() {
