@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Invasion — Статистика | Курилка Синьялы</title>
+    <title>Курилка Синьялы — Leaderboard</title>
     <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="images/лого.png">
@@ -107,113 +107,108 @@
             justify-content: flex-start;
         }
 
-        .click-waiting-overlay {
+        /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
+        .connect-screen {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 10000;
-            display: flex;
+            inset: 0;
+            z-index: 50;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .click-waiting-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .click-waiting-content {
-            text-align: center;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(16px);
-            padding: 2rem 3rem;
-            border-radius: 40px;
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            flex-direction: column;
+            animation: fadeInScale 0.6s ease-out;
             cursor: pointer;
-            transition: all 0.3s;
-            animation: fadeInScale 0.5s ease-out;
-        }
-
-        .click-waiting-content:hover {
-            transform: scale(1.02);
-            border-color: #e25d32;
-            box-shadow: 0 15px 50px rgba(220, 90, 50, 0.2);
-        }
-
-        .click-waiting-icon {
-            font-size: 4rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-        }
-
-        .click-waiting-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e16d48;
-            margin-bottom: 0.5rem;
-        }
-
-        .click-waiting-text {
-            font-size: 0.9rem;
-            color: #c2b9d4;
-            margin-bottom: 0.5rem;
-        }
-
-        .click-waiting-key-hint {
-            font-size: 0.75rem;
-            color: #888;
-        }
-
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10000;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-            pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .loader-content {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
 
-        .loader-spinner {
-            width: 24px;
-            height: 24px;
-            border: 2px solid rgba(220, 90, 50, 0.2);
-            border-top: 2px solid #e25d32;
+        .connect-screen.active {
+            display: flex;
+        }
+
+        .connect-content {
+            text-align: center;
+            user-select: none;
+            padding: 2rem;
+            pointer-events: none;
+        }
+
+        .connect-logo .line1 {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 10px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 0.5rem;
+        }
+
+        .connect-logo .logo-img {
+            max-width: 340px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .connect-logo .line3 {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: rgba(255, 255, 255, 0.25);
+            margin-top: 0.5rem;
+        }
+
+        .connect-prompt {
+            margin-top: 3rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: rgba(200, 190, 210, 0.7);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: pulseText 2s ease-in-out infinite;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+        .connect-prompt:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .connect-prompt i {
+            margin-right: 10px;
+            color: #e25d32;
+        }
+
+        .connect-status {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            pointer-events: none;
+        }
+
+        .connect-status.active {
+            display: flex;
+        }
+
+        .connect-status .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(220, 90, 50, 0.15);
+            border-top: 3px solid #e25d32;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.9s linear infinite;
+            flex-shrink: 0;
         }
 
         @keyframes spin {
@@ -221,30 +216,156 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loader-text {
+        .connect-status .label {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #ffbc9a, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: pulseText 1.2s ease-in-out infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .connect-hint {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(120, 100, 130, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 51;
+            pointer-events: none;
+        }
+
+        /* ===== ЭКРАН ОШИБКИ ===== */
+        .error-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeInScale 0.6s ease-out;
+            background: rgba(8, 6, 15, 0.7);
+            backdrop-filter: blur(8px);
+            pointer-events: auto;
+            padding: 2rem;
+        }
+
+        .error-screen.active {
+            display: flex;
+        }
+
+        .error-box {
+            background: rgba(10, 7, 18, 0.92);
+            border: 1px solid rgba(200, 60, 40, 0.4);
+            border-radius: 60px;
+            padding: 3rem 3.5rem;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(200, 60, 40, 0.15);
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        .error-box .error-icon {
+            font-size: 4rem;
+            color: #e25d32;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .error-box h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ff6b4a;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .error-box .error-sub {
+            color: #b5a8c8;
             font-size: 1rem;
-            color: #e16d48;
-            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
             font-weight: 500;
         }
 
+        .error-box .error-desc {
+            color: #8a7a9a;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .error-box .error-code {
+            display: inline-block;
+            background: rgba(200, 60, 40, 0.1);
+            border: 1px solid rgba(200, 60, 40, 0.2);
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e25d32;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 4px 20px rgba(188, 70, 39, 0.3);
+        }
+
+        .error-btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5);
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .main-content {
-            display: block;
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            display: none;
+            animation: fadeInScale 0.6s ease-out;
+            position: relative;
+            z-index: 5;
             width: 100%;
         }
 
-        .main-content.visible {
-            opacity: 1;
+        .main-content.active {
+            display: block;
         }
 
-        /* ===== СТРАНИЦА ВХОДА (сохраняем для единообразия) ===== */
-        .login-overlay {
-            display: none;
-        }
-
-        /* ===== ШАПКА ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -379,13 +500,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
-        .page-header {
+        /* ===== СТРАНИЦА LEADERBOARD ===== */
+        .page-title {
             text-align: center;
-            margin-bottom: 0.5rem;
+            margin: 0.5rem 0 1.5rem 0;
         }
 
-        .page-header h1 {
+        .page-title h1 {
             font-size: 2.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fff, #e25d32);
@@ -395,100 +516,71 @@
             letter-spacing: 1px;
         }
 
-        .page-header h1 i {
-            font-size: 2.2rem;
-        }
-
-        .page-header .sub {
+        .page-title .sub {
             color: #a090b0;
             font-size: 0.9rem;
             letter-spacing: 2px;
             margin-top: 0.2rem;
         }
 
-        .alert-block {
-            background: rgba(220, 90, 50, 0.15);
-            border-left: 5px solid #e25d32;
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 0.95rem;
-        }
-
-        .alert-block i {
-            color: #e25d32;
-            font-size: 1.5rem;
-        }
-
-        .alert-block span {
-            color: #ffbc9a;
-            font-weight: 500;
-        }
-
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
+        /* ===== ОПИСАНИЕ ЭСКАЛАЦИИ ===== */
+        .escalation-info {
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
             border-radius: 28px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(220,90,50,0.25);
-            transition: all 0.3s;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInScale 0.6s ease-out;
         }
 
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: #e16d48;
-        }
-
-        .stat-card i {
-            font-size: 2.5rem;
-            color: #e16d48;
-            margin-bottom: 0.8rem;
-        }
-
-        .stat-card .stat-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 0.8rem auto;
-            object-fit: contain;
-        }
-
-        .stat-card .stat-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffbc9a, #e25d32);
+        .escalation-info h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
         }
 
-        .stat-card .stat-label {
-            color: #c2b9d4;
-            font-size: 0.9rem;
+        .escalation-info p {
+            color: #b5a8c8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* ===== СЛАЙДЕР ДЛЯ ПЕРЕКЛЮЧЕНИЯ ЛИДЕРБОРДОВ ===== */
+        .escalation-info .highlight {
+            color: #e25d32;
+            font-weight: 600;
+        }
+
+        .escalation-info .progress-badge {
+            display: inline-block;
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffbc9a;
+            margin-top: 0.5rem;
+        }
+
+        /* ===== СЛАЙДЕР ЛИДЕРБОРДОВ ===== */
         .leaderboard-slider {
             position: relative;
             margin: 2rem 0;
             background: rgba(18, 12, 28, 0.45);
             backdrop-filter: blur(12px);
             border-radius: 28px;
-            border: 1px solid rgba(220,90,50,0.25);
+            border: 1px solid rgba(220, 90, 50, 0.25);
             overflow: hidden;
         }
 
-        .leaderboard-slider .slider-header {
+        .slider-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -497,7 +589,7 @@
             gap: 0.5rem;
         }
 
-        .leaderboard-slider .slider-header .section-title {
+        .slider-header .section-title {
             font-size: 1.3rem;
             display: flex;
             align-items: center;
@@ -507,7 +599,7 @@
             margin: 0;
         }
 
-        .leaderboard-slider .slider-header .section-title i {
+        .slider-header .section-title i {
             color: #ffd700;
         }
 
@@ -519,7 +611,7 @@
 
         .slider-controls .slider-btn {
             background: rgba(188, 74, 40, 0.3);
-            border: 1px solid rgba(220,90,50,0.3);
+            border: 1px solid rgba(220, 90, 50, 0.3);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -569,7 +661,7 @@
             background: rgba(18, 12, 28, 0.3);
             border-radius: 20px;
             overflow-x: auto;
-            border: 1px solid rgba(220,90,50,0.1);
+            border: 1px solid rgba(220, 90, 50, 0.1);
         }
 
         table {
@@ -584,15 +676,15 @@
             background: rgba(220, 90, 50, 0.12);
             color: #ffbc9a;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         td {
             text-align: center;
             padding: 0.8rem 0.8rem;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
+            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
             vertical-align: middle;
         }
 
@@ -651,79 +743,20 @@
         .medal-silver { color: #c0c0c0; }
         .medal-bronze { color: #cd7f32; }
 
-        /* ===== МОДЫ ===== */
-        .modes-block {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+        .update-badge {
+            font-size: 0.7rem;
+            background: rgba(18, 12, 28, 0.6);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: #b5a8c8;
+            white-space: nowrap;
         }
 
-        .mode-card {
-            flex: 1;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 28px;
-            padding: 1.5rem;
-            border: 1px solid rgba(220,90,50,0.2);
-            transition: all 0.4s ease;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-            padding-bottom: 2.5rem;
-            min-height: 240px;
-            position: relative;
-            z-index: 1;
+        .update-badge i {
+            color: #e16d48;
+            margin-right: 5px;
         }
-
-        .mode-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 28px;
-            z-index: -1;
-        }
-
-        .mode-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .mode-card.reagent:hover {
-            box-shadow: 0 0 25px rgba(76, 154, 255, 0.2);
-        }
-
-        .mode-card.impostor:hover {
-            box-shadow: 0 0 25px rgba(220, 90, 50, 0.2);
-        }
-
-        .mode-stats {
-            margin-top: 0.5rem;
-            text-align: center;
-            width: 100%;
-        }
-
-        .mode-stat-value {
-            font-size: 2.8rem;
-            font-weight: 800;
-        }
-
-        .mode-stat-label {
-            font-size: 1rem;
-            color: #ffbc9a;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            margin-top: 0.5rem;
-        }
-
-        .reagent .mode-stat-value { color: #4c9aff; }
-        .impostor .mode-stat-value { color: #e25d32; }
 
         /* ===== ФУТЕР ===== */
         footer {
@@ -760,59 +793,58 @@
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
             .logo p { font-size: 0.55rem; }
-            .page-header h1 { font-size: 2rem; }
-            .modes-block { flex-direction: column; }
-            .mode-stat-value { font-size: 2rem; }
-            .mode-stat-label { font-size: 0.85rem; }
-            .mode-card { min-height: 180px; }
-            .stats-cards { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            th, td { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
+            .page-title h1 { font-size: 2rem; }
+            .escalation-info { padding: 1.5rem; }
+            .escalation-info h2 { font-size: 1.3rem; }
+            .escalation-info p { font-size: 0.85rem; }
             .slider-controls .slider-indicator { min-width: 70px; font-size: 0.7rem; }
-            .leaderboard-slider .slider-header .section-title { font-size: 1rem; }
-            .click-waiting-content { padding: 1.5rem 2rem; }
-            .click-waiting-title { font-size: 1.3rem; }
-            .click-waiting-icon { font-size: 3rem; }
-            .loader-content { bottom: 15px; right: 15px; padding: 8px 16px; }
-            .loader-text { font-size: 0.85rem; }
-            .loader-spinner { width: 20px; height: 20px; }
-            .stat-card .stat-icon { width: 45px; height: 45px; }
-            .stat-card i { font-size: 2rem; }
-            .stat-card .stat-value { font-size: 1.6rem; }
-            .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; flex-wrap: wrap; }
-            .alert-block i { font-size: 1.2rem; }
+            .slider-header .section-title { font-size: 1rem; }
+            th, td { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
             .platform-icon { width: 18px; height: 18px; margin-right: 4px; }
             .slider-btn { width: 32px; height: 32px; font-size: 0.9rem; }
+            .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
+            .connect-logo .logo-img { max-width: 260px; }
+            .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
+            .connect-prompt { font-size: 1rem; padding: 0.6rem 1.6rem; }
+            .connect-status .label { font-size: 1.4rem; }
+            .connect-status .spinner { width: 32px; height: 32px; }
+            .error-box { padding: 2rem 1.5rem; }
+            .error-box h2 { font-size: 1.8rem; }
+            .error-box .error-icon { font-size: 3rem; }
         }
 
         @media (max-width: 500px) {
             .main-wrapper { padding: 0.8rem; }
-            .stats-cards { grid-template-columns: 1fr; }
             .header { padding: 0.6rem 0.8rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
             .logo .logo-img { max-height: 30px; }
             .logo .logo-text { font-size: 0.9rem; }
-            .page-header h1 { font-size: 1.5rem; }
-            .page-header h1 i { font-size: 1.2rem; }
-            .mode-card { min-height: 150px; padding: 1rem; padding-bottom: 1.5rem; }
-            .mode-stat-value { font-size: 1.6rem; }
-            .mode-stat-label { font-size: 0.7rem; }
-            .click-waiting-content { padding: 1rem 1.2rem; }
-            .click-waiting-title { font-size: 1rem; }
-            .click-waiting-icon { font-size: 2.5rem; }
-            .click-waiting-text { font-size: 0.75rem; }
+            .page-title h1 { font-size: 1.5rem; }
+            .escalation-info { padding: 1rem; }
+            .escalation-info h2 { font-size: 1.1rem; }
+            .escalation-info p { font-size: 0.75rem; }
+            .escalation-info .progress-badge { font-size: 1rem; padding: 0.3rem 1rem; }
             .slider-controls .slider-indicator { min-width: 60px; font-size: 0.6rem; }
-            .leaderboard-slider .slider-header .section-title { font-size: 0.85rem; padding-left: 10px; }
+            .slider-header .section-title { font-size: 0.85rem; padding-left: 10px; }
             .slider-controls .slider-btn { width: 28px; height: 28px; font-size: 0.7rem; }
             th, td { padding: 0.4rem 0.3rem; font-size: 0.65rem; }
             .platform-icon { width: 16px; height: 16px; margin-right: 3px; }
             .medal { width: 20px; font-size: 0.7rem; }
-            .loader-content { bottom: 10px; right: 10px; padding: 6px 12px; }
-            .loader-text { font-size: 0.7rem; }
-            .loader-spinner { width: 16px; height: 16px; }
             .footer-logo { max-height: 20px; }
-            .stat-card { padding: 1rem; }
-            .stat-card .stat-value { font-size: 1.4rem; }
-            .stat-card .stat-label { font-size: 0.75rem; }
+            .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
+            .connect-logo .logo-img { max-width: 200px; }
+            .connect-logo .line3 { font-size: 1rem; letter-spacing: 3px; }
+            .connect-prompt { font-size: 0.8rem; padding: 0.5rem 1.2rem; margin-top: 2rem; }
+            .connect-status .label { font-size: 1.1rem; letter-spacing: 2px; }
+            .connect-status .spinner { width: 28px; height: 28px; }
+            .connect-status { gap: 1rem; margin-top: 2rem; }
+            .connect-hint { bottom: 1.5rem; font-size: 0.6rem; }
+            .error-box { padding: 1.5rem 1rem; }
+            .error-box h2 { font-size: 1.4rem; }
+            .error-box .error-icon { font-size: 2.5rem; }
+            .error-box .error-desc { font-size: 0.8rem; }
+            .error-actions { flex-direction: column; align-items: center; }
+            .error-btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -830,7 +862,6 @@
     // ===== ГЕНЕРАЦИЯ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
-        
         const bgFiles = [
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp'
@@ -853,14 +884,10 @@
         function switchToNext() {
             if (isTransitioning) return;
             isTransitioning = true;
-
             imgs[current].classList.remove('active');
             current = (current + 1) % total;
             imgs[current].classList.add('active');
-
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 3500);
+            setTimeout(() => { isTransitioning = false; }, 3500);
         }
 
         function startInterval() {
@@ -869,27 +896,15 @@
         }
 
         function stopInterval() {
-            if (timerId) {
-                clearInterval(timerId);
-                timerId = null;
-            }
+            if (timerId) { clearInterval(timerId); timerId = null; }
         }
 
         startInterval();
-
         document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                stopInterval();
-            } else {
-                startInterval();
-                isTransitioning = false;
-            }
+            if (document.hidden) { stopInterval(); } 
+            else { startInterval(); isTransitioning = false; }
         });
-
-        window.addEventListener('beforeunload', function() {
-            stopInterval();
-        });
-
+        window.addEventListener('beforeunload', function() { stopInterval(); });
     })();
 
     // Дымовые частицы
@@ -909,66 +924,43 @@
     // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
     window.addEventListener('load', function() {
         const audio = document.getElementById('bgAudio');
-        
-        if (!audio) {
-            console.error('❌ Элемент #bgAudio не найден в DOM');
-            return;
-        }
+        if (!audio) return;
 
         function selectAudioFile() {
             let selected = 'loading 2.mp3';
-            
             if (navigator.connection) {
                 const conn = navigator.connection;
-                
                 const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
                 const isHighLatency = conn.rtt && conn.rtt > 500;
                 const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
-                
-                if (isVerySlow || isHighLatency || isVeryLowBandwidth) {
-                    return 'loading 3.mp3';
-                }
-                
-                if (conn.saveData) {
-                    return 'loading 3.mp3';
-                }
+                if (isVerySlow || isHighLatency || isVeryLowBandwidth) return 'loading 3.mp3';
+                if (conn.saveData) return 'loading 3.mp3';
             }
-            
             try {
                 const perfData = performance.getEntriesByType('navigation')[0];
                 if (perfData) {
                     const loadTime = perfData.loadEventEnd - perfData.fetchStart;
-                    if (loadTime > 5000) {
-                        return 'loading 3.mp3';
-                    }
+                    if (loadTime > 5000) return 'loading 3.mp3';
                 }
             } catch(e) {}
-            
             const rand = Math.random();
-            if (rand < 0.70) {
-                selected = 'loading 2.mp3';
-            } else {
-                selected = 'loading.mp3';
-            }
-            
-            return selected;
+            return rand < 0.70 ? 'loading 2.mp3' : 'loading.mp3';
         }
 
         const selectedFile = selectAudioFile();
         window.normalAudioFile = selectedFile;
         audio.src = 'images/' + selectedFile;
-        console.log('✅ Выбран обычный аудиофайл:', selectedFile);
+        console.log('✅ Выбран аудиофайл:', selectedFile);
         audio.load();
     });
 
-    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА СТРАНИЦЕ =====
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ =====
     let pageAudioStarted = false;
 
     function startPageMusic() {
         const audio = document.getElementById('bgAudio');
         if (!audio || pageAudioStarted) return;
-        if (!document.getElementById('mainContent').classList.contains('visible')) return;
-
+        if (!document.getElementById('mainContent').classList.contains('active')) return;
         audio.volume = 0.35;
         audio.play().catch(() => {});
         pageAudioStarted = true;
@@ -978,23 +970,15 @@
     function updateMusicButton(state) {
         const btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
-        
         const icon = btn.querySelector('.icon');
         const label = btn.querySelector('.label');
-        
         if (state) {
             btn.classList.add('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-xmark');
-                icon.classList.add('fa-volume-high', 'pulse');
-            }
+            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
             if (label) label.textContent = 'Вкл';
         } else {
             btn.classList.remove('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-high', 'pulse');
-                icon.classList.add('fa-volume-xmark');
-            }
+            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
             if (label) label.textContent = 'Выкл';
         }
     }
@@ -1002,7 +986,6 @@
     function togglePageMusic() {
         const audio = document.getElementById('bgAudio');
         if (!audio) return;
-        
         if (audio.paused) {
             audio.play().catch(() => {});
             pageAudioStarted = true;
@@ -1012,7 +995,6 @@
             updateMusicButton(false);
         }
     }
-
     window.togglePageMusic = togglePageMusic;
 
     // Следим за появлением контента
@@ -1020,7 +1002,7 @@
         mutations.forEach(function(mutation) {
             if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                 const mainContent = document.getElementById('mainContent');
-                if (mainContent && mainContent.classList.contains('visible')) {
+                if (mainContent && mainContent.classList.contains('active')) {
                     setTimeout(startPageMusic, 500);
                 }
             }
@@ -1031,7 +1013,7 @@
         const mainContent = document.getElementById('mainContent');
         if (mainContent) {
             contentObserver.observe(mainContent, { attributes: true });
-            if (mainContent.classList.contains('visible')) {
+            if (mainContent.classList.contains('active')) {
                 setTimeout(startPageMusic, 500);
             }
         } else {
@@ -1039,36 +1021,46 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        observeContent();
-    });
-
-    window.addEventListener('load', function() {
-        setTimeout(observeContent, 100);
-    });
+    document.addEventListener('DOMContentLoaded', function() { observeContent(); });
+    window.addEventListener('load', function() { setTimeout(observeContent, 100); });
 </script>
 
 <div class="main-wrapper">
-    <!-- ====== СТРАНИЦА ВХОДА (скрыта) ====== -->
-    <div id="loginPage" class="login-overlay"></div>
-
     <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
-    <div id="clickWaitingOverlay" class="click-waiting-overlay">
-        <div class="click-waiting-content">
-            <div class="click-waiting-icon">
-                <i class="fas fa-mouse-pointer"></i>
+    <div id="connectScreen" class="connect-screen">
+        <div class="connect-content">
+            <div class="connect-logo">
+                <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
+                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                <span class="line3">LEADERBOARD</span>
             </div>
-            <div class="click-waiting-title">Нажмите для загрузки</div>
-            <div class="click-waiting-text">Нажмите мышью или любую клавишу на клавиатуре</div>
-            <div class="click-waiting-key-hint">⌨️ Любая клавиша для старта</div>
+            <div id="connectPrompt" class="connect-prompt">
+                <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
+            </div>
+            <div id="connectStatus" class="connect-status">
+                <div class="spinner"></div>
+                <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
+            </div>
         </div>
+        <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
     </div>
 
-    <!-- ====== ЗАГРУЗКА ====== -->
-    <div id="loaderOverlay" class="loader-overlay">
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <div class="loader-text">Подождите, идет загрузка данных...</div>
+    <!-- ====== ЭКРАН ОШИБКИ ====== -->
+    <div id="errorScreen" class="error-screen">
+        <div class="error-box">
+            <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
+            <p class="error-sub">Не удалось установить соединение с сервером</p>
+            <p class="error-desc">
+                К сожалению, возникла непредвиденная ошибка.<br>
+                Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
+            </p>
+            <div class="error-code">ERR_CONNECTION_RESET</div>
+            <div class="error-actions">
+                <button class="error-btn error-btn-primary" id="retryBtn">
+                    <i class="fas fa-sync-alt"></i> Перезагрузить
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1099,31 +1091,23 @@
             </div>
         </div>
 
-        <div class="page-header">
-            <h1><i class="fas fa-biohazard"></i> Invasion — Статистика 6 сезона</h1>
-            <div class="sub"><i class="fas fa-skull"></i> Режим «Вторжение» · Сезон 6 <i class="fas fa-skull"></i></div>
+        <!-- Заголовок -->
+        <div class="page-title">
+            <h1><i class="fas fa-biohazard"></i> Курилка Синьялы — Leaderboard</h1>
+            <div class="sub"><i class="fas fa-skull"></i> Рейтинг игроков · Invasion & Эскалация <i class="fas fa-skull"></i></div>
         </div>
 
-        <div class="alert-block">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>ВНИМАНИЕ! Статистика обновляется автоматически раз в неделю — каждый Вторник в 21:00 по МСК. Все данные актуальны на текущий момент.</span>
-        </div>
-
-        <div class="stats-cards" id="statsCards"></div>
-
-        <div class="modes-block">
-            <div class="mode-card reagent" style="background-image: url('images/реагент.webp');">
-                <div class="mode-stats">
-                    <div class="mode-stat-value" id="totalReagentMatches">0</div>
-                    <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА РЕАГЕНТА</div>
-                </div>
-            </div>
-            <div class="mode-card impostor" style="background-image: url('images/самозванец.webp');">
-                <div class="mode-stats">
-                    <div class="mode-stat-value" id="totalImpostorMatches">0</div>
-                    <div class="mode-stat-label">ВСЕГО МАТЧЕЙ ЗА САМОЗВАНЦА</div>
-                </div>
-            </div>
+        <!-- Описание эскалации -->
+        <div class="escalation-info">
+            <h2><i class="fas fa-chart-line"></i> Эскалационная терапия</h2>
+            <p>
+                Начинайте с нуля, собирайте свой набор и проходите случайные испытания с нарастающей сложностью и наградами.
+                За выполнение побочного задания вы можете выбрать <span class="highlight">бонусное улучшение</span>.
+            </p>
+            <p>
+                Ваша цель — пройти как можно дальше. Со смертью всех реагентов сеанс завершается.
+            </p>
+            <div class="progress-badge">74. АВ ПРОЦЕССЕ...</div>
         </div>
 
         <!-- ====== СЛАЙДЕР ЛИДЕРБОРДОВ ====== -->
@@ -1131,15 +1115,13 @@
             <div class="slider-header">
                 <div class="section-title">
                     <i class="fas fa-crown"></i>
-                    <span id="sliderTitle">Общий рейтинг игроков</span>
-                    <span class="update-badge" style="font-size:0.7rem; margin-left:0.5rem; background:rgba(18,12,28,0.6); padding:0.3rem 0.8rem; border-radius:40px; border:1px solid rgba(220,90,50,0.3);">
-                        <i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026
-                    </span>
+                    <span id="sliderTitle">ЕЖЕНЕДЕЛЬНЫЙ — ЛУЧШИЕ РЕАГЕНТЫ</span>
+                    <span class="update-badge"><i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026</span>
                 </div>
                 <div class="slider-controls">
                     <button class="slider-btn" id="prevSlideBtn"><i class="fas fa-chevron-left"></i></button>
                     <span class="slider-indicator" id="sliderIndicator">
-                        <span class="current-mode" id="currentModeName">Invasion</span>
+                        <span class="current-mode" id="currentModeName">Эскалация</span>
                         <span style="color:#666;"> / </span>
                         <span id="totalModesCount">2</span>
                     </span>
@@ -1148,6 +1130,17 @@
             </div>
             <div class="slider-track-wrapper">
                 <div class="slider-track" id="sliderTrack">
+                    <!-- Слайд 0: Эскалация (по умолчанию) -->
+                    <div class="slider-slide" data-mode="escalation">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАКСИМУМ (ВРЕМЯ)</th></tr>
+                                </thead>
+                                <tbody id="escalationTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
                     <!-- Слайд 1: Invasion -->
                     <div class="slider-slide" data-mode="invasion">
                         <div class="table-wrapper">
@@ -1156,17 +1149,6 @@
                                     <tr><th>#</th><th>Игрок</th><th>Очки Invasion</th><th>Матчей за Реагента</th><th>Матчей за Самозванца</th><th>Рейтинг</th></tr>
                                 </thead>
                                 <tbody id="invasionTableBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- Слайд 2: Эскалация -->
-                    <div class="slider-slide" data-mode="escalation">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead>
-                                    <tr><th>#</th><th>Игрок</th><th>Уровень</th><th>Идентификатор</th><th>Максимум (Время)</th></tr>
-                                </thead>
-                                <tbody id="escalationTableBody"></tbody>
                             </table>
                         </div>
                     </div>
@@ -1184,65 +1166,199 @@
 </div>
 
 <script>
-    // ===== ЛОГИКА ЗАГРУЗКИ =====
-    const clickWaitingOverlay = document.getElementById('clickWaitingOverlay');
-    const loaderOverlay = document.getElementById('loaderOverlay');
+    // ===== ПРОВЕРКА MAINTENANCE.TXT =====
+    async function checkMaintenance() {
+        try {
+            const response = await fetch('maintenance.txt?_=' + Date.now());
+            if (!response.ok) return 0;
+            const text = await response.text();
+            const status = parseInt(text.trim(), 10);
+            return isNaN(status) ? 0 : status;
+        } catch (error) { return 0; }
+    }
+
+    // ===== ЛОГИКА ЭКРАНА ПОДКЛЮЧЕНИЯ =====
+    const connectScreen = document.getElementById('connectScreen');
+    const connectPrompt = document.getElementById('connectPrompt');
+    const connectStatus = document.getElementById('connectStatus');
+    const errorScreen = document.getElementById('errorScreen');
     const mainContent = document.getElementById('mainContent');
-    let loadStarted = false;
+    const audio = document.getElementById('bgAudio');
+    let isProcessing = false;
+    let connectionTimer = null;
 
-    function startLoad() {
-        if (loadStarted) return;
-        loadStarted = true;
+    function startAudioOnConnect() {
+        if (!audio) return;
+        if (!connectScreen.classList.contains('active')) return;
+        if (!audio.paused) return;
+        if (audio.readyState >= 2) {
+            audio.play().catch(() => {});
+        } else {
+            audio.addEventListener('canplaythrough', function onPlay() {
+                audio.play().catch(() => {});
+                audio.removeEventListener('canplaythrough', onPlay);
+            }, { once: true });
+        }
+    }
 
-        clickWaitingOverlay.classList.add('hidden');
+    // Наблюдаем за экраном подключения
+    const connectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                if (connectScreen.classList.contains('active')) {
+                    setTimeout(startAudioOnConnect, 200);
+                }
+            }
+        });
+    });
+    if (connectScreen) {
+        connectObserver.observe(connectScreen, { attributes: true });
+    }
 
-        const audio = document.getElementById('bgAudio');
-        if (audio) {
+    async function startConnectionProcess() {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        if (audio && audio.paused) {
             audio.play().catch(() => {});
         }
 
-        loaderOverlay.classList.add('active');
+        connectPrompt.style.display = 'none';
+        connectStatus.classList.add('active');
 
-        const minTime = 45000;
-        const maxTime = 65000;
-        const randomLoadTime = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
-        
-        console.log(`Загрузка займет ${Math.round(randomLoadTime / 1000)} секунд`);
+        const maintenanceStatus = await checkMaintenance();
 
-        setTimeout(() => {
-            loaderOverlay.classList.remove('active');
-            mainContent.classList.add('visible');
+        if (maintenanceStatus === 1) {
+            if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
+                audio.src = 'images/loading 3.mp3';
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.load();
+                audio.addEventListener('canplaythrough', function onPlay() {
+                    audio.play().catch(() => {});
+                    audio.removeEventListener('canplaythrough', onPlay);
+                }, { once: true });
+            } else if (audio && audio.paused) {
+                audio.play().catch(() => {});
+            }
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
+            console.log('⏳ Ошибка, ожидание:', delay / 1000, 'секунд');
             
-            document.querySelectorAll('.stats-cards, .modes-block, .leaderboard-slider, .alert-block, .page-header').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'all 0.5s ease-out';
-                observer.observe(el);
+            await new Promise(resolve => {
+                connectionTimer = setTimeout(resolve, delay);
             });
-        }, randomLoadTime);
+
+            connectScreen.classList.remove('active');
+            errorScreen.classList.add('active');
+            
+        } else {
+            if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
+                const normalFile = window.normalAudioFile || 'loading 2.mp3';
+                audio.src = 'images/' + normalFile;
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.load();
+                audio.addEventListener('canplaythrough', function onPlay() {
+                    audio.play().catch(() => {});
+                    audio.removeEventListener('canplaythrough', onPlay);
+                }, { once: true });
+            } else if (audio && audio.paused) {
+                audio.play().catch(() => {});
+            }
+            
+            const delay = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+            console.log('⏳ Штатный режим, ожидание:', delay / 1000, 'секунд');
+            
+            await new Promise(resolve => {
+                connectionTimer = setTimeout(resolve, delay);
+            });
+
+            const finalStatus = await checkMaintenance();
+
+            if (finalStatus === 1) {
+                if (audio) {
+                    audio.src = 'images/loading 3.mp3';
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.addEventListener('canplaythrough', function onPlay() {
+                        audio.play().catch(() => {});
+                        audio.removeEventListener('canplaythrough', onPlay);
+                    }, { once: true });
+                }
+                connectScreen.classList.remove('active');
+                errorScreen.classList.add('active');
+            } else {
+                connectScreen.classList.remove('active');
+                mainContent.classList.add('active');
+                document.body.classList.add('scroll-enabled');
+                
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        isProcessing = false;
+        connectionTimer = null;
     }
 
-    document.body.addEventListener('click', function startOnClick() {
-        if (!loadStarted) { startLoad(); document.body.removeEventListener('click', startOnClick); }
-    });
-    document.body.addEventListener('touchstart', function startOnTouch() {
-        if (!loadStarted) { startLoad(); document.body.removeEventListener('touchstart', startOnTouch); }
-    });
-    document.addEventListener('keydown', function startOnKey() {
-        if (!loadStarted) { startLoad(); document.removeEventListener('keydown', startOnKey); }
+    connectScreen.addEventListener('click', function(e) {
+        if (isProcessing) return;
+        if (connectPrompt.style.display !== 'none') {
+            startConnectionProcess();
+        }
     });
 
-    // ===== ДАННЫЕ =====
+    connectPrompt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isProcessing) return;
+        startConnectionProcess();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (!connectScreen.classList.contains('active')) return;
+        if (isProcessing) return;
+        if (connectPrompt.style.display === 'none') return;
+        startConnectionProcess();
+    });
+
+    // ===== ПОВТОРНАЯ ПОПЫТКА =====
+    document.getElementById('retryBtn').addEventListener('click', function() {
+        if (connectionTimer) {
+            clearTimeout(connectionTimer);
+            connectionTimer = null;
+        }
+        isProcessing = false;
+
+        errorScreen.classList.remove('active');
+        connectScreen.classList.add('active');
+        connectPrompt.style.display = 'block';
+        connectStatus.classList.remove('active');
+
+        if (audio) {
+            const normalFile = window.normalAudioFile || 'loading 2.mp3';
+            if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
+                audio.src = 'images/' + normalFile;
+                audio.volume = 0.35;
+                audio.currentTime = 0;
+                audio.load();
+            }
+            setTimeout(startAudioOnConnect, 300);
+        }
+
+        setTimeout(() => {
+            if (connectScreen.classList.contains('active') && !isProcessing) {
+                startConnectionProcess();
+            }
+        }, 800);
+    });
+
+    // ===== ДАННЫЕ ДЛЯ ЛИДЕРБОРДОВ =====
     const platforms = ['xbox', 'steam', 'ps', 'epic'];
 
     const invasionPlayers = [
@@ -1307,38 +1423,27 @@
         return `${rank}`;
     }
 
-    function populateStats() {
-        const totalPlayers = invasionPlayers.length;
-        const totalInvasionPoints = invasionPlayers.reduce((sum, p) => sum + p.invasionPoints, 0);
-        const totalReagentMatches = invasionPlayers.reduce((sum, p) => sum + p.reagentMatches, 0);
-        const totalImpostorMatches = invasionPlayers.reduce((sum, p) => sum + p.impostorMatches, 0);
-
-        const statsCards = document.getElementById('statsCards');
-        statsCards.innerHTML = `
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <div class="stat-value">${totalPlayers}</div>
-                <div class="stat-label">Всего участников</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-chart-line"></i>
-                <div class="stat-value">${totalInvasionPoints.toLocaleString()}</div>
-                <div class="stat-label">Всего очков Invasion</div>
-            </div>
-            <div class="stat-card">
-                <img src="images/иконка-1.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
-                <div class="stat-value">${totalReagentMatches}</div>
-                <div class="stat-label">Всего матчей за Реагентов</div>
-            </div>
-            <div class="stat-card">
-                <img src="images/иконка-2.webp" class="stat-icon" alt="Иконка" onerror="this.style.display='none'">
-                <div class="stat-value">${totalImpostorMatches}</div>
-                <div class="stat-label">Всего матчей за Самозванцев</div>
-            </div>
-        `;
+    function populateEscalationTable() {
+        const body = document.getElementById('escalationTableBody');
+        body.innerHTML = '';
         
-        document.getElementById('totalReagentMatches').textContent = totalReagentMatches;
-        document.getElementById('totalImpostorMatches').textContent = totalImpostorMatches;
+        escalationPlayers.forEach(player => {
+            const row = document.createElement('tr');
+            row.className = getRankClass(player.rank);
+            
+            row.innerHTML = `
+                <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48'};">
+                    ${player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank}
+                </td>
+                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                    <span class="player-name">${player.name}</span>
+                </td>
+                <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'};">
+                    ${player.level} (${player.time})
+                </td>
+            `;
+            body.appendChild(row);
+        });
     }
 
     function populateInvasionTable() {
@@ -1381,27 +1486,6 @@
         });
     }
 
-    function populateEscalationTable() {
-        const body = document.getElementById('escalationTableBody');
-        body.innerHTML = '';
-        
-        escalationPlayers.forEach(player => {
-            const row = document.createElement('tr');
-            row.className = getRankClass(player.rank);
-            
-            row.innerHTML = `
-                <td style="width: 50px;">${getMedalIcon(player.rank)}</td>
-                <td style="text-align: left; font-weight: ${player.rank <= 3 ? '600' : 'normal'};">
-                    <span class="player-name">${player.name}</span>
-                </td>
-                <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48'};">${player.level}</td>
-                <td>#${player.rank}</td>
-                <td>${player.time}</td>
-            `;
-            body.appendChild(row);
-        });
-    }
-
     // ===== СЛАЙДЕР =====
     const sliderTrack = document.getElementById('sliderTrack');
     const slides = document.querySelectorAll('.slider-slide');
@@ -1413,8 +1497,8 @@
     let currentSlide = 0;
     const totalSlides = slides.length;
 
-    const modeNames = ['Invasion', 'Эскалация'];
-    const modeTitles = ['Общий рейтинг игроков', 'Лучшие реагенты (Эскалация)'];
+    const modeNames = ['Эскалация', 'Invasion'];
+    const modeTitles = ['ЕЖЕНЕДЕЛЬНЫЙ — ЛУЧШИЕ РЕАГЕНТЫ', 'ОБЩИЙ РЕЙТИНГ ИГРОКОВ'];
 
     totalModesCount.textContent = totalSlides;
 
@@ -1435,9 +1519,8 @@
     });
 
     // ===== ИНИЦИАЛИЗАЦИЯ =====
-    populateStats();
-    populateInvasionTable();
     populateEscalationTable();
+    populateInvasionTable();
     updateSlider();
 
     // Плавное появление элементов при скролле
@@ -1451,7 +1534,7 @@
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-    document.querySelectorAll('.stat-card, .mode-card, .leaderboard-slider, .alert-block').forEach(el => {
+    document.querySelectorAll('.escalation-info, .leaderboard-slider').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.5s ease-out';
