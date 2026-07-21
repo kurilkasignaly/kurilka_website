@@ -541,50 +541,61 @@
             object-fit: cover;
         }
 
-        /* ===== НИЖНИЕ ДВЕ КАРТИНКИ (ВКЛАДКИ) ===== */
-        .mode-tabs {
+        /* ===== КОНТЕЙНЕР С КАРТИНКАМИ-КНОПКАМИ И ТАБЛИЦЕЙ ===== */
+        .leaderboard-layout {
             display: flex;
             gap: 1.5rem;
             margin-bottom: 2rem;
-            flex-wrap: wrap;
+            align-items: stretch;
         }
 
-        .mode-tab {
-            flex: 1;
-            min-width: 200px;
-            border-radius: 24px;
+        .mode-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 0 0 220px;
+            min-width: 180px;
+        }
+
+        .mode-btn {
+            border-radius: 20px;
             overflow: hidden;
             cursor: pointer;
             border: 2px solid rgba(220, 90, 50, 0.15);
             transition: all 0.4s ease;
             position: relative;
             background: rgba(18, 12, 28, 0.3);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .mode-tab:hover {
-            border-color: rgba(220, 90, 50, 0.3);
-            transform: translateY(-3px);
+        .mode-btn:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            transform: scale(1.02);
         }
 
-        .mode-tab.active {
+        .mode-btn.active {
             border-color: #e25d32;
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.15);
         }
 
-        .mode-tab img {
+        .mode-btn img {
             width: 100%;
             height: auto;
             display: block;
+            object-fit: cover;
         }
 
-        .mode-tab .tab-label {
+        .mode-btn .btn-label {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 0.8rem 1rem;
+            padding: 0.6rem 0.8rem;
             background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #fff;
             text-align: center;
@@ -592,36 +603,40 @@
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        .mode-tab.active .tab-label {
+        .mode-btn.active .btn-label {
             color: #e25d32;
         }
 
         /* ===== СЕКЦИЯ С ТАБЛИЦЕЙ ===== */
         .leaderboard-section {
+            flex: 1;
             background: rgba(18, 12, 28, 0.45);
             backdrop-filter: blur(12px);
             border-radius: 28px;
             border: 1px solid rgba(220, 90, 50, 0.25);
             overflow: hidden;
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .leaderboard-section .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.1);
             flex-wrap: wrap;
             gap: 0.5rem;
         }
 
         .leaderboard-section .section-header .title {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            color: #ffbc9a;
+            letter-spacing: 0.5px;
         }
 
         .leaderboard-section .section-header .title i {
@@ -629,7 +644,7 @@
         }
 
         .leaderboard-section .section-header .sub-title {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #b5a8c8;
         }
 
@@ -638,7 +653,7 @@
             margin-right: 5px;
         }
 
-        /* ===== ВКЛАДКИ ВНУТРИ СЕКЦИИ (для Invasion - Реагент/Самозванец) ===== */
+        /* ===== ВКЛАДКИ ВНУТРИ СЕКЦИИ ===== */
         .sub-tabs {
             display: flex;
             gap: 0.5rem;
@@ -648,10 +663,10 @@
         }
 
         .sub-tab {
-            padding: 0.4rem 1.2rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #b5a8c8;
             transition: all 0.3s;
@@ -672,37 +687,38 @@
 
         /* ===== ТАБЛИЦЫ ===== */
         .table-wrapper {
-            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            padding: 0.3rem 0.3rem 0.3rem 0.3rem;
             overflow-x: auto;
+            flex: 1;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         th {
             text-align: center;
-            padding: 0.9rem 0.8rem;
+            padding: 0.7rem 0.6rem;
             background: rgba(220, 90, 50, 0.08);
             color: #ffbc9a;
             font-weight: 600;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         td {
             text-align: center;
-            padding: 0.7rem 0.8rem;
+            padding: 0.6rem 0.6rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.06);
             vertical-align: middle;
         }
 
         td:first-child {
             text-align: center;
-            width: 50px;
+            width: 45px;
         }
 
         td:nth-child(2) {
@@ -711,9 +727,9 @@
         }
 
         .platform-icon {
-            width: 22px;
-            height: 22px;
-            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
             vertical-align: middle;
             display: inline-block;
         }
@@ -721,7 +737,7 @@
         .player-name {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         tr:hover {
@@ -748,7 +764,7 @@
 
         .medal {
             display: inline-block;
-            width: 28px;
+            width: 24px;
             text-align: center;
         }
         .medal-gold { color: #ffd700; }
@@ -791,12 +807,39 @@
             .logo .logo-text { font-size: 1.1rem; }
             .logo p { font-size: 0.55rem; }
             .page-title h1 { font-size: 2rem; }
-            .mode-tabs { flex-direction: column; gap: 1rem; }
-            .mode-tab { min-width: unset; }
-            .leaderboard-section .section-header { flex-direction: column; align-items: flex-start; }
-            .sub-tabs { padding: 0.5rem 1rem; }
-            th, td { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
-            .platform-icon { width: 18px; height: 18px; margin-right: 4px; }
+
+            .leaderboard-layout {
+                flex-direction: column;
+            }
+
+            .mode-buttons {
+                flex-direction: row;
+                flex: unset;
+                min-width: unset;
+                gap: 0.8rem;
+            }
+
+            .mode-btn {
+                flex: 1;
+                min-height: 80px;
+            }
+
+            .mode-btn .btn-label {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .leaderboard-section .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.6rem 1rem;
+            }
+
+            .sub-tabs { padding: 0.3rem 0.8rem; }
+            .sub-tab { font-size: 0.65rem; padding: 0.2rem 0.7rem; }
+            th, td { padding: 0.4rem 0.3rem; font-size: 0.7rem; }
+            .platform-icon { width: 16px; height: 16px; margin-right: 3px; }
+
             .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
             .connect-logo .logo-img { max-width: 260px; }
             .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
@@ -811,17 +854,23 @@
         @media (max-width: 500px) {
             .main-wrapper { padding: 0.8rem; }
             .header { padding: 0.6rem 0.8rem; }
-            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
-            .logo .logo-img { max-height: 30px; }
-            .logo .logo-text { font-size: 0.9rem; }
-            .page-title h1 { font-size: 1.5rem; }
-            .mode-tab .tab-label { font-size: 0.9rem; padding: 0.5rem 0.8rem; }
-            .leaderboard-section .section-header .title { font-size: 1rem; }
-            .sub-tab { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
-            th, td { padding: 0.4rem 0.3rem; font-size: 0.65rem; }
-            .platform-icon { width: 16px; height: 16px; margin-right: 3px; }
-            .medal { width: 20px; font-size: 0.7rem; }
-            .footer-logo { max-height: 20px; }
+            .nav-btn { font-size: 0.55rem; padding: 0.2rem 0.5rem; }
+            .logo .logo-img { max-height: 28px; }
+            .logo .logo-text { font-size: 0.85rem; }
+            .page-title h1 { font-size: 1.4rem; }
+            .page-title .sub { font-size: 0.7rem; }
+
+            .mode-buttons { gap: 0.5rem; }
+            .mode-btn { min-height: 60px; }
+            .mode-btn .btn-label { font-size: 0.65rem; padding: 0.3rem 0.5rem; }
+
+            .leaderboard-section .section-header .title { font-size: 0.8rem; }
+            .sub-tab { font-size: 0.55rem; padding: 0.15rem 0.5rem; }
+            th, td { padding: 0.3rem 0.2rem; font-size: 0.6rem; }
+            .platform-icon { width: 14px; height: 14px; margin-right: 2px; }
+            .medal { width: 18px; font-size: 0.6rem; }
+            .footer-logo { max-height: 18px; }
+
             .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
             .connect-logo .logo-img { max-width: 200px; }
             .connect-logo .line3 { font-size: 1rem; letter-spacing: 3px; }
@@ -1093,41 +1142,41 @@
             <img src="images/баннер лидерборд.png" alt="Leaderboard Banner" onerror="this.style.display='none'">
         </div>
 
-        <!-- ====== ДВЕ МАЛЕНЬКИЕ КАРТИНКИ (ВКЛАДКИ) ====== -->
-        <div class="mode-tabs" id="modeTabs">
-            <div class="mode-tab active" data-mode="escalation" onclick="switchMode('escalation')">
-                <img src="images/эскалация.png" alt="Эскалация" onerror="this.src='https://placehold.co/600x200/1a1a2e/e25d32?text=Эскалация'">
-                <div class="tab-label">ЭСКАЛАЦИЯ</div>
-            </div>
-            <div class="mode-tab" data-mode="invasion" onclick="switchMode('invasion')">
-                <img src="images/вторжение.png" alt="Вторжение" onerror="this.src='https://placehold.co/600x200/1a1a2e/e25d32?text=Вторжение'">
-                <div class="tab-label">ВТОРЖЕНИЕ</div>
-            </div>
-        </div>
-
-        <!-- ====== СЕКЦИЯ С ТАБЛИЦЕЙ ====== -->
-        <div class="leaderboard-section" id="leaderboardSection">
-            <!-- Заголовок секции -->
-            <div class="section-header">
-                <div class="title">
-                    <i class="fas fa-crown"></i>
-                    <span id="sectionTitle">ЕЖЕНЕДЕЛЬНЫЙ — ЛУЧШИЕ РЕАГЕНТЫ</span>
+        <!-- ====== КАРТИНКИ-КНОПКИ + ТАБЛИЦА ====== -->
+        <div class="leaderboard-layout">
+            <!-- Картинки-кнопки слева -->
+            <div class="mode-buttons" id="modeButtons">
+                <div class="mode-btn active" data-mode="escalation" onclick="switchMode('escalation')">
+                    <img src="images/эскалация.png" alt="Эскалация" onerror="this.src='https://placehold.co/220x160/1a1a2e/e25d32?text=Эскалация'">
+                    <div class="btn-label">ЭСКАЛАЦИЯ</div>
                 </div>
-                <div class="sub-title">
-                    <i class="fas fa-clock"></i> Статистика обновлена: 14.06.2026
+                <div class="mode-btn" data-mode="invasion" onclick="switchMode('invasion')">
+                    <img src="images/вторжение.png" alt="Вторжение" onerror="this.src='https://placehold.co/220x160/1a1a2e/e25d32?text=Вторжение'">
+                    <div class="btn-label">ВТОРЖЕНИЕ</div>
                 </div>
             </div>
 
-            <!-- Вкладки внутри секции (для Invasion - Реагент/Самозванец) -->
-            <div class="sub-tabs" id="subTabs" style="display: none;">
-                <span class="sub-tab active" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
-                <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
-            </div>
+            <!-- Таблица справа -->
+            <div class="leaderboard-section" id="leaderboardSection">
+                <div class="section-header">
+                    <div class="title">
+                        <i class="fas fa-crown"></i>
+                        <span id="sectionTitle">ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИЯ</span>
+                    </div>
+                    <div class="sub-title">
+                        <i class="fas fa-clock"></i> Обновлено: 14.06.2026
+                    </div>
+                </div>
 
-            <!-- Таблица -->
-            <div class="table-wrapper">
-                <div id="tableContainer">
-                    <!-- Таблицы будут вставлены JS -->
+                <!-- Подвкладки -->
+                <div class="sub-tabs" id="subTabs">
+                    <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                    <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
+                </div>
+
+                <!-- Таблица -->
+                <div class="table-wrapper">
+                    <div id="tableContainer"></div>
                 </div>
             </div>
         </div>
@@ -1327,7 +1376,6 @@
     // ===== ДАННЫЕ =====
     const platforms = ['xbox', 'steam', 'ps', 'epic'];
 
-    // Данные для Эскалации
     const escalationData = {
         weekly: [
             { rank: 1, name: "DASCERA", level: 150, time: "28:50" },
@@ -1352,7 +1400,6 @@
         ]
     };
 
-    // Данные для Вторжения
     const invasionData = {
         reagent: [
             { rank: 1, name: "Reagent_Master", points: 8750, matches: 52 },
@@ -1409,56 +1456,26 @@
         return `${rank}`;
     }
 
-    // ===== ПЕРЕКЛЮЧЕНИЕ МЕЖДУ ЭСКАЛАЦИЕЙ И ВТОРЖЕНИЕМ =====
+    // ===== ПЕРЕКЛЮЧЕНИЕ =====
     let currentMode = 'escalation';
-    let currentSubTab = 'weekly'; // для эскалации: weekly / infinite
-    let currentInvasionSub = 'reagent'; // для вторжения: reagent / impostor
+    let currentSubTab = 'weekly';
 
     function switchMode(mode) {
         currentMode = mode;
         
-        // Обновляем активную вкладку
-        document.querySelectorAll('.mode-tab').forEach(tab => {
-            tab.classList.toggle('active', tab.dataset.mode === mode);
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === mode);
         });
         
-        // Показываем/скрываем подвкладки для Invasion
-        const subTabs = document.getElementById('subTabs');
-        if (mode === 'invasion') {
-            subTabs.style.display = 'flex';
-        } else {
-            subTabs.style.display = 'none';
-        }
-        
-        // Обновляем контент
         updateTableContent();
     }
 
     function switchSubTab(sub) {
-        if (currentMode === 'invasion') {
-            currentInvasionSub = sub;
-            document.querySelectorAll('.sub-tab').forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.sub === sub);
-            });
-            updateTableContent();
-        } else {
-            // Для эскалации
-            currentSubTab = sub;
-            document.querySelectorAll('.sub-tab').forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.sub === sub);
-            });
-            updateTableContent();
-        }
-    }
-
-    // Добавляем подвкладки для Эскалации (Еженедельная / Бесконечная)
-    function initEscalationSubTabs() {
-        const subTabs = document.getElementById('subTabs');
-        subTabs.innerHTML = `
-            <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
-            <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
-        `;
-        subTabs.style.display = 'flex';
+        currentSubTab = sub;
+        document.querySelectorAll('.sub-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.sub === sub);
+        });
+        updateTableContent();
     }
 
     function updateTableContent() {
@@ -1467,14 +1484,12 @@
         const subTabs = document.getElementById('subTabs');
         
         if (currentMode === 'escalation') {
-            title.textContent = 'ЭСКАЛАЦИЯ — ЛУЧШИЕ РЕАГЕНТЫ';
+            title.textContent = 'ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИЯ';
             
-            // Показываем подвкладки для эскалации
             subTabs.innerHTML = `
                 <span class="sub-tab ${currentSubTab === 'weekly' ? 'active' : ''}" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
                 <span class="sub-tab ${currentSubTab === 'infinite' ? 'active' : ''}" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
             `;
-            subTabs.style.display = 'flex';
             
             const data = currentSubTab === 'weekly' ? escalationData.weekly : escalationData.infinite;
             const titleText = currentSubTab === 'weekly' ? 'Еженедельная' : 'Бесконечная';
@@ -1508,27 +1523,23 @@
             // Invasion
             title.textContent = 'ВТОРЖЕНИЕ — СТАТИСТИКА';
             
-            // Подвкладки для вторжения
             subTabs.innerHTML = `
-                <span class="sub-tab ${currentInvasionSub === 'reagent' ? 'active' : ''}" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
-                <span class="sub-tab ${currentInvasionSub === 'impostor' ? 'active' : ''}" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
+                <span class="sub-tab ${currentSubTab === 'reagent' ? 'active' : ''}" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                <span class="sub-tab ${currentSubTab === 'impostor' ? 'active' : ''}" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
             `;
-            subTabs.style.display = 'flex';
             
-            const data = currentInvasionSub === 'reagent' ? invasionData.reagent : invasionData.impostor;
-            const subName = currentInvasionSub === 'reagent' ? 'Реагент' : 'Самозванец';
+            const data = currentSubTab === 'reagent' ? invasionData.reagent : invasionData.impostor;
             
             let html = `<table>
                 <thead>
-                    <tr><th>#</th><th>Игрок</th><th>${currentInvasionSub === 'reagent' ? 'Очки' : 'Убийств'}</th><th>${currentInvasionSub === 'reagent' ? 'Матчей' : 'Игр'}</th></tr>
+                    <tr><th>#</th><th>Игрок</th><th>${currentSubTab === 'reagent' ? 'Очки' : 'Убийств'}</th><th>${currentSubTab === 'reagent' ? 'Матчей' : 'Игр'}</th></tr>
                 </thead>
                 <tbody>`;
             
             data.forEach(player => {
                 const platform = platforms[Math.floor(Math.random() * platforms.length)];
-                const value = currentInvasionSub === 'reagent' ? player.points : player.kills;
-                const count = currentInvasionSub === 'reagent' ? player.matches : player.kills;
-                const label = currentInvasionSub === 'reagent' ? 'матчей' : 'игр';
+                const value = currentSubTab === 'reagent' ? player.points : player.kills;
+                const count = currentSubTab === 'reagent' ? player.matches : player.kills;
                 
                 html += `
                     <tr class="${getRankClass(player.rank)}">
@@ -1554,18 +1565,10 @@
 
     // ===== ИНИЦИАЛИЗАЦИЯ =====
     document.addEventListener('DOMContentLoaded', function() {
-        // По умолчанию показываем Эскалацию
         updateTableContent();
-        
-        // Подписываемся на клики по вкладкам
-        document.querySelectorAll('.mode-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                switchMode(this.dataset.mode);
-            });
-        });
     });
 
-    // Плавное появление элементов при скролле
+    // Плавное появление
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1576,7 +1579,7 @@
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-    document.querySelectorAll('.big-banner, .mode-tabs, .leaderboard-section').forEach(el => {
+    document.querySelectorAll('.big-banner, .leaderboard-layout').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.5s ease-out';
