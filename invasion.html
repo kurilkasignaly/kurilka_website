@@ -646,8 +646,14 @@
         }
 
         .leaderboard-section .section-header .sub-title {
-            font-size: 0.7rem;
-            color: #b5a8c8;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            background: rgba(220, 90, 50, 0.12);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            letter-spacing: 0.5px;
         }
 
         .leaderboard-section .section-header .sub-title i {
@@ -722,7 +728,8 @@
 
         td:first-child {
             text-align: center;
-            width: 50px;
+            width: 60px;
+            font-weight: 600;
         }
 
         td:nth-child(2) {
@@ -870,6 +877,7 @@
             .mode-btn .btn-label { font-size: 0.65rem; padding: 0.3rem 0.5rem; }
 
             .leaderboard-section .section-header .title { font-size: 0.85rem; }
+            .leaderboard-section .section-header .sub-title { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
             .sub-tabs { gap: 0.3rem; padding: 0.3rem 0.5rem; }
             .sub-tab { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
             th, td { padding: 0.3rem 0.2rem; font-size: 0.6rem; }
@@ -1167,7 +1175,7 @@
                 <div class="section-header">
                     <div class="title">
                         <i class="fas fa-crown"></i>
-                        <span id="sectionTitle">ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИЯ</span>
+                        <span id="sectionTitle">ЭСКАЛАЦИЯ</span>
                     </div>
                     <div class="sub-title">
                         <i class="fas fa-clock"></i> Обновлено: 14.06.2026
@@ -1382,7 +1390,6 @@
     // ===== ДАННЫЕ =====
     const platforms = ['xbox', 'steam', 'ps', 'epic'];
 
-    // Данные для Эскалации
     const escalationData = {
         weekly: [
             { rank: 1, name: "DASCERA", level: 150, time: "28:50" },
@@ -1407,7 +1414,6 @@
         ]
     };
 
-    // Данные для Вторжения
     const invasionData = {
         reagent: [
             { rank: 1, name: "Reagent_Master", points: 8750, matches: 52 },
@@ -1492,7 +1498,7 @@
         const subTabs = document.getElementById('subTabs');
         
         if (currentMode === 'escalation') {
-            title.textContent = 'ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИЯ';
+            title.textContent = 'ЭСКАЛАЦИЯ';
             
             subTabs.innerHTML = `
                 <span class="sub-tab ${currentSubTab === 'weekly' ? 'active' : ''}" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
@@ -1500,19 +1506,21 @@
             `;
             
             const data = currentSubTab === 'weekly' ? escalationData.weekly : escalationData.infinite;
+            const colTitle = currentSubTab === 'weekly' ? 'ЕЖЕНЕДЕЛЬНАЯ' : 'БЕСКОНЕЧНАЯ';
             
             let html = `<table>
                 <thead>
-                    <tr><th>ПРОЙДЕНО</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ОЦЕНКА (ВРЕМЯ)</th></tr>
+                    <tr><th>ПРОЙДЕНО</th><th>${colTitle}</th><th>ОЦЕНКА (ВРЕМЯ)</th></tr>
                 </thead>
                 <tbody>`;
             
             data.forEach(player => {
+                const rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
+                const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                
                 html += `
                     <tr class="${getRankClass(player.rank)}">
-                        <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48'};">
-                            ${player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank}
-                        </td>
+                        <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
                         <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
                             <span class="player-name">${player.name}</span>
                         </td>
@@ -1528,7 +1536,7 @@
             
         } else {
             // Invasion
-            title.textContent = 'ВТОРЖЕНИЕ — СТАТИСТИКА';
+            title.textContent = 'ВТОРЖЕНИЕ';
             
             subTabs.innerHTML = `
                 <span class="sub-tab ${currentSubTab === 'reagent' ? 'active' : ''}" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
@@ -1536,27 +1544,29 @@
             `;
             
             const data = currentSubTab === 'reagent' ? invasionData.reagent : invasionData.impostor;
+            const colTitle = currentSubTab === 'reagent' ? 'РЕАГЕНТ' : 'САМОЗВАНЕЦ';
             
             let html = `<table>
                 <thead>
-                    <tr><th>#</th><th>Игрок</th><th>ОЧКИ</th><th>МАТЧЕЙ</th><th>РЕЙТИНГ</th></tr>
+                    <tr><th>ПРОЙДЕНО</th><th>${colTitle}</th><th>ОЧКИ</th><th>МАТЧЕЙ</th><th>РЕЙТИНГ</th></tr>
                 </thead>
                 <tbody>`;
             
             data.forEach(player => {
                 const platform = platforms[Math.floor(Math.random() * platforms.length)];
                 const rating = Math.floor(player.points / 10 + player.matches);
+                const color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
                 
                 html += `
                     <tr class="${getRankClass(player.rank)}">
-                        <td>${getMedalIcon(player.rank)}</td>
+                        <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
                         <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
                             <span class="player-name">
                                 ${getPlatformIcon(platform)}
                                 ${player.name}
                             </span>
                         </td>
-                        <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48'};">
+                        <td style="font-weight: ${player.rank <= 3 ? 'bold' : 'normal'}; color: ${color};">
                             ${player.points.toLocaleString()}
                         </td>
                         <td>${player.matches}</td>
