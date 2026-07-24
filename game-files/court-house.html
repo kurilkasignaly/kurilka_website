@@ -70,7 +70,7 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ ===== */
+        /* ===== НАВИГАЦИЯ (как на Торговом центре) ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -365,7 +365,7 @@
             border-color: #e16d48;
         }
 
-        /* ===== ВЕРХНИЙ БЛОК (как на картинке 2) ===== */
+        /* ===== КАРТА ===== */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -380,8 +380,8 @@
         }
 
         .map-image {
-            flex: 0 0 300px;
-            min-width: 220px;
+            flex: 1;
+            min-width: 250px;
         }
 
         .map-image img {
@@ -391,13 +391,8 @@
             transition: transform 0.3s ease;
         }
 
-        .map-image img:hover {
-            transform: scale(1.02);
-        }
-
         .map-info {
             flex: 1;
-            min-width: 200px;
         }
 
         .map-title {
@@ -407,7 +402,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .map-description {
@@ -417,27 +412,36 @@
             margin-bottom: 0.8rem;
         }
 
-        .map-description:last-of-type {
-            margin-bottom: 0;
-        }
-
-        /* ===== КАРТЫ ЭТАЖЕЙ ===== */
-        .maps-row {
+        .map-details {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
-            margin: 1.5rem 0 2rem 0;
-            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
 
-        .maps-row .map-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 500px;
+        .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #c2b9d4;
+        }
+
+        .detail-item i {
+            color: #e16d48;
+            width: 20px;
+        }
+
+        /* ===== КАРТА ЗДАНИЯ СУДА ===== */
+        .map-image-full {
             text-align: center;
+            margin: 1.5rem 0 2rem 0;
         }
 
-        .maps-row .map-card .map-label {
+        .map-image-full .map-label {
             font-size: 1.1rem;
             font-weight: 600;
             color: #ffbc9a;
@@ -445,7 +449,7 @@
             letter-spacing: 1px;
         }
 
-        .maps-row .map-card .map-wrapper {
+        .map-image-full .map-wrapper {
             display: inline-block;
             border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.3);
@@ -455,25 +459,22 @@
             max-width: 100%;
             background: rgba(18, 12, 28, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            width: 100%;
         }
 
-        .maps-row .map-card .map-wrapper:hover {
+        .map-image-full .map-wrapper:hover {
             border-color: #e16d48;
             transform: scale(1.01);
             box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
         }
 
-        .maps-row .map-card .map-wrapper img {
+        .map-image-full .map-wrapper img {
             max-width: 100%;
             height: auto;
             display: block;
             max-height: 500px;
-            width: 100%;
-            object-fit: contain;
         }
 
-        /* ===== ИСПЫТАНИЯ ПОЛИГОНА (как на картинке 1) ===== */
+        /* ===== ИСПЫТАНИЯ ===== */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -490,103 +491,46 @@
             padding-left: 15px;
         }
 
-        .trials-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .trials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
         }
 
-        .trial-item {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
+        .trial-card {
+            background: rgba(18, 12, 28, 0.6);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(220, 90, 50, 0.25);
             transition: all 0.3s ease;
             cursor: pointer;
-            overflow: hidden;
-        }
-
-        .trial-item:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            transform: translateX(6px);
-            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.08);
-        }
-
-        .trial-item .trial-content {
+            text-align: center;
+            height: 100%;
             display: flex;
-            gap: 1.8rem;
-            align-items: flex-start;
+            flex-direction: column;
         }
 
-        .trial-item .trial-image-wrap {
-            flex: 0 0 200px;
-            min-width: 160px;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 2px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        .trial-item .trial-image-wrap:hover {
+        .trial-card:hover {
+            transform: translateY(-6px);
             border-color: #e16d48;
-            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
         }
 
-        .trial-item .trial-image-wrap img {
+        .trial-image {
             width: 100%;
-            height: 180px;
+            height: 200px;
             object-fit: cover;
+            object-position: top;
             display: block;
             background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
         }
 
-        .trial-item .trial-text {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .trial-item .trial-text .trial-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ffbc9a;
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .trial-item .trial-text .trial-name .badge {
-            font-size: 0.6rem;
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            padding: 2px 12px;
-            border-radius: 20px;
+        .trial-name {
+            padding: 1rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: white;
-            letter-spacing: 0.5px;
-        }
-
-        .trial-item .trial-text p {
-            color: #d1cce6;
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .trial-item .trial-text .trial-read-more {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             color: #e16d48;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .trial-item .trial-text .trial-read-more:hover {
-            color: white;
-            gap: 12px;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
         /* ===== МОДАЛКИ ===== */
@@ -650,41 +594,37 @@
             padding: 1.5rem;
         }
 
-        .trial-modal-body .trial-info {
+        .trial-info {
             display: flex;
             flex-wrap: wrap;
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .trial-modal-body .trial-info-image {
+        .trial-info-image {
             flex: 1;
             min-width: 200px;
         }
 
-        .trial-modal-body .trial-info-image img {
+        .trial-info-image img {
             width: 100%;
             border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.4);
         }
 
-        .trial-modal-body .trial-info-text {
+        .trial-info-text {
             flex: 2;
         }
 
-        .trial-modal-body .trial-info-text p {
+        .trial-info-text p {
             color: #d1cce6;
-            line-height: 1.7;
+            line-height: 1.6;
             margin-bottom: 1rem;
             white-space: pre-line;
         }
 
-        .trial-modal-body .trial-info-text p:last-of-type {
-            margin-bottom: 0;
-        }
-
         .trial-gallery {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         .trial-gallery h4 {
@@ -868,30 +808,16 @@
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
             .map-container { flex-direction: column; }
-            .map-image { flex: 1; }
             .map-title { font-size: 1.4rem; text-align: center; }
+            .trials-grid { grid-template-columns: repeat(2, 1fr); }
+            .map-image-full .map-wrapper img { max-height: 350px; }
             .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
             .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
             .volume-dropdown.open { transform: translateX(-50%) scale(1); }
-
-            .trial-item .trial-content {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .trial-item .trial-image-wrap {
-                flex: none;
-                width: 100%;
-                max-width: 300px;
-                margin: 0 auto;
-            }
-            .trial-item .trial-image-wrap img {
-                height: 160px;
-            }
-            .maps-row { flex-direction: column; align-items: center; }
-            .maps-row .map-card { max-width: 100%; width: 100%; }
         }
 
         @media (max-width: 600px) {
+            .trials-grid { grid-template-columns: 1fr; }
             .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
             .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
             .music-toggle .label { font-size: 0.6rem; }
@@ -900,17 +826,12 @@
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
-            .trial-modal-body .trial-info { flex-direction: column; }
+            .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
             .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+            .map-image-full .map-wrapper img { max-height: 250px; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
-            .trial-item .trial-text .trial-name { font-size: 1rem; }
-            .trial-item .trial-text p { font-size: 0.85rem; }
-            .trial-item .trial-image-wrap img { height: 140px; }
-            .trial-item .trial-image-wrap { max-width: 100%; }
-            .maps-row .map-card { min-width: 100%; }
-            .map-description { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -979,39 +900,35 @@
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- ===== ВЕРХНИЙ БЛОК (как на картинке 2) ===== -->
+    <!-- ===== КАРТА ===== -->
     <div class="map-container">
         <div class="map-image">
-            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/300x380/1a1a2e/e16d48?text=Здание+суда'">
+            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Здание+суда'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Здание суда</h1>
             <p class="map-description">Здание суда (ориг. Courthouse) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде огромного здания суда, символизирующего духовную среду обитания главного актива Лиланда Койла.</p>
-            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом. Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны.</p>
-            <p class="map-description">Здание суда состоит из двух основных этажей, каждый из которых имеет свою уникальную планировку и набор комнат. На первом этаже расположены вестибюль, залы суда и кабинеты. На втором этаже находятся архив, технические помещения и дополнительные залы.</p>
-        </div>
-    </div>
-
-    <!-- ===== КАРТЫ ЭТАЖЕЙ ===== -->
-    <div class="maps-row">
-        <div class="map-card">
-            <div class="map-label"><i class="fas fa-map"></i> 1-й этаж</div>
-            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта здания суда 1 этаж.webp')">
-                <img src="../images/карта здания суда 1 этаж.webp" alt="Карта 1-го этажа" onerror="this.src='https://placehold.co/500x400/1a1a2e/e16d48?text=1-й+этаж'">
-            </div>
-        </div>
-        <div class="map-card">
-            <div class="map-label"><i class="fas fa-map"></i> 2-й этаж</div>
-            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта здания суда 2 этаж.webp')">
-                <img src="../images/карта здания суда 2 этаж.webp" alt="Карта 2-го этажа" onerror="this.src='https://placehold.co/500x400/1a1a2e/e16d48?text=2-й+этаж'">
+            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.</p>
+            <div class="map-details">
+                <span class="detail-item"><i class="fas fa-user-shield"></i> Лиланд Койл</span>
+                <span class="detail-item"><i class="fas fa-building"></i> Здание суда</span>
+                <span class="detail-item"><i class="fas fa-gavel"></i> Правосудие</span>
             </div>
         </div>
     </div>
 
-    <!-- ===== ИСПЫТАНИЯ ПОЛИГОНА (как на картинке 1) ===== -->
+    <!-- ===== КАРТА ЗДАНИЯ СУДА ===== -->
+    <div class="map-image-full">
+        <div class="map-label"><i class="fas fa-map"></i> Карта здания суда</div>
+        <div class="map-wrapper" id="mapFullscreen">
+            <img src="../images/карта здания суда.webp" alt="Карта здания суда" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+здания+суда'">
+        </div>
+    </div>
+
+    <!-- ===== ИСПЫТАНИЯ ===== -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
-        <div class="trials-list" id="trialsList"></div>
+        <div class="trials-grid" id="trialsGrid"></div>
     </div>
 
     <footer>
@@ -1079,7 +996,7 @@
         }
     ];
 
-    // ===== МУЗЫКА =====
+    // ===== МУЗЫКА (один трек с loop) =====
     let mainAudioStarted = false;
     let mainAudioElement = null;
 
@@ -1198,6 +1115,7 @@
         valueDisplay.textContent = val + '%';
     }
 
+    // Закрывать дропдаун при клике вне его
     document.addEventListener('click', function(e) {
         const wrapper = document.querySelector('.music-controls-wrapper');
         if (wrapper && !wrapper.contains(e.target)) {
@@ -1209,6 +1127,7 @@
         }
     });
 
+    // Слайдер громкости
     document.addEventListener('DOMContentLoaded', function() {
         const slider = document.getElementById('volumeSlider');
         const valueDisplay = document.getElementById('volumeValue');
@@ -1230,6 +1149,7 @@
         updateVolumeDisplay();
     });
 
+    // Автозапуск музыки через 1.5 секунды после загрузки
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(startMainMusic, 1500);
     });
@@ -1244,58 +1164,6 @@
     window.toggleMainMusic = toggleMainMusic;
     window.toggleVolumeDropdown = toggleVolumeDropdown;
 
-    // ===== ОТКРЫТИЕ КАРТЫ НА ВЕСЬ ЭКРАН =====
-    function openFullscreenImage(src) {
-        const fullImage = document.getElementById('fullImage');
-        const imageModal = document.getElementById('imageModal');
-        if (fullImage && imageModal) {
-            fullImage.src = src;
-            imageModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-
-    // ===== ОТОБРАЖЕНИЕ ИСПЫТАНИЙ =====
-    function displayTrials() {
-        const container = document.getElementById('trialsList');
-        if (!container) return;
-        
-        container.innerHTML = '';
-        
-        trialsData.forEach((trial, index) => {
-            const item = document.createElement('div');
-            item.className = 'trial-item';
-            item.addEventListener('click', () => openTrialModal(trial));
-            
-            // Обрезаем описание для превью (первые 180 символов)
-            const shortDesc = trial.description.length > 180 
-                ? trial.description.substring(0, 180) + '...' 
-                : trial.description;
-            
-            const badgeText = index === 0 ? 'Основное' : 'МК-стимуляция';
-            
-            item.innerHTML = `
-                <div class="trial-content">
-                    <div class="trial-image-wrap">
-                        <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=${trial.name}'">
-                    </div>
-                    <div class="trial-text">
-                        <div class="trial-name">
-                            ${trial.name}
-                            <span class="badge">${badgeText}</span>
-                        </div>
-                        <p>${shortDesc}</p>
-                        <div class="trial-read-more">
-                            <i class="fas fa-arrow-right"></i> Подробнее
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            container.appendChild(item);
-        });
-    }
-
     // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -1304,6 +1172,15 @@
     const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
+
+    document.getElementById('mapFullscreen').addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+            fullImage.src = img.src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
 
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
@@ -1437,6 +1314,24 @@
         document.body.style.overflow = '';
     }
 
+    function displayTrials() {
+        const container = document.getElementById('trialsGrid');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        trialsData.forEach(trial => {
+            const card = document.createElement('div');
+            card.className = 'trial-card';
+            card.addEventListener('click', () => openTrialModal(trial));
+            card.innerHTML = `
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%232a2a3e\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23e16d48\' font-size=\'14\' font-family=\'Arial\'%3E${trial.name}%3C/text%3E%3C/svg%3E';">
+                <div class="trial-name">${trial.name}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
     modalClose.addEventListener('click', closeModal);
     trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
     imageModalClose.addEventListener('click', closeImageModal);
@@ -1457,7 +1352,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.map-container, .maps-row, .trials-section').forEach(el => {
+        document.querySelectorAll('.map-container, .map-image-full, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
