@@ -365,7 +365,7 @@
             border-color: #e16d48;
         }
 
-        /* ===== КАРТА ===== */
+        /* ===== КАРТА (большая картинка как было) ===== */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -380,8 +380,8 @@
         }
 
         .map-image {
-            flex: 0 0 280px;
-            min-width: 200px;
+            flex: 0 0 300px;
+            min-width: 220px;
         }
 
         .map-image img {
@@ -421,64 +421,97 @@
             text-indent: 0;
         }
 
-        /* ===== ДВЕ КАРТЫ РЯДОМ ===== */
+        /* ===== КАРТЫ ЭТАЖЕЙ ===== */
+        .map-image-full {
+            text-align: center;
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .map-image-full .map-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .map-image-full .map-wrapper {
+            display: inline-block;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 100%;
+            background: rgba(18, 12, 28, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-image-full .map-wrapper:hover {
+            border-color: #e16d48;
+            transform: scale(1.01);
+            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
+        }
+
+        .map-image-full .map-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+        }
+
         .maps-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem;
+            gap: 2rem;
             margin: 1.5rem 0 2rem 0;
             justify-content: center;
         }
 
         .maps-row .map-card {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
             max-width: 500px;
-            background: rgba(18, 12, 28, 0.4);
-            backdrop-filter: blur(8px);
-            border-radius: 20px;
-            padding: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s ease;
             text-align: center;
         }
 
-        .maps-row .map-card:hover {
-            border-color: rgba(220, 90, 50, 0.4);
-            transform: translateY(-3px);
-        }
-
         .maps-row .map-card .map-label {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #ffbc9a;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             letter-spacing: 1px;
         }
 
         .maps-row .map-card .map-wrapper {
-            border-radius: 16px;
+            display: inline-block;
+            border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.3);
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
+            max-width: 100%;
             background: rgba(18, 12, 28, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
         }
 
         .maps-row .map-card .map-wrapper:hover {
             border-color: #e16d48;
+            transform: scale(1.01);
             box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
         }
 
         .maps-row .map-card .map-wrapper img {
-            width: 100%;
+            max-width: 100%;
             height: auto;
             display: block;
-            max-height: 350px;
+            max-height: 500px;
+            width: 100%;
             object-fit: contain;
         }
 
-        /* ===== ИСПЫТАНИЯ ===== */
+        /* ===== ИСПЫТАНИЯ ПОЛИГОНА (текст обтекает картинку) ===== */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -495,46 +528,108 @@
             padding-left: 15px;
         }
 
-        .trials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
-        }
-
-        .trial-card {
-            background: rgba(18, 12, 28, 0.6);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-            height: 100%;
+        /* Список испытаний */
+        .trials-list {
             display: flex;
             flex-direction: column;
+            gap: 2rem;
         }
 
-        .trial-card:hover {
-            transform: translateY(-6px);
+        .trial-item {
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .trial-item:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            transform: translateX(6px);
+            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.08);
+        }
+
+        .trial-item .trial-content {
+            display: flex;
+            gap: 1.8rem;
+            align-items: flex-start;
+        }
+
+        .trial-item .trial-image-wrap {
+            flex: 0 0 200px;
+            min-width: 160px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .trial-item .trial-image-wrap:hover {
             border-color: #e16d48;
-            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
+            transform: scale(1.02);
         }
 
-        .trial-image {
+        .trial-item .trial-image-wrap img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: cover;
-            object-position: top;
             display: block;
             background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
         }
 
-        .trial-name {
-            padding: 1rem;
-            font-size: 1rem;
+        .trial-item .trial-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .trial-item .trial-text .trial-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffbc9a;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trial-item .trial-text .trial-name .badge {
+            font-size: 0.6rem;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            padding: 2px 12px;
+            border-radius: 20px;
             font-weight: 600;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .trial-item .trial-text p {
+            color: #d1cce6;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            text-indent: 1.5rem;
+        }
+
+        .trial-item .trial-text p:first-of-type {
+            text-indent: 0;
+        }
+
+        .trial-item .trial-text .trial-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             color: #e16d48;
-            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .trial-item .trial-text .trial-read-more:hover {
+            color: white;
+            gap: 12px;
         }
 
         /* ===== МОДАЛКИ ===== */
@@ -598,29 +693,29 @@
             padding: 1.5rem;
         }
 
-        .trial-info {
+        .trial-modal-body .trial-info {
             display: flex;
             flex-wrap: wrap;
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .trial-info-image {
+        .trial-modal-body .trial-info-image {
             flex: 1;
             min-width: 200px;
         }
 
-        .trial-info-image img {
+        .trial-modal-body .trial-info-image img {
             width: 100%;
             border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.4);
         }
 
-        .trial-info-text {
+        .trial-modal-body .trial-info-text {
             flex: 2;
         }
 
-        .trial-info-text p {
+        .trial-modal-body .trial-info-text p {
             color: #d1cce6;
             line-height: 1.7;
             margin-bottom: 1rem;
@@ -628,7 +723,7 @@
             text-indent: 1.5rem;
         }
 
-        .trial-info-text p:first-of-type {
+        .trial-modal-body .trial-info-text p:first-of-type {
             text-indent: 0;
         }
 
@@ -819,15 +914,28 @@
             .map-container { flex-direction: column; }
             .map-image { flex: 1; }
             .map-title { font-size: 1.4rem; text-align: center; }
-            .trials-grid { grid-template-columns: repeat(2, 1fr); }
-            .maps-row .map-card { max-width: 100%; }
             .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
             .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
             .volume-dropdown.open { transform: translateX(-50%) scale(1); }
+
+            .trial-item .trial-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .trial-item .trial-image-wrap {
+                flex: none;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .trial-item .trial-image-wrap img {
+                height: 160px;
+            }
+            .maps-row { flex-direction: column; align-items: center; }
+            .maps-row .map-card { max-width: 100%; width: 100%; }
         }
 
         @media (max-width: 600px) {
-            .trials-grid { grid-template-columns: 1fr; }
             .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
             .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
             .music-toggle .label { font-size: 0.6rem; }
@@ -836,13 +944,16 @@
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
-            .trial-info { flex-direction: column; }
+            .trial-modal-body .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
             .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
-            .maps-row { flex-direction: column; align-items: center; }
-            .maps-row .map-card { max-width: 100%; width: 100%; }
+            .trial-item .trial-text .trial-name { font-size: 1.1rem; }
+            .trial-item .trial-text p { font-size: 0.85rem; }
+            .trial-item .trial-image-wrap img { height: 140px; }
+            .trial-item .trial-image-wrap { max-width: 100%; }
+            .maps-row .map-card { min-width: 100%; }
         }
     </style>
 </head>
@@ -911,10 +1022,10 @@
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- ===== КАРТА С ОБТЕКАНИЕМ ТЕКСТА ===== -->
+    <!-- ===== КАРТА (большая картинка как было) ===== -->
     <div class="map-container">
         <div class="map-image">
-            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/280x350/1a1a2e/e16d48?text=Здание+суда'">
+            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/300x380/1a1a2e/e16d48?text=Здание+суда'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Здание суда</h1>
@@ -924,7 +1035,7 @@
         </div>
     </div>
 
-    <!-- ===== ДВЕ КАРТЫ ЭТАЖЕЙ РЯДОМ ===== -->
+    <!-- ===== КАРТЫ ЭТАЖЕЙ ===== -->
     <div class="maps-row">
         <div class="map-card">
             <div class="map-label"><i class="fas fa-map"></i> 1-й этаж</div>
@@ -940,10 +1051,10 @@
         </div>
     </div>
 
-    <!-- ===== ИСПЫТАНИЯ ===== -->
+    <!-- ===== ИСПЫТАНИЯ ПОЛИГОНА (текст обтекает картинку) ===== -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
-        <div class="trials-grid" id="trialsGrid"></div>
+        <div class="trials-list" id="trialsList"></div>
     </div>
 
     <footer>
@@ -1187,6 +1298,45 @@
         }
     }
 
+    // ===== ОТОБРАЖЕНИЕ ИСПЫТАНИЙ =====
+    function displayTrials() {
+        const container = document.getElementById('trialsList');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        trialsData.forEach((trial, index) => {
+            const item = document.createElement('div');
+            item.className = 'trial-item';
+            item.addEventListener('click', () => openTrialModal(trial));
+            
+            // Обрезаем описание для превью (первые 150 символов)
+            const shortDesc = trial.description.length > 150 
+                ? trial.description.substring(0, 150) + '...' 
+                : trial.description;
+            
+            item.innerHTML = `
+                <div class="trial-content">
+                    <div class="trial-image-wrap">
+                        <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=${trial.name}'">
+                    </div>
+                    <div class="trial-text">
+                        <div class="trial-name">
+                            ${trial.name}
+                            <span class="badge">${index === 0 ? 'Основное' : 'МК-стимуляция'}</span>
+                        </div>
+                        <p>${shortDesc}</p>
+                        <div class="trial-read-more">
+                            <i class="fas fa-arrow-right"></i> Подробнее
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(item);
+        });
+    }
+
     // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -1326,24 +1476,6 @@
         imageModal.classList.remove('active');
         fullImage.src = '';
         document.body.style.overflow = '';
-    }
-
-    function displayTrials() {
-        const container = document.getElementById('trialsGrid');
-        if (!container) return;
-        
-        container.innerHTML = '';
-        
-        trialsData.forEach(trial => {
-            const card = document.createElement('div');
-            card.className = 'trial-card';
-            card.addEventListener('click', () => openTrialModal(trial));
-            card.innerHTML = `
-                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%232a2a3e\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23e16d48\' font-size=\'14\' font-family=\'Arial\'%3E${trial.name}%3C/text%3E%3C/svg%3E';">
-                <div class="trial-name">${trial.name}</div>
-            `;
-            container.appendChild(card);
-        });
     }
 
     modalClose.addEventListener('click', closeModal);
