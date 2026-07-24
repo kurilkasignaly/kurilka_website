@@ -365,7 +365,7 @@
             border-color: #e16d48;
         }
 
-        /* ===== КАРТА (большая картинка как было) ===== */
+        /* ===== ВЕРХНИЙ БЛОК (как на картинке 2) ===== */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -414,52 +414,14 @@
             font-size: 1rem;
             line-height: 1.7;
             color: #d1cce6;
-            text-indent: 1.5rem;
+            margin-bottom: 0.8rem;
         }
 
-        .map-description:first-of-type {
-            text-indent: 0;
+        .map-description:last-of-type {
+            margin-bottom: 0;
         }
 
         /* ===== КАРТЫ ЭТАЖЕЙ ===== */
-        .map-image-full {
-            text-align: center;
-            margin: 1.5rem 0 2rem 0;
-        }
-
-        .map-image-full .map-label {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffbc9a;
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .map-image-full .map-wrapper {
-            display: inline-block;
-            border-radius: 20px;
-            border: 2px solid rgba(220, 90, 50, 0.3);
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            max-width: 100%;
-            background: rgba(18, 12, 28, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .map-image-full .map-wrapper:hover {
-            border-color: #e16d48;
-            transform: scale(1.01);
-            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
-        }
-
-        .map-image-full .map-wrapper img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            max-height: 500px;
-        }
-
         .maps-row {
             display: flex;
             flex-wrap: wrap;
@@ -511,7 +473,7 @@
             object-fit: contain;
         }
 
-        /* ===== ИСПЫТАНИЯ ПОЛИГОНА (текст обтекает картинку) ===== */
+        /* ===== ИСПЫТАНИЯ ПОЛИГОНА (как на картинке 1) ===== */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -528,11 +490,10 @@
             padding-left: 15px;
         }
 
-        /* Список испытаний */
         .trials-list {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .trial-item {
@@ -586,13 +547,14 @@
         }
 
         .trial-item .trial-text .trial-name {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #ffbc9a;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .trial-item .trial-text .trial-name .badge {
@@ -609,11 +571,6 @@
             color: #d1cce6;
             line-height: 1.7;
             font-size: 0.95rem;
-            text-indent: 1.5rem;
-        }
-
-        .trial-item .trial-text p:first-of-type {
-            text-indent: 0;
         }
 
         .trial-item .trial-text .trial-read-more {
@@ -720,15 +677,14 @@
             line-height: 1.7;
             margin-bottom: 1rem;
             white-space: pre-line;
-            text-indent: 1.5rem;
         }
 
-        .trial-modal-body .trial-info-text p:first-of-type {
-            text-indent: 0;
+        .trial-modal-body .trial-info-text p:last-of-type {
+            margin-bottom: 0;
         }
 
         .trial-gallery {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .trial-gallery h4 {
@@ -949,11 +905,12 @@
             .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
-            .trial-item .trial-text .trial-name { font-size: 1.1rem; }
+            .trial-item .trial-text .trial-name { font-size: 1rem; }
             .trial-item .trial-text p { font-size: 0.85rem; }
             .trial-item .trial-image-wrap img { height: 140px; }
             .trial-item .trial-image-wrap { max-width: 100%; }
             .maps-row .map-card { min-width: 100%; }
+            .map-description { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -1022,7 +979,7 @@
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- ===== КАРТА (большая картинка как было) ===== -->
+    <!-- ===== ВЕРХНИЙ БЛОК (как на картинке 2) ===== -->
     <div class="map-container">
         <div class="map-image">
             <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/300x380/1a1a2e/e16d48?text=Здание+суда'">
@@ -1030,7 +987,7 @@
         <div class="map-info">
             <h1 class="map-title">Здание суда</h1>
             <p class="map-description">Здание суда (ориг. Courthouse) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде огромного здания суда, символизирующего духовную среду обитания главного актива Лиланда Койла.</p>
-            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом. Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны. После завершения испытания реагентами, все экс-попы также покидают полигон, и в области начинает работу бригада уборщиков Меркофф, готовящие территорию к новому испытанию.</p>
+            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом. Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны.</p>
             <p class="map-description">Здание суда состоит из двух основных этажей, каждый из которых имеет свою уникальную планировку и набор комнат. На первом этаже расположены вестибюль, залы суда и кабинеты. На втором этаже находятся архив, технические помещения и дополнительные залы.</p>
         </div>
     </div>
@@ -1051,7 +1008,7 @@
         </div>
     </div>
 
-    <!-- ===== ИСПЫТАНИЯ ПОЛИГОНА (текст обтекает картинку) ===== -->
+    <!-- ===== ИСПЫТАНИЯ ПОЛИГОНА (как на картинке 1) ===== -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
         <div class="trials-list" id="trialsList"></div>
@@ -1310,10 +1267,12 @@
             item.className = 'trial-item';
             item.addEventListener('click', () => openTrialModal(trial));
             
-            // Обрезаем описание для превью (первые 150 символов)
-            const shortDesc = trial.description.length > 150 
-                ? trial.description.substring(0, 150) + '...' 
+            // Обрезаем описание для превью (первые 180 символов)
+            const shortDesc = trial.description.length > 180 
+                ? trial.description.substring(0, 180) + '...' 
                 : trial.description;
+            
+            const badgeText = index === 0 ? 'Основное' : 'МК-стимуляция';
             
             item.innerHTML = `
                 <div class="trial-content">
@@ -1323,7 +1282,7 @@
                     <div class="trial-text">
                         <div class="trial-name">
                             ${trial.name}
-                            <span class="badge">${index === 0 ? 'Основное' : 'МК-стимуляция'}</span>
+                            <span class="badge">${badgeText}</span>
                         </div>
                         <p>${shortDesc}</p>
                         <div class="trial-read-more">
