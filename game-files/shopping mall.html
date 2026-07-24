@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Торговый центр — Испытание | Курилка Синьялы</title>
-    <link rel="icon" href="images/мини-лого.png" type="image/png" sizes="64x64">
-    <link rel="shortcut icon" href="images/мини-лого.png" type="image/png">
-    <link rel="apple-touch-icon" href="images/мини-лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -23,7 +20,6 @@
             min-height: 100vh;
             position: relative;
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
-            overflow-y: auto;
         }
 
         .background-video {
@@ -66,93 +62,91 @@
             z-index: 10;
         }
 
-        /* ===== ШАПКА ===== */
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            padding: 0.8rem 2rem;
-            background: rgba(8, 6, 15, 0.6);
+            padding: 1.2rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
             backdrop-filter: blur(16px);
             border-radius: 80px;
             margin-bottom: 2rem;
             gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s;
+            border: 1px solid rgba(220, 90, 50, 0.25);
             animation: fadeInScale 0.6s ease-out;
         }
 
         .header:hover {
-            border-color: rgba(220, 90, 50, 0.4);
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
-        .logo .logo-text {
-            font-size: 1.4rem;
+        .logo h1 {
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            white-space: nowrap;
+            animation: smokePulse 3s ease-in-out infinite;
         }
 
         .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
+            font-size: 0.75rem;
+            color: #c2b9d4;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo p i {
+            color: #e16d48;
+            font-size: 0.7rem;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            gap: 0.7rem;
             background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem;
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.3rem;
             border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.15);
+            border: 1px solid rgba(210, 100, 55, 0.25);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.5rem 0.9rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.78rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            color: #e2d9f0;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             text-decoration: none;
         }
 
         .nav-btn:hover {
             color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
+            transform: translateY(-2px);
+            text-shadow: 0 0 6px rgba(220,90,50,0.4);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
         }
 
         .breadcrumb {
@@ -647,18 +641,12 @@
         footer {
             margin-top: 3rem;
             text-align: center;
-            padding: 1.8rem 0;
-            border-top: 1px solid rgba(105, 58, 40, 0.2);
-            font-size: 0.7rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem;
             background: rgba(8, 6, 15, 0.3);
             backdrop-filter: blur(8px);
             border-radius: 50px;
-        }
-
-        .footer-logo {
-            max-height: 32px;
-            width: auto;
-            margin-bottom: 0.5rem;
         }
 
         @media (max-width: 900px) {
@@ -678,11 +666,10 @@
 
         @media (max-width: 850px) {
             .container { padding: 1rem; }
-            .header { flex-direction: column; padding: 0.8rem 1rem; }
-            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
-            .logo .logo-img { max-height: 40px; }
-            .logo .logo-text { font-size: 1.1rem; }
-            .logo p { font-size: 0.55rem; }
+            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
+            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
+            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
+            .logo h1 { font-size: 1.5rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
         }
@@ -691,7 +678,7 @@
             .trials-grid {
                 grid-template-columns: 1fr;
             }
-            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item {
@@ -727,21 +714,17 @@
 <div class="container">
     <div class="header">
         <div class="logo">
-            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-            <div>
-                <span class="logo-text">Курилка Синьялы</span>
-                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
-            </div>
+            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
+            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
             <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
             <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
             <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
             <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-            <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
         </div>
     </div>
 
@@ -886,14 +869,11 @@
     </div>
 
     <footer>
-        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
-        <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
     </footer>
 </div>
 
-<!-- Модальные окна -->
 <div id="trialModal" class="trial-modal">
     <div class="trial-modal-content">
         <div class="trial-modal-header">
@@ -912,7 +892,6 @@
 </div>
 
 <script>
-    // ===== ДАННЫЕ ИСПЫТАНИЙ =====
     const trialsData = [
         {
             id: "kill-the-politician",
@@ -925,14 +904,14 @@
             id: "solve-the-minotaur-case",
             name: "Исследуйте дело Минотавра",
             image: "../images/ТЦ МК-01.webp",
-            description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. Реагенты прибывают на шаттле в зону погрузки-разгрузки склада универмага. После выхода из шаттла испытуемые могут увидеть автомобиль с открытым багажником, в который нужно будет положить коробку с доказательствами. Коробка находится на втором этаже магазина «Spatlin», и чтобы туда добраться, реагентам необходимо пройти в другой конец первого этажа торгового центра.\n\nКогда реагенты зайдут в магазин «Spatlin», пройдя дальше от входа, они увидят два щитка, у каждого из которых будут установлены по одному предохранителю. Взяв один предохранитель, реагентам нужно будет подняться по эскалатору на второй этаж магазина, чтобы открыть комнату, в которой лежит искомая коробка с доказательствами.\n\nЗабрав коробку и спустившись на первый этаж магазина, испытуемым необходимо вынести коробку за пределы магазина через большие ворота, которые держит открытыми второй предохранитель. Если сразу вытащить второй предохранитель, то коробку вынести не получится, ибо реагенту несущему её, преградят путь металлические раздвижные двери.\n\nКогда реагенты вынесут коробку из магазина, им нужно будет забрать последний предохранитель, находящийся в щитке. Далее реагентам будут преграждать путь такие же раздвижные двери, и на сей раз большие ворота будут закрыты. Чтобы их открыть, испытуемым понадобится найти один из магазинов, где есть щиток, в который можно вставить предохранитель. Чтобы реагентам было легче найти такой магазин, они могут ориентироваться на провода, ведущие от ворот, (которые нужно открыть) к щитку.\n\nПреодолев двое ворот, и пройдя обратно до универмага, реагентам в последний раз нужно повторить вышеописанные действия, чтобы в него попасть. Далее коробку необходимо вынести к началу испытания и положить её в багажник автомобиля. После выполненного задания, появится возможность вызвать шаттл и покинуть испытание.",
+            description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. В данном испытании реагентам необходимо пронести коробку с доказательствами через торговый центр и положить её в багажник автомобиля у входа в испытание.",
             gallery: ["../images/Минотавр-1.png", "../images/Минотавр-2.png", "../images/Минотавр-3.png", "../images/Минотавр-4.png", "../images/Минотавр-5.png"]
         },
         {
             id: "fabricate-a-scandal",
             name: "Сфабрикуйте скандал",
             image: "../images/ТЦ МК-02.webp",
-            description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Реагенты начинают испытание в подсобном помещении магазина одежды (S), после чего попадают в комнату охраны, где их встречают верхние части тел четырёх манекенов-садистов. Манекены украшены слепками лица Ароры Кресс, и их необходимо использовать, чтобы подставить семью Кресс, сфабриковав громкий сексуальный скандал.\n\nДля этого Реагенты должны сначала установить жёлтого манекена-садиста на соответствующую ему нижнюю часть тела, находящуюся в комнате охраны. После правильной установки манекен примет позу рядом с трупом. Как только сцена будет готова, расположенная поблизости камера автоматически сделает снимок, а стоящий рядом билетный автомат распечатает компрометирующую фотографию в качестве «доказательства» сфабрикованного секс-скандала. Полученную фотографию необходимо поместить в ящик для билетов, расположенный в комнате охраны.\n\nПосле выполнения этой задачи Реагенты получают доступ к остальной части торгового центра и должны завершить кампанию по дискредитации семьи Кресс. Для этого необходимо найти оставшихся трёх манекенов-садистов, установить каждого на соответствующую нижнюю часть тела, расположенную в разных магазинах торгового центра, собрать сделанные компрометирующие фотографии и вернуть их в билетную будку комнаты охраны.\n\nЕсли манекен будет установлен на неправильную нижнюю часть тела, фотография сделана не будет. Поэтому Реагентам придётся внимательно исследовать торговый центр, используя карты местности, а иногда и прибегая к методу проб и ошибок. На протяжении всего испытания Отто и Арора Кресс будут преследовать Реагентов, стараясь защитить репутацию своей семьи. Им будут помогать различные Ex-Pop. На более низких уровнях сложности Отто и Арора периодически появляются и покидают испытательную зону через Врата ввода Ex-Pop. Однако на высоких уровнях сложности они остаются в испытании до самого его завершения.\n\nИзучив карту торгового центра, можно определить местоположение оставшихся постановочных сцен. Они находятся в следующих магазинах: Универмаг (A), Зоомагазин (B), Салон красоты (C), Итальянский ресторан (D), Бар свежих соков (I), Магазин телевизоров Cathod (J), Магазин рамок и пластинок (K), Магазин музыкальных инструментов (L), Оба этажа магазина Spatlin (M), Магазин хозяйственных товаров (N).\n\nПосле того как все компрометирующие фотографии будут собраны и помещены в билетную будку комнаты охраны, Реагенты должны покинуть испытание, эвакуировавшись на шаттле выхода.",
+            description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Манекены украшены слепками лица Ароры Кресс, и их нужно использовать, чтобы нанести удар по репутации семьи Кресс, устроив секс-скандал.",
             gallery: ["../images/Скандал-1.png", "../images/Скандал-2.png", "../images/Скандал-3.png", "../images/Скандал-4.png", "../images/Скандал-5.png", "../images/Скандал-6.png"]
         }
     ];
@@ -946,22 +925,16 @@
     const imageModalClose = document.querySelector('.image-modal-close');
 
     // Открытие карты на весь экран
-    const mapWrapper = document.getElementById('mapFullscreen');
-    if (mapWrapper) {
-        mapWrapper.addEventListener('click', function() {
-            const img = this.querySelector('img');
-            if (img && fullImage) {
-                fullImage.src = img.src;
-                if (imageModal) {
-                    imageModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-        });
-    }
+    document.getElementById('mapFullscreen').addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+            fullImage.src = img.src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
 
     function openTrialModal(trial) {
-        if (!modalTitle || !modalBody) return;
         modalTitle.textContent = trial.name;
         
         let galleryHtml = '';
@@ -1020,10 +993,8 @@
             ${galleryHtml}
         `;
         
-        if (trialModal) {
-            trialModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        trialModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
         
         setTimeout(() => {
             initGallery(trial.gallery);
@@ -1032,7 +1003,7 @@
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const imgSrc = item.getAttribute('data-img');
-                    if (imgSrc && fullImage && imageModal) {
+                    if (imgSrc) {
                         fullImage.src = imgSrc;
                         imageModal.classList.add('active');
                         document.body.style.overflow = 'hidden';
@@ -1071,33 +1042,27 @@
             });
         }
         
-        if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
-        if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
+        prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => goToSlide(index));
         });
         
         document.addEventListener('keydown', (e) => {
-            if (!trialModal || !trialModal.classList.contains('active')) return;
+            if (!trialModal.classList.contains('active')) return;
             if (e.key === 'ArrowLeft') goToSlide(currentSlideIndex - 1);
             if (e.key === 'ArrowRight') goToSlide(currentSlideIndex + 1);
         });
     }
 
     function closeModal() {
-        if (trialModal) {
-            trialModal.classList.remove('active');
-        }
+        trialModal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
     function closeImageModal() {
-        if (imageModal) {
-            imageModal.classList.remove('active');
-        }
-        if (fullImage) {
-            fullImage.src = '';
-        }
+        imageModal.classList.remove('active');
+        fullImage.src = '';
         document.body.style.overflow = '';
     }
 
@@ -1119,13 +1084,13 @@
         });
     }
 
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (trialModal) trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
-    if (imageModalClose) imageModalClose.addEventListener('click', closeImageModal);
-    if (imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+    modalClose.addEventListener('click', closeModal);
+    trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
+    imageModalClose.addEventListener('click', closeImageModal);
+    imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && trialModal && trialModal.classList.contains('active')) closeModal();
-        if (e.key === 'Escape' && imageModal && imageModal.classList.contains('active')) closeImageModal();
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
     });
 
     function initScrollAnimation() {
