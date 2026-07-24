@@ -62,29 +62,39 @@
             z-index: 10;
         }
 
-        /* Header */
-        .header {
+        /* ===== НАВИГАЦИЯ (как на картинке) ===== */
+        .navbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
-            backdrop-filter: blur(16px);
-            border-radius: 80px;
+            padding: 0.7rem 1.8rem;
+            background: rgba(8, 6, 15, 0.6);
+            backdrop-filter: blur(18px);
+            border-radius: 60px;
             margin-bottom: 2rem;
-            gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
+            border: 1px solid rgba(220, 90, 50, 0.2);
             animation: fadeInScale 0.6s ease-out;
         }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        .navbar:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            box-shadow: 0 0 25px rgba(220, 90, 50, 0.08);
         }
 
-        .logo h1 {
-            font-size: 2rem;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-brand .brand-icon {
+            font-size: 1.6rem;
+            color: #e16d48;
+        }
+
+        .nav-brand h1 {
+            font-size: 1.6rem;
             font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
             background-size: 200% auto;
@@ -92,63 +102,65 @@
             background-clip: text;
             color: transparent;
             animation: smokePulse 3s ease-in-out infinite;
+            letter-spacing: -0.5px;
         }
 
-        .logo p {
-            font-size: 0.75rem;
-            color: #c2b9d4;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
+        .nav-brand .brand-sub {
+            display: none;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
-            border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(15, 10, 20, 0.3);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
+            transition: all 0.25s ease;
+            color: #d4cce6;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-btn i {
+            font-size: 0.85rem;
+            opacity: 0.7;
         }
 
         .nav-btn:hover {
             color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+            background: rgba(220, 90, 50, 0.12);
+            transform: translateY(-1px);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+            box-shadow: 0 3px 14px rgba(188, 70, 39, 0.25);
         }
 
+        .nav-btn.active i {
+            opacity: 1;
+        }
+
+        /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
         .breadcrumb {
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
@@ -163,7 +175,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
@@ -174,6 +186,7 @@
             border-color: #e16d48;
         }
 
+        /* ===== КАРТА ===== */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -220,7 +233,6 @@
             margin-bottom: 0.8rem;
         }
 
-        /* ===== КАРТА ТОРГОВОГО ЦЕНТРА ===== */
         .map-image-full {
             text-align: center;
             margin: 1.5rem 0 2rem 0;
@@ -259,7 +271,7 @@
             max-height: 500px;
         }
 
-        /* ===== КАРТОЧКИ МАГАЗИНОВ ===== */
+        /* ===== МАГАЗИНЫ ===== */
         .shops-section {
             margin: 1.5rem 0 2rem 0;
         }
@@ -330,6 +342,7 @@
             padding-left: 4px;
         }
 
+        /* ===== ИСПЫТАНИЯ ===== */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -388,6 +401,7 @@
             border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
+        /* ===== МОДАЛКИ ===== */
         .trial-modal {
             display: none;
             position: fixed;
@@ -477,7 +491,6 @@
             white-space: pre-line;
         }
 
-        /* ===== ГАЛЕРЕЯ ===== */
         .trial-gallery {
             margin-top: 1rem;
         }
@@ -649,6 +662,7 @@
             border-radius: 50px;
         }
 
+        /* ===== АДАПТИВ ===== */
         @media (max-width: 900px) {
             .trials-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -665,11 +679,34 @@
         }
 
         @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
-            .logo h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 32px;
+                padding: 1rem 1.2rem;
+                gap: 0.8rem;
+            }
+            .nav-brand {
+                justify-content: center;
+            }
+            .nav-brand h1 {
+                font-size: 1.4rem;
+            }
+            .nav-links {
+                justify-content: center;
+                padding: 0.5rem 0.8rem;
+                gap: 0.2rem;
+                border-radius: 30px;
+                width: 100%;
+            }
+            .nav-btn {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.7rem;
+            }
+            .nav-btn i {
+                font-size: 0.7rem;
+            }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
         }
@@ -678,7 +715,14 @@
             .trials-grid {
                 grid-template-columns: 1fr;
             }
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .nav-btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.6rem;
+                gap: 4px;
+            }
+            .nav-btn i {
+                font-size: 0.6rem;
+            }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item {
@@ -706,19 +750,20 @@
 </head>
 <body>
 
-<!-- Фоновое видео -->
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
 
 <div class="container">
-    <div class="header">
-        <div class="logo">
-            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+
+    <!-- ===== НАВИГАЦИЯ (как на картинке) ===== -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-smoking brand-icon"></i>
+            <h1>Курилка Синьялы</h1>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
             <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
             <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
             <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
@@ -726,12 +771,14 @@
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
-    </div>
+    </nav>
 
+    <!-- ===== ХЛЕБНЫЕ КРОШКИ ===== -->
     <div class="breadcrumb">
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
+    <!-- ===== КАРТА ===== -->
     <div class="map-container">
         <div class="map-image">
             <img src="../images/Политик-1.png" alt="Торговый центр" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Торговый+центр'">
@@ -743,7 +790,7 @@
         </div>
     </div>
 
-    <!-- ====== КАРТА ТОРГОВОГО ЦЕНТРА ====== -->
+    <!-- ===== КАРТА ТЦ ===== -->
     <div class="map-image-full">
         <div class="map-label"><i class="fas fa-map"></i> Карта торгового центра</div>
         <div class="map-wrapper" id="mapFullscreen">
@@ -751,7 +798,7 @@
         </div>
     </div>
 
-    <!-- ====== КАРТОЧКИ МАГАЗИНОВ ====== -->
+    <!-- ===== МАГАЗИНЫ ===== -->
     <div class="shops-section">
         <h3><i class="fas fa-store"></i> Магазины торгового центра</h3>
         <div class="shops-grid">
@@ -863,6 +910,7 @@
         </div>
     </div>
 
+    <!-- ===== ИСПЫТАНИЯ ===== -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
         <div class="trials-grid" id="trialsGrid"></div>
@@ -874,6 +922,7 @@
     </footer>
 </div>
 
+<!-- ===== МОДАЛКИ ===== -->
 <div id="trialModal" class="trial-modal">
     <div class="trial-modal-content">
         <div class="trial-modal-header">
@@ -924,7 +973,6 @@
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
-    // Открытие карты на весь экран
     document.getElementById('mapFullscreen').addEventListener('click', function() {
         const img = this.querySelector('img');
         if (img) {
