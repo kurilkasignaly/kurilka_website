@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Здание суда — Испытание | Курилка Синьялы</title>
+    <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="../images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="../images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -54,6 +57,11 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -62,93 +70,276 @@
             z-index: 10;
         }
 
-        /* Header */
+        /* ===== НАВИГАЦИЯ (как на Торговом центре) ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
+            padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
             border-radius: 80px;
             margin-bottom: 2rem;
             gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
         }
 
         .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+            border-color: rgba(220, 90, 50, 0.4);
         }
 
-        .logo h1 {
-            font-size: 2rem;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .logo .logo-text {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-            background-size: 200% auto;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: smokePulse 3s ease-in-out infinite;
+            white-space: nowrap;
         }
 
         .logo p {
-            font-size: 0.75rem;
-            color: #c2b9d4;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+            color: #7a6a8a;
+            margin-top: 0px;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
+            align-items: center;
+            gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
             border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 0.9rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
+            color: #b5a8c8;
+            transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             text-decoration: none;
         }
 
         .nav-btn:hover {
             color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+            text-shadow: 0 0 8px rgba(220,90,50,0.3);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
+        /* ===== БЛОК УПРАВЛЕНИЯ МУЗЫКОЙ ===== */
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+            position: relative;
+        }
+
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.9rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .music-toggle.playing {
+            border-color: rgba(220, 90, 50, 0.3);
+            color: #e25d32;
+        }
+
+        .music-toggle .icon {
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .music-toggle .icon.pulse {
+            animation: musicPulse 1.2s ease-in-out infinite;
+        }
+
+        .music-toggle .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .volume-toggle-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.7rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .volume-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .volume-toggle-btn .arrow {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .volume-toggle-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .volume-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            min-width: 200px;
+            z-index: 100;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .volume-dropdown.open {
+            display: block;
+            animation: fadeInScale 0.25s ease-out;
+        }
+
+        .volume-dropdown .volume-label {
+            font-size: 0.7rem;
+            color: #8a7a9a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        .volume-slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .volume-slider-wrapper .vol-icon {
+            color: #7a6a8a;
+            font-size: 0.85rem;
+        }
+
+        .volume-slider-wrapper .vol-icon.active {
+            color: #e25d32;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 130px;
+            height: 4px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #e25d32, #e25d32);
+            outline: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(188, 70, 39, 0.3);
+            transition: all 0.2s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .volume-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #e25d32;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .music-controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
         .breadcrumb {
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
@@ -163,7 +354,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
@@ -174,6 +365,7 @@
             border-color: #e16d48;
         }
 
+        /* ===== КАРТА ===== */
         .map-container {
             display: flex;
             flex-wrap: wrap;
@@ -217,14 +409,14 @@
             font-size: 1rem;
             line-height: 1.7;
             color: #d1cce6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .map-details {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
         }
 
         .detail-item {
@@ -243,6 +435,46 @@
             width: 20px;
         }
 
+        /* ===== КАРТА ЗДАНИЯ СУДА ===== */
+        .map-image-full {
+            text-align: center;
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .map-image-full .map-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .map-image-full .map-wrapper {
+            display: inline-block;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 100%;
+            background: rgba(18, 12, 28, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-image-full .map-wrapper:hover {
+            border-color: #e16d48;
+            transform: scale(1.01);
+            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
+        }
+
+        .map-image-full .map-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+        }
+
+        /* ===== ИСПЫТАНИЯ ===== */
         .trials-section {
             margin-bottom: 2rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -301,6 +533,7 @@
             border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
+        /* ===== МОДАЛКИ ===== */
         .trial-modal {
             display: none;
             position: fixed;
@@ -390,10 +623,14 @@
             white-space: pre-line;
         }
 
+        .trial-gallery {
+            margin-top: 1rem;
+        }
+
         .trial-gallery h4 {
             font-size: 1.2rem;
             color: #e16d48;
-            margin: 1rem 0 1rem 0;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -401,31 +638,102 @@
             padding-left: 12px;
         }
 
-        .trial-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+        .gallery-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
         }
 
-        .trial-gallery-item {
+        .gallery-slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 0;
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            display: flex;
+            gap: 1rem;
+            padding: 0.2rem;
+        }
+
+        .gallery-slide .gallery-item {
+            flex: 0 0 calc(33.333% - 0.7rem);
             background: rgba(18, 12, 28, 0.6);
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(220, 90, 50, 0.25);
             transition: all 0.3s ease;
             cursor: pointer;
+            aspect-ratio: 16/10;
         }
 
-        .trial-gallery-item:hover {
+        .gallery-slide .gallery-item:hover {
             transform: translateY(-3px);
             border-color: #e16d48;
         }
 
-        .trial-gallery-item img {
+        .gallery-slide .gallery-item img {
             width: 100%;
-            height: 120px;
+            height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        .gallery-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-size: 1.2rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .gallery-nav-btn:hover {
+            background: rgba(220, 90, 50, 0.3);
+            border-color: #e16d48;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .gallery-nav-btn.prev {
+            left: 10px;
+        }
+
+        .gallery-nav-btn.next {
+            right: 10px;
+        }
+
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: #e16d48;
+            width: 24px;
+            border-radius: 10px;
         }
 
         .image-modal {
@@ -486,84 +794,151 @@
             border-radius: 50px;
         }
 
-        @media (max-width: 900px) {
-            .trials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .footer-logo {
+            max-height: 32px;
+            width: auto;
+            margin-bottom: 0.5rem;
         }
 
         @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
-            .logo h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+            .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
+            .trials-grid { grid-template-columns: repeat(2, 1fr); }
+            .map-image-full .map-wrapper img { max-height: 350px; }
+            .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
+            .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
+            .volume-dropdown.open { transform: translateX(-50%) scale(1); }
         }
 
         @media (max-width: 600px) {
-            .trials-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+            .trials-grid { grid-template-columns: 1fr; }
+            .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+            .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .music-toggle .label { font-size: 0.6rem; }
+            .volume-toggle-btn { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
+            .logo .logo-img { max-height: 32px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo { gap: 0.4rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
+            .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
+            .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+            .map-image-full .map-wrapper img { max-height: 250px; }
+            .volume-slider { width: 100px; }
+            .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Фоновое видео (если нет видео, фон будет чёрным) -->
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
 
+<!-- Аудио для фона -->
+<div id="mainAudioContainer" style="display:none;">
+    <audio id="mainAudio" preload="auto" loop>
+        <source src="../images/courthouse music.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
 <div class="container">
+
+    <!-- ===== НАВИГАЦИЯ ===== -->
     <div class="header">
         <div class="logo">
-            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+            <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+            <div>
+                <span class="logo-text">Курилка Синьялы</span>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
         </div>
         <div class="nav-links">
-            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
-            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
-            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+
+            <!-- ===== УПРАВЛЕНИЕ МУЗЫКОЙ ===== -->
+            <div class="music-controls-wrapper">
+                <div class="music-controls">
+                    <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
+                        <span class="icon fa-solid fa-volume-xmark"></span>
+                        <span class="label">Выкл</span>
+                    </button>
+
+                    <div class="volume-toggle-btn" id="volumeToggleBtn" onclick="toggleVolumeDropdown()" title="Регулировка громкости">
+                        <span class="arrow">▼</span>
+                    </div>
+                </div>
+
+                <!-- Выпадающий регулятор громкости -->
+                <div class="volume-dropdown" id="volumeDropdown">
+                    <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
+                    <div class="volume-slider-wrapper">
+                        <span class="vol-icon"><i class="fas fa-volume-low"></i></span>
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+                        <span class="vol-icon active"><i class="fas fa-volume-high"></i></span>
+                        <span class="volume-value" id="volumeValue">40%</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- ===== ХЛЕБНЫЕ КРОШКИ ===== -->
     <div class="breadcrumb">
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
+    <!-- ===== КАРТА ===== -->
     <div class="map-container">
         <div class="map-image">
             <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Здание+суда'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Здание суда</h1>
-            <p class="map-description">Здание суда (ориг. Courthouse) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла.Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде огромного здания суда, символизирующего духовную среду обитания главного актива Лиланда Койла. Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.
-Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны. После завершения испытания реагентами, все экс-попы также покидают полигон, и в области начинает работу бригада уборщиков Меркофф, готовящие территорию к новому испытанию.</p>
+            <p class="map-description">Здание суда (ориг. Courthouse) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде огромного здания суда, символизирующего духовную среду обитания главного актива Лиланда Койла.</p>
+            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.</p>
+            <div class="map-details">
+                <span class="detail-item"><i class="fas fa-user-shield"></i> Лиланд Койл</span>
+                <span class="detail-item"><i class="fas fa-building"></i> Здание суда</span>
+                <span class="detail-item"><i class="fas fa-gavel"></i> Правосудие</span>
+            </div>
         </div>
     </div>
 
+    <!-- ===== КАРТА ЗДАНИЯ СУДА ===== -->
+    <div class="map-image-full">
+        <div class="map-label"><i class="fas fa-map"></i> Карта здания суда</div>
+        <div class="map-wrapper" id="mapFullscreen">
+            <img src="../images/карта здания суда.webp" alt="Карта здания суда" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+здания+суда'">
+        </div>
+    </div>
+
+    <!-- ===== ИСПЫТАНИЯ ===== -->
     <div class="trials-section">
         <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
         <div class="trials-grid" id="trialsGrid"></div>
     </div>
 
     <footer>
+        <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
     </footer>
 </div>
 
+<!-- ===== МОДАЛКИ ===== -->
 <div id="trialModal" class="trial-modal">
     <div class="trial-modal-content">
         <div class="trial-modal-header">
@@ -582,6 +957,7 @@
 </div>
 
 <script>
+    // ===== ДАННЫЕ ИСПЫТАНИЙ =====
     const trialsData = [
         {
             id: "convict",
@@ -620,6 +996,175 @@
         }
     ];
 
+    // ===== МУЗЫКА (один трек с loop) =====
+    let mainAudioStarted = false;
+    let mainAudioElement = null;
+
+    function initMainAudio() {
+        const container = document.getElementById('mainAudioContainer');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        const audio = document.createElement('audio');
+        audio.id = 'mainAudio';
+        audio.preload = 'auto';
+        audio.volume = 0.4;
+        audio.loop = true;
+        const source = document.createElement('source');
+        source.src = '../images/courthouse music.mp3';
+        source.type = 'audio/mpeg';
+        audio.appendChild(source);
+        container.appendChild(audio);
+        mainAudioElement = audio;
+    }
+
+    function startMainMusic() {
+        if (mainAudioStarted) return;
+
+        initMainAudio();
+        
+        if (!mainAudioElement) {
+            setTimeout(startMainMusic, 500);
+            return;
+        }
+
+        mainAudioStarted = true;
+        mainAudioElement.volume = parseFloat(document.getElementById('volumeSlider').value) / 100;
+        mainAudioElement.currentTime = 0;
+        mainAudioElement.play().catch(() => {});
+        
+        updateMusicButton(true);
+        updateVolumeDisplay();
+    }
+
+    function updateMusicButton(state) {
+        const btn = document.getElementById('musicToggleBtn');
+        if (!btn) return;
+        
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+        
+        if (state) {
+            btn.classList.add('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high', 'pulse');
+            }
+            if (label) label.textContent = 'Вкл';
+        } else {
+            btn.classList.remove('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-high', 'pulse');
+                icon.classList.add('fa-volume-xmark');
+            }
+            if (label) label.textContent = 'Выкл';
+        }
+    }
+
+    function toggleMainMusic() {
+        if (mainAudioStarted) {
+            mainAudioStarted = false;
+            
+            if (mainAudioElement) {
+                mainAudioElement.pause();
+                mainAudioElement.currentTime = 0;
+            }
+            
+            updateMusicButton(false);
+        } else {
+            mainAudioStarted = true;
+            
+            initMainAudio();
+            
+            if (!mainAudioElement) {
+                mainAudioStarted = false;
+                return;
+            }
+            
+            mainAudioElement.volume = parseFloat(document.getElementById('volumeSlider').value) / 100;
+            mainAudioElement.currentTime = 0;
+            mainAudioElement.play().catch(() => {});
+            
+            updateMusicButton(true);
+            updateVolumeDisplay();
+        }
+    }
+
+    // ===== УПРАВЛЕНИЕ ГРОМКОСТЬЮ =====
+    let volumeDropdownOpen = false;
+
+    function toggleVolumeDropdown() {
+        volumeDropdownOpen = !volumeDropdownOpen;
+        const dropdown = document.getElementById('volumeDropdown');
+        const arrow = document.querySelector('.volume-toggle-btn .arrow');
+        
+        if (volumeDropdownOpen) {
+            dropdown.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            dropdown.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    function updateVolumeDisplay() {
+        const slider = document.getElementById('volumeSlider');
+        const valueDisplay = document.getElementById('volumeValue');
+        const val = parseInt(slider.value);
+        valueDisplay.textContent = val + '%';
+    }
+
+    // Закрывать дропдаун при клике вне его
+    document.addEventListener('click', function(e) {
+        const wrapper = document.querySelector('.music-controls-wrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+            const dropdown = document.getElementById('volumeDropdown');
+            const arrow = document.querySelector('.volume-toggle-btn .arrow');
+            if (dropdown) dropdown.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            volumeDropdownOpen = false;
+        }
+    });
+
+    // Слайдер громкости
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('volumeSlider');
+        const valueDisplay = document.getElementById('volumeValue');
+        
+        slider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            valueDisplay.textContent = val + '%';
+            
+            if (mainAudioElement && mainAudioStarted) {
+                mainAudioElement.volume = val / 100;
+            }
+            
+            const percent = val;
+            slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${percent}%, rgba(255,255,255,0.15) ${percent}%, rgba(255,255,255,0.15) 100%)`;
+        });
+        
+        const initialVal = parseInt(slider.value);
+        slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${initialVal}%, rgba(255,255,255,0.15) ${initialVal}%, rgba(255,255,255,0.15) 100%)`;
+        updateVolumeDisplay();
+    });
+
+    // Автозапуск музыки через 1.5 секунды после загрузки
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(startMainMusic, 1500);
+    });
+
+    document.addEventListener('click', function initAudioOnClick() {
+        if (!mainAudioStarted) {
+            startMainMusic();
+            document.removeEventListener('click', initAudioOnClick);
+        }
+    }, { once: true });
+
+    window.toggleMainMusic = toggleMainMusic;
+    window.toggleVolumeDropdown = toggleVolumeDropdown;
+
+    // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
@@ -628,21 +1173,58 @@
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
+    document.getElementById('mapFullscreen').addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+            fullImage.src = img.src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
         
         let galleryHtml = '';
         if (trial.gallery && trial.gallery.length > 0) {
-            galleryHtml = `
-                <div class="trial-gallery">
-                    <h4><i class="fas fa-images"></i> Галерея</h4>
-                    <div class="trial-gallery-grid">
-                        ${trial.gallery.map(img => `
-                            <div class="trial-gallery-item" data-img="${img}">
+            const itemsPerSlide = window.innerWidth < 600 ? 1 : window.innerWidth < 900 ? 2 : 3;
+            const totalSlides = Math.ceil(trial.gallery.length / itemsPerSlide);
+            let slidesHtml = '';
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const start = i * itemsPerSlide;
+                const end = Math.min(start + itemsPerSlide, trial.gallery.length);
+                const items = trial.gallery.slice(start, end);
+                
+                slidesHtml += `
+                    <div class="gallery-slide" data-slide-index="${i}">
+                        ${items.map(img => `
+                            <div class="gallery-item" data-img="${img}">
                                 <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
                             </div>
                         `).join('')}
                     </div>
+                `;
+            }
+            
+            let dotsHtml = '';
+            for (let i = 0; i < totalSlides; i++) {
+                dotsHtml += `<span class="gallery-dot ${i === 0 ? 'active' : ''}" data-dot-index="${i}"></span>`;
+            }
+            
+            galleryHtml = `
+                <div class="trial-gallery">
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
+                    <div class="gallery-slider-wrapper">
+                        <div class="gallery-slider-track" id="galleryTrack">
+                            ${slidesHtml}
+                        </div>
+                        ${totalSlides > 1 ? `
+                            <button class="gallery-nav-btn prev" id="galleryPrev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="gallery-nav-btn next" id="galleryNext"><i class="fas fa-chevron-right"></i></button>
+                        ` : ''}
+                    </div>
+                    ${totalSlides > 1 ? `<div class="gallery-dots">${dotsHtml}</div>` : ''}
                 </div>
             `;
         }
@@ -663,7 +1245,9 @@
         document.body.style.overflow = 'hidden';
         
         setTimeout(() => {
-            document.querySelectorAll('.trial-gallery-item').forEach(item => {
+            initGallery(trial.gallery);
+            
+            document.querySelectorAll('.gallery-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const imgSrc = item.getAttribute('data-img');
@@ -675,6 +1259,48 @@
                 });
             });
         }, 100);
+    }
+
+    let currentSlideIndex = 0;
+    let totalSlides = 0;
+
+    function initGallery(gallery) {
+        const track = document.getElementById('galleryTrack');
+        if (!track) return;
+        
+        const slides = track.querySelectorAll('.gallery-slide');
+        totalSlides = slides.length;
+        
+        if (totalSlides <= 1) return;
+        
+        const prevBtn = document.getElementById('galleryPrev');
+        const nextBtn = document.getElementById('galleryNext');
+        const dots = document.querySelectorAll('.gallery-dot');
+        
+        currentSlideIndex = 0;
+        
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentSlideIndex = index;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!trialModal.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') goToSlide(currentSlideIndex - 1);
+            if (e.key === 'ArrowRight') goToSlide(currentSlideIndex + 1);
+        });
     }
 
     function closeModal() {
@@ -726,7 +1352,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.map-container, .trials-section').forEach(el => {
+        document.querySelectorAll('.map-container, .map-image-full, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
