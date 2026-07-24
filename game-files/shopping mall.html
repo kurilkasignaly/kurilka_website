@@ -70,7 +70,7 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ (точь-в-точь как на главной) ===== */
+        /* ===== НАВИГАЦИЯ ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -159,6 +159,15 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
+        /* ===== БЛОК УПРАВЛЕНИЯ МУЗЫКОЙ (отдельно от навбара) ===== */
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 0.5rem;
+            position: relative;
+        }
+
         .music-toggle {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -199,6 +208,137 @@
             font-size: 0.7rem;
             font-weight: 500;
             letter-spacing: 0.5px;
+        }
+
+        /* ===== СТРЕЛКА ДЛЯ РЕГУЛИРОВКИ ГРОМКОСТИ ===== */
+        .volume-toggle-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.7rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .volume-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .volume-toggle-btn .arrow {
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .volume-toggle-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        /* ===== ВЫПАДАЮЩИЙ РЕГУЛЯТОР ГРОМКОСТИ ===== */
+        .volume-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            min-width: 200px;
+            z-index: 100;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .volume-dropdown.open {
+            display: block;
+            animation: fadeInScale 0.25s ease-out;
+        }
+
+        .volume-dropdown .volume-label {
+            font-size: 0.7rem;
+            color: #8a7a9a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        .volume-slider-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .volume-slider-wrapper .vol-icon {
+            color: #7a6a8a;
+            font-size: 0.85rem;
+        }
+
+        .volume-slider-wrapper .vol-icon.active {
+            color: #e25d32;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 130px;
+            height: 4px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #e25d32, #e25d32);
+            outline: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(188, 70, 39, 0.3);
+            transition: all 0.2s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .volume-value {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #e25d32;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .music-controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
         }
 
         /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
@@ -722,6 +862,9 @@
             .shops-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
             .gallery-slide .gallery-item { flex: 0 0 calc(50% - 0.5rem); }
             .map-image-full .map-wrapper img { max-height: 350px; }
+            .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
+            .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
+            .volume-dropdown.open { transform: translateX(-50%) scale(1); }
         }
 
         @media (max-width: 600px) {
@@ -729,6 +872,7 @@
             .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
             .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
             .music-toggle .label { font-size: 0.6rem; }
+            .volume-toggle-btn { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
             .logo .logo-img { max-height: 32px; }
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
@@ -740,6 +884,8 @@
             .shop-card .shop-name { font-size: 1rem; }
             .shop-card .shop-desc { font-size: 0.8rem; }
             .map-image-full .map-wrapper img { max-height: 250px; }
+            .volume-slider { width: 100px; }
+            .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
         }
     </style>
 </head>
@@ -749,22 +895,16 @@
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
 
-<!-- Аудио для фона (скрыто) -->
+<!-- Аудио для фона -->
 <div id="mainAudioContainer" style="display:none;">
-    <audio id="mainAudio1" preload="auto">
-        <source src="../images/комната отдыха 1.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="mainAudio2" preload="auto">
-        <source src="../images/комната отдыха 2.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="mainAudio3" preload="auto">
-        <source src="../images/комната отдыха 3.mp3" type="audio/mpeg">
+    <audio id="mainAudio1" preload="auto" loop>
+        <source src="../images/shopping mall music.mp3" type="audio/mpeg">
     </audio>
 </div>
 
 <div class="container">
 
-    <!-- ===== НАВИГАЦИЯ (точь-в-точь как на главной) ===== -->
+    <!-- ===== НАВИГАЦИЯ ===== -->
     <div class="header">
         <div class="logo">
             <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
@@ -782,10 +922,30 @@
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
 
-            <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
-                <span class="icon fa-solid fa-volume-xmark"></span>
-                <span class="label">Выкл</span>
-            </button>
+            <!-- ===== УПРАВЛЕНИЕ МУЗЫКОЙ (отдельно от навбара) ===== -->
+            <div class="music-controls-wrapper">
+                <div class="music-controls">
+                    <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
+                        <span class="icon fa-solid fa-volume-xmark"></span>
+                        <span class="label">Выкл</span>
+                    </button>
+
+                    <div class="volume-toggle-btn" id="volumeToggleBtn" onclick="toggleVolumeDropdown()" title="Регулировка громкости">
+                        <span class="arrow">▼</span>
+                    </div>
+                </div>
+
+                <!-- Выпадающий регулятор громкости -->
+                <div class="volume-dropdown" id="volumeDropdown">
+                    <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
+                    <div class="volume-slider-wrapper">
+                        <span class="vol-icon"><i class="fas fa-volume-low"></i></span>
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+                        <span class="vol-icon active"><i class="fas fa-volume-high"></i></span>
+                        <span class="volume-value" id="volumeValue">40%</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -958,7 +1118,7 @@
 </div>
 
 <script>
-    // ===== ДАННЫЕ ИСПЫТАНИЙ =====
+    // ===== ДАННЫЕ ИСПЫТАНИЙ (исправленные описания) =====
     const trialsData = [
         {
             id: "kill-the-politician",
@@ -971,90 +1131,40 @@
             id: "solve-the-minotaur-case",
             name: "Исследуйте дело Минотавра",
             image: "../images/ТЦ МК-01.webp",
-            description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. Реагенты прибывают на шаттле в зону погрузки-разгрузки склада универмага. После выхода из шаттла испытуемые могут увидеть автомобиль с открытым багажником, в который нужно будет положить коробку с доказательствами. Коробка находится на втором этаже магазина «Spatlin», и чтобы туда добраться, реагентам необходимо пройти в другой конец первого этажа торгового центра.
-Когда реагенты зайдут в магазин «Spatlin», пройдя дальше от входа, они увидят два щитка, у каждого из которых будут установлены по одному предохранителю. Взяв один предохранитель, реагентам нужно будет подняться по эскалатору на второй этаж магазина, чтобы открыть комнату, в которой лежит искомая коробка с доказательствами.
-Забрав коробку и спустившись на первый этаж магазина, испытуемым необходимо вынести коробку за пределы магазина через большие ворота, которые держит открытыми второй предохранитель. Если сразу вытащить второй предохранитель, то коробку вынести не получится, ибо реагенту несущему её, преградят путь металлические раздвижные двери.
-Когда реагенты вынесут коробку из магазина, им нужно будет забрать последний предохранитель, находящийся в щитке. Далее реагентам будут преграждать путь такие же раздвижные двери, и на сей раз большие ворота будут закрыты. Чтобы их открыть, испытуемым понадобится найти один из магазинов, где есть щиток, в который можно вставить предохранитель. Чтобы реагентам было легче найти такой магазин, они могут ориентироваться на провода, ведущие от ворот, (которые нужно открыть) к щитку. 
-Преодолев двое ворот, и пройдя обратно до универмага, реагентам в последний раз нужно повторить вышеописанные действия, чтобы в него попасть. Далее коробку необходимо вынести к началу испытания и положить её в багажник автомобиля. После выполненного задания, появится возможность вызвать шаттл и покинуть испытание.",
+            description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. Реагенты прибывают на шаттле в зону погрузки-разгрузки склада универмага. После выхода из шаттла испытуемые могут увидеть автомобиль с открытым багажником, в который нужно будет положить коробку с доказательствами.\n\nКоробка находится на втором этаже магазина «Spatlin», и чтобы туда добраться, реагентам необходимо пройти в другой конец первого этажа торгового центра.\n\nКогда реагенты зайдут в магазин «Spatlin», пройдя дальше от входа, они увидят два щитка, у каждого из которых будут установлены по одному предохранителю. Взяв один предохранитель, реагентам нужно будет подняться по эскалатору на второй этаж магазина, чтобы открыть комнату, в которой лежит искомая коробка с доказательствами.\n\nЗабрав коробку и спустившись на первый этаж магазина, испытуемым необходимо вынести коробку за пределы магазина через большие ворота, которые держит открытыми второй предохранитель.\n\nКогда реагенты вынесут коробку из магазина, им нужно будет забрать последний предохранитель, находящийся в щитке. Далее реагентам будут преграждать путь раздвижные двери, и на сей раз большие ворота будут закрыты. Чтобы их открыть, испытуемым понадобится найти один из магазинов, где есть щиток, в который можно вставить предохранитель.\n\nПреодолев ворота, и пройдя обратно до универмага, реагентам в последний раз нужно повторить вышеописанные действия, чтобы в него попасть. Далее коробку необходимо вынести к началу испытания и положить её в багажник автомобиля. После выполненного задания появится возможность вызвать шаттл и покинуть испытание.",
             gallery: ["../images/Минотавр-1.png", "../images/Минотавр-2.png", "../images/Минотавр-3.png", "../images/Минотавр-4.png", "../images/Минотавр-5.png"]
         },
         {
             id: "fabricate-a-scandal",
             name: "Сфабрикуйте скандал",
             image: "../images/ТЦ МК-02.webp",
-            description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Реагенты начинают испытание в подсобном помещении магазина одежды (S), после чего попадают в комнату охраны, где их встречают верхние части тел четырёх манекенов-садистов. Манекены украшены слепками лица Ароры Кресс, и их необходимо использовать, чтобы подставить семью Кресс, сфабриковав громкий сексуальный скандал.
-Для этого Реагенты должны сначала установить жёлтого манекена-садиста на соответствующую ему нижнюю часть тела, находящуюся в комнате охраны. После правильной установки манекен примет позу рядом с трупом. Как только сцена будет готова, расположенная поблизости камера автоматически сделает снимок, а стоящий рядом билетный автомат распечатает компрометирующую фотографию в качестве «доказательства» сфабрикованного секс-скандала. Полученную фотографию необходимо поместить в ящик для билетов, расположенный в комнате охраны.
-После выполнения этой задачи Реагенты получают доступ к остальной части торгового центра и должны завершить кампанию по дискредитации семьи Кресс. Для этого необходимо найти оставшихся трёх манекенов-садистов, установить каждого на соответствующую нижнюю часть тела, расположенную в разных магазинах торгового центра, собрать сделанные компрометирующие фотографии и вернуть их в билетную будку комнаты охраны.
-Если манекен будет установлен на неправильную нижнюю часть тела, фотография сделана не будет. Поэтому Реагентам придётся внимательно исследовать торговый центр, используя карты местности, а иногда и прибегая к методу проб и ошибо
-На протяжении всего испытания Отто и Арора Кресс будут преследовать Реагентов, стараясь защитить репутацию своей семьи. Им будут помогать различные Ex-Pop. На более низких уровнях сложности Отто и Арора периодически появляются и покидают испытательную зону через Врата ввода Ex-Pop. Однако на высоких уровнях сложности они остаются в испытании до самого его завершения.
-Изучив карту торгового центра, можно определить местоположение оставшихся постановочных сцен. Они находятся в следующих магазинах:
-
-Универмаг (A)
-Зоомагазин (B)
-Салон красоты (C)
-Итальянский ресторан (D)
-Бар свежих соков (I)
-Магазин телевизоров Cathod (J)
-Магазин рамок и пластинок (K)
-Магазин музыкальных инструментов (L)
-Оба этажа магазина Spatlin (M)
-Магазин хозяйственных товаров (N)
-
-После того как все компрометирующие фотографии будут собраны и помещены в билетную будку комнаты охраны, Реагенты должны покинуть испытание, эвакуировавшись на шаттле выхода.",
+            description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Реагенты начинают испытание в подсобном помещении магазина одежды (S), после чего попадают в комнату охраны, где их встречают верхние части тел четырёх манекенов-садистов. Манекены украшены слепками лица Ароры Кресс, и их необходимо использовать, чтобы подставить семью Кресс, сфабриковав громкий сексуальный скандал.\n\nДля этого Реагенты должны сначала установить жёлтого манекена-садиста на соответствующую ему нижнюю часть тела, находящуюся в комнате охраны. После правильной установки манекен примет позу рядом с трупом. Как только сцена будет готова, расположенная поблизости камера автоматически сделает снимок, а стоящий рядом билетный автомат распечатает компрометирующую фотографию.\n\nПосле выполнения этой задачи Реагенты получают доступ к остальной части торгового центра и должны завершить кампанию по дискредитации семьи Кресс. Для этого необходимо найти оставшихся трёх манекенов-садистов, установить каждого на соответствующую нижнюю часть тела, расположенную в разных магазинах торгового центра, собрать сделанные компрометирующие фотографии и вернуть их в билетную будку комнаты охраны.\n\nНа протяжении всего испытания Отто и Арора Кресс будут преследовать Реагентов, стараясь защитить репутацию своей семьи. Им будут помогать различные Ex-Pop. На более низких уровнях сложности Отто и Арора периодически появляются и покидают испытательную зону. Однако на высоких уровнях сложности они остаются в испытании до самого его завершения.\n\nПосле того как все компрометирующие фотографии будут собраны и помещены в билетную будку комнаты охраны, Реагенты должны покинуть испытание, эвакуировавшись на шаттле выхода.",
             gallery: ["../images/Скандал-1.png", "../images/Скандал-2.png", "../images/Скандал-3.png", "../images/Скандал-4.png", "../images/Скандал-5.png", "../images/Скандал-6.png"]
         }
     ];
 
-    // ===== МУЗЫКА (как на главной) =====
+    // ===== МУЗЫКА (один трек с loop) =====
     let mainAudioStarted = false;
-    let currentTrackIndex = 0;
-    let mainAudioFiles = [];
-    let currentAudioElement = null;
+    let mainAudioElement = null;
 
     function initMainAudio() {
         const container = document.getElementById('mainAudioContainer');
         if (!container) return;
         
+        // Очищаем и создаём заново
         container.innerHTML = '';
-        mainAudioFiles = [];
         
-        const names = ['комната отдыха 1.mp3', 'комната отдыха 2.mp3', 'комната отдыха 3.mp3'];
-        for (let i = 0; i < 3; i++) {
-            const audio = document.createElement('audio');
-            audio.id = 'mainAudio' + (i + 1);
-            audio.preload = 'auto';
-            audio.volume = 0.4;
-            const source = document.createElement('source');
-            source.src = '../images/' + names[i];
-            source.type = 'audio/mpeg';
-            audio.appendChild(source);
-            container.appendChild(audio);
-            mainAudioFiles.push(audio);
-        }
-    }
-
-    function playNextMainTrack() {
-        if (!mainAudioStarted) return;
-        
-        if (currentAudioElement) {
-            currentAudioElement.pause();
-            currentAudioElement.currentTime = 0;
-        }
-        
-        currentTrackIndex = (currentTrackIndex + 1) % mainAudioFiles.length;
-        const audio = mainAudioFiles[currentTrackIndex];
-        if (!audio) return;
-        
-        currentAudioElement = audio;
+        const audio = document.createElement('audio');
+        audio.id = 'mainAudio';
+        audio.preload = 'auto';
         audio.volume = 0.4;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
-        audio.addEventListener('ended', function onEnd() {
-            audio.removeEventListener('ended', onEnd);
-            if (!mainAudioStarted) return;
-            playNextMainTrack();
-        });
+        audio.loop = true;
+        const source = document.createElement('source');
+        source.src = '../images/shopping mall music.mp3';
+        source.type = 'audio/mpeg';
+        audio.appendChild(source);
+        container.appendChild(audio);
+        mainAudioElement = audio;
     }
 
     function startMainMusic() {
@@ -1062,29 +1172,18 @@
 
         initMainAudio();
         
-        if (mainAudioFiles.length === 0) {
+        if (!mainAudioElement) {
             setTimeout(startMainMusic, 500);
             return;
         }
 
         mainAudioStarted = true;
-        
-        currentTrackIndex = 0;
-        const audio = mainAudioFiles[0];
-        if (!audio) return;
-        
-        currentAudioElement = audio;
-        audio.volume = 0.4;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
-        audio.addEventListener('ended', function onEnd() {
-            audio.removeEventListener('ended', onEnd);
-            if (!mainAudioStarted) return;
-            playNextMainTrack();
-        });
+        mainAudioElement.volume = parseFloat(document.getElementById('volumeSlider').value) / 100;
+        mainAudioElement.currentTime = 0;
+        mainAudioElement.play().catch(() => {});
         
         updateMusicButton(true);
+        updateVolumeDisplay();
     }
 
     function updateMusicButton(state) {
@@ -1115,15 +1214,10 @@
         if (mainAudioStarted) {
             mainAudioStarted = false;
             
-            if (currentAudioElement) {
-                currentAudioElement.pause();
-                currentAudioElement.currentTime = 0;
+            if (mainAudioElement) {
+                mainAudioElement.pause();
+                mainAudioElement.currentTime = 0;
             }
-            
-            mainAudioFiles.forEach(a => {
-                a.pause();
-                a.currentTime = 0;
-            });
             
             updateMusicButton(false);
         } else {
@@ -1131,32 +1225,79 @@
             
             initMainAudio();
             
-            if (mainAudioFiles.length === 0) {
+            if (!mainAudioElement) {
                 mainAudioStarted = false;
                 return;
             }
             
-            currentTrackIndex = 0;
-            const audio = mainAudioFiles[0];
-            if (!audio) {
-                mainAudioStarted = false;
-                return;
-            }
-            
-            currentAudioElement = audio;
-            audio.volume = 0.4;
-            audio.currentTime = 0;
-            audio.play().catch(() => {});
-            
-            audio.addEventListener('ended', function onEnd() {
-                audio.removeEventListener('ended', onEnd);
-                if (!mainAudioStarted) return;
-                playNextMainTrack();
-            });
+            mainAudioElement.volume = parseFloat(document.getElementById('volumeSlider').value) / 100;
+            mainAudioElement.currentTime = 0;
+            mainAudioElement.play().catch(() => {});
             
             updateMusicButton(true);
+            updateVolumeDisplay();
         }
     }
+
+    // ===== УПРАВЛЕНИЕ ГРОМКОСТЬЮ =====
+    let volumeDropdownOpen = false;
+
+    function toggleVolumeDropdown() {
+        volumeDropdownOpen = !volumeDropdownOpen;
+        const dropdown = document.getElementById('volumeDropdown');
+        const arrow = document.querySelector('.volume-toggle-btn .arrow');
+        
+        if (volumeDropdownOpen) {
+            dropdown.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            dropdown.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    function updateVolumeDisplay() {
+        const slider = document.getElementById('volumeSlider');
+        const valueDisplay = document.getElementById('volumeValue');
+        const val = parseInt(slider.value);
+        valueDisplay.textContent = val + '%';
+    }
+
+    // Закрывать дропдаун при клике вне его
+    document.addEventListener('click', function(e) {
+        const wrapper = document.querySelector('.music-controls-wrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+            const dropdown = document.getElementById('volumeDropdown');
+            const arrow = document.querySelector('.volume-toggle-btn .arrow');
+            if (dropdown) dropdown.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            volumeDropdownOpen = false;
+        }
+    });
+
+    // Слайдер громкости
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('volumeSlider');
+        const valueDisplay = document.getElementById('volumeValue');
+        
+        slider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            valueDisplay.textContent = val + '%';
+            
+            if (mainAudioElement && mainAudioStarted) {
+                mainAudioElement.volume = val / 100;
+            }
+            
+            // Обновляем цвет ползунка
+            const percent = val;
+            slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${percent}%, rgba(255,255,255,0.15) ${percent}%, rgba(255,255,255,0.15) 100%)`;
+        });
+        
+        // Инициализация цвета ползунка
+        const initialVal = parseInt(slider.value);
+        slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${initialVal}%, rgba(255,255,255,0.15) ${initialVal}%, rgba(255,255,255,0.15) 100%)`;
+        updateVolumeDisplay();
+    });
 
     // Автозапуск музыки через 1.5 секунды после загрузки
     document.addEventListener('DOMContentLoaded', function() {
@@ -1172,6 +1313,7 @@
     }, { once: true });
 
     window.toggleMainMusic = toggleMainMusic;
+    window.toggleVolumeDropdown = toggleVolumeDropdown;
 
     // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
@@ -1299,8 +1441,8 @@
             });
         }
         
-        prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
+        if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => goToSlide(index));
         });
