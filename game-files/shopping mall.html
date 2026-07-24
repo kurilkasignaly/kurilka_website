@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Торговый центр — Испытание | Курилка Синьялы</title>
+    <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -54,6 +57,11 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -62,102 +70,135 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ (как на картинке) ===== */
-        .navbar {
+        /* ===== НАВИГАЦИЯ (точь-в-точь как на главной) ===== */
+        .header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            padding: 0.7rem 1.8rem;
+            padding: 0.8rem 2rem;
             background: rgba(8, 6, 15, 0.6);
-            backdrop-filter: blur(18px);
-            border-radius: 60px;
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
             margin-bottom: 2rem;
+            gap: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
         }
 
-        .navbar:hover {
+        .header:hover {
             border-color: rgba(220, 90, 50, 0.4);
-            box-shadow: 0 0 25px rgba(220, 90, 50, 0.08);
         }
 
-        .nav-brand {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.8rem;
         }
 
-        .nav-brand .brand-icon {
-            font-size: 1.6rem;
-            color: #e16d48;
+        .logo .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
         }
 
-        .nav-brand h1 {
-            font-size: 1.6rem;
+        .logo .logo-text {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-            background-size: 200% auto;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: smokePulse 3s ease-in-out infinite;
-            letter-spacing: -0.5px;
+            white-space: nowrap;
         }
 
-        .nav-brand .brand-sub {
-            display: none;
+        .logo p {
+            font-size: 0.65rem;
+            color: #7a6a8a;
+            margin-top: 0px;
         }
 
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.3rem;
-            background: rgba(15, 10, 20, 0.3);
+            gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
-            transition: all 0.25s ease;
-            color: #d4cce6;
+            color: #b5a8c8;
+            transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            gap: 5px;
             text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .nav-btn i {
-            font-size: 0.85rem;
-            opacity: 0.7;
         }
 
         .nav-btn:hover {
             color: white;
-            background: rgba(220, 90, 50, 0.12);
-            transform: translateY(-1px);
+            text-shadow: 0 0 8px rgba(220,90,50,0.3);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 14px rgba(188, 70, 39, 0.25);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        .nav-btn.active i {
-            opacity: 1;
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.4rem 0.9rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .music-toggle.playing {
+            border-color: rgba(220, 90, 50, 0.3);
+            color: #e25d32;
+        }
+
+        .music-toggle .icon {
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .music-toggle .icon.pulse {
+            animation: musicPulse 1.2s ease-in-out infinite;
+        }
+
+        .music-toggle .label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
@@ -662,89 +703,43 @@
             border-radius: 50px;
         }
 
-        /* ===== АДАПТИВ ===== */
-        @media (max-width: 900px) {
-            .trials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .gallery-slide .gallery-item {
-                flex: 0 0 calc(50% - 0.5rem);
-            }
-            .shops-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            .map-image-full .map-wrapper img {
-                max-height: 350px;
-            }
+        .footer-logo {
+            max-height: 32px;
+            width: auto;
+            margin-bottom: 0.5rem;
         }
 
         @media (max-width: 850px) {
             .container { padding: 0.8rem; }
-            .navbar {
-                flex-direction: column;
-                align-items: stretch;
-                border-radius: 32px;
-                padding: 1rem 1.2rem;
-                gap: 0.8rem;
-            }
-            .nav-brand {
-                justify-content: center;
-            }
-            .nav-brand h1 {
-                font-size: 1.4rem;
-            }
-            .nav-links {
-                justify-content: center;
-                padding: 0.5rem 0.8rem;
-                gap: 0.2rem;
-                border-radius: 30px;
-                width: 100%;
-            }
-            .nav-btn {
-                padding: 0.35rem 0.7rem;
-                font-size: 0.7rem;
-            }
-            .nav-btn i {
-                font-size: 0.7rem;
-            }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+            .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
+            .trials-grid { grid-template-columns: repeat(2, 1fr); }
+            .shops-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+            .gallery-slide .gallery-item { flex: 0 0 calc(50% - 0.5rem); }
+            .map-image-full .map-wrapper img { max-height: 350px; }
         }
 
         @media (max-width: 600px) {
-            .trials-grid {
-                grid-template-columns: 1fr;
-            }
-            .nav-btn {
-                padding: 0.25rem 0.5rem;
-                font-size: 0.6rem;
-                gap: 4px;
-            }
-            .nav-btn i {
-                font-size: 0.6rem;
-            }
+            .trials-grid { grid-template-columns: 1fr; }
+            .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+            .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .music-toggle .label { font-size: 0.6rem; }
+            .logo .logo-img { max-height: 32px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo { gap: 0.4rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
-            .gallery-slide .gallery-item {
-                flex: 0 0 calc(100% - 0rem);
-            }
-            .gallery-nav-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 0.8rem;
-            }
-            .shops-grid {
-                grid-template-columns: 1fr;
-            }
-            .shop-card .shop-name {
-                font-size: 1rem;
-            }
-            .shop-card .shop-desc {
-                font-size: 0.8rem;
-            }
-            .map-image-full .map-wrapper img {
-                max-height: 250px;
-            }
+            .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
+            .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+            .shops-grid { grid-template-columns: 1fr; }
+            .shop-card .shop-name { font-size: 1rem; }
+            .shop-card .shop-desc { font-size: 0.8rem; }
+            .map-image-full .map-wrapper img { max-height: 250px; }
         }
     </style>
 </head>
@@ -754,13 +749,29 @@
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
 
+<!-- Аудио для фона (скрыто) -->
+<div id="mainAudioContainer" style="display:none;">
+    <audio id="mainAudio1" preload="auto">
+        <source src="images/комната отдыха 1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mainAudio2" preload="auto">
+        <source src="images/комната отдыха 2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mainAudio3" preload="auto">
+        <source src="images/комната отдыха 3.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
 <div class="container">
 
-    <!-- ===== НАВИГАЦИЯ (как на картинке) ===== -->
-    <nav class="navbar">
-        <div class="nav-brand">
-            <i class="fas fa-smoking brand-icon"></i>
-            <h1>Курилка Синьялы</h1>
+    <!-- ===== НАВИГАЦИЯ (точь-в-точь как на главной) ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+            <div>
+                <span class="logo-text">Курилка Синьялы</span>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
         </div>
         <div class="nav-links">
             <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
@@ -770,8 +781,13 @@
             <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+
+            <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
+                <span class="icon fa-solid fa-volume-xmark"></span>
+                <span class="label">Выкл</span>
+            </button>
         </div>
-    </nav>
+    </div>
 
     <!-- ===== ХЛЕБНЫЕ КРОШКИ ===== -->
     <div class="breadcrumb">
@@ -917,8 +933,9 @@
     </div>
 
     <footer>
+        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
     </footer>
 </div>
 
@@ -941,6 +958,7 @@
 </div>
 
 <script>
+    // ===== ДАННЫЕ ИСПЫТАНИЙ =====
     const trialsData = [
         {
             id: "kill-the-politician",
@@ -965,6 +983,167 @@
         }
     ];
 
+    // ===== МУЗЫКА (как на главной) =====
+    let mainAudioStarted = false;
+    let currentTrackIndex = 0;
+    let mainAudioFiles = [];
+    let currentAudioElement = null;
+
+    function initMainAudio() {
+        const container = document.getElementById('mainAudioContainer');
+        if (!container) return;
+        
+        container.innerHTML = '';
+        mainAudioFiles = [];
+        
+        const names = ['комната отдыха 1.mp3', 'комната отдыха 2.mp3', 'комната отдыха 3.mp3'];
+        for (let i = 0; i < 3; i++) {
+            const audio = document.createElement('audio');
+            audio.id = 'mainAudio' + (i + 1);
+            audio.preload = 'auto';
+            audio.volume = 0.4;
+            const source = document.createElement('source');
+            source.src = 'images/' + names[i];
+            source.type = 'audio/mpeg';
+            audio.appendChild(source);
+            container.appendChild(audio);
+            mainAudioFiles.push(audio);
+        }
+    }
+
+    function playNextMainTrack() {
+        if (!mainAudioStarted) return;
+        
+        if (currentAudioElement) {
+            currentAudioElement.pause();
+            currentAudioElement.currentTime = 0;
+        }
+        
+        currentTrackIndex = (currentTrackIndex + 1) % mainAudioFiles.length;
+        const audio = mainAudioFiles[currentTrackIndex];
+        if (!audio) return;
+        
+        currentAudioElement = audio;
+        audio.volume = 0.4;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        
+        audio.addEventListener('ended', function onEnd() {
+            audio.removeEventListener('ended', onEnd);
+            if (!mainAudioStarted) return;
+            playNextMainTrack();
+        });
+    }
+
+    function startMainMusic() {
+        if (mainAudioStarted) return;
+
+        initMainAudio();
+        
+        if (mainAudioFiles.length === 0) {
+            setTimeout(startMainMusic, 500);
+            return;
+        }
+
+        mainAudioStarted = true;
+        
+        currentTrackIndex = 0;
+        const audio = mainAudioFiles[0];
+        if (!audio) return;
+        
+        currentAudioElement = audio;
+        audio.volume = 0.4;
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        
+        audio.addEventListener('ended', function onEnd() {
+            audio.removeEventListener('ended', onEnd);
+            if (!mainAudioStarted) return;
+            playNextMainTrack();
+        });
+        
+        updateMusicButton(true);
+    }
+
+    function updateMusicButton(state) {
+        const btn = document.getElementById('musicToggleBtn');
+        if (!btn) return;
+        
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+        
+        if (state) {
+            btn.classList.add('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-xmark');
+                icon.classList.add('fa-volume-high', 'pulse');
+            }
+            if (label) label.textContent = 'Вкл';
+        } else {
+            btn.classList.remove('playing');
+            if (icon) {
+                icon.classList.remove('fa-volume-high', 'pulse');
+                icon.classList.add('fa-volume-xmark');
+            }
+            if (label) label.textContent = 'Выкл';
+        }
+    }
+
+    function toggleMainMusic() {
+        if (mainAudioStarted) {
+            mainAudioStarted = false;
+            
+            if (currentAudioElement) {
+                currentAudioElement.pause();
+                currentAudioElement.currentTime = 0;
+            }
+            
+            mainAudioFiles.forEach(a => {
+                a.pause();
+                a.currentTime = 0;
+            });
+            
+            updateMusicButton(false);
+        } else {
+            mainAudioStarted = true;
+            
+            initMainAudio();
+            
+            if (mainAudioFiles.length === 0) {
+                mainAudioStarted = false;
+                return;
+            }
+            
+            currentTrackIndex = 0;
+            const audio = mainAudioFiles[0];
+            if (!audio) {
+                mainAudioStarted = false;
+                return;
+            }
+            
+            currentAudioElement = audio;
+            audio.volume = 0.4;
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+            
+            audio.addEventListener('ended', function onEnd() {
+                audio.removeEventListener('ended', onEnd);
+                if (!mainAudioStarted) return;
+                playNextMainTrack();
+            });
+            
+            updateMusicButton(true);
+        }
+    }
+
+    // Автозапуск музыки через 1 секунду после загрузки
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(startMainMusic, 1000);
+    });
+
+    window.toggleMainMusic = toggleMainMusic;
+
+    // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
