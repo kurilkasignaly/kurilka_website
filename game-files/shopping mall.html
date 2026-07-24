@@ -412,146 +412,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* ===== КНОПКА МУЗЫКИ И ГРОМКОСТЬ ===== */
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.3rem 0.8rem 0.3rem 0.6rem;
-            border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.15);
-        }
-
-        .music-toggle {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            padding: 0.3rem 0.7rem;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .music-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
-            color: white;
-        }
-
-        .music-toggle.playing {
-            border-color: rgba(220, 90, 50, 0.3);
-            color: #e25d32;
-        }
-
-        .music-toggle .icon {
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .music-toggle .icon.pulse {
-            animation: musicPulse 1.2s ease-in-out infinite;
-        }
-
-        @keyframes musicPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.85); }
-        }
-
-        .music-toggle .label {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .volume-control .vol-icon {
-            color: #b5a8c8;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .volume-control .vol-icon:hover {
-            color: white;
-        }
-
-        .volume-control input[type="range"] {
-            width: 70px;
-            height: 4px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 2px;
-            outline: none;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .volume-control input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #e25d32;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(226, 93, 50, 0.2);
-        }
-
-        .volume-control input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 20px rgba(226, 93, 50, 0.4);
-        }
-
-        .volume-control input[type="range"]::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #e25d32;
-            cursor: pointer;
-            border: none;
-        }
-
-        .volume-control input[type="range"]:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .volume-control .vol-percent {
-            font-size: 0.6rem;
-            color: #b5a8c8;
-            min-width: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        @media (max-width: 850px) {
-            .music-controls { padding: 0.2rem 0.6rem; }
-            .volume-control input[type="range"] { width: 50px; }
-            .music-toggle { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
-        }
-
-        @media (max-width: 500px) {
-            .volume-control input[type="range"] { width: 40px; }
-            .music-toggle { font-size: 0.6rem; padding: 0.15rem 0.4rem; }
-            .music-toggle .label { font-size: 0.5rem; }
-            .volume-control .vol-percent { min-width: 24px; font-size: 0.5rem; }
-            .music-controls { gap: 0.3rem; padding: 0.15rem 0.4rem; }
-        }
-
         .breadcrumb {
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
@@ -1124,6 +984,234 @@
 <!-- Аудио для загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
+<div class="container">
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
+    <div id="connectScreen" class="connect-screen">
+        <div class="connect-content">
+            <div class="connect-logo">
+                <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
+                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                <span class="line3">ТОРГОВЫЙ ЦЕНТР</span>
+            </div>
+            <div id="connectPrompt" class="connect-prompt">
+                <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
+            </div>
+            <div id="connectStatus" class="connect-status">
+                <div class="spinner"></div>
+                <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
+            </div>
+        </div>
+        <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
+    </div>
+
+    <!-- ====== ЭКРАН ОШИБКИ ====== -->
+    <div id="errorScreen" class="error-screen">
+        <div class="error-box">
+            <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
+            <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
+            <p class="error-sub">Не удалось установить соединение с сервером</p>
+            <p class="error-desc">
+                К сожалению, возникла непредвиденная ошибка.<br>
+                Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
+            </p>
+            <div class="error-code">ERR_CONNECTION_RESET</div>
+            <div class="error-actions">
+                <button class="error-btn error-btn-primary" id="retryBtn">
+                    <i class="fas fa-sync-alt"></i> Перезагрузить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
+    <div id="mainContent" class="main-content">
+        <div class="header">
+            <div class="logo">
+                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                <div>
+                    <span class="logo-text">Курилка Синьялы</span>
+                    <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+                <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+                <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+                <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
+                <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+                <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+                <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
+            </div>
+        </div>
+
+        <div class="breadcrumb">
+            <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
+        </div>
+
+        <div class="map-container">
+            <div class="map-image">
+                <img src="../images/Политик-1.png" alt="Торговый центр" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Торговый+центр'">
+            </div>
+            <div class="map-info">
+                <h1 class="map-title">Торговый центр</h1>
+                <p class="map-description">Торговый центр (ориг. Shopping Mall) — место в игре The Outlast Trials, испытательный полигон главных активов Близнецов Кресс на объекте Синьяла.</p>
+                <p class="map-description">Торговый центр — огромный полигон, включающий в себя множество комнат и магазинов.</p>
+            </div>
+        </div>
+
+        <!-- ====== КАРТА ТОРГОВОГО ЦЕНТРА ====== -->
+        <div class="map-image-full">
+            <div class="map-label"><i class="fas fa-map"></i> Карта торгового центра</div>
+            <div class="map-wrapper" id="mapFullscreen">
+                <img src="../images/карта торгового центра.webp" alt="Карта торгового центра" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+торгового+центра'">
+            </div>
+        </div>
+
+        <!-- ====== КАРТОЧКИ МАГАЗИНОВ ====== -->
+        <div class="shops-section">
+            <h3><i class="fas fa-store"></i> Магазины торгового центра</h3>
+            <div class="shops-grid">
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">A</span>
+                        <span class="shop-name">Универмаг</span>
+                    </div>
+                    <p class="shop-desc">Один из крупнейших магазинов торгового центра, расположенный на первом этаже в западной части здания. В нем множество различных товаров: одежда, аксессуары, книги, огнестрельное оружие, бытовая техника и украшения.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">B</span>
+                        <span class="shop-name">Зоомагазин</span>
+                    </div>
+                    <p class="shop-desc">Магазин среднего размера, расположенный рядом с универмагом и салоном красоты на первом этаже с западной стороны. Внутри много полок, заполненных товарами для животных и клетками с их манекенами. В задней части есть зона, предназначенная только для сотрудников.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">C</span>
+                        <span class="shop-name">Салон красоты</span>
+                    </div>
+                    <p class="shop-desc">Салон среднего размера, расположен рядом с зоомагазином и возле главной площади, на первом этаже западной стороны. Внутри — множество рабочих мест с зеркалами, фенами и косметикой, а также диваны, на которых «сидят» манекены-покупательницы, будто отдыхают и делают причёски, а также есть зона для персонала.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">D</span>
+                        <span class="shop-name">Итальянский ресторан</span>
+                    </div>
+                    <p class="shop-desc">Ресторан, находящийся у главной площади, на первом этаже западной стороны, напротив салона красоты. Внутри стоит много столиков и стульев для посетителей, а за ними — сидящие манекены-покупатели. Есть буфетный стол и стойка, где принимают заказы. В глубине ресторана располагается запертая кухня и служебная зона.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">E</span>
+                        <span class="shop-name">Алкомаркет</span>
+                    </div>
+                    <p class="shop-desc">Средний по размеру магазин, расположен у входной зоны, рядом с оружейным магазином, на первом этаже. Внутри — много стеллажей с «плоскими» бутылками алкоголя и манекенами-покупателями. В конце магазина также есть зона для сотрудников.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">F</span>
+                        <span class="shop-name">Оружейный магазин</span>
+                    </div>
+                    <p class="shop-desc">Находится у входа в торговый центр, на первом этаже. Внутри — множество стеллажей с огнестрельным оружием и два манекена-гангстера, «угрожающие» продавцу.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">G</span>
+                        <span class="shop-name">Аптека</span>
+                    </div>
+                    <p class="shop-desc">Небольшая аптека, расположенная на Главной площади, справа, на первом этаже. Зайти внутрь нельзя, но через окна можно увидеть полки с лекарствами и таблетками.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">H</span>
+                        <span class="shop-name">Банк</span>
+                    </div>
+                    <p class="shop-desc">Банк среднего размера, расположенный справа после входа в торговый центр. Внутри — зона с кассами и несколькими кабинками, а также манекены-посетители. В глубине находится служебная зона для работников.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">I</span>
+                        <span class="shop-name">Juice Bar</span>
+                    </div>
+                    <p class="shop-desc">Небольшой бар с соками, расположенный на первом этаже восточной стороны. В испытании «Убейте политика» туда нельзя проникнуть, но через окна видно столики со стульями, несколько манекенов и сам бар с соками. Стоит упомянуть, что данный бар становится доступным для входа в мк-стимуляции «Исследуйте дело Минотавра».</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">J</span>
+                        <span class="shop-name">Cathod TV</span>
+                    </div>
+                    <p class="shop-desc">Магазин телевизоров среднего размера, расположен на первом этаже восточной стороны. Внутри много стеллажей с телевизорами разных размеров, а манекены-покупатели словно рассматривают товары. В конце магазина находится зона для персонала.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">K</span>
+                        <span class="shop-name">Frames and Records</span>
+                    </div>
+                    <p class="shop-desc">Магазин среднего размера, расположен рядом с «Juice Bar» на первом этаже восточной стороны. Внутри он разделён на две части: на одной части продаются виниловые пластинки, а на другой — обложки и специальные рамки для пластинок. Обе зоны заполнены товарами, а манекены-покупатели будто разглядывают полки и слушают музыку.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">L</span>
+                        <span class="shop-name">Магазин музыкальных инструментов</span>
+                    </div>
+                    <p class="shop-desc">Небольшой магазин, расположенный на первом этаже восточной стороны. Внутри — множество музыкальных инструментов: гитары, скрипки и даже пианино. В магазине стоят манекены-покупатели, будто рассматривая товары, в конце магазина также располагается зона для его сотрудников.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">M</span>
+                        <span class="shop-name">Spatlin</span>
+                    </div>
+                    <p class="shop-desc">Один из крупнейших магазинов в торговом центре, расположенный в конце восточного крыла торгового центра. В испытании «Убейте политика» данный магазин недоступен и является пустым, кроме нескольких манекенов и выглядит так, будто находится на ремонте, но в мк-стимуляции «Исследуйте дело Минотавра» он становится доступным и обновлённым. Магазин напоминает универмаг: здесь много отделов с одеждой, бытовой техникой, книгами, аксессуарами, игрушками и даже аптекой.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">N</span>
+                        <span class="shop-name">Стройматериалы и товары для дома</span>
+                    </div>
+                    <p class="shop-desc">Расположенный неподалеку от магазина «Spatlin» отдел, в котором много стеллажей с инструментами для строительства, а также с бытовыми товарами. Манекены-покупатели будто осматривают товары. В конце магазина находится зона для персонала.</p>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-header">
+                        <span class="shop-letter">O</span>
+                        <span class="shop-name">Супермаркет</span>
+                    </div>
+                    <p class="shop-desc">Средний по размеру магазин, расположенный на первом этаже восточной стороны, напротив магазина со стройматериалами. Внутрь зайти нельзя, но через окна видно множество стеллажей с «плоскими» продуктами.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="trials-section">
+            <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
+            <div class="trials-grid" id="trialsGrid"></div>
+        </div>
+
+        <footer>
+            <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
+            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+            <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
+            <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
+        </footer>
+    </div>
+</div>
+
+<!-- Модальные окна -->
+<div id="trialModal" class="trial-modal">
+    <div class="trial-modal-content">
+        <div class="trial-modal-header">
+            <h3 id="modalTitle">Название испытания</h3>
+            <span class="trial-modal-close">&times;</span>
+        </div>
+        <div class="trial-modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <div class="image-modal-content">
+        <img id="fullImage" src="" alt="Увеличенное изображение">
+    </div>
+</div>
+
 <script>
     // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
     window.addEventListener('load', function() {
@@ -1344,6 +1432,17 @@
     let pageAudioStarted = false;
     let currentVolume = 0.35;
 
+    // Восстанавливаем громкость
+    try {
+        const savedVol = localStorage.getItem('pageVolume');
+        if (savedVol !== null) {
+            currentVolume = parseFloat(savedVol);
+            if (isNaN(currentVolume)) currentVolume = 0.35;
+            if (currentVolume < 0) currentVolume = 0;
+            if (currentVolume > 1) currentVolume = 1;
+        }
+    } catch(e) {}
+
     function startPageMusic() {
         const audio = document.getElementById('bgAudio');
         if (!audio || pageAudioStarted) return;
@@ -1376,6 +1475,10 @@
         if (percent) {
             percent.textContent = Math.round(currentVolume * 100) + '%';
         }
+        const slider = document.getElementById('volumeSlider');
+        if (slider) {
+            slider.value = currentVolume;
+        }
     }
 
     function togglePageMusic() {
@@ -1399,22 +1502,10 @@
             audio.volume = currentVolume;
         }
         updateVolumeDisplay();
-        // Сохраняем громкость в localStorage
         try {
             localStorage.setItem('pageVolume', currentVolume);
         } catch(e) {}
     }
-
-    // Восстанавливаем громкость
-    try {
-        const savedVol = localStorage.getItem('pageVolume');
-        if (savedVol !== null) {
-            currentVolume = parseFloat(savedVol);
-            if (isNaN(currentVolume)) currentVolume = 0.35;
-            if (currentVolume < 0) currentVolume = 0;
-            if (currentVolume > 1) currentVolume = 1;
-        }
-    } catch(e) {}
 
     window.togglePageMusic = togglePageMusic;
     window.changeVolume = changeVolume;
@@ -1445,251 +1536,7 @@
 
     document.addEventListener('DOMContentLoaded', function() { observeContent(); });
     window.addEventListener('load', function() { setTimeout(observeContent, 100); });
-</script>
 
-<div class="container">
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
-    <div id="connectScreen" class="connect-screen">
-        <div class="connect-content">
-            <div class="connect-logo">
-                <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
-                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-                <span class="line3">ТОРГОВЫЙ ЦЕНТР</span>
-            </div>
-            <div id="connectPrompt" class="connect-prompt">
-                <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
-            </div>
-            <div id="connectStatus" class="connect-status">
-                <div class="spinner"></div>
-                <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
-            </div>
-        </div>
-        <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
-    </div>
-
-    <!-- ====== ЭКРАН ОШИБКИ ====== -->
-    <div id="errorScreen" class="error-screen">
-        <div class="error-box">
-            <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
-            <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
-            <p class="error-sub">Не удалось установить соединение с сервером</p>
-            <p class="error-desc">
-                К сожалению, возникла непредвиденная ошибка.<br>
-                Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
-            </p>
-            <div class="error-code">ERR_CONNECTION_RESET</div>
-            <div class="error-actions">
-                <button class="error-btn error-btn-primary" id="retryBtn">
-                    <i class="fas fa-sync-alt"></i> Перезагрузить
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
-    <div id="mainContent" class="main-content">
-        <div class="header">
-            <div class="logo">
-                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-                <div>
-                    <span class="logo-text">Курилка Синьялы</span>
-                    <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
-                </div>
-            </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-                <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
-                <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-                <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-                <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-                <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
-                
-                <!-- Кнопка музыки с регулировкой громкости -->
-                <div class="music-controls">
-                    <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
-                        <span class="icon fa-solid fa-volume-xmark"></span>
-                        <span class="label">Выкл</span>
-                    </button>
-                    <div class="volume-control">
-                        <i class="fas fa-volume-low vol-icon" onclick="changeVolume(Math.max(0, currentVolume - 0.1))" title="Уменьшить громкость"></i>
-                        <input type="range" min="0" max="1" step="0.01" value="0.35" id="volumeSlider" oninput="changeVolume(this.value)">
-                        <i class="fas fa-volume-high vol-icon" onclick="changeVolume(Math.min(1, currentVolume + 0.1))" title="Увеличить громкость"></i>
-                        <span class="vol-percent" id="volPercent">35%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="breadcrumb">
-            <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
-        </div>
-
-        <div class="map-container">
-            <div class="map-image">
-                <img src="../images/Политик-1.png" alt="Торговый центр" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Торговый+центр'">
-            </div>
-            <div class="map-info">
-                <h1 class="map-title">Торговый центр</h1>
-                <p class="map-description">Торговый центр (ориг. Shopping Mall) — место в игре The Outlast Trials, испытательный полигон главных активов Близнецов Кресс на объекте Синьяла.</p>
-                <p class="map-description">Торговый центр — огромный полигон, включающий в себя множество комнат и магазинов.</p>
-            </div>
-        </div>
-
-        <!-- ====== КАРТА ТОРГОВОГО ЦЕНТРА ====== -->
-        <div class="map-image-full">
-            <div class="map-label"><i class="fas fa-map"></i> Карта торгового центра</div>
-            <div class="map-wrapper" id="mapFullscreen">
-                <img src="../images/карта торгового центра.webp" alt="Карта торгового центра" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+торгового+центра'">
-            </div>
-        </div>
-
-        <!-- ====== КАРТОЧКИ МАГАЗИНОВ ====== -->
-        <div class="shops-section">
-            <h3><i class="fas fa-store"></i> Магазины торгового центра</h3>
-            <div class="shops-grid">
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">A</span>
-                        <span class="shop-name">Универмаг</span>
-                    </div>
-                    <p class="shop-desc">Один из крупнейших магазинов торгового центра, расположенный на первом этаже в западной части здания. В нем множество различных товаров: одежда, аксессуары, книги, огнестрельное оружие, бытовая техника и украшения.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">B</span>
-                        <span class="shop-name">Зоомагазин</span>
-                    </div>
-                    <p class="shop-desc">Магазин среднего размера, расположенный рядом с универмагом и салоном красоты на первом этаже с западной стороны. Внутри много полок, заполненных товарами для животных и клетками с их манекенами. В задней части есть зона, предназначенная только для сотрудников.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">C</span>
-                        <span class="shop-name">Салон красоты</span>
-                    </div>
-                    <p class="shop-desc">Салон среднего размера, расположен рядом с зоомагазином и возле главной площади, на первом этаже западной стороны. Внутри — множество рабочих мест с зеркалами, фенами и косметикой, а также диваны, на которых «сидят» манекены-покупательницы, будто отдыхают и делают причёски, а также есть зона для персонала.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">D</span>
-                        <span class="shop-name">Итальянский ресторан</span>
-                    </div>
-                    <p class="shop-desc">Ресторан, находящийся у главной площади, на первом этаже западной стороны, напротив салона красоты. Внутри стоит много столиков и стульев для посетителей, а за ними — сидящие манекены-покупатели. Есть буфетный стол и стойка, где принимают заказы. В глубине ресторана располагается запертая кухня и служебная зона.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">E</span>
-                        <span class="shop-name">Алкомаркет</span>
-                    </div>
-                    <p class="shop-desc">Средний по размеру магазин, расположен у входной зоны, рядом с оружейным магазином, на первом этаже. Внутри — много стеллажей с «плоскими» бутылками алкоголя и манекенами-покупателями. В конце магазина также есть зона для сотрудников.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">F</span>
-                        <span class="shop-name">Оружейный магазин</span>
-                    </div>
-                    <p class="shop-desc">Находится у входа в торговый центр, на первом этаже. Внутри — множество стеллажей с огнестрельным оружием и два манекена-гангстера, «угрожающие» продавцу.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">G</span>
-                        <span class="shop-name">Аптека</span>
-                    </div>
-                    <p class="shop-desc">Небольшая аптека, расположенная на Главной площади, справа, на первом этаже. Зайти внутрь нельзя, но через окна можно увидеть полки с лекарствами и таблетками.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">H</span>
-                        <span class="shop-name">Банк</span>
-                    </div>
-                    <p class="shop-desc">Банк среднего размера, расположенный справа после входа в торговый центр. Внутри — зона с кассами и несколькими кабинками, а также манекены-посетители. В глубине находится служебная зона для работников.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">I</span>
-                        <span class="shop-name">Juice Bar</span>
-                    </div>
-                    <p class="shop-desc">Небольшой бар с соками, расположенный на первом этаже восточной стороны. В испытании «Убейте политика» туда нельзя проникнуть, но через окна видно столики со стульями, несколько манекенов и сам бар с соками. Стоит упомянуть, что данный бар становится доступным для входа в мк-стимуляции «Исследуйте дело Минотавра».</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">J</span>
-                        <span class="shop-name">Cathod TV</span>
-                    </div>
-                    <p class="shop-desc">Магазин телевизоров среднего размера, расположен на первом этаже восточной стороны. Внутри много стеллажей с телевизорами разных размеров, а манекены-покупатели словно рассматривают товары. В конце магазина находится зона для персонала.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">K</span>
-                        <span class="shop-name">Frames and Records</span>
-                    </div>
-                    <p class="shop-desc">Магазин среднего размера, расположен рядом с «Juice Bar» на первом этаже восточной стороны. Внутри он разделён на две части: на одной части продаются виниловые пластинки, а на другой — обложки и специальные рамки для пластинок. Обе зоны заполнены товарами, а манекены-покупатели будто разглядывают полки и слушают музыку.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">L</span>
-                        <span class="shop-name">Магазин музыкальных инструментов</span>
-                    </div>
-                    <p class="shop-desc">Небольшой магазин, расположенный на первом этаже восточной стороны. Внутри — множество музыкальных инструментов: гитары, скрипки и даже пианино. В магазине стоят манекены-покупатели, будто рассматривая товары, в конце магазина также располагается зона для его сотрудников.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">M</span>
-                        <span class="shop-name">Spatlin</span>
-                    </div>
-                    <p class="shop-desc">Один из крупнейших магазинов в торговом центре, расположенный в конце восточного крыла торгового центра. В испытании «Убейте политика» данный магазин недоступен и является пустым, кроме нескольких манекенов и выглядит так, будто находится на ремонте, но в мк-стимуляции «Исследуйте дело Минотавра» он становится доступным и обновлённым. Магазин напоминает универмаг: здесь много отделов с одеждой, бытовой техникой, книгами, аксессуарами, игрушками и даже аптекой.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">N</span>
-                        <span class="shop-name">Стройматериалы и товары для дома</span>
-                    </div>
-                    <p class="shop-desc">Расположенный неподалеку от магазина «Spatlin» отдел, в котором много стеллажей с инструментами для строительства, а также с бытовыми товарами. Манекены-покупатели будто осматривают товары. В конце магазина находится зона для персонала.</p>
-                </div>
-                <div class="shop-card">
-                    <div class="shop-header">
-                        <span class="shop-letter">O</span>
-                        <span class="shop-name">Супермаркет</span>
-                    </div>
-                    <p class="shop-desc">Средний по размеру магазин, расположенный на первом этаже восточной стороны, напротив магазина со стройматериалами. Внутрь зайти нельзя, но через окна видно множество стеллажей с «плоскими» продуктами.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="trials-section">
-            <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
-            <div class="trials-grid" id="trialsGrid"></div>
-        </div>
-
-        <footer>
-            <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
-            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-            <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
-            <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
-        </footer>
-    </div>
-</div>
-
-<!-- Модальные окна -->
-<div id="trialModal" class="trial-modal">
-    <div class="trial-modal-content">
-        <div class="trial-modal-header">
-            <h3 id="modalTitle">Название испытания</h3>
-            <span class="trial-modal-close">&times;</span>
-        </div>
-        <div class="trial-modal-body" id="modalBody"></div>
-    </div>
-</div>
-
-<div id="imageModal" class="image-modal">
-    <span class="image-modal-close">&times;</span>
-    <div class="image-modal-content">
-        <img id="fullImage" src="" alt="Увеличенное изображение">
-    </div>
-</div>
-
-<script>
     // ===== ДАННЫЕ ИСПЫТАНИЙ =====
     const trialsData = [
         {
@@ -1724,16 +1571,22 @@
     const imageModalClose = document.querySelector('.image-modal-close');
 
     // Открытие карты на весь экран
-    document.getElementById('mapFullscreen').addEventListener('click', function() {
-        const img = this.querySelector('img');
-        if (img) {
-            fullImage.src = img.src;
-            imageModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    });
+    const mapWrapper = document.getElementById('mapFullscreen');
+    if (mapWrapper) {
+        mapWrapper.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            if (img && fullImage) {
+                fullImage.src = img.src;
+                if (imageModal) {
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        });
+    }
 
     function openTrialModal(trial) {
+        if (!modalTitle || !modalBody) return;
         modalTitle.textContent = trial.name;
         
         let galleryHtml = '';
@@ -1792,8 +1645,10 @@
             ${galleryHtml}
         `;
         
-        trialModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        if (trialModal) {
+            trialModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
         
         setTimeout(() => {
             initGallery(trial.gallery);
@@ -1802,7 +1657,7 @@
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const imgSrc = item.getAttribute('data-img');
-                    if (imgSrc) {
+                    if (imgSrc && fullImage && imageModal) {
                         fullImage.src = imgSrc;
                         imageModal.classList.add('active');
                         document.body.style.overflow = 'hidden';
@@ -1841,27 +1696,33 @@
             });
         }
         
-        prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
+        if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => goToSlide(index));
         });
         
         document.addEventListener('keydown', (e) => {
-            if (!trialModal.classList.contains('active')) return;
+            if (!trialModal || !trialModal.classList.contains('active')) return;
             if (e.key === 'ArrowLeft') goToSlide(currentSlideIndex - 1);
             if (e.key === 'ArrowRight') goToSlide(currentSlideIndex + 1);
         });
     }
 
     function closeModal() {
-        trialModal.classList.remove('active');
+        if (trialModal) {
+            trialModal.classList.remove('active');
+        }
         document.body.style.overflow = '';
     }
 
     function closeImageModal() {
-        imageModal.classList.remove('active');
-        fullImage.src = '';
+        if (imageModal) {
+            imageModal.classList.remove('active');
+        }
+        if (fullImage) {
+            fullImage.src = '';
+        }
         document.body.style.overflow = '';
     }
 
@@ -1883,22 +1744,13 @@
         });
     }
 
-    modalClose.addEventListener('click', closeModal);
-    trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
-    imageModalClose.addEventListener('click', closeImageModal);
-    imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (trialModal) trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
+    if (imageModalClose) imageModalClose.addEventListener('click', closeImageModal);
+    if (imageModal) imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
-        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
-    });
-
-    // Инициализация слайдера громкости
-    document.addEventListener('DOMContentLoaded', function() {
-        const slider = document.getElementById('volumeSlider');
-        if (slider) {
-            slider.value = currentVolume;
-        }
-        updateVolumeDisplay();
+        if (e.key === 'Escape' && trialModal && trialModal.classList.contains('active')) closeModal();
+        if (e.key === 'Escape' && imageModal && imageModal.classList.contains('active')) closeImageModal();
     });
 
     function initScrollAnimation() {
