@@ -58,6 +58,11 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -153,6 +158,127 @@
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+        }
+
+        /* ===== КНОПКА МУЗЫКИ И ГРОМКОСТЬ ===== */
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(8px);
+            padding: 0.3rem 0.8rem 0.3rem 0.6rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.15);
+        }
+
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.3rem 0.7rem;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+            color: white;
+        }
+
+        .music-toggle.playing {
+            border-color: rgba(220, 90, 50, 0.3);
+            color: #e25d32;
+        }
+
+        .music-toggle .icon {
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .music-toggle .icon.pulse {
+            animation: musicPulse 1.2s ease-in-out infinite;
+        }
+
+        .music-toggle .label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .volume-control .vol-icon {
+            color: #b5a8c8;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .volume-control .vol-icon:hover {
+            color: white;
+        }
+
+        .volume-control input[type="range"] {
+            width: 70px;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            outline: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .volume-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e25d32;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(226, 93, 50, 0.2);
+        }
+
+        .volume-control input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 20px rgba(226, 93, 50, 0.4);
+        }
+
+        .volume-control input[type="range"]::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e25d32;
+            cursor: pointer;
+            border: none;
+        }
+
+        .volume-control input[type="range"]:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .volume-control .vol-percent {
+            font-size: 0.6rem;
+            color: #b5a8c8;
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
         }
 
         .breadcrumb {
@@ -661,21 +787,6 @@
             margin-bottom: 0.5rem;
         }
 
-        @media (max-width: 900px) {
-            .trials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .gallery-slide .gallery-item {
-                flex: 0 0 calc(50% - 0.5rem);
-            }
-            .shops-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            .map-image-full .map-wrapper img {
-                max-height: 350px;
-            }
-        }
-
         @media (max-width: 850px) {
             .container { padding: 1rem; }
             .header { flex-direction: column; padding: 0.8rem 1rem; }
@@ -685,35 +796,27 @@
             .logo p { font-size: 0.55rem; }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
+            .music-controls { padding: 0.2rem 0.6rem; }
+            .volume-control input[type="range"] { width: 50px; }
+            .music-toggle { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
         }
 
         @media (max-width: 600px) {
-            .trials-grid {
-                grid-template-columns: 1fr;
-            }
+            .trials-grid { grid-template-columns: 1fr; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
-            .gallery-slide .gallery-item {
-                flex: 0 0 calc(100% - 0rem);
-            }
-            .gallery-nav-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 0.8rem;
-            }
-            .shops-grid {
-                grid-template-columns: 1fr;
-            }
-            .shop-card .shop-name {
-                font-size: 1rem;
-            }
-            .shop-card .shop-desc {
-                font-size: 0.8rem;
-            }
-            .map-image-full .map-wrapper img {
-                max-height: 250px;
-            }
+            .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
+            .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+            .shops-grid { grid-template-columns: 1fr; }
+            .shop-card .shop-name { font-size: 1rem; }
+            .shop-card .shop-desc { font-size: 0.8rem; }
+            .map-image-full .map-wrapper img { max-height: 250px; }
+            .volume-control input[type="range"] { width: 40px; }
+            .music-toggle { font-size: 0.6rem; padding: 0.15rem 0.4rem; }
+            .music-toggle .label { font-size: 0.5rem; }
+            .volume-control .vol-percent { min-width: 24px; font-size: 0.5rem; }
+            .music-controls { gap: 0.3rem; padding: 0.15rem 0.4rem; }
         }
     </style>
 </head>
@@ -723,6 +826,9 @@
 <video class="background-video" autoplay muted loop playsinline>
     <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
+
+<!-- Аудио для страницы -->
+<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <div class="container">
     <div class="header">
@@ -742,6 +848,20 @@
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
             <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
+
+            <!-- Кнопка музыки с регулировкой громкости -->
+            <div class="music-controls">
+                <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
+                    <span class="icon fa-solid fa-volume-xmark"></span>
+                    <span class="label">Выкл</span>
+                </button>
+                <div class="volume-control">
+                    <i class="fas fa-volume-low vol-icon" onclick="changeVolume(Math.max(0, currentVolume - 0.1))" title="Уменьшить громкость"></i>
+                    <input type="range" min="0" max="1" step="0.01" value="0.35" id="volumeSlider" oninput="changeVolume(this.value)">
+                    <i class="fas fa-volume-high vol-icon" onclick="changeVolume(Math.min(1, currentVolume + 0.1))" title="Увеличить громкость"></i>
+                    <span class="vol-percent" id="volPercent">35%</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -944,6 +1064,106 @@
     const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
+
+    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ =====
+    let pageAudioStarted = false;
+    let currentVolume = 0.35;
+
+    // Восстанавливаем громкость
+    try {
+        const savedVol = localStorage.getItem('pageVolume');
+        if (savedVol !== null) {
+            currentVolume = parseFloat(savedVol);
+            if (isNaN(currentVolume)) currentVolume = 0.35;
+            if (currentVolume < 0) currentVolume = 0;
+            if (currentVolume > 1) currentVolume = 1;
+        }
+    } catch(e) {}
+
+    function updateMusicButton(state) {
+        const btn = document.getElementById('musicToggleBtn');
+        if (!btn) return;
+        const icon = btn.querySelector('.icon');
+        const label = btn.querySelector('.label');
+        if (state) {
+            btn.classList.add('playing');
+            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
+            if (label) label.textContent = 'Вкл';
+        } else {
+            btn.classList.remove('playing');
+            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
+            if (label) label.textContent = 'Выкл';
+        }
+    }
+
+    function updateVolumeDisplay() {
+        const percent = document.getElementById('volPercent');
+        if (percent) {
+            percent.textContent = Math.round(currentVolume * 100) + '%';
+        }
+        const slider = document.getElementById('volumeSlider');
+        if (slider) {
+            slider.value = currentVolume;
+        }
+    }
+
+    function togglePageMusic() {
+        const audio = document.getElementById('bgAudio');
+        if (!audio) return;
+        if (audio.paused) {
+            audio.volume = currentVolume;
+            audio.play().catch(() => {});
+            pageAudioStarted = true;
+            updateMusicButton(true);
+        } else {
+            audio.pause();
+            updateMusicButton(false);
+        }
+    }
+
+    function changeVolume(value) {
+        const audio = document.getElementById('bgAudio');
+        currentVolume = parseFloat(value);
+        if (audio) {
+            audio.volume = currentVolume;
+        }
+        updateVolumeDisplay();
+        try {
+            localStorage.setItem('pageVolume', currentVolume);
+        } catch(e) {}
+    }
+
+    // Автозапуск музыки при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('bgAudio');
+        if (audio) {
+            // Выбираем аудиофайл
+            let selectedFile = 'loading 2.mp3';
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
+                const isHighLatency = conn.rtt && conn.rtt > 500;
+                const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
+                if (isVerySlow || isHighLatency || isVeryLowBandwidth) selectedFile = 'loading 3.mp3';
+                if (conn.saveData) selectedFile = 'loading 3.mp3';
+            }
+            try {
+                const perfData = performance.getEntriesByType('navigation')[0];
+                if (perfData) {
+                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                    if (loadTime > 5000) selectedFile = 'loading 3.mp3';
+                }
+            } catch(e) {}
+            
+            audio.src = 'images/' + selectedFile;
+            audio.volume = currentVolume;
+            audio.load();
+            audio.play().catch(() => {});
+            pageAudioStarted = true;
+            updateMusicButton(true);
+            updateVolumeDisplay();
+        }
+    });
 
     // Открытие карты на весь экран
     const mapWrapper = document.getElementById('mapFullscreen');
@@ -1153,6 +1373,5 @@
         console.log('Страница Торговый центр загружена');
     });
 </script>
-
 </body>
 </html>
