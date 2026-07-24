@@ -58,11 +58,6 @@
             100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
         }
 
-        @keyframes musicPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.85); }
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -71,7 +66,7 @@
             z-index: 10;
         }
 
-        /* ===== ШАПКА - НАВБАР РОВНО ПО ЦЕНТРУ ===== */
+        /* ===== ШАПКА ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -86,7 +81,6 @@
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
-            width: 100%;
         }
 
         .header:hover {
@@ -97,7 +91,6 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            flex-shrink: 0;
         }
 
         .logo .logo-img {
@@ -122,20 +115,16 @@
             margin-top: 0px;
         }
 
-        /* ===== НАВИГАЦИЯ ПО ЦЕНТРУ ===== */
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            justify-content: center;
             gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
             padding: 0.4rem 0.8rem;
             border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
-            flex: 1;
-            margin: 0 1rem;
         }
 
         .nav-btn {
@@ -153,7 +142,6 @@
             align-items: center;
             gap: 5px;
             text-decoration: none;
-            white-space: nowrap;
         }
 
         .nav-btn:hover {
@@ -165,128 +153,6 @@
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
-        }
-
-        /* ===== КНОПКА МУЗЫКИ И ГРОМКОСТЬ ===== */
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.3rem 0.8rem 0.3rem 0.6rem;
-            border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.15);
-            flex-shrink: 0;
-        }
-
-        .music-toggle {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            padding: 0.3rem 0.7rem;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
-
-        .music-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
-            color: white;
-        }
-
-        .music-toggle.playing {
-            border-color: rgba(220, 90, 50, 0.3);
-            color: #e25d32;
-        }
-
-        .music-toggle .icon {
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .music-toggle .icon.pulse {
-            animation: musicPulse 1.2s ease-in-out infinite;
-        }
-
-        .music-toggle .label {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .volume-control {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .volume-control .vol-icon {
-            color: #b5a8c8;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .volume-control .vol-icon:hover {
-            color: white;
-        }
-
-        .volume-control input[type="range"] {
-            width: 70px;
-            height: 4px;
-            -webkit-appearance: none;
-            appearance: none;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 2px;
-            outline: none;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .volume-control input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #e25d32;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(226, 93, 50, 0.2);
-        }
-
-        .volume-control input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-            box-shadow: 0 0 20px rgba(226, 93, 50, 0.4);
-        }
-
-        .volume-control input[type="range"]::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #e25d32;
-            cursor: pointer;
-            border: none;
-        }
-
-        .volume-control input[type="range"]:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .volume-control .vol-percent {
-            font-size: 0.6rem;
-            color: #b5a8c8;
-            min-width: 30px;
-            text-align: center;
-            font-weight: 600;
         }
 
         .breadcrumb {
@@ -795,80 +661,59 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ===== АДАПТИВНОСТЬ ===== */
-        @media (max-width: 1100px) {
-            .header {
-                flex-wrap: wrap;
-                justify-content: center;
+        @media (max-width: 900px) {
+            .trials-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .nav-links {
-                order: 3;
-                flex: 1 1 100%;
-                justify-content: center;
-                margin: 0.3rem 0;
+            .gallery-slide .gallery-item {
+                flex: 0 0 calc(50% - 0.5rem);
             }
-            .music-controls {
-                margin-left: auto;
+            .shops-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            .map-image-full .map-wrapper img {
+                max-height: 350px;
             }
         }
 
         @media (max-width: 850px) {
             .container { padding: 1rem; }
-            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
-            .logo { width: 100%; justify-content: center; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
             .logo p { font-size: 0.55rem; }
-            .nav-links { 
-                width: 100%; 
-                justify-content: center; 
-                flex-wrap: wrap;
-                margin: 0.5rem 0;
-                padding: 0.5rem;
-                border-radius: 30px;
-            }
-            .nav-btn { font-size: 0.7rem; padding: 0.4rem 0.7rem; }
-            .music-controls { 
-                width: 100%; 
-                justify-content: center;
-                padding: 0.4rem;
-                margin: 0;
-            }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
-            .trials-grid { grid-template-columns: 1fr 1fr; }
-            .volume-control input[type="range"] { width: 50px; }
-            .music-toggle { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
         }
 
         @media (max-width: 600px) {
-            .trials-grid { grid-template-columns: 1fr; }
-            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
+            .trials-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
-            .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
-            .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
-            .shops-grid { grid-template-columns: 1fr; }
-            .shop-card .shop-name { font-size: 1rem; }
-            .shop-card .shop-desc { font-size: 0.8rem; }
-            .map-image-full .map-wrapper img { max-height: 250px; }
-            .volume-control input[type="range"] { width: 40px; }
-            .music-toggle { font-size: 0.6rem; padding: 0.15rem 0.4rem; }
-            .music-toggle .label { font-size: 0.5rem; }
-            .volume-control .vol-percent { min-width: 24px; font-size: 0.5rem; }
-            .music-controls { gap: 0.3rem; padding: 0.15rem 0.4rem; flex-wrap: wrap; }
-            .header { padding: 0.6rem; border-radius: 30px; }
-            .nav-links { gap: 0.2rem; padding: 0.3rem; border-radius: 20px; }
-        }
-
-        @media (max-width: 400px) {
-            .container { padding: 0.5rem; }
-            .nav-btn { font-size: 0.5rem; padding: 0.2rem 0.4rem; }
-            .logo .logo-text { font-size: 0.9rem; }
-            .logo .logo-img { max-height: 30px; }
-            .music-toggle { font-size: 0.5rem; padding: 0.1rem 0.3rem; }
-            .volume-control input[type="range"] { width: 30px; }
-            .vol-percent { display: none; }
+            .gallery-slide .gallery-item {
+                flex: 0 0 calc(100% - 0rem);
+            }
+            .gallery-nav-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+            .shops-grid {
+                grid-template-columns: 1fr;
+            }
+            .shop-card .shop-name {
+                font-size: 1rem;
+            }
+            .shop-card .shop-desc {
+                font-size: 0.8rem;
+            }
+            .map-image-full .map-wrapper img {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
@@ -876,24 +721,18 @@
 
 <!-- Фоновое видео -->
 <video class="background-video" autoplay muted loop playsinline>
-    <source src="images/об игре фон.mp4" type="video/mp4">
+    <source src="../images/об игре фон.mp4" type="video/mp4">
 </video>
 
-<!-- Аудио для страницы -->
-<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
-
 <div class="container">
-    <!-- ===== ШАПКА С НАВБАРОМ ПО ЦЕНТРУ ===== -->
     <div class="header">
         <div class="logo">
-            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
             <div>
                 <span class="logo-text">Курилка Синьялы</span>
                 <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
             </div>
         </div>
-        
-        <!-- НАВИГАЦИЯ ПО ЦЕНТРУ -->
         <div class="nav-links">
             <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
             <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
@@ -904,20 +743,6 @@
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
             <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
         </div>
-
-        <!-- КНОПКА МУЗЫКИ + ГРОМКОСТЬ -->
-        <div class="music-controls">
-            <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
-                <span class="icon fa-solid fa-volume-xmark"></span>
-                <span class="label">Выкл</span>
-            </button>
-            <div class="volume-control">
-                <i class="fas fa-volume-low vol-icon" onclick="changeVolume(Math.max(0, currentVolume - 0.1))" title="Уменьшить громкость"></i>
-                <input type="range" min="0" max="1" step="0.01" value="0.35" id="volumeSlider" oninput="changeVolume(this.value)">
-                <i class="fas fa-volume-high vol-icon" onclick="changeVolume(Math.min(1, currentVolume + 0.1))" title="Увеличить громкость"></i>
-                <span class="vol-percent" id="volPercent">35%</span>
-            </div>
-        </div>
     </div>
 
     <div class="breadcrumb">
@@ -926,7 +751,7 @@
 
     <div class="map-container">
         <div class="map-image">
-            <img src="images/Политик-1.png" alt="Торговый центр" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Торговый+центр'">
+            <img src="../images/Политик-1.png" alt="Торговый центр" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Торговый+центр'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Торговый центр</h1>
@@ -939,7 +764,7 @@
     <div class="map-image-full">
         <div class="map-label"><i class="fas fa-map"></i> Карта торгового центра</div>
         <div class="map-wrapper" id="mapFullscreen">
-            <img src="images/карта торгового центра.webp" alt="Карта торгового центра" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+торгового+центра'">
+            <img src="../images/карта торгового центра.webp" alt="Карта торгового центра" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+торгового+центра'">
         </div>
     </div>
 
@@ -1061,7 +886,7 @@
     </div>
 
     <footer>
-        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
+        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
         <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
         <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
@@ -1092,23 +917,23 @@
         {
             id: "kill-the-politician",
             name: "Убейте политика",
-            image: "images/Генезис-Политик.webp",
+            image: "../images/Генезис-Политик.webp",
             description: "Основное испытание в торговом центре, где главной задачей для реагентов служит убийство политика, путём обливания его кислотой. Реагентам необходимо проникнуть в торговый центр, а затем достать билет для прохода к главной цели испытания.",
-            gallery: ["images/Политик-1.png", "images/Политик-2.png", "images/Политик-3.png", "images/Политик-4.png", "images/Политик-5.png", "images/Политик-6.png"]
+            gallery: ["../images/Политик-1.png", "../images/Политик-2.png", "../images/Политик-3.png", "../images/Политик-4.png", "../images/Политик-5.png", "../images/Политик-6.png"]
         },        
         {
             id: "solve-the-minotaur-case",
             name: "Исследуйте дело Минотавра",
-            image: "images/ТЦ МК-01.webp",
+            image: "../images/ТЦ МК-01.webp",
             description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. Реагенты прибывают на шаттле в зону погрузки-разгрузки склада универмага. После выхода из шаттла испытуемые могут увидеть автомобиль с открытым багажником, в который нужно будет положить коробку с доказательствами. Коробка находится на втором этаже магазина «Spatlin», и чтобы туда добраться, реагентам необходимо пройти в другой конец первого этажа торгового центра.\n\nКогда реагенты зайдут в магазин «Spatlin», пройдя дальше от входа, они увидят два щитка, у каждого из которых будут установлены по одному предохранителю. Взяв один предохранитель, реагентам нужно будет подняться по эскалатору на второй этаж магазина, чтобы открыть комнату, в которой лежит искомая коробка с доказательствами.\n\nЗабрав коробку и спустившись на первый этаж магазина, испытуемым необходимо вынести коробку за пределы магазина через большие ворота, которые держит открытыми второй предохранитель. Если сразу вытащить второй предохранитель, то коробку вынести не получится, ибо реагенту несущему её, преградят путь металлические раздвижные двери.\n\nКогда реагенты вынесут коробку из магазина, им нужно будет забрать последний предохранитель, находящийся в щитке. Далее реагентам будут преграждать путь такие же раздвижные двери, и на сей раз большие ворота будут закрыты. Чтобы их открыть, испытуемым понадобится найти один из магазинов, где есть щиток, в который можно вставить предохранитель. Чтобы реагентам было легче найти такой магазин, они могут ориентироваться на провода, ведущие от ворот, (которые нужно открыть) к щитку.\n\nПреодолев двое ворот, и пройдя обратно до универмага, реагентам в последний раз нужно повторить вышеописанные действия, чтобы в него попасть. Далее коробку необходимо вынести к началу испытания и положить её в багажник автомобиля. После выполненного задания, появится возможность вызвать шаттл и покинуть испытание.",
-            gallery: ["images/Минотавр-1.png", "images/Минотавр-2.png", "images/Минотавр-3.png", "images/Минотавр-4.png", "images/Минотавр-5.png"]
+            gallery: ["../images/Минотавр-1.png", "../images/Минотавр-2.png", "../images/Минотавр-3.png", "../images/Минотавр-4.png", "../images/Минотавр-5.png"]
         },
         {
             id: "fabricate-a-scandal",
             name: "Сфабрикуйте скандал",
-            image: "images/ТЦ МК-02.webp",
+            image: "../images/ТЦ МК-02.webp",
             description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Реагенты начинают испытание в подсобном помещении магазина одежды (S), после чего попадают в комнату охраны, где их встречают верхние части тел четырёх манекенов-садистов. Манекены украшены слепками лица Ароры Кресс, и их необходимо использовать, чтобы подставить семью Кресс, сфабриковав громкий сексуальный скандал.\n\nДля этого Реагенты должны сначала установить жёлтого манекена-садиста на соответствующую ему нижнюю часть тела, находящуюся в комнате охраны. После правильной установки манекен примет позу рядом с трупом. Как только сцена будет готова, расположенная поблизости камера автоматически сделает снимок, а стоящий рядом билетный автомат распечатает компрометирующую фотографию в качестве «доказательства» сфабрикованного секс-скандала. Полученную фотографию необходимо поместить в ящик для билетов, расположенный в комнате охраны.\n\nПосле выполнения этой задачи Реагенты получают доступ к остальной части торгового центра и должны завершить кампанию по дискредитации семьи Кресс. Для этого необходимо найти оставшихся трёх манекенов-садистов, установить каждого на соответствующую нижнюю часть тела, расположенную в разных магазинах торгового центра, собрать сделанные компрометирующие фотографии и вернуть их в билетную будку комнаты охраны.\n\nЕсли манекен будет установлен на неправильную нижнюю часть тела, фотография сделана не будет. Поэтому Реагентам придётся внимательно исследовать торговый центр, используя карты местности, а иногда и прибегая к методу проб и ошибок. На протяжении всего испытания Отто и Арора Кресс будут преследовать Реагентов, стараясь защитить репутацию своей семьи. Им будут помогать различные Ex-Pop. На более низких уровнях сложности Отто и Арора периодически появляются и покидают испытательную зону через Врата ввода Ex-Pop. Однако на высоких уровнях сложности они остаются в испытании до самого его завершения.\n\nИзучив карту торгового центра, можно определить местоположение оставшихся постановочных сцен. Они находятся в следующих магазинах: Универмаг (A), Зоомагазин (B), Салон красоты (C), Итальянский ресторан (D), Бар свежих соков (I), Магазин телевизоров Cathod (J), Магазин рамок и пластинок (K), Магазин музыкальных инструментов (L), Оба этажа магазина Spatlin (M), Магазин хозяйственных товаров (N).\n\nПосле того как все компрометирующие фотографии будут собраны и помещены в билетную будку комнаты охраны, Реагенты должны покинуть испытание, эвакуировавшись на шаттле выхода.",
-            gallery: ["images/Скандал-1.png", "images/Скандал-2.png", "images/Скандал-3.png", "images/Скандал-4.png", "images/Скандал-5.png", "images/Скандал-6.png"]
+            gallery: ["../images/Скандал-1.png", "../images/Скандал-2.png", "../images/Скандал-3.png", "../images/Скандал-4.png", "../images/Скандал-5.png", "../images/Скандал-6.png"]
         }
     ];
 
@@ -1119,106 +944,6 @@
     const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
-
-    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ =====
-    let pageAudioStarted = false;
-    let currentVolume = 0.35;
-
-    // Восстанавливаем громкость
-    try {
-        const savedVol = localStorage.getItem('pageVolume');
-        if (savedVol !== null) {
-            currentVolume = parseFloat(savedVol);
-            if (isNaN(currentVolume)) currentVolume = 0.35;
-            if (currentVolume < 0) currentVolume = 0;
-            if (currentVolume > 1) currentVolume = 1;
-        }
-    } catch(e) {}
-
-    function updateMusicButton(state) {
-        const btn = document.getElementById('musicToggleBtn');
-        if (!btn) return;
-        const icon = btn.querySelector('.icon');
-        const label = btn.querySelector('.label');
-        if (state) {
-            btn.classList.add('playing');
-            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
-            if (label) label.textContent = 'Вкл';
-        } else {
-            btn.classList.remove('playing');
-            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
-            if (label) label.textContent = 'Выкл';
-        }
-    }
-
-    function updateVolumeDisplay() {
-        const percent = document.getElementById('volPercent');
-        if (percent) {
-            percent.textContent = Math.round(currentVolume * 100) + '%';
-        }
-        const slider = document.getElementById('volumeSlider');
-        if (slider) {
-            slider.value = currentVolume;
-        }
-    }
-
-    function togglePageMusic() {
-        const audio = document.getElementById('bgAudio');
-        if (!audio) return;
-        if (audio.paused) {
-            audio.volume = currentVolume;
-            audio.play().catch(() => {});
-            pageAudioStarted = true;
-            updateMusicButton(true);
-        } else {
-            audio.pause();
-            updateMusicButton(false);
-        }
-    }
-
-    function changeVolume(value) {
-        const audio = document.getElementById('bgAudio');
-        currentVolume = parseFloat(value);
-        if (audio) {
-            audio.volume = currentVolume;
-        }
-        updateVolumeDisplay();
-        try {
-            localStorage.setItem('pageVolume', currentVolume);
-        } catch(e) {}
-    }
-
-    // Автозапуск музыки при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
-        const audio = document.getElementById('bgAudio');
-        if (audio) {
-            // Выбираем аудиофайл
-            let selectedFile = 'loading 2.mp3';
-            if (navigator.connection) {
-                const conn = navigator.connection;
-                const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
-                const isHighLatency = conn.rtt && conn.rtt > 500;
-                const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
-                if (isVerySlow || isHighLatency || isVeryLowBandwidth) selectedFile = 'loading 3.mp3';
-                if (conn.saveData) selectedFile = 'loading 3.mp3';
-            }
-            try {
-                const perfData = performance.getEntriesByType('navigation')[0];
-                if (perfData) {
-                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
-                    if (loadTime > 5000) selectedFile = 'loading 3.mp3';
-                }
-            } catch(e) {}
-            
-            audio.src = 'images/' + selectedFile;
-            audio.volume = currentVolume;
-            audio.load();
-            audio.play().catch(() => {});
-            pageAudioStarted = true;
-            updateMusicButton(true);
-            updateVolumeDisplay();
-        }
-    });
 
     // Открытие карты на весь экран
     const mapWrapper = document.getElementById('mapFullscreen');
@@ -1426,19 +1151,8 @@
         displayTrials();
         initScrollAnimation();
         console.log('Страница Торговый центр загружена');
-        
-        // Обработка ошибок загрузки изображений
-        document.querySelectorAll('img').forEach(img => {
-            img.addEventListener('error', function() {
-                console.warn('Не загружено изображение:', this.src);
-                // Если у картинки нет fallback через onerror, добавляем заглушку
-                if (!this.getAttribute('data-fallback')) {
-                    this.setAttribute('data-fallback', 'true');
-                    this.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'%3E%3Crect width=\'200\' height=\'200\' fill=\'%231a1a2e\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23e16d48\' font-size=\'14\' font-family=\'Arial\'%3EИзображение%3C/text%3E%3C/svg%3E';
-                }
-            });
-        });
     });
 </script>
+
 </body>
 </html>
