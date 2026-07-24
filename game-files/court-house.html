@@ -70,7 +70,7 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ (как на Торговом центре) ===== */
+        /* ===== НАВИГАЦИЯ ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -380,8 +380,8 @@
         }
 
         .map-image {
-            flex: 1;
-            min-width: 250px;
+            flex: 0 0 280px;
+            min-width: 200px;
         }
 
         .map-image img {
@@ -391,8 +391,13 @@
             transition: transform 0.3s ease;
         }
 
+        .map-image img:hover {
+            transform: scale(1.02);
+        }
+
         .map-info {
             flex: 1;
+            min-width: 200px;
         }
 
         .map-title {
@@ -402,76 +407,75 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .map-description {
             font-size: 1rem;
             line-height: 1.7;
             color: #d1cce6;
-            margin-bottom: 0.8rem;
+            text-indent: 1.5rem;
         }
 
-        .map-details {
+        .map-description:first-of-type {
+            text-indent: 0;
+        }
+
+        /* ===== ДВЕ КАРТЫ РЯДОМ ===== */
+        .maps-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .detail-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: #c2b9d4;
-        }
-
-        .detail-item i {
-            color: #e16d48;
-            width: 20px;
-        }
-
-        /* ===== КАРТА ЗДАНИЯ СУДА ===== */
-        .map-image-full {
-            text-align: center;
+            gap: 1.5rem;
             margin: 1.5rem 0 2rem 0;
+            justify-content: center;
         }
 
-        .map-image-full .map-label {
-            font-size: 1.1rem;
+        .maps-row .map-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 500px;
+            background: rgba(18, 12, 28, 0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .maps-row .map-card:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .maps-row .map-card .map-label {
+            font-size: 0.9rem;
             font-weight: 600;
             color: #ffbc9a;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             letter-spacing: 1px;
         }
 
-        .map-image-full .map-wrapper {
-            display: inline-block;
-            border-radius: 20px;
+        .maps-row .map-card .map-wrapper {
+            border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.3);
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
-            max-width: 100%;
             background: rgba(18, 12, 28, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .map-image-full .map-wrapper:hover {
+        .maps-row .map-card .map-wrapper:hover {
             border-color: #e16d48;
-            transform: scale(1.01);
             box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
         }
 
-        .map-image-full .map-wrapper img {
-            max-width: 100%;
+        .maps-row .map-card .map-wrapper img {
+            width: 100%;
             height: auto;
             display: block;
-            max-height: 500px;
+            max-height: 350px;
+            object-fit: contain;
         }
 
         /* ===== ИСПЫТАНИЯ ===== */
@@ -618,9 +622,14 @@
 
         .trial-info-text p {
             color: #d1cce6;
-            line-height: 1.6;
+            line-height: 1.7;
             margin-bottom: 1rem;
             white-space: pre-line;
+            text-indent: 1.5rem;
+        }
+
+        .trial-info-text p:first-of-type {
+            text-indent: 0;
         }
 
         .trial-gallery {
@@ -808,9 +817,10 @@
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
             .map-container { flex-direction: column; }
+            .map-image { flex: 1; }
             .map-title { font-size: 1.4rem; text-align: center; }
             .trials-grid { grid-template-columns: repeat(2, 1fr); }
-            .map-image-full .map-wrapper img { max-height: 350px; }
+            .maps-row .map-card { max-width: 100%; }
             .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
             .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
             .volume-dropdown.open { transform: translateX(-50%) scale(1); }
@@ -829,9 +839,10 @@
             .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
             .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
-            .map-image-full .map-wrapper img { max-height: 250px; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
+            .maps-row { flex-direction: column; align-items: center; }
+            .maps-row .map-card { max-width: 100%; width: 100%; }
         }
     </style>
 </head>
@@ -900,28 +911,32 @@
         <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
     </div>
 
-    <!-- ===== КАРТА ===== -->
+    <!-- ===== КАРТА С ОБТЕКАНИЕМ ТЕКСТА ===== -->
     <div class="map-container">
         <div class="map-image">
-            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Здание+суда'">
+            <img src="../images/Здание суда.png" alt="Здание суда" onerror="this.src='https://placehold.co/280x350/1a1a2e/e16d48?text=Здание+суда'">
         </div>
         <div class="map-info">
             <h1 class="map-title">Здание суда</h1>
             <p class="map-description">Здание суда (ориг. Courthouse) — место в игре The Outlast Trials, испытательный полигон главного актива Лиланда Койла на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде огромного здания суда, символизирующего духовную среду обитания главного актива Лиланда Койла.</p>
-            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом.</p>
-            <div class="map-details">
-                <span class="detail-item"><i class="fas fa-user-shield"></i> Лиланд Койл</span>
-                <span class="detail-item"><i class="fas fa-building"></i> Здание суда</span>
-                <span class="detail-item"><i class="fas fa-gavel"></i> Правосудие</span>
-            </div>
+            <p class="map-description">Испытуемые реагенты должны проходить различные испытания в суде и противостоять агрессивным экс-попам во главе с неуравновешенным сержантом Койлом. Учёные и охрана Меркофф следили за ходом всех испытаний через безопасные зоны. После завершения испытания реагентами, все экс-попы также покидают полигон, и в области начинает работу бригада уборщиков Меркофф, готовящие территорию к новому испытанию.</p>
+            <p class="map-description">Здание суда состоит из двух основных этажей, каждый из которых имеет свою уникальную планировку и набор комнат. На первом этаже расположены вестибюль, залы суда и кабинеты. На втором этаже находятся архив, технические помещения и дополнительные залы.</p>
         </div>
     </div>
 
-    <!-- ===== КАРТА ЗДАНИЯ СУДА ===== -->
-    <div class="map-image-full">
-        <div class="map-label"><i class="fas fa-map"></i> Карта здания суда</div>
-        <div class="map-wrapper" id="mapFullscreen">
-            <img src="../images/карта здания суда.webp" alt="Карта здания суда" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+здания+суда'">
+    <!-- ===== ДВЕ КАРТЫ ЭТАЖЕЙ РЯДОМ ===== -->
+    <div class="maps-row">
+        <div class="map-card">
+            <div class="map-label"><i class="fas fa-map"></i> 1-й этаж</div>
+            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта здания суда 1 этаж.webp')">
+                <img src="../images/карта здания суда 1 этаж.webp" alt="Карта 1-го этажа" onerror="this.src='https://placehold.co/500x400/1a1a2e/e16d48?text=1-й+этаж'">
+            </div>
+        </div>
+        <div class="map-card">
+            <div class="map-label"><i class="fas fa-map"></i> 2-й этаж</div>
+            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта здания суда 2 этаж.webp')">
+                <img src="../images/карта здания суда 2 этаж.webp" alt="Карта 2-го этажа" onerror="this.src='https://placehold.co/500x400/1a1a2e/e16d48?text=2-й+этаж'">
+            </div>
         </div>
     </div>
 
@@ -996,7 +1011,7 @@
         }
     ];
 
-    // ===== МУЗЫКА (один трек с loop) =====
+    // ===== МУЗЫКА =====
     let mainAudioStarted = false;
     let mainAudioElement = null;
 
@@ -1115,7 +1130,6 @@
         valueDisplay.textContent = val + '%';
     }
 
-    // Закрывать дропдаун при клике вне его
     document.addEventListener('click', function(e) {
         const wrapper = document.querySelector('.music-controls-wrapper');
         if (wrapper && !wrapper.contains(e.target)) {
@@ -1127,7 +1141,6 @@
         }
     });
 
-    // Слайдер громкости
     document.addEventListener('DOMContentLoaded', function() {
         const slider = document.getElementById('volumeSlider');
         const valueDisplay = document.getElementById('volumeValue');
@@ -1149,7 +1162,6 @@
         updateVolumeDisplay();
     });
 
-    // Автозапуск музыки через 1.5 секунды после загрузки
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(startMainMusic, 1500);
     });
@@ -1164,6 +1176,17 @@
     window.toggleMainMusic = toggleMainMusic;
     window.toggleVolumeDropdown = toggleVolumeDropdown;
 
+    // ===== ОТКРЫТИЕ КАРТЫ НА ВЕСЬ ЭКРАН =====
+    function openFullscreenImage(src) {
+        const fullImage = document.getElementById('fullImage');
+        const imageModal = document.getElementById('imageModal');
+        if (fullImage && imageModal) {
+            fullImage.src = src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
     // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -1172,15 +1195,6 @@
     const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
-
-    document.getElementById('mapFullscreen').addEventListener('click', function() {
-        const img = this.querySelector('img');
-        if (img) {
-            fullImage.src = img.src;
-            imageModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    });
 
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
@@ -1352,7 +1366,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.map-container, .map-image-full, .trials-section').forEach(el => {
+        document.querySelectorAll('.map-container, .maps-row, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
