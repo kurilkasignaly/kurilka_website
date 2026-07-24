@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Suburb — Trial | Курилка Синьялы</title>
+    <title>Пригород — Испытание | Курилка Синьялы</title>
     <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="../images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="../images/лого.png">
@@ -412,58 +412,6 @@
             margin-bottom: 0.8rem;
         }
 
-        /* ===== КАРТЫ ПРИГОРОДА ===== */
-        .maps-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin: 1.5rem 0 2rem 0;
-            justify-content: center;
-        }
-
-        .maps-row .map-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        .maps-row .map-card .map-label {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffbc9a;
-            margin-bottom: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .maps-row .map-card .map-wrapper {
-            display: inline-block;
-            border-radius: 20px;
-            border: 2px solid rgba(220, 90, 50, 0.3);
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            max-width: 100%;
-            background: rgba(18, 12, 28, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            width: 100%;
-        }
-
-        .maps-row .map-card .map-wrapper:hover {
-            border-color: #e16d48;
-            transform: scale(1.01);
-            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
-        }
-
-        .maps-row .map-card .map-wrapper img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            max-height: 500px;
-            width: 100%;
-            object-fit: contain;
-        }
-
         /* ===== ИСПЫТАНИЯ ===== */
         .trials-section {
             margin-bottom: 2rem;
@@ -803,8 +751,6 @@
             .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
             .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
             .volume-dropdown.open { transform: translateX(-50%) scale(1); }
-            .maps-row { flex-direction: column; align-items: center; }
-            .maps-row .map-card { max-width: 100%; width: 100%; }
         }
 
         @media (max-width: 600px) {
@@ -822,7 +768,6 @@
             .gallery-nav-btn { width: 32px; height: 32px; font-size: 0.8rem; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
-            .maps-row .map-card { min-width: 100%; }
         }
     </style>
 </head>
@@ -900,22 +845,6 @@
             <h1 class="map-title">Suburb</h1>
             <p class="map-description">Suburb (ориг. Suburb) — место в игре The Outlast Trials, испытательный полигон главного актива Франсуа Барбера на объекте Синьяла. Огромный испытательный полигон внутри ангара объекта Синьяла в пустыне Аризоны, построенный в виде тихого американского пригорода, символизирующего духовную среду обитания главного актива Франсуа Барбера.</p>
             <p class="map-description">Испытуемые реагенты должны проходить различные испытания в пригороде и противостоять агрессивным экс-попам во главе с жестоким Франсуа Барбером.</p>
-        </div>
-    </div>
-
-    <!-- ===== КАРТЫ ПРИГОРОДА ===== -->
-    <div class="maps-row">
-        <div class="map-card">
-            <div class="map-label"><i class="fas fa-map"></i> Карта пригорода — 1-й этаж</div>
-            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта пригорода 1 этаж.webp')">
-                <img src="../images/карта пригорода 1 этаж.webp" alt="Карта 1-го этажа пригорода" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=1-й+этаж'">
-            </div>
-        </div>
-        <div class="map-card">
-            <div class="map-label"><i class="fas fa-map"></i> Карта пригорода — 2-й этаж</div>
-            <div class="map-wrapper" onclick="openFullscreenImage('../images/карта пригорода 2 этаж.webp')">
-                <img src="../images/карта пригорода 2 этаж.webp" alt="Карта 2-го этажа пригорода" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=2-й+этаж'">
-            </div>
         </div>
     </div>
 
@@ -1155,17 +1084,6 @@
     window.toggleMainMusic = toggleMainMusic;
     window.toggleVolumeDropdown = toggleVolumeDropdown;
 
-    // ===== ОТКРЫТИЕ КАРТЫ НА ВЕСЬ ЭКРАН =====
-    function openFullscreenImage(src) {
-        const fullImage = document.getElementById('fullImage');
-        const imageModal = document.getElementById('imageModal');
-        if (fullImage && imageModal) {
-            fullImage.src = src;
-            imageModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-
     // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -1345,7 +1263,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.map-container, .maps-row, .trials-section').forEach(el => {
+        document.querySelectorAll('.map-container, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
