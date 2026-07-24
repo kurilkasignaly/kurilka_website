@@ -71,7 +71,7 @@
             z-index: 10;
         }
 
-        /* ===== ШАПКА ===== */
+        /* ===== ШАПКА - НАВБАР РОВНО ПО ЦЕНТРУ ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -86,6 +86,7 @@
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
+            width: 100%;
         }
 
         .header:hover {
@@ -96,6 +97,7 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            flex-shrink: 0;
         }
 
         .logo .logo-img {
@@ -120,16 +122,20 @@
             margin-top: 0px;
         }
 
+        /* ===== НАВИГАЦИЯ ПО ЦЕНТРУ ===== */
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
+            justify-content: center;
             gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
             padding: 0.4rem 0.8rem;
             border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
+            flex: 1;
+            margin: 0 1rem;
         }
 
         .nav-btn {
@@ -147,6 +153,7 @@
             align-items: center;
             gap: 5px;
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .nav-btn:hover {
@@ -170,6 +177,7 @@
             padding: 0.3rem 0.8rem 0.3rem 0.6rem;
             border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
+            flex-shrink: 0;
         }
 
         .music-toggle {
@@ -787,23 +795,55 @@
             margin-bottom: 0.5rem;
         }
 
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 1100px) {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links {
+                order: 3;
+                flex: 1 1 100%;
+                justify-content: center;
+                margin: 0.3rem 0;
+            }
+            .music-controls {
+                margin-left: auto;
+            }
+        }
+
         @media (max-width: 850px) {
             .container { padding: 1rem; }
-            .header { flex-direction: column; padding: 0.8rem 1rem; }
-            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .logo { width: 100%; justify-content: center; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
             .logo p { font-size: 0.55rem; }
+            .nav-links { 
+                width: 100%; 
+                justify-content: center; 
+                flex-wrap: wrap;
+                margin: 0.5rem 0;
+                padding: 0.5rem;
+                border-radius: 30px;
+            }
+            .nav-btn { font-size: 0.7rem; padding: 0.4rem 0.7rem; }
+            .music-controls { 
+                width: 100%; 
+                justify-content: center;
+                padding: 0.4rem;
+                margin: 0;
+            }
             .map-container { flex-direction: column; }
             .map-title { font-size: 1.4rem; text-align: center; }
-            .music-controls { padding: 0.2rem 0.6rem; }
+            .trials-grid { grid-template-columns: 1fr 1fr; }
             .volume-control input[type="range"] { width: 50px; }
             .music-toggle { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
         }
 
         @media (max-width: 600px) {
             .trials-grid { grid-template-columns: 1fr; }
-            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
             .gallery-slide .gallery-item { flex: 0 0 calc(100% - 0rem); }
@@ -816,7 +856,19 @@
             .music-toggle { font-size: 0.6rem; padding: 0.15rem 0.4rem; }
             .music-toggle .label { font-size: 0.5rem; }
             .volume-control .vol-percent { min-width: 24px; font-size: 0.5rem; }
-            .music-controls { gap: 0.3rem; padding: 0.15rem 0.4rem; }
+            .music-controls { gap: 0.3rem; padding: 0.15rem 0.4rem; flex-wrap: wrap; }
+            .header { padding: 0.6rem; border-radius: 30px; }
+            .nav-links { gap: 0.2rem; padding: 0.3rem; border-radius: 20px; }
+        }
+
+        @media (max-width: 400px) {
+            .container { padding: 0.5rem; }
+            .nav-btn { font-size: 0.5rem; padding: 0.2rem 0.4rem; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo .logo-img { max-height: 30px; }
+            .music-toggle { font-size: 0.5rem; padding: 0.1rem 0.3rem; }
+            .volume-control input[type="range"] { width: 30px; }
+            .vol-percent { display: none; }
         }
     </style>
 </head>
@@ -831,14 +883,17 @@
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
 <div class="container">
+    <!-- ===== ШАПКА С НАВБАРОМ ПО ЦЕНТРУ ===== -->
     <div class="header">
         <div class="logo">
-            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
             <div>
                 <span class="logo-text">Курилка Синьялы</span>
                 <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
             </div>
         </div>
+        
+        <!-- НАВИГАЦИЯ ПО ЦЕНТРУ -->
         <div class="nav-links">
             <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
             <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
@@ -848,19 +903,19 @@
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
             <a href="escalation.html" class="nav-btn"><i class="fas fa-chart-line"></i> Эскалация</a>
+        </div>
 
-            <!-- Кнопка музыки с регулировкой громкости -->
-            <div class="music-controls">
-                <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
-                    <span class="icon fa-solid fa-volume-xmark"></span>
-                    <span class="label">Выкл</span>
-                </button>
-                <div class="volume-control">
-                    <i class="fas fa-volume-low vol-icon" onclick="changeVolume(Math.max(0, currentVolume - 0.1))" title="Уменьшить громкость"></i>
-                    <input type="range" min="0" max="1" step="0.01" value="0.35" id="volumeSlider" oninput="changeVolume(this.value)">
-                    <i class="fas fa-volume-high vol-icon" onclick="changeVolume(Math.min(1, currentVolume + 0.1))" title="Увеличить громкость"></i>
-                    <span class="vol-percent" id="volPercent">35%</span>
-                </div>
+        <!-- КНОПКА МУЗЫКИ + ГРОМКОСТЬ -->
+        <div class="music-controls">
+            <button class="music-toggle" id="musicToggleBtn" onclick="togglePageMusic()" title="Включить/выключить музыку">
+                <span class="icon fa-solid fa-volume-xmark"></span>
+                <span class="label">Выкл</span>
+            </button>
+            <div class="volume-control">
+                <i class="fas fa-volume-low vol-icon" onclick="changeVolume(Math.max(0, currentVolume - 0.1))" title="Уменьшить громкость"></i>
+                <input type="range" min="0" max="1" step="0.01" value="0.35" id="volumeSlider" oninput="changeVolume(this.value)">
+                <i class="fas fa-volume-high vol-icon" onclick="changeVolume(Math.min(1, currentVolume + 0.1))" title="Увеличить громкость"></i>
+                <span class="vol-percent" id="volPercent">35%</span>
             </div>
         </div>
     </div>
@@ -1006,7 +1061,7 @@
     </div>
 
     <footer>
-        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
+        <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
         <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials</p>
         <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
@@ -1371,6 +1426,18 @@
         displayTrials();
         initScrollAnimation();
         console.log('Страница Торговый центр загружена');
+        
+        // Обработка ошибок загрузки изображений
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                console.warn('Не загружено изображение:', this.src);
+                // Если у картинки нет fallback через onerror, добавляем заглушку
+                if (!this.getAttribute('data-fallback')) {
+                    this.setAttribute('data-fallback', 'true');
+                    this.src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\'%3E%3Crect width=\'200\' height=\'200\' fill=\'%231a1a2e\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23e16d48\' font-size=\'14\' font-family=\'Arial\'%3EИзображение%3C/text%3E%3C/svg%3E';
+                }
+            });
+        });
     });
 </script>
 </body>
