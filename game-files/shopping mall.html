@@ -367,10 +367,15 @@
             white-space: pre-line;
         }
 
+        /* ===== ГАЛЕРЕЯ С ГОРИЗОНТАЛЬНЫМ СКРОЛЛОМ И СТРЕЛКАМИ ===== */
+        .trial-gallery {
+            margin-top: 1rem;
+        }
+
         .trial-gallery h4 {
             font-size: 1.2rem;
             color: #e16d48;
-            margin: 1rem 0 1rem 0;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -378,31 +383,102 @@
             padding-left: 12px;
         }
 
-        .trial-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+        .gallery-slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
         }
 
-        .trial-gallery-item {
+        .gallery-slider-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 0;
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            display: flex;
+            gap: 1rem;
+            padding: 0.2rem;
+        }
+
+        .gallery-slide .gallery-item {
+            flex: 0 0 calc(33.333% - 0.7rem);
             background: rgba(18, 12, 28, 0.6);
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(220, 90, 50, 0.25);
             transition: all 0.3s ease;
             cursor: pointer;
+            aspect-ratio: 16/10;
         }
 
-        .trial-gallery-item:hover {
+        .gallery-slide .gallery-item:hover {
             transform: translateY(-3px);
             border-color: #e16d48;
         }
 
-        .trial-gallery-item img {
+        .gallery-slide .gallery-item img {
             width: 100%;
-            height: 120px;
+            height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        .gallery-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-size: 1.2rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .gallery-nav-btn:hover {
+            background: rgba(220, 90, 50, 0.3);
+            border-color: #e16d48;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .gallery-nav-btn.prev {
+            left: 10px;
+        }
+
+        .gallery-nav-btn.next {
+            right: 10px;
+        }
+
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: #e16d48;
+            width: 24px;
+            border-radius: 10px;
         }
 
         .image-modal {
@@ -467,6 +543,9 @@
             .trials-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .gallery-slide .gallery-item {
+                flex: 0 0 calc(50% - 0.5rem);
+            }
         }
 
         @media (max-width: 850px) {
@@ -486,6 +565,14 @@
             .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
             .trial-modal-header h3 { font-size: 1.2rem; }
             .trial-info { flex-direction: column; }
+            .gallery-slide .gallery-item {
+                flex: 0 0 calc(100% - 0rem);
+            }
+            .gallery-nav-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -581,25 +668,25 @@ O — Супермаркет. Средний по размеру магазин,
 <script>
     const trialsData = [
         {
-            id: "kill the politician",
+            id: "kill-the-politician",
             name: "Убейте политика",
             image: "../images/Генезис-Политик.webp",
             description: "Основное испытание в торговом центре, где главной задачей для реагентов служит убийство политика, путём обливания его кислотой. Реагентам необходимо проникнуть в торговый центр, а затем достать билет для прохода к главной цели испытания.",
             gallery: ["../images/Политик-1.png", "../images/Политик-2.png", "../images/Политик-3.png", "../images/Политик-4.png", "../images/Политик-5.png", "../images/Политик-6.png"]
         },        
         {
-            id: "solve the Minotaur case",
+            id: "solve-the-minotaur-case",
             name: "Исследуйте дело Минотавра",
             image: "../images/ТЦ МК-01.webp",
             description: "МК-стимуляция в торговом центре, заданием которой является доставка доказательств журналисту. В данном испытании реагентам необходимо пронести коробку с доказательствами через торговый центр и положить её в багажник автомобиля у входа в испытание.",
-            gallery: ["../images/-1.jpg", "../images/шопинг-2.jpg", "../images/шопинг-3.jpg"]
+            gallery: ["../images/Минотавр-1.jpg", "../images/Минотавр-2.jpg", "../images/Минотавр-3.jpg"]
         },
         {
-            id: "fabricate a scandal",
+            id: "fabricate-a-scandal",
             name: "Сфабрикуйте скандал",
             image: "../images/ТЦ МК-02.webp",
-            // description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов.Манекены украшены слепками лица Ароры Кресс, и их нужно использовать, чтобы нанести удар по репутации семьи Кресс, устроив секс-скандал.",
-            gallery: ["../images/фудкорт-1.jpg", "../images/фудкорт-2.jpg", "../images/фудкорт-3.jpg"]
+            description: "МК-стимуляция в торговом центре, заданием которой является доставка садистических манекенов. Манекены украшены слепками лица Ароры Кресс, и их нужно использовать, чтобы нанести удар по репутации семьи Кресс, устроив секс-скандал.",
+            gallery: ["../images/Скандал-1.jpg", "../images/Скандал-2.jpg", "../images/Скандал-3.jpg"]
         }
     ];
 
@@ -616,16 +703,44 @@ O — Супермаркет. Средний по размеру магазин,
         
         let galleryHtml = '';
         if (trial.gallery && trial.gallery.length > 0) {
-            galleryHtml = `
-                <div class="trial-gallery">
-                    <h4><i class="fas fa-images"></i> Галерея</h4>
-                    <div class="trial-gallery-grid">
-                        ${trial.gallery.map(img => `
-                            <div class="trial-gallery-item" data-img="${img}">
+            const itemsPerSlide = window.innerWidth < 600 ? 1 : window.innerWidth < 900 ? 2 : 3;
+            const totalSlides = Math.ceil(trial.gallery.length / itemsPerSlide);
+            let slidesHtml = '';
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const start = i * itemsPerSlide;
+                const end = Math.min(start + itemsPerSlide, trial.gallery.length);
+                const items = trial.gallery.slice(start, end);
+                
+                slidesHtml += `
+                    <div class="gallery-slide" data-slide-index="${i}">
+                        ${items.map(img => `
+                            <div class="gallery-item" data-img="${img}">
                                 <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
                             </div>
                         `).join('')}
                     </div>
+                `;
+            }
+            
+            let dotsHtml = '';
+            for (let i = 0; i < totalSlides; i++) {
+                dotsHtml += `<span class="gallery-dot ${i === 0 ? 'active' : ''}" data-dot-index="${i}"></span>`;
+            }
+            
+            galleryHtml = `
+                <div class="trial-gallery">
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
+                    <div class="gallery-slider-wrapper">
+                        <div class="gallery-slider-track" id="galleryTrack">
+                            ${slidesHtml}
+                        </div>
+                        ${totalSlides > 1 ? `
+                            <button class="gallery-nav-btn prev" id="galleryPrev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="gallery-nav-btn next" id="galleryNext"><i class="fas fa-chevron-right"></i></button>
+                        ` : ''}
+                    </div>
+                    ${totalSlides > 1 ? `<div class="gallery-dots">${dotsHtml}</div>` : ''}
                 </div>
             `;
         }
@@ -646,7 +761,9 @@ O — Супермаркет. Средний по размеру магазин,
         document.body.style.overflow = 'hidden';
         
         setTimeout(() => {
-            document.querySelectorAll('.trial-gallery-item').forEach(item => {
+            initGallery(trial.gallery);
+            
+            document.querySelectorAll('.gallery-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const imgSrc = item.getAttribute('data-img');
@@ -658,6 +775,57 @@ O — Супермаркет. Средний по размеру магазин,
                 });
             });
         }, 100);
+    }
+
+    let currentSlideIndex = 0;
+    let totalSlides = 0;
+    let itemsPerSlide = 3;
+
+    function initGallery(gallery) {
+        const track = document.getElementById('galleryTrack');
+        if (!track) return;
+        
+        const slides = track.querySelectorAll('.gallery-slide');
+        totalSlides = slides.length;
+        
+        if (totalSlides <= 1) return;
+        
+        const prevBtn = document.getElementById('galleryPrev');
+        const nextBtn = document.getElementById('galleryNext');
+        const dots = document.querySelectorAll('.gallery-dot');
+        
+        currentSlideIndex = 0;
+        
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentSlideIndex = index;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        prevBtn.addEventListener('click', () => goToSlide(currentSlideIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlideIndex + 1));
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!trialModal.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') goToSlide(currentSlideIndex - 1);
+            if (e.key === 'ArrowRight') goToSlide(currentSlideIndex + 1);
+        });
+        
+        // Обновляем itemsPerSlide при изменении размера окна
+        window.addEventListener('resize', () => {
+            const newItemsPerSlide = window.innerWidth < 600 ? 1 : window.innerWidth < 900 ? 2 : 3;
+            // Пересоздаём галерею только если изменилось количество элементов на слайд
+            // Просто обновляем позицию
+            track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+        });
     }
 
     function closeModal() {
