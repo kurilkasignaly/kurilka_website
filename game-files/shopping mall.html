@@ -220,6 +220,45 @@
             margin-bottom: 0.8rem;
         }
 
+        /* ===== КАРТА ТОРГОВОГО ЦЕНТРА ===== */
+        .map-image-full {
+            text-align: center;
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        .map-image-full .map-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .map-image-full .map-wrapper {
+            display: inline-block;
+            border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.3);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 100%;
+            background: rgba(18, 12, 28, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .map-image-full .map-wrapper:hover {
+            border-color: #e16d48;
+            transform: scale(1.01);
+            box-shadow: 0 8px 30px rgba(220, 90, 50, 0.15);
+        }
+
+        .map-image-full .map-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            max-height: 500px;
+        }
+
         /* ===== КАРТОЧКИ МАГАЗИНОВ ===== */
         .shops-section {
             margin: 1.5rem 0 2rem 0;
@@ -620,6 +659,9 @@
             .shops-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             }
+            .map-image-full .map-wrapper img {
+                max-height: 350px;
+            }
         }
 
         @media (max-width: 850px) {
@@ -656,6 +698,9 @@
             .shop-card .shop-desc {
                 font-size: 0.8rem;
             }
+            .map-image-full .map-wrapper img {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
@@ -673,13 +718,13 @@
             <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
         </div>
         <div class="nav-links">
-                <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
-                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-                <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
-                <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-                <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-                <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
+            <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
 
@@ -695,6 +740,14 @@
             <h1 class="map-title">Торговый центр</h1>
             <p class="map-description">Торговый центр (ориг. Shopping Mall) — место в игре The Outlast Trials, испытательный полигон главных активов Близнецов Кресс на объекте Синьяла.</p>
             <p class="map-description">Торговый центр — огромный полигон, включающий в себя множество комнат и магазинов.</p>
+        </div>
+    </div>
+
+    <!-- ====== КАРТА ТОРГОВОГО ЦЕНТРА ====== -->
+    <div class="map-image-full">
+        <div class="map-label"><i class="fas fa-map"></i> Карта торгового центра</div>
+        <div class="map-wrapper" id="mapFullscreen">
+            <img src="../images/карта торгового центра.png" alt="Карта торгового центра" onerror="this.src='https://placehold.co/800x600/1a1a2e/e16d48?text=Карта+торгового+центра'">
         </div>
     </div>
 
@@ -871,6 +924,16 @@
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
+    // Открытие карты на весь экран
+    document.getElementById('mapFullscreen').addEventListener('click', function() {
+        const img = this.querySelector('img');
+        if (img) {
+            fullImage.src = img.src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
         
@@ -1041,7 +1104,7 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
         
-        document.querySelectorAll('.map-container, .shops-section, .trials-section').forEach(el => {
+        document.querySelectorAll('.map-container, .map-image-full, .shops-section, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'all 0.6s ease-out';
