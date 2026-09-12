@@ -781,54 +781,29 @@
             align-items: center;
             justify-content: center;
             width: 42px;
-            height: 42px;
+            height: 48px;
             flex-shrink: 0;
+            filter: drop-shadow(0 0 5px rgba(232, 144, 46, 0.7))
+                    drop-shadow(0 0 12px rgba(232, 144, 46, 0.35));
         }
 
-        .prestige-shape {
+        .prestige-badge svg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(160deg, #1a0f08 0%, #0d0603 100%);
-            border: 2px solid #e8902e;
-            border-radius: 6px 6px 50% 50% / 6px 6px 60% 60%;
-            box-shadow:
-                0 0 10px rgba(232, 144, 46, 0.45),
-                inset 0 0 8px rgba(232, 144, 46, 0.2);
-        }
-
-        .prestige-shape::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border: 1px solid rgba(232, 144, 46, 0.35);
-            border-radius: 8px 8px 50% 50% / 8px 8px 60% 60%;
-            pointer-events: none;
-        }
-
-        .prestige-shape::after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            border: 1px dashed rgba(232, 144, 46, 0.25);
-            border-radius: 7px 7px 50% 50% / 7px 7px 60% 60%;
-            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .prestige-number {
             position: relative;
             z-index: 2;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: #e8902e;
             text-shadow:
-                0 0 8px rgba(232, 144, 46, 0.8),
-                0 0 16px rgba(232, 144, 46, 0.4),
+                0 0 6px rgba(232, 144, 46, 0.9),
+                0 0 12px rgba(232, 144, 46, 0.5),
                 0 1px 2px rgba(0, 0, 0, 0.9);
             letter-spacing: -0.5px;
             line-height: 1;
@@ -838,9 +813,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 30px;
-            height: 42px;
-            padding: 0 6px;
+            min-width: 28px;
+            height: 44px;
+            padding: 0 4px;
             font-size: 1.15rem;
             font-weight: 800;
             color: #ffffff;
@@ -973,6 +948,25 @@
             background: rgba(220, 90, 50, 0.15);
             color: #e25d32;
             border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        /* Выделение кнопок престижа */
+        .sort-btn.sort-prestige {
+            border-color: rgba(232, 144, 46, 0.25);
+            color: #e8902e;
+        }
+
+        .sort-btn.sort-prestige:hover {
+            background: rgba(232, 144, 46, 0.1);
+            border-color: rgba(232, 144, 46, 0.4);
+            color: #ffb347;
+        }
+
+        .sort-btn.sort-prestige.active {
+            background: rgba(232, 144, 46, 0.15);
+            color: #ffb347;
+            border-color: rgba(232, 144, 46, 0.5);
+            box-shadow: 0 0 12px rgba(232, 144, 46, 0.2);
         }
 
         /* ===== ВЫПАДАЮЩИЙ СПИСОК ПЛАТФОРМ ===== */
@@ -1126,9 +1120,9 @@
             .table-wrapper.bg-general td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
             .table-wrapper.bg-general .platform-icon { width: 20px; height: 20px; }
 
-            .prestige-badge { width: 34px; height: 34px; }
-            .prestige-number { font-size: 0.95rem; }
-            .level-number { height: 34px; font-size: 0.95rem; min-width: 24px; }
+            .prestige-badge { width: 36px; height: 42px; }
+            .prestige-number { font-size: 0.9rem; }
+            .level-number { height: 38px; font-size: 1rem; min-width: 24px; }
         }
 
         @media (max-width: 500px) {
@@ -1179,25 +1173,22 @@
             .table-wrapper.bg-general td { padding: 0.4rem 0.2rem; font-size: 0.7rem; }
             .table-wrapper.bg-general .platform-icon { width: 16px; height: 16px; }
 
-            .prestige-badge { width: 28px; height: 28px; }
-            .prestige-number { font-size: 0.8rem; }
-            .level-number { height: 28px; font-size: 0.8rem; min-width: 20px; }
+            .prestige-badge { width: 30px; height: 36px; }
+            .prestige-number { font-size: 0.75rem; }
+            .level-number { height: 32px; font-size: 0.85rem; min-width: 20px; }
             .player-prestige-level { gap: 3px; margin-right: 6px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Фоновый слайдер -->
     <div class="bg-slider" id="bgSlider"></div>
     <div class="bg-overlay"></div>
     <div class="smoke-overlay"></div>
 
-    <!-- Аудио для загрузки -->
     <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
     <div class="main-wrapper">
-        <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
         <div id="connectScreen" class="connect-screen">
             <div class="connect-content">
                 <div class="connect-logo">
@@ -1216,7 +1207,6 @@
             <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
         </div>
 
-        <!-- ====== ЭКРАН ОШИБКИ ====== -->
         <div id="errorScreen" class="error-screen">
             <div class="error-box">
                 <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
@@ -1235,7 +1225,6 @@
             </div>
         </div>
 
-        <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
         <div id="mainContent" class="main-content">
             <div class="header">
                 <div class="logo">
@@ -1250,23 +1239,20 @@
                     <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
                     <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
                     <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                    <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+                    <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
                     <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
                 </div>
             </div>
 
-            <!-- Заголовок -->
             <div class="page-title">
                 <h1><i class="fas fa-biohazard"></i> Курилка Синьялы — Leaderboard</h1>
                 <div class="sub"><i class="fas fa-skull"></i> Рейтинг игроков · Invasion & Эскалация <i class="fas fa-skull"></i></div>
             </div>
 
-            <!-- ====== БОЛЬШАЯ КАРТИНКА ====== -->
             <div class="big-banner">
                 <img src="images/баннер лидерборд.png" alt="Leaderboard Banner" onerror="this.style.display='none'">
             </div>
 
-            <!-- ====== ALERT БЛОК ====== -->
             <div class="alert-block">
                 <i class="fas fa-exclamation-triangle"></i>
                 <span>
@@ -1274,7 +1260,6 @@
                 </span>
             </div>
 
-            <!-- ====== БАННЕРЫ ЭСКАЛАЦИЯ / ВТОРЖЕНИЕ СВЕРХУ ====== -->
             <div class="mode-banners" id="modeBanners">
                 <div class="mode-banner active" data-mode="escalation" onclick="switchMode('escalation')">
                     <img src="images/эскалация баннер.webp" alt="Эскалация" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Эскалация'">
@@ -1286,7 +1271,6 @@
                 </div>
             </div>
 
-            <!-- ====== СЕКЦИЯ С ТАБЛИЦЕЙ ====== -->
             <div class="leaderboard-section" id="leaderboardSection">
                 <div class="section-header">
                     <div class="title">
@@ -1298,13 +1282,11 @@
                     </div>
                 </div>
 
-                <!-- Подвкладки -->
                 <div class="sub-tabs" id="subTabs">
                     <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
                     <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
                 </div>
 
-                <!-- Сортировочный бар -->
                 <div class="sort-bar" id="sortBar" style="display:none;">
                     <span class="sort-label"><i class="fas fa-arrow-up-wide-short"></i> Сортировка:</span>
                     <button class="sort-btn active" data-sort="default" onclick="applySort('default')">По умолчанию</button>
@@ -1339,13 +1321,22 @@
                         </div>
                     </div>
 
+                    <!-- ============================================================ -->
+                    <!-- ===== НОВЫЕ КНОПКИ СОРТИРОВКИ ПО ПРЕСТИЖУ ================= -->
+                    <!-- ============================================================ -->
+                    <button class="sort-btn sort-prestige" data-sort="prestige" onclick="applySort('prestige')">
+                        <i class="fas fa-shield-halved"></i> Престиж ↑
+                    </button>
+                    <button class="sort-btn sort-prestige" data-sort="prestige-desc" onclick="applySort('prestige-desc')">
+                        <i class="fas fa-shield-halved"></i> Престиж ↓
+                    </button>
+
                     <button class="sort-btn sort-match" data-sort="matches" onclick="applySort('matches')">Матчи ↑</button>
                     <button class="sort-btn sort-match" data-sort="matches-desc" onclick="applySort('matches-desc')">Матчи ↓</button>
                     <button class="sort-btn sort-points" data-sort="points" onclick="applySort('points')">Очки ↑</button>
                     <button class="sort-btn sort-points" data-sort="points-desc" onclick="applySort('points-desc')">Очки ↓</button>
                 </div>
 
-                <!-- Таблица с фоновым изображением -->
                 <div class="table-wrapper bg-escalation" id="tableWrapper">
                     <div class="table-bg-overlay"></div>
                     <div id="tableContainer"></div>
@@ -1690,10 +1681,6 @@
         // ============================================================
         // ===== ДАННЫЕ ПРЕСТИЖА И УРОВНЯ (ЗАПОЛНЯЕТСЯ ВРУЧНУЮ) =====
         // ============================================================
-        // prestige - число престижа (оранжевое)
-        // level - число уровня (белое)
-        // Для каждого игрока можно задать свои значения
-        // Если не задано - по умолчанию prestige: 1, level: 1
         var playerPrestigeLevels = {
             'DASCERA': { prestige: 20, level: 1 },
             'TSUQUOIA': { prestige: 15, level: 8 },
@@ -1755,7 +1742,20 @@
             var pl = getPrestigeLevel(name);
             return `<span class="player-prestige-level">
                 <span class="prestige-badge">
-                    <span class="prestige-shape"></span>
+                    <svg viewBox="0 0 42 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 2 2 L 40 2 L 40 30 L 21 46 L 2 30 Z"
+                              fill="#0d0603" stroke="none"/>
+                        <path d="M 2 2 L 40 2 L 40 30 L 21 46 L 2 30 Z"
+                              fill="none" stroke="#e8902e" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M 6 6 L 36 6 L 36 29 L 21 42 L 6 29 Z"
+                              fill="none" stroke="rgba(232, 144, 46, 0.45)"
+                              stroke-width="1" stroke-linejoin="round" stroke-dasharray="2 2.5"/>
+                        <circle cx="2" cy="2" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="40" cy="2" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="40" cy="30" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="21" cy="46" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="2" cy="30" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                    </svg>
                     <span class="prestige-number">${pl.prestige}</span>
                 </span>
                 <span class="level-number">${pl.level}</span>
@@ -1770,68 +1770,67 @@
         // ============================================================
         // ===== ДАННЫЕ ТАБЛИЦ =====================================
         // ============================================================
-        // Для каждой записи указываем prestige и level вручную
         var escalationData = {
             weekly: [
-                { rank: 1, name: "DASCERA", level: "unranked", time: "unranked" },
-                { rank: 2, name: "TSUQUOIA", level: "unranked", time: "unranked" },
-                { rank: 3, name: "BLUE F", level: "unranked", time: "unranked" },
-                { rank: 4, name: "魔法桃心蛋 (证人BUG不修)", level: "unranked", time: "unranked" },
-                { rank: 5, name: "绿猫大人", level: "unranked", time: "unranked" },
-                { rank: 6, name: "LEI_GE", level: "unranked", time: "unranked" },
-                { rank: 7, name: "小虎阿", level: "unranked", time: "unranked" },
-                { rank: 8, name: "冰", level: "unranked", time: "unranked" },
-                { rank: 9, name: "封心", level: "unranked", time: "unranked" },
-                { rank: 10, name: "蓉蓉", level: "unranked", time: "unranked" },
-                { rank: 11, name: "荔枝冻", level: "unranked", time: "unranked" },
-                { rank: 12, name: "它的狗", level: "unranked", time: "unranked" }
+                { rank: 1, name: "DASCERA" },
+                { rank: 2, name: "TSUQUOIA" },
+                { rank: 3, name: "BLUE F" },
+                { rank: 4, name: "魔法桃心蛋 (证人BUG不修)" },
+                { rank: 5, name: "绿猫大人" },
+                { rank: 6, name: "LEI_GE" },
+                { rank: 7, name: "小虎阿" },
+                { rank: 8, name: "冰" },
+                { rank: 9, name: "封心" },
+                { rank: 10, name: "蓉蓉" },
+                { rank: 11, name: "荔枝冻" },
+                { rank: 12, name: "它的狗" }
             ],
             infinite: [
-                { rank: 1, name: "Legend_Player", level: "unranked", time: "unranked" },
-                { rank: 2, name: "Infinity_Master", level: "unranked", time: "unranked" },
-                { rank: 3, name: "Endless_Runner", level: "unranked", time: "unranked" },
-                { rank: 4, name: "Бесконечность", level: "unranked", time: "unranked" },
-                { rank: 5, name: "Nightmare_Endless", level: "unranked", time: "unranked" }
+                { rank: 1, name: "Legend_Player" },
+                { rank: 2, name: "Infinity_Master" },
+                { rank: 3, name: "Endless_Runner" },
+                { rank: 4, name: "Бесконечность" },
+                { rank: 5, name: "Nightmare_Endless" }
             ]
         };
 
         var invasionGeneralData = [
-            { rank: 1, name: "Invasion_King", points: "unranked" },
-            { rank: 2, name: "Shadow_Hunter", points: "unranked" },
-            { rank: 3, name: "Nightmare_Stalker", points: "unranked" },
-            { rank: 4, name: "Darkness_Fury", points: "unranked" },
-            { rank: 5, name: "Silent_Death", points: "unranked" },
-            { rank: 6, name: "Fearless_Runner", points: "unranked" },
-            { rank: 7, name: "Ghost_Blade", points: "unranked" },
-            { rank: 8, name: "Crimson_Tide", points: "unranked" },
-            { rank: 9, name: "Eclipse_Warrior", points: "unranked" },
-            { rank: 10, name: "Void_Walker", points: "unranked" }
+            { rank: 1, name: "Invasion_King" },
+            { rank: 2, name: "Shadow_Hunter" },
+            { rank: 3, name: "Nightmare_Stalker" },
+            { rank: 4, name: "Darkness_Fury" },
+            { rank: 5, name: "Silent_Death" },
+            { rank: 6, name: "Fearless_Runner" },
+            { rank: 7, name: "Ghost_Blade" },
+            { rank: 8, name: "Crimson_Tide" },
+            { rank: 9, name: "Eclipse_Warrior" },
+            { rank: 10, name: "Void_Walker" }
         ];
 
         var invasionData = {
             reagent: [
-                { rank: 1, name: "Reagent_Master", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 2, name: "Survivor_King", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 3, name: "Reagent_Pro", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 4, name: "Эксперимент_13", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 5, name: "Лабораторный", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 6, name: "Реагент_X", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 7, name: "Подопытный_7", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 8, name: "Образец_09", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 9, name: "Тестовая_группа", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 10, name: "Реагент_001", matches: "unranked", wins: "unranked", losses: "unranked" }
+                { rank: 1, name: "Reagent_Master" },
+                { rank: 2, name: "Survivor_King" },
+                { rank: 3, name: "Reagent_Pro" },
+                { rank: 4, name: "Эксперимент_13" },
+                { rank: 5, name: "Лабораторный" },
+                { rank: 6, name: "Реагент_X" },
+                { rank: 7, name: "Подопытный_7" },
+                { rank: 8, name: "Образец_09" },
+                { rank: 9, name: "Тестовая_группа" },
+                { rank: 10, name: "Реагент_001" }
             ],
             impostor: [
-                { rank: 1, name: "Impostor_Elite", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 2, name: "The_Shadow", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 3, name: "Самозванец_Х", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 4, name: "Двойник_7", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 5, name: "Маскировка", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 6, name: "Имитация", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 7, name: "Фальшивка", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 8, name: "Призрак", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 9, name: "Копия", matches: "unranked", wins: "unranked", losses: "unranked" },
-                { rank: 10, name: "Обман", matches: "unranked", wins: "unranked", losses: "unranked" }
+                { rank: 1, name: "Impostor_Elite" },
+                { rank: 2, name: "The_Shadow" },
+                { rank: 3, name: "Самозванец_Х" },
+                { rank: 4, name: "Двойник_7" },
+                { rank: 5, name: "Маскировка" },
+                { rank: 6, name: "Имитация" },
+                { rank: 7, name: "Фальшивка" },
+                { rank: 8, name: "Призрак" },
+                { rank: 9, name: "Копия" },
+                { rank: 10, name: "Обман" }
             ]
         };
 
@@ -1846,6 +1845,9 @@
             return playerPlatforms[name] || 'steam';
         }
 
+        // ============================================================
+        // ===== ФУНКЦИЯ СОРТИРОВКИ (С ДОБАВЛЕННЫМ ПРЕСТИЖЕМ) ========
+        // ============================================================
         function sortData(data, sortType, platformFilter) {
             var filtered = data.slice();
             if (platformFilter !== 'all') {
@@ -1855,30 +1857,39 @@
             }
             var copy = filtered.slice();
             switch (sortType) {
-                case 'default': return filtered.slice();
-                case 'name-asc': return copy.sort(function(a, b) { return a.name.localeCompare(b.name); });
-                case 'name-desc': return copy.sort(function(a, b) { return b.name.localeCompare(a.name); });
-                case 'matches': return copy.sort(function(a, b) {
-                    var ma = typeof a.matches === 'number' ? a.matches : 0;
-                    var mb = typeof b.matches === 'number' ? b.matches : 0;
-                    return ma - mb;
-                });
-                case 'matches-desc': return copy.sort(function(a, b) {
-                    var ma = typeof a.matches === 'number' ? a.matches : 0;
-                    var mb = typeof b.matches === 'number' ? b.matches : 0;
-                    return mb - ma;
-                });
-                case 'points': return copy.sort(function(a, b) {
-                    var pa = typeof a.points === 'number' ? a.points : 0;
-                    var pb = typeof b.points === 'number' ? b.points : 0;
-                    return pa - pb;
-                });
-                case 'points-desc': return copy.sort(function(a, b) {
-                    var pa = typeof a.points === 'number' ? a.points : 0;
-                    var pb = typeof b.points === 'number' ? b.points : 0;
-                    return pb - pa;
-                });
-                default: return filtered.slice();
+                case 'default':
+                    return filtered.slice();
+                case 'name-asc':
+                    return copy.sort(function(a, b) { return a.name.localeCompare(b.name); });
+                case 'name-desc':
+                    return copy.sort(function(a, b) { return b.name.localeCompare(a.name); });
+
+                // ============================================================
+                // ===== СОРТИРОВКА ПО ПРЕСТИЖУ ==============================
+                // ============================================================
+                case 'prestige':
+                    return copy.sort(function(a, b) {
+                        var pa = getPrestigeLevel(a.name).prestige || 0;
+                        var pb = getPrestigeLevel(b.name).prestige || 0;
+                        return pa - pb;
+                    });
+                case 'prestige-desc':
+                    return copy.sort(function(a, b) {
+                        var pa = getPrestigeLevel(a.name).prestige || 0;
+                        var pb = getPrestigeLevel(b.name).prestige || 0;
+                        return pb - pa;
+                    });
+
+                case 'matches':
+                    return copy.sort(function(a, b) { return (a.matches || 0) - (b.matches || 0); });
+                case 'matches-desc':
+                    return copy.sort(function(a, b) { return (b.matches || 0) - (a.matches || 0); });
+                case 'points':
+                    return copy.sort(function(a, b) { return (a.points || 0) - (b.points || 0); });
+                case 'points-desc':
+                    return copy.sort(function(a, b) { return (b.points || 0) - (a.points || 0); });
+                default:
+                    return filtered.slice();
             }
         }
 
@@ -1978,18 +1989,6 @@
                 return '<span class="unranked-text">unranked</span>';
             }
             return value;
-        }
-
-        // ============================================================
-        // ===== ФУНКЦИЯ РАСЧЁТА РЕЙТИНГА =========================
-        // ============================================================
-        function calculateRating(player) {
-            if (isUnranked(player.points)) {
-                return '<span class="unranked-text">unranked</span>';
-            }
-            var points = parseInt(player.points) || 0;
-            var rating = Math.floor(points / 10);
-            return '<strong>' + rating + '</strong>';
         }
 
         var currentMode = 'escalation';
@@ -2188,10 +2187,7 @@
                         <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                     `;
                     tableWrapper.classList.add('bg-reagent');
-                    var baseData = invasionData.reagent;
-                    var data4 = baseData.map(function(item) {
-                        return { rank: item.rank, name: item.name, matches: 0, wins: 0, losses: 0, points: 0 };
-                    });
+                    var data4 = invasionData.reagent;
                     var sortedData = sortData(data4, currentSort, currentPlatformFilter);
                     var html4 = `<table>
                         <thead>
@@ -2227,10 +2223,7 @@
                         <span class="sub-tab active" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                     `;
                     tableWrapper.classList.add('bg-impostor');
-                    var baseData2 = invasionData.impostor;
-                    var data5 = baseData2.map(function(item) {
-                        return { rank: item.rank, name: item.name, matches: 0, wins: 0, losses: 0, points: 0 };
-                    });
+                    var data5 = invasionData.impostor;
                     var sortedData2 = sortData(data5, currentSort, currentPlatformFilter);
                     var html5 = `<table>
                         <thead>
