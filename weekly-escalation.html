@@ -2040,7 +2040,8 @@ function renderEscEquipment() {
     var playerCount = escState.players.length;
     var gridWrapper = document.createElement('div');
     gridWrapper.className = 'selection-grid players-' + playerCount;
-    gridWrapper.style.cssText = 'display: grid; gap: 16px 24px; max-width: 600px; margin: 0 auto;';
+    // ИСПРАВЛЕНИЕ: Добавлено justify-items: center и выровнены колонки
+    gridWrapper.style.cssText = 'display: grid; gap: 16px 24px; max-width: 800px; margin: 0 auto; justify-items: center;';
     
     if (playerCount === 1) {
         gridWrapper.style.gridTemplateColumns = '1fr';
@@ -2049,8 +2050,9 @@ function renderEscEquipment() {
         gridWrapper.style.gridTemplateColumns = '1fr 1fr';
         gridWrapper.style.maxWidth = '550px';
     } else if (playerCount === 3) {
-        gridWrapper.style.gridTemplateColumns = '1fr 1fr';
-        gridWrapper.style.maxWidth = '550px';
+        // ИСПРАВЛЕНИЕ: 3 колонки для 3 игроков
+        gridWrapper.style.gridTemplateColumns = '1fr 1fr 1fr';
+        gridWrapper.style.maxWidth = '800px';
     } else if (playerCount === 4) {
         gridWrapper.style.gridTemplateColumns = '1fr 1fr';
         gridWrapper.style.maxWidth = '600px';
@@ -2059,7 +2061,8 @@ function renderEscEquipment() {
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        // ИСПРАВЛЕНИЕ: Добавлена ширина 100% и max-width для ровного центрирования
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 100%; max-width: 300px;';
         
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
@@ -2116,12 +2119,7 @@ function renderEscEquipment() {
         section.appendChild(grid);
         gridWrapper.appendChild(section);
         
-        if (playerCount === 3 && idx === 2) {
-            section.style.gridColumn = '1 / -1';
-            section.style.maxWidth = '60%';
-            section.style.justifySelf = 'center';
-            section.style.width = '100%';
-        }
+        // ИСПРАВЛЕНИЕ: Удален блок, который сдвигал последнего игрока
     });
     container.appendChild(gridWrapper);
     checkEscEquipReady();
@@ -2157,7 +2155,8 @@ function renderEscAmps() {
     var playerCount = escState.players.length;
     var gridWrapper = document.createElement('div');
     gridWrapper.className = 'selection-grid players-' + playerCount;
-    gridWrapper.style.cssText = 'display: grid; gap: 16px 24px; max-width: 600px; margin: 0 auto;';
+    // ИСПРАВЛЕНИЕ: Добавлено justify-items: center и выровнены колонки
+    gridWrapper.style.cssText = 'display: grid; gap: 16px 24px; max-width: 800px; margin: 0 auto; justify-items: center;';
     
     if (playerCount === 1) {
         gridWrapper.style.gridTemplateColumns = '1fr';
@@ -2166,8 +2165,9 @@ function renderEscAmps() {
         gridWrapper.style.gridTemplateColumns = '1fr 1fr';
         gridWrapper.style.maxWidth = '550px';
     } else if (playerCount === 3) {
-        gridWrapper.style.gridTemplateColumns = '1fr 1fr';
-        gridWrapper.style.maxWidth = '550px';
+        // ИСПРАВЛЕНИЕ: 3 колонки для 3 игроков
+        gridWrapper.style.gridTemplateColumns = '1fr 1fr 1fr';
+        gridWrapper.style.maxWidth = '800px';
     } else if (playerCount === 4) {
         gridWrapper.style.gridTemplateColumns = '1fr 1fr';
         gridWrapper.style.maxWidth = '600px';
@@ -2176,7 +2176,8 @@ function renderEscAmps() {
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        // ИСПРАВЛЕНИЕ: Добавлена ширина 100% и max-width для ровного центрирования
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 100%; max-width: 300px;';
         
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
@@ -2267,12 +2268,7 @@ function renderEscAmps() {
         section.appendChild(grid);
         gridWrapper.appendChild(section);
         
-        if (playerCount === 3 && idx === 2) {
-            section.style.gridColumn = '1 / -1';
-            section.style.maxWidth = '60%';
-            section.style.justifySelf = 'center';
-            section.style.width = '100%';
-        }
+        // ИСПРАВЛЕНИЕ: Удален блок, который сдвигал последнего игрока
     });
     container.appendChild(gridWrapper);
     checkEscAmpsReady();
@@ -3020,6 +3016,12 @@ function showBreakModal() {
     
     var playerCount = escState.players.length;
     
+    // ИСПРАВЛЕНИЕ: Настройка контейнера для перерыва
+    content.style.display = 'grid';
+    content.style.gap = '16px 24px';
+    content.style.margin = '0 auto';
+    content.style.justifyItems = 'center';
+    
     if (playerCount === 1) {
         content.style.gridTemplateColumns = '1fr';
         content.style.maxWidth = '350px';
@@ -3027,8 +3029,9 @@ function showBreakModal() {
         content.style.gridTemplateColumns = '1fr 1fr';
         content.style.maxWidth = '550px';
     } else if (playerCount === 3) {
-        content.style.gridTemplateColumns = '1fr 1fr';
-        content.style.maxWidth = '550px';
+        // ИСПРАВЛЕНИЕ: 3 колонки для 3 игроков
+        content.style.gridTemplateColumns = '1fr 1fr 1fr';
+        content.style.maxWidth = '800px';
     } else if (playerCount === 4) {
         content.style.gridTemplateColumns = '1fr 1fr';
         content.style.maxWidth = '600px';
@@ -3037,7 +3040,8 @@ function showBreakModal() {
     escState.players.forEach(function(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
-        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08);';
+        // ИСПРАВЛЕНИЕ: Добавлена ширина 100% и max-width
+        section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 100%; max-width: 300px;';
         
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
@@ -3050,13 +3054,6 @@ function showBreakModal() {
             completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
             section.appendChild(completeMsg);
             content.appendChild(section);
-            
-            if (playerCount === 3 && idx === 2) {
-                section.style.gridColumn = '1 / -1';
-                section.style.maxWidth = '60%';
-                section.style.justifySelf = 'center';
-                section.style.width = '100%';
-            }
             
             breakSelections[idx] = null;
             return;
@@ -3137,12 +3134,7 @@ function showBreakModal() {
         section.appendChild(wrapper);
         content.appendChild(section);
         
-        if (playerCount === 3 && idx === 2) {
-            section.style.gridColumn = '1 / -1';
-            section.style.maxWidth = '60%';
-            section.style.justifySelf = 'center';
-            section.style.width = '100%';
-        }
+        // ИСПРАВЛЕНИЕ: Удален блок, который сдвигал последнего игрока
     });
 
     function checkBreakReady() {
