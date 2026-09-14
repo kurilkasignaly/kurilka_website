@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Генезис — Испытательная программа | Курилка Синьялы</title>
+    <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="../images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="../images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -48,12 +51,6 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -62,95 +59,96 @@
             z-index: 10;
         }
 
-        /* Header */
+        /* ===== НАВИГАЦИЯ ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            padding: 1.2rem 2rem;
-            background: rgba(8, 6, 15, 0.5);
+            padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
             border-radius: 80px;
             margin-bottom: 2rem;
             gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.25);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
         }
 
         .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+            border-color: rgba(220, 90, 50, 0.4);
         }
 
-        .logo h1 {
-            font-size: 2rem;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
+        }
+
+        .logo .logo-text {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-            background-size: 200% auto;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: smokePulse 3s ease-in-out infinite;
+            white-space: nowrap;
         }
 
         .logo p {
-            font-size: 0.75rem;
-            color: #c2b9d4;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 0.65rem;
+            color: #7a6a8a;
+            margin-top: 0px;
         }
 
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
-        }
-
-        /* Навигация */
         .nav-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.7rem;
+            align-items: center;
+            gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 0.6rem 1.3rem;
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
             border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.25);
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
             background: transparent;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 0.9rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #e2d9f0;
+            color: #b5a8c8;
+            transition: all 0.3s;
             font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             text-decoration: none;
         }
 
         .nav-btn:hover {
             color: white;
-            transform: translateY(-2px);
-            text-shadow: 0 0 6px rgba(220,90,50,0.4);
+            text-shadow: 0 0 8px rgba(220,90,50,0.3);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* Хлебные крошки */
+        /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
         .breadcrumb {
             margin-bottom: 1.5rem;
             animation: fadeInScale 0.6s ease-out;
@@ -165,7 +163,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
@@ -176,7 +174,7 @@
             border-color: #e16d48;
         }
 
-        /* Описание программы */
+        /* ===== ОПИСАНИЕ ПРОГРАММЫ ===== */
         .program-description {
             background: rgba(18, 12, 28, 0.45);
             backdrop-filter: blur(12px);
@@ -204,7 +202,7 @@
             color: #d1cce6;
         }
 
-        /* ТАБЛИЦА СЛОЖНОСТИ - 4 КОЛОНКИ (с иконками и разделением) */
+        /* ===== ТАБЛИЦА СЛОЖНОСТИ ===== */
         .difficulty-section {
             margin-bottom: 2.5rem;
             animation: fadeInScale 0.6s ease-out 0.12s backwards;
@@ -235,79 +233,31 @@
             min-width: 700px;
         }
 
-        /* Стили для ПК (большие экраны) */
         @media (min-width: 1024px) {
-            .difficulty-table th {
-                padding: 1.5rem 1.2rem;
-                font-size: 1.1rem;
-            }
-            .difficulty-table td {
-                padding: 1.2rem 1.2rem;
-            }
-            .difficulty-name {
-                font-size: 1.2rem;
-            }
-            .variator-name {
-                font-size: 1rem;
-            }
-            .variator-desc {
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-            .variator-icon {
-                width: 56px;
-                height: 56px;
-            }
+            .difficulty-table th { padding: 1.5rem 1.2rem; font-size: 1.1rem; }
+            .difficulty-table td { padding: 1.2rem 1.2rem; }
+            .difficulty-name { font-size: 1.2rem; }
+            .variator-name { font-size: 1rem; }
+            .variator-desc { font-size: 0.95rem; line-height: 1.5; }
+            .variator-icon { width: 56px; height: 56px; }
         }
 
-        /* Стили для планшетов */
         @media (min-width: 768px) and (max-width: 1023px) {
-            .difficulty-table th {
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
-            .difficulty-table td {
-                padding: 0.9rem;
-            }
-            .difficulty-name {
-                font-size: 1rem;
-            }
-            .variator-name {
-                font-size: 0.9rem;
-            }
-            .variator-desc {
-                font-size: 0.85rem;
-            }
-            .variator-icon {
-                width: 48px;
-                height: 48px;
-            }
+            .difficulty-table th { padding: 1rem; font-size: 0.95rem; }
+            .difficulty-table td { padding: 0.9rem; }
+            .difficulty-name { font-size: 1rem; }
+            .variator-name { font-size: 0.9rem; }
+            .variator-desc { font-size: 0.85rem; }
+            .variator-icon { width: 48px; height: 48px; }
         }
 
-        /* Стили для мобильных устройств */
         @media (max-width: 767px) {
-            .difficulty-table th {
-                padding: 0.6rem;
-                font-size: 0.7rem;
-            }
-            .difficulty-table td {
-                padding: 0.6rem;
-            }
-            .difficulty-name {
-                font-size: 0.75rem;
-                white-space: normal;
-            }
-            .variator-name {
-                font-size: 0.7rem;
-            }
-            .variator-desc {
-                font-size: 0.65rem;
-                line-height: 1.3;
-            }
-            .variator-icon {
-                width: 32px;
-                height: 32px;
-            }
+            .difficulty-table th { padding: 0.6rem; font-size: 0.7rem; }
+            .difficulty-table td { padding: 0.6rem; }
+            .difficulty-name { font-size: 0.75rem; white-space: normal; }
+            .variator-name { font-size: 0.7rem; }
+            .variator-desc { font-size: 0.65rem; line-height: 1.3; }
+            .variator-icon { width: 32px; height: 32px; }
         }
 
         .difficulty-table th {
@@ -323,56 +273,25 @@
             vertical-align: middle;
         }
 
-        /* РАЗДЕЛЕНИЕ МЕЖДУ СЛОЖНОСТЯМИ - жирная линия */
-        .difficulty-group {
-            border-top: 3px solid rgba(220, 90, 50, 0.5);
-        }
-        .difficulty-group:first-child {
-            border-top: none;
-        }
+        .difficulty-group { border-top: 3px solid rgba(220, 90, 50, 0.5); }
+        .difficulty-group:first-child { border-top: none; }
 
-        /* Фоновые подложки для групп сложности */
-        .difficulty-group-intro {
-            background: rgba(108, 117, 125, 0.05);
-        }
-        .difficulty-group-standard {
-            background: rgba(255, 159, 74, 0.05);
-        }
-        .difficulty-group-intensive {
-            background: rgba(46, 204, 113, 0.05);
-        }
-        .difficulty-group-psycho {
-            background: rgba(255, 51, 51, 0.05);
-        }
+        .difficulty-group-intro { background: rgba(108, 117, 125, 0.05); }
+        .difficulty-group-standard { background: rgba(255, 159, 74, 0.05); }
+        .difficulty-group-intensive { background: rgba(46, 204, 113, 0.05); }
+        .difficulty-group-psycho { background: rgba(255, 51, 51, 0.05); }
 
-        /* Цветные заголовки сложности */
-        .difficulty-name {
-            font-weight: 800;
-            white-space: nowrap;
-        }
+        .difficulty-name { font-weight: 800; white-space: nowrap; }
         .difficulty-intro { color: #6c757d; }
         .difficulty-standard { color: #ff9f4a; }
         .difficulty-intensive { color: #2ecc71; }
         .difficulty-psycho { color: #ff3333; }
 
-        /* Картинка-иконка */
-        .variator-icon {
-            object-fit: contain;
-            display: block;
-        }
+        .variator-icon { object-fit: contain; display: block; }
+        .variator-name { font-weight: 600; color: #ffbc9a; }
+        .variator-desc { color: #c2b9d4; }
 
-        /* Название вариатора */
-        .variator-name {
-            font-weight: 600;
-            color: #ffbc9a;
-        }
-
-        /* Описание */
-        .variator-desc {
-            color: #c2b9d4;
-        }
-
-        /* Слайдер постеров */
+        /* ===== СЛАЙДЕР ПОСТЕРОВ ===== */
         .posters-section {
             margin-bottom: 2.5rem;
             animation: fadeInScale 0.6s ease-out 0.15s backwards;
@@ -462,7 +381,7 @@
             color: #e16d48;
         }
 
-        /* Footer */
+        /* ===== FOOTER ===== */
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -474,34 +393,36 @@
             border-radius: 50px;
         }
 
-        @media (max-width: 1000px) {
-            .poster-card {
-                min-width: calc(50% - 0.75rem);
-            }
+        .footer-logo {
+            max-height: 32px;
+            width: auto;
+            margin-bottom: 0.5rem;
         }
 
-        @media (max-width: 700px) {
-            .poster-card {
-                min-width: calc(100% - 0rem);
-            }
-            .slider-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
+        @media (max-width: 1000px) {
+            .poster-card { min-width: calc(50% - 0.75rem); }
         }
 
         @media (max-width: 850px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-            .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-            .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.7rem; }
-            .logo h1 { font-size: 1.5rem; }
+            .container { padding: 0.8rem; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+            .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
             .program-description h2, .posters-section h2, .difficulty-section h2 { font-size: 1.4rem; }
         }
 
-        @media (max-width: 550px) {
-            .nav-btn { padding: 0.25rem 0.6rem; font-size: 0.6rem; }
+        @media (max-width: 700px) {
+            .poster-card { min-width: calc(100% - 0rem); }
+            .slider-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+            .logo .logo-img { max-height: 32px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo { gap: 0.4rem; }
             .poster-title { font-size: 0.85rem; }
         }
     </style>
@@ -515,31 +436,32 @@
 </video>
 
 <div class="container">
-    <!-- Шапка -->
+
+    <!-- ===== НАВИГАЦИЯ ===== -->
     <div class="header">
         <div class="logo">
-            <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-            <p><i class="fas fa-skull"></i> Убежище безумия · The Outlast Trials</p>
+            <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+            <div>
+                <span class="logo-text">Курилка Синьялы</span>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
         </div>
         <div class="nav-links">
-            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-            <a href="../server-news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости сервера</a>
-            <a href="../game-news.html" class="nav-btn"><i class="fas fa-gamepad"></i> Новости игры</a>
-            <a href="../site-news.html" class="nav-btn"><i class="fas fa-code"></i> Новости сайта</a>
-            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="../invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
-            <a href="../achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
 
-    <!-- Хлебные крошки -->
+    <!-- ===== ХЛЕБНЫЕ КРОШКИ ===== -->
     <div class="breadcrumb">
         <a href="category-programs.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программам</a>
     </div>
 
-    <!-- Описание программы -->
+    <!-- ===== ОПИСАНИЕ ПРОГРАММЫ ===== -->
     <div class="program-description">
         <h2><i class="fas fa-info-circle"></i> О программе «Генезис»</h2>
         <p>Программа Genesis, также известная как Путь к возрождению, — одна из стандартных программ в The Outlast Trials. Она включает в себя все испытания и MK-испытания по умолчанию, которые составляют основную терапию. Уровень сложности можно изменить в зависимости от предпочтений игрока, но большинство особых вариаторов отсутствуют. <br>Полный релиз (5 марта 2024 г. — 15 июля 2024 г.)<br>
@@ -547,7 +469,7 @@
 </p>
     </div>
 
-    <!-- ТАБЛИЦА ВЫБОРА УРОВНЯ СЛОЖНОСТИ (4 колонки с разделением) -->
+    <!-- ===== ТАБЛИЦА ВЫБОРА УРОВНЯ СЛОЖНОСТИ ===== -->
     <div class="difficulty-section">
         <h2><i class="fas fa-chart-line"></i> Выбор уровня сложности</h2>
         <div class="difficulty-table-wrapper">
@@ -561,7 +483,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- ВВОДНЫЙ (серый) - группа -->
+                    <!-- НАЧАЛЬНАЯ -->
                     <tbody class="difficulty-group difficulty-group-intro">
                         <tr>
                             <td class="difficulty-name difficulty-intro" rowspan="1">НАЧАЛЬНАЯ</td>
@@ -571,7 +493,7 @@
                         </tr>
                     </tbody>
                     
-                    <!-- СТАНДАРТНЫЙ (оранжевый) - группа -->
+                    <!-- НОРМАЛЬНАЯ -->
                     <tbody class="difficulty-group difficulty-group-standard">
                         <tr>
                             <td class="difficulty-name difficulty-standard" rowspan="1">НОРМАЛЬНАЯ</td>
@@ -581,7 +503,7 @@
                         </tr>
                     </tbody>
                     
-                    <!-- ИНТЕНСИВНЫЙ (зелёный) - группа с 4 вариаторами -->
+                    <!-- ВЫСОКАЯ -->
                     <tbody class="difficulty-group difficulty-group-intensive">
                         <tr>
                             <td class="difficulty-name difficulty-intensive" rowspan="4">ВЫСОКАЯ</td>
@@ -606,7 +528,7 @@
                         </tr>
                     </tbody>
                     
-                    <!-- ПСИХОХИРУРГИЯ (ярко-красный) - группа с 6 вариаторами -->
+                    <!-- ПСИХОХИРУРГИЯ -->
                     <tbody class="difficulty-group difficulty-group-psycho">
                         <tr>
                             <td class="difficulty-name difficulty-psycho" rowspan="6">ПСИХОХИРУРГИЯ</td>
@@ -645,7 +567,7 @@
         </div>
     </div>
 
-    <!-- Слайдер постеров -->
+    <!-- ===== СЛАЙДЕР ПОСТЕРОВ ===== -->
     <div class="posters-section">
         <h2><i class="fas fa-images"></i> Испытательные полигоны</h2>
         <div class="slider-container">
@@ -664,6 +586,7 @@
     </div>
 
     <footer>
+        <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
         <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
         <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
     </footer>
@@ -672,87 +595,21 @@
 <script>
     // Данные постеров и ссылки на страницы испытаний
     const posters = [
-        {
-            id: "escape",
-            title: "Побег",
-            image: "../images/Постер 00.webp",
-            page: "escape.html"
-        },
-        {
-            id: "police-station",
-            title: "Полицейский участок",
-            image: "../images/Постер 01.webp",
-            page: "police-station.html"
-        },
-        {
-            id: "orphanage",
-            title: "Детский дом",
-            image: "../images/Постер 03.webp",
-            page: "orphanage.html"
-        },
-        {
-            id: "fun-park",
-            title: "Парк развлечений",
-            image: "../images/Постер 02.webp",
-            page: "fun-park.html"
-        },
-        {
-            id: "court-house",
-            title: "Здание суда",
-            image: "../images/Постер 04.webp",
-            page: "court-house.html"
-        },
-        {
-            id: "toy-factory",
-            title: "Фабрика игрушек",
-            image: "../images/Постер 05.webp",
-            page: "toy-factory.html"
-        },
-        {
-            id: "pier",
-            title: "Пристань",
-            image: "../images/Постер 06.webp",
-            page: "pier.html"
-        },
-        {
-            id: "city-center",
-            title: "Центр города",
-            image: "../images/Постер 07.webp",
-            page: "downtown.html"
-        },
-        {
-            id: "suburb",
-            title: "Пригород",
-            image: "../images/Постер 08.webp",
-            page: "suburbs.html"
-        },
-        {
-            id: "shopping mall",
-            title: "Торговый центр",
-            image: "../images/Постер 09.webp",
-            page: "shopping mall.html"
-        },
-        {
-            id: "resort",
-            title: "Курорт",
-            image: "../images/Постер 10.webp",
-            page: "resort.html"
-        },
-        {
-            id: "tv-studio",
-            title: "Телестудия",
-            image: "../images/Постер 11.webp",
-            page: "tv-studio.html"
-        },
-        {
-            id: "prision-farm",
-            title: "Тюремная ферма",
-            image: "../images/ферма.webp",
-            page: "prisonfarm.html"
-        }        
+        { id: "escape", title: "Побег", image: "../images/Постер 00.webp", page: "escape.html" },
+        { id: "police-station", title: "Полицейский участок", image: "../images/Постер 01.webp", page: "police-station.html" },
+        { id: "orphanage", title: "Детский дом", image: "../images/Постер 03.webp", page: "orphanage.html" },
+        { id: "fun-park", title: "Парк развлечений", image: "../images/Постер 02.webp", page: "fun-park.html" },
+        { id: "court-house", title: "Здание суда", image: "../images/Постер 04.webp", page: "court-house.html" },
+        { id: "toy-factory", title: "Фабрика игрушек", image: "../images/Постер 05.webp", page: "toy-factory.html" },
+        { id: "pier", title: "Пристань", image: "../images/Постер 06.webp", page: "pier.html" },
+        { id: "city-center", title: "Центр города", image: "../images/Постер 07.webp", page: "downtown.html" },
+        { id: "suburb", title: "Пригород", image: "../images/Постер 08.webp", page: "suburbs.html" },
+        { id: "shopping mall", title: "Торговый центр", image: "../images/Постер 09.webp", page: "shopping mall.html" },
+        { id: "resort", title: "Курорт", image: "../images/Постер 10.webp", page: "resort.html" },
+        { id: "tv-studio", title: "Телестудия", image: "../images/Постер 11.webp", page: "tv-studio.html" },
+        { id: "prision-farm", title: "Тюремная ферма", image: "../images/ферма.webp", page: "prisonfarm.html" }        
     ];
 
-    // Элементы слайдера
     const track = document.getElementById('sliderTrack');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -761,13 +618,10 @@
 
     function displayPosters() {
         track.innerHTML = '';
-        
         posters.forEach((poster) => {
             const card = document.createElement('div');
             card.className = 'poster-card';
-            card.addEventListener('click', () => {
-                window.location.href = poster.page;
-            });
+            card.addEventListener('click', () => { window.location.href = poster.page; });
             card.innerHTML = `
                 <img src="${poster.image}" class="poster-image" alt="${poster.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(poster.title)}'">
                 <div class="poster-title">${poster.title}</div>
@@ -820,14 +674,8 @@
         resetAutoSlide();
     }
 
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 10000);
-    }
-
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
+    function startAutoSlide() { autoSlideInterval = setInterval(nextSlide, 10000); }
+    function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
 
     prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
