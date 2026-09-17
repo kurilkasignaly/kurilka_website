@@ -1582,13 +1582,32 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ: ПРОВЕРКА ТИПОВ ВАРИАТОРОВ
+// ============================================================
+function isExcludedVariator(name) {
+    if (!name) return false;
+    if (EXCLUDED_VARIATORS.indexOf(name) !== -1) return true;
+    if (typeof allVariatorsData !== 'undefined') {
+        var v = allVariatorsData.find(function(x) { return x.name === name; });
+        if (v && (v.category === 'boss' || v.category === 'main_asset')) return true;
+    }
+    return false;
+}
+
+function isWeeklyVariatorName(name) {
+    return WEEKLY_POOL_NAMES.indexOf(name) !== -1;
+}
+
+function isSideQuestVariator(name) {
+    return SIDE_QUEST_VARIATORS.indexOf(name) !== -1;
+}
+
+// ============================================================
 // ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ВАРИАТОР СЛОЖНОСТИ
 // ============================================================
 function getDifficultyVariator(level, availableVariators) {
-    // до 5 — нет
     if (level < 5) return null;
 
-    // 5–20 — "Враги сильнее" (или "Враги Сильнее II" если есть и уровень >= 10)
     if (level >= 5 && level <= 20) {
         if (level >= 10) {
             var stronger2 = availableVariators.find(function(v) {
@@ -1600,7 +1619,6 @@ function getDifficultyVariator(level, availableVariators) {
             return v.name === 'Враги сильнее' || v.name === 'Враги Сильнее';
         });
         if (stronger) return stronger;
-        // если в данных нет — создаём фолбэк
         return {
             id: 'enemies_stronger_fallback',
             name: level >= 10 ? 'Враги Сильнее II' : 'Враги сильнее',
@@ -1609,19 +1627,17 @@ function getDifficultyVariator(level, availableVariators) {
         };
     }
 
-    // после 20 — Психохирургия и Двойные задания обрабатываются отдельно
     return null;
 }
 
 // ============================================================
-// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ (ПЕРЕРАБОТАНА)
+// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ
 // ============================================================
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
     console.log('🔄 Генерация вариаторов для уровня:', level);
 
-    // --- Еженедельный вариатор ---
     var weeklyVar = getWeeklyVariator();
     if (weeklyVar) {
         escState.weeklyVariator = weeklyVar;
@@ -1631,7 +1647,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     var MAX_VARIATORS = 8;
     var trialName = escState.trial ? escState.trial.name : '';
 
-    // --- Пул доступных вариаторов ---
     var availableVariators = allVariatorsData.filter(function(v) {
         if (isExcludedVariator(v.name)) return false;
 
@@ -1646,19 +1661,17 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         return true;
     });
 
-    // --- Результат ---
     var result = [];
     var usedNames = [];
 
-    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР (всегда первый)
+    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР
     if (weeklyVar && weeklyVar.name) {
         result.push(weeklyVar);
         usedNames.push(weeklyVar.name);
         console.log('✅ [1] Еженедельный:', weeklyVar.name);
     }
 
-    // 2. ВАРИАТОР СЛОЖНОСТИ (2-е место)
-    //    после 20 — Психохирургия + Двойные задания
+    // 2. ВАРИАТОР СЛОЖНОСТИ
     if (level > 20) {
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
         var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
@@ -1693,7 +1706,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             console.log('✅ [2] Двойные задания (созданы)');
         }
     } else {
-        // 5–20 — "Враги сильнее"
         var difficultyVar = getDifficultyVariator(level, availableVariators);
         if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
             result.push(difficultyVar);
@@ -1702,7 +1714,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 3. ПОБОЧНОЕ ЗАДАНИЕ (3-е место, только одно, только до 20 уровня)
+    // 3. ПОБОЧНОЕ ЗАДАНИЕ (до 20 уровня)
     if (level <= 20) {
         var sideQuestPool = SIDE_QUEST_VARIATORS.filter(function(name) {
             if (usedNames.indexOf(name) !== -1) return false;
@@ -1711,7 +1723,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         });
 
         if (sideQuestPool.length > 0) {
-            // Выбираем одно случайное побочное задание
             var chosenSideQuestName = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
             var chosenSideQuest = availableVariators.find(function(v) { return v.name === chosenSideQuestName; });
             if (chosenSideQuest) {
@@ -1722,7 +1733,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 4. ОПРЕДЕЛЯЕМ ЦЕЛЕВОЕ КОЛИЧЕСТВО
+    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
     var targetTotal;
     if (level === 1) targetTotal = 2;
     else if (level >= 2 && level <= 3) targetTotal = 3;
@@ -1731,17 +1742,16 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     else if (level >= 6 && level <= 15) targetTotal = 6;
     else if (level >= 16 && level <= 20) targetTotal = 7;
     else if (level > 20) {
-        // еженедельный + психо + двойные + 3-5 случайных
         var randomCount = 3 + Math.floor(Math.random() * 3);
-        targetTotal = 3 + randomCount; // 6-8
+        targetTotal = 3 + randomCount;
         if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
     } else targetTotal = 2;
 
-    // 5. ДОБАВЛЯЕМ ОСТАЛЬНЫЕ СЛУЧАЙНЫЕ ВАРИАТОРЫ
+    // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
     var filtered = availableVariators.filter(function(v) {
         if (usedNames.indexOf(v.name) !== -1) return false;
         if (isWeeklyVariatorName(v.name)) return false;
-        if (isSideQuestVariator(v.name)) return false; // побочные уже обработаны
+        if (isSideQuestVariator(v.name)) return false;
         if (v.name === "Психохирургия" || v.name === "Двойные задания") return false;
         if (v.name === "Враги сильнее" || v.name === "Враги Сильнее" || v.name === "Враги Сильнее II" || v.name === "Враги сильнее II") return false;
         return true;
@@ -1758,7 +1768,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 6. ДОБИВКА, ЕСЛИ НЕ ХВАТАЕТ
+    // 6. ДОБИВКА
     if (result.length < targetTotal) {
         var remaining = availableVariators.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
@@ -1800,7 +1810,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // Финальная фильтрация запрещённых
+    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
     result = result.filter(function(v) {
         return !isExcludedVariator(v.name);
     });
@@ -1808,8 +1818,29 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
 }
+
 // ============================================================
-// ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ)
+// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
+// ============================================================
+function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
+    var variatorName = variator.name;
+    var selectedNames = selectedVariators.map(function(v) { return v.name; });
+
+    if (selectedNames.indexOf(variatorName) !== -1) return false;
+    if (playerCount === 1) {
+        if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
+    }
+    if (variatorName === 'Таймер бомбы' && trialName === 'Устранение устаревшего оборудования') return false;
+    if (variatorName === 'Сильнее Вместе' && playerCount === 1) return false;
+    if (variatorName === 'Низкая Плотность Врагов' && level > 5) return false;
+    if (level < 21) {
+        if (variatorName === 'Ностофобия' || variatorName === 'Психохирургия') return false;
+    }
+    return true;
+}
+
+// ============================================================
+// ОСТАЛЬНЫЕ ФУНКЦИИ
 // ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
