@@ -1462,6 +1462,7 @@ var SIDE_QUEST_VARIATORS = [
     "Расшифруйте Вещание",
     "Потушите Огонь",
     "Соберите плакаты",
+    "Экстракция Крови",
     "Случайное Побочное Задание"
 ];
 var EXCLUDED_VARIATORS = [
@@ -1824,44 +1825,55 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 }
 
 // ============================================================
-// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ (РАСШИРЕННАЯ)
+// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ (ПОЛНАЯ)
 // ============================================================
 function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
+    var i;
 
     // 0. Уже выбранный такой же — не дублируем
     if (selectedNames.indexOf(variatorName) !== -1) return false;
 
-    // 1. ГЛАВНАЯ РУЛЕТКА и САМОЕ ГЛАВНОЕ — взаимоисключающие
+    // ============================================================
+    // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ  ↔  ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
+    // ============================================================
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
-    var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Бросателей', 'Больше Притворщиков'];
+    var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
+    // 1.1 Если добавляем что-то из mainLotteryGroup
     if (mainLotteryGroup.indexOf(variatorName) !== -1) {
-        // Нельзя, если уже есть другой из mainLotteryGroup
-        for (var i = 0; i < mainLotteryGroup.length; i++) {
-            if (selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
+        for (i = 0; i < mainLotteryGroup.length; i++) {
+            if (mainLotteryGroup[i] !== variatorName && selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
         }
-        // Нельзя, если уже есть кто-то из antiLotteryGroup
-        for (var i = 0; i < antiLotteryGroup.length; i++) {
+        for (i = 0; i < antiLotteryGroup.length; i++) {
             if (selectedNames.indexOf(antiLotteryGroup[i]) !== -1) return false;
         }
     }
+
+    // 1.2 Если добавляем Егерь / Больше Толкачей / Больше Притворщиков / Больше Бросателей
     if (antiLotteryGroup.indexOf(variatorName) !== -1) {
-        // Нельзя, если уже есть кто-то из mainLotteryGroup
-        for (var i = 0; i < mainLotteryGroup.length; i++) {
+        // Нельзя, если уже есть любой из mainLotteryGroup
+        for (i = 0; i < mainLotteryGroup.length; i++) {
             if (selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
+        }
+        // Нельзя, если уже есть другой из antiLotteryGroup (кроме самого себя)
+        for (i = 0; i < antiLotteryGroup.length; i++) {
+            if (antiLotteryGroup[i] !== variatorName && selectedNames.indexOf(antiLotteryGroup[i]) !== -1) return false;
         }
     }
 
+    // ============================================================
     // 2. МИНЫ — только один вид мин
+    // ============================================================
     var mineVariators = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
     if (mineVariators.indexOf(variatorName) !== -1) {
-        for (var i = 0; i < mineVariators.length; i++) {
-            if (selectedNames.indexOf(mineVariators[i]) !== -1) return false;
+        for (i = 0; i < mineVariators.length; i++) {
+            if (mineVariators[i] !== variatorName && selectedNames.indexOf(mineVariators[i]) !== -1) return false;
         }
     }
-    
+
+    // ============================================================
     // 3. ПЕРВЫЙ УРОВЕНЬ / СЛОМАННЫЙ РЕАГЕНТ / БЕЗ СНАРЯЖЕНИЯ
     // ============================================================
 
@@ -1879,7 +1891,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         'Трофейное Снаряжение'
     ];
     if (variatorName === 'Первый Уровень') {
-        for (var i = 0; i < firstLevelBlocked.length; i++) {
+        for (i = 0; i < firstLevelBlocked.length; i++) {
             if (selectedNames.indexOf(firstLevelBlocked[i]) !== -1) return false;
         }
     }
@@ -1901,7 +1913,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         'Трофейное Снаряжение'
     ];
     if (variatorName === 'Сломанный Реагент') {
-        for (var i = 0; i < brokenReagentBlocked.length; i++) {
+        for (i = 0; i < brokenReagentBlocked.length; i++) {
             if (selectedNames.indexOf(brokenReagentBlocked[i]) !== -1) return false;
         }
     }
@@ -1918,14 +1930,17 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         'Урон Отключает Снаряжение'
     ];
     if (variatorName === 'Без Снаряжения') {
-        for (var i = 0; i < noEquipmentBlocked.length; i++) {
+        for (i = 0; i < noEquipmentBlocked.length; i++) {
             if (selectedNames.indexOf(noEquipmentBlocked[i]) !== -1) return false;
         }
     }
     if (noEquipmentBlocked.indexOf(variatorName) !== -1) {
         if (selectedNames.indexOf('Без Снаряжения') !== -1) return false;
     }
+
+    // ============================================================
     // 4. ЗАВИСИМОСТЬ ОТ КАРТЫ
+    // ============================================================
     // Все На Выход — нельзя на этих картах
     if (variatorName === 'Все На Выход') {
         if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
@@ -1933,7 +1948,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 5. СИЛЬНЕЕ ВМЕСТЕ — ограничения по количеству игроков и картам
+    // ============================================================
+    // 5. СИЛЬНЕЕ ВМЕСТЕ
+    // ============================================================
     if (variatorName === 'Сильнее Вместе') {
         if (playerCount === 1) return false;
         if (playerCount === 2 || playerCount === 3) {
@@ -1945,10 +1962,11 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
             ];
             if (forbiddenMaps.indexOf(trialName) !== -1) return false;
         }
-        // для 4 игроков ограничений нет
     }
 
-    // 6. ВЕЧНАЯ МЕРЗЛОТА — несовместима с Резкое Похолодание, Токсический Шок
+    // ============================================================
+    // 6. ВЕЧНАЯ МЕРЗЛОТА ↔ РЕЗКОЕ ПОХОЛОДАНИЕ, ТОКСИЧЕСКИЙ ШОК
+    // ============================================================
     if (variatorName === 'Вечная Мерзлота') {
         if (selectedNames.indexOf('Резкое Похолодание') !== -1) return false;
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
@@ -1957,7 +1975,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
-    // 7. ТАЙМЕР БОМБЫ — несовместим с "Устранение устаревшего оборудования" и "Разбейте Телевизоры"
+    // ============================================================
+    // 7. ТАЙМЕР БОМБЫ ↔ РАЗБЕЙТЕ ТЕЛЕВИЗОРЫ
+    // ============================================================
     if (variatorName === 'Таймер Бомбы' || variatorName === 'Таймер бомбы') {
         if (trialName === 'Устранение устаревшего оборудования') return false;
         if (selectedNames.indexOf('Разбейте Телевизоры') !== -1) return false;
@@ -1967,7 +1987,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // 8. ТОКСИЧЕСКИЙ ШОК блокирует Глубокий Ожог
+    // ============================================================
+    // 8. ТОКСИЧЕСКИЙ ШОК → блокирует ГЛУБОКИЙ ОЖОГ
+    // ============================================================
     if (variatorName === 'Токсический Шок') {
         if (selectedNames.indexOf('Глубокий Ожог') !== -1) return false;
     }
@@ -1975,7 +1997,71 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
     }
 
-    // 9. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
+    // ============================================================
+    // 9. ВРАГИ СИЛЬНЕЕ / ПСИХОХИРУРГИЯ ↔ ПЛОТНОСТЬ / УГРОЗА
+    // ============================================================
+    var densityAndThreat = [
+        'Низкая Плотность Врагов',
+        'Много Противников',
+        'Повышенная Угроза',
+        'Повышенная угроза II'
+    ];
+
+    // 9.1 Враги сильнее / Враги сильнее II — блокируют плотность/угрозу
+    if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
+        for (i = 0; i < densityAndThreat.length; i++) {
+            if (selectedNames.indexOf(densityAndThreat[i]) !== -1) return false;
+        }
+    }
+
+    // 9.2 Если добавляем плотность/угрозу — проверяем, нет ли уже Врагов сильнее
+    if (densityAndThreat.indexOf(variatorName) !== -1) {
+        if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
+        if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
+        if (selectedNames.indexOf('Враги сильнее II') !== -1) return false;
+        if (selectedNames.indexOf('Враги Сильнее II') !== -1) return false;
+        // И Психохирургия тоже блокирует
+        if (selectedNames.indexOf('Психохирургия') !== -1) return false;
+    }
+
+    // 9.3 Психохирургия блокирует Врагов сильнее, плотность/угрозу
+    if (variatorName === 'Психохирургия') {
+        if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
+        if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
+        if (selectedNames.indexOf('Враги сильнее II') !== -1) return false;
+        if (selectedNames.indexOf('Враги Сильнее II') !== -1) return false;
+        for (i = 0; i < densityAndThreat.length; i++) {
+            if (selectedNames.indexOf(densityAndThreat[i]) !== -1) return false;
+        }
+    }
+
+    // 9.4 Если добавляем Врагов сильнее — проверяем, нет ли уже Психохирургии
+    if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
+        if (selectedNames.indexOf('Психохирургия') !== -1) return false;
+    }
+
+    // ============================================================
+    // 10. ОДНОТИПНЫЕ ВАРИАТОРЫ (I и II не вместе)
+    // ============================================================
+    var sameTypeGroups = [
+        ['Ограниченный Инвентарь', 'Ограниченный Инвентарь II'],
+        ['Повышенная Угроза', 'Повышенная угроза II'],
+        ['Ограниченные Укрытия', 'Ограниченные Укрытия II'],
+        ['Ограниченные предметы', 'Ограниченные предметы II']
+    ];
+
+    for (var g = 0; g < sameTypeGroups.length; g++) {
+        var group = sameTypeGroups[g];
+        if (group.indexOf(variatorName) !== -1) {
+            for (i = 0; i < group.length; i++) {
+                if (group[i] !== variatorName && selectedNames.indexOf(group[i]) !== -1) return false;
+            }
+        }
+    }
+
+    // ============================================================
+    // 11. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
+    // ============================================================
     if (playerCount === 1) {
         if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
     }
