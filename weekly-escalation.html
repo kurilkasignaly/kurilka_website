@@ -1375,17 +1375,17 @@
             <div class="result-grid">
                 <div>
                     <div class="result-card">
-                        <h3>ИСПЫТАНИЕ</h3>
+                        <h3><i class="fas fa-map"></i> Испытание</h3>
                         <div class="result-map-row" id="escResultMap"></div>
                     </div>
                     <div class="result-card" style="margin-top: 1.5rem;">
-                        <h3>ВАРИАТОРЫ</h3>
+                        <h3><i class="fas fa-skull"></i> Вариаторы</h3>
                         <div class="variator-list" id="escResultVariators"></div>
                     </div>
                 </div>
                 <div>
                     <div class="result-card">
-                        <h3><i class="fas fa-users"></i>УЧАСТНИКИ</h3>
+                        <h3><i class="fas fa-users"></i> Участники</h3>
                         <div id="escResultPlayers"></div>
                     </div>
                 </div>
@@ -1659,7 +1659,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
-    // 1.1 Если добавляем что-то из mainLotteryGroup
     if (mainLotteryGroup.indexOf(variatorName) !== -1) {
         for (i = 0; i < mainLotteryGroup.length; i++) {
             if (mainLotteryGroup[i] !== variatorName && selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
@@ -1669,13 +1668,10 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 1.2 Если добавляем Егерь / Больше Толкачей / Больше Притворщиков / Больше Бросателей
     if (antiLotteryGroup.indexOf(variatorName) !== -1) {
-        // Нельзя, если уже есть любой из mainLotteryGroup
         for (i = 0; i < mainLotteryGroup.length; i++) {
             if (selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
         }
-        // Нельзя, если уже есть другой из antiLotteryGroup (кроме самого себя)
         for (i = 0; i < antiLotteryGroup.length; i++) {
             if (antiLotteryGroup[i] !== variatorName && selectedNames.indexOf(antiLotteryGroup[i]) !== -1) return false;
         }
@@ -1759,7 +1755,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     // ============================================================
     // 4. ЗАВИСИМОСТЬ ОТ КАРТЫ
     // ============================================================
-    // Все На Выход — нельзя на этих картах
     if (variatorName === 'Все На Выход') {
         if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
             return false;
@@ -1825,24 +1820,20 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         'Повышенная угроза II'
     ];
 
-    // 9.1 Враги сильнее / Враги сильнее II — блокируют плотность/угрозу
     if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
         for (i = 0; i < densityAndThreat.length; i++) {
             if (selectedNames.indexOf(densityAndThreat[i]) !== -1) return false;
         }
     }
 
-    // 9.2 Если добавляем плотность/угрозу — проверяем, нет ли уже Врагов сильнее
     if (densityAndThreat.indexOf(variatorName) !== -1) {
         if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
         if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
         if (selectedNames.indexOf('Враги сильнее II') !== -1) return false;
         if (selectedNames.indexOf('Враги Сильнее II') !== -1) return false;
-        // И Психохирургия тоже блокирует
         if (selectedNames.indexOf('Психохирургия') !== -1) return false;
     }
 
-    // 9.3 Психохирургия блокирует Врагов сильнее, плотность/угрозу
     if (variatorName === 'Психохирургия') {
         if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
         if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
@@ -1853,7 +1844,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 9.4 Если добавляем Врагов сильнее — проверяем, нет ли уже Психохирургии
     if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
         if (selectedNames.indexOf('Психохирургия') !== -1) return false;
     }
@@ -2607,7 +2597,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
 
     var weeklyVarName = escState.weeklyVariator ? escState.weeklyVariator.name : null;
 
-    // Размеры шрифта для конкретных вариаторов
     var variatorFontSizes = {
         'ПСИХОХИРУРГИЯ': '0.63rem',
         'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
@@ -2621,7 +2610,6 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var weeklyClass = isWeekly ? 'preview-variator-item weekly' : 'preview-variator-item';
         var weeklyBadge = isWeekly ? '<div style="font-size:0.45rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
 
-        // Подбираем размер шрифта: сначала индивидуальный, потом по длине
         var fontSize;
         if (variatorFontSizes[nameUpper]) {
             fontSize = variatorFontSizes[nameUpper];
@@ -2725,7 +2713,6 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
     if (resultVariators) {
         var weeklyVarName2 = escState.weeklyVariator ? escState.weeklyVariator.name : null;
 
-        // Размеры шрифта для конкретных вариаторов
         var variatorFontSizes = {
             'ПСИХОХИРУРГИЯ': '0.63rem',
             'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
@@ -2817,13 +2804,35 @@ function renderEscResultPlayers() {
             var isComplete = isCategoryComplete(idx, category);
             
             var block = document.createElement('div');
-            block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06);';
-            
+            block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;';
+            block.dataset.playerIndex = idx;
+            block.dataset.category = category;
+
+            // Клик по карточке — открывает модалку выбора ампы
+            // (если категория ещё не завершена — иначе не даём менять)
+            if (!isComplete) {
+                block.style.cursor = 'pointer';
+                block.addEventListener('mouseenter', function() {
+                    this.style.borderColor = '#e16d48';
+                    this.style.background = 'rgba(220,90,50,0.1)';
+                });
+                block.addEventListener('mouseleave', function() {
+                    this.style.borderColor = 'rgba(255,255,255,0.06)';
+                    this.style.background = 'rgba(255,255,255,0.04)';
+                });
+                block.addEventListener('click', function() {
+                    openAmpModal(idx, category);
+                });
+            } else {
+                block.style.opacity = '0.7';
+                block.style.cursor = 'default';
+            }
+
             var categoryName = document.createElement('div');
             categoryName.style.cssText = 'font-size: 0.55rem; color: #e16d48; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 4px;';
             categoryName.textContent = category;
             block.appendChild(categoryName);
-            
+
             if (isComplete) {
                 var complete = document.createElement('div');
                 complete.style.cssText = 'font-size: 0.5rem; color: #2ecc71; font-weight: 500;';
@@ -2834,11 +2843,21 @@ function renderEscResultPlayers() {
                 ampNameEl.style.cssText = 'font-size: 0.75rem; color: #ffbc9a; font-weight: 600; line-height: 1.2;';
                 ampNameEl.textContent = ampData.name;
                 block.appendChild(ampNameEl);
+
+                var hint = document.createElement('div');
+                hint.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
+                hint.textContent = 'нажмите, чтобы сменить';
+                block.appendChild(hint);
             } else {
                 var empty = document.createElement('div');
                 empty.style.cssText = 'font-size: 0.7rem; color: #555; font-weight: 500;';
                 empty.textContent = 'Не выбрана';
                 block.appendChild(empty);
+
+                var hint2 = document.createElement('div');
+                hint2.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
+                hint2.textContent = 'нажмите, чтобы выбрать';
+                block.appendChild(hint2);
             }
             ampsGrid.appendChild(block);
         });
