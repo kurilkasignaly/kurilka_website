@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Эскалация — Курилка Синьялы</title>
+    <title>Еженедельная Эскалация — Курилка Синьялы</title>
     <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== БАЗОВЫЕ СТИЛИ ===== */
         * {
             margin: 0;
             padding: 0;
@@ -47,7 +46,6 @@
             z-index: -1;
         }
 
-        /* ===== АНИМАЦИИ ===== */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -71,7 +69,6 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -160,7 +157,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ЭСКАЛАЦИИ ===== */
         .escalation-wrapper {
             max-width: 1100px;
             margin: 0 auto;
@@ -209,7 +205,44 @@
             color: #e16d48;
         }
 
-        /* ===== СЧЕТЧИК УРОВНЯ ===== */
+        .weekly-info {
+            text-align: center;
+            padding: 10px 16px;
+            background: rgba(220, 90, 50, 0.12);
+            border-radius: 16px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .weekly-info .weekly-label {
+            color: #888;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .weekly-info .weekly-variator {
+            color: #f1c40f;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .weekly-info .weekly-variator i {
+            color: #f1c40f;
+            margin-right: 6px;
+        }
+
+        .weekly-info .weekly-hint {
+            color: #666;
+            font-size: 0.7rem;
+        }
+
         .level-counter {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -248,7 +281,6 @@
         .level-difficulty-intensive { background: rgba(46, 204, 113, 0.3); color: #2ecc71; }
         .level-difficulty-psycho { background: rgba(255, 51, 51, 0.3); color: #ff3333; }
 
-        /* ===== ШАГИ ===== */
         .step-container {
             background: rgba(0, 0, 0, 0.25);
             border-radius: 28px;
@@ -289,7 +321,6 @@
             text-align: center;
         }
 
-        /* ===== КНОПКИ ВЫБОРА ИГРОКОВ ===== */
         .player-count-options {
             display: flex;
             gap: 1.2rem;
@@ -326,7 +357,6 @@
             box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
         }
 
-        /* ===== ПОЛЯ ВВОДА ИМЕН ===== */
         .player-name-inputs {
             display: flex;
             flex-direction: column;
@@ -371,13 +401,6 @@
 
         .player-name-inputs .input-row input::placeholder {
             color: #555;
-        }
-
-        /* ===== ВЫБОР ВНУТРИ БЛОКА ===== */
-        .selection-items {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
         }
 
         .selection-item {
@@ -449,7 +472,6 @@
             display: block;
         }
 
-        /* ===== КНОПКИ НАВИГАЦИИ ===== */
         .step-actions {
             display: flex;
             justify-content: center;
@@ -519,7 +541,6 @@
             color: #ff3333;
         }
 
-        /* ===== РЕЗУЛЬТАТ ===== */
         .escalation-result {
             display: none;
             animation: resultAppear 0.6s ease-out;
@@ -620,53 +641,57 @@
             font-weight: 600;
         }
 
-        /* ===================================================== */
-        /* ===== ВАРИАТОРЫ — КОМПАКТНЫЙ СТИЛЬ ================ */
-        /* ===================================================== */
         .variator-list {
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            justify-content: center;
         }
 
         .variator-list .var-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
-            width: 95px;
-            text-align: center;
+            gap: 0.4rem;
         }
 
         .variator-list .var-item img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            padding: 8px;
-            background: rgba(20, 15, 28, 0.7);
-            border: 1px solid rgba(220, 90, 50, 0.25);
             border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .variator-list .var-item:hover img {
-            border-color: rgba(220, 90, 50, 0.6);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(220, 90, 50, 0.15);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
         .variator-list .var-item .var-name {
-            font-size: 0.62rem;
-            color: #ffbc9a;
+            font-size: 0.65rem;
+            color: #c2b9d4;
             text-align: center;
+            max-width: 75px;
             line-height: 1.2;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
         }
 
-        /* ===== ИГРОКИ В РЕЗУЛЬТАТЕ ===== */
+        .variator-list .var-item.weekly {
+            border: 2px solid #f1c40f;
+            border-radius: 12px;
+            padding: 4px;
+            background: rgba(241, 196, 15, 0.1);
+        }
+
+        .variator-list .var-item.weekly .var-name {
+            color: #f1c40f;
+        }
+
+        .variator-list .var-item .weekly-badge {
+            font-size: 0.5rem;
+            color: #f1c40f;
+            background: rgba(241, 196, 15, 0.2);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            margin-top: 0.1rem;
+        }
+
         .player-result {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
@@ -820,7 +845,6 @@
             min-width: 200px;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ ===== */
         .amp-modal-overlay {
             display: none;
             position: fixed;
@@ -1043,7 +1067,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА ===== */
         .confirm-modal-overlay {
             display: none;
             position: fixed;
@@ -1132,7 +1155,6 @@
             color: white;
         }
 
-        /* ===== КНОПКА НАЗАД ===== */
         .back-to-roulette {
             display: inline-flex;
             align-items: center;
@@ -1155,7 +1177,6 @@
             transform: translateX(-5px);
         }
 
-        /* ===== ФУТЕР ===== */
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -1173,7 +1194,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 992px) {
             .result-grid {
                 grid-template-columns: 1fr;
@@ -1187,23 +1207,23 @@
             .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
-
+            
             .escalation-wrapper { padding: 1.5rem; margin: 0 0.5rem; }
             .escalation-wrapper h1 { font-size: 1.6rem; }
-
+            
             .step-container { padding: 1.5rem; }
             .step-title { font-size: 1.1rem; }
-
+            
             .player-count-btn { padding: 1rem 2rem; font-size: 1.3rem; min-width: 70px; }
-
+            
             .selection-item img { width: 60px; height: 60px; }
-
+            
             .result-map-row { flex-direction: column; text-align: left; }
             .result-map-row .map-image { width: 130px; height: 130px; }
-
+            
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
-
+            
             .player-amps-categories {
                 grid-template-columns: 1fr;
                 gap: 0.5rem;
@@ -1213,33 +1233,32 @@
         @media (max-width: 600px) {
             .escalation-wrapper { padding: 1rem; }
             .escalation-wrapper h1 { font-size: 1.3rem; flex-wrap: wrap; }
-
+            
             .step-container { padding: 1rem; }
             .step-title { font-size: 1rem; padding-left: 12px; gap: 8px; }
             .step-title .step-number { font-size: 0.7rem; padding: 0.1rem 0.6rem; }
-
+            
             .player-count-btn { padding: 0.8rem 1.2rem; font-size: 1.1rem; min-width: 55px; }
             .player-count-options { gap: 0.5rem; }
-
+            
             .selection-item img { width: 50px; height: 50px; }
             .selection-item .item-name { font-size: 0.7rem; }
-
+            
             .result-map-row .map-image { width: 100px; height: 100px; }
             .variator-list { gap: 0.5rem; }
-            .variator-list .var-item { width: 80px; }
-            .variator-list .var-item img { width: 60px; height: 60px; padding: 6px; }
-            .variator-list .var-item .var-name { font-size: 0.55rem; }
-
+            .variator-list .var-item img { width: 50px; height: 50px; }
+            .variator-list .var-item .var-name { font-size: 0.55rem; max-width: 60px; }
+            
             .step-actions { flex-direction: column; align-items: center; }
             .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
-
+            
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
-
+            
             .amp-modal { padding: 1rem; }
             .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .amp-modal-item img { width: 50px; height: 50px; }
             .amp-modal-item .amp-name { font-size: 0.7rem; }
-
+            
             .player-amps-categories {
                 grid-template-columns: 1fr;
                 gap: 0.4rem;
@@ -1272,11 +1291,18 @@
             <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
             <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
             <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="weekly-escalation.html" class="nav-btn active"><i class="fas fa-calendar-week"></i> Еженедельная</a>
         </div>
     </div>
 
     <div class="escalation-wrapper" id="escalationWrapper">
-        <h1><i class="fas fa-chart-line"></i> Эскалационная терапия</h1>
+        <h1><i class="fas fa-calendar-week"></i> Еженедельная эскалация</h1>
+
+        <div class="weekly-info" id="weeklyInfo">
+            <span class="weekly-label"><i class="fas fa-star" style="color: #f1c40f;"></i> Еженедельный вариатор:</span>
+            <span class="weekly-variator" id="weeklyVariatorName"><i class="fas fa-spinner fa-spin"></i> Загрузка...</span>
+            <span class="weekly-hint">(действует до вторника 21:00 МСК)</span>
+        </div>
 
         <div class="level-counter" id="levelCounter">
             <span class="level-number" id="levelNumber">1</span>
@@ -1319,7 +1345,7 @@
                 <span class="step-number">Шаг 3</span>
                 <i class="fas fa-backpack"></i> Выбор снаряжения
             </div>
-            <div class="step-subtitle" id="escStep3Subtitle">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
+            <div class="step-subtitle">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
             <div id="escStep3Content"></div>
             <div class="step-actions">
                 <button class="back-btn" id="escStep3Back">← Назад</button>
@@ -1332,7 +1358,7 @@
                 <span class="step-number">Шаг 4</span>
                 <i class="fas fa-capsules"></i> Выбор амп
             </div>
-            <div class="step-subtitle" id="escStep4Subtitle">Каждому игроку предлагается 3 случайных ампы на выбор (нужно выбрать 1)</div>
+            <div class="step-subtitle">Каждому игроку предлагается 3 случайных ампы на выбор</div>
             <div id="escStep4Content"></div>
             <div class="step-actions">
                 <button class="back-btn" id="escStep4Back">← Назад</button>
@@ -1359,14 +1385,14 @@
                 </div>
                 <div>
                     <div class="result-card">
-                        <h3><i class="fas fa-users"></i> УЧАСТНИКИ</h3>
+                        <h3><i class="fas fa-users"></i>УЧАСТНИКИ</h3>
                         <div id="escResultPlayers"></div>
                     </div>
                 </div>
             </div>
             <div class="result-actions">
-                <button class="exit-btn" id="escExitBtn"><i class="fas fa-sign-out-alt"></i> Покинуть Эскалацию</button>
-                <button class="next-btn" id="escNextLevelBtn">Далее →</button>
+                <button class="exit-btn" id="escExitBtn"><i class="fas fa-sign-out-alt"></i> Покинуть</button>
+                <button class="next-btn" id="escNextLevelBtn">Следующий уровень →</button>
             </div>
         </div>
 
@@ -1415,7 +1441,12 @@
 
 <script>
 // ============================================================
-// КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
+// ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР (ЗАДАЁТСЯ ВРУЧНУЮ)
+// ============================================================
+var WEEKLY_VARIATOR_NAME = 'Таймер Бомбы';
+
+// ============================================================
+// НОВЫЕ КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
 // ============================================================
 var SIDE_QUEST_VARIATORS = [
     "Сбор Подарков",
@@ -1430,7 +1461,6 @@ var SIDE_QUEST_VARIATORS = [
     "Соберите Коробки С Уликами",
     "Расшифруйте Вещание",
     "Потушите Огонь",
-    "Соберите плакаты",
     "Экстракция Крови",
     "Случайное Побочное Задание"
 ];
@@ -1443,6 +1473,8 @@ var EXCLUDED_VARIATORS = [
     'Близнецы Кресс',
     'Лилия Богомолова'
 ];
+
+var WEEKLY_POOL_NAMES = ['Таймер бомбы', 'Вечная мерзлота', 'Глубокий ожог', 'Кровотечение'];
 
 // ============================================================
 // СОСТОЯНИЕ
@@ -1464,7 +1496,8 @@ let escState = {
     isFirstRun: true,
     usedBigTrials: [],
     usedSmallTrials: [],
-    nostophobiaCount: 0
+    nostophobiaCount: 0,
+    weeklyVariator: null
 };
 
 // ============================================================
@@ -1478,6 +1511,31 @@ function checkDataLoaded() {
     if (typeof trialsData === 'undefined') return false;
     if (typeof ampCategories === 'undefined') return false;
     return true;
+}
+
+// ============================================================
+// ПОЛУЧЕНИЕ ЕЖЕНЕДЕЛЬНОГО ВАРИАТОРА
+// ============================================================
+function getWeeklyVariator() {
+    if (typeof allVariatorsData === 'undefined') return null;
+    return allVariatorsData.find(function(v) { return v.name === WEEKLY_VARIATOR_NAME; }) || null;
+}
+
+function updateWeeklyVariatorDisplay() {
+    var nameEl = document.getElementById('weeklyVariatorName');
+    if (nameEl) {
+        if (escState.weeklyVariator) {
+            nameEl.innerHTML = '<i class="fas fa-star"></i> ' + escState.weeklyVariator.name.toUpperCase();
+        } else {
+            var weekly = getWeeklyVariator();
+            if (weekly) {
+                escState.weeklyVariator = weekly;
+                nameEl.innerHTML = '<i class="fas fa-star"></i> ' + weekly.name.toUpperCase();
+            } else {
+                nameEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Не найден';
+            }
+        }
+    }
 }
 
 // ============================================================
@@ -1524,7 +1582,7 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ПРОВЕРКИ ТИПОВ
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ: ПРОВЕРКА ТИПОВ ВАРИАТОРОВ
 // ============================================================
 function isExcludedVariator(name) {
     if (!name) return false;
@@ -1536,10 +1594,17 @@ function isExcludedVariator(name) {
     return false;
 }
 
+function isWeeklyVariatorName(name) {
+    return WEEKLY_POOL_NAMES.indexOf(name) !== -1;
+}
+
 function isSideQuestVariator(name) {
     return SIDE_QUEST_VARIATORS.indexOf(name) !== -1;
 }
 
+// ============================================================
+// ПРАВИЛЬНЫЙ ШАФФЛ (Fisher-Yates)
+// ============================================================
 function shuffleArray(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -1550,7 +1615,7 @@ function shuffleArray(arr) {
 }
 
 // ============================================================
-// ВСПОМОГАТЕЛЬНАЯ: ВАРИАТОР СЛОЖНОСТИ
+// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ВАРИАТОР СЛОЖНОСТИ
 // ============================================================
 function getDifficultyVariator(level, availableVariators) {
     if (level < 5) return null;
@@ -1578,16 +1643,19 @@ function getDifficultyVariator(level, availableVariators) {
 }
 
 // ============================================================
-// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
+// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ (ПОЛНАЯ)
 // ============================================================
 function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
     var i;
 
+    // 0. Уже выбранный такой же — не дублируем
     if (selectedNames.indexOf(variatorName) !== -1) return false;
 
+    // ============================================================
     // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ ↔ ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
+    // ============================================================
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
@@ -1609,7 +1677,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
+    // ============================================================
     // 2. МИНЫ — только один вид мин
+    // ============================================================
     var mineVariators = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
     if (mineVariators.indexOf(variatorName) !== -1) {
         for (i = 0; i < mineVariators.length; i++) {
@@ -1617,12 +1687,22 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 3.1. ПЕРВЫЙ УРОВЕНЬ
+    // ============================================================
+    // 3. ПЕРВЫЙ УРОВЕНЬ / СЛОМАННЫЙ РЕАГЕНТ / БЕЗ СНАРЯЖЕНИЯ
+    // ============================================================
+
+    // --- 3.1. ПЕРВЫЙ УРОВЕНЬ ---
     var firstLevelBlocked = [
-        'Сломанный Реагент', 'Без Снаряжения', 'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
+        'Сломанный Реагент',
+        'Без Снаряжения',
+        'Без Улучшения Снаряжения',
+        'Увеличенная Перезарядка Снаряжения',
+        'Без Амф',
+        'Без Рецептов',
+        'Ограниченное Снаряжение',
+        'Урон Перезапускает Снаряжение',
+        'Урон Отключает Снаряжение',
+        'Трофейное Снаряжение'
     ];
     if (variatorName === 'Первый Уровень') {
         for (i = 0; i < firstLevelBlocked.length; i++) {
@@ -1633,12 +1713,18 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Первый Уровень') !== -1) return false;
     }
 
-    // 3.2. СЛОМАННЫЙ РЕАГЕНТ
+    // --- 3.2. СЛОМАННЫЙ РЕАГЕНТ ---
     var brokenReagentBlocked = [
-        'Первый Уровень', 'Без Снаряжения', 'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
+        'Первый Уровень',
+        'Без Снаряжения',
+        'Без Улучшения Снаряжения',
+        'Увеличенная Перезарядка Снаряжения',
+        'Без Амф',
+        'Без Рецептов',
+        'Ограниченное Снаряжение',
+        'Урон Перезапускает Снаряжение',
+        'Урон Отключает Снаряжение',
+        'Трофейное Снаряжение'
     ];
     if (variatorName === 'Сломанный Реагент') {
         for (i = 0; i < brokenReagentBlocked.length; i++) {
@@ -1649,10 +1735,12 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Сломанный Реагент') !== -1) return false;
     }
 
-    // 3.3. БЕЗ СНАРЯЖЕНИЯ
+    // --- 3.3. БЕЗ СНАРЯЖЕНИЯ ---
     var noEquipmentBlocked = [
-        'Без Улучшения Снаряжения', 'Увеличенная Перезарядка Снаряжения',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
+        'Без Улучшения Снаряжения',
+        'Увеличенная Перезарядка Снаряжения',
+        'Ограниченное Снаряжение',
+        'Урон Перезапускает Снаряжение',
         'Урон Отключает Снаряжение'
     ];
     if (variatorName === 'Без Снаряжения') {
@@ -1664,14 +1752,18 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Без Снаряжения') !== -1) return false;
     }
 
+    // ============================================================
     // 4. ЗАВИСИМОСТЬ ОТ КАРТЫ
+    // ============================================================
     if (variatorName === 'Все На Выход') {
         if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
             return false;
         }
     }
 
+    // ============================================================
     // 5. СИЛЬНЕЕ ВМЕСТЕ
+    // ============================================================
     if (variatorName === 'Сильнее Вместе') {
         if (playerCount === 1) return false;
         if (playerCount === 2 || playerCount === 3) {
@@ -1685,7 +1777,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
+    // ============================================================
     // 6. ВЕЧНАЯ МЕРЗЛОТА ↔ РЕЗКОЕ ПОХОЛОДАНИЕ, ТОКСИЧЕСКИЙ ШОК
+    // ============================================================
     if (variatorName === 'Вечная Мерзлота') {
         if (selectedNames.indexOf('Резкое Похолодание') !== -1) return false;
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
@@ -1694,7 +1788,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
+    // ============================================================
     // 7. ТАЙМЕР БОМБЫ ↔ РАЗБЕЙТЕ ТЕЛЕВИЗОРЫ
+    // ============================================================
     if (variatorName === 'Таймер Бомбы' || variatorName === 'Таймер бомбы') {
         if (trialName === 'Устранение устаревшего оборудования') return false;
         if (selectedNames.indexOf('Разбейте Телевизоры') !== -1) return false;
@@ -1704,7 +1800,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // 8. ТОКСИЧЕСКИЙ ШОК блокирует ГЛУБОКИЙ ОЖОГ
+    // ============================================================
+    // 8. ТОКСИЧЕСКИЙ ШОК → блокирует ГЛУБОКИЙ ОЖОГ
+    // ============================================================
     if (variatorName === 'Токсический Шок') {
         if (selectedNames.indexOf('Глубокий Ожог') !== -1) return false;
     }
@@ -1712,7 +1810,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
     }
 
+    // ============================================================
     // 9. ВРАГИ СИЛЬНЕЕ / ПСИХОХИРУРГИЯ ↔ ПЛОТНОСТЬ / УГРОЗА
+    // ============================================================
     var densityAndThreat = [
         'Низкая Плотность Врагов',
         'Много Противников',
@@ -1748,7 +1848,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Психохирургия') !== -1) return false;
     }
 
-    // 10. ОДНОТИПНЫЕ I/II
+    // ============================================================
+    // 10. ОДНОТИПНЫЕ ВАРИАТОРЫ (I и II не вместе)
+    // ============================================================
     var sameTypeGroups = [
         ['Ограниченный Инвентарь', 'Ограниченный Инвентарь II'],
         ['Повышенная Угроза', 'Повышенная угроза II'],
@@ -1765,19 +1867,25 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ ↔ ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
+    // ============================================================
+    // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ блокирует ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
+    // ============================================================
     var noItemsName = 'Без Предметов В Испытании';
     var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
+
     if (variatorName === noItemsName) {
         for (i = 0; i < limitedItemsGroup.length; i++) {
             if (selectedNames.indexOf(limitedItemsGroup[i]) !== -1) return false;
         }
     }
+
     if (limitedItemsGroup.indexOf(variatorName) !== -1) {
         if (selectedNames.indexOf(noItemsName) !== -1) return false;
     }
 
-    // 11. ПРОЧИЕ
+    // ============================================================
+    // 11. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
+    // ============================================================
     if (playerCount === 1) {
         if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
     }
@@ -1790,12 +1898,18 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 }
 
 // ============================================================
-// ОСНОВНАЯ ГЕНЕРАЦИЯ ВАРИАТОРОВ
+// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ
 // ============================================================
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
     console.log('🔄 Генерация вариаторов для уровня:', level);
+
+    var weeklyVar = getWeeklyVariator();
+    if (weeklyVar) {
+        escState.weeklyVariator = weeklyVar;
+    }
+    updateWeeklyVariatorDisplay();
 
     var MAX_VARIATORS = 10;
     var trialName = escState.trial ? escState.trial.name : '';
@@ -1814,50 +1928,83 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         return true;
     });
 
+    console.log('📋 availableVariators (' + availableVariators.length + '):',
+        availableVariators.map(function(v){ return v.name; }).join(' | '));
+
     var result = [];
     var usedNames = [];
 
-    // 1. ВАРИАТОР СЛОЖНОСТИ
+    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР
+    if (weeklyVar && weeklyVar.name) {
+        result.push(weeklyVar);
+        usedNames.push(weeklyVar.name);
+        console.log('✅ [1] Еженедельный:', weeklyVar.name);
+    }
+
+    // 2. ВАРИАТОР СЛОЖНОСТИ
     if (level > 20) {
         var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
         var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
 
         if (psycho) {
-            result.push(psycho); usedNames.push(psycho.name);
+            result.push(psycho);
+            usedNames.push(psycho.name);
+            console.log('✅ [2] Психохирургия');
         } else {
-            result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" });
+            result.push({
+                id: 'psycho_fallback',
+                name: "Психохирургия",
+                image: "images/психохирургия.webp",
+                category: "psycho"
+            });
             usedNames.push("Психохирургия");
+            console.log('✅ [2] Психохирургия (создана)');
         }
 
         if (doubleTasks) {
-            result.push(doubleTasks); usedNames.push(doubleTasks.name);
+            result.push(doubleTasks);
+            usedNames.push(doubleTasks.name);
+            console.log('✅ [2] Двойные задания');
         } else {
-            result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" });
+            result.push({
+                id: 'double_fallback',
+                name: "Двойные задания",
+                image: "images/двойные задания.webp",
+                category: "collection_special"
+            });
             usedNames.push("Двойные задания");
+            console.log('✅ [2] Двойные задания (созданы)');
         }
     } else {
         var difficultyVar = getDifficultyVariator(level, availableVariators);
         if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
             result.push(difficultyVar);
             usedNames.push(difficultyVar.name);
+            console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
         }
     }
 
-    // 2. ПОБОЧНОЕ ЗАДАНИЕ — ровно одно, до 20 уровня
+    // 3. ПОБОЧНОЕ ЗАДАНИЕ — ТОЛЬКО ОДНО, ТОЛЬКО ДО 20 УРОВНЯ
     if (level <= 20) {
         var sideQuestPool = availableVariators.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
             if (usedNames.indexOf(v.name) !== -1) return false;
             return true;
         });
+
         if (sideQuestPool.length > 0) {
             var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
             result.push(chosenSideQuest);
             usedNames.push(chosenSideQuest.name);
+            console.log('✅ [3] Побочное задание (ровно 1):', chosenSideQuest.name);
+        } else {
+            console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
         }
+    } else {
+        console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
     }
 
-    // 3. ЦЕЛЕВОЕ КОЛИЧЕСТВО
+    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
     var targetTotal;
     if (level === 1) targetTotal = 3;
     else if (level >= 2 && level <= 3) targetTotal = 4;
@@ -1871,9 +2018,10 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
     } else targetTotal = 3;
 
-    // 4. СЛУЧАЙНЫЕ ВАРИАТОРЫ
+    // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
     var filtered = availableVariators.filter(function(v) {
         if (usedNames.indexOf(v.name) !== -1) return false;
+        if (isWeeklyVariatorName(v.name)) return false;
         if (isSideQuestVariator(v.name)) return false;
         if (v.name === "Психохирургия" || v.name === "Двойные задания") return false;
         if (v.name === "Враги сильнее" || v.name === "Враги Сильнее" || v.name === "Враги Сильнее II" || v.name === "Враги сильнее II") return false;
@@ -1887,13 +2035,15 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
             result.push(candidate);
             usedNames.push(candidate.name);
+            console.log('✅ [4] Случайный:', candidate.name);
         }
     }
 
-    // 5. ДОБИВКА
+    // 6. ДОБИВКА
     if (result.length < targetTotal) {
         var remaining = availableVariators.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
+                && !isWeeklyVariatorName(v.name)
                 && !isSideQuestVariator(v.name)
                 && v.name !== "Психохирургия"
                 && v.name !== "Двойные задания"
@@ -1903,31 +2053,38 @@ function getVariatorsForLevel(level, mapName, playerCount) {
                 && v.name !== "Враги сильнее II";
         });
         var shuffledRemaining = shuffleArray(remaining);
+
         for (var j = 0; j < shuffledRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; j++) {
             var candidate2 = shuffledRemaining[j];
             if (usedNames.indexOf(candidate2.name) === -1 && isVariatorCompatible(candidate2, result, trialName, playerCount, level)) {
                 result.push(candidate2);
                 usedNames.push(candidate2.name);
+                console.log('✅ [4] Добивка:', candidate2.name);
             }
         }
     }
 
-    // 6. КРАЙНЯЯ ДОБИВКА
+    // 7. КРАЙНЯЯ ДОБИВКА
     if (result.length < targetTotal) {
         var anyRemaining = allVariatorsData.filter(function(v) {
-            return usedNames.indexOf(v.name) === -1 && !isExcludedVariator(v.name);
+            return usedNames.indexOf(v.name) === -1
+                && !isExcludedVariator(v.name)
+                && !isWeeklyVariatorName(v.name);
         });
         for (var k = 0; k < anyRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; k++) {
             var candidate3 = anyRemaining[k];
             if (usedNames.indexOf(candidate3.name) === -1) {
                 result.push(candidate3);
                 usedNames.push(candidate3.name);
+                console.log('✅ [4] Принудительно:', candidate3.name);
             }
         }
     }
 
     // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
-    result = result.filter(function(v) { return !isExcludedVariator(v.name); });
+    result = result.filter(function(v) {
+        return !isExcludedVariator(v.name);
+    });
 
     console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
@@ -1938,19 +2095,19 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 // ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
-
+    
     var mapNames = Object.keys(trialsData);
     var isBigLevel = (level % 10 === 0);
     var availableTrials = [];
-
+    
     for (var m = 0; m < mapNames.length; m++) {
         var mapName = mapNames[m];
         var mapData = trialsData[mapName];
-
+        
         for (var t = 0; t < mapData.trials.length; t++) {
             var trial = mapData.trials[t];
             var isBig = trial.name === trial.name.toUpperCase();
-
+            
             if (isBigLevel && isBig) {
                 if (escState.usedBigTrials.indexOf(trial.name) === -1) {
                     availableTrials.push({ mapName: mapName, mapImage: mapData.image, trial: trial });
@@ -1962,7 +2119,7 @@ function getMapAndTrial(level) {
             }
         }
     }
-
+    
     if (availableTrials.length === 0) {
         if (isBigLevel) {
             escState.usedBigTrials = [];
@@ -1990,21 +2147,21 @@ function getMapAndTrial(level) {
             }
         }
     }
-
+    
     if (availableTrials.length === 0) return null;
-
+    
     var randomIndex = Math.floor(Math.random() * availableTrials.length);
     var selected = availableTrials[randomIndex];
-
+    
     escState.map = { name: selected.mapName, image: selected.mapImage };
     escState.trial = selected.trial;
-
+    
     if (selected.trial.name === selected.trial.name.toUpperCase()) {
         escState.usedBigTrials.push(selected.trial.name);
     } else {
         escState.usedSmallTrials.push(selected.trial.name);
     }
-
+    
     return selected;
 }
 
@@ -2019,12 +2176,12 @@ function goToEscStep(step) {
     escState.currentStep = step;
     var steps = { 1: 'escStep1', 2: 'escStep2', 3: 'escStep3', 4: 'escStep4' };
     var result = document.getElementById('escResult');
-
+    
     for (var key in steps) {
         var el = document.getElementById(steps[key]);
         if (el) el.classList.toggle('hidden', parseInt(key) !== step);
     }
-
+    
     if (result) {
         result.classList.remove('active');
         result.style.display = 'none';
@@ -2035,7 +2192,7 @@ function updateLevelCounter() {
     var levelNum = document.getElementById('levelNumber');
     var levelDiff = document.getElementById('levelDifficulty');
     var difficulty = getDifficultyByLevel(escState.level);
-
+    
     if (levelNum) levelNum.textContent = escState.level;
     if (levelDiff) {
         levelDiff.textContent = difficulty.name;
@@ -2050,17 +2207,26 @@ function renderEscPlayerNames() {
     var container = document.getElementById('escPlayerNameInputs');
     if (!container) return;
     container.innerHTML = '';
-
+    
     var playerCount = escState.playerCount;
     var grid = document.createElement('div');
     grid.className = 'selection-grid players-' + playerCount;
     grid.style.cssText = 'display: grid; gap: 12px 20px; max-width: 600px; margin: 0 auto;';
-
-    if (playerCount === 1) { grid.style.gridTemplateColumns = '1fr'; grid.style.maxWidth = '300px'; }
-    else if (playerCount === 2) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
-    else if (playerCount === 3) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
-    else if (playerCount === 4) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '550px'; }
-
+    
+    if (playerCount === 1) {
+        grid.style.gridTemplateColumns = '1fr';
+        grid.style.maxWidth = '300px';
+    } else if (playerCount === 2) {
+        grid.style.gridTemplateColumns = '1fr 1fr';
+        grid.style.maxWidth = '500px';
+    } else if (playerCount === 3) {
+        grid.style.gridTemplateColumns = '1fr 1fr';
+        grid.style.maxWidth = '500px';
+    } else if (playerCount === 4) {
+        grid.style.gridTemplateColumns = '1fr 1fr';
+        grid.style.maxWidth = '550px';
+    }
+    
     for (var i = 0; i < playerCount; i++) {
         var row = document.createElement('div');
         row.className = 'player-block';
@@ -2073,7 +2239,7 @@ function renderEscPlayerNames() {
             <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(220,90,50,0.2); background: rgba(255,255,255,0.05); color: #ffbc9a; font-size: 0.95rem; outline: none; transition: border-color 0.3s; box-sizing: border-box;">
         `;
         grid.appendChild(row);
-
+        
         if (playerCount === 3 && i === 2) {
             row.style.gridColumn = '1 / -1';
             row.style.maxWidth = '50%';
@@ -2082,33 +2248,40 @@ function renderEscPlayerNames() {
         }
     }
     container.appendChild(grid);
-
+    
     var inputs = container.querySelectorAll('input');
     var nextBtn = document.getElementById('escStep2Next');
-
+    
     function checkNamesFilled() {
         var allFilled = true;
         inputs.forEach(function(input) {
-            if (input.value.trim() === '') allFilled = false;
+            if (input.value.trim() === '') {
+                allFilled = false;
+            }
         });
-        if (nextBtn) nextBtn.disabled = !allFilled;
+        if (nextBtn) {
+            nextBtn.disabled = !allFilled;
+        }
         return allFilled;
     }
-
+    
     inputs.forEach(function(input) {
         input.addEventListener('input', checkNamesFilled);
         input.addEventListener('change', checkNamesFilled);
     });
-
+    
     setTimeout(checkNamesFilled, 100);
 }
 
+// ============================================================
+// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: РАЗБИВКА ИГРОКОВ НА СТРОКИ
+// ============================================================
 function buildPlayerRows(players, renderPlayerBlock) {
     var container = document.createElement('div');
     container.style.cssText = 'display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 1000px; margin: 0 auto;';
-
+    
     var playerCount = players.length;
-
+    
     if (playerCount === 1) {
         var row1 = document.createElement('div');
         row1.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%;';
@@ -2135,12 +2308,12 @@ function renderEscEquipment() {
     var container = document.getElementById('escStep3Content');
     if (!container) return;
     container.innerHTML = '';
-
+    
     if (typeof equipmentData === 'undefined' || equipmentData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные снаряжения не загружены</div>';
         return;
     }
-
+    
     var equipColors = {
         'Оглушение': { bg: 'rgba(231, 76, 60, 0.2)', border: '#e74c3c' },
         'Завеса': { bg: 'rgba(155, 89, 182, 0.2)', border: '#9b59b6' },
@@ -2149,7 +2322,7 @@ function renderEscEquipment() {
         'Рентген': { bg: 'rgba(46, 204, 113, 0.2)', border: '#2ecc71' },
         'Баррикада': { bg: 'rgba(241, 196, 15, 0.2)', border: '#f1c40f' }
     };
-
+    
     var header = document.createElement('div');
     header.style.cssText = 'text-align: center; margin-bottom: 20px;';
     header.innerHTML = `
@@ -2158,24 +2331,24 @@ function renderEscEquipment() {
         <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
     `;
     container.appendChild(header);
-
+    
     function renderPlayerBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-
+        
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
-
+        
         var grid = document.createElement('div');
         grid.className = 'player-equip-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-
+        
         var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
         var selectedEquip = shuffled.slice(0, 3);
-
+        
         selectedEquip.forEach(function(eq) {
             var item = document.createElement('div');
             item.className = 'selection-item';
@@ -2183,19 +2356,19 @@ function renderEscEquipment() {
             item.dataset.equip = eq.name;
             var isSelected = escState.equipSelections[idx] === eq.name;
             var colors = equipColors[eq.name] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
-
+            
             item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
             if (isSelected) {
                 item.style.borderColor = colors.border;
                 item.style.background = colors.bg;
             }
-
+            
             item.innerHTML = `
                 <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                 <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${eq.name}</div>
                 <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
             `;
-
+            
             item.addEventListener('click', function() {
                 var playerGrid = this.closest('.player-block').querySelector('.player-equip-grid');
                 if (playerGrid) {
@@ -2222,7 +2395,7 @@ function renderEscEquipment() {
         section.appendChild(grid);
         return section;
     }
-
+    
     var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
     container.appendChild(rowsContainer);
     checkEscEquipReady();
@@ -2243,12 +2416,12 @@ function renderEscAmps() {
     var container = document.getElementById('escStep4Content');
     if (!container) return;
     container.innerHTML = '';
-
+    
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амф не загружены</div>';
         return;
     }
-
+    
     var header = document.createElement('div');
     header.style.cssText = 'text-align: center; margin-bottom: 20px;';
     header.innerHTML = `
@@ -2257,12 +2430,12 @@ function renderEscAmps() {
         <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных амфы на выбор</div>
     `;
     container.appendChild(header);
-
+    
     function renderPlayerBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-
+        
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
@@ -2271,7 +2444,7 @@ function renderEscAmps() {
         var availableCategories = ampCategories.filter(function(cat) {
             return !isCategoryComplete(idx, cat);
         });
-
+        
         if (availableCategories.length === 0) {
             var msg = document.createElement('div');
             msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
@@ -2279,27 +2452,30 @@ function renderEscAmps() {
             section.appendChild(msg);
             return section;
         }
-
+        
         var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-
+        
         var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
         catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
         section.appendChild(catLabel);
-
+        
         var grid = document.createElement('div');
         grid.className = 'player-amp-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-
+        
         var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
         var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
         var selectedAmps = shuffled.slice(0, 3);
-
+        
         if (selectedAmps.length === 0) {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
                 emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                emptyItem.innerHTML = `
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                `;
                 grid.appendChild(emptyItem);
             }
         } else {
@@ -2310,20 +2486,20 @@ function renderEscAmps() {
                 item.dataset.amp = amp.name;
                 var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
                 var isSelected = currentAmp === amp.name;
-
+                
                 item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
                 if (isSelected) {
                     item.style.borderColor = '#e16d48';
                     item.style.background = 'rgba(220,90,50,0.1)';
                 }
-
+                
                 item.innerHTML = `
                     <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                     <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
                     <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
                     <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
                 `;
-
+                
                 item.addEventListener('click', function() {
                     var playerGrid = this.closest('.player-block').querySelector('.player-amp-grid');
                     if (playerGrid) {
@@ -2351,7 +2527,7 @@ function renderEscAmps() {
         section.appendChild(grid);
         return section;
     }
-
+    
     var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
     container.appendChild(rowsContainer);
     checkEscAmpsReady();
@@ -2394,27 +2570,22 @@ function showPreviewModal(trialName, mapName, variators, level) {
         .preview-variator-item {
             display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
             animation: variatorAppear 0.4s ease forwards; opacity: 0; transform: scale(0.8);
-            margin: 0 5px; max-width: 95px; min-width: 75px; flex: 0 1 auto;
+            margin: 0 5px; max-width: 110px; min-width: 70px; flex: 0 1 auto;
         }
+        .preview-variator-item.weekly {
+            border: 2px solid #f1c40f; border-radius: 14px; padding: 4px;
+            background: rgba(241, 196, 15, 0.1);
+        }
+        .preview-variator-item.weekly .preview-variator-name { color: #f1c40f; }
         @keyframes variatorAppear { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        .preview-variator-name {
-            font-weight: 700; color: #ffbc9a; text-align: center;
-            max-width: 95px; line-height: 1.2; display: block;
-            text-transform: uppercase; letter-spacing: 0.3px;
-        }
-        .preview-variator-img {
-            width: 70px; height: 70px; object-fit: contain;
-            padding: 8px;
-            background: rgba(20, 15, 28, 0.7);
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            border-radius: 12px;
-        }
+        .preview-variator-name { font-weight: 700; color: #ffbc9a; text-align: center; max-width: 110px; line-height: 1.2; display: block; text-transform: uppercase; }
+        .preview-variator-img { width: 70px; height: 70px; object-fit: contain; border-radius: 12px; background: rgba(0,0,0,0.3); padding: 6px; border: 1px solid rgba(220,90,50,0.15); }
         .preview-variators-container {
-            display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-            gap: 14px 18px; padding: 20px 0 16px 0;
+            display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start;
+            gap: 8px 14px; padding: 16px 0 12px 0;
             border-top: 1px solid rgba(220,90,50,0.15);
             border-bottom: 1px solid rgba(220,90,50,0.15);
-            margin-bottom: 18px; min-height: 90px;
+            margin-bottom: 18px; min-height: 110px; overflow-x: auto;
         }
         .preview-level-number { font-size: 3rem; font-weight: 900; color: #e16d48; letter-spacing: 2px; margin-bottom: 8px; }
         .preview-trial-name { font-size: 2rem; font-weight: 900; color: #ffbc9a; letter-spacing: 2px; margin-bottom: 4px; }
@@ -2424,15 +2595,35 @@ function showPreviewModal(trialName, mapName, variators, level) {
     `;
     document.head.appendChild(style);
 
+    var weeklyVarName = escState.weeklyVariator ? escState.weeklyVariator.name : null;
+
+    var variatorFontSizes = {
+        'ПСИХОХИРУРГИЯ': '0.63rem',
+        'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
+        'ГАЛЛЮЦИНАЦИИ': '0.65rem'
+    };
+
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
-        var fontSize = '0.62rem';
+        var isWeekly = weeklyVarName && v.name === weeklyVarName;
+        var weeklyClass = isWeekly ? 'preview-variator-item weekly' : 'preview-variator-item';
+        var weeklyBadge = isWeekly ? '<div style="font-size:0.45rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
+
+        var fontSize;
+        if (variatorFontSizes[nameUpper]) {
+            fontSize = variatorFontSizes[nameUpper];
+        } else if (v.name.length > 14) {
+            fontSize = '0.6rem';
+        } else {
+            fontSize = '0.75rem';
+        }
 
         return `
-            <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: 95px;">
+            <div class="${weeklyClass}" style="animation-delay: ${delay}s; max-width: 110px;">
                 <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize};">${nameUpper}</span>
+                ${weeklyBadge}
             </div>
         `;
     }).join('');
@@ -2470,20 +2661,20 @@ function showFullResult() {
 function generateEscResult() {
     var selected = getMapAndTrial(escState.level);
     if (!selected) return;
-
+    
     var mapName = selected.mapName;
     var mapImage = selected.mapImage;
     var trial = selected.trial;
-
+    
     escState.map = { name: mapName, image: mapImage };
     escState.trial = trial;
-
+    
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
     document.querySelectorAll('.step-container').forEach(function(el) { el.classList.add('hidden'); });
-
+    
     showPreviewModal(trial.name, mapName, escState.variators, escState.level);
     prepareFullResult(mapName, mapImage, trial, difficulty);
 }
@@ -2497,7 +2688,8 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
     var resultMap = document.getElementById('escResultMap');
     if (resultMap) {
         var trialImage = trial.image || mapImage;
-
+        var weeklyVarName = escState.weeklyVariator ? escState.weeklyVariator.name.toUpperCase() : 'Нет';
+        
         resultMap.innerHTML = `
             <div class="result-map-row">
                 <img class="map-image" src="${trialImage}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
@@ -2506,6 +2698,7 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
                     <div class="trial-name" style="font-size:1.6rem; color:#e16d48; font-weight:900; margin:0.2rem 0 0.1rem; letter-spacing:1px;">${trial.name.toUpperCase()}</div>
                     <div class="map-name" style="font-size:1.2rem; color:#ffbc9a; font-weight:300; margin-bottom:0.3rem; letter-spacing:2px; text-transform:uppercase;">${mapName.toUpperCase()}</div>
                     <div class="trial-desc" style="color:#c2b9d4; font-size:0.85rem; line-height:1.5;">${trial.desc}</div>
+                    ${escState.weeklyVariator ? `<div style="margin-top:0.5rem; padding:4px 12px; background:rgba(241,196,15,0.1); border:1px solid #f1c40f; border-radius:8px; display:inline-block;"><span style="color:#f1c40f; font-weight:700; font-size:0.8rem;"><i class="fas fa-star"></i> Еженедельный: ${weeklyVarName}</span></div>` : ''}
                     <div class="map-meta" style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.8rem; padding-top:0.8rem; border-top:1px solid rgba(220,90,50,0.15);">
                         <span class="map-meta-item"><strong style="color:#ffbc9a;">№:</strong> #${escState.level}</span>
                         <span class="map-meta-item"><strong style="color:#ffbc9a;">Сложность:</strong> ${escState.difficulty}</span>
@@ -2518,14 +2711,35 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
 
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
+        var weeklyVarName2 = escState.weeklyVariator ? escState.weeklyVariator.name : null;
+
+        var variatorFontSizes = {
+            'ПСИХОХИРУРГИЯ': '0.63rem',
+            'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
+            'ГАЛЛЮЦИНАЦИИ': '0.65rem'
+        };
+
         resultVariators.innerHTML = escState.variators.map(function(v) {
+            var isWeekly = weeklyVarName2 && v.name === weeklyVarName2;
+            var borderColor = isWeekly ? '#f1c40f' : 'rgba(220,90,50,0.15)';
+            var bgColor = isWeekly ? 'rgba(241,196,15,0.1)' : 'rgba(0,0,0,0.3)';
+            var weeklyBadge = isWeekly ? '<div style="font-size:0.5rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
+
             var nameUpper = v.name.toUpperCase();
-            var fontSize = '0.62rem';
+            var fontSize;
+            if (variatorFontSizes[nameUpper]) {
+                fontSize = variatorFontSizes[nameUpper];
+            } else if (v.name.length > 14) {
+                fontSize = '0.55rem';
+            } else {
+                fontSize = '0.75rem';
+            }
 
             return `
-                <div class="var-item">
-                    <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
-                    <span class="var-name" style="font-size:${fontSize};">${nameUpper}</span>
+                <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem; max-width:100px; border:2px solid ${borderColor}; border-radius:14px; padding:6px; background:${bgColor};">
+                    <img src="${v.image}" alt="${v.name}" style="width:80px; height:80px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:6px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'">
+                    <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; text-transform:uppercase;">${nameUpper}</span>
+                    ${weeklyBadge}
                 </div>
             `;
         }).join('');
@@ -2538,15 +2752,15 @@ function renderEscResultPlayers() {
     var container = document.getElementById('escResultPlayers');
     if (!container) return;
     container.innerHTML = '';
-
+    
     escState.players.forEach(function(player, idx) {
         var equip = escState.equipSelections[idx] || 'Не выбрано';
         var equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
         var allUsed = checkAllAmpsUsed(idx);
-
+        
         var section = document.createElement('div');
         section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
-
+        
         var toggleBtn = document.createElement('div');
         toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; background: rgba(0,0,0,0.15);';
         toggleBtn.innerHTML = `
@@ -2562,14 +2776,14 @@ function renderEscResultPlayers() {
             </div>
         `;
         section.appendChild(toggleBtn);
-
+        
         var content = document.createElement('div');
         content.style.cssText = 'padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
         content.id = 'resultContent_' + idx;
-
+        
         var innerContent = document.createElement('div');
         innerContent.style.cssText = 'padding: 6px 0 16px 0;';
-
+        
         var equipBlock = document.createElement('div');
         equipBlock.style.cssText = 'display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);';
         equipBlock.innerHTML = `
@@ -2580,18 +2794,22 @@ function renderEscResultPlayers() {
             </div>
         `;
         innerContent.appendChild(equipBlock);
-
+        
         var ampsGrid = document.createElement('div');
         ampsGrid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;';
-
+        
         ampCategories.forEach(function(category) {
             var ampName = getAmpForCategory(idx, category);
             var ampData = typeof ampsData !== 'undefined' ? ampsData.find(function(a) { return a.name === ampName; }) : null;
             var isComplete = isCategoryComplete(idx, category);
-
+            
             var block = document.createElement('div');
             block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;';
+            block.dataset.playerIndex = idx;
+            block.dataset.category = category;
 
+            // Клик по карточке — открывает модалку выбора ампы
+            // (если категория ещё не завершена — иначе не даём менять)
             if (!isComplete) {
                 block.style.cursor = 'pointer';
                 block.addEventListener('mouseenter', function() {
@@ -2607,6 +2825,7 @@ function renderEscResultPlayers() {
                 });
             } else {
                 block.style.opacity = '0.7';
+                block.style.cursor = 'default';
             }
 
             var categoryName = document.createElement('div');
@@ -2646,7 +2865,7 @@ function renderEscResultPlayers() {
         content.appendChild(innerContent);
         section.appendChild(content);
         container.appendChild(section);
-
+        
         var isOpen = false;
         toggleBtn.onclick = function() {
             isOpen = !isOpen;
@@ -2667,8 +2886,8 @@ function renderEscResultPlayers() {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 function initEscalation() {
-    console.log('🚀 Запуск эскалации...');
-
+    console.log('🚀 Запуск еженедельной эскалации...');
+    
     if (!checkDataLoaded()) {
         console.log('⏳ Ожидание загрузки данных...');
         var checkInterval = setInterval(function() {
@@ -2677,7 +2896,7 @@ function initEscalation() {
                 doInit();
             }
         }, 500);
-
+        
         setTimeout(function() {
             clearInterval(checkInterval);
             console.warn('⚠️ Таймаут загрузки данных, пробуем инициализировать');
@@ -2685,12 +2904,19 @@ function initEscalation() {
         }, 10000);
         return;
     }
-
+    
     doInit();
 }
 
 function doInit() {
     console.log('✅ Данные загружены, инициализация...');
+    
+    var weekly = getWeeklyVariator();
+    if (weekly) {
+        escState.weeklyVariator = weekly;
+        console.log('📌 Еженедельный вариатор:', weekly.name);
+    }
+    updateWeeklyVariatorDisplay();
 
     var options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
     var step1Next = document.getElementById('escStep1Next');
@@ -2724,7 +2950,7 @@ function doInit() {
     if (step2Back) {
         step2Back.addEventListener('click', function() { goToEscStep(1); });
     }
-
+    
     if (step2Next) {
         step2Next.addEventListener('click', function() {
             var inputs = document.querySelectorAll('#escPlayerNameInputs input');
@@ -2746,9 +2972,9 @@ function doInit() {
     if (step3Back) {
         step3Back.addEventListener('click', function() { goToEscStep(2); });
     }
-
+    
     if (step3Next) {
-        step3Next.addEventListener('click', function() {
+        step3Next.addEventListener('click', function() { 
             goToEscStep(4);
             renderEscAmps();
         });
@@ -2757,7 +2983,7 @@ function doInit() {
     if (step4Back) {
         step4Back.addEventListener('click', function() { goToEscStep(3); });
     }
-
+    
     if (step4Next) {
         step4Next.addEventListener('click', function() {
             escState.players.forEach(function(_, idx) {
@@ -2781,14 +3007,14 @@ function doInit() {
         nextLevelBtn.addEventListener('click', function() {
             escState.level++;
             updateLevelCounter();
-
+            
             var hasAvailable = false;
             escState.players.forEach(function(_, idx) {
                 if (!areAllCategoriesComplete(idx)) {
                     hasAvailable = true;
                 }
             });
-
+            
             if (hasAvailable) {
                 showBreakModal();
             } else {
@@ -2828,7 +3054,7 @@ function doInit() {
     }
 
     updateLevelCounter();
-    console.log('✅ Эскалация инициализирована!');
+    console.log('✅ Еженедельная эскалация инициализирована!');
 }
 
 function initAmpModal() {
@@ -2859,10 +3085,10 @@ function initAmpModal() {
             if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
                 var idx = modalState.playerIndex;
                 var category = modalState.selectedCategory;
-
+                
                 var currentAmps = escState.ampSelections[idx] || {};
                 var oldAmp = currentAmps[category];
-
+                
                 if (oldAmp === modalState.selectedAmp) {
                     if (modal) {
                         modal.classList.remove('active');
@@ -2870,14 +3096,14 @@ function initAmpModal() {
                     }
                     return;
                 }
-
+                
                 if (oldAmp && escState.usedAmps[idx]) {
                     escState.usedAmps[idx] = escState.usedAmps[idx].filter(function(a) { return a !== oldAmp; });
                 }
-
+                
                 if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                 escState.ampSelections[idx][category] = modalState.selectedAmp;
-
+                
                 if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
                 if (escState.usedAmps[idx].indexOf(modalState.selectedAmp) === -1) {
                     escState.usedAmps[idx].push(modalState.selectedAmp);
@@ -2885,7 +3111,7 @@ function initAmpModal() {
                 unlockAmpForPlayer(idx, modalState.selectedAmp);
 
                 renderEscResultPlayers();
-
+                
                 if (modal) {
                     modal.classList.remove('active');
                     modal.style.display = 'none';
@@ -2914,7 +3140,7 @@ function openAmpModal(playerIndex, category) {
 
     var playerName = escState.players[playerIndex];
     var currentAmp = getAmpForCategory(playerIndex, category);
-
+    
     modalState.playerIndex = playerIndex;
     modalState.selectedCategory = category;
     modalState.selectedAmp = currentAmp;
@@ -2927,11 +3153,11 @@ function openAmpModal(playerIndex, category) {
     var tabsContainer = document.getElementById('ampCategoryTabs');
     if (tabsContainer) {
         tabsContainer.innerHTML = '';
-
+        
         var availableCategories = ampCategories.filter(function(cat) {
             return !isCategoryComplete(playerIndex, cat);
         });
-
+        
         if (availableCategories.length === 0) {
             var grid = document.getElementById('ampModalGrid');
             if (grid) {
@@ -2986,7 +3212,7 @@ function openAmpModal(playerIndex, category) {
 function renderAmpModalGrid(playerIndex, category) {
     var grid = document.getElementById('ampModalGrid');
     if (!grid) return;
-
+    
     grid.innerHTML = '';
 
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
@@ -3005,12 +3231,12 @@ function renderAmpModalGrid(playerIndex, category) {
         var isUsed = used.indexOf(amp.name) !== -1;
         var isUnlocked = unlocked.indexOf(amp.name) !== -1;
         var isCurrent = currentAmp === amp.name;
-
+        
         var isAvailable = isUnlocked || isCurrent;
 
         var item = document.createElement('div');
         item.className = 'amp-modal-item';
-
+        
         if (isCurrent) {
             item.classList.add('selected');
         }
@@ -3114,7 +3340,7 @@ function showBreakModal() {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-
+        
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
@@ -3133,7 +3359,7 @@ function showBreakModal() {
             return !isCategoryComplete(idx, cat);
         });
         var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-
+        
         var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
         var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
         var displayAmps = shuffled.slice(0, 3);
@@ -3153,7 +3379,10 @@ function showBreakModal() {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
                 emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                emptyItem.innerHTML = `
+                    <div style="font-size: 2rem; color: #555;">⛔</div>
+                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                `;
                 grid.appendChild(emptyItem);
             }
             breakSelections[idx] = 'skip';
@@ -3183,12 +3412,15 @@ function showBreakModal() {
                 });
                 grid.appendChild(item);
             });
-
+            
             if (displayAmps.length < 3) {
                 for (var j = displayAmps.length; j < 3; j++) {
                     var emptyItem2 = document.createElement('div');
                     emptyItem2.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                    emptyItem2.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                    emptyItem2.innerHTML = `
+                        <div style="font-size: 2rem; color: #555;">⛔</div>
+                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
+                    `;
                     grid.appendChild(emptyItem2);
                 }
             }
@@ -3236,7 +3468,7 @@ function showBreakModal() {
                     if (category) {
                         if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                         escState.ampSelections[idx][category] = breakSelections[idx];
-
+                        
                         if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
                         if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
                             escState.usedAmps[idx].push(breakSelections[idx]);
