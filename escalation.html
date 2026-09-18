@@ -47,7 +47,6 @@
             z-index: -1;
         }
 
-        /* ===== АНИМАЦИИ ===== */
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -71,7 +70,6 @@
             z-index: 10;
         }
 
-        /* ===== НАВИГАЦИЯ ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -160,7 +158,6 @@
             box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ЭСКАЛАЦИИ ===== */
         .escalation-wrapper {
             max-width: 1100px;
             margin: 0 auto;
@@ -209,7 +206,6 @@
             color: #e16d48;
         }
 
-        /* ===== СЧЕТЧИК УРОВНЯ ===== */
         .level-counter {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -248,7 +244,6 @@
         .level-difficulty-intensive { background: rgba(46, 204, 113, 0.3); color: #2ecc71; }
         .level-difficulty-psycho { background: rgba(255, 51, 51, 0.3); color: #ff3333; }
 
-        /* ===== ШАГИ ===== */
         .step-container {
             background: rgba(0, 0, 0, 0.25);
             border-radius: 28px;
@@ -289,7 +284,6 @@
             text-align: center;
         }
 
-        /* ===== КНОПКИ ВЫБОРА ИГРОКОВ ===== */
         .player-count-options {
             display: flex;
             gap: 1.2rem;
@@ -326,7 +320,6 @@
             box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
         }
 
-        /* ===== ПОЛЯ ВВОДА ИМЕН ===== */
         .player-name-inputs {
             display: flex;
             flex-direction: column;
@@ -373,7 +366,6 @@
             color: #555;
         }
 
-        /* ===== ВЫБОР ВНУТРИ БЛОКА ===== */
         .selection-items {
             display: flex;
             flex-direction: column;
@@ -449,7 +441,6 @@
             display: block;
         }
 
-        /* ===== КНОПКИ НАВИГАЦИИ ===== */
         .step-actions {
             display: flex;
             justify-content: center;
@@ -519,7 +510,6 @@
             color: #ff3333;
         }
 
-        /* ===== РЕЗУЛЬТАТ ===== */
         .escalation-result {
             display: none;
             animation: resultAppear 0.6s ease-out;
@@ -620,9 +610,7 @@
             font-weight: 600;
         }
 
-        /* ===================================================== */
-        /* ===== ВАРИАТОРЫ — КОМПАКТНЫЙ СТИЛЬ ================ */
-        /* ===================================================== */
+        /* ===== ВАРИАТОРЫ — КОМПАКТНЫЙ СТИЛЬ ===== */
         .variator-list {
             display: flex;
             gap: 0.8rem;
@@ -666,7 +654,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* ===== ИГРОКИ В РЕЗУЛЬТАТЕ ===== */
         .player-result {
             background: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
@@ -820,7 +807,6 @@
             min-width: 200px;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ДЛЯ СМЕНЫ АМФЫ ===== */
         .amp-modal-overlay {
             display: none;
             position: fixed;
@@ -1043,7 +1029,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ВЫХОДА ===== */
         .confirm-modal-overlay {
             display: none;
             position: fixed;
@@ -1132,7 +1117,6 @@
             color: white;
         }
 
-        /* ===== КНОПКА НАЗАД ===== */
         .back-to-roulette {
             display: inline-flex;
             align-items: center;
@@ -1155,7 +1139,6 @@
             transform: translateX(-5px);
         }
 
-        /* ===== ФУТЕР ===== */
         footer {
             margin-top: 3rem;
             text-align: center;
@@ -1173,7 +1156,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* ===== АДАПТИВ ===== */
         @media (max-width: 992px) {
             .result-grid {
                 grid-template-columns: 1fr;
@@ -1415,7 +1397,7 @@
 
 <script>
 // ============================================================
-// КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
+// КОНСТАНТЫ
 // ============================================================
 var SIDE_QUEST_VARIATORS = [
     "Сбор Подарков",
@@ -1523,7 +1505,7 @@ function unlockAmpForPlayer(playerIndex, ampName) {
 }
 
 // ============================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ПРОВЕРКИ ТИПОВ
+// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 // ============================================================
 function isExcludedVariator(name) {
     if (!name) return false;
@@ -1549,7 +1531,7 @@ function shuffleArray(arr) {
 }
 
 // ============================================================
-// ВСПОМОГАТЕЛЬНАЯ: ВАРИАТОР СЛОЖНОСТИ
+// ВАРИАТОР СЛОЖНОСТИ
 // ============================================================
 function getDifficultyVariator(level, availableVariators) {
     if (level < 5) return null;
@@ -1586,7 +1568,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 
     if (selectedNames.indexOf(variatorName) !== -1) return false;
 
-    // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ ↔ ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
+    // 1. Главная Рулетка / Самое Главное ↔ Егерь / Толкачи / Притворщики / Бросатели
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
@@ -1608,7 +1590,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 2. МИНЫ — только один вид мин
+    // 2. Мины — только один вид
     var mineVariators = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
     if (mineVariators.indexOf(variatorName) !== -1) {
         for (i = 0; i < mineVariators.length; i++) {
@@ -1616,7 +1598,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 3.1. ПЕРВЫЙ УРОВЕНЬ
+    // 3.1. Первый Уровень
     var firstLevelBlocked = [
         'Сломанный Реагент', 'Без Снаряжения', 'Без Улучшения Снаряжения',
         'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
@@ -1632,7 +1614,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Первый Уровень') !== -1) return false;
     }
 
-    // 3.2. СЛОМАННЫЙ РЕАГЕНТ
+    // 3.2. Сломанный Реагент
     var brokenReagentBlocked = [
         'Первый Уровень', 'Без Снаряжения', 'Без Улучшения Снаряжения',
         'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
@@ -1648,7 +1630,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Сломанный Реагент') !== -1) return false;
     }
 
-    // 3.3. БЕЗ СНАРЯЖЕНИЯ
+    // 3.3. Без Снаряжения
     var noEquipmentBlocked = [
         'Без Улучшения Снаряжения', 'Увеличенная Перезарядка Снаряжения',
         'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
@@ -1663,14 +1645,14 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Без Снаряжения') !== -1) return false;
     }
 
-    // 4. ЗАВИСИМОСТЬ ОТ КАРТЫ
+    // 4. Зависимость от карты
     if (variatorName === 'Все На Выход') {
         if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
             return false;
         }
     }
 
-    // 5. СИЛЬНЕЕ ВМЕСТЕ
+    // 5. Сильнее Вместе
     if (variatorName === 'Сильнее Вместе') {
         if (playerCount === 1) return false;
         if (playerCount === 2 || playerCount === 3) {
@@ -1684,7 +1666,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 6. ВЕЧНАЯ МЕРЗЛОТА ↔ РЕЗКОЕ ПОХОЛОДАНИЕ, ТОКСИЧЕСКИЙ ШОК
+    // 6. Вечная Мерзлота ↔ Резкое Похолодание, Токсический Шок
     if (variatorName === 'Вечная Мерзлота') {
         if (selectedNames.indexOf('Резкое Похолодание') !== -1) return false;
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
@@ -1693,7 +1675,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
-    // 7. ТАЙМЕР БОМБЫ ↔ РАЗБЕЙТЕ ТЕЛЕВИЗОРЫ
+    // 7. Таймер Бомбы ↔ Разбейте Телевизоры
     if (variatorName === 'Таймер Бомбы' || variatorName === 'Таймер бомбы') {
         if (trialName === 'Устранение устаревшего оборудования') return false;
         if (selectedNames.indexOf('Разбейте Телевизоры') !== -1) return false;
@@ -1703,7 +1685,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // 8. ТОКСИЧЕСКИЙ ШОК блокирует ГЛУБОКИЙ ОЖОГ
+    // 8. Токсический Шок → Глубокий Ожог
     if (variatorName === 'Токсический Шок') {
         if (selectedNames.indexOf('Глубокий Ожог') !== -1) return false;
     }
@@ -1711,7 +1693,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
     }
 
-    // 9. ВРАГИ СИЛЬНЕЕ / ПСИХОХИРУРГИЯ ↔ ПЛОТНОСТЬ / УГРОЗА
+    // 9. Враги сильнее / Психохирургия ↔ плотность/угроза
     var densityAndThreat = [
         'Низкая Плотность Врагов',
         'Много Противников',
@@ -1747,7 +1729,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Психохирургия') !== -1) return false;
     }
 
-    // 10. ОДНОТИПНЫЕ I/II
+    // 10. Однотипные I/II
     var sameTypeGroups = [
         ['Ограниченный Инвентарь', 'Ограниченный Инвентарь II'],
         ['Повышенная Угроза', 'Повышенная угроза II'],
@@ -1764,7 +1746,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ ↔ ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
+    // 10.1. Без Предметов В Испытании ↔ Ограниченные предметы I/II
     var noItemsName = 'Без Предметов В Испытании';
     var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
     if (variatorName === noItemsName) {
@@ -1776,7 +1758,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf(noItemsName) !== -1) return false;
     }
 
-    // 11. ПРОЧИЕ
+    // 11. Прочие
     if (playerCount === 1) {
         if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
     }
@@ -1789,14 +1771,14 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 }
 
 // ============================================================
-// ОСНОВНАЯ ГЕНЕРАЦИЯ ВАРИАТОРОВ
+// ГЕНЕРАЦИЯ ВАРИАТОРОВ
 // ============================================================
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
     console.log('🔄 Генерация вариаторов для уровня:', level);
 
-    var MAX_VARIATORS = 10;
+    var MAX_VARIATORS = 8;
     var trialName = escState.trial ? escState.trial.name : '';
 
     var availableVariators = allVariatorsData.filter(function(v) {
@@ -1842,7 +1824,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 2. ПОБОЧНОЕ ЗАДАНИЕ — ровно одно, до 20 уровня
+    // 2. ПОБОЧНОЕ ЗАДАНИЕ — ровно одно, только до 20 уровня
     if (level <= 20) {
         var sideQuestPool = availableVariators.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
@@ -1856,19 +1838,20 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 3. ЦЕЛЕВОЕ КОЛИЧЕСТВО
+    // 3. ЦЕЛЕВОЕ КОЛИЧЕСТВО (ВАРИАТОРОВ)
     var targetTotal;
-    if (level === 1) targetTotal = 3;
-    else if (level >= 2 && level <= 3) targetTotal = 4;
-    else if (level === 4) targetTotal = 5;
-    else if (level === 5) targetTotal = 6;
-    else if (level >= 6 && level <= 15) targetTotal = 7;
-    else if (level >= 16 && level <= 20) targetTotal = 8;
-    else if (level > 20) {
-        var randomCount = 3 + Math.floor(Math.random() * 3);
-        targetTotal = 3 + randomCount;
-        if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
-    } else targetTotal = 3;
+    if (level <= 3) {
+        targetTotal = 2;
+    } else if (level > 3 && level < 10) {
+        targetTotal = 4 + Math.floor(Math.random() * 2); // 4 или 5
+    } else if (level >= 10 && level < 20) {
+        targetTotal = 4 + Math.floor(Math.random() * 4); // 4, 5, 6 или 7
+    } else if (level >= 20) {
+        targetTotal = 6 + Math.floor(Math.random() * 3); // 6, 7 или 8
+    } else {
+        targetTotal = 2;
+    }
+    if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
 
     // 4. СЛУЧАЙНЫЕ ВАРИАТОРЫ
     var filtered = availableVariators.filter(function(v) {
@@ -1933,7 +1916,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 }
 
 // ============================================================
-// ОСТАЛЬНЫЕ ФУНКЦИИ
+// КАРТА И ИСПЫТАНИЕ
 // ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
