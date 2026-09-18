@@ -627,7 +627,7 @@
         }
 
         /* ===================================================== */
-        /* ===== ВАРИАТОРЫ — СТИЛЬ КАК НА КАРТИНКЕ =========== */
+        /* ===== ВАРИАТОРЫ — СТИЛЬ КАК НА ПЕРВОЙ КАРТИНКЕ ===== */
         /* ===================================================== */
         .variator-list {
             display: flex;
@@ -640,20 +640,30 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.6rem;
-            width: 120px;
+            gap: 0.7rem;
+            width: 130px;
             text-align: center;
         }
 
         .variator-list .var-item img {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            /* убраны рамка, фон, padding */
+            padding: 12px;
+            background: rgba(20, 15, 28, 0.7);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .variator-list .var-item:hover img {
+            border-color: rgba(220, 90, 50, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(220, 90, 50, 0.15);
         }
 
         .variator-list .var-item .var-name {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #ffbc9a;
             text-align: center;
             line-height: 1.25;
@@ -2389,23 +2399,20 @@ function showPreviewModal(trialName, mapName, variators, level) {
         .preview-variator-item {
             display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
             animation: variatorAppear 0.4s ease forwards; opacity: 0; transform: scale(0.8);
-            margin: 0 6px; max-width: 120px; min-width: 80px; flex: 0 1 auto;
+            margin: 0 6px; max-width: 130px; min-width: 90px; flex: 0 1 auto;
         }
         @keyframes variatorAppear { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         .preview-variator-name {
             font-weight: 700; color: #ffbc9a; text-align: center;
-            max-width: 120px; line-height: 1.25; display: block;
+            max-width: 130px; line-height: 1.25; display: block;
             text-transform: uppercase; letter-spacing: 0.3px;
         }
         .preview-variator-img {
-            width: 90px; height: 90px; object-fit: contain;
-        }
-        .preview-variators-container {
-            display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-            gap: 18px 22px; padding: 20px 0 16px 0;
-            border-top: 1px solid rgba(220,90,50,0.15);
-            border-bottom: 1px solid rgba(220,90,50,0.15);
-            margin-bottom: 18px; min-height: 110px;
+            width: 100px; height: 100px; object-fit: contain;
+            padding: 12px;
+            background: rgba(20, 15, 28, 0.7);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 16px;
         }
         .preview-level-number { font-size: 3rem; font-weight: 900; color: #e16d48; letter-spacing: 2px; margin-bottom: 8px; }
         .preview-trial-name { font-size: 2rem; font-weight: 900; color: #ffbc9a; letter-spacing: 2px; margin-bottom: 4px; }
