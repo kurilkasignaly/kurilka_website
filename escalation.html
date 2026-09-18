@@ -1282,7 +1282,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         if (diffVar && used.indexOf(diffVar.name) === -1) { result.push(diffVar); used.push(diffVar.name); }
     }
 
-    // 2. Побочное задание (только до 20 уровня, ровно одно)
+    // 2. Побочное задание
     if (level <= 20) {
         var sidePool = available.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
@@ -1672,6 +1672,7 @@ function renderEscAmps() {
                     if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                     escState.ampSelections[idx][randCat] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
+                    checkEscAmpsReady();
                 });
                 grid.appendChild(item);
             });
@@ -1681,6 +1682,22 @@ function renderEscAmps() {
     }
 
     container.appendChild(buildPlayerRows(escState.players, renderBlock));
+    checkEscAmpsReady();
+}
+
+// ============================================================
+// ПРОВЕРКА ГОТОВНОСТИ ШАГА 4
+// ============================================================
+function checkEscAmpsReady() {
+    // Игрок готов, если у него уже все категории завершены ИЛИ есть хотя бы один выбранный амп
+    var allReady = escState.players.every(function(_, idx) {
+        if (areAllCategoriesComplete(idx)) return true;
+        var selections = escState.ampSelections[idx] || {};
+        return Object.keys(selections).length > 0;
+    });
+
+    var btn = document.getElementById('escStep4Next');
+    if (btn) btn.disabled = !allReady;
 }
 
 // ============================================================
