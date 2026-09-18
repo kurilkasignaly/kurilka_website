@@ -2049,16 +2049,23 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         ['Ограниченные Укрытия', 'Ограниченные Укрытия II'],
         ['Ограниченные предметы', 'Ограниченные предметы II']
     ];
+    // ============================================================
+    // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ блокирует ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
+    // ============================================================
+    var noItemsName = 'Без Предметов В Испытании';
+    var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
 
-    for (var g = 0; g < sameTypeGroups.length; g++) {
-        var group = sameTypeGroups[g];
-        if (group.indexOf(variatorName) !== -1) {
-            for (i = 0; i < group.length; i++) {
-                if (group[i] !== variatorName && selectedNames.indexOf(group[i]) !== -1) return false;
-            }
+    // Если добавляем "Без Предметов В Испытании" — проверяем, нет ли Ограниченных
+    if (variatorName === noItemsName) {
+        for (i = 0; i < limitedItemsGroup.length; i++) {
+            if (selectedNames.indexOf(limitedItemsGroup[i]) !== -1) return false;
         }
     }
 
+    // Если добавляем "Ограниченные предметы" или "...II" — проверяем, нет ли Без Предметов
+    if (limitedItemsGroup.indexOf(variatorName) !== -1) {
+        if (selectedNames.indexOf(noItemsName) !== -1) return false;
+    }
     // ============================================================
     // 11. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
     // ============================================================
