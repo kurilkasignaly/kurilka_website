@@ -31,7 +31,6 @@ const allVariatorsData = [
     { name: "Соберите Коробки С Уликами", image: "images/вариатор-улики.webp", category: "collection" },
     { name: "Расшифруйте Вещание", image: "images/вариатор-вещание.webp", category: "collection" },
     { name: "Потушите Огонь", image: "images/вариатор-потушите-огонь.webp", category: "collection" },
-    { name: "Соберите плакаты", image: "images/вариатор-соберите-плакаты.webp", category: "collection" },
     { name: "Экстракция Крови", image: "images/вариатор-экстракция-крови.webp", category: "collection" },
     
     // ===== СПЕЦИАЛЬНЫЕ ПОБОЧНЫЕ ЗАДАНИЯ =====
