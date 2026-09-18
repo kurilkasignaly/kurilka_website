@@ -1449,22 +1449,21 @@ var WEEKLY_VARIATOR_NAME = 'Таймер Бомбы';
 // НОВЫЕ КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
 // ============================================================
 var SIDE_QUEST_VARIATORS = [
-    'Сбор подарков',
-    'Сбор крыс',
-    'Сбор амулетов',
-    'Доставьте компоненты',
-    'Извлеките образцы органов',
-    'Разбейте телевизоры',
-    'Находите радиопередатчики',
-    'Собирайте схемы',
-    'Найдите трансляцию',
-    'Соберите коробки с уликами',
-    'Расшифруйте вещание',
-    'Потушите огонь',
-    'Остановите утечку',
-    'Случайное побочное задание'
+    "Сбор Подарков",
+    "Сбор Крыс",
+    "Сбор Амулетов",
+    "Доставьте Компоненты",
+    "Извлеките Образцы Органов",
+    "Разбейте Телевизоры",
+    "Находите Радиопередатчики",
+    "Собирайте Схемы",
+    "Найдите Трансляцию",
+    "Соберите Коробки С Уликами",
+    "Расшифруйте Вещание",
+    "Потушите Огонь",
+    "Соберите плакаты",
+    "Случайное Побочное Задание"
 ];
-
 var EXCLUDED_VARIATORS = [
     'Ностофобия',
     'Лиланд Койл',
@@ -1714,23 +1713,28 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 3. ПОБОЧНОЕ ЗАДАНИЕ (до 20 уровня)
+// 3. ПОБОЧНОЕ ЗАДАНИЕ — ТОЛЬКО ОДНО, ТОЛЬКО ДО 20 УРОВНЯ
     if (level <= 20) {
-        var sideQuestPool = SIDE_QUEST_VARIATORS.filter(function(name) {
-            if (usedNames.indexOf(name) !== -1) return false;
-            var found = availableVariators.find(function(v) { return v.name === name; });
-            return !!found;
+        // Собираем все доступные побочные задания (с учётом точного регистра)
+        var sideQuestPool = availableVariators.filter(function(v) {
+            // Вариатор должен быть в списке побочных (точное совпадение по регистру)
+            if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
+            // И ещё не использован
+            if (usedNames.indexOf(v.name) !== -1) return false;
+            return true;
         });
 
+        // Берём РОВНО ОДНО случайное побочное задание
         if (sideQuestPool.length > 0) {
-            var chosenSideQuestName = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
-            var chosenSideQuest = availableVariators.find(function(v) { return v.name === chosenSideQuestName; });
-            if (chosenSideQuest) {
-                result.push(chosenSideQuest);
-                usedNames.push(chosenSideQuest.name);
-                console.log('✅ [3] Побочное задание:', chosenSideQuest.name);
-            }
+            var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
+            result.push(chosenSideQuest);
+            usedNames.push(chosenSideQuest.name);
+            console.log('✅ [3] Побочное задание (ровно 1):', chosenSideQuest.name);
+        } else {
+            console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
         }
+    } else {
+        console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
     }
 
     // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
