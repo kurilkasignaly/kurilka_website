@@ -10,12 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== БАЗОВЫЕ СТИЛИ ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -27,22 +22,15 @@
         }
 
         .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
         }
 
         body::after {
             content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.78);
             z-index: -1;
         }
@@ -63,65 +51,35 @@
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            max-width: 1400px; margin: 0 auto;
             padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0.8rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; padding: 0.8rem 2rem;
             background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
         }
+        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.4);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
         .logo .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.4rem; font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
             white-space: nowrap;
         }
-
-        .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
-        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
 
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
+            display: flex; flex-wrap: wrap; align-items: center;
             gap: 0.4rem;
             background: rgba(15, 10, 20, 0.4);
             backdrop-filter: blur(8px);
@@ -131,27 +89,15 @@
         }
 
         .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem;
+            cursor: pointer; color: #b5a8c8;
+            transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
             text-decoration: none;
         }
-
-        .nav-btn:hover {
-            color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
-        }
-
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
@@ -159,86 +105,52 @@
         }
 
         .escalation-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
+            max-width: 1100px; margin: 0 auto;
             background: rgba(18, 12, 28, 0.6);
             backdrop-filter: blur(16px);
             border-radius: 40px;
             border: 2px solid rgba(220, 90, 50, 0.3);
             padding: 2.5rem;
             animation: fadeInScale 0.6s ease-out;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
 
         .escalation-wrapper::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: url('images/фон эскалация.webp') center/cover no-repeat;
-            opacity: 0.25;
-            z-index: 0;
+            opacity: 0.25; z-index: 0;
         }
 
-        .escalation-wrapper > * {
-            position: relative;
-            z-index: 1;
-        }
+        .escalation-wrapper > * { position: relative; z-index: 1; }
 
         .escalation-wrapper h1 {
-            font-size: 2.2rem;
-            text-align: center;
+            font-size: 2.2rem; text-align: center;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
             margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 15px;
         }
-
-        .escalation-wrapper h1 i {
-            color: #e16d48;
-        }
+        .escalation-wrapper h1 i { color: #e16d48; }
 
         .level-counter {
-            text-align: center;
-            margin-bottom: 1.5rem;
+            text-align: center; margin-bottom: 1.5rem;
             padding: 1rem;
             background: rgba(220, 90, 50, 0.1);
             border-radius: 20px;
             border: 1px solid rgba(220, 90, 50, 0.2);
         }
-
         .level-counter .level-number {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 2.5rem; font-weight: 800;
             background: linear-gradient(135deg, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-
-        .level-counter .level-label {
-            font-size: 0.9rem;
-            color: #888;
-            margin-left: 0.5rem;
-        }
-
+        .level-counter .level-label { font-size: 0.9rem; color: #888; margin-left: 0.5rem; }
         .level-counter .level-difficulty {
-            display: inline-block;
-            margin-left: 1rem;
-            padding: 0.2rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            display: inline-block; margin-left: 1rem;
+            padding: 0.2rem 1.2rem; border-radius: 20px;
+            font-size: 0.85rem; font-weight: 600;
         }
-
         .level-difficulty-intro { background: rgba(108, 117, 125, 0.3); color: #6c757d; }
         .level-difficulty-standard { background: rgba(255, 159, 74, 0.3); color: #ff9f4a; }
         .level-difficulty-intensive { background: rgba(46, 204, 113, 0.3); color: #2ecc71; }
@@ -246,73 +158,50 @@
 
         .step-container {
             background: rgba(0, 0, 0, 0.25);
-            border-radius: 28px;
-            padding: 2rem;
+            border-radius: 28px; padding: 2rem;
             margin-bottom: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.15);
             animation: fadeInScale 0.5s ease-out;
         }
-
-        .step-container.hidden {
-            display: none;
-        }
+        .step-container.hidden { display: none; }
 
         .step-title {
-            font-size: 1.4rem;
-            color: #e16d48;
+            font-size: 1.4rem; color: #e16d48;
             margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 14px;
+            display: flex; align-items: center; gap: 14px;
             border-left: 4px solid #e16d48;
             padding-left: 18px;
         }
-
         .step-title .step-number {
             background: rgba(220, 90, 50, 0.2);
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: #e16d48;
+            padding: 0.2rem 0.8rem; border-radius: 30px;
+            font-size: 0.9rem; color: #e16d48;
         }
-
         .step-subtitle {
-            font-size: 0.95rem;
-            color: #c2b9d4;
-            margin-bottom: 1.8rem;
-            padding-left: 10px;
+            font-size: 0.95rem; color: #c2b9d4;
+            margin-bottom: 1.8rem; padding-left: 10px;
             text-align: center;
         }
 
         .player-count-options {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 1.2rem;
+            flex-wrap: wrap; justify-content: center;
             padding: 0.5rem 0;
         }
-
         .player-count-btn {
             background: rgba(0, 0, 0, 0.35);
             border: 2px solid rgba(220, 90, 50, 0.25);
             border-radius: 24px;
             padding: 1.2rem 2.8rem;
-            color: #c2b9d4;
-            font-size: 1.6rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 90px;
-            font-family: inherit;
+            color: #c2b9d4; font-size: 1.6rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease;
+            min-width: 90px; font-family: inherit;
         }
-
         .player-count-btn:hover {
-            border-color: #e16d48;
-            color: white;
+            border-color: #e16d48; color: white;
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.1);
         }
-
         .player-count-btn.selected {
             border-color: #e16d48;
             background: rgba(220, 90, 50, 0.2);
@@ -321,17 +210,12 @@
         }
 
         .player-name-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 550px;
-            margin: 0 auto;
-            padding: 0.5rem 0;
+            display: flex; flex-direction: column;
+            gap: 1rem; max-width: 550px;
+            margin: 0 auto; padding: 0.5rem 0;
         }
-
         .player-name-inputs .input-row {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             gap: 1.2rem;
             background: rgba(0, 0, 0, 0.2);
             padding: 0.3rem 1rem 0.3rem 1.5rem;
@@ -339,68 +223,41 @@
             border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
         }
-
-        .player-name-inputs .input-row:hover {
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
+        .player-name-inputs .input-row:hover { border-color: rgba(220, 90, 50, 0.3); }
         .player-name-inputs .input-row label {
-            min-width: 80px;
-            color: #c2b9d4;
-            font-weight: 600;
-            font-size: 0.95rem;
+            min-width: 80px; color: #c2b9d4;
+            font-weight: 600; font-size: 0.95rem;
         }
-
         .player-name-inputs .input-row input {
-            flex: 1;
-            background: transparent;
-            border: none;
+            flex: 1; background: transparent; border: none;
             padding: 0.7rem 0.5rem;
-            color: #f0eef7;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
+            color: #f0eef7; font-size: 1rem;
+            font-family: inherit; outline: none;
         }
-
-        .player-name-inputs .input-row input::placeholder {
-            color: #555;
-        }
-
-        .selection-items {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
+        .player-name-inputs .input-row input::placeholder { color: #555; }
 
         .selection-item {
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(220, 90, 50, 0.2);
             border-radius: 16px;
             padding: 0.8rem 0.6rem;
-            text-align: center;
-            cursor: pointer;
+            text-align: center; cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
         }
-
         .selection-item:hover {
             border-color: #e16d48;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
-
         .selection-item.selected {
             border-color: #e16d48;
             background: rgba(220, 90, 50, 0.15);
             box-shadow: 0 0 40px rgba(220, 90, 50, 0.08);
         }
-
         .selection-item img {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             object-fit: contain;
             margin-bottom: 0.3rem;
             border-radius: 12px;
@@ -408,44 +265,27 @@
             padding: 6px;
             transition: transform 0.3s;
         }
-
-        .selection-item:hover img {
-            transform: scale(1.05);
-        }
-
+        .selection-item:hover img { transform: scale(1.05); }
         .selection-item .item-name {
-            font-size: 0.8rem;
-            color: #c2b9d4;
-            font-weight: 500;
-            line-height: 1.2;
+            font-size: 0.8rem; color: #c2b9d4;
+            font-weight: 500; line-height: 1.2;
         }
-
         .selection-item .item-category {
-            font-size: 0.55rem;
-            color: #666;
+            font-size: 0.55rem; color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-top: 0.1rem;
         }
-
         .selection-item .check-mark {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            color: #4c9aff;
-            font-size: 1.2rem;
+            position: absolute; top: 6px; right: 8px;
+            color: #4c9aff; font-size: 1.2rem;
             display: none;
         }
-
-        .selection-item.selected .check-mark {
-            display: block;
-        }
+        .selection-item.selected .check-mark { display: block; }
 
         .step-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 2rem;
+            display: flex; justify-content: center;
+            gap: 1.2rem; margin-top: 2rem;
             flex-wrap: wrap;
         }
 
@@ -454,24 +294,18 @@
             border: none;
             padding: 0.9rem 3rem;
             border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
+            font-size: 1.05rem; font-weight: 700;
+            color: white; cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
             min-width: 160px;
         }
-
         .next-btn:hover:not(:disabled) {
             transform: scale(1.04);
             box-shadow: 0 8px 35px rgba(188, 74, 40, 0.4);
         }
-
         .next-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
+            opacity: 0.4; cursor: not-allowed; transform: none;
         }
 
         .back-btn {
@@ -479,14 +313,11 @@
             border: 1px solid rgba(220, 90, 50, 0.25);
             padding: 0.9rem 2.2rem;
             border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #c2b9d4;
-            cursor: pointer;
+            font-size: 1.05rem; font-weight: 600;
+            color: #c2b9d4; cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
         }
-
         .back-btn:hover {
             background: rgba(220, 90, 50, 0.25);
             color: white;
@@ -497,14 +328,11 @@
             border: 1px solid rgba(255, 51, 51, 0.3);
             padding: 0.9rem 2.2rem;
             border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #ff6666;
-            cursor: pointer;
+            font-size: 1.05rem; font-weight: 600;
+            color: #ff6666; cursor: pointer;
             transition: all 0.3s ease;
             font-family: inherit;
         }
-
         .exit-btn:hover {
             background: rgba(255, 51, 51, 0.25);
             color: #ff3333;
@@ -514,122 +342,83 @@
             display: none;
             animation: resultAppear 0.6s ease-out;
         }
-
-        .escalation-result.active {
-            display: block;
-        }
+        .escalation-result.active { display: block; }
 
         .result-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
             gap: 2rem;
         }
-
         .result-card {
             background: rgba(0, 0, 0, 0.25);
             border-radius: 24px;
             padding: 1.5rem;
             border: 1px solid rgba(220, 90, 50, 0.15);
         }
-
         .result-card h3 {
-            color: #e16d48;
-            font-size: 1rem;
+            color: #e16d48; font-size: 1rem;
             margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 10px;
             border-bottom: 1px solid rgba(220, 90, 50, 0.15);
             padding-bottom: 0.8rem;
         }
 
         .result-map-row {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            display: flex; gap: 1.5rem;
+            align-items: flex-start; flex-wrap: wrap;
         }
-
         .result-map-row .map-image {
-            width: 160px;
-            height: 160px;
+            width: 160px; height: 160px;
             object-fit: cover;
             border-radius: 16px;
             border: 2px solid rgba(220, 90, 50, 0.3);
             flex-shrink: 0;
         }
-
-        .result-map-info {
-            flex: 1;
-            min-width: 200px;
-        }
-
+        .result-map-info { flex: 1; min-width: 200px; }
         .result-map-info .map-label {
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.75rem; color: #888;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-
         .result-map-info .map-name {
-            font-size: 1.4rem;
-            color: #e16d48;
-            font-weight: 700;
-            margin: 0.2rem 0 0.3rem;
+            font-size: 1.4rem; color: #e16d48;
+            font-weight: 700; margin: 0.2rem 0 0.3rem;
         }
-
         .result-map-info .trial-name {
-            font-size: 1.1rem;
-            color: #ffbc9a;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
+            font-size: 1.1rem; color: #ffbc9a;
+            font-weight: 600; margin-bottom: 0.3rem;
         }
-
         .result-map-info .trial-desc {
-            color: #c2b9d4;
-            font-size: 0.85rem;
+            color: #c2b9d4; font-size: 0.85rem;
             line-height: 1.5;
         }
-
         .result-map-info .map-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+            display: flex; flex-wrap: wrap; gap: 1rem;
             margin-top: 0.8rem;
             padding-top: 0.8rem;
             border-top: 1px solid rgba(220, 90, 50, 0.15);
         }
-
         .result-map-info .map-meta-item {
-            font-size: 0.8rem;
-            color: #888;
+            font-size: 0.8rem; color: #888;
         }
-
         .result-map-info .map-meta-item strong {
-            color: #ffbc9a;
-            font-weight: 600;
+            color: #ffbc9a; font-weight: 600;
         }
 
-        /* ===== ВАРИАТОРЫ — КОМПАКТНЫЙ СТИЛЬ ===== */
         .variator-list {
             display: flex;
             gap: 0.8rem;
             flex-wrap: wrap;
             justify-content: center;
         }
-
         .variator-list .var-item {
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             align-items: center;
             gap: 0.5rem;
             width: 95px;
             text-align: center;
         }
-
         .variator-list .var-item img {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             object-fit: contain;
             padding: 8px;
             background: rgba(20, 15, 28, 0.7);
@@ -637,13 +426,11 @@
             border-radius: 12px;
             transition: all 0.3s ease;
         }
-
         .variator-list .var-item:hover img {
             border-color: rgba(220, 90, 50, 0.6);
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(220, 90, 50, 0.15);
         }
-
         .variator-list .var-item .var-name {
             font-size: 0.62rem;
             color: #ffbc9a;
@@ -662,59 +449,36 @@
             border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
         }
-
-        .player-result:hover {
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .player-result:last-child {
-            margin-bottom: 0;
-        }
-
+        .player-result:hover { border-color: rgba(220, 90, 50, 0.3); }
+        .player-result:last-child { margin-bottom: 0; }
         .player-result .player-name {
-            font-weight: 700;
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-weight: 700; color: #fff;
+            font-size: 1.1rem; margin-bottom: 0.6rem;
+            display: flex; align-items: center; gap: 10px;
         }
-
         .player-result .player-name i {
-            color: #e16d48;
-            font-size: 1.2rem;
+            color: #e16d48; font-size: 1.2rem;
         }
-
         .player-result .player-equip {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             gap: 0.8rem;
             margin-bottom: 0.8rem;
             background: rgba(0, 0, 0, 0.15);
             padding: 0.4rem 0.8rem;
             border-radius: 12px;
         }
-
         .player-result .player-equip img {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             object-fit: contain;
             border-radius: 8px;
             background: rgba(0, 0, 0, 0.3);
             padding: 4px;
         }
-
         .player-result .player-equip .label {
-            color: #888;
-            font-size: 0.75rem;
-            font-weight: 500;
+            color: #888; font-size: 0.75rem; font-weight: 500;
         }
-
         .player-result .player-equip .value {
-            color: #ffbc9a;
-            font-size: 0.9rem;
-            font-weight: 500;
+            color: #ffbc9a; font-size: 0.9rem; font-weight: 500;
         }
 
         .player-amps-categories {
@@ -732,98 +496,64 @@
             transition: border-color 0.3s;
             position: relative;
         }
-
-        .amp-category-block:hover {
-            border-color: rgba(220, 90, 50, 0.25);
-        }
-
+        .amp-category-block:hover { border-color: rgba(220, 90, 50, 0.25); }
         .amp-category-block .category-header {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             justify-content: space-between;
             margin-bottom: 0.3rem;
         }
-
         .amp-category-block .category-name {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #e16d48;
-            text-transform: uppercase;
+            font-size: 0.7rem; font-weight: 600;
+            color: #e16d48; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .amp-category-block .category-change-btn {
             background: rgba(220, 90, 50, 0.2);
             border: 1px solid rgba(220, 90, 50, 0.3);
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            color: #c2b9d4;
-            font-size: 0.6rem;
+            width: 24px; height: 24px;
+            color: #c2b9d4; font-size: 0.6rem;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .amp-category-block .category-change-btn:hover {
             background: rgba(220, 90, 50, 0.4);
-            color: white;
-            transform: scale(1.1);
+            color: white; transform: scale(1.1);
         }
-
         .amp-category-block .category-amp-name {
-            font-size: 0.8rem;
-            color: #ffbc9a;
-            font-weight: 500;
-            text-align: center;
+            font-size: 0.8rem; color: #ffbc9a;
+            font-weight: 500; text-align: center;
             padding: 0.2rem 0;
         }
-
         .amp-category-block .category-amp-empty {
-            font-size: 0.65rem;
-            color: #666;
+            font-size: 0.65rem; color: #666;
             text-align: center;
             padding: 0.2rem 0;
             font-style: italic;
         }
-
         .amp-category-block .category-complete {
-            font-size: 0.6rem;
-            color: #2ecc71;
+            font-size: 0.6rem; color: #2ecc71;
             text-align: center;
         }
 
         .result-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 2rem;
+            display: flex; justify-content: center;
+            gap: 1.2rem; margin-top: 2rem;
             flex-wrap: wrap;
         }
-
-        .result-actions .next-btn {
-            min-width: 200px;
-        }
+        .result-actions .next-btn { min-width: 200px; }
 
         .amp-modal-overlay {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; align-items: center;
             backdrop-filter: blur(10px);
         }
-
-        .amp-modal-overlay.active {
-            display: flex;
-        }
+        .amp-modal-overlay.active { display: flex; }
 
         .amp-modal {
             background: rgba(18, 12, 28, 0.95);
@@ -837,63 +567,43 @@
             overflow-y: auto;
             animation: modalFadeIn 0.3s ease-out;
         }
-
         .amp-modal-header {
-            display: flex;
-            justify-content: space-between;
+            display: flex; justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.2);
         }
-
         .amp-modal-header h2 {
-            font-size: 1.3rem;
-            color: #e16d48;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.3rem; color: #e16d48;
+            display: flex; align-items: center; gap: 10px;
         }
-
         .amp-modal-close {
-            background: none;
-            border: none;
-            color: #c2b9d4;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s;
+            background: none; border: none;
+            color: #c2b9d4; font-size: 2rem;
+            cursor: pointer; transition: color 0.3s;
         }
-
-        .amp-modal-close:hover {
-            color: #e16d48;
-        }
+        .amp-modal-close:hover { color: #e16d48; }
 
         .amp-modal-category-tabs {
-            display: flex;
-            gap: 0.5rem;
+            display: flex; gap: 0.5rem;
             margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-wrap: wrap; justify-content: center;
         }
-
         .amp-modal-category-tabs button {
             background: rgba(220, 90, 50, 0.15);
             border: 1px solid rgba(220, 90, 50, 0.25);
             border-radius: 30px;
             padding: 0.5rem 1.5rem;
             color: #c2b9d4;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
             font-family: inherit;
         }
-
         .amp-modal-category-tabs button:hover {
             background: rgba(220, 90, 50, 0.25);
             color: white;
         }
-
         .amp-modal-category-tabs button.active {
             background: rgba(220, 90, 50, 0.3);
             border-color: #e16d48;
@@ -905,7 +615,6 @@
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 1rem;
         }
-
         .amp-modal-item {
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(220, 90, 50, 0.2);
@@ -916,88 +625,57 @@
             transition: all 0.3s;
             position: relative;
         }
-
         .amp-modal-item:hover:not(.locked) {
             border-color: #e16d48;
             transform: scale(1.05);
         }
-
         .amp-modal-item.selected {
             border-color: #4c9aff;
             background: rgba(76, 154, 255, 0.1);
         }
-
         .amp-modal-item.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
+            opacity: 0.5; cursor: not-allowed;
         }
-
         .amp-modal-item.locked:hover {
             transform: none;
             border-color: rgba(220, 90, 50, 0.2);
         }
-
         .amp-modal-item img {
-            width: 65px;
-            height: 65px;
+            width: 65px; height: 65px;
             object-fit: contain;
             border-radius: 12px;
             background: rgba(0, 0, 0, 0.2);
             padding: 6px;
         }
-
         .amp-modal-item .amp-name {
-            font-size: 0.85rem;
-            color: #c2b9d4;
+            font-size: 0.85rem; color: #c2b9d4;
             margin-top: 0.3rem;
             font-weight: 500;
         }
-
         .amp-modal-item .amp-category-label {
-            font-size: 0.6rem;
-            color: #666;
+            font-size: 0.6rem; color: #666;
             margin-top: 0.1rem;
         }
-
         .amp-modal-item .amp-status {
-            font-size: 0.6rem;
-            margin-top: 0.2rem;
+            font-size: 0.6rem; margin-top: 0.2rem;
         }
-
-        .amp-modal-item .amp-status.available {
-            color: #4c9aff;
-        }
-
-        .amp-modal-item .amp-status.locked {
-            color: #888;
-        }
-
-        .amp-modal-item .amp-status.current {
-            color: #2ecc71;
-        }
+        .amp-modal-item .amp-status.available { color: #4c9aff; }
+        .amp-modal-item .amp-status.locked { color: #888; }
+        .amp-modal-item .amp-status.current { color: #2ecc71; }
 
         .amp-modal-item .lock-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 14px;
         }
-
         .amp-modal-item .lock-overlay i {
-            font-size: 2rem;
-            color: #888;
+            font-size: 2rem; color: #888;
         }
-
         .amp-modal-item .lock-overlay span {
-            font-size: 0.7rem;
-            color: #888;
+            font-size: 0.7rem; color: #888;
             margin-top: 0.3rem;
         }
 
@@ -1005,47 +683,34 @@
             margin-top: 1.5rem;
             text-align: center;
         }
-
         .amp-modal-confirm button {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             border: none;
             padding: 0.7rem 2.5rem;
             border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
+            font-size: 1rem; font-weight: 700;
+            color: white; cursor: pointer;
             transition: all 0.3s;
             font-family: inherit;
         }
-
         .amp-modal-confirm button:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
         }
-
         .amp-modal-confirm button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+            opacity: 0.4; cursor: not-allowed;
         }
 
         .confirm-modal-overlay {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             z-index: 2000;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; align-items: center;
             backdrop-filter: blur(10px);
         }
-
-        .confirm-modal-overlay.active {
-            display: flex;
-        }
+        .confirm-modal-overlay.active { display: flex; }
 
         .confirm-modal {
             background: rgba(18, 12, 28, 0.95);
@@ -1058,81 +723,60 @@
             text-align: center;
             animation: modalFadeIn 0.3s ease-out;
         }
-
         .confirm-modal .icon {
-            font-size: 3rem;
-            color: #ff3333;
+            font-size: 3rem; color: #ff3333;
             margin-bottom: 1rem;
         }
-
         .confirm-modal h2 {
-            color: #ff3333;
-            font-size: 1.5rem;
+            color: #ff3333; font-size: 1.5rem;
             margin-bottom: 0.8rem;
         }
-
         .confirm-modal p {
-            color: #c2b9d4;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+            color: #c2b9d4; font-size: 0.95rem;
+            line-height: 1.6; margin-bottom: 1.5rem;
         }
-
         .confirm-modal .confirm-actions {
-            display: flex;
-            gap: 1rem;
+            display: flex; gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
         }
-
         .confirm-modal .confirm-actions button {
             padding: 0.7rem 2rem;
             border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            border: none;
+            font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
+            font-family: inherit; border: none;
         }
-
         .confirm-modal .confirm-actions .btn-confirm {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
         }
-
         .confirm-modal .confirm-actions .btn-confirm:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
         }
-
         .confirm-modal .confirm-actions .btn-cancel {
             background: rgba(220, 90, 50, 0.15);
             border: 1px solid rgba(220, 90, 50, 0.25);
             color: #c2b9d4;
         }
-
         .confirm-modal .confirm-actions .btn-cancel:hover {
             background: rgba(220, 90, 50, 0.25);
             color: white;
         }
 
         .back-to-roulette {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 2rem;
+            display: inline-flex; align-items: center;
+            gap: 10px; margin-top: 2rem;
             color: #e16d48;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 600; font-size: 1rem;
             transition: all 0.3s;
             padding: 0.6rem 1.5rem;
             border-radius: 40px;
             background: rgba(220, 90, 50, 0.1);
             border: 1px solid rgba(220, 90, 50, 0.15);
         }
-
         .back-to-roulette:hover {
             color: #ffbc9a;
             background: rgba(220, 90, 50, 0.2);
@@ -1149,7 +793,6 @@
             backdrop-filter: blur(8px);
             border-radius: 50px;
         }
-
         .footer-logo {
             max-height: 32px;
             width: auto;
@@ -1157,9 +800,7 @@
         }
 
         @media (max-width: 992px) {
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
+            .result-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 850px) {
@@ -1169,63 +810,42 @@
             .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
-
             .escalation-wrapper { padding: 1.5rem; margin: 0 0.5rem; }
             .escalation-wrapper h1 { font-size: 1.6rem; }
-
             .step-container { padding: 1.5rem; }
             .step-title { font-size: 1.1rem; }
-
             .player-count-btn { padding: 1rem 2rem; font-size: 1.3rem; min-width: 70px; }
-
             .selection-item img { width: 60px; height: 60px; }
-
             .result-map-row { flex-direction: column; text-align: left; }
             .result-map-row .map-image { width: 130px; height: 130px; }
-
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
-
-            .player-amps-categories {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
+            .player-amps-categories { grid-template-columns: 1fr; gap: 0.5rem; }
         }
 
         @media (max-width: 600px) {
             .escalation-wrapper { padding: 1rem; }
             .escalation-wrapper h1 { font-size: 1.3rem; flex-wrap: wrap; }
-
             .step-container { padding: 1rem; }
             .step-title { font-size: 1rem; padding-left: 12px; gap: 8px; }
             .step-title .step-number { font-size: 0.7rem; padding: 0.1rem 0.6rem; }
-
             .player-count-btn { padding: 0.8rem 1.2rem; font-size: 1.1rem; min-width: 55px; }
             .player-count-options { gap: 0.5rem; }
-
             .selection-item img { width: 50px; height: 50px; }
             .selection-item .item-name { font-size: 0.7rem; }
-
             .result-map-row .map-image { width: 100px; height: 100px; }
             .variator-list { gap: 0.5rem; }
             .variator-list .var-item { width: 80px; }
             .variator-list .var-item img { width: 60px; height: 60px; padding: 6px; }
             .variator-list .var-item .var-name { font-size: 0.55rem; }
-
             .step-actions { flex-direction: column; align-items: center; }
             .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
-
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
-
             .amp-modal { padding: 1rem; }
             .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .amp-modal-item img { width: 50px; height: 50px; }
             .amp-modal-item .amp-name { font-size: 0.7rem; }
-
-            .player-amps-categories {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
-            }
+            .player-amps-categories { grid-template-columns: 1fr; gap: 0.4rem; }
             .amp-category-block .category-name { font-size: 0.6rem; }
             .amp-category-block .category-amp-name { font-size: 0.7rem; }
         }
@@ -1400,56 +1020,33 @@
 // КОНСТАНТЫ
 // ============================================================
 var SIDE_QUEST_VARIATORS = [
-    "Сбор Подарков",
-    "Сбор Крыс",
-    "Сбор Амулетов",
-    "Доставьте Компоненты",
-    "Извлеките Образцы Органов",
-    "Разбейте Телевизоры",
-    "Находите Радиопередатчики",
-    "Собирайте Схемы",
-    "Найдите Трансляцию",
-    "Соберите Коробки С Уликами",
-    "Расшифруйте Вещание",
-    "Потушите Огонь",
-    "Соберите плакаты",
-    "Случайное Побочное Задание"
+    "Сбор Подарков", "Сбор Крыс", "Сбор Амулетов",
+    "Доставьте Компоненты", "Извлеките Образцы Органов",
+    "Разбейте Телевизоры", "Находите Радиопередатчики",
+    "Собирайте Схемы", "Найдите Трансляцию",
+    "Соберите Коробки С Уликами", "Расшифруйте Вещание",
+    "Потушите Огонь", "Соберите плакаты", "Случайное Побочное Задание"
 ];
 
 var EXCLUDED_VARIATORS = [
-    'Ностофобия',
-    'Лиланд Койл',
-    'Матушка Гуссбери',
-    'Франко Барби',
-    'Близнецы Кресс',
-    'Лилия Богомолова'
+    'Ностофобия', 'Лиланд Койл', 'Матушка Гуссбери',
+    'Франко Барби', 'Близнецы Кресс', 'Лилия Богомолова'
 ];
 
 // ============================================================
 // СОСТОЯНИЕ
 // ============================================================
 let escState = {
-    level: 1,
-    playerCount: 0,
-    players: [],
-    equipSelections: {},
-    ampSelections: {},
-    usedAmps: {},
-    unlockedAmps: {},
-    allAmpsUsed: {},
-    currentStep: 1,
-    map: null,
-    trial: null,
-    difficulty: null,
-    variators: [],
-    isFirstRun: true,
-    usedBigTrials: [],
-    usedSmallTrials: [],
+    level: 1, playerCount: 0, players: [],
+    equipSelections: {}, ampSelections: {}, usedAmps: {},
+    unlockedAmps: {}, allAmpsUsed: {}, currentStep: 1,
+    map: null, trial: null, difficulty: null, variators: [],
+    isFirstRun: true, usedBigTrials: [], usedSmallTrials: [],
     nostophobiaCount: 0
 };
 
 // ============================================================
-// ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ
+// ПРОВЕРКА ЗАГРУЗКИ
 // ============================================================
 function checkDataLoaded() {
     if (typeof mapsData === 'undefined') return false;
@@ -1462,50 +1059,36 @@ function checkDataLoaded() {
 }
 
 // ============================================================
-// ФУНКЦИИ ДЛЯ АМФ
+// ФУНКЦИИ АМФ
 // ============================================================
-function getAmpsByCategory(category) {
+function getAmpsByCategory(cat) {
     if (typeof ampsData === 'undefined') return [];
-    return ampsData.filter(function(amp) { return amp.category === category; });
+    return ampsData.filter(function(a) { return a.category === cat; });
 }
-
-function getAvailableAmpsByCategory(playerIndex, category) {
-    var used = escState.usedAmps[playerIndex] || [];
-    var categoryAmps = getAmpsByCategory(category);
-    return categoryAmps.filter(function(amp) { return used.indexOf(amp.name) === -1; });
+function getAvailableAmpsByCategory(idx, cat) {
+    var used = escState.usedAmps[idx] || [];
+    return getAmpsByCategory(cat).filter(function(a) { return used.indexOf(a.name) === -1; });
 }
-
-function isCategoryComplete(playerIndex, category) {
-    var categoryAmps = getAmpsByCategory(category);
-    var used = escState.usedAmps[playerIndex] || [];
-    return categoryAmps.every(function(amp) { return used.indexOf(amp.name) !== -1; });
+function isCategoryComplete(idx, cat) {
+    var used = escState.usedAmps[idx] || [];
+    return getAmpsByCategory(cat).every(function(a) { return used.indexOf(a.name) !== -1; });
 }
-
-function areAllCategoriesComplete(playerIndex) {
+function areAllCategoriesComplete(idx) {
     if (typeof ampCategories === 'undefined') return false;
-    return ampCategories.every(function(cat) { return isCategoryComplete(playerIndex, cat); });
+    return ampCategories.every(function(cat) { return isCategoryComplete(idx, cat); });
 }
-
-function checkAllAmpsUsed(playerIndex) {
-    return areAllCategoriesComplete(playerIndex);
+function checkAllAmpsUsed(idx) { return areAllCategoriesComplete(idx); }
+function getAmpForCategory(idx, cat) {
+    var s = escState.ampSelections[idx] || {};
+    return s[cat] || null;
 }
-
-function getAmpForCategory(playerIndex, category) {
-    var selections = escState.ampSelections[playerIndex] || {};
-    return selections[category] || null;
-}
-
-function unlockAmpForPlayer(playerIndex, ampName) {
-    if (!escState.unlockedAmps[playerIndex]) {
-        escState.unlockedAmps[playerIndex] = [];
-    }
-    if (escState.unlockedAmps[playerIndex].indexOf(ampName) === -1) {
-        escState.unlockedAmps[playerIndex].push(ampName);
-    }
+function unlockAmpForPlayer(idx, name) {
+    if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
+    if (escState.unlockedAmps[idx].indexOf(name) === -1) escState.unlockedAmps[idx].push(name);
 }
 
 // ============================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+// ВСПОМОГАТЕЛЬНЫЕ
 // ============================================================
 function isExcludedVariator(name) {
     if (!name) return false;
@@ -1516,11 +1099,7 @@ function isExcludedVariator(name) {
     }
     return false;
 }
-
-function isSideQuestVariator(name) {
-    return SIDE_QUEST_VARIATORS.indexOf(name) !== -1;
-}
-
+function isSideQuestVariator(name) { return SIDE_QUEST_VARIATORS.indexOf(name) !== -1; }
 function shuffleArray(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -1533,20 +1112,15 @@ function shuffleArray(arr) {
 // ============================================================
 // ВАРИАТОР СЛОЖНОСТИ
 // ============================================================
-function getDifficultyVariator(level, availableVariators) {
+function getDifficultyVariator(level, available) {
     if (level < 5) return null;
-
     if (level >= 5 && level <= 20) {
         if (level >= 10) {
-            var stronger2 = availableVariators.find(function(v) {
-                return v.name === 'Враги Сильнее II' || v.name === 'Враги сильнее II';
-            });
-            if (stronger2) return stronger2;
+            var s2 = available.find(function(v) { return v.name === 'Враги Сильнее II' || v.name === 'Враги сильнее II'; });
+            if (s2) return s2;
         }
-        var stronger = availableVariators.find(function(v) {
-            return v.name === 'Враги сильнее' || v.name === 'Враги Сильнее';
-        });
-        if (stronger) return stronger;
+        var s = available.find(function(v) { return v.name === 'Враги сильнее' || v.name === 'Враги Сильнее'; });
+        if (s) return s;
         return {
             id: 'enemies_stronger_fallback',
             name: level >= 10 ? 'Враги Сильнее II' : 'Враги сильнее',
@@ -1554,218 +1128,123 @@ function getDifficultyVariator(level, availableVariators) {
             category: 'difficulty'
         };
     }
-
     return null;
 }
 
 // ============================================================
-// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ
+// СОВМЕСТИМОСТЬ ВАРИАТОРОВ
 // ============================================================
-function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
-    var variatorName = variator.name;
-    var selectedNames = selectedVariators.map(function(v) { return v.name; });
+function isVariatorCompatible(v, selected, trialName, playerCount, level) {
+    var name = v.name;
+    var names = selected.map(function(x) { return x.name; });
     var i;
 
-    if (selectedNames.indexOf(variatorName) !== -1) return false;
+    if (names.indexOf(name) !== -1) return false;
 
-    // 1. Главная Рулетка / Самое Главное ↔ Егерь / Толкачи / Притворщики / Бросатели
-    var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
-    var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
+    var mainGroup = ['Главная Рулетка', 'Самое Главное'];
+    var antiGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
-    if (mainLotteryGroup.indexOf(variatorName) !== -1) {
-        for (i = 0; i < mainLotteryGroup.length; i++) {
-            if (mainLotteryGroup[i] !== variatorName && selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
-        }
-        for (i = 0; i < antiLotteryGroup.length; i++) {
-            if (selectedNames.indexOf(antiLotteryGroup[i]) !== -1) return false;
-        }
+    if (mainGroup.indexOf(name) !== -1) {
+        for (i = 0; i < mainGroup.length; i++) if (mainGroup[i] !== name && names.indexOf(mainGroup[i]) !== -1) return false;
+        for (i = 0; i < antiGroup.length; i++) if (names.indexOf(antiGroup[i]) !== -1) return false;
     }
-
-    if (antiLotteryGroup.indexOf(variatorName) !== -1) {
-        for (i = 0; i < mainLotteryGroup.length; i++) {
-            if (selectedNames.indexOf(mainLotteryGroup[i]) !== -1) return false;
-        }
-        for (i = 0; i < antiLotteryGroup.length; i++) {
-            if (antiLotteryGroup[i] !== variatorName && selectedNames.indexOf(antiLotteryGroup[i]) !== -1) return false;
-        }
+    if (antiGroup.indexOf(name) !== -1) {
+        for (i = 0; i < mainGroup.length; i++) if (names.indexOf(mainGroup[i]) !== -1) return false;
+        for (i = 0; i < antiGroup.length; i++) if (antiGroup[i] !== name && names.indexOf(antiGroup[i]) !== -1) return false;
     }
 
-    // 2. Мины — только один вид
-    var mineVariators = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
-    if (mineVariators.indexOf(variatorName) !== -1) {
-        for (i = 0; i < mineVariators.length; i++) {
-            if (mineVariators[i] !== variatorName && selectedNames.indexOf(mineVariators[i]) !== -1) return false;
-        }
+    var mines = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
+    if (mines.indexOf(name) !== -1) {
+        for (i = 0; i < mines.length; i++) if (mines[i] !== name && names.indexOf(mines[i]) !== -1) return false;
     }
 
-    // 3.1. Первый Уровень
-    var firstLevelBlocked = [
-        'Сломанный Реагент', 'Без Снаряжения', 'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
-    ];
-    if (variatorName === 'Первый Уровень') {
-        for (i = 0; i < firstLevelBlocked.length; i++) {
-            if (selectedNames.indexOf(firstLevelBlocked[i]) !== -1) return false;
-        }
-    }
-    if (firstLevelBlocked.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf('Первый Уровень') !== -1) return false;
+    var firstBlocked = ['Сломанный Реагент','Без Снаряжения','Без Улучшения Снаряжения','Увеличенная Перезарядка Снаряжения','Без Амф','Без Рецептов','Ограниченное Снаряжение','Урон Перезапускает Снаряжение','Урон Отключает Снаряжение','Трофейное Снаряжение'];
+    if (name === 'Первый Уровень') { for (i = 0; i < firstBlocked.length; i++) if (names.indexOf(firstBlocked[i]) !== -1) return false; }
+    if (firstBlocked.indexOf(name) !== -1) { if (names.indexOf('Первый Уровень') !== -1) return false; }
+
+    var brokenBlocked = ['Первый Уровень','Без Снаряжения','Без Улучшения Снаряжения','Увеличенная Перезарядка Снаряжения','Без Амф','Без Рецептов','Ограниченное Снаряжение','Урон Перезапускает Снаряжение','Урон Отключает Снаряжение','Трофейное Снаряжение'];
+    if (name === 'Сломанный Реагент') { for (i = 0; i < brokenBlocked.length; i++) if (names.indexOf(brokenBlocked[i]) !== -1) return false; }
+    if (brokenBlocked.indexOf(name) !== -1) { if (names.indexOf('Сломанный Реагент') !== -1) return false; }
+
+    var noEquipBlocked = ['Без Улучшения Снаряжения','Увеличенная Перезарядка Снаряжения','Ограниченное Снаряжение','Урон Перезапускает Снаряжение','Урон Отключает Снаряжение'];
+    if (name === 'Без Снаряжения') { for (i = 0; i < noEquipBlocked.length; i++) if (names.indexOf(noEquipBlocked[i]) !== -1) return false; }
+    if (noEquipBlocked.indexOf(name) !== -1) { if (names.indexOf('Без Снаряжения') !== -1) return false; }
+
+    if (name === 'Все На Выход') {
+        if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') return false;
     }
 
-    // 3.2. Сломанный Реагент
-    var brokenReagentBlocked = [
-        'Первый Уровень', 'Без Снаряжения', 'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
-    ];
-    if (variatorName === 'Сломанный Реагент') {
-        for (i = 0; i < brokenReagentBlocked.length; i++) {
-            if (selectedNames.indexOf(brokenReagentBlocked[i]) !== -1) return false;
-        }
-    }
-    if (brokenReagentBlocked.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf('Сломанный Реагент') !== -1) return false;
-    }
-
-    // 3.3. Без Снаряжения
-    var noEquipmentBlocked = [
-        'Без Улучшения Снаряжения', 'Увеличенная Перезарядка Снаряжения',
-        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение'
-    ];
-    if (variatorName === 'Без Снаряжения') {
-        for (i = 0; i < noEquipmentBlocked.length; i++) {
-            if (selectedNames.indexOf(noEquipmentBlocked[i]) !== -1) return false;
-        }
-    }
-    if (noEquipmentBlocked.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf('Без Снаряжения') !== -1) return false;
-    }
-
-    // 4. Зависимость от карты
-    if (variatorName === 'Все На Выход') {
-        if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
-            return false;
-        }
-    }
-
-    // 5. Сильнее Вместе
-    if (variatorName === 'Сильнее Вместе') {
+    if (name === 'Сильнее Вместе') {
         if (playerCount === 1) return false;
         if (playerCount === 2 || playerCount === 3) {
-            var forbiddenMaps = [
-                'Сожгите секс-игрушки',
-                'Обработайте фабрику газом',
-                'Освободите заключенных',
-                'Заберите наркотики'
-            ];
-            if (forbiddenMaps.indexOf(trialName) !== -1) return false;
+            var forbidden = ['Сожгите секс-игрушки','Обработайте фабрику газом','Освободите заключенных','Заберите наркотики'];
+            if (forbidden.indexOf(trialName) !== -1) return false;
         }
     }
 
-    // 6. Вечная Мерзлота ↔ Резкое Похолодание, Токсический Шок
-    if (variatorName === 'Вечная Мерзлота') {
-        if (selectedNames.indexOf('Резкое Похолодание') !== -1) return false;
-        if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
+    if (name === 'Вечная Мерзлота') {
+        if (names.indexOf('Резкое Похолодание') !== -1) return false;
+        if (names.indexOf('Токсический Шок') !== -1) return false;
     }
-    if (variatorName === 'Резкое Похолодание' || variatorName === 'Токсический Шок') {
-        if (selectedNames.indexOf('Вечная Мерзлота') !== -1) return false;
+    if (name === 'Резкое Похолодание' || name === 'Токсический Шок') {
+        if (names.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
-    // 7. Таймер Бомбы ↔ Разбейте Телевизоры
-    if (variatorName === 'Таймер Бомбы' || variatorName === 'Таймер бомбы') {
+    if (name === 'Таймер Бомбы' || name === 'Таймер бомбы') {
         if (trialName === 'Устранение устаревшего оборудования') return false;
-        if (selectedNames.indexOf('Разбейте Телевизоры') !== -1) return false;
+        if (names.indexOf('Разбейте Телевизоры') !== -1) return false;
     }
-    if (variatorName === 'Разбейте Телевизоры') {
-        if (selectedNames.indexOf('Таймер Бомбы') !== -1) return false;
-        if (selectedNames.indexOf('Таймер бомбы') !== -1) return false;
-    }
-
-    // 8. Токсический Шок → Глубокий Ожог
-    if (variatorName === 'Токсический Шок') {
-        if (selectedNames.indexOf('Глубокий Ожог') !== -1) return false;
-    }
-    if (variatorName === 'Глубокий Ожог') {
-        if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
+    if (name === 'Разбейте Телевизоры') {
+        if (names.indexOf('Таймер Бомбы') !== -1) return false;
+        if (names.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // 9. Враги сильнее / Психохирургия ↔ плотность/угроза
-    var densityAndThreat = [
-        'Низкая Плотность Врагов',
-        'Много Противников',
-        'Повышенная Угроза',
-        'Повышенная угроза II'
+    if (name === 'Токсический Шок') { if (names.indexOf('Глубокий Ожог') !== -1) return false; }
+    if (name === 'Глубокий Ожог') { if (names.indexOf('Токсический Шок') !== -1) return false; }
+
+    var density = ['Низкая Плотность Врагов','Много Противников','Повышенная Угроза','Повышенная угроза II'];
+    if (name === 'Враги сильнее' || name === 'Враги Сильнее' || name === 'Враги сильнее II' || name === 'Враги Сильнее II') {
+        for (i = 0; i < density.length; i++) if (names.indexOf(density[i]) !== -1) return false;
+    }
+    if (density.indexOf(name) !== -1) {
+        if (names.indexOf('Враги сильнее') !== -1) return false;
+        if (names.indexOf('Враги Сильнее') !== -1) return false;
+        if (names.indexOf('Враги сильнее II') !== -1) return false;
+        if (names.indexOf('Враги Сильнее II') !== -1) return false;
+        if (names.indexOf('Психохирургия') !== -1) return false;
+    }
+    if (name === 'Психохирургия') {
+        if (names.indexOf('Враги сильнее') !== -1) return false;
+        if (names.indexOf('Враги Сильнее') !== -1) return false;
+        if (names.indexOf('Враги сильнее II') !== -1) return false;
+        if (names.indexOf('Враги Сильнее II') !== -1) return false;
+        for (i = 0; i < density.length; i++) if (names.indexOf(density[i]) !== -1) return false;
+    }
+    if (name === 'Враги сильнее' || name === 'Враги Сильнее' || name === 'Враги сильнее II' || name === 'Враги Сильнее II') {
+        if (names.indexOf('Психохирургия') !== -1) return false;
+    }
+
+    var pairs = [
+        ['Ограниченный Инвентарь','Ограниченный Инвентарь II'],
+        ['Повышенная Угроза','Повышенная угроза II'],
+        ['Ограниченные Укрытия','Ограниченные Укрытия II'],
+        ['Ограниченные предметы','Ограниченные предметы II']
     ];
-
-    if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
-        for (i = 0; i < densityAndThreat.length; i++) {
-            if (selectedNames.indexOf(densityAndThreat[i]) !== -1) return false;
+    for (var p = 0; p < pairs.length; p++) {
+        var g = pairs[p];
+        if (g.indexOf(name) !== -1) {
+            for (i = 0; i < g.length; i++) if (g[i] !== name && names.indexOf(g[i]) !== -1) return false;
         }
     }
 
-    if (densityAndThreat.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
-        if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
-        if (selectedNames.indexOf('Враги сильнее II') !== -1) return false;
-        if (selectedNames.indexOf('Враги Сильнее II') !== -1) return false;
-        if (selectedNames.indexOf('Психохирургия') !== -1) return false;
-    }
-
-    if (variatorName === 'Психохирургия') {
-        if (selectedNames.indexOf('Враги сильнее') !== -1) return false;
-        if (selectedNames.indexOf('Враги Сильнее') !== -1) return false;
-        if (selectedNames.indexOf('Враги сильнее II') !== -1) return false;
-        if (selectedNames.indexOf('Враги Сильнее II') !== -1) return false;
-        for (i = 0; i < densityAndThreat.length; i++) {
-            if (selectedNames.indexOf(densityAndThreat[i]) !== -1) return false;
-        }
-    }
-
-    if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
-        if (selectedNames.indexOf('Психохирургия') !== -1) return false;
-    }
-
-    // 10. Однотипные I/II
-    var sameTypeGroups = [
-        ['Ограниченный Инвентарь', 'Ограниченный Инвентарь II'],
-        ['Повышенная Угроза', 'Повышенная угроза II'],
-        ['Ограниченные Укрытия', 'Ограниченные Укрытия II'],
-        ['Ограниченные предметы', 'Ограниченные предметы II']
-    ];
-
-    for (var g = 0; g < sameTypeGroups.length; g++) {
-        var group = sameTypeGroups[g];
-        if (group.indexOf(variatorName) !== -1) {
-            for (i = 0; i < group.length; i++) {
-                if (group[i] !== variatorName && selectedNames.indexOf(group[i]) !== -1) return false;
-            }
-        }
-    }
-
-    // 10.1. Без Предметов В Испытании ↔ Ограниченные предметы I/II
     var noItemsName = 'Без Предметов В Испытании';
-    var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
-    if (variatorName === noItemsName) {
-        for (i = 0; i < limitedItemsGroup.length; i++) {
-            if (selectedNames.indexOf(limitedItemsGroup[i]) !== -1) return false;
-        }
-    }
-    if (limitedItemsGroup.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf(noItemsName) !== -1) return false;
-    }
+    var limitedItems = ['Ограниченные предметы','Ограниченные предметы II'];
+    if (name === noItemsName) { for (i = 0; i < limitedItems.length; i++) if (names.indexOf(limitedItems[i]) !== -1) return false; }
+    if (limitedItems.indexOf(name) !== -1) { if (names.indexOf(noItemsName) !== -1) return false; }
 
-    // 11. Прочие
-    if (playerCount === 1) {
-        if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
-    }
-    if (variatorName === 'Низкая Плотность Врагов' && level > 5) return false;
-    if (level < 21) {
-        if (variatorName === 'Ностофобия' || variatorName === 'Психохирургия') return false;
-    }
+    if (playerCount === 1) { if (name === 'Без Имён' || name === 'Без Рации') return false; }
+    if (name === 'Низкая Плотность Врагов' && level > 5) return false;
+    if (level < 21) { if (name === 'Ностофобия' || name === 'Психохирургия') return false; }
 
     return true;
 }
@@ -1776,86 +1255,58 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
-    console.log('🔄 Генерация вариаторов для уровня:', level);
-
     var MAX_VARIATORS = 8;
     var trialName = escState.trial ? escState.trial.name : '';
 
-    var availableVariators = allVariatorsData.filter(function(v) {
+    var available = allVariatorsData.filter(function(v) {
         if (isExcludedVariator(v.name)) return false;
-
-        var excludedGates = [
-            'Ворота С Детектором Звука', 'Дистанционные Ворота',
-            'Бесконтактные Ворота', 'Времянные Ворота', 'Закрытые Ворота'
-        ];
-        if (excludedGates.indexOf(v.name) !== -1) return false;
-
+        var gates = ['Ворота С Детектором Звука','Дистанционные Ворота','Бесконтактные Ворота','Времянные Ворота','Закрытые Ворота'];
+        if (gates.indexOf(v.name) !== -1) return false;
         if (v.name === 'Низкая Плотность Врагов' && level > 5) return false;
-
         return true;
     });
 
     var result = [];
-    var usedNames = [];
+    var used = [];
 
-    // 1. ВАРИАТОР СЛОЖНОСТИ
+    // 1. Вариатор сложности
     if (level > 20) {
-        var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
-
-        if (psycho) {
-            result.push(psycho); usedNames.push(psycho.name);
-        } else {
-            result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" });
-            usedNames.push("Психохирургия");
-        }
-
-        if (doubleTasks) {
-            result.push(doubleTasks); usedNames.push(doubleTasks.name);
-        } else {
-            result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" });
-            usedNames.push("Двойные задания");
-        }
+        var psycho = available.find(function(v) { return v.name === "Психохирургия"; });
+        var doubleT = available.find(function(v) { return v.name === "Двойные задания"; });
+        if (psycho) { result.push(psycho); used.push(psycho.name); }
+        else { result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" }); used.push("Психохирургия"); }
+        if (doubleT) { result.push(doubleT); used.push(doubleT.name); }
+        else { result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" }); used.push("Двойные задания"); }
     } else {
-        var difficultyVar = getDifficultyVariator(level, availableVariators);
-        if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
-            result.push(difficultyVar);
-            usedNames.push(difficultyVar.name);
-        }
+        var diffVar = getDifficultyVariator(level, available);
+        if (diffVar && used.indexOf(diffVar.name) === -1) { result.push(diffVar); used.push(diffVar.name); }
     }
 
-    // 2. ПОБОЧНОЕ ЗАДАНИЕ — ровно одно, только до 20 уровня
+    // 2. Побочное задание (только до 20 уровня, ровно одно)
     if (level <= 20) {
-        var sideQuestPool = availableVariators.filter(function(v) {
+        var sidePool = available.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
-            if (usedNames.indexOf(v.name) !== -1) return false;
+            if (used.indexOf(v.name) !== -1) return false;
             return true;
         });
-        if (sideQuestPool.length > 0) {
-            var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
-            result.push(chosenSideQuest);
-            usedNames.push(chosenSideQuest.name);
+        if (sidePool.length > 0) {
+            var chosen = sidePool[Math.floor(Math.random() * sidePool.length)];
+            result.push(chosen); used.push(chosen.name);
         }
     }
 
-    // 3. ЦЕЛЕВОЕ КОЛИЧЕСТВО (ВАРИАТОРОВ)
-    var targetTotal;
-    if (level <= 3) {
-        targetTotal = 2;
-    } else if (level > 3 && level < 10) {
-        targetTotal = 4 + Math.floor(Math.random() * 2); // 4 или 5
-    } else if (level >= 10 && level < 20) {
-        targetTotal = 4 + Math.floor(Math.random() * 4); // 4, 5, 6 или 7
-    } else if (level >= 20) {
-        targetTotal = 6 + Math.floor(Math.random() * 3); // 6, 7 или 8
-    } else {
-        targetTotal = 2;
-    }
-    if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
+    // 3. Целевое количество
+    var target;
+    if (level <= 3) target = 2;
+    else if (level > 3 && level < 10) target = 4 + Math.floor(Math.random() * 2);
+    else if (level >= 10 && level < 20) target = 4 + Math.floor(Math.random() * 4);
+    else if (level >= 20) target = 6 + Math.floor(Math.random() * 3);
+    else target = 2;
+    if (target > MAX_VARIATORS) target = MAX_VARIATORS;
 
-    // 4. СЛУЧАЙНЫЕ ВАРИАТОРЫ
-    var filtered = availableVariators.filter(function(v) {
-        if (usedNames.indexOf(v.name) !== -1) return false;
+    // 4. Случайные
+    var filtered = available.filter(function(v) {
+        if (used.indexOf(v.name) !== -1) return false;
         if (isSideQuestVariator(v.name)) return false;
         if (v.name === "Психохирургия" || v.name === "Двойные задания") return false;
         if (v.name === "Враги сильнее" || v.name === "Враги Сильнее" || v.name === "Враги Сильнее II" || v.name === "Враги сильнее II") return false;
@@ -1863,166 +1314,117 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     });
 
     var shuffled = shuffleArray(filtered);
-
-    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < targetTotal; i++) {
-        var candidate = shuffled[i];
-        if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
-            result.push(candidate);
-            usedNames.push(candidate.name);
+    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < target; i++) {
+        if (isVariatorCompatible(shuffled[i], result, trialName, playerCount, level)) {
+            result.push(shuffled[i]); used.push(shuffled[i].name);
         }
     }
 
-    // 5. ДОБИВКА
-    if (result.length < targetTotal) {
-        var remaining = availableVariators.filter(function(v) {
-            return usedNames.indexOf(v.name) === -1
-                && !isSideQuestVariator(v.name)
-                && v.name !== "Психохирургия"
-                && v.name !== "Двойные задания"
-                && v.name !== "Враги сильнее"
-                && v.name !== "Враги Сильнее"
-                && v.name !== "Враги Сильнее II"
-                && v.name !== "Враги сильнее II";
+    // 5. Добивка
+    if (result.length < target) {
+        var remaining = available.filter(function(v) {
+            return used.indexOf(v.name) === -1 && !isSideQuestVariator(v.name)
+                && v.name !== "Психохирургия" && v.name !== "Двойные задания"
+                && v.name !== "Враги сильнее" && v.name !== "Враги Сильнее"
+                && v.name !== "Враги Сильнее II" && v.name !== "Враги сильнее II";
         });
-        var shuffledRemaining = shuffleArray(remaining);
-        for (var j = 0; j < shuffledRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; j++) {
-            var candidate2 = shuffledRemaining[j];
-            if (usedNames.indexOf(candidate2.name) === -1 && isVariatorCompatible(candidate2, result, trialName, playerCount, level)) {
-                result.push(candidate2);
-                usedNames.push(candidate2.name);
+        var shufRem = shuffleArray(remaining);
+        for (var j = 0; j < shufRem.length && result.length < target && result.length < MAX_VARIATORS; j++) {
+            if (used.indexOf(shufRem[j].name) === -1 && isVariatorCompatible(shufRem[j], result, trialName, playerCount, level)) {
+                result.push(shufRem[j]); used.push(shufRem[j].name);
             }
         }
     }
 
-    // 6. КРАЙНЯЯ ДОБИВКА
-    if (result.length < targetTotal) {
-        var anyRemaining = allVariatorsData.filter(function(v) {
-            return usedNames.indexOf(v.name) === -1 && !isExcludedVariator(v.name);
-        });
-        for (var k = 0; k < anyRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; k++) {
-            var candidate3 = anyRemaining[k];
-            if (usedNames.indexOf(candidate3.name) === -1) {
-                result.push(candidate3);
-                usedNames.push(candidate3.name);
-            }
+    // 6. Крайняя добивка
+    if (result.length < target) {
+        var anyRem = allVariatorsData.filter(function(v) { return used.indexOf(v.name) === -1 && !isExcludedVariator(v.name); });
+        for (var k = 0; k < anyRem.length && result.length < target && result.length < MAX_VARIATORS; k++) {
+            if (used.indexOf(anyRem[k].name) === -1) { result.push(anyRem[k]); used.push(anyRem[k].name); }
         }
     }
 
-    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
     result = result.filter(function(v) { return !isExcludedVariator(v.name); });
-
-    console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
 }
 
 // ============================================================
-// КАРТА И ИСПЫТАНИЕ
+// КАРТА / ИСПЫТАНИЕ
 // ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
-
     var mapNames = Object.keys(trialsData);
-    var isBigLevel = (level % 10 === 0);
+    var isBig = (level % 10 === 0);
     var availableTrials = [];
 
     for (var m = 0; m < mapNames.length; m++) {
-        var mapName = mapNames[m];
-        var mapData = trialsData[mapName];
-
-        for (var t = 0; t < mapData.trials.length; t++) {
-            var trial = mapData.trials[t];
-            var isBig = trial.name === trial.name.toUpperCase();
-
-            if (isBigLevel && isBig) {
-                if (escState.usedBigTrials.indexOf(trial.name) === -1) {
-                    availableTrials.push({ mapName: mapName, mapImage: mapData.image, trial: trial });
-                }
-            } else if (!isBigLevel && !isBig) {
-                if (escState.usedSmallTrials.indexOf(trial.name) === -1) {
-                    availableTrials.push({ mapName: mapName, mapImage: mapData.image, trial: trial });
-                }
+        var mn = mapNames[m], md = trialsData[mn];
+        for (var t = 0; t < md.trials.length; t++) {
+            var tr = md.trials[t];
+            var isBigTrial = tr.name === tr.name.toUpperCase();
+            if (isBig && isBigTrial) {
+                if (escState.usedBigTrials.indexOf(tr.name) === -1) availableTrials.push({ mapName: mn, mapImage: md.image, trial: tr });
+            } else if (!isBig && !isBigTrial) {
+                if (escState.usedSmallTrials.indexOf(tr.name) === -1) availableTrials.push({ mapName: mn, mapImage: md.image, trial: tr });
             }
         }
     }
 
     if (availableTrials.length === 0) {
-        if (isBigLevel) {
+        if (isBig) {
             escState.usedBigTrials = [];
             for (var m2 = 0; m2 < mapNames.length; m2++) {
-                var mapName2 = mapNames[m2];
-                var mapData2 = trialsData[mapName2];
-                for (var t2 = 0; t2 < mapData2.trials.length; t2++) {
-                    var trial2 = mapData2.trials[t2];
-                    if (trial2.name === trial2.name.toUpperCase()) {
-                        availableTrials.push({ mapName: mapName2, mapImage: mapData2.image, trial: trial2 });
-                    }
+                var mn2 = mapNames[m2], md2 = trialsData[mn2];
+                for (var t2 = 0; t2 < md2.trials.length; t2++) {
+                    var tr2 = md2.trials[t2];
+                    if (tr2.name === tr2.name.toUpperCase()) availableTrials.push({ mapName: mn2, mapImage: md2.image, trial: tr2 });
                 }
             }
         } else {
             escState.usedSmallTrials = [];
             for (var m3 = 0; m3 < mapNames.length; m3++) {
-                var mapName3 = mapNames[m3];
-                var mapData3 = trialsData[mapName3];
-                for (var t3 = 0; t3 < mapData3.trials.length; t3++) {
-                    var trial3 = mapData3.trials[t3];
-                    if (trial3.name !== trial3.name.toUpperCase()) {
-                        availableTrials.push({ mapName: mapName3, mapImage: mapData3.image, trial: trial3 });
-                    }
+                var mn3 = mapNames[m3], md3 = trialsData[mn3];
+                for (var t3 = 0; t3 < md3.trials.length; t3++) {
+                    var tr3 = md3.trials[t3];
+                    if (tr3.name !== tr3.name.toUpperCase()) availableTrials.push({ mapName: mn3, mapImage: md3.image, trial: tr3 });
                 }
             }
         }
     }
 
     if (availableTrials.length === 0) return null;
-
-    var randomIndex = Math.floor(Math.random() * availableTrials.length);
-    var selected = availableTrials[randomIndex];
-
-    escState.map = { name: selected.mapName, image: selected.mapImage };
-    escState.trial = selected.trial;
-
-    if (selected.trial.name === selected.trial.name.toUpperCase()) {
-        escState.usedBigTrials.push(selected.trial.name);
-    } else {
-        escState.usedSmallTrials.push(selected.trial.name);
-    }
-
-    return selected;
+    var sel = availableTrials[Math.floor(Math.random() * availableTrials.length)];
+    escState.map = { name: sel.mapName, image: sel.mapImage };
+    escState.trial = sel.trial;
+    if (sel.trial.name === sel.trial.name.toUpperCase()) escState.usedBigTrials.push(sel.trial.name);
+    else escState.usedSmallTrials.push(sel.trial.name);
+    return sel;
 }
 
 function getDifficultyByLevel(level) {
-    if (level >= 1 && level <= 5) return { name: "Начальная", class: "level-difficulty-intro" };
-    else if (level >= 6 && level <= 15) return { name: "Нормальная", class: "level-difficulty-standard" };
-    else if (level >= 16 && level <= 20) return { name: "Высокая", class: "level-difficulty-intensive" };
-    else return { name: "Психохирургия", class: "level-difficulty-psycho" };
+    if (level <= 5) return { name: "Начальная", class: "level-difficulty-intro" };
+    if (level <= 15) return { name: "Нормальная", class: "level-difficulty-standard" };
+    if (level <= 20) return { name: "Высокая", class: "level-difficulty-intensive" };
+    return { name: "Психохирургия", class: "level-difficulty-psycho" };
 }
 
 function goToEscStep(step) {
     escState.currentStep = step;
     var steps = { 1: 'escStep1', 2: 'escStep2', 3: 'escStep3', 4: 'escStep4' };
     var result = document.getElementById('escResult');
-
     for (var key in steps) {
         var el = document.getElementById(steps[key]);
         if (el) el.classList.toggle('hidden', parseInt(key) !== step);
     }
-
-    if (result) {
-        result.classList.remove('active');
-        result.style.display = 'none';
-    }
+    if (result) { result.classList.remove('active'); result.style.display = 'none'; }
 }
 
 function updateLevelCounter() {
-    var levelNum = document.getElementById('levelNumber');
-    var levelDiff = document.getElementById('levelDifficulty');
-    var difficulty = getDifficultyByLevel(escState.level);
-
-    if (levelNum) levelNum.textContent = escState.level;
-    if (levelDiff) {
-        levelDiff.textContent = difficulty.name;
-        levelDiff.className = 'level-difficulty ' + difficulty.class;
-    }
+    var num = document.getElementById('levelNumber');
+    var diff = document.getElementById('levelDifficulty');
+    var d = getDifficultyByLevel(escState.level);
+    if (num) num.textContent = escState.level;
+    if (diff) { diff.textContent = d.name; diff.className = 'level-difficulty ' + d.class; }
 }
 
 // ============================================================
@@ -2033,19 +1435,16 @@ function renderEscPlayerNames() {
     if (!container) return;
     container.innerHTML = '';
 
-    var playerCount = escState.playerCount;
+    var pc = escState.playerCount;
     var grid = document.createElement('div');
-    grid.className = 'selection-grid players-' + playerCount;
     grid.style.cssText = 'display: grid; gap: 12px 20px; max-width: 600px; margin: 0 auto;';
 
-    if (playerCount === 1) { grid.style.gridTemplateColumns = '1fr'; grid.style.maxWidth = '300px'; }
-    else if (playerCount === 2) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
-    else if (playerCount === 3) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
-    else if (playerCount === 4) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '550px'; }
+    if (pc === 1) { grid.style.gridTemplateColumns = '1fr'; grid.style.maxWidth = '300px'; }
+    else if (pc === 2 || pc === 3) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
+    else if (pc === 4) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '550px'; }
 
-    for (var i = 0; i < playerCount; i++) {
+    for (var i = 0; i < pc; i++) {
         var row = document.createElement('div');
-        row.className = 'player-block';
         row.style.cssText = 'display: flex; flex-direction: column; gap: 4px; background: rgba(0,0,0,0.15); border-radius: 12px; padding: 12px 16px; border: 1px solid rgba(220,90,50,0.08);';
         row.innerHTML = `
             <label style="font-size: 0.8rem; color: #888; font-weight: 500; letter-spacing: 0.5px;">
@@ -2056,7 +1455,7 @@ function renderEscPlayerNames() {
         `;
         grid.appendChild(row);
 
-        if (playerCount === 3 && i === 2) {
+        if (pc === 3 && i === 2) {
             row.style.gridColumn = '1 / -1';
             row.style.maxWidth = '50%';
             row.style.justifySelf = 'center';
@@ -2067,51 +1466,37 @@ function renderEscPlayerNames() {
 
     var inputs = container.querySelectorAll('input');
     var nextBtn = document.getElementById('escStep2Next');
-
-    function checkNamesFilled() {
-        var allFilled = true;
-        inputs.forEach(function(input) {
-            if (input.value.trim() === '') allFilled = false;
-        });
-        if (nextBtn) nextBtn.disabled = !allFilled;
-        return allFilled;
+    function checkFilled() {
+        var all = true;
+        inputs.forEach(function(inp) { if (inp.value.trim() === '') all = false; });
+        if (nextBtn) nextBtn.disabled = !all;
     }
-
-    inputs.forEach(function(input) {
-        input.addEventListener('input', checkNamesFilled);
-        input.addEventListener('change', checkNamesFilled);
-    });
-
-    setTimeout(checkNamesFilled, 100);
+    inputs.forEach(function(inp) { inp.addEventListener('input', checkFilled); inp.addEventListener('change', checkFilled); });
+    setTimeout(checkFilled, 100);
 }
 
-function buildPlayerRows(players, renderPlayerBlock) {
-    var container = document.createElement('div');
-    container.style.cssText = 'display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 1000px; margin: 0 auto;';
-
-    var playerCount = players.length;
-
-    if (playerCount === 1) {
-        var row1 = document.createElement('div');
-        row1.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%;';
-        row1.appendChild(renderPlayerBlock(players[0], 0));
-        container.appendChild(row1);
+function buildPlayerRows(players, renderBlock) {
+    var c = document.createElement('div');
+    c.style.cssText = 'display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 1000px; margin: 0 auto;';
+    if (players.length === 1) {
+        var r = document.createElement('div');
+        r.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%;';
+        r.appendChild(renderBlock(players[0], 0));
+        c.appendChild(r);
     } else {
-        for (var i = 0; i < playerCount; i += 2) {
+        for (var i = 0; i < players.length; i += 2) {
             var row = document.createElement('div');
             row.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: wrap;';
-            row.appendChild(renderPlayerBlock(players[i], i));
-            if (i + 1 < playerCount) {
-                row.appendChild(renderPlayerBlock(players[i + 1], i + 1));
-            }
-            container.appendChild(row);
+            row.appendChild(renderBlock(players[i], i));
+            if (i + 1 < players.length) row.appendChild(renderBlock(players[i + 1], i + 1));
+            c.appendChild(row);
         }
     }
-    return container;
+    return c;
 }
 
 // ============================================================
-// ШАГ 3: ВЫБОР СНАРЯЖЕНИЯ
+// ШАГ 3 — СНАРЯЖЕНИЕ
 // ============================================================
 function renderEscEquipment() {
     var container = document.getElementById('escStep3Content');
@@ -2123,7 +1508,7 @@ function renderEscEquipment() {
         return;
     }
 
-    var equipColors = {
+    var colors = {
         'Оглушение': { bg: 'rgba(231, 76, 60, 0.2)', border: '#e74c3c' },
         'Завеса': { bg: 'rgba(155, 89, 182, 0.2)', border: '#9b59b6' },
         'Исцеление': { bg: 'rgba(26, 188, 156, 0.2)', border: '#1abc9c' },
@@ -2132,16 +1517,7 @@ function renderEscEquipment() {
         'Баррикада': { bg: 'rgba(241, 196, 15, 0.2)', border: '#f1c40f' }
     };
 
-    var header = document.createElement('div');
-    header.style.cssText = 'text-align: center; margin-bottom: 20px;';
-    header.innerHTML = `
-        <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">Шаг 3</div>
-        <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор снаряжения</div>
-        <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
-    `;
-    container.appendChild(header);
-
-    function renderPlayerBlock(player, idx) {
+    function renderBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
@@ -2155,48 +1531,42 @@ function renderEscEquipment() {
         grid.className = 'player-equip-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
-        var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
-        var selectedEquip = shuffled.slice(0, 3);
+        var shuf = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
+        var sel = shuf.slice(0, 3);
 
-        selectedEquip.forEach(function(eq) {
+        sel.forEach(function(eq) {
             var item = document.createElement('div');
             item.className = 'selection-item';
-            item.dataset.player = idx;
             item.dataset.equip = eq.name;
-            var isSelected = escState.equipSelections[idx] === eq.name;
-            var colors = equipColors[eq.name] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
+            var isSel = escState.equipSelections[idx] === eq.name;
+            var col = colors[eq.name] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
 
             item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-            if (isSelected) {
-                item.style.borderColor = colors.border;
-                item.style.background = colors.bg;
-            }
+            if (isSel) { item.style.borderColor = col.border; item.style.background = col.bg; }
 
             item.innerHTML = `
                 <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                 <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${eq.name}</div>
-                <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
+                <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSel ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
             `;
 
             item.addEventListener('click', function() {
-                var playerGrid = this.closest('.player-block').querySelector('.player-equip-grid');
-                if (playerGrid) {
-                    playerGrid.querySelectorAll('.selection-item').forEach(function(el) {
+                var pg = this.closest('.player-block').querySelector('.player-equip-grid');
+                if (pg) {
+                    pg.querySelectorAll('.selection-item').forEach(function(el) {
                         el.classList.remove('selected');
                         el.style.borderColor = 'rgba(255,255,255,0.06)';
                         el.style.background = 'rgba(255,255,255,0.03)';
-                        var check = el.querySelector('.check-mark');
-                        if (check) check.style.display = 'none';
+                        var c = el.querySelector('.check-mark'); if (c) c.style.display = 'none';
                     });
                 }
                 this.classList.add('selected');
-                var eqName = this.dataset.equip;
-                var eqColors = equipColors[eqName] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
-                this.style.borderColor = eqColors.border;
-                this.style.background = eqColors.bg;
-                var check = this.querySelector('.check-mark');
-                if (check) check.style.display = 'block';
-                escState.equipSelections[idx] = eq.name;
+                var name = this.dataset.equip;
+                var cc = colors[name] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
+                this.style.borderColor = cc.border;
+                this.style.background = cc.bg;
+                var c = this.querySelector('.check-mark'); if (c) c.style.display = 'block';
+                escState.equipSelections[idx] = name;
                 checkEscEquipReady();
             });
             grid.appendChild(item);
@@ -2205,21 +1575,18 @@ function renderEscEquipment() {
         return section;
     }
 
-    var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
-    container.appendChild(rowsContainer);
+    container.appendChild(buildPlayerRows(escState.players, renderBlock));
     checkEscEquipReady();
 }
 
 function checkEscEquipReady() {
-    var allSelected = escState.players.every(function(_, idx) {
-        return escState.equipSelections[idx] !== undefined;
-    });
+    var all = escState.players.every(function(_, idx) { return escState.equipSelections[idx] !== undefined; });
     var btn = document.getElementById('escStep3Next');
-    if (btn) btn.disabled = !allSelected;
+    if (btn) btn.disabled = !all;
 }
 
 // ============================================================
-// ШАГ 4: ВЫБОР АМФ
+// ШАГ 4 — АМФЫ
 // ============================================================
 function renderEscAmps() {
     var container = document.getElementById('escStep4Content');
@@ -2231,16 +1598,7 @@ function renderEscAmps() {
         return;
     }
 
-    var header = document.createElement('div');
-    header.style.cssText = 'text-align: center; margin-bottom: 20px;';
-    header.innerHTML = `
-        <div style="font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase;">Шаг 4</div>
-        <div style="font-size: 1.5rem; font-weight: 700; color: #ffbc9a; margin-top: 2px;">Выбор АМФ</div>
-        <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных амфы на выбор</div>
-    `;
-    container.appendChild(header);
-
-    function renderPlayerBlock(player, idx) {
+    function renderBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
@@ -2250,11 +1608,8 @@ function renderEscAmps() {
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
 
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(idx, cat);
-        });
-
-        if (availableCategories.length === 0) {
+        var availCats = ampCategories.filter(function(c) { return !isCategoryComplete(idx, c); });
+        if (availCats.length === 0) {
             var msg = document.createElement('div');
             msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
             msg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
@@ -2262,70 +1617,61 @@ function renderEscAmps() {
             return section;
         }
 
-        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-
+        var randCat = availCats[Math.floor(Math.random() * availCats.length)];
         var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randCat;
         section.appendChild(catLabel);
 
         var grid = document.createElement('div');
         grid.className = 'player-amp-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
-        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
-        var selectedAmps = shuffled.slice(0, 3);
+        var available = getAvailableAmpsByCategory(idx, randCat);
+        var shuf = available.slice().sort(function() { return Math.random() - 0.5; });
+        var sel = shuf.slice(0, 3);
 
-        if (selectedAmps.length === 0) {
+        if (sel.length === 0) {
             for (var i = 0; i < 3; i++) {
-                var emptyItem = document.createElement('div');
-                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
-                grid.appendChild(emptyItem);
+                var emp = document.createElement('div');
+                emp.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                emp.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                grid.appendChild(emp);
             }
         } else {
-            selectedAmps.forEach(function(amp) {
+            sel.forEach(function(amp) {
                 var item = document.createElement('div');
                 item.className = 'selection-item';
-                item.dataset.player = idx;
-                item.dataset.amp = amp.name;
-                var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
-                var isSelected = currentAmp === amp.name;
+                var current = escState.ampSelections[idx] ? escState.ampSelections[idx][randCat] : null;
+                var isSel = current === amp.name;
 
                 item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-                if (isSelected) {
-                    item.style.borderColor = '#e16d48';
-                    item.style.background = 'rgba(220,90,50,0.1)';
-                }
+                if (isSel) { item.style.borderColor = '#e16d48'; item.style.background = 'rgba(220,90,50,0.1)'; }
 
                 item.innerHTML = `
                     <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                     <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
                     <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
-                    <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
+                    <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSel ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
                 `;
 
                 item.addEventListener('click', function() {
-                    var playerGrid = this.closest('.player-block').querySelector('.player-amp-grid');
-                    if (playerGrid) {
-                        playerGrid.querySelectorAll('.selection-item').forEach(function(el) {
+                    var pg = this.closest('.player-block').querySelector('.player-amp-grid');
+                    if (pg) {
+                        pg.querySelectorAll('.selection-item').forEach(function(el) {
                             el.classList.remove('selected');
                             el.style.borderColor = 'rgba(255,255,255,0.06)';
                             el.style.background = 'rgba(255,255,255,0.03)';
-                            var check = el.querySelector('.check-mark');
-                            if (check) check.style.display = 'none';
+                            var c = el.querySelector('.check-mark'); if (c) c.style.display = 'none';
                         });
                     }
                     this.classList.add('selected');
                     this.style.borderColor = '#e16d48';
                     this.style.background = 'rgba(220,90,50,0.1)';
-                    var check = this.querySelector('.check-mark');
-                    if (check) check.style.display = 'block';
+                    var c = this.querySelector('.check-mark'); if (c) c.style.display = 'block';
                     if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                    escState.ampSelections[idx][randomCategory] = amp.name;
+                    escState.ampSelections[idx][randCat] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
-                    checkEscAmpsReady();
                 });
                 grid.appendChild(item);
             });
@@ -2334,39 +1680,28 @@ function renderEscAmps() {
         return section;
     }
 
-    var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
-    container.appendChild(rowsContainer);
-    checkEscAmpsReady();
-}
-
-function checkEscAmpsReady() {
-    var btn = document.getElementById('escStep4Next');
-    if (btn) btn.disabled = false;
+    container.appendChild(buildPlayerRows(escState.players, renderBlock));
 }
 
 // ============================================================
-// ПРЕВЬЮ И РЕЗУЛЬТАТ
+// ПРЕВЬЮ-МОДАЛКА
 // ============================================================
 function showPreviewModal(trialName, mapName, variators, level) {
-    var oldModal = document.getElementById('previewModal');
-    if (oldModal) oldModal.remove();
+    var old = document.getElementById('previewModal');
+    if (old) old.remove();
 
     var overlay = document.createElement('div');
     overlay.id = 'previewModal';
-    overlay.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    overlay.style.cssText = `position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center;
-        z-index: 2000; cursor: pointer; animation: fadeInPreview 0.5s ease;
-    `;
+        z-index: 2000; cursor: pointer; animation: fadeInPreview 0.5s ease;`;
 
     var modalContent = document.createElement('div');
-    modalContent.style.cssText = `
-        background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+    modalContent.style.cssText = `background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
         border-radius: 24px; padding: 35px 45px; max-width: 1000px; width: 96%;
         text-align: center; border: 1px solid rgba(220, 90, 50, 0.3);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-        animation: slideUpPreview 0.6s ease;
-    `;
+        animation: slideUpPreview 0.6s ease;`;
 
     var style = document.createElement('style');
     style.textContent = `
@@ -2374,29 +1709,31 @@ function showPreviewModal(trialName, mapName, variators, level) {
         @keyframes slideUpPreview { from { opacity: 0; transform: translateY(40px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         @keyframes slideDownPreview { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(40px) scale(0.95); } }
         .preview-variator-item {
-            display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
             animation: variatorAppear 0.4s ease forwards; opacity: 0; transform: scale(0.8);
-            margin: 0 5px; max-width: 95px; min-width: 75px; flex: 0 1 auto;
+            margin: 0; flex: 1 1 0; min-width: 0; max-width: 100px;
         }
         @keyframes variatorAppear { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         .preview-variator-name {
             font-weight: 700; color: #ffbc9a; text-align: center;
-            max-width: 95px; line-height: 1.2; display: block;
-            text-transform: uppercase; letter-spacing: 0.3px;
+            width: 100%; line-height: 1.15; display: block;
+            text-transform: uppercase; letter-spacing: 0.2px;
+            word-break: break-word;
         }
         .preview-variator-img {
-            width: 70px; height: 70px; object-fit: contain;
-            padding: 8px;
+            width: 55px; height: 55px; object-fit: contain;
+            padding: 6px;
             background: rgba(20, 15, 28, 0.7);
             border: 1px solid rgba(220, 90, 50, 0.25);
-            border-radius: 12px;
+            border-radius: 10px;
         }
         .preview-variators-container {
-            display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-            gap: 14px 18px; padding: 20px 0 16px 0;
+            display: flex; flex-wrap: nowrap; justify-content: center; align-items: flex-start;
+            gap: 8px; padding: 16px 0 12px 0;
             border-top: 1px solid rgba(220,90,50,0.15);
             border-bottom: 1px solid rgba(220,90,50,0.15);
-            margin-bottom: 18px; min-height: 90px;
+            margin-bottom: 18px; min-height: 80px;
+            overflow: hidden;
         }
         .preview-level-number { font-size: 3rem; font-weight: 900; color: #e16d48; letter-spacing: 2px; margin-bottom: 8px; }
         .preview-trial-name { font-size: 2rem; font-weight: 900; color: #ffbc9a; letter-spacing: 2px; margin-bottom: 4px; }
@@ -2409,11 +1746,11 @@ function showPreviewModal(trialName, mapName, variators, level) {
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
-        var fontSize = '0.62rem';
+        var fontSize = '0.5rem';
 
         return `
-            <div class="preview-variator-item" style="animation-delay: ${delay}s; max-width: 95px;">
-                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
+            <div class="preview-variator-item" style="animation-delay: ${delay}s;">
+                <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/55x55/1a1a2e/e16d48?text=?'">
                 <span class="preview-variator-name" style="font-size:${fontSize};">${nameUpper}</span>
             </div>
         `;
@@ -2433,56 +1770,48 @@ function showPreviewModal(trialName, mapName, variators, level) {
 
     overlay.addEventListener('click', function() {
         modalContent.style.animation = 'slideDownPreview 0.3s ease forwards';
-        setTimeout(function() {
-            overlay.remove();
-            showFullResult();
-        }, 350);
+        setTimeout(function() { overlay.remove(); showFullResult(); }, 350);
     });
 }
 
 function showFullResult() {
-    var resultContainer = document.getElementById('escResult');
-    if (resultContainer) {
-        resultContainer.style.display = 'block';
-        resultContainer.classList.add('active');
-        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var rc = document.getElementById('escResult');
+    if (rc) {
+        rc.style.display = 'block';
+        rc.classList.add('active');
+        rc.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
 function generateEscResult() {
-    var selected = getMapAndTrial(escState.level);
-    if (!selected) return;
+    var sel = getMapAndTrial(escState.level);
+    if (!sel) return;
 
-    var mapName = selected.mapName;
-    var mapImage = selected.mapImage;
-    var trial = selected.trial;
+    escState.map = { name: sel.mapName, image: sel.mapImage };
+    escState.trial = sel.trial;
 
-    escState.map = { name: mapName, image: mapImage };
-    escState.trial = trial;
-
-    var difficulty = getDifficultyByLevel(escState.level);
-    escState.difficulty = difficulty.name;
-    escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
+    var d = getDifficultyByLevel(escState.level);
+    escState.difficulty = d.name;
+    escState.variators = getVariatorsForLevel(escState.level, sel.mapName, escState.playerCount);
 
     document.querySelectorAll('.step-container').forEach(function(el) { el.classList.add('hidden'); });
 
-    showPreviewModal(trial.name, mapName, escState.variators, escState.level);
-    prepareFullResult(mapName, mapImage, trial, difficulty);
+    showPreviewModal(sel.trial.name, sel.mapName, escState.variators, escState.level);
+    prepareFullResult(sel.mapName, sel.mapImage, sel.trial, d);
 }
 
 function prepareFullResult(mapName, mapImage, trial, difficulty) {
-    var resultContainer = document.getElementById('escResult');
-    if (!resultContainer) return;
-    resultContainer.style.display = 'none';
-    resultContainer.classList.remove('active');
+    var rc = document.getElementById('escResult');
+    if (!rc) return;
+    rc.style.display = 'none';
+    rc.classList.remove('active');
 
-    var resultMap = document.getElementById('escResultMap');
-    if (resultMap) {
-        var trialImage = trial.image || mapImage;
-
-        resultMap.innerHTML = `
+    var rm = document.getElementById('escResultMap');
+    if (rm) {
+        var ti = trial.image || mapImage;
+        rm.innerHTML = `
             <div class="result-map-row">
-                <img class="map-image" src="${trialImage}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
+                <img class="map-image" src="${ti}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
                 <div class="result-map-info" style="flex:1; min-width:200px;">
                     <div class="map-label" style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px;"><i class="fas fa-map"></i> Карта</div>
                     <div class="trial-name" style="font-size:1.6rem; color:#e16d48; font-weight:900; margin:0.2rem 0 0.1rem; letter-spacing:1px;">${trial.name.toUpperCase()}</div>
@@ -2498,16 +1827,13 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
         `;
     }
 
-    var resultVariators = document.getElementById('escResultVariators');
-    if (resultVariators) {
-        resultVariators.innerHTML = escState.variators.map(function(v) {
-            var nameUpper = v.name.toUpperCase();
-            var fontSize = '0.62rem';
-
+    var rv = document.getElementById('escResultVariators');
+    if (rv) {
+        rv.innerHTML = escState.variators.map(function(v) {
             return `
                 <div class="var-item">
                     <img src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
-                    <span class="var-name" style="font-size:${fontSize};">${nameUpper}</span>
+                    <span class="var-name">${v.name.toUpperCase()}</span>
                 </div>
             `;
         }).join('');
@@ -2523,114 +1849,104 @@ function renderEscResultPlayers() {
 
     escState.players.forEach(function(player, idx) {
         var equip = escState.equipSelections[idx] || 'Не выбрано';
-        var equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
+        var eData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
         var allUsed = checkAllAmpsUsed(idx);
 
         var section = document.createElement('div');
         section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
 
-        var toggleBtn = document.createElement('div');
-        toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; background: rgba(0,0,0,0.15);';
-        toggleBtn.innerHTML = `
+        var toggle = document.createElement('div');
+        toggle.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; background: rgba(0,0,0,0.15);';
+        toggle.innerHTML = `
             <div style="display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1;">
                 <i class="fas fa-user" style="color: #e16d48; font-size: 1rem;"></i>
                 <span style="font-weight: 700; color: #ffbc9a; font-size: ${player.length > 15 ? '0.8rem' : '1rem'}; letter-spacing: 0.5px; white-space: nowrap;">${player}</span>
                 <span style="font-size: 0.65rem; color: #888; background: rgba(0,0,0,0.3); padding: 2px 12px; border-radius: 12px;">${allUsed ? '✅ Все амфы' : '⏳ В процессе'}</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-                ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:32px; height:32px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:3px;" onerror="this.style.display='none'">` : ''}
+                ${eData ? `<img src="${eData.image}" alt="${equip}" style="width:32px; height:32px; object-fit:contain; border-radius:8px; background:rgba(0,0,0,0.3); padding:3px;" onerror="this.style.display='none'">` : ''}
                 <span style="font-size: 0.8rem; color: #ffbc9a; font-weight: 500; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${equip}</span>
                 <i class="fas fa-chevron-down" style="color: #888; font-size: 0.9rem; transition: transform 0.3s;"></i>
             </div>
         `;
-        section.appendChild(toggleBtn);
+        section.appendChild(toggle);
 
         var content = document.createElement('div');
         content.style.cssText = 'padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
         content.id = 'resultContent_' + idx;
 
-        var innerContent = document.createElement('div');
-        innerContent.style.cssText = 'padding: 6px 0 16px 0;';
+        var inner = document.createElement('div');
+        inner.style.cssText = 'padding: 6px 0 16px 0;';
 
-        var equipBlock = document.createElement('div');
-        equipBlock.style.cssText = 'display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);';
-        equipBlock.innerHTML = `
-            ${equipData ? `<img src="${equipData.image}" alt="${equip}" style="width:48px; height:48px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:5px;" onerror="this.style.display='none'">` : ''}
+        var eqBlock = document.createElement('div');
+        eqBlock.style.cssText = 'display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);';
+        eqBlock.innerHTML = `
+            ${eData ? `<img src="${eData.image}" alt="${equip}" style="width:48px; height:48px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:5px;" onerror="this.style.display='none'">` : ''}
             <div>
                 <div style="font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Снаряжение</div>
                 <div style="font-size: 1rem; color: #ffbc9a; font-weight: 600;">${equip}</div>
             </div>
         `;
-        innerContent.appendChild(equipBlock);
+        inner.appendChild(eqBlock);
 
         var ampsGrid = document.createElement('div');
         ampsGrid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;';
 
-        ampCategories.forEach(function(category) {
-            var ampName = getAmpForCategory(idx, category);
+        ampCategories.forEach(function(cat) {
+            var ampName = getAmpForCategory(idx, cat);
             var ampData = typeof ampsData !== 'undefined' ? ampsData.find(function(a) { return a.name === ampName; }) : null;
-            var isComplete = isCategoryComplete(idx, category);
+            var isComplete = isCategoryComplete(idx, cat);
 
             var block = document.createElement('div');
             block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;';
 
             if (!isComplete) {
                 block.style.cursor = 'pointer';
-                block.addEventListener('mouseenter', function() {
-                    this.style.borderColor = '#e16d48';
-                    this.style.background = 'rgba(220,90,50,0.1)';
-                });
-                block.addEventListener('mouseleave', function() {
-                    this.style.borderColor = 'rgba(255,255,255,0.06)';
-                    this.style.background = 'rgba(255,255,255,0.04)';
-                });
-                block.addEventListener('click', function() {
-                    openAmpModal(idx, category);
-                });
+                block.addEventListener('mouseenter', function() { this.style.borderColor = '#e16d48'; this.style.background = 'rgba(220,90,50,0.1)'; });
+                block.addEventListener('mouseleave', function() { this.style.borderColor = 'rgba(255,255,255,0.06)'; this.style.background = 'rgba(255,255,255,0.04)'; });
+                block.addEventListener('click', function() { openAmpModal(idx, cat); });
             } else {
                 block.style.opacity = '0.7';
             }
 
-            var categoryName = document.createElement('div');
-            categoryName.style.cssText = 'font-size: 0.55rem; color: #e16d48; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 4px;';
-            categoryName.textContent = category;
-            block.appendChild(categoryName);
+            var catName = document.createElement('div');
+            catName.style.cssText = 'font-size: 0.55rem; color: #e16d48; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-bottom: 4px;';
+            catName.textContent = cat;
+            block.appendChild(catName);
 
             if (isComplete) {
-                var complete = document.createElement('div');
-                complete.style.cssText = 'font-size: 0.5rem; color: #2ecc71; font-weight: 500;';
-                complete.innerHTML = '<i class="fas fa-check-circle"></i> Все';
-                block.appendChild(complete);
+                var cmp = document.createElement('div');
+                cmp.style.cssText = 'font-size: 0.5rem; color: #2ecc71; font-weight: 500;';
+                cmp.innerHTML = '<i class="fas fa-check-circle"></i> Все';
+                block.appendChild(cmp);
             } else if (ampData) {
-                var ampNameEl = document.createElement('div');
-                ampNameEl.style.cssText = 'font-size: 0.75rem; color: #ffbc9a; font-weight: 600; line-height: 1.2;';
-                ampNameEl.textContent = ampData.name;
-                block.appendChild(ampNameEl);
-
-                var hint = document.createElement('div');
-                hint.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
-                hint.textContent = 'нажмите, чтобы сменить';
-                block.appendChild(hint);
+                var a = document.createElement('div');
+                a.style.cssText = 'font-size: 0.75rem; color: #ffbc9a; font-weight: 600; line-height: 1.2;';
+                a.textContent = ampData.name;
+                block.appendChild(a);
+                var h = document.createElement('div');
+                h.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
+                h.textContent = 'нажмите, чтобы сменить';
+                block.appendChild(h);
             } else {
-                var empty = document.createElement('div');
-                empty.style.cssText = 'font-size: 0.7rem; color: #555; font-weight: 500;';
-                empty.textContent = 'Не выбрана';
-                block.appendChild(empty);
-
-                var hint2 = document.createElement('div');
-                hint2.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
-                hint2.textContent = 'нажмите, чтобы выбрать';
-                block.appendChild(hint2);
+                var e = document.createElement('div');
+                e.style.cssText = 'font-size: 0.7rem; color: #555; font-weight: 500;';
+                e.textContent = 'Не выбрана';
+                block.appendChild(e);
+                var h2 = document.createElement('div');
+                h2.style.cssText = 'font-size: 0.5rem; color: #666; margin-top: 4px; font-style: italic;';
+                h2.textContent = 'нажмите, чтобы выбрать';
+                block.appendChild(h2);
             }
             ampsGrid.appendChild(block);
         });
-        innerContent.appendChild(ampsGrid);
-        content.appendChild(innerContent);
+        inner.appendChild(ampsGrid);
+        content.appendChild(inner);
         section.appendChild(content);
         container.appendChild(section);
 
         var isOpen = false;
-        toggleBtn.onclick = function() {
+        toggle.onclick = function() {
             isOpen = !isOpen;
             if (isOpen) {
                 content.style.maxHeight = content.scrollHeight + 30 + 'px';
@@ -2649,40 +1965,26 @@ function renderEscResultPlayers() {
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 function initEscalation() {
-    console.log('🚀 Запуск эскалации...');
-
     if (!checkDataLoaded()) {
-        console.log('⏳ Ожидание загрузки данных...');
         var checkInterval = setInterval(function() {
-            if (checkDataLoaded()) {
-                clearInterval(checkInterval);
-                doInit();
-            }
+            if (checkDataLoaded()) { clearInterval(checkInterval); doInit(); }
         }, 500);
-
-        setTimeout(function() {
-            clearInterval(checkInterval);
-            console.warn('⚠️ Таймаут загрузки данных, пробуем инициализировать');
-            doInit();
-        }, 10000);
+        setTimeout(function() { clearInterval(checkInterval); doInit(); }, 10000);
         return;
     }
-
     doInit();
 }
 
 function doInit() {
-    console.log('✅ Данные загружены, инициализация...');
-
     var options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
-    var step1Next = document.getElementById('escStep1Next');
-    var step2Back = document.getElementById('escStep2Back');
-    var step2Next = document.getElementById('escStep2Next');
-    var step3Back = document.getElementById('escStep3Back');
-    var step3Next = document.getElementById('escStep3Next');
-    var step4Back = document.getElementById('escStep4Back');
-    var step4Next = document.getElementById('escStep4Next');
-    var nextLevelBtn = document.getElementById('escNextLevelBtn');
+    var s1Next = document.getElementById('escStep1Next');
+    var s2Back = document.getElementById('escStep2Back');
+    var s2Next = document.getElementById('escStep2Next');
+    var s3Back = document.getElementById('escStep3Back');
+    var s3Next = document.getElementById('escStep3Next');
+    var s4Back = document.getElementById('escStep4Back');
+    var s4Next = document.getElementById('escStep4Next');
+    var nextLevel = document.getElementById('escNextLevelBtn');
     var exitBtn = document.getElementById('escExitBtn');
 
     if (options) {
@@ -2691,384 +1993,239 @@ function doInit() {
                 options.forEach(function(b) { b.classList.remove('selected'); });
                 this.classList.add('selected');
                 escState.playerCount = parseInt(this.dataset.count);
-                if (step1Next) step1Next.disabled = false;
+                if (s1Next) s1Next.disabled = false;
             });
         });
     }
 
-    if (step1Next) {
-        step1Next.addEventListener('click', function() {
-            goToEscStep(2);
-            renderEscPlayerNames();
+    if (s1Next) s1Next.addEventListener('click', function() { goToEscStep(2); renderEscPlayerNames(); });
+    if (s2Back) s2Back.addEventListener('click', function() { goToEscStep(1); });
+    if (s2Next) s2Next.addEventListener('click', function() {
+        var inputs = document.querySelectorAll('#escPlayerNameInputs input');
+        escState.players = [];
+        inputs.forEach(function(input, i) { escState.players.push(input.value.trim() || 'Игрок ' + (i + 1)); });
+        escState.players.forEach(function(_, idx) {
+            if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+            if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
         });
-    }
-
-    if (step2Back) {
-        step2Back.addEventListener('click', function() { goToEscStep(1); });
-    }
-
-    if (step2Next) {
-        step2Next.addEventListener('click', function() {
-            var inputs = document.querySelectorAll('#escPlayerNameInputs input');
-            escState.players = [];
-            inputs.forEach(function(input, i) {
-                escState.players.push(input.value.trim() || 'Игрок ' + (i + 1));
-            });
-            escState.players.forEach(function(_, idx) {
-                if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                if (!escState.unlockedAmps[idx]) escState.unlockedAmps[idx] = [];
-                escState.allAmpsUsed[idx] = false;
-            });
-            goToEscStep(3);
-            renderEscEquipment();
-        });
-    }
-
-    if (step3Back) {
-        step3Back.addEventListener('click', function() { goToEscStep(2); });
-    }
-
-    if (step3Next) {
-        step3Next.addEventListener('click', function() {
-            goToEscStep(4);
-            renderEscAmps();
-        });
-    }
-
-    if (step4Back) {
-        step4Back.addEventListener('click', function() { goToEscStep(3); });
-    }
-
-    if (step4Next) {
-        step4Next.addEventListener('click', function() {
-            escState.players.forEach(function(_, idx) {
-                var selected = escState.ampSelections[idx] || {};
-                Object.keys(selected).forEach(function(category) {
-                    var ampName = selected[category];
-                    if (ampName) {
-                        if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                        if (escState.usedAmps[idx].indexOf(ampName) === -1) {
-                            escState.usedAmps[idx].push(ampName);
-                        }
-                        unlockAmpForPlayer(idx, ampName);
-                    }
-                });
-            });
-            generateEscResult();
-        });
-    }
-
-    if (nextLevelBtn) {
-        nextLevelBtn.addEventListener('click', function() {
-            escState.level++;
-            updateLevelCounter();
-
-            var hasAvailable = false;
-            escState.players.forEach(function(_, idx) {
-                if (!areAllCategoriesComplete(idx)) {
-                    hasAvailable = true;
+        goToEscStep(3);
+        renderEscEquipment();
+    });
+    if (s3Back) s3Back.addEventListener('click', function() { goToEscStep(2); });
+    if (s3Next) s3Next.addEventListener('click', function() { goToEscStep(4); renderEscAmps(); });
+    if (s4Back) s4Back.addEventListener('click', function() { goToEscStep(3); });
+    if (s4Next) s4Next.addEventListener('click', function() {
+        escState.players.forEach(function(_, idx) {
+            var sel = escState.ampSelections[idx] || {};
+            Object.keys(sel).forEach(function(cat) {
+                var n = sel[cat];
+                if (n) {
+                    if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+                    if (escState.usedAmps[idx].indexOf(n) === -1) escState.usedAmps[idx].push(n);
+                    unlockAmpForPlayer(idx, n);
                 }
             });
+        });
+        generateEscResult();
+    });
 
-            if (hasAvailable) {
-                showBreakModal();
-            } else {
-                generateEscResult();
-            }
+    if (nextLevel) {
+        nextLevel.addEventListener('click', function() {
+            escState.level++;
+            updateLevelCounter();
+            var has = false;
+            escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx)) has = true; });
+            if (has) showBreakModal(); else generateEscResult();
         });
     }
 
     if (exitBtn) {
         exitBtn.addEventListener('click', function() {
-            var modal = document.getElementById('confirmModal');
-            if (modal) modal.classList.add('active');
+            var m = document.getElementById('confirmModal');
+            if (m) m.classList.add('active');
         });
     }
 
-    var confirmCancel = document.getElementById('confirmCancel');
-    var confirmExit = document.getElementById('confirmExit');
-    var confirmModal = document.getElementById('confirmModal');
+    var cCancel = document.getElementById('confirmCancel');
+    var cExit = document.getElementById('confirmExit');
+    var cModal = document.getElementById('confirmModal');
 
-    if (confirmCancel) {
-        confirmCancel.addEventListener('click', function() {
-            if (confirmModal) confirmModal.classList.remove('active');
-        });
-    }
-
-    if (confirmExit) {
-        confirmExit.addEventListener('click', function() {
-            if (confirmModal) confirmModal.classList.remove('active');
-            location.reload();
-        });
-    }
-
-    if (confirmModal) {
-        confirmModal.addEventListener('click', function(e) {
-            if (e.target === this) this.classList.remove('active');
-        });
-    }
+    if (cCancel) cCancel.addEventListener('click', function() { if (cModal) cModal.classList.remove('active'); });
+    if (cExit) cExit.addEventListener('click', function() { if (cModal) cModal.classList.remove('active'); location.reload(); });
+    if (cModal) cModal.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
 
     updateLevelCounter();
-    console.log('✅ Эскалация инициализирована!');
 }
 
+// ============================================================
+// МОДАЛКА СМЕНЫ АМФЫ
+// ============================================================
 function initAmpModal() {
     var modal = document.getElementById('ampModal');
     var closeBtn = document.getElementById('ampModalClose');
     var confirmBtn = document.getElementById('ampModalConfirm');
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            if (modal) {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
+    if (closeBtn) closeBtn.addEventListener('click', function() {
+        if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+    });
+    if (modal) modal.addEventListener('click', function(e) {
+        if (e.target === modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+    });
+    if (confirmBtn) confirmBtn.addEventListener('click', function() {
+        if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
+            var idx = modalState.playerIndex;
+            var cat = modalState.selectedCategory;
+            var cur = escState.ampSelections[idx] || {};
+            var old = cur[cat];
+            if (old === modalState.selectedAmp) {
+                if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+                return;
             }
-        });
-    }
-
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
+            if (old && escState.usedAmps[idx]) {
+                escState.usedAmps[idx] = escState.usedAmps[idx].filter(function(a) { return a !== old; });
             }
-        });
-    }
-
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
-            if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
-                var idx = modalState.playerIndex;
-                var category = modalState.selectedCategory;
-
-                var currentAmps = escState.ampSelections[idx] || {};
-                var oldAmp = currentAmps[category];
-
-                if (oldAmp === modalState.selectedAmp) {
-                    if (modal) {
-                        modal.classList.remove('active');
-                        modal.style.display = 'none';
-                    }
-                    return;
-                }
-
-                if (oldAmp && escState.usedAmps[idx]) {
-                    escState.usedAmps[idx] = escState.usedAmps[idx].filter(function(a) { return a !== oldAmp; });
-                }
-
-                if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                escState.ampSelections[idx][category] = modalState.selectedAmp;
-
-                if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                if (escState.usedAmps[idx].indexOf(modalState.selectedAmp) === -1) {
-                    escState.usedAmps[idx].push(modalState.selectedAmp);
-                }
-                unlockAmpForPlayer(idx, modalState.selectedAmp);
-
-                renderEscResultPlayers();
-
-                if (modal) {
-                    modal.classList.remove('active');
-                    modal.style.display = 'none';
-                }
+            if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
+            escState.ampSelections[idx][cat] = modalState.selectedAmp;
+            if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
+            if (escState.usedAmps[idx].indexOf(modalState.selectedAmp) === -1) {
+                escState.usedAmps[idx].push(modalState.selectedAmp);
             }
-        });
-    }
+            unlockAmpForPlayer(idx, modalState.selectedAmp);
+            renderEscResultPlayers();
+            if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+        }
+    });
 }
 
-var modalState = {
-    playerIndex: null,
-    selectedAmp: null,
-    selectedCategory: "Инструмент"
-};
+var modalState = { playerIndex: null, selectedAmp: null, selectedCategory: "Инструмент" };
 
 function openAmpModal(playerIndex, category) {
-    if (checkAllAmpsUsed(playerIndex)) {
-        alert('Все улучшения уже применены. Смена амф невозможна.');
-        return;
-    }
+    if (checkAllAmpsUsed(playerIndex)) { alert('Все улучшения уже применены. Смена амф невозможна.'); return; }
+    if (isCategoryComplete(playerIndex, category)) { alert('Все амфы в этой категории уже использованы.'); return; }
 
-    if (isCategoryComplete(playerIndex, category)) {
-        alert('Все амфы в этой категории уже использованы.');
-        return;
-    }
-
-    var playerName = escState.players[playerIndex];
-    var currentAmp = getAmpForCategory(playerIndex, category);
-
+    var pName = escState.players[playerIndex];
+    var cur = getAmpForCategory(playerIndex, category);
     modalState.playerIndex = playerIndex;
     modalState.selectedCategory = category;
-    modalState.selectedAmp = currentAmp;
+    modalState.selectedAmp = cur;
 
-    var playerNameEl = document.getElementById('ampModalPlayerName');
-    if (playerNameEl) {
-        playerNameEl.textContent = playerName + ' — ' + category;
-    }
+    var pEl = document.getElementById('ampModalPlayerName');
+    if (pEl) pEl.textContent = pName + ' — ' + category;
 
-    var tabsContainer = document.getElementById('ampCategoryTabs');
-    if (tabsContainer) {
-        tabsContainer.innerHTML = '';
-
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(playerIndex, cat);
-        });
-
-        if (availableCategories.length === 0) {
+    var tabs = document.getElementById('ampCategoryTabs');
+    if (tabs) {
+        tabs.innerHTML = '';
+        var availCats = ampCategories.filter(function(c) { return !isCategoryComplete(playerIndex, c); });
+        if (availCats.length === 0) {
             var grid = document.getElementById('ampModalGrid');
-            if (grid) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; color: #2ecc71; padding: 2rem;">
-                        <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
-                        <div style="margin-top: 0.5rem;">Все улучшения применены</div>
-                    </div>
-                `;
-            }
-            var confirmBtn = document.getElementById('ampModalConfirm');
-            if (confirmBtn) confirmBtn.disabled = true;
-            var modal = document.getElementById('ampModal');
-            if (modal) {
-                modal.classList.add('active');
-                modal.style.display = 'flex';
-            }
+            if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#2ecc71;padding:2rem;"><i class="fas fa-check-circle" style="font-size:2rem;"></i><div style="margin-top:.5rem;">Все улучшения применены</div></div>`;
+            var cb = document.getElementById('ampModalConfirm');
+            if (cb) cb.disabled = true;
+            var m = document.getElementById('ampModal');
+            if (m) { m.classList.add('active'); m.style.display = 'flex'; }
             return;
         }
-
-        availableCategories.forEach(function(cat) {
-            var tab = document.createElement('button');
-            tab.textContent = cat;
-            tab.dataset.category = cat;
-            if (cat === category) {
-                tab.classList.add('active');
-            }
-            tab.addEventListener('click', function() {
-                if (tabsContainer) {
-                    tabsContainer.querySelectorAll('button').forEach(function(t) {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    var newCategory = this.dataset.category;
-                    modalState.selectedCategory = newCategory;
-                    modalState.selectedAmp = getAmpForCategory(playerIndex, newCategory);
-                    renderAmpModalGrid(playerIndex, newCategory);
-                }
+        availCats.forEach(function(c) {
+            var t = document.createElement('button');
+            t.textContent = c;
+            t.dataset.category = c;
+            if (c === category) t.classList.add('active');
+            t.addEventListener('click', function() {
+                tabs.querySelectorAll('button').forEach(function(x) { x.classList.remove('active'); });
+                this.classList.add('active');
+                modalState.selectedCategory = this.dataset.category;
+                modalState.selectedAmp = getAmpForCategory(playerIndex, this.dataset.category);
+                renderAmpModalGrid(playerIndex, this.dataset.category);
             });
-            tabsContainer.appendChild(tab);
+            tabs.appendChild(t);
         });
     }
 
     renderAmpModalGrid(playerIndex, category);
     var modal = document.getElementById('ampModal');
-    if (modal) {
-        modal.classList.add('active');
-        modal.style.display = 'flex';
-    }
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
 }
 
 function renderAmpModalGrid(playerIndex, category) {
     var grid = document.getElementById('ampModalGrid');
     if (!grid) return;
-
     grid.innerHTML = '';
 
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: #e16d48; padding: 2rem;">Ошибка: данные амф не загружены</div>';
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#e16d48;padding:2rem;">Ошибка: данные амф не загружены</div>';
         return;
     }
 
-    var categoryAmps = getAmpsByCategory(category);
+    var catAmps = getAmpsByCategory(category);
     var used = escState.usedAmps[playerIndex] || [];
     var unlocked = escState.unlockedAmps[playerIndex] || [];
-    var currentAmp = getAmpForCategory(playerIndex, category);
+    var curAmp = getAmpForCategory(playerIndex, category);
+    var hasAvail = false;
 
-    var hasAvailable = false;
-
-    categoryAmps.forEach(function(amp) {
-        var isUsed = used.indexOf(amp.name) !== -1;
+    catAmps.forEach(function(amp) {
         var isUnlocked = unlocked.indexOf(amp.name) !== -1;
-        var isCurrent = currentAmp === amp.name;
-
-        var isAvailable = isUnlocked || isCurrent;
+        var isCurrent = curAmp === amp.name;
+        var isAvail = isUnlocked || isCurrent;
 
         var item = document.createElement('div');
         item.className = 'amp-modal-item';
+        if (isCurrent) item.classList.add('selected');
 
-        if (isCurrent) {
-            item.classList.add('selected');
-        }
-
-        if (!isAvailable) {
+        if (!isAvail) {
             item.classList.add('locked');
             item.innerHTML = `
-                <div class="lock-overlay">
-                    <i class="fas fa-lock"></i>
-                    <span>Засекречено</span>
-                </div>
-                <img src="${amp.image}" alt="${amp.name}" style="opacity: 0.3;" onerror="this.src='https://placehold.co/65x65/1a1a2e/e16d48?text=?'">
+                <div class="lock-overlay"><i class="fas fa-lock"></i><span>Засекречено</span></div>
+                <img src="${amp.image}" alt="${amp.name}" style="opacity:0.3;" onerror="this.src='https://placehold.co/65x65/1a1a2e/e16d48?text=?'">
                 <div class="amp-name">${amp.name}</div>
                 <div class="amp-category-label">${amp.category}</div>
                 <div class="amp-status locked">🔒 Засекречено</div>
             `;
         } else {
-            hasAvailable = true;
+            hasAvail = true;
             item.innerHTML = `
                 <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/65x65/1a1a2e/e16d48?text=?'">
                 <div class="amp-name">${amp.name}</div>
                 <div class="amp-category-label">${amp.category}</div>
-                <div class="amp-status ${isCurrent ? 'current' : 'available'}">
-                    ${isCurrent ? '✓ Текущая' : 'Доступна'}
-                </div>
+                <div class="amp-status ${isCurrent ? 'current' : 'available'}">${isCurrent ? '✓ Текущая' : 'Доступна'}</div>
             `;
             item.addEventListener('click', function() {
-                if (this.classList.contains('locked')) return;
-                grid.querySelectorAll('.amp-modal-item').forEach(function(el) {
-                    el.classList.remove('selected');
-                });
+                grid.querySelectorAll('.amp-modal-item').forEach(function(el) { el.classList.remove('selected'); });
                 this.classList.add('selected');
                 modalState.selectedAmp = amp.name;
-                var confirmBtn = document.getElementById('ampModalConfirm');
-                if (confirmBtn) confirmBtn.disabled = false;
+                var cb = document.getElementById('ampModalConfirm');
+                if (cb) cb.disabled = false;
             });
         }
         grid.appendChild(item);
     });
 
-    if (!hasAvailable) {
-        var emptyMsg = document.createElement('div');
-        emptyMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; color: #888; padding: 2rem;';
-        emptyMsg.textContent = 'В этой категории нет доступных амф. Выберите другую категорию.';
-        grid.appendChild(emptyMsg);
+    if (!hasAvail) {
+        var e = document.createElement('div');
+        e.style.cssText = 'grid-column:1/-1;text-align:center;color:#888;padding:2rem;';
+        e.textContent = 'В этой категории нет доступных амф. Выберите другую категорию.';
+        grid.appendChild(e);
     }
 
-    var confirmBtn = document.getElementById('ampModalConfirm');
-    if (confirmBtn) confirmBtn.disabled = true;
+    var cb2 = document.getElementById('ampModalConfirm');
+    if (cb2) cb2.disabled = true;
 }
 
 // ============================================================
 // ПЕРЕРЫВ
 // ============================================================
 function showBreakModal() {
-    var hasAvailable = false;
-    escState.players.forEach(function(_, idx) {
-        if (!areAllCategoriesComplete(idx)) {
-            hasAvailable = true;
-        }
-    });
+    var has = false;
+    escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx)) has = true; });
+    if (!has) { generateEscResult(); return; }
 
-    if (!hasAvailable) {
-        generateEscResult();
-        return;
-    }
-
-    var oldModal = document.getElementById('breakModal');
-    if (oldModal) {
-        oldModal.remove();
-    }
+    var old = document.getElementById('breakModal');
+    if (old) old.remove();
 
     var overlay = document.createElement('div');
     overlay.className = 'amp-modal-overlay active';
     overlay.id = 'breakModal';
-    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; overflow-y: auto; padding: 20px;';
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1500; overflow-y: auto; padding: 20px;';
 
     var modal = document.createElement('div');
     modal.className = 'amp-modal';
@@ -3090,9 +2247,9 @@ function showBreakModal() {
     document.body.appendChild(overlay);
 
     var content = document.getElementById('breakModalContent');
-    var breakSelections = {};
+    var selections = {};
 
-    function renderBreakPlayerBlock(player, idx) {
+    function renderBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
@@ -3103,44 +2260,41 @@ function showBreakModal() {
         section.appendChild(title);
 
         if (areAllCategoriesComplete(idx)) {
-            var completeMsg = document.createElement('div');
-            completeMsg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
-            completeMsg.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
-            section.appendChild(completeMsg);
-            breakSelections[idx] = null;
+            var m = document.createElement('div');
+            m.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
+            m.innerHTML = '<i class="fas fa-check-circle"></i> Все улучшения применены';
+            section.appendChild(m);
+            selections[idx] = null;
             return section;
         }
 
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(idx, cat);
-        });
-        var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-
-        var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
-        var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
-        var displayAmps = shuffled.slice(0, 3);
+        var availCats = ampCategories.filter(function(c) { return !isCategoryComplete(idx, c); });
+        var randCat = availCats[Math.floor(Math.random() * availCats.length)];
+        var availAmps = getAvailableAmpsByCategory(idx, randCat);
+        var shuf = availAmps.slice().sort(function() { return Math.random() - 0.5; });
+        var display = shuf.slice(0, 3);
 
         var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
-        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
+        catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randCat;
         section.appendChild(catLabel);
 
         var grid = document.createElement('div');
         grid.className = 'player-break-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
 
-        breakSelections[idx] = null;
+        selections[idx] = null;
 
-        if (displayAmps.length === 0) {
+        if (display.length === 0) {
             for (var i = 0; i < 3; i++) {
-                var emptyItem = document.createElement('div');
-                emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
-                grid.appendChild(emptyItem);
+                var e = document.createElement('div');
+                e.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                e.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                grid.appendChild(e);
             }
-            breakSelections[idx] = 'skip';
+            selections[idx] = 'skip';
         } else {
-            displayAmps.forEach(function(amp) {
+            display.forEach(function(amp) {
                 var item = document.createElement('div');
                 item.className = 'selection-item';
                 item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
@@ -3150,28 +2304,22 @@ function showBreakModal() {
                     <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
                 `;
                 item.addEventListener('click', function() {
-                    var playerGrid = this.closest('.player-block').querySelector('.player-break-grid');
-                    if (playerGrid) {
-                        playerGrid.querySelectorAll('.selection-item').forEach(function(el) {
-                            el.style.borderColor = 'rgba(255,255,255,0.06)';
-                            el.style.background = 'rgba(255,255,255,0.03)';
-                        });
-                    }
+                    var pg = this.closest('.player-block').querySelector('.player-break-grid');
+                    if (pg) pg.querySelectorAll('.selection-item').forEach(function(el) { el.style.borderColor = 'rgba(255,255,255,0.06)'; el.style.background = 'rgba(255,255,255,0.03)'; });
                     this.style.borderColor = '#e16d48';
                     this.style.background = 'rgba(220,90,50,0.1)';
-                    breakSelections[idx] = amp.name;
+                    selections[idx] = amp.name;
                     unlockAmpForPlayer(idx, amp.name);
                     checkBreakReady();
                 });
                 grid.appendChild(item);
             });
-
-            if (displayAmps.length < 3) {
-                for (var j = displayAmps.length; j < 3; j++) {
-                    var emptyItem2 = document.createElement('div');
-                    emptyItem2.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                    emptyItem2.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
-                    grid.appendChild(emptyItem2);
+            if (display.length < 3) {
+                for (var j = display.length; j < 3; j++) {
+                    var e2 = document.createElement('div');
+                    e2.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
+                    e2.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
+                    grid.appendChild(e2);
                 }
             }
         }
@@ -3179,51 +2327,37 @@ function showBreakModal() {
         return section;
     }
 
-    var rowsContainer = buildPlayerRows(escState.players, renderBreakPlayerBlock);
-    content.appendChild(rowsContainer);
+    content.appendChild(buildPlayerRows(escState.players, renderBlock));
 
     function checkBreakReady() {
         var ready = true;
-        escState.players.forEach(function(_, idx) {
-            if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) {
-                ready = false;
-            }
-        });
-        var confirmBtn = document.getElementById('breakModalConfirm');
-        if (confirmBtn) {
-            confirmBtn.disabled = !ready;
-            if (ready) {
-                confirmBtn.style.background = 'linear-gradient(135deg, #e16d48, #c0392b)';
-                confirmBtn.style.color = '#fff';
-                confirmBtn.style.cursor = 'pointer';
-            } else {
-                confirmBtn.style.background = 'rgba(220,90,50,0.2)';
-                confirmBtn.style.color = '#888';
-                confirmBtn.style.cursor = 'default';
-            }
+        escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx) && !selections[idx]) ready = false; });
+        var btn = document.getElementById('breakModalConfirm');
+        if (btn) {
+            btn.disabled = !ready;
+            btn.style.background = ready ? 'linear-gradient(135deg, #e16d48, #c0392b)' : 'rgba(220,90,50,0.2)';
+            btn.style.color = ready ? '#fff' : '#888';
+            btn.style.cursor = ready ? 'pointer' : 'default';
         }
     }
     checkBreakReady();
 
-    var confirmBtn = document.getElementById('breakModalConfirm');
-    if (confirmBtn) {
-        confirmBtn.addEventListener('click', function() {
+    var btn = document.getElementById('breakModalConfirm');
+    if (btn) {
+        btn.addEventListener('click', function() {
             if (this.disabled) return;
             escState.players.forEach(function(_, idx) {
-                if (breakSelections[idx] && breakSelections[idx] !== 'skip') {
-                    var category = ampCategories.find(function(cat) {
-                        var amp = ampsData.find(function(a) { return a.name === breakSelections[idx]; });
-                        return amp && amp.category === cat;
+                if (selections[idx] && selections[idx] !== 'skip') {
+                    var cat = ampCategories.find(function(c) {
+                        var a = ampsData.find(function(x) { return x.name === selections[idx]; });
+                        return a && a.category === c;
                     });
-                    if (category) {
+                    if (cat) {
                         if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
-                        escState.ampSelections[idx][category] = breakSelections[idx];
-
+                        escState.ampSelections[idx][cat] = selections[idx];
                         if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
-                        if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
-                            escState.usedAmps[idx].push(breakSelections[idx]);
-                        }
-                        unlockAmpForPlayer(idx, breakSelections[idx]);
+                        if (escState.usedAmps[idx].indexOf(selections[idx]) === -1) escState.usedAmps[idx].push(selections[idx]);
+                        unlockAmpForPlayer(idx, selections[idx]);
                     }
                 }
             });
@@ -3234,7 +2368,6 @@ function showBreakModal() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM загружен');
     if (document.getElementById('escalationWrapper')) {
         setTimeout(function() {
             initEscalation();
