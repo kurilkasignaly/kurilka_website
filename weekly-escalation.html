@@ -1375,17 +1375,17 @@
             <div class="result-grid">
                 <div>
                     <div class="result-card">
-                        <h3><i class="fas fa-map"></i> Испытание</h3>
+                        <h3>ИСПЫТАНИЕ</h3>
                         <div class="result-map-row" id="escResultMap"></div>
                     </div>
                     <div class="result-card" style="margin-top: 1.5rem;">
-                        <h3><i class="fas fa-skull"></i> Вариаторы</h3>
+                        <h3>ВАРИАТОРЫ</h3>
                         <div class="variator-list" id="escResultVariators"></div>
                     </div>
                 </div>
                 <div>
                     <div class="result-card">
-                        <h3><i class="fas fa-users"></i> Участники</h3>
+                        <h3><i class="fas fa-users"></i>УЧАСТНИКИ</h3>
                         <div id="escResultPlayers"></div>
                     </div>
                 </div>
@@ -1462,9 +1462,9 @@ var SIDE_QUEST_VARIATORS = [
     "Расшифруйте Вещание",
     "Потушите Огонь",
     "Соберите плакаты",
-    "Экстракция Крови",
     "Случайное Побочное Задание"
 ];
+
 var EXCLUDED_VARIATORS = [
     'Ностофобия',
     'Лиланд Койл',
@@ -1603,6 +1603,18 @@ function isSideQuestVariator(name) {
 }
 
 // ============================================================
+// ПРАВИЛЬНЫЙ ШАФФЛ (Fisher-Yates)
+// ============================================================
+function shuffleArray(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+}
+
+// ============================================================
 // ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ВАРИАТОР СЛОЖНОСТИ
 // ============================================================
 function getDifficultyVariator(level, availableVariators) {
@@ -1631,200 +1643,6 @@ function getDifficultyVariator(level, availableVariators) {
 }
 
 // ============================================================
-// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ
-// ============================================================
-function getVariatorsForLevel(level, mapName, playerCount) {
-    if (typeof allVariatorsData === 'undefined') return [];
-
-    console.log('🔄 Генерация вариаторов для уровня:', level);
-
-    var weeklyVar = getWeeklyVariator();
-    if (weeklyVar) {
-        escState.weeklyVariator = weeklyVar;
-    }
-    updateWeeklyVariatorDisplay();
-
-    var MAX_VARIATORS = 8;
-    var trialName = escState.trial ? escState.trial.name : '';
-
-    var availableVariators = allVariatorsData.filter(function(v) {
-        if (isExcludedVariator(v.name)) return false;
-
-        var excludedGates = [
-            'Ворота С Детектором Звука', 'Дистанционные Ворота',
-            'Бесконтактные Ворота', 'Времянные Ворота', 'Закрытые Ворота'
-        ];
-        if (excludedGates.indexOf(v.name) !== -1) return false;
-
-        if (v.name === 'Низкая Плотность Врагов' && level > 5) return false;
-
-        return true;
-    });
-
-    var result = [];
-    var usedNames = [];
-
-    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР
-    if (weeklyVar && weeklyVar.name) {
-        result.push(weeklyVar);
-        usedNames.push(weeklyVar.name);
-        console.log('✅ [1] Еженедельный:', weeklyVar.name);
-    }
-
-    // 2. ВАРИАТОР СЛОЖНОСТИ
-    if (level > 20) {
-        var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
-
-        if (psycho) {
-            result.push(psycho);
-            usedNames.push(psycho.name);
-            console.log('✅ [2] Психохирургия');
-        } else {
-            result.push({
-                id: 'psycho_fallback',
-                name: "Психохирургия",
-                image: "images/психохирургия.webp",
-                category: "psycho"
-            });
-            usedNames.push("Психохирургия");
-            console.log('✅ [2] Психохирургия (создана)');
-        }
-
-        if (doubleTasks) {
-            result.push(doubleTasks);
-            usedNames.push(doubleTasks.name);
-            console.log('✅ [2] Двойные задания');
-        } else {
-            result.push({
-                id: 'double_fallback',
-                name: "Двойные задания",
-                image: "images/двойные задания.webp",
-                category: "collection_special"
-            });
-            usedNames.push("Двойные задания");
-            console.log('✅ [2] Двойные задания (созданы)');
-        }
-    } else {
-        var difficultyVar = getDifficultyVariator(level, availableVariators);
-        if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
-            result.push(difficultyVar);
-            usedNames.push(difficultyVar.name);
-            console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
-        }
-    }
-
-// 3. ПОБОЧНОЕ ЗАДАНИЕ — ТОЛЬКО ОДНО, ТОЛЬКО ДО 20 УРОВНЯ
-    if (level <= 20) {
-        // Собираем все доступные побочные задания (с учётом точного регистра)
-        var sideQuestPool = availableVariators.filter(function(v) {
-            // Вариатор должен быть в списке побочных (точное совпадение по регистру)
-            if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
-            // И ещё не использован
-            if (usedNames.indexOf(v.name) !== -1) return false;
-            return true;
-        });
-
-        // Берём РОВНО ОДНО случайное побочное задание
-        if (sideQuestPool.length > 0) {
-            var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
-            result.push(chosenSideQuest);
-            usedNames.push(chosenSideQuest.name);
-            console.log('✅ [3] Побочное задание (ровно 1):', chosenSideQuest.name);
-        } else {
-            console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
-        }
-    } else {
-        console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
-    }
-
-    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
-    var targetTotal;
-    if (level === 1) targetTotal = 2;
-    else if (level >= 2 && level <= 3) targetTotal = 3;
-    else if (level === 4) targetTotal = 4;
-    else if (level === 5) targetTotal = 5;
-    else if (level >= 6 && level <= 15) targetTotal = 6;
-    else if (level >= 16 && level <= 20) targetTotal = 7;
-    else if (level > 20) {
-        var randomCount = 3 + Math.floor(Math.random() * 3);
-        targetTotal = 3 + randomCount;
-        if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
-    } else targetTotal = 2;
-
-    // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
-    var filtered = availableVariators.filter(function(v) {
-        if (usedNames.indexOf(v.name) !== -1) return false;
-        if (isWeeklyVariatorName(v.name)) return false;
-        if (isSideQuestVariator(v.name)) return false;
-        if (v.name === "Психохирургия" || v.name === "Двойные задания") return false;
-        if (v.name === "Враги сильнее" || v.name === "Враги Сильнее" || v.name === "Враги Сильнее II" || v.name === "Враги сильнее II") return false;
-        return true;
-    });
-
-    var shuffled = filtered.slice().sort(function() { return Math.random() - 0.5; });
-
-    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < targetTotal; i++) {
-        var candidate = shuffled[i];
-        if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
-            result.push(candidate);
-            usedNames.push(candidate.name);
-            console.log('✅ [4] Случайный:', candidate.name);
-        }
-    }
-
-    // 6. ДОБИВКА
-    if (result.length < targetTotal) {
-        var remaining = availableVariators.filter(function(v) {
-            return usedNames.indexOf(v.name) === -1
-                && !isWeeklyVariatorName(v.name)
-                && !isSideQuestVariator(v.name)
-                && v.name !== "Психохирургия"
-                && v.name !== "Двойные задания"
-                && v.name !== "Враги сильнее"
-                && v.name !== "Враги Сильнее"
-                && v.name !== "Враги Сильнее II"
-                && v.name !== "Враги сильнее II";
-        });
-        var shuffledRemaining = remaining.slice().sort(function() { return Math.random() - 0.5; });
-
-        for (var j = 0; j < shuffledRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; j++) {
-            var candidate2 = shuffledRemaining[j];
-            if (usedNames.indexOf(candidate2.name) === -1) {
-                result.push(candidate2);
-                usedNames.push(candidate2.name);
-                console.log('✅ [4] Добивка:', candidate2.name);
-            }
-        }
-    }
-
-    // 7. КРАЙНЯЯ ДОБИВКА
-    if (result.length < targetTotal) {
-        var anyRemaining = allVariatorsData.filter(function(v) {
-            return usedNames.indexOf(v.name) === -1
-                && !isExcludedVariator(v.name)
-                && !isWeeklyVariatorName(v.name);
-        });
-        for (var k = 0; k < anyRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; k++) {
-            var candidate3 = anyRemaining[k];
-            if (usedNames.indexOf(candidate3.name) === -1) {
-                result.push(candidate3);
-                usedNames.push(candidate3.name);
-                console.log('✅ [4] Принудительно:', candidate3.name);
-            }
-        }
-    }
-
-    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
-    result = result.filter(function(v) {
-        return !isExcludedVariator(v.name);
-    });
-
-    console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
-    return result;
-}
-
-// ============================================================
 // ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ (ПОЛНАЯ)
 // ============================================================
 function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
@@ -1836,7 +1654,7 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     if (selectedNames.indexOf(variatorName) !== -1) return false;
 
     // ============================================================
-    // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ  ↔  ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
+    // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ ↔ ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
     // ============================================================
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
@@ -2049,23 +1867,32 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         ['Ограниченные Укрытия', 'Ограниченные Укрытия II'],
         ['Ограниченные предметы', 'Ограниченные предметы II']
     ];
+
+    for (var g = 0; g < sameTypeGroups.length; g++) {
+        var group = sameTypeGroups[g];
+        if (group.indexOf(variatorName) !== -1) {
+            for (i = 0; i < group.length; i++) {
+                if (group[i] !== variatorName && selectedNames.indexOf(group[i]) !== -1) return false;
+            }
+        }
+    }
+
     // ============================================================
     // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ блокирует ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
     // ============================================================
     var noItemsName = 'Без Предметов В Испытании';
     var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
 
-    // Если добавляем "Без Предметов В Испытании" — проверяем, нет ли Ограниченных
     if (variatorName === noItemsName) {
         for (i = 0; i < limitedItemsGroup.length; i++) {
             if (selectedNames.indexOf(limitedItemsGroup[i]) !== -1) return false;
         }
     }
 
-    // Если добавляем "Ограниченные предметы" или "...II" — проверяем, нет ли Без Предметов
     if (limitedItemsGroup.indexOf(variatorName) !== -1) {
         if (selectedNames.indexOf(noItemsName) !== -1) return false;
     }
+
     // ============================================================
     // 11. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
     // ============================================================
@@ -2079,6 +1906,200 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 
     return true;
 }
+
+// ============================================================
+// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ
+// ============================================================
+function getVariatorsForLevel(level, mapName, playerCount) {
+    if (typeof allVariatorsData === 'undefined') return [];
+
+    console.log('🔄 Генерация вариаторов для уровня:', level);
+
+    var weeklyVar = getWeeklyVariator();
+    if (weeklyVar) {
+        escState.weeklyVariator = weeklyVar;
+    }
+    updateWeeklyVariatorDisplay();
+
+    var MAX_VARIATORS = 10;
+    var trialName = escState.trial ? escState.trial.name : '';
+
+    var availableVariators = allVariatorsData.filter(function(v) {
+        if (isExcludedVariator(v.name)) return false;
+
+        var excludedGates = [
+            'Ворота С Детектором Звука', 'Дистанционные Ворота',
+            'Бесконтактные Ворота', 'Времянные Ворота', 'Закрытые Ворота'
+        ];
+        if (excludedGates.indexOf(v.name) !== -1) return false;
+
+        if (v.name === 'Низкая Плотность Врагов' && level > 5) return false;
+
+        return true;
+    });
+
+    console.log('📋 availableVariators (' + availableVariators.length + '):',
+        availableVariators.map(function(v){ return v.name; }).join(' | '));
+
+    var result = [];
+    var usedNames = [];
+
+    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР
+    if (weeklyVar && weeklyVar.name) {
+        result.push(weeklyVar);
+        usedNames.push(weeklyVar.name);
+        console.log('✅ [1] Еженедельный:', weeklyVar.name);
+    }
+
+    // 2. ВАРИАТОР СЛОЖНОСТИ
+    if (level > 20) {
+        var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
+        var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
+
+        if (psycho) {
+            result.push(psycho);
+            usedNames.push(psycho.name);
+            console.log('✅ [2] Психохирургия');
+        } else {
+            result.push({
+                id: 'psycho_fallback',
+                name: "Психохирургия",
+                image: "images/психохирургия.webp",
+                category: "psycho"
+            });
+            usedNames.push("Психохирургия");
+            console.log('✅ [2] Психохирургия (создана)');
+        }
+
+        if (doubleTasks) {
+            result.push(doubleTasks);
+            usedNames.push(doubleTasks.name);
+            console.log('✅ [2] Двойные задания');
+        } else {
+            result.push({
+                id: 'double_fallback',
+                name: "Двойные задания",
+                image: "images/двойные задания.webp",
+                category: "collection_special"
+            });
+            usedNames.push("Двойные задания");
+            console.log('✅ [2] Двойные задания (созданы)');
+        }
+    } else {
+        var difficultyVar = getDifficultyVariator(level, availableVariators);
+        if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
+            result.push(difficultyVar);
+            usedNames.push(difficultyVar.name);
+            console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
+        }
+    }
+
+    // 3. ПОБОЧНОЕ ЗАДАНИЕ — ТОЛЬКО ОДНО, ТОЛЬКО ДО 20 УРОВНЯ
+    if (level <= 20) {
+        var sideQuestPool = availableVariators.filter(function(v) {
+            if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
+            if (usedNames.indexOf(v.name) !== -1) return false;
+            return true;
+        });
+
+        if (sideQuestPool.length > 0) {
+            var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
+            result.push(chosenSideQuest);
+            usedNames.push(chosenSideQuest.name);
+            console.log('✅ [3] Побочное задание (ровно 1):', chosenSideQuest.name);
+        } else {
+            console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
+        }
+    } else {
+        console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
+    }
+
+    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
+    var targetTotal;
+    if (level === 1) targetTotal = 3;
+    else if (level >= 2 && level <= 3) targetTotal = 4;
+    else if (level === 4) targetTotal = 5;
+    else if (level === 5) targetTotal = 6;
+    else if (level >= 6 && level <= 15) targetTotal = 7;
+    else if (level >= 16 && level <= 20) targetTotal = 8;
+    else if (level > 20) {
+        var randomCount = 3 + Math.floor(Math.random() * 3);
+        targetTotal = 3 + randomCount;
+        if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
+    } else targetTotal = 3;
+
+    // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
+    var filtered = availableVariators.filter(function(v) {
+        if (usedNames.indexOf(v.name) !== -1) return false;
+        if (isWeeklyVariatorName(v.name)) return false;
+        if (isSideQuestVariator(v.name)) return false;
+        if (v.name === "Психохирургия" || v.name === "Двойные задания") return false;
+        if (v.name === "Враги сильнее" || v.name === "Враги Сильнее" || v.name === "Враги Сильнее II" || v.name === "Враги сильнее II") return false;
+        return true;
+    });
+
+    var shuffled = shuffleArray(filtered);
+
+    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < targetTotal; i++) {
+        var candidate = shuffled[i];
+        if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
+            result.push(candidate);
+            usedNames.push(candidate.name);
+            console.log('✅ [4] Случайный:', candidate.name);
+        }
+    }
+
+    // 6. ДОБИВКА
+    if (result.length < targetTotal) {
+        var remaining = availableVariators.filter(function(v) {
+            return usedNames.indexOf(v.name) === -1
+                && !isWeeklyVariatorName(v.name)
+                && !isSideQuestVariator(v.name)
+                && v.name !== "Психохирургия"
+                && v.name !== "Двойные задания"
+                && v.name !== "Враги сильнее"
+                && v.name !== "Враги Сильнее"
+                && v.name !== "Враги Сильнее II"
+                && v.name !== "Враги сильнее II";
+        });
+        var shuffledRemaining = shuffleArray(remaining);
+
+        for (var j = 0; j < shuffledRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; j++) {
+            var candidate2 = shuffledRemaining[j];
+            if (usedNames.indexOf(candidate2.name) === -1 && isVariatorCompatible(candidate2, result, trialName, playerCount, level)) {
+                result.push(candidate2);
+                usedNames.push(candidate2.name);
+                console.log('✅ [4] Добивка:', candidate2.name);
+            }
+        }
+    }
+
+    // 7. КРАЙНЯЯ ДОБИВКА
+    if (result.length < targetTotal) {
+        var anyRemaining = allVariatorsData.filter(function(v) {
+            return usedNames.indexOf(v.name) === -1
+                && !isExcludedVariator(v.name)
+                && !isWeeklyVariatorName(v.name);
+        });
+        for (var k = 0; k < anyRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; k++) {
+            var candidate3 = anyRemaining[k];
+            if (usedNames.indexOf(candidate3.name) === -1) {
+                result.push(candidate3);
+                usedNames.push(candidate3.name);
+                console.log('✅ [4] Принудительно:', candidate3.name);
+            }
+        }
+    }
+
+    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
+    result = result.filter(function(v) {
+        return !isExcludedVariator(v.name);
+    });
+
+    console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
+    return result;
+}
+
 // ============================================================
 // ОСТАЛЬНЫЕ ФУНКЦИИ
 // ============================================================
@@ -2586,15 +2607,30 @@ function showPreviewModal(trialName, mapName, variators, level) {
 
     var weeklyVarName = escState.weeklyVariator ? escState.weeklyVariator.name : null;
 
+    // Размеры шрифта для конкретных вариаторов
+    var variatorFontSizes = {
+        'ПСИХОХИРУРГИЯ': '0.63rem',
+        'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
+        'ГАЛЛЮЦИНАЦИИ': '0.65rem'
+    };
+
     var variatorsHtml = variators.map(function(v, index) {
         var nameUpper = v.name.toUpperCase();
         var delay = index * 0.05;
         var isWeekly = weeklyVarName && v.name === weeklyVarName;
         var weeklyClass = isWeekly ? 'preview-variator-item weekly' : 'preview-variator-item';
         var weeklyBadge = isWeekly ? '<div style="font-size:0.45rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
-        
-        var fontSize = v.name.length > 14 ? '0.6rem' : '0.75rem';
-        
+
+        // Подбираем размер шрифта: сначала индивидуальный, потом по длине
+        var fontSize;
+        if (variatorFontSizes[nameUpper]) {
+            fontSize = variatorFontSizes[nameUpper];
+        } else if (v.name.length > 14) {
+            fontSize = '0.6rem';
+        } else {
+            fontSize = '0.75rem';
+        }
+
         return `
             <div class="${weeklyClass}" style="animation-delay: ${delay}s; max-width: 110px;">
                 <img class="preview-variator-img" src="${v.image}" alt="${v.name}" onerror="this.src='https://placehold.co/70x70/1a1a2e/e16d48?text=?'">
@@ -2688,18 +2724,34 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
     var resultVariators = document.getElementById('escResultVariators');
     if (resultVariators) {
         var weeklyVarName2 = escState.weeklyVariator ? escState.weeklyVariator.name : null;
-        
+
+        // Размеры шрифта для конкретных вариаторов
+        var variatorFontSizes = {
+            'ПСИХОХИРУРГИЯ': '0.63rem',
+            'ДВОЙНЫЕ ЗАДАНИЯ': '0.65rem',
+            'ГАЛЛЮЦИНАЦИИ': '0.65rem'
+        };
+
         resultVariators.innerHTML = escState.variators.map(function(v) {
             var isWeekly = weeklyVarName2 && v.name === weeklyVarName2;
             var borderColor = isWeekly ? '#f1c40f' : 'rgba(220,90,50,0.15)';
             var bgColor = isWeekly ? 'rgba(241,196,15,0.1)' : 'rgba(0,0,0,0.3)';
             var weeklyBadge = isWeekly ? '<div style="font-size:0.5rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
-            var fontSize = v.name.length > 14 ? '0.55rem' : '0.75rem';
-            
+
+            var nameUpper = v.name.toUpperCase();
+            var fontSize;
+            if (variatorFontSizes[nameUpper]) {
+                fontSize = variatorFontSizes[nameUpper];
+            } else if (v.name.length > 14) {
+                fontSize = '0.55rem';
+            } else {
+                fontSize = '0.75rem';
+            }
+
             return `
                 <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem; max-width:100px; border:2px solid ${borderColor}; border-radius:14px; padding:6px; background:${bgColor};">
                     <img src="${v.image}" alt="${v.name}" style="width:80px; height:80px; object-fit:contain; border-radius:14px; background:rgba(0,0,0,0.3); padding:6px; border:1px solid rgba(220,90,50,0.15);" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'">
-                    <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; text-transform:uppercase;">${v.name.toUpperCase()}</span>
+                    <span style="font-size:${fontSize}; color:#ffbc9a; text-align:center; max-width:90px; line-height:1.3; font-weight:600; text-transform:uppercase;">${nameUpper}</span>
                     ${weeklyBadge}
                 </div>
             `;
