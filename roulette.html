@@ -467,7 +467,7 @@
         }
 
         /* ========================================================= */
-        /* ===== КАРТОЧКИ ЭСКАЛАЦИИ — КОМПАКТНЫЕ, КАК НА КАРТИНКЕ = */
+        /* ===== КАРТОЧКИ ЭСКАЛАЦИИ — КОМПАКТНЫЕ ================== */
         /* ========================================================= */
         .escalation-rules {
             display: grid;
@@ -503,7 +503,6 @@
             box-shadow: 0 12px 30px rgba(220, 90, 50, 0.25);
         }
 
-        /* Верхняя панель */
         .escalation-rule-card .rule-top {
             display: flex;
             align-items: flex-start;
@@ -526,7 +525,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* Увеличенный слот для картинки вариатора (только на еженедельной) */
+        /* Слот для картинки вариатора (только на еженедельной) */
         .escalation-rule-card .rule-variator-slot {
             width: 80px;
             height: 80px;
@@ -549,13 +548,9 @@
             height: 100%;
             object-fit: contain;
             padding: 5px;
+            display: block;
         }
 
-        .escalation-rule-card .rule-variator-slot i {
-            font-size: 2rem;
-        }
-
-        /* Обведённое название эскалации */
         .escalation-rule-card .rule-name-box {
             position: relative;
             z-index: 2;
@@ -579,7 +574,6 @@
             white-space: nowrap;
         }
 
-        /* Подпись под названием */
         .escalation-rule-card .rule-subtitle {
             position: relative;
             z-index: 2;
@@ -594,7 +588,6 @@
             margin-bottom: 0.4rem;
         }
 
-        /* Название вариатора под подписью (только на еженедельной) */
         .escalation-rule-card .rule-variator-name {
             position: relative;
             z-index: 2;
@@ -608,7 +601,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Кнопка снизу */
         .escalation-rule-card .btn-start {
             position: relative;
             z-index: 2;
@@ -962,21 +954,20 @@
             <p style="color: #888; font-size: 0.85rem;">Постепенное усложнение с каждым новым уровнем</p>
         </div>
 
-        <!-- ===== КОМПАКТНЫЕ КАРТОЧКИ ЭСКАЛАЦИИ ===== -->
         <div class="escalation-rules">
             <!-- Еженедельная -->
             <div class="escalation-rule-card" style="background-image: url('images/еженедельная эскалация баннер.webp');">
                 <div class="rule-top">
                     <div class="rule-icon"><i class="fas fa-calendar-week"></i></div>
                     <div class="rule-variator-slot" id="weeklyVariatorSlot">
-                        <i class="fas fa-star" style="color: #f1c40f;"></i>
+                        <img src="images/вариатор-таймер-бомбы.webp" alt="Таймер Бомбы" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-star\' style=\'color: #f1c40f; font-size: 2rem;\'></i>'">
                     </div>
                 </div>
                 <div class="rule-name-box">
                     <div class="rule-name">ЕЖЕНЕДЕЛЬНАЯ</div>
                 </div>
                 <div class="rule-subtitle">ЕЖЕНЕДЕЛЬНЫЙ ТЕМАТИЧЕСКИЙ ЗАБЕГ</div>
-                <div class="rule-variator-name" id="weeklyVariatorName">"ТАЙМЕР БОМБЫ"</div>
+                <div class="rule-variator-name">"ТАЙМЕР БОМБЫ"</div>
                 <a href="weekly-escalation.html" class="btn-start"><i class="fas fa-play"></i> НАЧАТЬ ЭСКАЛАЦИЮ</a>
             </div>
 
@@ -1163,7 +1154,7 @@
     //  ДАННЫЕ
     // ================================================================
     var trialsData = {
-        "Полицейский участок": { image: "images/полицейский-участок.webp", trials: [{ name: "УБЕЙТЕ СТУКАЧА", desc: "Нельзя позволять лжесвидетелям распространять свою ложную правду. Доставьте стукача в камеру смерти и заставьте его замолчать.", image: "images/Убейте стукача.webp" }] },
+        "Полицейский участок": { image: "images/полицейский-участок.webp", trials: [{ name: "УБЕЙТЕ СТУКАЧА", desc: "Нельзя позволять лжесвидетелям распространять свою ложную правду.", image: "images/Убейте стукача.webp" }] },
         "Детский дом": { image: "images/детский-дом.webp", trials: [{ name: "ПРИЧАСТИТЕ СИРОТ", desc: "Образование воспитывает послушание, а Вера делает его незыблемым.", image: "images/Причастите сирот.webp" }] },
         "Парк развлечений": { image: "images/парк-развлечений.webp", trials: [{ name: "ИЗМЕЛЬЧИТЕ НЕГОДЯЕВ", desc: "Мы должны устранить непослушных детей.", image: "images/Генезис-Фан парк.webp" }] },
         "Здание суда": { image: "images/здание-суда.webp", trials: [{ name: "ОПРАВДАТЬ ВИНОВНОГО", desc: "Мы не можем допустить, чтобы наши неповинные структуры подвергались преследованиям.", image: "images/Генезис-Суд.webp" }] },
@@ -1361,25 +1352,6 @@
     } else {
         renderSpecialTrials();
     }
-
-    // ================================================================
-    //  ПОДГРУЗКА КАРТИНКИ И НАЗВАНИЯ ЕЖЕНЕДЕЛЬНОГО ВАРИАТОРА
-    // ================================================================
-    document.addEventListener('DOMContentLoaded', function() {
-        var weeklyVarName = 'Таймер Бомбы';
-        var weeklyVar = null;
-        if (typeof allVariatorsData !== 'undefined' && Array.isArray(allVariatorsData)) {
-            weeklyVar = allVariatorsData.find(function(v) { return v.name === weeklyVarName; });
-        }
-        var weeklySlot = document.getElementById('weeklyVariatorSlot');
-        var weeklyNameEl = document.getElementById('weeklyVariatorName');
-        if (weeklySlot && weeklyVar && weeklyVar.image) {
-            weeklySlot.innerHTML = '<img src="' + weeklyVar.image + '" alt="' + weeklyVar.name + '" onerror="this.style.display=\'none\';">';
-        }
-        if (weeklyNameEl && weeklyVar && weeklyVar.name) {
-            weeklyNameEl.textContent = '"' + weeklyVar.name.toUpperCase() + '"';
-        }
-    });
 
     console.log('✅ Рулетка загружена!');
 </script>
