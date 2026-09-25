@@ -555,8 +555,9 @@
             white-space: pre-line;
         }
 
+        /* ===== СЛАЙДЕР ГАЛЕРЕИ ===== */
         .trial-gallery {
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
         .trial-gallery h4 {
@@ -570,33 +571,132 @@
             padding-left: 12px;
         }
 
-        .trial-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .trial-gallery-item {
-            background: rgba(18, 12, 28, 0.6);
-            border-radius: 16px;
+        .gallery-slider {
+            position: relative;
+            background: rgba(10, 6, 18, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(220, 90, 50, 0.3);
             overflow: hidden;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .trial-gallery-item:hover {
-            transform: translateY(-3px);
-            border-color: #e16d48;
-        }
-
-        .trial-gallery-item img {
+        .slider-viewport {
+            position: relative;
             width: 100%;
-            height: 120px;
-            object-fit: cover;
-            display: block;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #0a0612;
         }
 
+        .slider-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.3, 1);
+            will-change: transform;
+        }
+
+        .slider-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-in;
+        }
+
+        .slider-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #0a0612;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(18, 12, 28, 0.85);
+            border: 1px solid rgba(220, 90, 50, 0.5);
+            color: #e16d48;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            z-index: 5;
+            user-select: none;
+        }
+
+        .slider-arrow:hover {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            border-color: #e16d48;
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .slider-arrow.prev { left: 12px; }
+        .slider-arrow.next { right: 12px; }
+
+        .slider-arrow.disabled {
+            opacity: 0.3;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .slider-counter {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: rgba(18, 12, 28, 0.85);
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            color: #f0eef7;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            z-index: 5;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 12px;
+            flex-wrap: wrap;
+            background: rgba(18, 12, 28, 0.5);
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .slider-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.25s;
+            border: none;
+            padding: 0;
+        }
+
+        .slider-dot:hover {
+            background: rgba(225, 109, 72, 0.6);
+        }
+
+        .slider-dot.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            width: 22px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(226, 93, 50, 0.5);
+        }
+
+        /* ===== МОДАЛКА УВЕЛИЧЕННОГО ИЗОБРАЖЕНИЯ ===== */
         .image-modal {
             display: none;
             position: fixed;
@@ -694,6 +794,16 @@
             .trial-info { flex-direction: column; }
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
+
+            .slider-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+            .slider-arrow.prev { left: 6px; }
+            .slider-arrow.next { right: 6px; }
+            .slider-counter { font-size: 0.65rem; padding: 3px 8px; }
+            .slider-viewport { aspect-ratio: 4 / 3; }
         }
     </style>
 </head>
@@ -805,16 +915,12 @@
 
 <script>
     // ===== ДАННЫЕ ИСПЫТАНИЙ =====
-    // У "Убейте стукача" пути к картинкам ОСТАВЛЕНЫ БЕЗ ИЗМЕНЕНИЙ.
-    // У всех остальных испытаний картинки переведены в .webp.
-    // Описание "Убейте стукача" обновлено.
     const trialsData = [
         {
             id: "informant",
             name: "Убейте стукача",
             image: "../images/Убейте стукача.webp",
-            description: `Казнь стукача
-
+            description:
 Реагенты появляются снаружи Полицейского участка (Police Station) и видят несколько телевизионных экранов. Трансляции сразу знакомят Реагентов с сержантом Лиландом Койлом — коррумпированным, расистским и вспыльчивым южным полицейским, получающим сексуальное удовольствие от боли и доминирования, — который пытает мужчину с мешком на голове своим электрошокером в Тюрьме Полицейского участка (Police Station's Jail). Пленник — это Стукач (The Snitch), который, предположительно, обладает знаниями о тёмных делах корпорации Мёркофф (Murkoff Corporation). Таким образом, Реагентам поручено задержать и казнить Стукача, чтобы защитить «правду» Мёркофф.
 
 Войдя в Полицейский участок через главный вход, Реагенты должны проскользнуть мимо Экс-попов, бродящих по коридорам, и добраться до Комнаты охраны (Security Room), чтобы отменить блокировку Тюрьмы. Достигнув Комнаты охраны и нажав Кнопочный переключатель (Button Switch) для получения доступа в Тюрьму, Реагенты наблюдают, как Койл противостоит Экс-попу, скрывающемуся возле камеры Стукача. Койл в ярости вершит своё собственное «правосудие», избивая Экс-попа до кровавого месива и разрывая ему голову смертельным разрядом напряжения из своего электрошокера. Осознав присутствие Реагентов, Койл затем уходит на Подземную парковку (Underground Parking lot).
@@ -1084,6 +1190,19 @@
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
+    // ===== СОСТОЯНИЕ СЛАЙДЕРА =====
+    var sliderState = {
+        track: null,
+        dots: [],
+        counter: null,
+        prevBtn: null,
+        nextBtn: null,
+        images: [],
+        currentIndex: 0,
+        touchStartX: 0,
+        touchEndX: 0
+    };
+
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
         
@@ -1091,13 +1210,25 @@
         if (trial.gallery && trial.gallery.length > 0) {
             galleryHtml = `
                 <div class="trial-gallery">
-                    <h4><i class="fas fa-images"></i> Галерея</h4>
-                    <div class="trial-gallery-grid">
-                        ${trial.gallery.map(img => `
-                            <div class="trial-gallery-item" data-img="${img}">
-                                <img src="${img}" alt="Изображение" onerror="this.src='https://placehold.co/300x200/1a1a2e/e16d48?text=Фото'">
+                    <h4><i class="fas fa-images"></i> Галерея <span style="font-size:0.85rem;color:#8a7a9a;font-weight:500;">(${trial.gallery.length})</span></h4>
+                    <div class="gallery-slider" id="gallerySlider">
+                        <div class="slider-viewport">
+                            <div class="slider-track" id="sliderTrack">
+                                ${trial.gallery.map((img, i) => `
+                                    <div class="slider-slide" data-index="${i}" data-img="${img}">
+                                        <img src="${img}" alt="Изображение ${i + 1}" onerror="this.src='https://placehold.co/800x450/1a1a2e/e16d48?text=Фото+${i + 1}'">
+                                    </div>
+                                `).join('')}
                             </div>
-                        `).join('')}
+                            <div class="slider-counter" id="sliderCounter">1 / ${trial.gallery.length}</div>
+                            <button class="slider-arrow prev" id="sliderPrev" aria-label="Предыдущее изображение"><i class="fas fa-chevron-left"></i></button>
+                            <button class="slider-arrow next" id="sliderNext" aria-label="Следующее изображение"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            ${trial.gallery.map((_, i) => `
+                                <button class="slider-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Перейти к изображению ${i + 1}"></button>
+                            `).join('')}
+                        </div>
                     </div>
                 </div>
             `;
@@ -1118,24 +1249,110 @@
         trialModal.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        setTimeout(() => {
-            document.querySelectorAll('.trial-gallery-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const imgSrc = item.getAttribute('data-img');
-                    if (imgSrc) {
-                        fullImage.src = imgSrc;
-                        imageModal.classList.add('active');
-                        document.body.style.overflow = 'hidden';
-                    }
-                });
+        if (trial.gallery && trial.gallery.length > 0) {
+            initSlider(trial.gallery);
+        }
+    }
+
+    function initSlider(images) {
+        sliderState.images = images;
+        sliderState.currentIndex = 0;
+        sliderState.track = document.getElementById('sliderTrack');
+        sliderState.counter = document.getElementById('sliderCounter');
+        sliderState.prevBtn = document.getElementById('sliderPrev');
+        sliderState.nextBtn = document.getElementById('sliderNext');
+        sliderState.dots = Array.from(document.querySelectorAll('#sliderDots .slider-dot'));
+
+        if (!sliderState.track) return;
+
+        sliderState.prevBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goToSlide(sliderState.currentIndex - 1);
+        });
+        sliderState.nextBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goToSlide(sliderState.currentIndex + 1);
+        });
+        sliderState.dots.forEach(function(dot) {
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var idx = parseInt(dot.getAttribute('data-index'), 10);
+                goToSlide(idx);
             });
-        }, 100);
+        });
+
+        // Клик по изображению — открыть в полном размере
+        document.querySelectorAll('.slider-slide').forEach(function(slide) {
+            slide.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var imgSrc = slide.getAttribute('data-img');
+                if (imgSrc) {
+                    fullImage.src = imgSrc;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Свайпы
+        var viewport = sliderState.track.parentElement;
+        viewport.addEventListener('touchstart', function(e) {
+            sliderState.touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        viewport.addEventListener('touchend', function(e) {
+            sliderState.touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        updateSlider();
+    }
+
+    function handleSwipe() {
+        var diff = sliderState.touchStartX - sliderState.touchEndX;
+        if (Math.abs(diff) < 40) return;
+        if (diff > 0) {
+            goToSlide(sliderState.currentIndex + 1);
+        } else {
+            goToSlide(sliderState.currentIndex - 1);
+        }
+    }
+
+    function goToSlide(index) {
+        var total = sliderState.images.length;
+        if (total === 0) return;
+        if (index < 0) index = 0;
+        if (index >= total) index = total - 1;
+        sliderState.currentIndex = index;
+        updateSlider();
+    }
+
+    function updateSlider() {
+        var total = sliderState.images.length;
+        var idx = sliderState.currentIndex;
+
+        if (sliderState.track) {
+            sliderState.track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+        }
+        if (sliderState.counter) {
+            sliderState.counter.textContent = (idx + 1) + ' / ' + total;
+        }
+        sliderState.dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === idx);
+        });
+        if (sliderState.prevBtn) {
+            sliderState.prevBtn.classList.toggle('disabled', idx === 0);
+        }
+        if (sliderState.nextBtn) {
+            sliderState.nextBtn.classList.toggle('disabled', idx === total - 1);
+        }
     }
 
     function closeModal() {
         trialModal.classList.remove('active');
         document.body.style.overflow = '';
+        // сброс слайдера
+        sliderState.track = null;
+        sliderState.dots = [];
     }
 
     function closeImageModal() {
@@ -1168,9 +1385,24 @@
     trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
     imageModalClose.addEventListener('click', closeImageModal);
     imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && trialModal.classList.contains('active')) closeModal();
-        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeImageModal();
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+            closeImageModal();
+            return;
+        }
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) {
+            closeModal();
+            return;
+        }
+        // Управление слайдером стрелками, если открыта модалка испытания
+        if (trialModal.classList.contains('active') && !imageModal.classList.contains('active') && sliderState.images.length > 0) {
+            if (e.key === 'ArrowLeft') {
+                goToSlide(sliderState.currentIndex - 1);
+            } else if (e.key === 'ArrowRight') {
+                goToSlide(sliderState.currentIndex + 1);
+            }
+        }
     });
 
     function initScrollAnimation() {
