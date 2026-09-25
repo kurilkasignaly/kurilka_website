@@ -10,11 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -26,24 +22,15 @@
         }
 
         .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
         }
 
         body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: -1;
+            content: ""; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: -1;
         }
 
         @keyframes fadeInScale {
@@ -57,572 +44,279 @@
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 1rem 1.8rem; position: relative; z-index: 10;
         }
 
         /* ===== НАВИГАЦИЯ ===== */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0.8rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; padding: 0.8rem 2rem;
             background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s;
-            animation: fadeInScale 0.6s ease-out;
+            transition: all 0.3s; animation: fadeInScale 0.6s ease-out;
         }
+        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.4);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
         .logo .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.4rem; font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            white-space: nowrap;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; white-space: nowrap;
         }
-
-        .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
-        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
 
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem;
-            border-radius: 60px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
             text-decoration: none;
         }
-
-        .nav-btn:hover {
-            color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
-        }
-
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
-        /* ===== БЛОК УПРАВЛЕНИЯ МУЗЫКОЙ ===== */
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-left: 0.5rem;
-            position: relative;
-        }
-
+        /* ===== МУЗЫКА ===== */
+        .music-controls { display: flex; align-items: center; gap: 0.5rem; margin-left: 0.5rem; position: relative; }
         .music-toggle {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            padding: 0.4rem 0.9rem;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            border-radius: 50px; padding: 0.4rem 0.9rem;
+            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
         }
-
-        .music-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
-            color: white;
-        }
-
-        .music-toggle.playing {
-            border-color: rgba(220, 90, 50, 0.3);
-            color: #e25d32;
-        }
-
-        .music-toggle .icon {
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .music-toggle .icon.pulse {
-            animation: musicPulse 1.2s ease-in-out infinite;
-        }
-
-        .music-toggle .label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
+        .music-toggle:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
+        .music-toggle.playing { border-color: rgba(220, 90, 50, 0.3); color: #e25d32; }
+        .music-toggle .icon { font-size: 1rem; transition: all 0.3s; }
+        .music-toggle .icon.pulse { animation: musicPulse 1.2s ease-in-out infinite; }
+        .music-toggle .label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; }
 
         .volume-toggle-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            padding: 0.4rem 0.7rem;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
+            border-radius: 50px; padding: 0.4rem 0.7rem;
+            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
         }
-
-        .volume-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
-            color: white;
-        }
-
-        .volume-toggle-btn .arrow {
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .volume-toggle-btn .arrow.open {
-            transform: rotate(180deg);
-        }
+        .volume-toggle-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
+        .volume-toggle-btn .arrow { transition: transform 0.3s ease; display: inline-block; }
+        .volume-toggle-btn .arrow.open { transform: rotate(180deg); }
 
         .volume-dropdown {
-            display: none;
-            position: absolute;
-            top: calc(100% + 8px);
-            right: 0;
-            background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
+            display: none; position: absolute; top: calc(100% + 8px); right: 0;
+            background: rgba(18, 12, 28, 0.95); backdrop-filter: blur(16px);
             border: 1px solid rgba(220, 90, 50, 0.25);
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
-            min-width: 200px;
-            z-index: 100;
+            border-radius: 20px; padding: 1rem 1.5rem;
+            min-width: 200px; z-index: 100;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
         }
-
-        .volume-dropdown.open {
-            display: block;
-            animation: fadeInScale 0.25s ease-out;
-        }
-
+        .volume-dropdown.open { display: block; animation: fadeInScale 0.25s ease-out; }
         .volume-dropdown .volume-label {
-            font-size: 0.7rem;
-            color: #8a7a9a;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-align: center;
+            font-size: 0.7rem; color: #8a7a9a; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 0.5rem; display: block; text-align: center;
         }
-
-        .volume-slider-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .volume-slider-wrapper .vol-icon {
-            color: #7a6a8a;
-            font-size: 0.85rem;
-        }
-
-        .volume-slider-wrapper .vol-icon.active {
-            color: #e25d32;
-        }
-
+        .volume-slider-wrapper { display: flex; align-items: center; gap: 0.8rem; }
+        .volume-slider-wrapper .vol-icon { color: #7a6a8a; font-size: 0.85rem; }
+        .volume-slider-wrapper .vol-icon.active { color: #e25d32; }
         .volume-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 130px;
-            height: 4px;
-            border-radius: 10px;
+            -webkit-appearance: none; appearance: none;
+            width: 130px; height: 4px; border-radius: 10px;
             background: linear-gradient(to right, #e25d32, #e25d32);
-            outline: none;
-            transition: all 0.3s;
-            cursor: pointer;
+            outline: none; transition: all 0.3s; cursor: pointer;
         }
-
         .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px; border-radius: 50%;
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(188, 70, 39, 0.3);
-            transition: all 0.2s;
+            cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(188, 70, 39, 0.3); transition: all 0.2s;
         }
-
-        .volume-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-
+        .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
         .volume-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+            width: 16px; height: 16px; border-radius: 50%;
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.15);
         }
-
-        .volume-value {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #e25d32;
-            min-width: 36px;
-            text-align: center;
-        }
-
-        .music-controls-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
-        }
+        .volume-value { font-size: 0.8rem; font-weight: 600; color: #e25d32; min-width: 36px; text-align: center; }
+        .music-controls-wrapper { display: flex; align-items: center; gap: 0.5rem; position: relative; }
 
         /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
-        .breadcrumb {
-            margin-bottom: 1.5rem;
-            animation: fadeInScale 0.6s ease-out;
-        }
-
+        .breadcrumb { margin-bottom: 1.5rem; animation: fadeInScale 0.6s ease-out; }
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #e16d48;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
+            display: inline-flex; align-items: center; gap: 8px;
+            color: #e16d48; text-decoration: none; font-size: 0.9rem;
+            transition: all 0.3s ease; background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1.2rem; border-radius: 40px;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
-
-        .back-link:hover {
-            color: white;
-            transform: translateX(-5px);
-            border-color: #e16d48;
-        }
+        .back-link:hover { color: white; transform: translateX(-5px); border-color: #e16d48; }
 
         /* ===== КАРТА ===== */
         .map-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 1.5rem;
+            display: flex; flex-wrap: wrap; gap: 2rem;
+            margin-bottom: 2rem; background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px); border-radius: 28px; padding: 1.5rem;
             border: 1px solid rgba(220, 90, 50, 0.25);
             animation: fadeInScale 0.6s ease-out 0.1s backwards;
         }
-
-        .map-image {
-            flex: 1;
-            min-width: 250px;
-        }
-
+        .map-image { flex: 1; min-width: 250px; }
         .map-image img {
-            width: 100%;
-            border-radius: 20px;
+            width: 100%; border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.4);
             transition: transform 0.3s ease;
         }
-
-        .map-info {
-            flex: 1;
-        }
-
+        .map-info { flex: 1; }
         .map-title {
-            font-size: 1.8rem;
-            font-weight: 800;
+            font-size: 1.8rem; font-weight: 800;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin-bottom: 1rem;
         }
-
-        .map-description {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #d1cce6;
-            margin-bottom: 0.8rem;
-        }
+        .map-description { font-size: 1rem; line-height: 1.7; color: #d1cce6; margin-bottom: 0.8rem; }
 
         /* ===== ИСПЫТАНИЯ ===== */
-        .trials-section {
-            margin-bottom: 2rem;
-            animation: fadeInScale 0.6s ease-out 0.15s backwards;
-        }
-
+        .trials-section { margin-bottom: 2rem; animation: fadeInScale 0.6s ease-out 0.15s backwards; }
         .trials-section h2 {
-            font-size: 1.5rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-left: 3px solid #e16d48;
-            padding-left: 15px;
+            font-size: 1.5rem; color: #e16d48; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 10px;
+            border-left: 3px solid #e16d48; padding-left: 15px;
         }
-
         .trials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.8rem;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem;
         }
-
         .trial-card {
-            background: rgba(18, 12, 28, 0.6);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            background: rgba(18, 12, 28, 0.6); border-radius: 20px;
+            overflow: hidden; border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease; cursor: pointer; text-align: center;
+            height: 100%; display: flex; flex-direction: column;
         }
-
         .trial-card:hover {
-            transform: translateY(-6px);
-            border-color: #e16d48;
+            transform: translateY(-6px); border-color: #e16d48;
             box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
         }
-
         .trial-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            object-position: top;
-            display: block;
-            background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+            width: 100%; height: 200px; object-fit: cover; object-position: top;
+            display: block; background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
         }
-
         .trial-name {
-            padding: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #e16d48;
-            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            padding: 1rem; font-size: 1rem; font-weight: 600;
+            color: #e16d48; border-top: 1px solid rgba(220, 90, 50, 0.2);
         }
 
         /* ===== МОДАЛКИ ===== */
         .trial-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95);
+            z-index: 10000; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); cursor: pointer;
         }
-
-        .trial-modal.active {
-            display: flex;
-        }
-
+        .trial-modal.active { display: flex; }
         .trial-modal-content {
-            max-width: 1000px;
-            width: 90%;
+            max-width: 1100px; width: 92%;
             background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
+            backdrop-filter: blur(16px); border-radius: 32px;
             border: 1px solid rgba(220, 90, 50, 0.4);
-            cursor: default;
-            max-height: 85vh;
-            overflow-y: auto;
+            cursor: default; max-height: 88vh; overflow-y: auto;
         }
-
         .trial-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 1.2rem 1.5rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.3);
         }
-
-        .trial-modal-header h3 {
-            font-size: 1.5rem;
-            color: #e16d48;
-        }
-
+        .trial-modal-header h3 { font-size: 1.5rem; color: #e16d48; }
         .trial-modal-close {
-            font-size: 2rem;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
+            font-size: 2rem; color: white; cursor: pointer; transition: all 0.3s;
         }
+        .trial-modal-close:hover { color: #e16d48; transform: scale(1.1); }
+        .trial-modal-body { padding: 1.5rem; }
 
-        .trial-modal-close:hover {
-            color: #e16d48;
-            transform: scale(1.1);
-        }
-
-        .trial-modal-body {
-            padding: 1.5rem;
-        }
-
-        .trial-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .trial-info-image {
-            flex: 1;
-            min-width: 200px;
-        }
-
+        .trial-info { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .trial-info-image { flex: 1; min-width: 200px; }
         .trial-info-image img {
-            width: 100%;
-            border-radius: 20px;
+            width: 100%; border-radius: 20px;
             border: 2px solid rgba(220, 90, 50, 0.4);
         }
-
-        .trial-info-text {
-            flex: 2;
-        }
-
+        .trial-info-text { flex: 2; }
         .trial-info-text p {
-            color: #d1cce6;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            white-space: pre-line;
+            color: #d1cce6; line-height: 1.6; margin-bottom: 1rem; white-space: pre-line;
         }
 
-        /* ===== СЛАЙДЕР ГАЛЕРЕИ ===== */
-        .trial-gallery {
-            margin-top: 1.5rem;
-        }
-
+        /* ===== СЛАЙДЕР ГАЛЕРЕИ (3 слайда) ===== */
+        .trial-gallery { margin-top: 1.5rem; }
         .trial-gallery h4 {
-            font-size: 1.2rem;
-            color: #e16d48;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-left: 3px solid #e16d48;
-            padding-left: 12px;
+            font-size: 1.2rem; color: #e16d48; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 8px;
+            border-left: 3px solid #e16d48; padding-left: 12px;
         }
 
         .gallery-slider {
             position: relative;
-            background: rgba(10, 6, 18, 0.6);
-            border-radius: 20px;
-            border: 1px solid rgba(220, 90, 50, 0.3);
-            overflow: hidden;
+            width: 100%;
         }
 
         .slider-viewport {
             position: relative;
             width: 100%;
-            aspect-ratio: 16 / 9;
             overflow: hidden;
-            background: #0a0612;
+            padding: 0 0 8px 0;
         }
 
         .slider-track {
             display: flex;
-            height: 100%;
-            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.3, 1);
+            gap: 14px;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.3, 1);
             will-change: transform;
+            padding: 4px 0;
         }
 
         .slider-slide {
-            flex: 0 0 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex: 0 0 calc((100% - 28px) / 3);
+            height: 240px;
+            border-radius: 16px;
+            overflow: hidden;
             cursor: zoom-in;
-        }
-
-        .slider-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            border: 1px solid rgba(220, 90, 50, 0.25);
             background: #0a0612;
-            user-select: none;
-            -webkit-user-drag: none;
+            position: relative;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .slider-slide:hover {
+            border-color: #e16d48;
+            transform: translateY(-3px);
+        }
+        .slider-slide img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; user-select: none; -webkit-user-drag: none;
         }
 
         .slider-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: rgba(18, 12, 28, 0.85);
-            border: 1px solid rgba(220, 90, 50, 0.5);
-            color: #e16d48;
-            font-size: 1.1rem;
+            background: rgba(10, 6, 18, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f0eef7;
+            font-size: 1.05rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -630,141 +324,78 @@
             transition: all 0.25s;
             z-index: 5;
             user-select: none;
+            backdrop-filter: blur(6px);
         }
-
         .slider-arrow:hover {
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
+            background: rgba(20, 12, 30, 0.95);
+            color: #e16d48;
             border-color: #e16d48;
-            transform: translateY(-50%) scale(1.08);
         }
-
-        .slider-arrow.prev { left: 12px; }
-        .slider-arrow.next { right: 12px; }
+        .slider-arrow.prev { left: 8px; }
+        .slider-arrow.next { right: 8px; }
 
         .slider-arrow.disabled {
-            opacity: 0.3;
+            opacity: 0.25;
             cursor: default;
             pointer-events: none;
-        }
-
-        .slider-counter {
-            position: absolute;
-            top: 12px;
-            right: 14px;
-            background: rgba(18, 12, 28, 0.85);
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            color: #f0eef7;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            letter-spacing: 0.5px;
-            z-index: 5;
         }
 
         .slider-dots {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
-            padding: 10px 12px;
-            flex-wrap: wrap;
-            background: rgba(18, 12, 28, 0.5);
-            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            gap: 8px;
+            padding: 14px 12px 4px;
         }
-
         .slider-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.18);
             cursor: pointer;
             transition: all 0.25s;
             border: none;
             padding: 0;
         }
-
-        .slider-dot:hover {
-            background: rgba(225, 109, 72, 0.6);
-        }
-
+        .slider-dot:hover { background: rgba(225, 109, 72, 0.6); }
         .slider-dot.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            width: 22px;
+            width: 26px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(226, 93, 50, 0.5);
         }
 
         /* ===== МОДАЛКА УВЕЛИЧЕННОГО ИЗОБРАЖЕНИЯ ===== */
         .image-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 20000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(15px);
-            cursor: pointer;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98);
+            z-index: 20000; justify-content: center; align-items: center;
+            backdrop-filter: blur(15px); cursor: pointer;
         }
-
-        .image-modal.active {
-            display: flex;
-        }
-
-        .image-modal-content {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
+        .image-modal.active { display: flex; }
+        .image-modal-content { max-width: 90%; max-height: 90%; }
         .image-modal-content img {
-            max-width: 100%;
-            max-height: 85vh;
-            border-radius: 12px;
+            max-width: 100%; max-height: 85vh; border-radius: 12px;
             border: 2px solid rgba(220, 90, 50, 0.5);
         }
-
         .image-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 20001;
+            position: absolute; top: 20px; right: 30px;
+            font-size: 40px; color: white; cursor: pointer;
+            transition: all 0.3s; z-index: 20001;
         }
-
-        .image-modal-close:hover {
-            color: #e16d48;
-            transform: scale(1.1);
-        }
+        .image-modal-close:hover { color: #e16d48; transform: scale(1.1); }
 
         footer {
-            margin-top: 3rem;
-            text-align: center;
-            padding: 1.5rem 0;
+            margin-top: 3rem; text-align: center; padding: 1.5rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
-            background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
+            font-size: 0.75rem; background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px); border-radius: 50px;
         }
-
-        .footer-logo {
-            max-height: 32px;
-            width: auto;
-            margin-bottom: 0.5rem;
-        }
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
 
         @media (max-width: 900px) {
-            .trials-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .trials-grid { grid-template-columns: repeat(2, 1fr); }
+            .slider-slide { flex: 0 0 calc((100% - 14px) / 2); height: 200px; }
         }
 
         @media (max-width: 850px) {
@@ -795,15 +426,10 @@
             .volume-slider { width: 100px; }
             .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
 
-            .slider-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 0.9rem;
-            }
-            .slider-arrow.prev { left: 6px; }
-            .slider-arrow.next { right: 6px; }
-            .slider-counter { font-size: 0.65rem; padding: 3px 8px; }
-            .slider-viewport { aspect-ratio: 4 / 3; }
+            .slider-slide { flex: 0 0 100%; height: 200px; }
+            .slider-arrow { width: 38px; height: 38px; font-size: 0.85rem; }
+            .slider-arrow.prev { left: 4px; }
+            .slider-arrow.next { right: 4px; }
         }
     </style>
 </head>
@@ -839,7 +465,6 @@
             <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
             <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
 
-            <!-- ===== УПРАВЛЕНИЕ МУЗЫКОЙ ===== -->
             <div class="music-controls-wrapper">
                 <div class="music-controls">
                     <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
@@ -852,7 +477,6 @@
                     </div>
                 </div>
 
-                <!-- Выпадающий регулятор громкости -->
                 <div class="volume-dropdown" id="volumeDropdown">
                     <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
                     <div class="volume-slider-wrapper">
@@ -917,10 +541,10 @@
     // ===== ДАННЫЕ ИСПЫТАНИЙ =====
     const trialsData = [
         {
-    id: "informant",
-    name: "Убейте стукача",
-    image: "../images/Убейте стукача.webp",
-    description: `Реагенты появляются снаружи Полицейского участка (Police Station) и видят несколько телевизионных экранов. Трансляции сразу знакомят Реагентов с сержантом Лиландом Койлом — коррумпированным, расистским и вспыльчивым южным полицейским, получающим сексуальное удовольствие от боли и доминирования, — который пытает мужчину с мешком на голове своим электрошокером в Тюрьме Полицейского участка (Police Station's Jail). Пленник — это Стукач (The Snitch), который, предположительно, обладает знаниями о тёмных делах корпорации Мёркофф (Murkoff Corporation). Таким образом, Реагентам поручено задержать и казнить Стукача, чтобы защитить «правду» Мёркофф.
+            id: "informant",
+            name: "Убейте стукача",
+            image: "../images/Убейте стукача.webp",
+            description: `Реагенты появляются снаружи Полицейского участка (Police Station) и видят несколько телевизионных экранов. Трансляции сразу знакомят Реагентов с сержантом Лиландом Койлом — коррумпированным, расистским и вспыльчивым южным полицейским, получающим сексуальное удовольствие от боли и доминирования, — который пытает мужчину с мешком на голове своим электрошокером в Тюрьме Полицейского участка (Police Station's Jail). Пленник — это Стукач (The Snitch), который, предположительно, обладает знаниями о тёмных делах корпорации Мёркофф (Murkoff Corporation). Таким образом, Реагентам поручено задержать и казнить Стукача, чтобы защитить «правду» Мёркофф.
 
 Войдя в Полицейский участок через главный вход, Реагенты должны проскользнуть мимо Экс-попов, бродящих по коридорам, и добраться до Комнаты охраны (Security Room), чтобы отменить блокировку Тюрьмы. Достигнув Комнаты охраны и нажав Кнопочный переключатель (Button Switch) для получения доступа в Тюрьму, Реагенты наблюдают, как Койл противостоит Экс-попу, скрывающемуся возле камеры Стукача. Койл в ярости вершит своё собственное «правосудие», избивая Экс-попа до кровавого месива и разрывая ему голову смертельным разрядом напряжения из своего электрошокера. Осознав присутствие Реагентов, Койл затем уходит на Подземную парковку (Underground Parking lot).
 
@@ -964,8 +588,8 @@
 После нахождения всех ключей и разблокировки всех ворот Реагенты могут толкать Стукача до самой Камеры казни. Там Камера казни освещается, и Стукача силой помещают в модифицированное устройство для казни электричеством в центре комнаты. Четыре консоли с рычагами все подключены к устройству, и их нужно дёрнуть Реагентам, чтобы поднять напряжение устройства до 100% его мощности, чтобы Стукач мог быть болезненно казнён. Однако Лиланд Койл врывается в Камеру казни, чтобы помешать Реагентам убить Стукача, требуя от Реагентов управлять своим временем, чтобы поднять напряжение, избегая Койла. На более высоких уровнях сложности Большой Экс-поп, патрулирующий главный зал, поможет Койлу охотиться на Реагентов. Кроме того, если Реагенты тратят слишком много времени на дёргание рычагов, консоли перегрузятся и начнут бить их током.
 
 Как только Реагенты успешно поднимут мощность до 100%, Стукач загорится и сгорит заживо. С Койлом и различными Экс-попами, преследующими их, Реагенты должны затем покинуть Испытание через эвакуационный Шаттл (exit Shuttle).`,
-    gallery: ["../images/стукач-1.png", "../images/стукач-2.png", "../images/стукач-3.png","../images/стукач-4.png","../images/стукач-5.png"]
-},
+            gallery: ["../images/стукач-1.png", "../images/стукач-2.png", "../images/стукач-3.png","../images/стукач-4.png","../images/стукач-5.png"]
+        },
         {
             id: "autopsy",
             name: "Отмените вскрытие",
@@ -1017,9 +641,7 @@
     function initMainAudio() {
         var container = document.getElementById('mainAudioContainer');
         if (!container) return;
-        
         container.innerHTML = '';
-        
         var audio = document.createElement('audio');
         audio.id = 'mainAudio';
         audio.preload = 'auto';
@@ -1035,20 +657,13 @@
 
     function startMainMusic() {
         if (mainAudioStarted) return;
-
         initMainAudio();
-        
-        if (!mainAudioElement) {
-            setTimeout(startMainMusic, 500);
-            return;
-        }
-
+        if (!mainAudioElement) { setTimeout(startMainMusic, 500); return; }
         mainAudioStarted = true;
         var slider = document.getElementById('volumeSlider');
         mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
         mainAudioElement.currentTime = 0;
         mainAudioElement.play().catch(function() {});
-        
         updateMusicButton(true);
         updateVolumeDisplay();
     }
@@ -1056,23 +671,15 @@
     function updateMusicButton(state) {
         var btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
-        
         var icon = btn.querySelector('.icon');
         var label = btn.querySelector('.label');
-        
         if (state) {
             btn.classList.add('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-xmark');
-                icon.classList.add('fa-volume-high', 'pulse');
-            }
+            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
             if (label) label.textContent = 'Вкл';
         } else {
             btn.classList.remove('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-high', 'pulse');
-                icon.classList.add('fa-volume-xmark');
-            }
+            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
             if (label) label.textContent = 'Выкл';
         }
     }
@@ -1080,41 +687,26 @@
     function toggleMainMusic() {
         if (mainAudioStarted) {
             mainAudioStarted = false;
-            
-            if (mainAudioElement) {
-                mainAudioElement.pause();
-                mainAudioElement.currentTime = 0;
-            }
-            
+            if (mainAudioElement) { mainAudioElement.pause(); mainAudioElement.currentTime = 0; }
             updateMusicButton(false);
         } else {
             mainAudioStarted = true;
-            
             initMainAudio();
-            
-            if (!mainAudioElement) {
-                mainAudioStarted = false;
-                return;
-            }
-            
+            if (!mainAudioElement) { mainAudioStarted = false; return; }
             var slider = document.getElementById('volumeSlider');
             mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
             mainAudioElement.currentTime = 0;
             mainAudioElement.play().catch(function() {});
-            
             updateMusicButton(true);
             updateVolumeDisplay();
         }
     }
 
-    // ===== УПРАВЛЕНИЕ ГРОМКОСТЬЮ =====
     var volumeDropdownOpen = false;
-
     function toggleVolumeDropdown() {
         volumeDropdownOpen = !volumeDropdownOpen;
         var dropdown = document.getElementById('volumeDropdown');
         var arrow = document.querySelector('.volume-toggle-btn .arrow');
-        
         if (volumeDropdownOpen) {
             if (dropdown) dropdown.classList.add('open');
             if (arrow) arrow.classList.add('open');
@@ -1128,8 +720,7 @@
         var slider = document.getElementById('volumeSlider');
         var valueDisplay = document.getElementById('volumeValue');
         if (!slider || !valueDisplay) return;
-        var val = parseInt(slider.value, 10);
-        valueDisplay.textContent = val + '%';
+        valueDisplay.textContent = parseInt(slider.value, 10) + '%';
     }
 
     document.addEventListener('click', function(e) {
@@ -1146,41 +737,28 @@
     document.addEventListener('DOMContentLoaded', function() {
         var slider = document.getElementById('volumeSlider');
         var valueDisplay = document.getElementById('volumeValue');
-        
         if (slider) {
             slider.addEventListener('input', function() {
                 var val = parseInt(this.value, 10);
                 if (valueDisplay) valueDisplay.textContent = val + '%';
-                
-                if (mainAudioElement && mainAudioStarted) {
-                    mainAudioElement.volume = val / 100;
-                }
-                
-                var percent = val;
-                slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + percent + '%, rgba(255,255,255,0.15) ' + percent + '%, rgba(255,255,255,0.15) 100%)';
+                if (mainAudioElement && mainAudioStarted) mainAudioElement.volume = val / 100;
+                slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + val + '%, rgba(255,255,255,0.15) ' + val + '%, rgba(255,255,255,0.15) 100%)';
             });
-            
             var initialVal = parseInt(slider.value, 10);
             slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + initialVal + '%, rgba(255,255,255,0.15) ' + initialVal + '%, rgba(255,255,255,0.15) 100%)';
             updateVolumeDisplay();
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(startMainMusic, 1500);
-    });
-
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(startMainMusic, 1500); });
     document.addEventListener('click', function initAudioOnClick() {
-        if (!mainAudioStarted) {
-            startMainMusic();
-            document.removeEventListener('click', initAudioOnClick);
-        }
+        if (!mainAudioStarted) { startMainMusic(); document.removeEventListener('click', initAudioOnClick); }
     }, { once: true });
 
     window.toggleMainMusic = toggleMainMusic;
     window.toggleVolumeDropdown = toggleVolumeDropdown;
 
-    // ===== МОДАЛКИ ИСПЫТАНИЙ =====
+    // ===== МОДАЛКИ =====
     const trialModal = document.getElementById('trialModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
@@ -1189,27 +767,36 @@
     const fullImage = document.getElementById('fullImage');
     const imageModalClose = document.querySelector('.image-modal-close');
 
-    // ===== СОСТОЯНИЕ СЛАЙДЕРА =====
+    // ===== СЛАЙДЕР: СОСТОЯНИЕ =====
     var sliderState = {
         track: null,
         dots: [],
-        counter: null,
         prevBtn: null,
         nextBtn: null,
+        slides: [],
         images: [],
         currentIndex: 0,
+        perView: 3,
+        gap: 14,
         touchStartX: 0,
         touchEndX: 0
     };
 
+    function getPerView() {
+        var w = window.innerWidth;
+        if (w <= 600) return 1;
+        if (w <= 900) return 2;
+        return 3;
+    }
+
     function openTrialModal(trial) {
         modalTitle.textContent = trial.name;
-        
+
         let galleryHtml = '';
         if (trial.gallery && trial.gallery.length > 0) {
             galleryHtml = `
                 <div class="trial-gallery">
-                    <h4><i class="fas fa-images"></i> Галерея <span style="font-size:0.85rem;color:#8a7a9a;font-weight:500;">(${trial.gallery.length})</span></h4>
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
                     <div class="gallery-slider" id="gallerySlider">
                         <div class="slider-viewport">
                             <div class="slider-track" id="sliderTrack">
@@ -1219,7 +806,6 @@
                                     </div>
                                 `).join('')}
                             </div>
-                            <div class="slider-counter" id="sliderCounter">1 / ${trial.gallery.length}</div>
                             <button class="slider-arrow prev" id="sliderPrev" aria-label="Предыдущее изображение"><i class="fas fa-chevron-left"></i></button>
                             <button class="slider-arrow next" id="sliderNext" aria-label="Следующее изображение"><i class="fas fa-chevron-right"></i></button>
                         </div>
@@ -1232,7 +818,7 @@
                 </div>
             `;
         }
-        
+
         modalBody.innerHTML = `
             <div class="trial-info">
                 <div class="trial-info-image">
@@ -1244,10 +830,10 @@
             </div>
             ${galleryHtml}
         `;
-        
+
         trialModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
+
         if (trial.gallery && trial.gallery.length > 0) {
             initSlider(trial.gallery);
         }
@@ -1256,11 +842,12 @@
     function initSlider(images) {
         sliderState.images = images;
         sliderState.currentIndex = 0;
+        sliderState.perView = getPerView();
         sliderState.track = document.getElementById('sliderTrack');
-        sliderState.counter = document.getElementById('sliderCounter');
         sliderState.prevBtn = document.getElementById('sliderPrev');
         sliderState.nextBtn = document.getElementById('sliderNext');
         sliderState.dots = Array.from(document.querySelectorAll('#sliderDots .slider-dot'));
+        sliderState.slides = Array.from(document.querySelectorAll('.slider-slide'));
 
         if (!sliderState.track) return;
 
@@ -1280,8 +867,7 @@
             });
         });
 
-        // Клик по изображению — открыть в полном размере
-        document.querySelectorAll('.slider-slide').forEach(function(slide) {
+        sliderState.slides.forEach(function(slide) {
             slide.addEventListener('click', function(e) {
                 e.stopPropagation();
                 var imgSrc = slide.getAttribute('data-img');
@@ -1293,7 +879,6 @@
             });
         });
 
-        // Свайпы
         var viewport = sliderState.track.parentElement;
         viewport.addEventListener('touchstart', function(e) {
             sliderState.touchStartX = e.changedTouches[0].screenX;
@@ -1303,55 +888,67 @@
             handleSwipe();
         }, { passive: true });
 
+        window.addEventListener('resize', onSliderResize);
         updateSlider();
+    }
+
+    function onSliderResize() {
+        if (!sliderState.track) return;
+        var newPerView = getPerView();
+        if (newPerView !== sliderState.perView) {
+            sliderState.perView = newPerView;
+            updateSlider();
+        }
     }
 
     function handleSwipe() {
         var diff = sliderState.touchStartX - sliderState.touchEndX;
         if (Math.abs(diff) < 40) return;
-        if (diff > 0) {
-            goToSlide(sliderState.currentIndex + 1);
-        } else {
-            goToSlide(sliderState.currentIndex - 1);
-        }
+        if (diff > 0) goToSlide(sliderState.currentIndex + 1);
+        else goToSlide(sliderState.currentIndex - 1);
     }
 
     function goToSlide(index) {
         var total = sliderState.images.length;
         if (total === 0) return;
+        var maxIndex = Math.max(0, total - sliderState.perView);
         if (index < 0) index = 0;
-        if (index >= total) index = total - 1;
+        if (index > maxIndex) index = maxIndex;
         sliderState.currentIndex = index;
         updateSlider();
     }
 
     function updateSlider() {
+        if (!sliderState.track) return;
         var total = sliderState.images.length;
         var idx = sliderState.currentIndex;
+        var perView = sliderState.perView;
 
-        if (sliderState.track) {
-            sliderState.track.style.transform = 'translateX(-' + (idx * 100) + '%)';
-        }
-        if (sliderState.counter) {
-            sliderState.counter.textContent = (idx + 1) + ' / ' + total;
-        }
+        var viewport = sliderState.track.parentElement;
+        var viewportWidth = viewport.clientWidth;
+        var gap = sliderState.gap;
+        var slideWidth = (viewportWidth - gap * (perView - 1)) / perView;
+        var offset = idx * (slideWidth + gap);
+
+        sliderState.track.style.transform = 'translateX(-' + offset + 'px)';
+
+        // Активная точка — та, что ближе к центру видимой области
+        var centerIdx = idx;
         sliderState.dots.forEach(function(dot, i) {
-            dot.classList.toggle('active', i === idx);
+            dot.classList.toggle('active', i === centerIdx);
         });
-        if (sliderState.prevBtn) {
-            sliderState.prevBtn.classList.toggle('disabled', idx === 0);
-        }
-        if (sliderState.nextBtn) {
-            sliderState.nextBtn.classList.toggle('disabled', idx === total - 1);
-        }
+
+        var maxIndex = Math.max(0, total - perView);
+        if (sliderState.prevBtn) sliderState.prevBtn.classList.toggle('disabled', idx === 0);
+        if (sliderState.nextBtn) sliderState.nextBtn.classList.toggle('disabled', idx >= maxIndex);
     }
 
     function closeModal() {
         trialModal.classList.remove('active');
         document.body.style.overflow = '';
-        // сброс слайдера
         sliderState.track = null;
         sliderState.dots = [];
+        sliderState.slides = [];
     }
 
     function closeImageModal() {
@@ -1363,9 +960,7 @@
     function displayTrials() {
         const container = document.getElementById('trialsGrid');
         if (!container) return;
-        
         container.innerHTML = '';
-        
         trialsData.forEach(trial => {
             const card = document.createElement('div');
             card.className = 'trial-card';
@@ -1376,8 +971,6 @@
             `;
             container.appendChild(card);
         });
-        
-        console.log('Отображено испытаний:', trialsData.length);
     }
 
     modalClose.addEventListener('click', closeModal);
@@ -1386,21 +979,11 @@
     imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && imageModal.classList.contains('active')) {
-            closeImageModal();
-            return;
-        }
-        if (e.key === 'Escape' && trialModal.classList.contains('active')) {
-            closeModal();
-            return;
-        }
-        // Управление слайдером стрелками, если открыта модалка испытания
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) { closeImageModal(); return; }
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) { closeModal(); return; }
         if (trialModal.classList.contains('active') && !imageModal.classList.contains('active') && sliderState.images.length > 0) {
-            if (e.key === 'ArrowLeft') {
-                goToSlide(sliderState.currentIndex - 1);
-            } else if (e.key === 'ArrowRight') {
-                goToSlide(sliderState.currentIndex + 1);
-            }
+            if (e.key === 'ArrowLeft') goToSlide(sliderState.currentIndex - 1);
+            else if (e.key === 'ArrowRight') goToSlide(sliderState.currentIndex + 1);
         }
     });
 
@@ -1414,7 +997,6 @@
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-        
         document.querySelectorAll('.map-container, .trials-section').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
@@ -1426,7 +1008,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         displayTrials();
         initScrollAnimation();
-        console.log('DOM загружен, скрипт выполнен');
     });
 </script>
 
