@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Побег — Испытание | Курилка Синьялы</title>
+    <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="../images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="../images/лого.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        .background-video {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
+        }
+
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        .container {
+            max-width: 1400px; margin: 0 auto;
+            padding: 1rem 1.8rem; position: relative; z-index: 10;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            transition: all 0.3s; animation: fadeInScale 0.6s ease-out;
+        }
+        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
+
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
+        .logo .logo-text {
+            font-size: 1.4rem; font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; white-space: nowrap;
+        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
+
+        .nav-links {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.15);
+        }
+
+        .nav-btn {
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
+            text-decoration: none;
+        }
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+        }
+
+        /* ===== МУЗЫКА ===== */
+        .music-controls { display: flex; align-items: center; gap: 0.5rem; margin-left: 0.5rem; position: relative; }
+        .music-toggle {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px; padding: 0.4rem 0.9rem;
+            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+        }
+        .music-toggle:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
+        .music-toggle.playing { border-color: rgba(220, 90, 50, 0.3); color: #e25d32; }
+        .music-toggle .icon { font-size: 1rem; transition: all 0.3s; }
+        .music-toggle .icon.pulse { animation: musicPulse 1.2s ease-in-out infinite; }
+        .music-toggle .label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; }
+
+        .volume-toggle-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px; padding: 0.4rem 0.7rem;
+            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+        }
+        .volume-toggle-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
+        .volume-toggle-btn .arrow { transition: transform 0.3s ease; display: inline-block; }
+        .volume-toggle-btn .arrow.open { transform: rotate(180deg); }
+
+        .volume-dropdown {
+            display: none; position: absolute; top: calc(100% + 8px); right: 0;
+            background: rgba(18, 12, 28, 0.95); backdrop-filter: blur(16px);
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 20px; padding: 1rem 1.5rem;
+            min-width: 200px; z-index: 100;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+        .volume-dropdown.open { display: block; animation: fadeInScale 0.25s ease-out; }
+        .volume-dropdown .volume-label {
+            font-size: 0.7rem; color: #8a7a9a; text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 0.5rem; display: block; text-align: center;
+        }
+        .volume-slider-wrapper { display: flex; align-items: center; gap: 0.8rem; }
+        .volume-slider-wrapper .vol-icon { color: #7a6a8a; font-size: 0.85rem; }
+        .volume-slider-wrapper .vol-icon.active { color: #e25d32; }
+        .volume-slider {
+            -webkit-appearance: none; appearance: none;
+            width: 130px; height: 4px; border-radius: 10px;
+            background: linear-gradient(to right, #e25d32, #e25d32);
+            outline: none; transition: all 0.3s; cursor: pointer;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(188, 70, 39, 0.3); transition: all 0.2s;
+        }
+        .volume-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+        .volume-slider::-moz-range-thumb {
+            width: 16px; height: 16px; border-radius: 50%;
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            cursor: pointer; border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+        .volume-value { font-size: 0.8rem; font-weight: 600; color: #e25d32; min-width: 36px; text-align: center; }
+        .music-controls-wrapper { display: flex; align-items: center; gap: 0.5rem; position: relative; }
+
+        /* ===== ХЛЕБНЫЕ КРОШКИ ===== */
+        .breadcrumb { margin-bottom: 1.5rem; animation: fadeInScale 0.6s ease-out; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: #e16d48; text-decoration: none; font-size: 0.9rem;
+            transition: all 0.3s ease; background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1.2rem; border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+        .back-link:hover { color: white; transform: translateX(-5px); border-color: #e16d48; }
+
+        /* ===== ИСПЫТАНИЯ ===== */
+        .trials-section { margin-bottom: 2rem; animation: fadeInScale 0.6s ease-out 0.15s backwards; }
+        .trials-section h2 {
+            font-size: 1.5rem; color: #e16d48; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 10px;
+            border-left: 3px solid #e16d48; padding-left: 15px;
+        }
+        .trials-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem;
+        }
+        .trial-card {
+            background: rgba(18, 12, 28, 0.6); border-radius: 20px;
+            overflow: hidden; border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s ease; cursor: pointer; text-align: center;
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .trial-card:hover {
+            transform: translateY(-6px); border-color: #e16d48;
+            box-shadow: 0 15px 30px rgba(220, 90, 50, 0.2);
+        }
+        .trial-image {
+            width: 100%; height: 200px; object-fit: cover; object-position: top;
+            display: block; background: linear-gradient(135deg, #2a2a3e, #1a1a2e);
+        }
+        .trial-name {
+            padding: 1rem; font-size: 1rem; font-weight: 600;
+            color: #e16d48; border-top: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        /* ===== МОДАЛКИ ===== */
+        .trial-modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95);
+            z-index: 10000; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px); cursor: pointer;
+        }
+        .trial-modal.active { display: flex; }
+        .trial-modal-content {
+            max-width: 1100px; width: 92%;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px); border-radius: 32px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            cursor: default; max-height: 88vh; overflow-y: auto;
+        }
+        .trial-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+        .trial-modal-header h3 { font-size: 1.5rem; color: #e16d48; }
+        .trial-modal-close {
+            font-size: 2rem; color: white; cursor: pointer; transition: all 0.3s;
+        }
+        .trial-modal-close:hover { color: #e16d48; transform: scale(1.1); }
+        .trial-modal-body { padding: 1.5rem; }
+
+        .trial-info { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .trial-info-image { flex: 1; min-width: 200px; }
+        .trial-info-image img {
+            width: 100%; border-radius: 20px;
+            border: 2px solid rgba(220, 90, 50, 0.4);
+        }
+        .trial-info-text { flex: 2; }
+        .trial-info-text p {
+            color: #d1cce6; line-height: 1.6; margin-bottom: 1rem; white-space: pre-line;
+        }
+
+        /* ===== СЛАЙДЕР ГАЛЕРЕИ (3 слайда) ===== */
+        .trial-gallery { margin-top: 1.5rem; }
+        .trial-gallery h4 {
+            font-size: 1.2rem; color: #e16d48; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 8px;
+            border-left: 3px solid #e16d48; padding-left: 12px;
+        }
+
+        .gallery-slider { position: relative; width: 100%; }
+
+        .slider-viewport {
+            position: relative; width: 100%; overflow: hidden; padding: 0 0 8px 0;
+        }
+
+        .slider-track {
+            display: flex; gap: 14px;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.3, 1);
+            will-change: transform; padding: 4px 0;
+        }
+
+        .slider-slide {
+            flex: 0 0 calc((100% - 28px) / 3);
+            height: 240px; border-radius: 16px; overflow: hidden;
+            cursor: zoom-in; border: 1px solid rgba(220, 90, 50, 0.25);
+            background: #0a0612; position: relative;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .slider-slide:hover { border-color: #e16d48; transform: translateY(-3px); }
+        .slider-slide img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block; user-select: none; -webkit-user-drag: none;
+        }
+
+        .slider-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(10, 6, 18, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f0eef7; font-size: 1.05rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.25s; z-index: 5;
+            user-select: none; backdrop-filter: blur(6px);
+        }
+        .slider-arrow:hover {
+            background: rgba(20, 12, 30, 0.95);
+            color: #e16d48; border-color: #e16d48;
+        }
+        .slider-arrow.prev { left: 8px; }
+        .slider-arrow.next { right: 8px; }
+        .slider-arrow.disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+        .slider-dots {
+            display: flex; justify-content: center; align-items: center;
+            gap: 8px; padding: 14px 12px 4px;
+        }
+        .slider-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            cursor: pointer; transition: all 0.25s;
+            border: none; padding: 0;
+        }
+        .slider-dot:hover { background: rgba(225, 109, 72, 0.6); }
+        .slider-dot.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            width: 26px; border-radius: 5px;
+            box-shadow: 0 0 10px rgba(226, 93, 50, 0.5);
+        }
+
+        /* ===== МОДАЛКА УВЕЛИЧЕННОГО ИЗОБРАЖЕНИЯ ===== */
+        .image-modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98);
+            z-index: 20000; justify-content: center; align-items: center;
+            backdrop-filter: blur(15px); cursor: pointer;
+        }
+        .image-modal.active { display: flex; }
+        .image-modal-content { max-width: 90%; max-height: 90%; }
+        .image-modal-content img {
+            max-width: 100%; max-height: 85vh; border-radius: 12px;
+            border: 2px solid rgba(220, 90, 50, 0.5);
+        }
+        .image-modal-close {
+            position: absolute; top: 20px; right: 30px;
+            font-size: 40px; color: white; cursor: pointer;
+            transition: all 0.3s; z-index: 20001;
+        }
+        .image-modal-close:hover { color: #e16d48; transform: scale(1.1); }
+
+        footer {
+            margin-top: 3rem; text-align: center; padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem; background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px); border-radius: 50px;
+        }
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
+
+        @media (max-width: 900px) {
+            .trials-grid { grid-template-columns: repeat(2, 1fr); }
+            .slider-slide { flex: 0 0 calc((100% - 14px) / 2); height: 200px; }
+        }
+
+        @media (max-width: 850px) {
+            .container { padding: 0.8rem; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+            .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
+            .music-controls-wrapper { margin-top: 0.5rem; width: 100%; justify-content: center; }
+            .volume-dropdown { right: auto; left: 50%; transform: translateX(-50%); }
+            .volume-dropdown.open { transform: translateX(-50%) scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .trials-grid { grid-template-columns: 1fr; }
+            .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+            .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .music-toggle .label { font-size: 0.6rem; }
+            .volume-toggle-btn { font-size: 0.7rem; padding: 0.3rem 0.5rem; }
+            .logo .logo-img { max-height: 32px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo { gap: 0.4rem; }
+            .trial-modal-header h3 { font-size: 1.2rem; }
+            .trial-info { flex-direction: column; }
+            .volume-slider { width: 100px; }
+            .volume-dropdown { min-width: 170px; padding: 0.8rem 1rem; }
+
+            .slider-slide { flex: 0 0 100%; height: 200px; }
+            .slider-arrow { width: 38px; height: 38px; font-size: 0.85rem; }
+            .slider-arrow.prev { left: 4px; }
+            .slider-arrow.next { right: 4px; }
+        }
+    </style>
+</head>
+<body>
+
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
+
+<!-- Аудио для фона -->
+<div id="mainAudioContainer" style="display:none;">
+    <audio id="mainAudio" preload="auto" loop>
+        <source src="../images/escape music.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<div class="container">
+
+    <!-- ===== НАВИГАЦИЯ ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+            <div>
+                <span class="logo-text">Курилка Синьялы</span>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="../news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+
+            <div class="music-controls-wrapper">
+                <div class="music-controls">
+                    <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
+                        <span class="icon fa-solid fa-volume-xmark"></span>
+                        <span class="label">Выкл</span>
+                    </button>
+
+                    <div class="volume-toggle-btn" id="volumeToggleBtn" onclick="toggleVolumeDropdown()" title="Регулировка громкости">
+                        <span class="arrow">▼</span>
+                    </div>
+                </div>
+
+                <div class="volume-dropdown" id="volumeDropdown">
+                    <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
+                    <div class="volume-slider-wrapper">
+                        <span class="vol-icon"><i class="fas fa-volume-low"></i></span>
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+                        <span class="vol-icon active"><i class="fas fa-volume-high"></i></span>
+                        <span class="volume-value" id="volumeValue">40%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ХЛЕБНЫЕ КРОШКИ ===== -->
+    <div class="breadcrumb">
+        <a href="genesis.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к программе «Генезис»</a>
+    </div>
+
+    <!-- ===== ИСПЫТАНИЯ ===== -->
+    <div class="trials-section">
+        <h2><i class="fas fa-clipboard-list"></i> Испытания полигона</h2>
+        <div class="trials-grid" id="trialsGrid"></div>
+    </div>
+
+    <footer>
+        <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<!-- ===== МОДАЛКИ ===== -->
+<div id="trialModal" class="trial-modal">
+    <div class="trial-modal-content">
+        <div class="trial-modal-header">
+            <h3 id="modalTitle">Название испытания</h3>
+            <span class="trial-modal-close">&times;</span>
+        </div>
+        <div class="trial-modal-body" id="modalBody"></div>
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <div class="image-modal-content">
+        <img id="fullImage" src="" alt="Увеличенное изображение">
+    </div>
+</div>
+
+<script>
+    // ===== ДАННЫЕ ИСПЫТАНИЙ =====
+    // Испытание «Сбегите от лжи» — описание заготовка. Вставьте точный текст, когда он будет готов.
+    const trialsData = [
+        {
+            id: "escape-lie",
+            name: "Сбегите от лжи",
+            image: "../images/Сбегите от лжи.webp",
+            description: `Описание испытания «Сбегите от лжи» будет добавлено позже.
+
+Здесь будет подробный текст: цели, этапы, механики, враги, особенности на разных уровнях сложности.`,
+            gallery: [
+                "../images/ложь-1.webp",
+                "../images/ложь-2.webp",
+                "../images/ложь-3.webp",
+                "../images/ложь-4.webp",
+                "../images/ложь-5.webp",
+                "../images/ложь-6.webp",
+                "../images/ложь-7.webp",
+                "../images/ложь-8.webp"
+            ]
+        }
+    ];
+
+    // ===== МУЗЫКА =====
+    var mainAudioStarted = false;
+    var mainAudioElement = null;
+    var MUSIC_SRC = '../images/escape music.mp3';
+
+    function initMainAudio() {
+        var container = document.getElementById('mainAudioContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        var audio = document.createElement('audio');
+        audio.id = 'mainAudio';
+        audio.preload = 'auto';
+        audio.volume = 0.4;
+        audio.loop = true;
+        var source = document.createElement('source');
+        source.src = MUSIC_SRC;
+        source.type = 'audio/mpeg';
+        audio.appendChild(source);
+        container.appendChild(audio);
+        mainAudioElement = audio;
+    }
+
+    function startMainMusic() {
+        if (mainAudioStarted) return;
+        initMainAudio();
+        if (!mainAudioElement) { setTimeout(startMainMusic, 500); return; }
+        mainAudioStarted = true;
+        var slider = document.getElementById('volumeSlider');
+        mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
+        mainAudioElement.currentTime = 0;
+        mainAudioElement.play().catch(function() {});
+        updateMusicButton(true);
+        updateVolumeDisplay();
+    }
+
+    function updateMusicButton(state) {
+        var btn = document.getElementById('musicToggleBtn');
+        if (!btn) return;
+        var icon = btn.querySelector('.icon');
+        var label = btn.querySelector('.label');
+        if (state) {
+            btn.classList.add('playing');
+            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
+            if (label) label.textContent = 'Вкл';
+        } else {
+            btn.classList.remove('playing');
+            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
+            if (label) label.textContent = 'Выкл';
+        }
+    }
+
+    function toggleMainMusic() {
+        if (mainAudioStarted) {
+            mainAudioStarted = false;
+            if (mainAudioElement) { mainAudioElement.pause(); mainAudioElement.currentTime = 0; }
+            updateMusicButton(false);
+        } else {
+            mainAudioStarted = true;
+            initMainAudio();
+            if (!mainAudioElement) { mainAudioStarted = false; return; }
+            var slider = document.getElementById('volumeSlider');
+            mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
+            mainAudioElement.currentTime = 0;
+            mainAudioElement.play().catch(function() {});
+            updateMusicButton(true);
+            updateVolumeDisplay();
+        }
+    }
+
+    var volumeDropdownOpen = false;
+    function toggleVolumeDropdown() {
+        volumeDropdownOpen = !volumeDropdownOpen;
+        var dropdown = document.getElementById('volumeDropdown');
+        var arrow = document.querySelector('.volume-toggle-btn .arrow');
+        if (volumeDropdownOpen) {
+            if (dropdown) dropdown.classList.add('open');
+            if (arrow) arrow.classList.add('open');
+        } else {
+            if (dropdown) dropdown.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+        }
+    }
+
+    function updateVolumeDisplay() {
+        var slider = document.getElementById('volumeSlider');
+        var valueDisplay = document.getElementById('volumeValue');
+        if (!slider || !valueDisplay) return;
+        valueDisplay.textContent = parseInt(slider.value, 10) + '%';
+    }
+
+    document.addEventListener('click', function(e) {
+        var wrapper = document.querySelector('.music-controls-wrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+            var dropdown = document.getElementById('volumeDropdown');
+            var arrow = document.querySelector('.volume-toggle-btn .arrow');
+            if (dropdown) dropdown.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
+            volumeDropdownOpen = false;
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var slider = document.getElementById('volumeSlider');
+        var valueDisplay = document.getElementById('volumeValue');
+        if (slider) {
+            slider.addEventListener('input', function() {
+                var val = parseInt(this.value, 10);
+                if (valueDisplay) valueDisplay.textContent = val + '%';
+                if (mainAudioElement && mainAudioStarted) mainAudioElement.volume = val / 100;
+                slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + val + '%, rgba(255,255,255,0.15) ' + val + '%, rgba(255,255,255,0.15) 100%)';
+            });
+            var initialVal = parseInt(slider.value, 10);
+            slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + initialVal + '%, rgba(255,255,255,0.15) ' + initialVal + '%, rgba(255,255,255,0.15) 100%)';
+            updateVolumeDisplay();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(startMainMusic, 1500); });
+    document.addEventListener('click', function initAudioOnClick() {
+        if (!mainAudioStarted) { startMainMusic(); document.removeEventListener('click', initAudioOnClick); }
+    }, { once: true });
+
+    window.toggleMainMusic = toggleMainMusic;
+    window.toggleVolumeDropdown = toggleVolumeDropdown;
+
+    // ===== МОДАЛКИ =====
+    const trialModal = document.getElementById('trialModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.querySelector('.trial-modal-close');
+    const imageModal = document.getElementById('imageModal');
+    const fullImage = document.getElementById('fullImage');
+    const imageModalClose = document.querySelector('.image-modal-close');
+
+    // ===== СЛАЙДЕР: СОСТОЯНИЕ =====
+    var sliderState = {
+        track: null,
+        dots: [],
+        prevBtn: null,
+        nextBtn: null,
+        slides: [],
+        images: [],
+        currentIndex: 0,
+        perView: 3,
+        gap: 14,
+        touchStartX: 0,
+        touchEndX: 0
+    };
+
+    function getPerView() {
+        var w = window.innerWidth;
+        if (w <= 600) return 1;
+        if (w <= 900) return 2;
+        return 3;
+    }
+
+    function openTrialModal(trial) {
+        modalTitle.textContent = trial.name;
+
+        let galleryHtml = '';
+        if (trial.gallery && trial.gallery.length > 0) {
+            galleryHtml = `
+                <div class="trial-gallery">
+                    <h4><i class="fas fa-images"></i> Галерея</h4>
+                    <div class="gallery-slider" id="gallerySlider">
+                        <div class="slider-viewport">
+                            <div class="slider-track" id="sliderTrack">
+                                ${trial.gallery.map((img, i) => `
+                                    <div class="slider-slide" data-index="${i}" data-img="${img}">
+                                        <img src="${img}" alt="Изображение ${i + 1}" onerror="this.src='https://placehold.co/800x450/1a1a2e/e16d48?text=Фото+${i + 1}'">
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button class="slider-arrow prev" id="sliderPrev" aria-label="Предыдущее изображение"><i class="fas fa-chevron-left"></i></button>
+                            <button class="slider-arrow next" id="sliderNext" aria-label="Следующее изображение"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="slider-dots" id="sliderDots">
+                            ${trial.gallery.map((_, i) => `
+                                <button class="slider-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Перейти к изображению ${i + 1}"></button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        modalBody.innerHTML = `
+            <div class="trial-info">
+                <div class="trial-info-image">
+                    <img src="${trial.image}" alt="${trial.name}" onerror="this.src='https://placehold.co/400x300/1a1a2e/e16d48?text=${trial.name}'">
+                </div>
+                <div class="trial-info-text">
+                    <p>${trial.description}</p>
+                </div>
+            </div>
+            ${galleryHtml}
+        `;
+
+        trialModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        if (trial.gallery && trial.gallery.length > 0) {
+            initSlider(trial.gallery);
+        }
+    }
+
+    function initSlider(images) {
+        sliderState.images = images;
+        sliderState.currentIndex = 0;
+        sliderState.perView = getPerView();
+        sliderState.track = document.getElementById('sliderTrack');
+        sliderState.prevBtn = document.getElementById('sliderPrev');
+        sliderState.nextBtn = document.getElementById('sliderNext');
+        sliderState.dots = Array.from(document.querySelectorAll('#sliderDots .slider-dot'));
+        sliderState.slides = Array.from(document.querySelectorAll('.slider-slide'));
+
+        if (!sliderState.track) return;
+
+        sliderState.prevBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goToSlide(sliderState.currentIndex - 1);
+        });
+        sliderState.nextBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goToSlide(sliderState.currentIndex + 1);
+        });
+        sliderState.dots.forEach(function(dot) {
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var idx = parseInt(dot.getAttribute('data-index'), 10);
+                goToSlide(idx);
+            });
+        });
+
+        sliderState.slides.forEach(function(slide) {
+            slide.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var imgSrc = slide.getAttribute('data-img');
+                if (imgSrc) {
+                    fullImage.src = imgSrc;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        var viewport = sliderState.track.parentElement;
+        viewport.addEventListener('touchstart', function(e) {
+            sliderState.touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        viewport.addEventListener('touchend', function(e) {
+            sliderState.touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        window.addEventListener('resize', onSliderResize);
+        updateSlider();
+    }
+
+    function onSliderResize() {
+        if (!sliderState.track) return;
+        var newPerView = getPerView();
+        if (newPerView !== sliderState.perView) {
+            sliderState.perView = newPerView;
+            updateSlider();
+        }
+    }
+
+    function handleSwipe() {
+        var diff = sliderState.touchStartX - sliderState.touchEndX;
+        if (Math.abs(diff) < 40) return;
+        if (diff > 0) goToSlide(sliderState.currentIndex + 1);
+        else goToSlide(sliderState.currentIndex - 1);
+    }
+
+    function goToSlide(index) {
+        var total = sliderState.images.length;
+        if (total === 0) return;
+        var maxIndex = Math.max(0, total - sliderState.perView);
+        if (index < 0) index = 0;
+        if (index > maxIndex) index = maxIndex;
+        sliderState.currentIndex = index;
+        updateSlider();
+    }
+
+    function updateSlider() {
+        if (!sliderState.track) return;
+        var total = sliderState.images.length;
+        var idx = sliderState.currentIndex;
+        var perView = sliderState.perView;
+
+        var viewport = sliderState.track.parentElement;
+        var viewportWidth = viewport.clientWidth;
+        var gap = sliderState.gap;
+        var slideWidth = (viewportWidth - gap * (perView - 1)) / perView;
+        var offset = idx * (slideWidth + gap);
+
+        sliderState.track.style.transform = 'translateX(-' + offset + 'px)';
+
+        sliderState.dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === idx);
+        });
+
+        var maxIndex = Math.max(0, total - perView);
+        if (sliderState.prevBtn) sliderState.prevBtn.classList.toggle('disabled', idx === 0);
+        if (sliderState.nextBtn) sliderState.nextBtn.classList.toggle('disabled', idx >= maxIndex);
+    }
+
+    function closeModal() {
+        trialModal.classList.remove('active');
+        document.body.style.overflow = '';
+        sliderState.track = null;
+        sliderState.dots = [];
+        sliderState.slides = [];
+    }
+
+    function closeImageModal() {
+        imageModal.classList.remove('active');
+        fullImage.src = '';
+        document.body.style.overflow = '';
+    }
+
+    function displayTrials() {
+        const container = document.getElementById('trialsGrid');
+        if (!container) return;
+        container.innerHTML = '';
+        trialsData.forEach(trial => {
+            const card = document.createElement('div');
+            card.className = 'trial-card';
+            card.addEventListener('click', () => openTrialModal(trial));
+            card.innerHTML = `
+                <img src="${trial.image}" class="trial-image" alt="${trial.name}" onerror="this.style.background='linear-gradient(135deg, #2a2a3e, #1a1a2e)'; this.onerror=null;">
+                <div class="trial-name">${trial.name}</div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    trialModal.addEventListener('click', (e) => { if (e.target === trialModal) closeModal(); });
+    imageModalClose.addEventListener('click', closeImageModal);
+    imageModal.addEventListener('click', (e) => { if (e.target === imageModal) closeImageModal(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) { closeImageModal(); return; }
+        if (e.key === 'Escape' && trialModal.classList.contains('active')) { closeModal(); return; }
+        if (trialModal.classList.contains('active') && !imageModal.classList.contains('active') && sliderState.images.length > 0) {
+            if (e.key === 'ArrowLeft') goToSlide(sliderState.currentIndex - 1);
+            else if (e.key === 'ArrowRight') goToSlide(sliderState.currentIndex + 1);
+        }
+    });
+
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+        document.querySelectorAll('.trials-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        displayTrials();
+        initScrollAnimation();
+    });
+</script>
+
+</body>
+</html>
