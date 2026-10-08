@@ -52,18 +52,6 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @keyframes smokePulse {
-            0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-            100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-        }
-
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(220, 90, 50, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 90, 50, 0); }
-        }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -287,13 +275,7 @@
             font-size: 1.6rem;
             font-weight: 700;
             color: #e16d48;
-            margin-bottom: 0.8rem;
-        }
-
-        .program-description {
-            font-size: 0.9rem;
-            color: #c2b9d4;
-            line-height: 1.6;
+            margin-bottom: 0;
         }
 
         /* ===== FOOTER ===== */
@@ -359,12 +341,12 @@
             </div>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-            <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-            <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
-            <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="../news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
             <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
-            <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
 
@@ -432,7 +414,6 @@
                 </div>
                 <div class="program-content">
                     <h3 class="program-name">${program.name}</h3>
-                    <p class="program-description">${program.description}</p>
                 </div>
             `;
             
