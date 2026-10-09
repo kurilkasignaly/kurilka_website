@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
         // ===== ПРОВЕРКА СЕССИИ (СРАЗУ, ДО ОТРИСОВКИ) =====
-        // Если пользователь уже вошёл в этой сессии — прячем экран подключения
-        // через класс на <html>, чтобы не было мигания.
         try {
             if (sessionStorage.getItem('siteEntered') === '1') {
                 document.documentElement.classList.add('already-entered');
@@ -40,7 +38,6 @@
             overflow-x: hidden;
         }
 
-        /* Скрываем экран подключения сразу, если вошли в этой сессии */
         html.already-entered .connect-screen { display: none !important; }
         html.already-entered .main-content { display: block !important; }
 
@@ -357,6 +354,41 @@
         }
         .news-dot.active { background: #e25d32; width: 28px; border-radius: 20px; }
 
+        /* ===== СЛАЙД БЕЗ ТЕКСТА — ТОЛЬКО КАРТИНКА ПО ЦЕНТРУ ===== */
+        .news-slide.no-text {
+            justify-content: center;
+            gap: 0;
+        }
+        .news-slide.no-text .news-slide-image {
+            flex: 0 0 100%;
+            max-width: 100%;
+            border-radius: 24px;
+        }
+        .news-slide.no-text .news-slide-image img {
+            width: 100%;
+            min-height: 420px;
+            max-height: 520px;
+            object-fit: cover;
+            filter: none;
+            transform: none;
+        }
+        .news-slide.no-text .news-slide-image img:hover {
+            filter: none;
+            transform: none;
+        }
+        @media (max-width: 850px) {
+            .news-slide.no-text .news-slide-image img {
+                min-height: 260px;
+                max-height: 340px;
+            }
+        }
+        @media (max-width: 500px) {
+            .news-slide.no-text .news-slide-image img {
+                min-height: 200px;
+                max-height: 260px;
+            }
+        }
+
         /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
         .hero-title { text-align: center; margin: 1rem 0 1.5rem 0; }
         .hero-title h2 {
@@ -366,7 +398,7 @@
             color: transparent; letter-spacing: 1px;
         }
 
-        /* ===== СТАТИСТИКА — 3 КАРТОЧКИ ===== */
+        /* ===== СТАТИСТИКА ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -416,7 +448,6 @@
             margin: 3rem 0;
             max-width: 1200px; margin-left: auto; margin-right: auto;
         }
-
         .top-players-header {
             display: flex;
             justify-content: space-between;
@@ -425,14 +456,12 @@
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
-
         .top-players-header h2 {
             font-size: 2rem;
             font-weight: 800;
             color: #fff;
             letter-spacing: 0.5px;
         }
-
         .leaderboard-btn {
             display: inline-flex;
             align-items: center;
@@ -718,12 +747,12 @@
     // ===== ФОНОВЫЙ СЛАЙДЕР =====
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
-               const bgFiles = [
+        const bgFiles = [
             'фон-00.webp', 'фон-01.webp', 'фон-02.webp', 'фон-03.webp', 'фон-04.webp',
             'фон-05.webp', 'фон-06.webp', 'фон-07.webp', 'фон-08.webp', 'фон-09.webp',
             'фон-010.webp', 'фон-011.webp', 'фон-012.webp', 'фон-013.webp', 'фон-014.webp',
-            'фон-015.webp', 'фон-016.webp', 'фон-017.webp', 'фон-018.webp', 'фон-019.webp',
-            'фон-020.webp', 'фон-021.webp',
+            'фон-015.webp', 'фон-016.webp', 'фон-017.webp', 'фон-018.webp','фон-020.webp',
+            'фон-021.webp',
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
             'фон-11.webp', 'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
@@ -911,7 +940,7 @@
 
 <div class="main-wrapper">
 
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ (активируется только если сессии нет) ====== -->
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
     <div id="connectScreen" class="connect-screen">
         <div class="connect-content">
             <div class="connect-logo">
@@ -984,6 +1013,15 @@
                 <div class="news-slider-track-wrapper">
                     <div class="news-slider-track" id="newsSliderTrack">
 
+                        <!-- Слайд 1 — только картинка, без текста -->
+                        <div class="news-slide no-text">
+                            <div class="news-slide-image">
+                                <img src="images/новость 0.webp" alt="Курилка Синьялы"
+                                     onerror="this.src='https://placehold.co/1200x520/16121f/e25d32?text=Курилка+Синьялы'">
+                            </div>
+                        </div>
+
+                        <!-- Слайд 2 -->
                         <div class="news-slide">
                             <div class="news-slide-image">
                                 <img src="images/новость 1.webp" alt="Обновление Терапия 2.0"
@@ -996,6 +1034,7 @@
                             </div>
                         </div>
 
+                        <!-- Слайд 3 -->
                         <div class="news-slide">
                             <div class="news-slide-image">
                                 <img src="images/новость 2.webp" alt="Сезон Краб-убежище"
@@ -1008,6 +1047,7 @@
                             </div>
                         </div>
 
+                        <!-- Слайд 4 -->
                         <div class="news-slide">
                             <div class="news-slide-image">
                                 <img src="images/новость 3.webp" alt="Турнир Дымная битва"
@@ -1026,6 +1066,7 @@
             </div>
             <div class="news-slider-dots" id="newsSliderDots">
                 <div class="news-dot active"></div>
+                <div class="news-dot"></div>
                 <div class="news-dot"></div>
                 <div class="news-dot"></div>
             </div>
@@ -1122,10 +1163,6 @@
 
 <script>
     // ===== ПРОВЕРКА СЕССИИ =====
-    // Флаг хранится в sessionStorage: он живёт до закрытия вкладки.
-    // Пока вкладка открыта — при F5 и переходах вход сохраняется.
-    // После полного закрытия вкладки — флаг очищается автоматически,
-    // и экран подключения появится снова.
     (function handleSessionEntry() {
         const entered = sessionStorage.getItem('siteEntered') === '1';
         const cs = document.getElementById('connectScreen');
