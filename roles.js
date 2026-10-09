@@ -7,7 +7,7 @@ const roles = [
     gradient: "linear-gradient(135deg, #f3c6e5 0%, #e9b3da 100%)",
     border: "#d79bc8",
     glow: "rgba(215, 155, 200, 0.65)",
-    description: "Жизнь Реагента (Администратор)",
+    description: "Личная роль для определенного участника сервера (Администратор)",
     details: ""
   },
   {
