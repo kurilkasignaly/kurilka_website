@@ -25,27 +25,40 @@
       background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
     }
 
+    /* ===== ФОНОВЫЙ СЛАЙДЕР ===== */
     .main-background {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: -2;
     }
-    .bg-image {
+
+    #bgSlider {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-image: url('images/фон роли.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
     }
+
+    #bgSlider img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1.8s ease-in-out;
+      pointer-events: none;
+    }
+
+    #bgSlider img.active {
+      opacity: 1;
+    }
+
     .bg-overlay {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.75);
+      z-index: 1;
     }
 
     /* МОДАЛКА ИЗОБРАЖЕНИЙ */
@@ -887,7 +900,7 @@
   </div>
 
   <div class="main-background">
-    <div class="bg-image"></div>
+    <div id="bgSlider"></div>
     <div class="bg-overlay"></div>
   </div>
 
@@ -919,11 +932,11 @@
 
   <main class="content">
     <section class="page-header">
-      <h1 class="page-title"><i class="fas fa-tags"></i> Справочник ролей</h1>
+      <h1 class="page-title"><i></i>СПРАВОЧНИК РОЛЕЙ</h1>
       <p class="page-description">
         В этом разделе Вы можете ознакомиться со всеми ролями нашего Discord сервера.<br>
         Используйте фильтры ниже для поиска нужных ролей по КАТЕГОРИЯМ или НАЗВАНИЯМ.<br>
-        !ВНИМАНИЕ! Уважаемые пользователи, для получения роли Вам необходимо в чате #выдача-ролей заполнить мини-заявку в которой Вы должны указать:<br>
+        !ВНИМАНИЕ! Уважаемые пользователи, для получения роли Вам необходимо в чате #билет-на-роли заполнить мини-заявку в которой Вы должны указать:<br>
         1. ОБЯЗАТЕЛЬНО название роли, на которую претендуете (подаете заявку), 2. Фото (скриншот)-подтверждение о честном и качественном выполнении всех требований!
       </p>
     </section>
@@ -944,7 +957,7 @@
           </select>
         </div>
         <div class="filter-actions">
-          <button id="reset-filters" class="reset-btn"><i class="fas fa-redo"></i>Сбросить</button>
+          <button id="reset-filters" class="reset-btn"><i class="fas fa-redo"></i> Сбросить фильтры</button>
           <span id="results-count" class="results-count">Найдено ролей: <span>0</span></span>
         </div>
       </div>
@@ -988,6 +1001,80 @@
   <script src="news.js"></script>
 
   <script>
+    /* ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ ===== */
+    (function initBackgrounds() {
+      const bgSlider = document.getElementById('bgSlider');
+      if (!bgSlider) return;
+
+      const bgFiles = [
+        'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
+        'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
+        'фон-11.webp', 'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
+        'фон-16.webp', 'фон-17.webp', 'фон-18.webp', 'фон-19.jpeg', 'фон-20.webp',
+        'фон-21.webp', 'фон-22.jpg', 'фон-23.webp', 'фон-24.jpg', 'фон-25.png',
+        'фон-26.jpg', 'фон-27.webp', 'фон-28.webp', 'фон-29.webp', 'фон-30.webp',
+        'фон-31.webp', 'фон-32.jpg', 'фон-33.webp', 'фон-34.webp', 'фон-35.webp',
+        'фон-36.webp', 'фон-37.webp', 'фон-38.webp', 'фон-39.webp', 'фон-40.webp',
+        'фон-41.webp', 'фон-42.webp', 'фон-43.webp', 'фон-44.webp', 'фон-45.webp',
+        'фон-46.webp', 'фон-47.webp', 'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
+      ];
+
+      bgFiles.forEach((file, index) => {
+        const img = document.createElement('img');
+        img.src = 'images/' + file;
+        img.alt = 'фон ' + (index + 1);
+        if (index === 0) img.classList.add('active');
+        bgSlider.appendChild(img);
+      });
+
+      const imgs = bgSlider.querySelectorAll('img');
+      let current = 0;
+      const total = imgs.length;
+      let isTransitioning = false;
+      let timerId = null;
+
+      function switchToNext() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        imgs[current].classList.remove('active');
+        current = (current + 1) % total;
+        imgs[current].classList.add('active');
+
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 3500);
+      }
+
+      function startInterval() {
+        if (timerId) clearInterval(timerId);
+        timerId = setInterval(switchToNext, 10000);
+      }
+
+      function stopInterval() {
+        if (timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      }
+
+      startInterval();
+
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          stopInterval();
+        } else {
+          startInterval();
+          isTransitioning = false;
+        }
+      });
+
+      window.addEventListener('beforeunload', function() {
+        stopInterval();
+      });
+    })();
+
+    /* ===== ОСТАЛЬНАЯ ЛОГИКА ===== */
     function openImageModal(imageSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
