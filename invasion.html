@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Курилка Синьялы</title>
+    <title>Курилка Синьялы — Leaderboard</title>
     <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
     <link rel="shortcut icon" href="images/лого.png" type="image/png">
     <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -30,27 +37,43 @@
             overflow-x: hidden;
         }
 
-        .bg-slider { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+        .bg-slider {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+
         .bg-slider img {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover; opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
             transition: opacity 3s ease-in-out;
             will-change: opacity;
         }
-        .bg-slider img.active { opacity: 1; }
+
+        .bg-slider img.active {
+            opacity: 1;
+        }
 
         .bg-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.50);
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
             z-index: -1;
         }
 
         .smoke-overlay {
-            position: fixed; inset: 0;
-            pointer-events: none; z-index: 0;
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
             background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.05) 0%, transparent 50%),
-                        radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.03) 0%, transparent 40%);
+                radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.03) 0%, transparent 40%);
         }
 
         @keyframes floatParticle {
@@ -59,546 +82,821 @@
             80% { opacity: 0.06; }
             100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
+
         .smoke-particle {
-            position: fixed; bottom: -40px;
-            width: 120px; height: 120px;
+            position: fixed;
+            bottom: -40px;
+            width: 120px;
+            height: 120px;
             background: radial-gradient(circle, rgba(200, 100, 50, 0.05) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none; z-index: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
             animation: floatParticle 16s linear infinite;
         }
 
         .main-wrapper {
-            width: 100%; max-width: 1400px;
+            width: 100%;
+            max-width: 1400px;
             padding: 1.5rem 2rem;
-            position: relative; z-index: 10;
+            position: relative;
+            z-index: 10;
             min-height: 100vh;
-            display: flex; flex-direction: column; justify-content: flex-start;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
         .connect-screen {
-            display: none; position: fixed; inset: 0; z-index: 50;
-            align-items: center; justify-content: center;
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             cursor: pointer;
             background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
-        .connect-screen.active { display: flex; }
+
+        .connect-screen.active {
+            display: flex;
+        }
 
         .connect-content {
-            text-align: center; user-select: none;
-            padding: 2rem; pointer-events: none;
+            text-align: center;
+            user-select: none;
+            padding: 2rem;
+            pointer-events: none;
         }
+
         .connect-logo .line1 {
-            display: block; font-size: 2.2rem; font-weight: 300;
-            letter-spacing: 10px; color: rgba(255, 255, 255, 0.35);
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 10px;
+            color: rgba(255, 255, 255, 0.35);
             margin-bottom: 0.5rem;
         }
+
         .connect-logo .logo-img {
-            max-width: 340px; width: 100%; height: auto;
-            display: block; margin: 0 auto;
+            max-width: 340px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
+
         .connect-logo .line3 {
-            display: block; font-size: 1.8rem; font-weight: 300;
-            letter-spacing: 6px; color: rgba(255, 255, 255, 0.25);
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            color: rgba(255, 255, 255, 0.25);
             margin-top: 0.5rem;
         }
+
         .connect-prompt {
-            margin-top: 3rem; font-size: 1.2rem; font-weight: 500;
+            margin-top: 3rem;
+            font-size: 1.2rem;
+            font-weight: 500;
             color: rgba(200, 190, 210, 0.7);
-            letter-spacing: 3px; text-transform: uppercase;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             animation: pulseText 2s ease-in-out infinite;
             border: 1px solid rgba(220, 90, 50, 0.15);
-            padding: 0.8rem 2.2rem; border-radius: 60px;
-            display: inline-block; backdrop-filter: blur(4px);
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
             background: rgba(0, 0, 0, 0.2);
-            transition: all 0.3s; pointer-events: auto; cursor: pointer;
+            transition: all 0.3s;
+            pointer-events: auto;
+            cursor: pointer;
         }
+
         .connect-prompt:hover {
             border-color: rgba(220, 90, 50, 0.4);
             background: rgba(0, 0, 0, 0.3);
         }
-        .connect-prompt i { margin-right: 10px; color: #e25d32; }
+
+        .connect-prompt i {
+            margin-right: 10px;
+            color: #e25d32;
+        }
 
         .connect-status {
-            display: none; align-items: center; justify-content: center;
-            gap: 1.5rem; margin-top: 3rem; pointer-events: none;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            pointer-events: none;
         }
-        .connect-status.active { display: flex; }
+
+        .connect-status.active {
+            display: flex;
+        }
+
         .connect-status .spinner {
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border: 3px solid rgba(220, 90, 50, 0.15);
             border-top: 3px solid #e25d32;
-            border-radius: 50%; animation: spin 0.9s linear infinite;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
             flex-shrink: 0;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         .connect-status .label {
-            font-size: 1.8rem; font-weight: 700; letter-spacing: 4px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
             background: linear-gradient(135deg, #ffbc9a, #e25d32);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             animation: pulseText 1.2s ease-in-out infinite;
             text-transform: uppercase;
         }
-        @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
         .connect-hint {
-            position: fixed; bottom: 3rem; left: 50%;
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
             transform: translateX(-50%);
-            font-size: 0.7rem; color: rgba(120, 100, 130, 0.4);
-            letter-spacing: 2px; text-transform: uppercase;
-            z-index: 51; pointer-events: none;
+            font-size: 0.7rem;
+            color: rgba(120, 100, 130, 0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 51;
+            pointer-events: none;
         }
 
         /* ===== ЭКРАН ОШИБКИ ===== */
         .error-screen {
-            display: none; position: fixed; inset: 0; z-index: 60;
-            align-items: center; justify-content: center;
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 60;
+            align-items: center;
+            justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             background: rgba(8, 6, 15, 0.7);
             backdrop-filter: blur(8px);
-            pointer-events: auto; padding: 2rem;
+            pointer-events: auto;
+            padding: 2rem;
         }
-        .error-screen.active { display: flex; }
+
+        .error-screen.active {
+            display: flex;
+        }
 
         .error-box {
             background: rgba(10, 7, 18, 0.92);
             border: 1px solid rgba(200, 60, 40, 0.4);
-            border-radius: 60px; padding: 3rem 3.5rem;
-            max-width: 580px; width: 100%; text-align: center;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(200, 60, 40, 0.15);
+            border-radius: 60px;
+            padding: 3rem 3.5rem;
+            max-width: 580px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(200, 60, 40, 0.15);
             animation: fadeInScale 0.5s ease-out;
         }
+
         .error-box .error-icon {
-            font-size: 4rem; color: #e25d32;
-            margin-bottom: 1rem; display: block;
+            font-size: 4rem;
+            color: #e25d32;
+            margin-bottom: 1rem;
+            display: block;
         }
+
         .error-box h2 {
-            font-size: 2.2rem; font-weight: 800;
-            color: #ff6b4a; margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ff6b4a;
+            margin-bottom: 0.5rem;
             letter-spacing: 1px;
         }
-        .error-box .error-sub { color: #b5a8c8; font-size: 1rem; margin-bottom: 1.5rem; font-weight: 500; }
-        .error-box .error-desc { color: #8a7a9a; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; padding: 0 0.5rem; }
+
+        .error-box .error-sub {
+            color: #b5a8c8;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .error-box .error-desc {
+            color: #8a7a9a;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+
         .error-box .error-code {
             display: inline-block;
             background: rgba(200, 60, 40, 0.1);
             border: 1px solid rgba(200, 60, 40, 0.2);
-            padding: 0.4rem 1.5rem; border-radius: 40px;
-            font-size: 0.85rem; font-weight: 600;
-            color: #e25d32; letter-spacing: 1px; margin-bottom: 2rem;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e25d32;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
         }
-        .error-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .error-btn {
-            padding: 12px 32px; border: none; border-radius: 60px;
-            font-weight: 700; font-size: 0.9rem; cursor: pointer;
-            transition: all 0.3s; font-family: inherit;
-            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
+
         .error-btn-primary {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 4px 20px rgba(188, 70, 39, 0.3);
         }
-        .error-btn-primary:hover { transform: scale(1.03); box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5); }
 
-        /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
+        .error-btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5);
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .main-content {
             display: none;
             animation: fadeInScale 0.6s ease-out;
-            position: relative; z-index: 5; width: 100%;
-        }
-        .main-content.active { display: block; }
-
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; padding: 0.8rem 2rem;
-            background: rgba(8, 6, 15, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s;
-        }
-        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
-
-        .logo { display: flex; align-items: center; gap: 0.8rem; }
-        .logo .logo-img { max-height: 55px; width: auto; display: block; }
-        .logo .logo-text {
-            font-size: 1.4rem; font-weight: 800;
-            background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent; white-space: nowrap;
-        }
-        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
-
-        .nav-links {
-            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
-            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem; border-radius: 60px;
-            border: 1px solid rgba(210, 100, 55, 0.15);
-        }
-        .nav-btn {
-            background: transparent; border: none;
-            padding: 0.5rem 0.9rem; border-radius: 50px;
-            font-weight: 600; font-size: 0.78rem; cursor: pointer;
-            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
-            display: inline-flex; align-items: center; gap: 5px;
-            text-decoration: none;
-        }
-        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
-        .nav-btn.active {
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+            position: relative;
+            z-index: 5;
+            width: 100%;
         }
 
-        .music-toggle {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px; padding: 0.4rem 0.9rem;
-            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
-            font-family: inherit; font-size: 0.85rem;
-            display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
-        }
-        .music-toggle:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
-        .music-toggle.playing { border-color: rgba(220, 90, 50, 0.3); color: #e25d32; }
-        .music-toggle .icon { font-size: 1rem; transition: all 0.3s; }
-        .music-toggle .icon.pulse { animation: musicPulse 1.2s ease-in-out infinite; }
-        @keyframes musicPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
-        .music-toggle .label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; }
-
-        /* ===== СЛАЙДЕР НОВОСТЕЙ ===== */
-        .news-slider-block {
-            position: relative; margin: 1.5rem 0 3rem 0;
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            overflow: hidden;
-            max-width: 1200px; margin-left: auto; margin-right: auto; width: 100%;
-        }
-        .news-slider-container { position: relative; display: flex; align-items: center; }
-        .news-slider-btn {
-            position: absolute;
-            background: rgba(188, 74, 40, 0.6);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(220, 90, 50, 0.4);
-            width: 48px; height: 48px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s;
-            color: white; z-index: 20; font-size: 1.2rem;
-        }
-        .news-slider-btn:hover { background: #e25d32; transform: scale(1.05); }
-        .news-slider-btn-left { left: 14px; }
-        .news-slider-btn-right { right: 14px; }
-        .news-slider-track-wrapper { flex: 1; overflow: hidden; border-radius: 48px; }
-        .news-slider-track { display: flex; transition: transform 0.5s ease; }
-        .news-slide {
-            min-width: 100%;
-            display: flex; align-items: center; gap: 2.5rem; padding: 2.5rem;
-        }
-        .news-slide-image {
-            flex: 1.15; border-radius: 24px; overflow: hidden;
-            border: 1px solid rgba(200, 100, 50, 0.2);
-            background: #16121f;
-        }
-        .news-slide-image img {
-            width: 100%; height: auto; display: block;
-            min-height: 300px; object-fit: cover;
-            filter: grayscale(0.2) contrast(1.1);
-            transition: filter 0.4s, transform 0.4s;
-        }
-        .news-slide-image img:hover { filter: grayscale(0) contrast(1.2); transform: scale(1.02); }
-        .news-slide-text { flex: 1; }
-        .news-slide-text h2 {
-            font-size: 2.2rem;
-            background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent; margin-bottom: 0.8rem; line-height: 1.2;
-        }
-        .news-slide-text h2 i {
-            color: #e25d32; -webkit-text-fill-color: #e25d32;
-            font-size: 1.8rem; margin-right: 10px;
-        }
-        .news-slide-text p { color: #b5a8c8; line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem; }
-        .news-badge-slider {
-            display: inline-block;
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            padding: 8px 20px; border-radius: 40px;
-            font-size: 0.85rem; font-weight: 700; color: white;
-            box-shadow: 0 4px 16px rgba(188, 70, 39, 0.3);
-        }
-        .news-badge-slider i { margin-right: 8px; }
-        .news-slider-dots {
-            display: flex; justify-content: center;
-            gap: 0.8rem; padding: 1rem 0 1.5rem;
-        }
-        .news-dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            cursor: pointer; transition: all 0.3s;
-        }
-        .news-dot.active { background: #e25d32; width: 28px; border-radius: 20px; }
-
-        /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
-        .hero-title { text-align: center; margin: 1rem 0 1.5rem 0; }
-        .hero-title h2 {
-            font-size: 3rem; font-weight: 800;
-            background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent; letter-spacing: 1px;
-        }
-
-        /* ===== СТАТИСТИКА — 3 КАРТОЧКИ ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-        }
-        .stat-card {
-            background: linear-gradient(160deg, rgba(22, 15, 32, 0.85) 0%, rgba(14, 9, 22, 0.85) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 2rem 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(220,90,50,0.15);
-            transition: all 0.3s;
-        }
-        .stat-card:hover {
-            border-color: #e16d48;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(220, 90, 50, 0.15);
-        }
-        .stat-card i {
-            color: #e16d48;
-            font-size: 2rem;
-            margin-bottom: 0.6rem;
+        .main-content.active {
             display: block;
         }
-        .stat-number {
-            font-size: 2.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffbc9a, #e25d32);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-        .stat-card p {
-            color: #c2b9d4;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
 
-        /* ===== ТОП ИГРОКОВ ===== */
-        .top-players-block {
-            margin: 3rem 0;
-            max-width: 1200px; margin-left: auto; margin-right: auto;
-        }
-
-        .top-players-header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.6);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
             gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .top-players-header h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: 0.5px;
-        }
-
-        .leaderboard-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 22px;
-            border-radius: 60px;
-            background: rgba(18, 12, 28, 0.7);
-            border: 1px solid rgba(220, 90, 50, 0.35);
-            color: #d1cce6;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
+            border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
         }
-        .leaderboard-btn:hover {
-            border-color: #e25d32;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 90, 50, 0.25);
-        }
-        .leaderboard-btn i { color: #e25d32; }
 
-        .top-players-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.4);
         }
 
-        /* Карточка игрока с фоновой эмблемой */
-        .player-card {
-            position: relative;
-            background: linear-gradient(160deg, rgba(22, 15, 32, 0.9) 0%, rgba(14, 9, 22, 0.9) 100%);
-            border: 1px solid rgba(220, 90, 50, 0.15);
-            border-radius: 24px;
-            padding: 2.4rem 1.5rem 1.6rem;
-            text-align: center;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            cursor: default;
+        .logo {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 190px;
+            gap: 0.8rem;
         }
 
-        /* Фоновое изображение-эмблема */
-        .player-card .player-emblem {
-            position: absolute;
-            inset: 0;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 65%;
-            opacity: 0.08;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            pointer-events: none;
-            z-index: 0;
+        .logo .logo-img {
+            max-height: 55px;
+            width: auto;
+            display: block;
         }
 
-        .player-card:hover .player-emblem {
-            opacity: 0.22;
-            transform: scale(1.08);
-        }
-
-        /* Тонкая градиентная подложка поверх эмблемы */
-        .player-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(220, 90, 50, 0.10) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .player-card:hover::before { opacity: 1; }
-
-        .player-card:hover {
-            border-color: rgba(226, 93, 50, 0.5);
-            transform: translateY(-6px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(226, 93, 50, 0.2);
-        }
-
-        /* Имя игрока — золотое с переливанием */
-        .player-name {
+        .logo .logo-text {
             font-size: 1.4rem;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(
-                100deg,
-                #b8860b 0%,
-                #ffd700 25%,
-                #fff8c4 45%,
-                #ffd700 60%,
-                #b8860b 85%,
-                #ffd700 100%
-            );
-            background-size: 250% auto;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 14px rgba(255, 215, 0, 0.25);
-            transition: text-shadow 0.4s;
-            position: relative;
-            z-index: 2;
+            white-space: nowrap;
         }
 
-        .player-card:hover .player-name {
-            animation: goldShimmer 2.5s linear infinite;
-            text-shadow: 0 0 24px rgba(255, 215, 0, 0.55), 0 0 40px rgba(255, 215, 0, 0.25);
+        .logo p {
+            font-size: 0.65rem;
+            color: #7a6a8a;
+            margin-top: 0px;
         }
 
-        @keyframes goldShimmer {
-            0% { background-position: 0% center; }
-            100% { background-position: 250% center; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
-        .player-stat {
-            font-size: 0.75rem;
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
             font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #8a7a9a;
+            font-size: 0.78rem;
+            cursor: pointer;
+            color: #b5a8c8;
+            transition: all 0.3s;
+            font-family: inherit;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            position: relative;
-            z-index: 2;
+            gap: 5px;
+            text-decoration: none;
         }
 
-        .player-stat .stat-value {
-            color: #ffffff;
+        .nav-btn:hover {
+            color: white;
+            text-shadow: 0 0 8px rgba(220, 90, 50, 0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white;
+            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+        }
+
+        /* ===== СТРАНИЦА LEADERBOARD ===== */
+        .page-title {
+            text-align: center;
+            margin: 0.5rem 0 1.5rem 0;
+        }
+
+        .page-title h1 {
+            font-size: 2.8rem;
             font-weight: 800;
-            font-size: 0.95rem;
+            background: linear-gradient(135deg, #fff, #e25d32);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .page-title .sub {
+            color: #a090b0;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 0.2rem;
+        }
+
+        .big-banner {
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            position: relative;
+            background: rgba(18, 12, 28, 0.3);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .big-banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .alert-block {
+            background: rgba(220, 90, 50, 0.12);
+            border-left: 4px solid #e25d32;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(220, 90, 50, 0.15);
+        }
+
+        .alert-block i {
+            color: #e25d32;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .alert-block span {
+            color: #ffbc9a;
+            font-weight: 500;
+        }
+
+        .alert-block .highlight {
+            color: #ffbc9a;
+            font-weight: 700;
+        }
+
+        .mode-banners {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-banner {
+            flex: 1;
+            min-width: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(220, 90, 50, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            background: rgba(18, 12, 28, 0.3);
+            aspect-ratio: 16/9;
+            pointer-events: auto;
+        }
+
+        .mode-banner:hover {
+            border-color: rgba(220, 90, 50, 0.4);
+            transform: scale(1.01);
+        }
+
+        .mode-banner.active {
+            border-color: #e25d32;
+            box-shadow: 0 0 30px rgba(220, 90, 50, 0.15);
+        }
+
+        .mode-banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .mode-banner .banner-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.8rem 1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .mode-banner.active .banner-label {
+            color: #e25d32;
+        }
+
+        .leaderboard-section {
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+        }
+
+        .leaderboard-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.1);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .leaderboard-section .section-header .title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffbc9a;
             letter-spacing: 0.5px;
         }
 
-        /* ===== СОЦИАЛЬНЫЙ БЛОК ===== */
-        .social-block {
-            margin-top: 3rem; text-align: center;
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 48px; padding: 2.5rem;
-            border: 1px solid rgba(220,90,50,0.15);
+        .leaderboard-section .section-header .title i {
+            color: #e25d32;
         }
-        .social-block h2 { font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
-        .social-block p { color: #b5a8c8; margin-bottom: 0.5rem; }
-        .social-icons {
-            display: flex; justify-content: center;
-            gap: 2.5rem; flex-wrap: wrap; margin: 1.5rem 0;
-        }
-        .social-icon {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 0.4rem; text-decoration: none;
-            transition: all 0.3s; color: #b5a8c8;
-        }
-        .social-icon i { font-size: 2.8rem; transition: all 0.3s; }
-        .social-icon.discord i { color: #5865F2; }
-        .social-icon.twitch i { color: #9146FF; }
-        .social-icon:hover { transform: translateY(-4px); }
 
-        .discord-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #5865F2, #4752C4);
-            padding: 12px 36px; border-radius: 60px;
-            color: white; text-decoration: none; font-weight: 700;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(88,101,242,0.2);
-            font-size: 0.9rem;
+        .leaderboard-section .section-header .sub-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ffbc9a;
+            background: rgba(220, 90, 50, 0.12);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            letter-spacing: 0.5px;
         }
-        .discord-button:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(88,101,242,0.4); }
+
+        .leaderboard-section .section-header .sub-title i {
+            color: #e25d32;
+            margin-right: 5px;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.6rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .sub-tab {
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #b5a8c8;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.03);
+            letter-spacing: 0.5px;
+        }
+
+        .sub-tab:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .sub-tab.active {
+            color: #e25d32;
+            border-color: rgba(220, 90, 50, 0.3);
+            background: rgba(220, 90, 50, 0.08);
+        }
+
+        /* ===== ТАБЛИЦА С ФОНОВЫМ ИЗОБРАЖЕНИЕМ ===== */
+        .table-wrapper {
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            overflow-x: auto;
+            flex: 1;
+            position: relative;
+            border-radius: 0 0 28px 28px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 400px;
+        }
+
+        .table-wrapper .table-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 0 0 28px 28px;
+            z-index: 1;
+        }
+
+        .table-wrapper.bg-escalation {
+            background-image: url('images/фон эскалация.webp');
+        }
+        .table-wrapper.bg-general {
+            background-image: url('images/фон-общая.webp');
+        }
+        .table-wrapper.bg-reagent {
+            background-image: url('images/фон-самозванец.webp');
+        }
+        .table-wrapper.bg-impostor {
+            background-image: url('images/фон-реагент.webp');
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        th {
+            text-align: center;
+            padding: 0.8rem 0.6rem;
+            background: rgba(220, 90, 50, 0.15);
+            color: #ffbc9a;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        td {
+            text-align: center;
+            padding: 0.7rem 0.6rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
+            vertical-align: middle;
+            backdrop-filter: blur(2px);
+        }
+
+        td:first-child {
+            text-align: center;
+            width: 60px;
+            font-weight: 600;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .platform-icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 8px;
+            vertical-align: middle;
+            display: inline-block;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .player-name {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ============================================================ */
+        /* ===== СТИЛИ ПРЕСТИЖА И УРОВНЯ ПЕРЕД НИКОМ ================ */
+        /* ============================================================ */
+        .player-prestige-level {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .prestige-badge {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 48px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 5px rgba(232, 144, 46, 0.7))
+                    drop-shadow(0 0 12px rgba(232, 144, 46, 0.35));
+        }
+
+        .prestige-badge svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .prestige-number {
+            position: relative;
+            z-index: 2;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #e8902e;
+            text-shadow:
+                0 0 6px rgba(232, 144, 46, 0.9),
+                0 0 12px rgba(232, 144, 46, 0.5),
+                0 1px 2px rgba(0, 0, 0, 0.9);
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .level-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 44px;
+            padding: 0 4px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow:
+                0 0 6px rgba(255, 255, 255, 0.5),
+                0 0 12px rgba(255, 255, 255, 0.2),
+                0 1px 2px rgba(0, 0, 0, 0.9);
+            letter-spacing: -0.5px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        /* ============================================================ */
+        /* ===== УВЕЛИЧЕННЫЙ ШРИФТ ДЛЯ ТАБЛИЦЫ "ОБЩАЯ" ============= */
+        /* ============================================================ */
+        .table-wrapper.bg-general table {
+            font-size: 1.05rem;
+        }
+
+        .table-wrapper.bg-general th {
+            font-size: 0.85rem;
+            padding: 1rem 0.8rem;
+            letter-spacing: 1.8px;
+        }
+
+        .table-wrapper.bg-general td {
+            padding: 0.95rem 0.8rem;
+            font-size: 1rem;
+        }
+
+        .table-wrapper.bg-general td:first-child {
+            font-size: 1.1rem;
+            width: 70px;
+        }
+
+        .table-wrapper.bg-general td:nth-child(2) {
+            font-size: 1.05rem;
+        }
+
+        .table-wrapper.bg-general .platform-icon {
+            width: 26px;
+            height: 26px;
+            margin-right: 10px;
+        }
+
+        .table-wrapper.bg-general .medal {
+            width: 32px;
+            font-size: 1.1rem;
+        }
+
+        .table-wrapper.bg-general .unranked-text {
+            font-size: 0.95rem;
+        }
+
+        tr:hover td {
+            background: rgba(220, 90, 50, 0.08);
+        }
+
+        .rank-1 { border-left: 3px solid #ffd700; }
+        .rank-1 td:first-child { color: #ffd700; font-weight: bold; }
+        .rank-2 { border-left: 3px solid #c0c0c0; }
+        .rank-2 td:first-child { color: #c0c0c0; font-weight: bold; }
+        .rank-3 { border-left: 3px solid #cd7f32; }
+        .rank-3 td:first-child { color: #cd7f32; font-weight: bold; }
+        .medal { display: inline-block; width: 28px; text-align: center; }
+        .medal-gold { color: #ffd700; }
+        .medal-silver { color: #c0c0c0; }
+        .medal-bronze { color: #cd7f32; }
+        .unranked-text { color: #7a6a8a; font-style: italic; letter-spacing: 0.5px; }
 
         footer {
-            margin-top: 4rem; text-align: center; padding: 1.8rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            padding: 1.8rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.2);
-            font-size: 0.7rem; background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px); border-radius: 50px;
+            font-size: 0.7rem;
+            background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
         }
+
         .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
 
         @keyframes fadeInScale {
@@ -606,8 +904,178 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @media (max-width: 992px) {
-            .top-players-grid { grid-template-columns: repeat(2, 1fr); }
+        /* ===== СОРТИРОВОЧНЫЙ БАР ===== */
+        .sort-bar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.4rem 1.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sort-bar .sort-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7a6a8a;
+            margin-right: 0.3rem;
+        }
+
+        .sort-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(220, 90, 50, 0.12);
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+
+        .sort-btn:hover {
+            background: rgba(220, 90, 50, 0.1);
+            color: #fff;
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        .sort-btn.active {
+            background: rgba(220, 90, 50, 0.15);
+            color: #e25d32;
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        /* Выделение кнопок престижа */
+        .sort-btn.sort-prestige {
+            border-color: rgba(232, 144, 46, 0.25);
+            color: #e8902e;
+        }
+
+        .sort-btn.sort-prestige:hover {
+            background: rgba(232, 144, 46, 0.1);
+            border-color: rgba(232, 144, 46, 0.4);
+            color: #ffb347;
+        }
+
+        .sort-btn.sort-prestige.active {
+            background: rgba(232, 144, 46, 0.15);
+            color: #ffb347;
+            border-color: rgba(232, 144, 46, 0.5);
+            box-shadow: 0 0 12px rgba(232, 144, 46, 0.2);
+        }
+
+        /* ===== ВЫПАДАЮЩИЙ СПИСОК ПЛАТФОРМ ===== */
+        .platform-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .platform-dropdown-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(220, 90, 50, 0.12);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b5a8c8;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .platform-dropdown-btn:hover {
+            background: rgba(220, 90, 50, 0.1);
+            color: #fff;
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        .platform-dropdown-btn.active {
+            background: rgba(220, 90, 50, 0.15);
+            color: #e25d32;
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        .platform-dropdown-btn .arrow {
+            margin-left: 4px;
+            font-size: 0.6rem;
+            transition: transform 0.3s;
+        }
+
+        .platform-dropdown-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .platform-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: rgba(18, 12, 28, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            border-radius: 16px;
+            min-width: 160px;
+            overflow: hidden;
+            display: none;
+            z-index: 100;
+            padding: 4px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .platform-dropdown-menu.open {
+            display: block;
+            animation: fadeInScale 0.2s ease-out;
+        }
+
+        .platform-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #b5a8c8;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        .platform-dropdown-item:hover {
+            background: rgba(220, 90, 50, 0.1);
+            color: #fff;
+        }
+
+        .platform-dropdown-item.active {
+            background: rgba(220, 90, 50, 0.15);
+            color: #e25d32;
+        }
+
+        .platform-dropdown-item .item-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            flex-shrink: 0;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .platform-dropdown-item .item-label {
+            flex: 1;
         }
 
         @media (max-width: 850px) {
@@ -616,61 +1084,68 @@
             .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
-
-            .news-slide { flex-direction: column; text-align: center; padding: 1.5rem; gap: 1.5rem; }
-            .news-slide-text { text-align: center; }
-            .news-slide-text h2 { font-size: 1.6rem; }
-            .news-slide-text h2 i { font-size: 1.3rem; }
-            .news-slide-image img { min-height: 220px; }
-            .news-slider-btn { width: 38px; height: 38px; font-size: 1rem; }
-            .news-slider-btn-left { left: 8px; }
-            .news-slider-btn-right { right: 8px; }
-
-            .hero-title h2 { font-size: 2.2rem; }
-            .top-players-header h2 { font-size: 1.5rem; }
-            .player-name { font-size: 1.2rem; }
-
-            .stats-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 400px; }
-
+            .logo p { font-size: 0.55rem; }
+            .page-title h1 { font-size: 2rem; }
+            .big-banner { border-radius: 20px; }
+            .mode-banners { flex-direction: column; gap: 1rem; }
+            .mode-banner { min-width: unset; aspect-ratio: 16/9; }
+            .mode-banner .banner-label { font-size: 0.9rem; padding: 0.5rem 0.8rem; }
+            .alert-block { font-size: 0.8rem; padding: 0.8rem 1rem; flex-wrap: wrap; }
+            .alert-block i { font-size: 1.2rem; }
+            .leaderboard-section .section-header { flex-direction: column; align-items: flex-start; padding: 0.6rem 1rem; }
+            .sub-tabs { padding: 0.4rem 0.8rem; gap: 0.5rem; }
+            .sub-tab { font-size: 0.75rem; padding: 0.35rem 1rem; }
+            th, td { padding: 0.4rem 0.3rem; font-size: 0.75rem; }
+            .platform-icon { width: 18px; height: 18px; margin-right: 4px; }
+            .table-wrapper { min-height: 300px; }
             .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
             .connect-logo .logo-img { max-width: 260px; }
             .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
             .connect-prompt { font-size: 1rem; padding: 0.6rem 1.6rem; }
             .connect-status .label { font-size: 1.4rem; }
             .connect-status .spinner { width: 32px; height: 32px; }
-
             .error-box { padding: 2rem 1.5rem; }
             .error-box h2 { font-size: 1.8rem; }
             .error-box .error-icon { font-size: 3rem; }
-        }
+            .sort-bar { padding: 0.3rem 0.8rem; gap: 0.3rem; }
+            .sort-btn { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+            .sort-bar .sort-label { font-size: 0.6rem; }
+            .platform-dropdown-btn { font-size: 0.6rem; padding: 0.2rem 0.6rem; min-width: 90px; }
+            .platform-dropdown-menu { min-width: 130px; }
+            .platform-dropdown-item { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .platform-dropdown-item .item-icon { width: 16px; height: 16px; }
 
-        @media (max-width: 600px) {
-            .top-players-grid { grid-template-columns: 1fr; }
+            .table-wrapper.bg-general table { font-size: 0.85rem; }
+            .table-wrapper.bg-general th { font-size: 0.7rem; padding: 0.6rem 0.4rem; }
+            .table-wrapper.bg-general td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
+            .table-wrapper.bg-general .platform-icon { width: 20px; height: 20px; }
+
+            .prestige-badge { width: 36px; height: 42px; }
+            .prestige-number { font-size: 0.9rem; }
+            .level-number { height: 38px; font-size: 1rem; min-width: 24px; }
         }
 
         @media (max-width: 500px) {
-            .stat-number { font-size: 2rem; }
-            .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
-            .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
-            .music-toggle .label { font-size: 0.6rem; }
-            .logo .logo-img { max-height: 32px; }
-            .logo .logo-text { font-size: 0.9rem; }
-            .logo { gap: 0.4rem; }
-
-            .news-slide { padding: 1rem; gap: 1rem; }
-            .news-slide-text h2 { font-size: 1.3rem; }
-            .news-slide-text h2 i { font-size: 1.1rem; }
-            .news-slide-text p { font-size: 0.9rem; }
-            .news-badge-slider { font-size: 0.75rem; padding: 6px 14px; }
-            .news-slide-image img { min-height: 180px; }
-            .news-slider-btn { width: 34px; height: 34px; font-size: 0.9rem; }
-
-            .hero-title h2 { font-size: 1.8rem; }
-            .top-players-header h2 { font-size: 1.3rem; }
-            .leaderboard-btn { padding: 8px 16px; font-size: 0.75rem; }
-            .player-name { font-size: 1.1rem; }
-            .player-card { padding: 1.8rem 1rem 1.4rem; min-height: 160px; }
-
+            .main-wrapper { padding: 0.8rem; }
+            .header { padding: 0.6rem 0.8rem; }
+            .nav-btn { font-size: 0.55rem; padding: 0.2rem 0.5rem; }
+            .logo .logo-img { max-height: 28px; }
+            .logo .logo-text { font-size: 0.85rem; }
+            .page-title h1 { font-size: 1.4rem; }
+            .page-title .sub { font-size: 0.7rem; }
+            .big-banner { border-radius: 16px; }
+            .mode-banner .banner-label { font-size: 0.75rem; padding: 0.3rem 0.5rem; }
+            .alert-block { font-size: 0.7rem; padding: 0.6rem 0.8rem; gap: 10px; }
+            .alert-block i { font-size: 1rem; }
+            .leaderboard-section .section-header .title { font-size: 0.85rem; }
+            .leaderboard-section .section-header .sub-title { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+            .sub-tabs { gap: 0.3rem; padding: 0.3rem 0.5rem; }
+            .sub-tab { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
+            th, td { padding: 0.3rem 0.2rem; font-size: 0.6rem; }
+            .platform-icon { width: 14px; height: 14px; margin-right: 2px; }
+            .medal { width: 20px; font-size: 0.6rem; }
+            .table-wrapper { min-height: 250px; }
+            .footer-logo { max-height: 18px; }
             .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
             .connect-logo .logo-img { max-width: 200px; }
             .connect-logo .line3 { font-size: 1rem; letter-spacing: 3px; }
@@ -679,614 +1154,1127 @@
             .connect-status .spinner { width: 28px; height: 28px; }
             .connect-status { gap: 1rem; margin-top: 2rem; }
             .connect-hint { bottom: 1.5rem; font-size: 0.6rem; }
-            .footer-logo { max-height: 24px; }
-
             .error-box { padding: 1.5rem 1rem; }
             .error-box h2 { font-size: 1.4rem; }
             .error-box .error-icon { font-size: 2.5rem; }
             .error-box .error-desc { font-size: 0.8rem; }
             .error-actions { flex-direction: column; align-items: center; }
             .error-btn { width: 100%; justify-content: center; }
+            .sort-bar { padding: 0.2rem 0.5rem; gap: 0.2rem; }
+            .sort-btn { font-size: 0.5rem; padding: 0.15rem 0.5rem; }
+            .sort-bar .sort-label { font-size: 0.5rem; margin-right: 0.1rem; }
+            .platform-dropdown-btn { font-size: 0.5rem; padding: 0.15rem 0.5rem; min-width: 70px; }
+            .platform-dropdown-menu { min-width: 100px; }
+            .platform-dropdown-item { font-size: 0.55rem; padding: 0.3rem 0.6rem; }
+            .platform-dropdown-item .item-icon { width: 14px; height: 14px; }
+
+            .table-wrapper.bg-general table { font-size: 0.7rem; }
+            .table-wrapper.bg-general th { font-size: 0.6rem; padding: 0.4rem 0.2rem; }
+            .table-wrapper.bg-general td { padding: 0.4rem 0.2rem; font-size: 0.7rem; }
+            .table-wrapper.bg-general .platform-icon { width: 16px; height: 16px; }
+
+            .prestige-badge { width: 30px; height: 36px; }
+            .prestige-number { font-size: 0.75rem; }
+            .level-number { height: 32px; font-size: 0.85rem; min-width: 20px; }
+            .player-prestige-level { gap: 3px; margin-right: 6px; }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-slider" id="bgSlider"></div>
-<div class="bg-overlay"></div>
-<div class="smoke-overlay"></div>
+    <div class="bg-slider" id="bgSlider"></div>
+    <div class="bg-overlay"></div>
+    <div class="smoke-overlay"></div>
 
-<audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
+    <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
-<div id="mainAudioContainer" style="display:none;">
-    <audio id="mainAudio1" preload="auto"><source src="images/комната отдыха 1.mp3" type="audio/mpeg"></audio>
-    <audio id="mainAudio2" preload="auto"><source src="images/комната отдыха 2.mp3" type="audio/mpeg"></audio>
-    <audio id="mainAudio3" preload="auto"><source src="images/комната отдыха 3.mp3" type="audio/mpeg"></audio>
-</div>
-
-<script>
-    // ===== ФОНОВЫЙ СЛАЙДЕР =====
-    (function initBackgrounds() {
-        const bgSlider = document.getElementById('bgSlider');
-        const bgFiles = [
-            'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
-            'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
-            'фон-11.webp', 'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
-            'фон-16.webp', 'фон-17.webp', 'фон-18.webp', 'фон-19.jpeg', 'фон-20.webp',
-            'фон-21.webp', 'фон-22.jpg', 'фон-23.webp', 'фон-24.jpg', 'фон-25.png',
-            'фон-26.jpg', 'фон-27.webp', 'фон-28.webp', 'фон-29.webp', 'фон-30.webp',
-            'фон-31.webp', 'фон-32.jpg', 'фон-33.webp', 'фон-34.webp', 'фон-35.webp',
-            'фон-36.webp', 'фон-37.webp', 'фон-38.webp', 'фон-39.webp', 'фон-40.webp',
-            'фон-41.webp', 'фон-42.webp', 'фон-43.webp', 'фон-44.webp', 'фон-45.webp',
-            'фон-46.webp', 'фон-47.webp', 'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
-        ];
-        bgFiles.forEach((file, index) => {
-            const img = document.createElement('img');
-            img.src = 'images/' + file;
-            img.alt = 'фон ' + (index + 1);
-            if (index === 0) img.classList.add('active');
-            bgSlider.appendChild(img);
-        });
-        const imgs = bgSlider.querySelectorAll('img');
-        let current = 0, isTransitioning = false, timerId = null;
-        function switchToNext() {
-            if (isTransitioning) return;
-            isTransitioning = true;
-            imgs[current].classList.remove('active');
-            current = (current + 1) % imgs.length;
-            imgs[current].classList.add('active');
-            setTimeout(() => { isTransitioning = false; }, 3500);
-        }
-        function startInterval() { if (timerId) clearInterval(timerId); timerId = setInterval(switchToNext, 10000); }
-        function stopInterval() { if (timerId) { clearInterval(timerId); timerId = null; } }
-        startInterval();
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) stopInterval(); else { startInterval(); isTransitioning = false; }
-        });
-        window.addEventListener('beforeunload', stopInterval);
-    })();
-
-    (function createParticles() {
-        for (let i = 0; i < 6; i++) {
-            const p = document.createElement('div');
-            p.className = 'smoke-particle';
-            p.style.left = (10 + Math.random() * 80) + '%';
-            p.style.width = (80 + Math.random() * 100) + 'px';
-            p.style.height = p.style.width;
-            p.style.animationDelay = (i * 2.5) + 's';
-            p.style.animationDuration = (14 + Math.random() * 8) + 's';
-            document.body.appendChild(p);
-        }
-    })();
-
-    window.addEventListener('load', function() {
-        const audio = document.getElementById('bgAudio');
-        if (!audio) return;
-        function selectAudioFile() {
-            let selected = 'loading 2.mp3';
-            if (navigator.connection) {
-                const conn = navigator.connection;
-                if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') return 'loading 3.mp3';
-                if (conn.rtt && conn.rtt > 500) return 'loading 3.mp3';
-                if (conn.downlink && conn.downlink < 0.3) return 'loading 3.mp3';
-                if (conn.saveData) return 'loading 3.mp3';
-            }
-            try {
-                const perf = performance.getEntriesByType('navigation')[0];
-                if (perf && perf.loadEventEnd - perf.fetchStart > 5000) return 'loading 3.mp3';
-            } catch(e) {}
-            return Math.random() < 0.70 ? 'loading 2.mp3' : 'loading.mp3';
-        }
-        const selectedFile = selectAudioFile();
-        window.normalAudioFile = selectedFile;
-        audio.src = 'images/' + selectedFile;
-        audio.load();
-    });
-
-    // ===== МУЗЫКА ГЛАВНОЙ =====
-    let mainAudioStarted = false, currentTrackIndex = 0, mainAudioFiles = [], currentAudioElement = null;
-
-    function initMainAudio() {
-        const c = document.getElementById('mainAudioContainer');
-        if (!c) return;
-        c.innerHTML = '';
-        mainAudioFiles = [];
-        const names = ['комната отдыха 1.mp3', 'комната отдыха 2.mp3', 'комната отдыха 3.mp3'];
-        for (let i = 0; i < 3; i++) {
-            const a = document.createElement('audio');
-            a.id = 'mainAudio' + (i + 1);
-            a.preload = 'auto'; a.volume = 0.4;
-            const s = document.createElement('source');
-            s.src = 'images/' + names[i]; s.type = 'audio/mpeg';
-            a.appendChild(s); c.appendChild(a); mainAudioFiles.push(a);
-        }
-    }
-    function playNextMainTrack() {
-        if (!mainAudioStarted) return;
-        if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
-        currentTrackIndex = (currentTrackIndex + 1) % mainAudioFiles.length;
-        const a = mainAudioFiles[currentTrackIndex];
-        if (!a) return;
-        currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
-        a.play().catch(() => {});
-        a.addEventListener('ended', function onEnd() {
-            a.removeEventListener('ended', onEnd);
-            if (!mainAudioStarted) return;
-            playNextMainTrack();
-        });
-    }
-    function startMainMusic() {
-        if (mainAudioStarted) return;
-        const mc = document.getElementById('mainContent');
-        if (!mc || !mc.classList.contains('active')) return;
-        const la = document.getElementById('bgAudio');
-        if (la && !la.paused) { setTimeout(startMainMusic, 500); return; }
-        initMainAudio();
-        if (mainAudioFiles.length === 0) { setTimeout(startMainMusic, 500); return; }
-        mainAudioStarted = true;
-        currentTrackIndex = 0;
-        const a = mainAudioFiles[0];
-        if (!a) return;
-        currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
-        a.play().catch(() => {});
-        a.addEventListener('ended', function onEnd() {
-            a.removeEventListener('ended', onEnd);
-            if (!mainAudioStarted) return;
-            playNextMainTrack();
-        });
-        updateMusicButton(true);
-    }
-    function updateMusicButton(state) {
-        const btn = document.getElementById('musicToggleBtn');
-        if (!btn) return;
-        const icon = btn.querySelector('.icon');
-        const label = btn.querySelector('.label');
-        if (state) {
-            btn.classList.add('playing');
-            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
-            if (label) label.textContent = 'Вкл';
-        } else {
-            btn.classList.remove('playing');
-            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
-            if (label) label.textContent = 'Выкл';
-        }
-    }
-    function toggleMainMusic() {
-        if (mainAudioStarted) {
-            mainAudioStarted = false;
-            if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
-            mainAudioFiles.forEach(a => { a.pause(); a.currentTime = 0; });
-            updateMusicButton(false);
-        } else {
-            mainAudioStarted = true;
-            initMainAudio();
-            if (mainAudioFiles.length === 0) { mainAudioStarted = false; return; }
-            currentTrackIndex = 0;
-            const a = mainAudioFiles[0];
-            if (!a) { mainAudioStarted = false; return; }
-            currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
-            a.play().catch(() => {});
-            a.addEventListener('ended', function onEnd() {
-                a.removeEventListener('ended', onEnd);
-                if (!mainAudioStarted) return;
-                playNextMainTrack();
-            });
-            updateMusicButton(true);
-        }
-    }
-    const mainObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(m => {
-            if (m.type === 'attributes' && m.attributeName === 'class') {
-                const mc = document.getElementById('mainContent');
-                if (mc && mc.classList.contains('active')) setTimeout(startMainMusic, 800);
-            }
-        });
-    });
-    function observeMainContent() {
-        const mc = document.getElementById('mainContent');
-        if (mc) {
-            mainObserver.observe(mc, { attributes: true });
-            if (mc.classList.contains('active')) setTimeout(startMainMusic, 500);
-        } else setTimeout(observeMainContent, 200);
-    }
-    document.addEventListener('DOMContentLoaded', observeMainContent);
-    window.addEventListener('load', function() { setTimeout(observeMainContent, 100); });
-    window.toggleMainMusic = toggleMainMusic;
-</script>
-
-<div class="main-wrapper">
-
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
-    <div id="connectScreen" class="connect-screen active">
-        <div class="connect-content">
-            <div class="connect-logo">
-                <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
-                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-                <span class="line3">THE OUTLAST TRIALS</span>
-            </div>
-            <div id="connectPrompt" class="connect-prompt">
-                <i class="fas fa-hand-pointer"></i> нажмите в любом месте для подключения
-            </div>
-            <div id="connectStatus" class="connect-status">
-                <div class="spinner"></div>
-                <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
-            </div>
-        </div>
-        <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
-    </div>
-
-    <!-- ====== ЭКРАН ОШИБКИ ====== -->
-    <div id="errorScreen" class="error-screen">
-        <div class="error-box">
-            <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
-            <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
-            <p class="error-sub">Не удалось установить соединение с сервером</p>
-            <p class="error-desc">
-                К сожалению, возникла непредвиденная ошибка.<br>
-                Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
-            </p>
-            <div class="error-code">ERR_CONNECTION_RESET</div>
-            <div class="error-actions">
-                <button class="error-btn error-btn-primary" id="retryBtn">
-                    <i class="fas fa-sync-alt"></i> Перезагрузить
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== ОСНОВНОЙ КОНТЕНТ ====== -->
-    <div id="mainContent" class="main-content">
-        <div class="header">
-            <div class="logo">
-                <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-                <div>
-                    <span class="logo-text">Курилка Синьялы</span>
-                    <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+    <div class="main-wrapper">
+        <div id="connectScreen" class="connect-screen">
+            <div class="connect-content">
+                <div class="connect-logo">
+                    <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
+                    <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                    <span class="line3">LEADERBOARD</span>
+                </div>
+                <div id="connectPrompt" class="connect-prompt">
+                    <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
+                </div>
+                <div id="connectStatus" class="connect-status">
+                    <div class="spinner"></div>
+                    <div class="label">ПОДОЖДИТЕ, ИДЕТ ЗАГРУЗКА ДАННЫХ...</div>
                 </div>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Главная</a>
-                <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-                <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
-                <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-                <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-                <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-                <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
-                    <span class="icon fa-solid fa-volume-xmark"></span>
-                    <span class="label">Выкл</span>
-                </button>
+            <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
+        </div>
+
+        <div id="errorScreen" class="error-screen">
+            <div class="error-box">
+                <span class="error-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                <h2>ОШИБКА СОЕДИНЕНИЯ!</h2>
+                <p class="error-sub">Не удалось установить соединение с сервером</p>
+                <p class="error-desc">
+                    К сожалению, возникла непредвиденная ошибка.<br>
+                    Попробуйте повторить операцию. Если ошибка повторится, попробуйте перезагрузить страницу или обратитесь к администратору.
+                </p>
+                <div class="error-code">ERR_CONNECTION_RESET</div>
+                <div class="error-actions">
+                    <button class="error-btn error-btn-primary" id="retryBtn">
+                        <i class="fas fa-sync-alt"></i> Перезагрузить
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Заголовок -->
-        <div class="hero-title">
-            <h2>Добро пожаловать в Курилку</h2>
-        </div>
-
-        <!-- ====== СЛАЙДЕР НОВОСТЕЙ ====== -->
-        <div class="news-slider-block">
-            <div class="news-slider-container">
-                <div class="news-slider-btn news-slider-btn-left" id="newsPrevBtn"><i class="fas fa-chevron-left"></i></div>
-                <div class="news-slider-track-wrapper">
-                    <div class="news-slider-track" id="newsSliderTrack">
-
-                        <div class="news-slide">
-                            <div class="news-slide-image">
-                                <img src="images/новость 1.webp" alt="Обновление Терапия 2.0"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Терапия+2.0'">
-                            </div>
-                            <div class="news-slide-text">
-                                <h2><i class="fas fa-download"></i>Обновление «Терапия 2.0»</h2>
-                                <p>Новая карта, враги и система прогрессии. Уже доступно на сервере.</p>
-                                <span class="news-badge-slider"><i class="fas fa-download"></i>Обновитесь сейчас</span>
-                            </div>
-                        </div>
-
-                        <div class="news-slide">
-                            <div class="news-slide-image">
-                                <img src="images/новость 2.webp" alt="Сезон Краб-убежище"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Краб-убежище'">
-                            </div>
-                            <div class="news-slide-text">
-                                <h2><i class="fas fa-crown"></i>Сезон «Краб-убежище»</h2>
-                                <p>Новое испытание с крабом-мутантом. Эксклюзивные награды ждут смельчаков.</p>
-                                <span class="news-badge-slider"><i class="fas fa-calendar-alt"></i>14 дней до конца</span>
-                            </div>
-                        </div>
-
-                        <div class="news-slide">
-                            <div class="news-slide-image">
-                                <img src="images/новость 3.webp" alt="Турнир Дымная битва"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Дымная+битва'">
-                            </div>
-                            <div class="news-slide-text">
-                                <h2><i class="fas fa-trophy"></i>Турнир «Дымная битва»</h2>
-                                <p>Соревнования на скорость. Призовой фонд 5000₽, регистрация до 20 июня.</p>
-                                <span class="news-badge-slider"><i class="fas fa-trophy"></i>Призовой фонд: 5000₽</span>
-                            </div>
-                        </div>
-
+        <div id="mainContent" class="main-content">
+            <div class="header">
+                <div class="logo">
+                    <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
+                    <div>
+                        <span class="logo-text">Курилка Синьялы</span>
+                        <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
                     </div>
                 </div>
-                <div class="news-slider-btn news-slider-btn-right" id="newsNextBtn"><i class="fas fa-chevron-right"></i></div>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+                    <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+                    <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+                    <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+                    <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
+                    <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+                </div>
             </div>
-            <div class="news-slider-dots" id="newsSliderDots">
-                <div class="news-dot active"></div>
-                <div class="news-dot"></div>
-                <div class="news-dot"></div>
+
+            <div class="page-title">
+                <h1><i class="fas fa-biohazard"></i> Курилка Синьялы — Leaderboard</h1>
+                <div class="sub"><i class="fas fa-skull"></i> Рейтинг игроков · Invasion & Эскалация <i class="fas fa-skull"></i></div>
             </div>
+
+            <div class="big-banner">
+                <img src="images/баннер лидерборд.png" alt="Leaderboard Banner" onerror="this.style.display='none'">
+            </div>
+
+            <div class="alert-block">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>
+                    <span class="highlight">ВНИМАНИЕ!</span> Все данные лидерборда обновляются один раз в неделю — каждый <span class="highlight">Вторник в 21:00</span> по МСК.
+                </span>
+            </div>
+
+            <div class="mode-banners" id="modeBanners">
+                <div class="mode-banner active" data-mode="escalation" onclick="switchMode('escalation')">
+                    <img src="images/эскалация баннер.webp" alt="Эскалация" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Эскалация'">
+                    <div class="banner-label">ЭСКАЛАЦИЯ</div>
+                </div>
+                <div class="mode-banner" data-mode="invasion" onclick="switchMode('invasion')">
+                    <img src="images/вторжение баннер.png" alt="Вторжение" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=Вторжение'">
+                    <div class="banner-label">ВТОРЖЕНИЕ</div>
+                </div>
+            </div>
+
+            <div class="leaderboard-section" id="leaderboardSection">
+                <div class="section-header">
+                    <div class="title">
+                        <i class="fas fa-crown"></i>
+                        <span id="sectionTitle">ЭСКАЛАЦИЯ</span>
+                    </div>
+                    <div class="sub-title">
+                        <i class="fas fa-clock"></i> Обновлено: 14.06.2026
+                    </div>
+                </div>
+
+                <div class="sub-tabs" id="subTabs">
+                    <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                    <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
+                </div>
+
+                <div class="sort-bar" id="sortBar" style="display:none;">
+                    <span class="sort-label"><i class="fas fa-arrow-up-wide-short"></i> Сортировка:</span>
+                    <button class="sort-btn active" data-sort="default" onclick="applySort('default')">По умолчанию</button>
+                    <button class="sort-btn" data-sort="name-asc" onclick="applySort('name-asc')">Имя А→Я</button>
+                    <button class="sort-btn" data-sort="name-desc" onclick="applySort('name-desc')">Имя Я→А</button>
+
+                    <div class="platform-dropdown" id="platformDropdown">
+                        <button class="platform-dropdown-btn" id="platformDropdownBtn" onclick="togglePlatformDropdown(event)">
+                            <span id="platformDropdownLabel">Платформа</span>
+                            <span class="arrow" id="platformArrow">▾</span>
+                        </button>
+                        <div class="platform-dropdown-menu" id="platformDropdownMenu">
+                            <button class="platform-dropdown-item active" data-platform="all" onclick="selectPlatform('all', event)">
+                                <span class="item-label">Все платформы</span>
+                            </button>
+                            <button class="platform-dropdown-item" data-platform="steam" onclick="selectPlatform('steam', event)">
+                                <img src="images/иконка стим.webp" class="item-icon" alt="Steam" onerror="this.style.display='none'">
+                                <span class="item-label">Steam</span>
+                            </button>
+                            <button class="platform-dropdown-item" data-platform="xbox" onclick="selectPlatform('xbox', event)">
+                                <img src="images/иконка х-бокс.webp" class="item-icon" alt="Xbox" onerror="this.style.display='none'">
+                                <span class="item-label">Xbox</span>
+                            </button>
+                            <button class="platform-dropdown-item" data-platform="ps" onclick="selectPlatform('ps', event)">
+                                <img src="images/иконка пс.webp" class="item-icon" alt="PlayStation" onerror="this.style.display='none'">
+                                <span class="item-label">PlayStation</span>
+                            </button>
+                            <button class="platform-dropdown-item" data-platform="epic" onclick="selectPlatform('epic', event)">
+                                <img src="images/иконка эпик.webp" class="item-icon" alt="Epic Games" onerror="this.style.display='none'">
+                                <span class="item-label">Epic Games</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ============================================================ -->
+                    <!-- ===== НОВЫЕ КНОПКИ СОРТИРОВКИ ПО ПРЕСТИЖУ ================= -->
+                    <!-- ============================================================ -->
+                    <button class="sort-btn sort-prestige" data-sort="prestige" onclick="applySort('prestige')">
+                        <i class="fas fa-shield-halved"></i> Престиж ↑
+                    </button>
+                    <button class="sort-btn sort-prestige" data-sort="prestige-desc" onclick="applySort('prestige-desc')">
+                        <i class="fas fa-shield-halved"></i> Престиж ↓
+                    </button>
+
+                    <button class="sort-btn sort-match" data-sort="matches" onclick="applySort('matches')">Матчи ↑</button>
+                    <button class="sort-btn sort-match" data-sort="matches-desc" onclick="applySort('matches-desc')">Матчи ↓</button>
+                    <button class="sort-btn sort-points" data-sort="points" onclick="applySort('points')">Очки ↑</button>
+                    <button class="sort-btn sort-points" data-sort="points-desc" onclick="applySort('points-desc')">Очки ↓</button>
+                </div>
+
+                <div class="table-wrapper bg-escalation" id="tableWrapper">
+                    <div class="table-bg-overlay"></div>
+                    <div id="tableContainer"></div>
+                </div>
+            </div>
+
+            <footer>
+                <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
+                <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+                <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+                <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
+            </footer>
         </div>
-
-        <!-- ====== СТАТИСТИКА (3 карточки) ====== -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <div class="stat-number">55</div>
-                <p>участников</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-trophy"></i>
-                <div class="stat-number">34</div>
-                <p>уникальных ролей</p>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-fire"></i>
-                <div class="stat-number">100%</div>
-                <p>атмосферы</p>
-            </div>
-        </div>
-
-        <!-- ====== ТОП ИГРОКОВ ====== -->
-        <div class="top-players-block">
-            <div class="top-players-header">
-                <h2>Топ игроков</h2>
-                <a href="invasion.html" class="leaderboard-btn">
-                    Таблица лидеров <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="top-players-grid">
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 1.webp');"></div>
-                    <div class="player-name">LJ_l_l</div>
-                    <div class="player-stat">Выпущенные реагенты <span class="stat-value">2.679</span></div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 2.webp');"></div>
-                    <div class="player-name">LJ_l_l</div>
-                    <div class="player-stat">Престиж <span class="stat-value">547</span></div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 3.webp');"></div>
-                    <div class="player-name">Chinpako</div>
-                    <div class="player-stat">Очки вторжения <span class="stat-value">400.050</span></div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 4.webp');"></div>
-                    <div class="player-name">l-nwn-l</div>
-                    <div class="player-stat">Победы в армпстслинге <span class="stat-value">130.002</span></div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 5.webp');"></div>
-                    <div class="player-name">l-nwn-l</div>
-                    <div class="player-stat">Победы в шахматах <span class="stat-value">19.444</span></div>
-                </div>
-
-                <div class="player-card">
-                    <div class="player-emblem" style="background-image:url('images/эмблема 6.webp');"></div>
-                    <div class="player-name">l-nwn-l</div>
-                    <div class="player-stat">Победы в теннисе <span class="stat-value">10.002</span></div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ====== СОЦИАЛЬНЫЙ БЛОК ====== -->
-        <div class="social-block">
-            <h2>Присоединяйтесь к сообществу</h2>
-            <p>Будьте в курсе событий и ивентов</p>
-            <div class="social-icons">
-                <a href="#" class="social-icon discord"><i class="fab fa-discord"></i><span>Discord</span></a>
-                <a href="#" class="social-icon twitch"><i class="fab fa-twitch"></i><span>Twitch</span></a>
-            </div>
-            <a href="#" class="discord-button"><i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD</a>
-        </div>
-
-        <footer>
-            <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
-            <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
-            <p style="margin-top:8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br> Дым, ужас и папиросы ❤️‍🔥</p>
-            <p style="margin-top:4px; font-size:0.65rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
-        </footer>
     </div>
-</div>
 
-<script>
-    // ===== MAINTENANCE.TXT =====
-    async function checkMaintenance() {
-        try {
-            const r = await fetch('maintenance.txt?_=' + Date.now());
-            if (!r.ok) return 0;
-            const t = await r.text();
-            const s = parseInt(t.trim(), 10);
-            return isNaN(s) ? 0 : s;
-        } catch (e) { return 0; }
-    }
+    <audio id="bgAudio2" loop preload="auto" style="display:none;"></audio>
 
-    // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
-    const connectScreen = document.getElementById('connectScreen');
-    const connectPrompt = document.getElementById('connectPrompt');
-    const connectStatus = document.getElementById('connectStatus');
-    const errorScreen = document.getElementById('errorScreen');
-    const audio = document.getElementById('bgAudio');
-    let isProcessing = false;
-    let connectionTimer = null;
+    <script>
+        // ===== УПРАВЛЕНИЕ СОСТОЯНИЕМ ПОДКЛЮЧЕНИЯ =====
+        var CONNECT_KEY = 'kurilka_connected';
 
-    function startAudioOnConnect() {
-        if (!audio) return;
-        if (!connectScreen.classList.contains('active')) return;
-        if (!audio.paused) return;
-        if (audio.readyState >= 2) audio.play().catch(() => {});
-        else audio.addEventListener('canplaythrough', function onPlay() {
-            audio.play().catch(() => {});
-            audio.removeEventListener('canplaythrough', onPlay);
-        }, { once: true });
-    }
+        function isConnected() {
+            try { return sessionStorage.getItem(CONNECT_KEY) === 'true'; } catch (e) { return false; }
+        }
 
-    const connectObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(m) {
-            if (m.type === 'attributes' && m.attributeName === 'class') {
-                if (connectScreen.classList.contains('active')) setTimeout(startAudioOnConnect, 200);
+        function setConnected(value) {
+            try { sessionStorage.setItem(CONNECT_KEY, value ? 'true' : 'false'); } catch (e) {}
+        }
+
+        // ===== ГЕНЕРАЦИЯ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
+        (function initBackgrounds() {
+            var bgSlider = document.getElementById('bgSlider');
+            if (!bgSlider) return;
+            var bgFiles = [
+                'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
+                'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp'
+            ];
+
+            bgFiles.forEach(function(file, index) {
+                var img = document.createElement('img');
+                img.src = 'images/' + file;
+                img.alt = 'фон ' + (index + 1);
+                if (index === 0) img.classList.add('active');
+                bgSlider.appendChild(img);
+            });
+
+            var imgs = bgSlider.querySelectorAll('img');
+            if (imgs.length === 0) return;
+            var current = 0;
+            var total = imgs.length;
+            var isTransitioning = false;
+            var timerId = null;
+
+            function switchToNext() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                imgs[current].classList.remove('active');
+                current = (current + 1) % total;
+                imgs[current].classList.add('active');
+                setTimeout(function() { isTransitioning = false; }, 3500);
+            }
+
+            function startInterval() {
+                if (timerId) clearInterval(timerId);
+                timerId = setInterval(switchToNext, 10000);
+            }
+
+            function stopInterval() {
+                if (timerId) { clearInterval(timerId); timerId = null; }
+            }
+
+            startInterval();
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) { stopInterval(); } else { startInterval(); isTransitioning = false; }
+            });
+            window.addEventListener('beforeunload', function() { stopInterval(); });
+        })();
+
+        // Дымовые частицы
+        (function createParticles() {
+            for (var i = 0; i < 6; i++) {
+                var p = document.createElement('div');
+                p.className = 'smoke-particle';
+                p.style.left = (10 + Math.random() * 80) + '%';
+                p.style.width = (80 + Math.random() * 100) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDelay = (i * 2.5) + 's';
+                p.style.animationDuration = (14 + Math.random() * 8) + 's';
+                document.body.appendChild(p);
+            }
+        })();
+
+        // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
+        window.addEventListener('load', function() {
+            var audio = document.getElementById('bgAudio');
+            if (!audio) return;
+
+            function selectAudioFile() {
+                var selected = 'loading 2.mp3';
+                if (navigator.connection) {
+                    var conn = navigator.connection;
+                    var isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
+                    var isHighLatency = conn.rtt && conn.rtt > 500;
+                    var isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
+                    if (isVerySlow || isHighLatency || isVeryLowBandwidth) return 'loading 3.mp3';
+                    if (conn.saveData) return 'loading 3.mp3';
+                }
+                try {
+                    var perfData = performance.getEntriesByType('navigation')[0];
+                    if (perfData) {
+                        var loadTime = perfData.loadEventEnd - perfData.fetchStart;
+                        if (loadTime > 5000) return 'loading 3.mp3';
+                    }
+                } catch (e) {}
+                var rand = Math.random();
+                return rand < 0.70 ? 'loading 2.mp3' : 'loading.mp3';
+            }
+
+            var selectedFile = selectAudioFile();
+            window.normalAudioFile = selectedFile;
+            audio.src = 'images/' + selectedFile;
+            console.log('✅ Выбран аудиофайл:', selectedFile);
+            audio.load();
+        });
+
+        // ===== УПРАВЛЕНИЕ МУЗЫКОЙ =====
+        var pageAudioStarted = false;
+
+        function startPageMusic() {
+            var audio = document.getElementById('bgAudio');
+            if (!audio || pageAudioStarted) return;
+            audio.volume = 0.35;
+            audio.play().catch(function() {});
+            pageAudioStarted = true;
+        }
+
+        function stopPageMusic() {
+            var audio = document.getElementById('bgAudio');
+            if (audio) { audio.pause(); audio.currentTime = 0; pageAudioStarted = false; }
+        }
+
+        // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
+        var connectScreen = document.getElementById('connectScreen');
+        var connectPrompt = document.getElementById('connectPrompt');
+        var connectStatus = document.getElementById('connectStatus');
+        var errorScreen = document.getElementById('errorScreen');
+        var mainContent = document.getElementById('mainContent');
+        var audio = document.getElementById('bgAudio');
+        var isProcessing = false;
+        var connectionTimer = null;
+
+        function shouldShowConnectScreen() {
+            if (isConnected()) { return false; }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (shouldShowConnectScreen()) {
+                if (connectScreen) connectScreen.classList.add('active');
+                setTimeout(startAudioOnConnect, 300);
+                if (mainContent) mainContent.classList.remove('active');
+                document.body.classList.remove('scroll-enabled');
+            } else {
+                if (connectScreen) connectScreen.classList.remove('active');
+                if (mainContent) mainContent.classList.add('active');
+                document.body.classList.add('scroll-enabled');
+                setTimeout(function() { updateTableContent(); }, 100);
             }
         });
-    });
-    if (connectScreen) connectObserver.observe(connectScreen, { attributes: true });
 
-    async function startConnectionProcess() {
-        if (isProcessing) return;
-        isProcessing = true;
-        if (audio && audio.paused) audio.play().catch(() => {});
-        connectPrompt.style.display = 'none';
-        connectStatus.classList.add('active');
-
-        const maintenanceStatus = await checkMaintenance();
-
-        if (maintenanceStatus === 1) {
-            if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
-                audio.src = 'images/loading 3.mp3';
-                audio.volume = 0.35; audio.currentTime = 0; audio.load();
+        function startAudioOnConnect() {
+            if (!audio) return;
+            if (!connectScreen || !connectScreen.classList.contains('active')) return;
+            if (!audio.paused) return;
+            if (audio.readyState >= 2) {
+                audio.play().catch(function() {});
+            } else {
                 audio.addEventListener('canplaythrough', function onPlay() {
-                    audio.play().catch(() => {});
+                    audio.play().catch(function() {});
                     audio.removeEventListener('canplaythrough', onPlay);
                 }, { once: true });
-            } else if (audio && audio.paused) audio.play().catch(() => {});
-            const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
-            await new Promise(resolve => { connectionTimer = setTimeout(resolve, delay); });
-            connectScreen.classList.remove('active');
-            errorScreen.classList.add('active');
-        } else {
-            if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
-                const normalFile = window.normalAudioFile || 'loading 2.mp3';
-                audio.src = 'images/' + normalFile;
-                audio.volume = 0.35; audio.currentTime = 0; audio.load();
-                audio.addEventListener('canplaythrough', function onPlay() {
-                    audio.play().catch(() => {});
-                    audio.removeEventListener('canplaythrough', onPlay);
-                }, { once: true });
-            } else if (audio && audio.paused) audio.play().catch(() => {});
-            const delay = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
-            await new Promise(resolve => { connectionTimer = setTimeout(resolve, delay); });
+            }
+        }
 
-            const finalStatus = await checkMaintenance();
-            if (finalStatus === 1) {
-                if (audio) {
+        async function startConnectionProcess() {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            if (audio && audio.paused) { audio.play().catch(function() {}); }
+
+            if (connectPrompt) connectPrompt.style.display = 'none';
+            if (connectStatus) connectStatus.classList.add('active');
+
+            var maintenanceStatus = await checkMaintenance();
+
+            if (maintenanceStatus === 1) {
+                if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
                     audio.src = 'images/loading 3.mp3';
-                    audio.volume = 0.35; audio.currentTime = 0; audio.load();
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
                     audio.addEventListener('canplaythrough', function onPlay() {
-                        audio.play().catch(() => {});
+                        audio.play().catch(function() {});
                         audio.removeEventListener('canplaythrough', onPlay);
                     }, { once: true });
-                }
-                connectScreen.classList.remove('active');
-                errorScreen.classList.add('active');
+                } else if (audio && audio.paused) { audio.play().catch(function() {}); }
+
+                var delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
+                await new Promise(function(resolve) { connectionTimer = setTimeout(resolve, delay); });
+
+                if (connectScreen) connectScreen.classList.remove('active');
+                if (errorScreen) errorScreen.classList.add('active');
+                if (audio) audio.pause();
             } else {
-                connectScreen.classList.remove('active');
-                document.getElementById('mainContent').classList.add('active');
-                document.body.classList.add('scroll-enabled');
-                if (audio) { audio.pause(); audio.currentTime = 0; }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
+                    var normalFile = window.normalAudioFile || 'loading 2.mp3';
+                    audio.src = 'images/' + normalFile;
+                    audio.volume = 0.35;
+                    audio.currentTime = 0;
+                    audio.load();
+                    audio.addEventListener('canplaythrough', function onPlay() {
+                        audio.play().catch(function() {});
+                        audio.removeEventListener('canplaythrough', onPlay);
+                    }, { once: true });
+                } else if (audio && audio.paused) { audio.play().catch(function() {}); }
+
+                var delay2 = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
+                await new Promise(function(resolve) { connectionTimer = setTimeout(resolve, delay2); });
+
+                var finalStatus = await checkMaintenance();
+
+                if (finalStatus === 1) {
+                    if (audio) {
+                        audio.src = 'images/loading 3.mp3';
+                        audio.volume = 0.35;
+                        audio.currentTime = 0;
+                        audio.load();
+                        audio.addEventListener('canplaythrough', function onPlay() {
+                            audio.play().catch(function() {});
+                            audio.removeEventListener('canplaythrough', onPlay);
+                        }, { once: true });
+                    }
+                    if (connectScreen) connectScreen.classList.remove('active');
+                    if (errorScreen) errorScreen.classList.add('active');
+                    if (audio) audio.pause();
+                } else {
+                    setConnected(true);
+                    if (connectScreen) connectScreen.classList.remove('active');
+                    if (mainContent) mainContent.classList.add('active');
+                    document.body.classList.add('scroll-enabled');
+                    if (audio) { audio.pause(); audio.currentTime = 0; pageAudioStarted = false; }
+                    updateTableContent();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            isProcessing = false;
+            connectionTimer = null;
+        }
+
+        async function checkMaintenance() {
+            try {
+                var response = await fetch('maintenance.txt?_=' + Date.now());
+                if (!response.ok) return 0;
+                var text = await response.text();
+                var status = parseInt(text.trim(), 10);
+                return isNaN(status) ? 0 : status;
+            } catch (error) { return 0; }
+        }
+
+        if (connectScreen) {
+            connectScreen.addEventListener('click', function(e) {
+                if (isProcessing) return;
+                if (connectPrompt && connectPrompt.style.display !== 'none') { startConnectionProcess(); }
+            });
+        }
+
+        if (connectPrompt) {
+            connectPrompt.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isProcessing) return;
+                startConnectionProcess();
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (!connectScreen || !connectScreen.classList.contains('active')) return;
+            if (isProcessing) return;
+            if (connectPrompt && connectPrompt.style.display === 'none') return;
+            startConnectionProcess();
+        });
+
+        var retryBtn = document.getElementById('retryBtn');
+        if (retryBtn) {
+            retryBtn.addEventListener('click', function() {
+                if (connectionTimer) { clearTimeout(connectionTimer); connectionTimer = null; }
+                isProcessing = false;
+                if (errorScreen) errorScreen.classList.remove('active');
+                if (connectScreen) connectScreen.classList.add('active');
+                if (connectPrompt) connectPrompt.style.display = 'block';
+                if (connectStatus) connectStatus.classList.remove('active');
+                if (audio) {
+                    var normalFile = window.normalAudioFile || 'loading 2.mp3';
+                    if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
+                        audio.src = 'images/' + normalFile;
+                        audio.volume = 0.35;
+                        audio.currentTime = 0;
+                        audio.load();
+                    }
+                    setTimeout(startAudioOnConnect, 300);
+                }
+                setTimeout(function() {
+                    if (connectScreen && connectScreen.classList.contains('active') && !isProcessing) {
+                        startConnectionProcess();
+                    }
+                }, 800);
+            });
+        }
+
+        // ============================================================
+        // ===== ПЛАТФОРМЫ ИГРОКОВ =================================
+        // ============================================================
+        var playerPlatforms = {
+            'DASCERA': 'xbox', 'TSUQUOIA': 'steam', 'BLUE F': 'ps',
+            '魔法桃心蛋 (证人BUG不修)': 'epic', '绿猫大人': 'xbox', 'LEI_GE': 'steam',
+            '小虎阿': 'ps', '冰': 'epic', '封心': 'xbox', '蓉蓉': 'steam',
+            '荔枝冻': 'ps', '它的狗': 'epic', 'Legend_Player': 'steam',
+            'Infinity_Master': 'xbox', 'Endless_Runner': 'ps', 'Бесконечность': 'epic',
+            'Nightmare_Endless': 'xbox', 'Reagent_Master': 'steam', 'Survivor_King': 'ps',
+            'Reagent_Pro': 'xbox', 'Эксперимент_13': 'epic', 'Лабораторный': 'steam',
+            'Реагент_X': 'xbox', 'Подопытный_7': 'ps', 'Образец_09': 'epic',
+            'Тестовая_группа': 'steam', 'Реагент_001': 'xbox', 'Impostor_Elite': 'ps',
+            'The_Shadow': 'epic', 'Самозванец_Х': 'steam', 'Двойник_7': 'xbox',
+            'Маскировка': 'ps', 'Имитация': 'epic', 'Фальшивка': 'steam',
+            'Призрак': 'xbox', 'Копия': 'ps', 'Обман': 'epic',
+            'Invasion_King': 'steam', 'Shadow_Hunter': 'xbox', 'Nightmare_Stalker': 'ps',
+            'Darkness_Fury': 'epic', 'Silent_Death': 'steam', 'Fearless_Runner': 'xbox',
+            'Ghost_Blade': 'ps', 'Crimson_Tide': 'epic', 'Eclipse_Warrior': 'steam',
+            'Void_Walker': 'xbox'
+        };
+
+        // ============================================================
+        // ===== ДАННЫЕ ПРЕСТИЖА И УРОВНЯ (ЗАПОЛНЯЕТСЯ ВРУЧНУЮ) =====
+        // ============================================================
+        var playerPrestigeLevels = {
+            'DASCERA': { prestige: 20, level: 1 },
+            'TSUQUOIA': { prestige: 15, level: 8 },
+            'BLUE F': { prestige: 10, level: 5 },
+            '魔法桃心蛋 (证人BUG不修)': { prestige: 7, level: 3 },
+            '绿猫大人': { prestige: 5, level: 12 },
+            'LEI_GE': { prestige: 3, level: 20 },
+            '小虎阿': { prestige: 2, level: 15 },
+            '冰': { prestige: 1, level: 30 },
+            '封心': { prestige: 4, level: 7 },
+            '蓉蓉': { prestige: 6, level: 2 },
+            '荔枝冻': { prestige: 8, level: 11 },
+            '它的狗': { prestige: 9, level: 4 },
+            'Legend_Player': { prestige: 12, level: 6 },
+            'Infinity_Master': { prestige: 14, level: 9 },
+            'Endless_Runner': { prestige: 11, level: 13 },
+            'Бесконечность': { prestige: 13, level: 10 },
+            'Nightmare_Endless': { prestige: 16, level: 14 },
+            'Reagent_Master': { prestige: 18, level: 16 },
+            'Survivor_King': { prestige: 17, level: 18 },
+            'Reagent_Pro': { prestige: 19, level: 17 },
+            'Эксперимент_13': { prestige: 21, level: 19 },
+            'Лабораторный': { prestige: 22, level: 22 },
+            'Реагент_X': { prestige: 23, level: 21 },
+            'Подопытный_7': { prestige: 24, level: 24 },
+            'Образец_09': { prestige: 25, level: 23 },
+            'Тестовая_группа': { prestige: 26, level: 26 },
+            'Реагент_001': { prestige: 27, level: 25 },
+            'Impostor_Elite': { prestige: 28, level: 28 },
+            'The_Shadow': { prestige: 29, level: 27 },
+            'Самозванец_Х': { prestige: 30, level: 30 },
+            'Двойник_7': { prestige: 31, level: 29 },
+            'Маскировка': { prestige: 32, level: 32 },
+            'Имитация': { prestige: 33, level: 31 },
+            'Фальшивка': { prestige: 34, level: 34 },
+            'Призрак': { prestige: 35, level: 33 },
+            'Копия': { prestige: 36, level: 36 },
+            'Обман': { prestige: 37, level: 35 },
+            'Invasion_King': { prestige: 38, level: 38 },
+            'Shadow_Hunter': { prestige: 39, level: 37 },
+            'Nightmare_Stalker': { prestige: 40, level: 40 },
+            'Darkness_Fury': { prestige: 41, level: 39 },
+            'Silent_Death': { prestige: 42, level: 42 },
+            'Fearless_Runner': { prestige: 43, level: 41 },
+            'Ghost_Blade': { prestige: 44, level: 44 },
+            'Crimson_Tide': { prestige: 45, level: 43 },
+            'Eclipse_Warrior': { prestige: 46, level: 46 },
+            'Void_Walker': { prestige: 47, level: 45 }
+        };
+
+        function getPrestigeLevel(name) {
+            return playerPrestigeLevels[name] || { prestige: 1, level: 1 };
+        }
+
+        // ============================================================
+        // ===== ФУНКЦИЯ ФОРМИРОВАНИЯ БЕЙДЖА ПРЕСТИЖА И УРОВНЯ ======
+        // ============================================================
+        function getPrestigeLevelBadge(name) {
+            var pl = getPrestigeLevel(name);
+            return `<span class="player-prestige-level">
+                <span class="prestige-badge">
+                    <svg viewBox="0 0 42 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 2 2 L 40 2 L 40 30 L 21 46 L 2 30 Z"
+                              fill="#0d0603" stroke="none"/>
+                        <path d="M 2 2 L 40 2 L 40 30 L 21 46 L 2 30 Z"
+                              fill="none" stroke="#e8902e" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M 6 6 L 36 6 L 36 29 L 21 42 L 6 29 Z"
+                              fill="none" stroke="rgba(232, 144, 46, 0.45)"
+                              stroke-width="1" stroke-linejoin="round" stroke-dasharray="2 2.5"/>
+                        <circle cx="2" cy="2" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="40" cy="2" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="40" cy="30" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="21" cy="46" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                        <circle cx="2" cy="30" r="2.2" fill="#ffb347" stroke="#e8902e" stroke-width="0.8"/>
+                    </svg>
+                    <span class="prestige-number">${pl.prestige}</span>
+                </span>
+                <span class="level-number">${pl.level}</span>
+            </span>`;
+        }
+
+        // ============================================================
+        // ===== ВРЕМЕННОЕ ИМЯ ДЛЯ ВСЕХ ИГРОКОВ ====================
+        // ============================================================
+        var TEMP_PLAYER_NAME = 'Курилка Синьялы';
+
+        // ============================================================
+        // ===== ДАННЫЕ ТАБЛИЦ =====================================
+        // ============================================================
+        var escalationData = {
+            weekly: [
+                { rank: 1, name: "DASCERA" },
+                { rank: 2, name: "TSUQUOIA" },
+                { rank: 3, name: "BLUE F" },
+                { rank: 4, name: "魔法桃心蛋 (证人BUG不修)" },
+                { rank: 5, name: "绿猫大人" },
+                { rank: 6, name: "LEI_GE" },
+                { rank: 7, name: "小虎阿" },
+                { rank: 8, name: "冰" },
+                { rank: 9, name: "封心" },
+                { rank: 10, name: "蓉蓉" },
+                { rank: 11, name: "荔枝冻" },
+                { rank: 12, name: "它的狗" }
+            ],
+            infinite: [
+                { rank: 1, name: "Legend_Player" },
+                { rank: 2, name: "Infinity_Master" },
+                { rank: 3, name: "Endless_Runner" },
+                { rank: 4, name: "Бесконечность" },
+                { rank: 5, name: "Nightmare_Endless" }
+            ]
+        };
+
+        var invasionGeneralData = [
+            { rank: 1, name: "Invasion_King" },
+            { rank: 2, name: "Shadow_Hunter" },
+            { rank: 3, name: "Nightmare_Stalker" },
+            { rank: 4, name: "Darkness_Fury" },
+            { rank: 5, name: "Silent_Death" },
+            { rank: 6, name: "Fearless_Runner" },
+            { rank: 7, name: "Ghost_Blade" },
+            { rank: 8, name: "Crimson_Tide" },
+            { rank: 9, name: "Eclipse_Warrior" },
+            { rank: 10, name: "Void_Walker" }
+        ];
+
+        var invasionData = {
+            reagent: [
+                { rank: 1, name: "Reagent_Master" },
+                { rank: 2, name: "Survivor_King" },
+                { rank: 3, name: "Reagent_Pro" },
+                { rank: 4, name: "Эксперимент_13" },
+                { rank: 5, name: "Лабораторный" },
+                { rank: 6, name: "Реагент_X" },
+                { rank: 7, name: "Подопытный_7" },
+                { rank: 8, name: "Образец_09" },
+                { rank: 9, name: "Тестовая_группа" },
+                { rank: 10, name: "Реагент_001" }
+            ],
+            impostor: [
+                { rank: 1, name: "Impostor_Elite" },
+                { rank: 2, name: "The_Shadow" },
+                { rank: 3, name: "Самозванец_Х" },
+                { rank: 4, name: "Двойник_7" },
+                { rank: 5, name: "Маскировка" },
+                { rank: 6, name: "Имитация" },
+                { rank: 7, name: "Фальшивка" },
+                { rank: 8, name: "Призрак" },
+                { rank: 9, name: "Копия" },
+                { rank: 10, name: "Обман" }
+            ]
+        };
+
+        // ============================================================
+        // ===== ФУНКЦИИ ===========================================
+        // ============================================================
+        var currentSort = 'default';
+        var currentPlatformFilter = 'all';
+        var currentDisplayData = [];
+
+        function getPlatformForPlayer(name) {
+            return playerPlatforms[name] || 'steam';
+        }
+
+        // ============================================================
+        // ===== ФУНКЦИЯ СОРТИРОВКИ (С ДОБАВЛЕННЫМ ПРЕСТИЖЕМ) ========
+        // ============================================================
+        function sortData(data, sortType, platformFilter) {
+            var filtered = data.slice();
+            if (platformFilter !== 'all') {
+                filtered = filtered.filter(function(p) {
+                    return getPlatformForPlayer(p.name) === platformFilter;
+                });
+            }
+            var copy = filtered.slice();
+            switch (sortType) {
+                case 'default':
+                    return filtered.slice();
+                case 'name-asc':
+                    return copy.sort(function(a, b) { return a.name.localeCompare(b.name); });
+                case 'name-desc':
+                    return copy.sort(function(a, b) { return b.name.localeCompare(a.name); });
+
+                // ============================================================
+                // ===== СОРТИРОВКА ПО ПРЕСТИЖУ ==============================
+                // ============================================================
+                case 'prestige':
+                    return copy.sort(function(a, b) {
+                        var pa = getPrestigeLevel(a.name).prestige || 0;
+                        var pb = getPrestigeLevel(b.name).prestige || 0;
+                        return pa - pb;
+                    });
+                case 'prestige-desc':
+                    return copy.sort(function(a, b) {
+                        var pa = getPrestigeLevel(a.name).prestige || 0;
+                        var pb = getPrestigeLevel(b.name).prestige || 0;
+                        return pb - pa;
+                    });
+
+                case 'matches':
+                    return copy.sort(function(a, b) { return (a.matches || 0) - (b.matches || 0); });
+                case 'matches-desc':
+                    return copy.sort(function(a, b) { return (b.matches || 0) - (a.matches || 0); });
+                case 'points':
+                    return copy.sort(function(a, b) { return (a.points || 0) - (b.points || 0); });
+                case 'points-desc':
+                    return copy.sort(function(a, b) { return (b.points || 0) - (a.points || 0); });
+                default:
+                    return filtered.slice();
             }
         }
-        isProcessing = false;
-        connectionTimer = null;
-    }
 
-    connectScreen.addEventListener('click', function() { if (!isProcessing) startConnectionProcess(); });
-    connectPrompt.addEventListener('click', function(e) { e.stopPropagation(); if (!isProcessing) startConnectionProcess(); });
-    document.addEventListener('keydown', function() {
-        if (!connectScreen.classList.contains('active')) return;
-        if (isProcessing) return;
-        if (connectPrompt.style.display === 'none') return;
-        startConnectionProcess();
-    });
-    document.getElementById('retryBtn').addEventListener('click', function() {
-        if (connectionTimer) { clearTimeout(connectionTimer); connectionTimer = null; }
-        isProcessing = false;
-        errorScreen.classList.remove('active');
-        connectScreen.classList.add('active');
-        connectPrompt.style.display = 'block';
-        connectStatus.classList.remove('active');
-        if (audio) {
-            const normalFile = window.normalAudioFile || 'loading 2.mp3';
-            if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
-                audio.src = 'images/' + normalFile;
-                audio.volume = 0.35; audio.currentTime = 0; audio.load();
+        function applySort(sortType) {
+            currentSort = sortType;
+            var btns = document.querySelectorAll('.sort-btn');
+            btns.forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.sort === sortType);
+            });
+            if (sortType !== 'default' && !sortType.startsWith('platform')) {
+                var platformBtn = document.querySelector('.platform-dropdown-btn');
+                if (platformBtn) platformBtn.classList.remove('active');
             }
-            setTimeout(startAudioOnConnect, 300);
+            if (currentMode === 'invasion') { updateTableContent(); }
+            closePlatformDropdown();
         }
-        setTimeout(() => {
-            if (connectScreen.classList.contains('active') && !isProcessing) startConnectionProcess();
-        }, 800);
-    });
 
-    // ===== СЛАЙДЕР НОВОСТЕЙ =====
-    (function initNewsSlider() {
-        const track = document.getElementById('newsSliderTrack');
-        const slides = document.querySelectorAll('.news-slide');
-        const dots = document.querySelectorAll('.news-dot');
-        const prevBtn = document.getElementById('newsPrevBtn');
-        const nextBtn = document.getElementById('newsNextBtn');
-        if (!track || slides.length === 0) return;
-
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-        let autoSlide;
-
-        function update() {
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+        function togglePlatformDropdown(event) {
+            if (event) event.stopPropagation();
+            var menu = document.getElementById('platformDropdownMenu');
+            var arrow = document.getElementById('platformArrow');
+            if (!menu) return;
+            menu.classList.toggle('open');
+            if (arrow) arrow.classList.toggle('open');
         }
-        function next() { currentIndex = (currentIndex + 1) % totalSlides; update(); resetAuto(); }
-        function prev() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; update(); resetAuto(); }
-        function goTo(i) { currentIndex = i; update(); resetAuto(); }
-        function startAuto() { autoSlide = setInterval(next, 12000); }
-        function resetAuto() { clearInterval(autoSlide); startAuto(); }
 
-        if (prevBtn) prevBtn.addEventListener('click', prev);
-        if (nextBtn) nextBtn.addEventListener('click', next);
-        dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
-
-        const block = document.querySelector('.news-slider-block');
-        if (block) {
-            block.addEventListener('mouseenter', () => clearInterval(autoSlide));
-            block.addEventListener('mouseleave', startAuto);
+        function closePlatformDropdown() {
+            var menu = document.getElementById('platformDropdownMenu');
+            var arrow = document.getElementById('platformArrow');
+            if (menu) menu.classList.remove('open');
+            if (arrow) arrow.classList.remove('open');
         }
-        startAuto();
-    })();
 
-    // ===== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ =====
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+        function selectPlatform(platform, event) {
+            if (event) event.stopPropagation();
+            currentPlatformFilter = platform;
+            closePlatformDropdown();
+            var items = document.querySelectorAll('.platform-dropdown-item');
+            items.forEach(function(item) {
+                item.classList.toggle('active', item.dataset.platform === platform);
+            });
+            var btn = document.getElementById('platformDropdownBtn');
+            var label = document.getElementById('platformDropdownLabel');
+            if (btn) btn.classList.add('active');
+            if (label) {
+                var platformNames = {
+                    'all': 'Платформа', 'steam': 'Steam', 'xbox': 'Xbox',
+                    'ps': 'PlayStation', 'epic': 'Epic Games'
+                };
+                label.textContent = platformNames[platform] || 'Платформа';
+            }
+            currentSort = 'default';
+            var btns = document.querySelectorAll('.sort-btn');
+            btns.forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.sort === 'default');
+            });
+            if (currentMode === 'invasion') { updateTableContent(); }
+        }
+
+        document.addEventListener('click', function(event) {
+            var dropdown = document.getElementById('platformDropdown');
+            if (dropdown && !dropdown.contains(event.target)) { closePlatformDropdown(); }
+        });
+
+        function getPlatformIcon(platform) {
+            var iconPaths = {
+                'xbox': 'images/иконка х-бокс.webp',
+                'steam': 'images/иконка стим.webp',
+                'ps': 'images/иконка пс.webp',
+                'epic': 'images/иконка эпик.webp'
+            };
+            var iconPath = iconPaths[platform];
+            if (iconPath) {
+                return '<img src="' + iconPath + '" class="platform-icon" alt="' + platform + '" onerror="this.style.display=\'none\'">';
+            }
+            return '';
+        }
+
+        function getRankClass(rank) {
+            if (rank === 1) return 'rank-1';
+            if (rank === 2) return 'rank-2';
+            if (rank === 3) return 'rank-3';
+            return '';
+        }
+
+        function getMedalIcon(rank) {
+            if (rank === 1) return '<span class="medal medal-gold"><i class="fas fa-crown"></i></span>';
+            if (rank === 2) return '<span class="medal medal-silver"><i class="fas fa-medal"></i></span>';
+            if (rank === 3) return '<span class="medal medal-bronze"><i class="fas fa-medal"></i></span>';
+            return rank;
+        }
+
+        function isUnranked(value) { return value === 'unranked'; }
+
+        function formatCell(value) {
+            if (isUnranked(value)) {
+                return '<span class="unranked-text">unranked</span>';
+            }
+            return value;
+        }
+
+        var currentMode = 'escalation';
+        var currentSubTab = 'weekly';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            currentSort = 'default';
+            currentPlatformFilter = 'all';
+            var banners = document.querySelectorAll('.mode-banner');
+            banners.forEach(function(banner) {
+                banner.classList.toggle('active', banner.dataset.mode === mode);
+            });
+            var sortBar = document.getElementById('sortBar');
+            if (mode === 'invasion') {
+                sortBar.style.display = 'flex';
+                updateSortButtonsVisibility();
+                var label = document.getElementById('platformDropdownLabel');
+                if (label) label.textContent = 'Платформа';
+                var items = document.querySelectorAll('.platform-dropdown-item');
+                items.forEach(function(item) {
+                    item.classList.toggle('active', item.dataset.platform === 'all');
+                });
+            } else {
+                sortBar.style.display = 'none';
+            }
+            if (mode === 'invasion') { currentSubTab = 'general'; } else { currentSubTab = 'weekly'; }
+            var btns = document.querySelectorAll('.sort-btn');
+            btns.forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.sort === 'default');
+            });
+            updateTableContent();
+        }
+
+        function updateSortButtonsVisibility() {
+            var isGeneral = currentSubTab === 'general';
+            var matchBtns = document.querySelectorAll('.sort-match');
+            var pointBtns = document.querySelectorAll('.sort-points');
+            if (isGeneral) {
+                matchBtns.forEach(function(btn) { btn.style.display = 'none'; });
+                pointBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
+            } else {
+                matchBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
+                pointBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
+            }
+        }
+
+        function switchSubTab(sub) {
+            currentSubTab = sub;
+            var tabs = document.querySelectorAll('.sub-tab');
+            tabs.forEach(function(tab) {
+                tab.classList.toggle('active', tab.dataset.sub === sub);
+            });
+            currentSort = 'default';
+            currentPlatformFilter = 'all';
+            var btns = document.querySelectorAll('.sort-btn');
+            btns.forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.sort === 'default');
+            });
+            var label = document.getElementById('platformDropdownLabel');
+            if (label) label.textContent = 'Платформа';
+            var items = document.querySelectorAll('.platform-dropdown-item');
+            items.forEach(function(item) {
+                item.classList.toggle('active', item.dataset.platform === 'all');
+            });
+            updateSortButtonsVisibility();
+            updateTableContent();
+        }
+
+        function updateTableContent() {
+            var container = document.getElementById('tableContainer');
+            var title = document.getElementById('sectionTitle');
+            var subTabs = document.getElementById('subTabs');
+            var tableWrapper = document.getElementById('tableWrapper');
+            var sortBar = document.getElementById('sortBar');
+            if (!container || !title || !subTabs || !tableWrapper) return;
+            tableWrapper.classList.remove('bg-escalation', 'bg-general', 'bg-reagent', 'bg-impostor');
+
+            if (currentMode === 'escalation') {
+                title.textContent = 'ЭСКАЛАЦИЯ';
+                tableWrapper.classList.add('bg-escalation');
+                if (sortBar) sortBar.style.display = 'none';
+
+                if (currentSubTab === 'weekly') {
+                    subTabs.innerHTML = `
+                        <span class="sub-tab active" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                        <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
+                    `;
+                    var data = escalationData.weekly;
+                    var html = `<table>
+                        <thead>
+                            <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ПРОЙДЕНО</th><th>ОЦЕНКА</th><th>ВРЕМЯ</th></tr>
+                        </thead>
+                        <tbody>`;
+                    data.forEach(function(player) {
+                        var platform = getPlatformForPlayer(player.name);
+                        var rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        html += `
+                            <tr class="${getRankClass(player.rank)}">
+                                <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
+                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                    <span class="player-name">
+                                        ${getPrestigeLevelBadge(player.name)}
+                                        ${getPlatformIcon(platform)}
+                                        ${TEMP_PLAYER_NAME}
+                                    </span>
+                                </td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                    container.innerHTML = html;
+                } else {
+                    subTabs.innerHTML = `
+                        <span class="sub-tab" data-sub="weekly" onclick="switchSubTab('weekly')">Еженедельная</span>
+                        <span class="sub-tab active" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
+                    `;
+                    var data2 = escalationData.infinite;
+                    var html2 = `<table>
+                        <thead>
+                            <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАКСИМУМ (ВРЕМЯ)</th></tr>
+                        </thead>
+                        <tbody>`;
+                    data2.forEach(function(player) {
+                        var platform = getPlatformForPlayer(player.name);
+                        var rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        html2 += `
+                            <tr class="${getRankClass(player.rank)}">
+                                <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
+                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                    <span class="player-name">
+                                        ${getPrestigeLevelBadge(player.name)}
+                                        ${getPlatformIcon(platform)}
+                                        ${TEMP_PLAYER_NAME}
+                                    </span>
+                                </td>
+                                <td>${formatCell('unranked')}</td>
+                            </tr>
+                        `;
+                    });
+                    html2 += `</tbody></table>`;
+                    container.innerHTML = html2;
+                }
+            } else {
+                title.textContent = 'ВТОРЖЕНИЕ';
+                if (sortBar) sortBar.style.display = 'flex';
+
+                if (currentSubTab === 'general') {
+                    subTabs.innerHTML = `
+                        <span class="sub-tab active" data-sub="general" onclick="switchSubTab('general')">Общая</span>
+                        <span class="sub-tab" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                        <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
+                    `;
+                    tableWrapper.classList.add('bg-general');
+                    var data3 = invasionGeneralData;
+                    var filteredGeneral = data3;
+                    if (currentPlatformFilter !== 'all') {
+                        filteredGeneral = data3.filter(function(p) {
+                            return getPlatformForPlayer(p.name) === currentPlatformFilter;
+                        });
+                    }
+                    var html3 = `<table>
+                        <thead>
+                            <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ОЧКИ</th><th>РЕЙТИНГ</th></tr>
+                        </thead>
+                        <tbody>`;
+                    filteredGeneral.forEach(function(player) {
+                        var platform = getPlatformForPlayer(player.name);
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        html3 += `
+                            <tr class="${getRankClass(player.rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
+                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                    <span class="player-name">
+                                        ${getPrestigeLevelBadge(player.name)}
+                                        ${getPlatformIcon(platform)}
+                                        ${TEMP_PLAYER_NAME}
+                                    </span>
+                                </td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                            </tr>
+                        `;
+                    });
+                    html3 += `</tbody></table>`;
+                    container.innerHTML = html3;
+                } else if (currentSubTab === 'reagent') {
+                    subTabs.innerHTML = `
+                        <span class="sub-tab" data-sub="general" onclick="switchSubTab('general')">Общая</span>
+                        <span class="sub-tab active" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                        <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
+                    `;
+                    tableWrapper.classList.add('bg-reagent');
+                    var data4 = invasionData.reagent;
+                    var sortedData = sortData(data4, currentSort, currentPlatformFilter);
+                    var html4 = `<table>
+                        <thead>
+                            <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАТЧИ</th><th>ВЫИГРЫШНЫЕ МАТЧИ</th><th>ПРОИГРЫШНЫЕ МАТЧИ</th><th>РЕЙТИНГ</th></tr>
+                        </thead>
+                        <tbody>`;
+                    sortedData.forEach(function(player) {
+                        var platform = getPlatformForPlayer(player.name);
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        html4 += `
+                            <tr class="${getRankClass(player.rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
+                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                    <span class="player-name">
+                                        ${getPrestigeLevelBadge(player.name)}
+                                        ${getPlatformIcon(platform)}
+                                        ${TEMP_PLAYER_NAME}
+                                    </span>
+                                </td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                            </tr>
+                        `;
+                    });
+                    html4 += `</tbody></table>`;
+                    container.innerHTML = html4;
+                } else {
+                    subTabs.innerHTML = `
+                        <span class="sub-tab" data-sub="general" onclick="switchSubTab('general')">Общая</span>
+                        <span class="sub-tab" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
+                        <span class="sub-tab active" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
+                    `;
+                    tableWrapper.classList.add('bg-impostor');
+                    var data5 = invasionData.impostor;
+                    var sortedData2 = sortData(data5, currentSort, currentPlatformFilter);
+                    var html5 = `<table>
+                        <thead>
+                            <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАТЧИ</th><th>ВЫИГРЫШНЫЕ МАТЧИ</th><th>ПРОИГРЫШНЫЕ МАТЧИ</th><th>РЕЙТИНГ</th></tr>
+                        </thead>
+                        <tbody>`;
+                    sortedData2.forEach(function(player) {
+                        var platform = getPlatformForPlayer(player.name);
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        html5 += `
+                            <tr class="${getRankClass(player.rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
+                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                                    <span class="player-name">
+                                        ${getPrestigeLevelBadge(player.name)}
+                                        ${getPlatformIcon(platform)}
+                                        ${TEMP_PLAYER_NAME}
+                                    </span>
+                                </td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                                <td>${formatCell('unranked')}</td>
+                            </tr>
+                        `;
+                    });
+                    html5 += `</tbody></table>`;
+                    container.innerHTML = html5;
+                }
+            }
+        }
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.big-banner, .alert-block, .mode-banners, .leaderboard-section').forEach(function(el) {
+            if (el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease-out';
+                observer.observe(el);
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+    </script>
 
-    document.querySelectorAll('.stat-card, .news-slider-block, .top-players-block, .social-block').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.5s ease-out';
-        observer.observe(el);
-    });
-</script>
 </body>
 </html>
