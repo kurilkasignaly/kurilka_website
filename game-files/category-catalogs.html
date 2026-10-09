@@ -10,11 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -25,26 +21,16 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        /* Фоновое изображение */
         .background-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
         }
 
         body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.78);
-            z-index: -1;
+            content: ""; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.78); z-index: -1;
         }
 
         @keyframes fadeInScale {
@@ -53,177 +39,86 @@
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
+            max-width: 1400px; margin: 0 auto;
+            padding: 1rem 1.8rem; position: relative; z-index: 10;
         }
 
-        /* ===== HEADER (единый) ===== */
+        /* ===== HEADER ===== */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0.8rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; padding: 0.8rem 2rem;
             background: rgba(8, 6, 15, 0.5);
             backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.25);
-            transition: all 0.3s;
-            animation: fadeInScale 0.6s ease-out;
+            transition: all 0.3s; animation: fadeInScale 0.6s ease-out;
         }
+        .header:hover { border-color: rgba(220, 90, 50, 0.5); box-shadow: 0 0 20px rgba(220, 90, 50, 0.15); }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.5);
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
         .logo .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.4rem; font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            white-space: nowrap;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; white-space: nowrap;
         }
-
-        .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
-        }
-
-        .logo p i {
-            color: #e16d48;
-            font-size: 0.7rem;
-        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0; }
+        .logo p i { color: #e16d48; font-size: 0.7rem; }
 
         /* Навигация */
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem;
-            border-radius: 60px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
-
         .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
             text-decoration: none;
         }
-
-        .nav-btn:hover {
-            color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
-        }
-
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
         /* Хлебные крошки */
-        .breadcrumb {
-            margin-bottom: 1.5rem;
-            animation: fadeInScale 0.6s ease-out;
-        }
-
+        .breadcrumb { margin-bottom: 1.5rem; animation: fadeInScale 0.6s ease-out; }
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #e16d48;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
+            display: inline-flex; align-items: center; gap: 8px;
+            color: #e16d48; text-decoration: none; font-size: 0.9rem;
+            transition: all 0.3s ease; background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1rem; border-radius: 40px;
             border: 1px solid rgba(220, 90, 50, 0.25);
         }
+        .back-link:hover { color: white; transform: translateX(-5px); border-color: #e16d48; }
 
-        .back-link:hover {
-            color: white;
-            transform: translateX(-5px);
-            border-color: #e16d48;
-        }
-
-        /* Заголовок страницы */
-        .page-header {
-            margin-bottom: 2rem;
-            animation: fadeInScale 0.6s ease-out 0.1s backwards;
-        }
-
+        /* Заголовок */
+        .page-header { margin-bottom: 2rem; animation: fadeInScale 0.6s ease-out 0.1s backwards; }
         .page-title {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 2.5rem; font-weight: 800;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 15px;
         }
-
-        .page-title i {
-            font-size: 2.2rem;
-            color: #e16d48;
-        }
-
+        .page-title i { font-size: 2.2rem; color: #e16d48; }
         .page-description {
-            font-size: 1rem;
-            color: #c2b9d4;
-            line-height: 1.6;
-            max-width: 800px;
-            background: rgba(18, 12, 28, 0.45);
-            backdrop-filter: blur(12px);
-            padding: 1rem 1.5rem;
-            border-radius: 24px;
-            border-left: 4px solid #e16d48;
+            font-size: 1rem; color: #c2b9d4; line-height: 1.6;
+            max-width: 800px; background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px); padding: 1rem 1.5rem;
+            border-radius: 24px; border-left: 4px solid #e16d48;
         }
 
-        /* Сетка каталогов */
+        /* Сетка */
         .catalogs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.8rem;
-            animation: fadeInScale 0.6s ease-out 0.2s backwards;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem; animation: fadeInScale 0.6s ease-out 0.2s backwards;
         }
 
         .catalog-card {
@@ -233,182 +128,89 @@
             transition: all 0.3s ease;
             cursor: pointer;
             overflow: visible;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-
         .catalog-card:hover {
             transform: translateY(-8px);
             border-color: #e16d48;
             box-shadow: 0 15px 35px rgba(220, 90, 50, 0.15);
         }
-
         .catalog-cover {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            object-fit: cover;
-            display: block;
-            border-radius: 0;
+            width: 100%; aspect-ratio: 3 / 4;
+            object-fit: cover; display: block; border-radius: 0;
         }
-
-        .catalog-content {
-            padding: 1rem 1.2rem;
-            text-align: center;
-        }
-
+        .catalog-content { padding: 1rem 1.2rem; text-align: center; }
         .catalog-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #e16d48;
-            margin-bottom: 0;
+            font-size: 1.1rem; font-weight: 700;
+            color: #e16d48; margin-bottom: 0;
         }
 
-        /* Модальное окно для просмотра каталога */
+        /* Модалка */
         .catalog-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95);
+            z-index: 10000; justify-content: center; align-items: center;
             backdrop-filter: blur(10px);
         }
-
-        .catalog-modal.active {
-            display: flex;
-        }
+        .catalog-modal.active { display: flex; }
 
         .book-container {
-            position: relative;
-            width: 95vw;
-            max-width: 1400px;
-            height: 85vh;
-            max-height: 850px;
-            background: #1a1a2e;
-            border-radius: 24px;
+            position: relative; width: 95vw;
+            max-width: 1400px; height: 85vh; max-height: 850px;
+            background: #1a1a2e; border-radius: 24px;
             border: 2px solid rgba(220, 90, 50, 0.4);
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
-
         .book-viewer {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
             background: #111118;
         }
-
         .current-page-img {
-            max-width: 95%;
-            max-height: 95%;
-            object-fit: contain;
-            display: block;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+            max-width: 95%; max-height: 95%; object-fit: contain;
+            display: block; transition: transform 0.2s ease, opacity 0.2s ease;
         }
-
         .book-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            pointer-events: none;
-            z-index: 10;
-            padding: 0 15px;
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 100%; display: flex; justify-content: space-between;
+            pointer-events: none; z-index: 10; padding: 0 15px;
         }
-
         .book-nav-btn {
-            pointer-events: auto;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(220, 90, 50, 0.85);
-            border: none;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            pointer-events: auto; width: 50px; height: 50px;
+            border-radius: 50%; background: rgba(220, 90, 50, 0.85);
+            border: none; color: white; font-size: 1.3rem;
+            cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .book-nav-btn:hover {
-            background: #e25d32;
-            transform: scale(1.1);
-        }
-
-        .book-nav-btn.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
+        .book-nav-btn:hover { background: #e25d32; transform: scale(1.1); }
+        .book-nav-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
         .book-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 32px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 20;
+            position: absolute; top: 15px; right: 20px;
+            font-size: 32px; color: white; cursor: pointer;
+            transition: all 0.3s ease; z-index: 20;
             background: rgba(0, 0, 0, 0.5);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .book-close:hover {
-            color: #e16d48;
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.8);
-        }
+        .book-close:hover { color: #e16d48; transform: scale(1.1); background: rgba(0, 0, 0, 0.8); }
 
         .page-counter {
-            position: absolute;
-            bottom: 15px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: #aaa;
-            font-size: 0.85rem;
-            z-index: 20;
-            background: rgba(0, 0, 0, 0.5);
-            width: fit-content;
-            margin: 0 auto;
-            padding: 5px 15px;
-            border-radius: 20px;
+            position: absolute; bottom: 15px; left: 0; right: 0;
+            text-align: center; color: #aaa; font-size: 0.85rem;
+            z-index: 20; background: rgba(0, 0, 0, 0.5);
+            width: fit-content; margin: 0 auto;
+            padding: 5px 15px; border-radius: 20px;
         }
 
         /* Footer */
         footer {
-            margin-top: 3rem;
-            text-align: center;
-            padding: 1.5rem 0;
+            margin-top: 3rem; text-align: center; padding: 1.5rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
-            background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
+            font-size: 0.75rem; background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px); border-radius: 50px;
         }
-
-        .footer-logo {
-            max-height: 32px;
-            width: auto;
-            margin-bottom: 0.5rem;
-        }
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
 
         @media (max-width: 850px) {
             .container { padding: 0.8rem; }
@@ -436,11 +238,10 @@
 </head>
 <body>
 
-<!-- Фоновое изображение -->
 <img class="background-image" src="../фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
 
 <div class="container">
-    <!-- ===== НАВИГАЦИЯ (единая) ===== -->
+    <!-- ===== НАВИГАЦИЯ ===== -->
     <div class="header">
         <div class="logo">
             <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
@@ -459,18 +260,15 @@
         </div>
     </div>
 
-    <!-- Хлебные крошки -->
     <div class="breadcrumb">
         <a href="../about.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к категориям</a>
     </div>
 
-    <!-- Заголовок страницы -->
     <div class="page-header">
-        <h1 class="page-title"><i class="fas fa-book"></i> Каталоги</h1>
-        <p class="page-description">Коллекционные каталоги поведенческой одежды Муркофф. Нажмите на каталог, чтобы просмотреть его содержимое.</p>
+        <h1 class="page-title"><i class="fas fa-book"></i>КАТАЛОГИ</h1>
+        <p class="page-description">Коллекционные каталоги поведенческой одежды Меркофф. Нажмите на каталог, чтобы просмотреть его содержимое.</p>
     </div>
 
-    <!-- Сетка каталогов -->
     <div class="catalogs-grid" id="catalogsGrid"></div>
 
     <footer>
@@ -480,7 +278,7 @@
     </footer>
 </div>
 
-<!-- Модальное окно для просмотра каталога -->
+<!-- Модальное окно -->
 <div id="catalogModal" class="catalog-modal">
     <div class="book-container">
         <span class="book-close">&times;</span>
@@ -496,17 +294,29 @@
 </div>
 
 <script>
-    // Данные каталогов
+    // ===== ДАННЫЕ КАТАЛОГОВ (20 штук, порядок как в списке) =====
+    // Страницы внутри каталогов — заглушки. Замените пути `страницы-*` на реальные файлы.
     const catalogsData = [
         {
-            id: "prime-time-2026",
-            title: "PRIME TIME 2026",
+            id: "chemical-leak",
+            title: "УТЕЧКА ХИМИКАТОВ",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог прайм-тайм 2026.webp",
+            cover: "../images/каталог утечка химикатов.webp",
             pages: [
-                "../images/прайм-2026-1.png",
-                "../images/прайм-2026-2.png",
-                "../images/прайм-2026-3.png"
+                "../images/утечка-1.webp",
+                "../images/утечка-2.webp",
+                "../images/утечка-3.webp"
+            ]
+        },
+        {
+            id: "project-cemetery",
+            title: "ПРОЕКТ «КЛАДБИЩЕ» (СЕЗОН 07)",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог кладбище.webp",
+            pages: [
+                "../images/кладбище-1.webp",
+                "../images/кладбище-2.webp",
+                "../images/кладбище-3.webp"
             ]
         },
         {
@@ -515,17 +325,28 @@
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог иуда.webp",
             pages: [
-                "../images/иуда-1.png",
-                "../images/иуда-2.png",
-                "../images/иуда-3.png",
-                "../images/иуда-4.png",
-                "../images/иуда-5.png",
-                "../images/иуда-6.png",
-                "../images/иуда-7.png",
-                "../images/иуда-8.png",
-                "../images/иуда-9.png",
-                "../images/иуда-10.png",
-                "../images/иуда-11.png"
+                "../images/иуда-1.webp",
+                "../images/иуда-2.webp",
+                "../images/иуда-3.webp",
+                "../images/иуда-4.webp",
+                "../images/иуда-5.webp",
+                "../images/иуда-6.webp",
+                "../images/иуда-7.webp",
+                "../images/иуда-8.webp",
+                "../images/иуда-9.webp",
+                "../images/иуда-10.webp",
+                "../images/иуда-11.webp"
+            ]
+        },
+        {
+            id: "bogomolova-arrival",
+            title: "ПРИШЕСТВИЕ БОГОМОЛОВОЙ",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог пришествие богомоловой.webp",
+            pages: [
+                "../images/богомолова-1.webp",
+                "../images/богомолова-2.webp",
+                "../images/богомолова-3.webp"
             ]
         },
         {
@@ -534,20 +355,20 @@
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог мессия.webp",
             pages: [
-                "../images/мессия-1.png",
-                "../images/мессия-2.png",
-                "../images/мессия-3.png"
+                "../images/мессия-1.webp",
+                "../images/мессия-2.webp",
+                "../images/мессия-3.webp"
             ]
         },
         {
             id: "deep-burn",
-            title: "ГЛУБОКИЙ ОЖОГ 2025",
+            title: "ГЛУБОКИЙ ОЖОГ",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог ожог 2025.webp",
+            cover: "../images/каталог глубокий ожог.webp",
             pages: [
-                "../images/ожог-1.png",
-                "../images/ожог-2.png",
-                "../images/ожог-3.png"
+                "../images/ожог-1.webp",
+                "../images/ожог-2.webp",
+                "../images/ожог-3.webp"
             ]
         },
         {
@@ -556,92 +377,144 @@
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог диархия.webp",
             pages: [
-                "../images/диархия-1.png",
-                "../images/диархия-2.png"
+                "../images/диархия-1.webp",
+                "../images/диархия-2.webp"
             ]
         },
         {
-            id: "geister",
-            title: "ГАЙСТЕР 2024",
+            id: "prime-time-2025",
+            title: "ПРАЙМ-ТАЙМ 2025",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог гайстер 2024.webp",
+            cover: "../images/каталог прайм-тайм 2025.webp",
             pages: [
-                "../images/гайстер-1.png",
-                "../images/гайстер-2.png"
+                "../images/прайм-2025-1.webp",
+                "../images/прайм-2025-2.webp",
+                "../images/прайм-2025-3.webp"
+            ]
+        },
+        {
+            id: "project-recidive",
+            title: "ПРОЕКТ «РЕЦЕДИВ» (СЕЗОН 03)",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог рецидив.webp",
+            pages: [
+                "../images/рецидив-1.webp",
+                "../images/рецидив-2.webp"
+            ]
+        },
+        {
+            id: "amelia-2025",
+            title: "АМЕЛИЯ 2025",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог амелия 2025.webp",
+            pages: [
+                "../images/амелия-1.webp",
+                "../images/амелия-2.webp",
+                "../images/амелия-3.webp"
+            ]
+        },
+        {
+            id: "winter-2024",
+            title: "ЗИМА ПРИНОСИТ СМЕРТЬ 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог зима приносит смерть 2024.webp",
+            pages: [
+                "../images/зима-2024-1.webp",
+                "../images/зима-2024-2.webp"
             ]
         },
         {
             id: "project-breach",
             title: "ПРОЕКТ «BREACH» (СЕЗОН 02)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог брич.webp",
+            cover: "../images/каталог бреч.webp",
             pages: [
-                "../images/брич-1.png",
-                "../images/брич-2.png"
+                "../images/бреч-1.webp",
+                "../images/бреч-2.webp"
             ]
         },
         {
-            id: "amelia",
-            title: "АМЕЛИЯ 2025",
+            id: "geister-2024",
+            title: "ГАЙСТЕР 2024",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог амелия 2025.webp",
+            cover: "../images/каталог гайстер 2024.webp",
             pages: [
-                "../images/амелия-1.png",
-                "../images/амелия-2.png",
-                "../images/амелия-3.png"
+                "../images/гайстер-2024-1.webp",
+                "../images/гайстер-2024-2.webp"
             ]
         },
         {
-            id: "prime-time",
-            title: "ПРАЙМ-ТАЙМ",
-            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог прайм-тайм 2025.webp",
-            pages: [
-                "../images/прайм-1.png",
-                "../images/прайм-2.png",
-                "../images/прайм-3.png"
-            ]
-        },
-        {
-            id: "project-recidive",
-            title: "ПРОЕКТ «РЕЦИДИВ» (СЕЗОН 03)",
-            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог рецидив.webp",
-            pages: [
-                "../images/рецидив-1.png",
-                "../images/рецидив-2.png"
-            ]
-        },
-        {
-            id: "winter-brings-death",
-            title: "ЗИМА ПРИНОСИТ СМЕРТЬ 2024",
-            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог зима 2024.webp",
-            pages: [
-                "../images/зима-1.png",
-                "../images/зима-2.png"
-            ]
-        },
-        {
-            id: "countdown",
+            id: "countdown-2024",
             title: "ОБРАТНЫЙ ОТСЧЁТ 2024",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
-            cover: "../images/каталог бомба 2024.webp",
+            cover: "../images/каталог обратный отсчёт 2024.webp",
             pages: [
-                "../images/отсчет-1.png",
-                "../images/отсчет-2.png",
-                "../images/отсчет-3.png",
-                "../images/отсчет-4.png"
+                "../images/отсчёт-1.webp",
+                "../images/отсчёт-2.webp",
+                "../images/отсчёт-3.webp",
+                "../images/отсчёт-4.webp"
             ]
         },
         {
             id: "project-lupara",
-            title: "ПРОЕКТ ЛУПАРА (СЕЗОН 01)",
+            title: "ПРОЕКТ «ЛУПАРА» (СЕЗОН 01)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог лупара.webp",
             pages: [
-                "../images/лупара-1.png",
-                "../images/лупара-2.png"
+                "../images/лупара-1.webp",
+                "../images/лупара-2.webp"
+            ]
+        },
+        {
+            id: "prime-time-2024",
+            title: "ПРАЙМ-ТАЙМ 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог прайм-тайм 2024.webp",
+            pages: [
+                "../images/прайм-2024-1.webp",
+                "../images/прайм-2024-2.webp",
+                "../images/прайм-2024-3.webp"
+            ]
+        },
+        {
+            id: "toxic-shock-2024",
+            title: "ТОКСИЧЕСКИЙ ШОК 2024",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог токсический шок 2024.webp",
+            pages: [
+                "../images/токсический-1.webp",
+                "../images/токсический-2.webp"
+            ]
+        },
+        {
+            id: "winter-2023",
+            title: "ЗИМА ПРИНОСИТ СМЕРТЬ 2023",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог зима приносит смерть 2023.webp",
+            pages: [
+                "../images/зима-2023-1.webp",
+                "../images/зима-2023-2.webp"
+            ]
+        },
+        {
+            id: "geister-2023",
+            title: "ГАЙСТЕР 2023",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог гайстер 2023.webp",
+            pages: [
+                "../images/гайстер-2023-1.webp",
+                "../images/гайстер-2023-2.webp"
+            ]
+        },
+        {
+            id: "clean-slate",
+            title: "С ЧИСТОГО ЛИСТА",
+            subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
+            cover: "../images/каталог с чистого листа.webp",
+            pages: [
+                "../images/чистый-лист-1.webp",
+                "../images/чистый-лист-2.webp",
+                "../images/чистый-лист-3.webp"
             ]
         }
     ];
@@ -654,24 +527,17 @@
     function displayCatalogs() {
         const container = document.getElementById('catalogsGrid');
         if (!container) return;
-        
         container.innerHTML = '';
-        
         catalogsData.forEach(catalog => {
             const card = document.createElement('div');
             card.className = 'catalog-card';
-            
-            card.addEventListener('click', () => {
-                openCatalog(catalog);
-            });
-            
+            card.addEventListener('click', () => openCatalog(catalog));
             card.innerHTML = `
                 <img src="${catalog.cover}" class="catalog-cover" alt="${catalog.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(catalog.title)}'">
                 <div class="catalog-content">
                     <h3 class="catalog-title">${catalog.title}</h3>
                 </div>
             `;
-            
             container.appendChild(card);
         });
     }
@@ -681,76 +547,51 @@
         currentPageIndex = 0;
         totalPages = catalog.pages.length;
         isAnimating = false;
-        
+
         const modal = document.getElementById('catalogModal');
         const img = document.getElementById('currentPageImg');
         const counter = document.getElementById('pageCounter');
-        
+
         img.src = catalog.pages[0];
         counter.textContent = `Страница 1 из ${totalPages}`;
-        
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
         updateNavButtons();
     }
 
     function updateNavButtons() {
         const prevBtn = document.getElementById('prevPageBtn');
         const nextBtn = document.getElementById('nextPageBtn');
-        
-        if (currentPageIndex === 0) {
-            prevBtn.classList.add('disabled');
-        } else {
-            prevBtn.classList.remove('disabled');
-        }
-        
-        if (currentPageIndex >= totalPages - 1) {
-            nextBtn.classList.add('disabled');
-        } else {
-            nextBtn.classList.remove('disabled');
-        }
+        prevBtn.classList.toggle('disabled', currentPageIndex === 0);
+        nextBtn.classList.toggle('disabled', currentPageIndex >= totalPages - 1);
     }
 
     function goToPage(index) {
         if (isAnimating) return;
         if (index < 0 || index >= totalPages) return;
         if (index === currentPageIndex) return;
-        
+
         isAnimating = true;
         const img = document.getElementById('currentPageImg');
         const counter = document.getElementById('pageCounter');
-        
+
         img.style.transform = index > currentPageIndex ? 'translateX(-30px) rotateY(-5deg)' : 'translateX(30px) rotateY(5deg)';
         img.style.opacity = '0.5';
-        
+
         setTimeout(() => {
             currentPageIndex = index;
             img.src = currentCatalog.pages[currentPageIndex];
             counter.textContent = `Страница ${currentPageIndex + 1} из ${totalPages}`;
-            
             img.style.transform = '';
             img.style.opacity = '';
-            
-            setTimeout(() => {
-                isAnimating = false;
-            }, 100);
+            setTimeout(() => { isAnimating = false; }, 100);
         }, 200);
-        
         updateNavButtons();
     }
 
-    function nextPage() {
-        if (currentPageIndex < totalPages - 1) {
-            goToPage(currentPageIndex + 1);
-        }
-    }
-
-    function prevPage() {
-        if (currentPageIndex > 0) {
-            goToPage(currentPageIndex - 1);
-        }
-    }
+    function nextPage() { if (currentPageIndex < totalPages - 1) goToPage(currentPageIndex + 1); }
+    function prevPage() { if (currentPageIndex > 0) goToPage(currentPageIndex - 1); }
 
     function closeModal() {
         document.getElementById('catalogModal').classList.remove('active');
@@ -759,7 +600,6 @@
         currentPageIndex = 0;
     }
 
-    // Плавное появление при скролле
     function initScrollAnimation() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -770,7 +610,7 @@
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-        
+
         document.querySelectorAll('.breadcrumb, .page-header, .catalogs-grid').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
@@ -782,25 +622,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         displayCatalogs();
         initScrollAnimation();
-        
+
         document.getElementById('prevPageBtn').addEventListener('click', prevPage);
         document.getElementById('nextPageBtn').addEventListener('click', nextPage);
         document.querySelector('.book-close').addEventListener('click', closeModal);
-        
+
         document.getElementById('catalogModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
-        
+
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('catalogModal').classList.contains('active')) {
-                closeModal();
-            }
-            if (e.key === 'ArrowLeft' && document.getElementById('catalogModal').classList.contains('active')) {
-                prevPage();
-            }
-            if (e.key === 'ArrowRight' && document.getElementById('catalogModal').classList.contains('active')) {
-                nextPage();
-            }
+            if (e.key === 'Escape' && document.getElementById('catalogModal').classList.contains('active')) closeModal();
+            if (e.key === 'ArrowLeft' && document.getElementById('catalogModal').classList.contains('active')) prevPage();
+            if (e.key === 'ArrowRight' && document.getElementById('catalogModal').classList.contains('active')) nextPage();
         });
     });
 </script>
