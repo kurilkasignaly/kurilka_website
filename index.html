@@ -306,10 +306,17 @@
         .news-slider-btn-left { left: 14px; }
         .news-slider-btn-right { right: 14px; }
         .news-slider-track-wrapper { flex: 1; overflow: hidden; border-radius: 48px; }
-        .news-slider-track { display: flex; transition: transform 0.5s ease; }
+
+        .news-slider-track {
+            display: flex;
+            transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            will-change: transform;
+        }
+
         .news-slide {
             min-width: 100%;
             display: flex; align-items: center; gap: 2.5rem; padding: 2.5rem;
+            transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
         .news-slide-image {
             flex: 1.15; border-radius: 24px; overflow: hidden;
@@ -354,7 +361,7 @@
         }
         .news-dot.active { background: #e25d32; width: 28px; border-radius: 20px; }
 
-        /* ===== СЛАЙД БЕЗ ТЕКСТА — ТОЛЬКО КАРТИНКА ПО ЦЕНТРУ ===== */
+        /* ===== СЛАЙД БЕЗ ТЕКСТА ===== */
         .news-slide.no-text {
             justify-content: center;
             gap: 0;
@@ -619,6 +626,8 @@
         .social-icon i { font-size: 2.8rem; transition: all 0.3s; }
         .social-icon.discord i { color: #5865F2; }
         .social-icon.twitch i { color: #9146FF; }
+        .social-icon.tiktok i { color: #ffffff; }
+        .social-icon.youtube i { color: #FF0000; }
         .social-icon:hover { transform: translateY(-4px); }
 
         .discord-button {
@@ -1146,10 +1155,22 @@
             <h2>Присоединяйтесь к сообществу</h2>
             <p>Будьте в курсе событий и ивентов</p>
             <div class="social-icons">
-                <a href="#" class="social-icon discord"><i class="fab fa-discord"></i><span>Discord</span></a>
-                <a href="#" class="social-icon twitch"><i class="fab fa-twitch"></i><span>Twitch</span></a>
+                <a href="https://discord.gg/HFdReFSx7" target="_blank" rel="noopener" class="social-icon discord">
+                    <i class="fab fa-discord"></i><span>Discord</span>
+                </a>
+                <a href="https://www.twitch.tv/lili___kim" target="_blank" rel="noopener" class="social-icon twitch">
+                    <i class="fab fa-twitch"></i><span>Twitch</span>
+                </a>
+                <a href="https://www.tiktok.com/@major_gom?_r=1&_t=ZS-9APeRIwS4mb" target="_blank" rel="noopener" class="social-icon tiktok">
+                    <i class="fab fa-tiktok"></i><span>TikTok</span>
+                </a>
+                <a href="https://www.youtube.com/@%D0%9A%D1%83%D1%80%D0%B8%D0%BB%D0%BA%D0%B0_%D0%A1%D0%B8%D0%BD%D1%8C%D1%8F%D0%BB%D1%8B" target="_blank" rel="noopener" class="social-icon youtube">
+                    <i class="fab fa-youtube"></i><span>YouTube</span>
+                </a>
             </div>
-            <a href="#" class="discord-button"><i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD</a>
+            <a href="https://discord.gg/HFdReFSx7" target="_blank" rel="noopener" class="discord-button">
+                <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
+            </a>
         </div>
 
         <footer>
@@ -1267,7 +1288,7 @@
                 connectScreen.classList.remove('active');
                 errorScreen.classList.add('active');
             } else {
-                // ===== УСПЕШНЫЙ ВХОД — сохраняем флаг в sessionStorage =====
+                // ===== УСПЕШНЫЙ ВХОД =====
                 sessionStorage.setItem('siteEntered', '1');
                 document.documentElement.classList.add('already-entered');
 
@@ -1310,7 +1331,7 @@
         }, 800);
     });
 
-    // ===== СЛАЙДЕР НОВОСТЕЙ =====
+    // ===== СЛАЙДЕР НОВОСТЕЙ (плавный) =====
     (function initNewsSlider() {
         const track = document.getElementById('newsSliderTrack');
         const slides = document.querySelectorAll('.news-slide');
@@ -1325,16 +1346,28 @@
 
         function update() {
             track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            slides.forEach((slide, i) => {
+                if (i === currentIndex) {
+                    slide.style.opacity = '1';
+                    slide.style.transform = 'scale(1)';
+                } else {
+                    slide.style.opacity = '0.85';
+                    slide.style.transform = 'scale(0.99)';
+                }
+            });
             dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
         }
+
         function next() { currentIndex = (currentIndex + 1) % totalSlides; update(); resetAuto(); }
         function prev() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; update(); resetAuto(); }
         function goTo(i) { currentIndex = i; update(); resetAuto(); }
-        function startAuto() { autoSlide = setInterval(next, 12000); }
+
+        function startAuto() { autoSlide = setInterval(next, 20000); }
         function resetAuto() { clearInterval(autoSlide); startAuto(); }
 
         if (prevBtn) prevBtn.addEventListener('click', prev);
         if (nextBtn) nextBtn.addEventListener('click', next);
+
         dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
         const block = document.querySelector('.news-slider-block');
@@ -1342,7 +1375,8 @@
             block.addEventListener('mouseenter', () => clearInterval(autoSlide));
             block.addEventListener('mouseleave', startAuto);
         }
-        startAuto();
+
+        setTimeout(function() { startAuto(); }, 8000);
     })();
 
     // ===== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ =====
