@@ -9,6 +9,16 @@
     <link rel="apple-touch-icon" href="images/лого.png">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        // ===== ПРОВЕРКА СЕССИИ (СРАЗУ, ДО ОТРИСОВКИ) =====
+        // Если пользователь уже вошёл в этой сессии — прячем экран подключения
+        // через класс на <html>, чтобы не было мигания.
+        try {
+            if (sessionStorage.getItem('siteEntered') === '1') {
+                document.documentElement.classList.add('already-entered');
+            }
+        } catch (e) {}
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { height: 100%; }
@@ -29,6 +39,10 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+
+        /* Скрываем экран подключения сразу, если вошли в этой сессии */
+        html.already-entered .connect-screen { display: none !important; }
+        html.already-entered .main-content { display: block !important; }
 
         .bg-slider { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
         .bg-slider img {
@@ -447,7 +461,6 @@
             gap: 1.5rem;
         }
 
-        /* Карточка игрока с фоновой эмблемой */
         .player-card {
             position: relative;
             background: linear-gradient(160deg, rgba(22, 15, 32, 0.9) 0%, rgba(14, 9, 22, 0.9) 100%);
@@ -465,7 +478,6 @@
             min-height: 190px;
         }
 
-        /* Фоновое изображение-эмблема */
         .player-card .player-emblem {
             position: absolute;
             inset: 0;
@@ -483,7 +495,6 @@
             transform: scale(1.08);
         }
 
-        /* Тонкая градиентная подложка поверх эмблемы */
         .player-card::before {
             content: "";
             position: absolute;
@@ -502,7 +513,6 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(226, 93, 50, 0.2);
         }
 
-        /* Имя игрока — золотое с переливанием */
         .player-name {
             font-size: 1.4rem;
             font-weight: 800;
@@ -708,7 +718,12 @@
     // ===== ФОНОВЫЙ СЛАЙДЕР =====
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
-        const bgFiles = [
+               const bgFiles = [
+            'фон-00.webp', 'фон-01.webp', 'фон-02.webp', 'фон-03.webp', 'фон-04.webp',
+            'фон-05.webp', 'фон-06.webp', 'фон-07.webp', 'фон-08.webp', 'фон-09.webp',
+            'фон-010.webp', 'фон-011.webp', 'фон-012.webp', 'фон-013.webp', 'фон-014.webp',
+            'фон-015.webp', 'фон-016.webp', 'фон-017.webp', 'фон-018.webp', 'фон-019.webp',
+            'фон-020.webp', 'фон-021.webp',
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
             'фон-11.webp', 'фон-12.png', 'фон-13.webp', 'фон-14.webp', 'фон-15.webp',
@@ -896,8 +911,8 @@
 
 <div class="main-wrapper">
 
-    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
-    <div id="connectScreen" class="connect-screen active">
+    <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ (активируется только если сессии нет) ====== -->
+    <div id="connectScreen" class="connect-screen">
         <div class="connect-content">
             <div class="connect-logo">
                 <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
@@ -950,7 +965,6 @@
                 <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
                 <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
                 <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-                <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
                 <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
                 <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
                     <span class="icon fa-solid fa-volume-xmark"></span>
@@ -959,7 +973,6 @@
             </div>
         </div>
 
-        <!-- Заголовок -->
         <div class="hero-title">
             <h2>Добро пожаловать в Курилку</h2>
         </div>
@@ -1018,7 +1031,7 @@
             </div>
         </div>
 
-        <!-- ====== СТАТИСТИКА (3 карточки) ====== -->
+        <!-- ====== СТАТИСТИКА ====== -->
         <div class="stats-grid">
             <div class="stat-card">
                 <i class="fas fa-users"></i>
@@ -1108,6 +1121,27 @@
 </div>
 
 <script>
+    // ===== ПРОВЕРКА СЕССИИ =====
+    // Флаг хранится в sessionStorage: он живёт до закрытия вкладки.
+    // Пока вкладка открыта — при F5 и переходах вход сохраняется.
+    // После полного закрытия вкладки — флаг очищается автоматически,
+    // и экран подключения появится снова.
+    (function handleSessionEntry() {
+        const entered = sessionStorage.getItem('siteEntered') === '1';
+        const cs = document.getElementById('connectScreen');
+        const mc = document.getElementById('mainContent');
+        const er = document.getElementById('errorScreen');
+
+        if (entered) {
+            if (cs) cs.classList.remove('active');
+            if (er) er.classList.remove('active');
+            if (mc) mc.classList.add('active');
+            document.body.classList.add('scroll-enabled');
+        } else {
+            if (cs) cs.classList.add('active');
+        }
+    })();
+
     // ===== MAINTENANCE.TXT =====
     async function checkMaintenance() {
         try {
@@ -1196,6 +1230,10 @@
                 connectScreen.classList.remove('active');
                 errorScreen.classList.add('active');
             } else {
+                // ===== УСПЕШНЫЙ ВХОД — сохраняем флаг в sessionStorage =====
+                sessionStorage.setItem('siteEntered', '1');
+                document.documentElement.classList.add('already-entered');
+
                 connectScreen.classList.remove('active');
                 document.getElementById('mainContent').classList.add('active');
                 document.body.classList.add('scroll-enabled');
