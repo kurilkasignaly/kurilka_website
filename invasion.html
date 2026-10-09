@@ -780,38 +780,54 @@
             padding-right: 4px; 
         }
 
-        /* Картинка щита */
+        /* Картинка щита (Z-index 2, чтобы быть поверх овала) */
         .prestige-shield-img {
-            width: 42px;  /* Ширина щита */
-            height: 48px; /* Высота щита */
+            width: 36px;  /* Уменьшено для единообразия */
+            height: 42px; 
             display: block;
-            z-index: 1;   /* Щит находится под овалом */
+            z-index: 2;   
+            position: relative;
             filter: drop-shadow(0 0 5px rgba(232, 144, 46, 0.6));
             pointer-events: none;
             user-select: none;
             -webkit-user-drag: none;
         }
 
-        /* Овал с уровнем, который накладывается на щит */
+        /* Цифра престижа внутри щита */
+        .prestige-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3; /* Поверх щита */
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #e8902e; /* Оранжевый цвет как на картинке */
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+            line-height: 1;
+        }
+
+        /* Овал с уровнем (Z-index 1, чтобы уходить под щит) */
         .level-oval {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             /* Отрицательный отступ, чтобы заехать на щит */
             margin-left: -14px; 
-            padding: 0 10px;
-            border: 2px solid #8a8a8a; /* Серый цвет рамки */
-            border-radius: 50px;       /* Форма овала */
-            background: rgba(0, 0, 0, 0.75); /* Темный фон, чтобы перекрыть щит */
-            min-width: 36px;
-            height: 28px; /* Высота овала (меньше щита) */
+            /* Расширенные отступы, чтобы цифра не слипалась */
+            padding: 0 14px 0 18px; 
+            border: 2px solid #8a8a8a; 
+            border-radius: 50px;       
+            background: rgba(0, 0, 0, 0.75); 
+            min-width: 44px;
+            height: 26px; /* Чуть меньше щита */
             box-sizing: border-box;
-            z-index: 2;   /* Овал поверх щита */
+            z-index: 1;   /* Овал уходит ПОД щит */
             position: relative;
         }
 
         .level-number {
-            font-size: 0.95rem; /* Размер цифры уровня */
+            font-size: 0.9rem;
             font-weight: 800;
             color: #ffffff;
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
@@ -860,18 +876,19 @@
             font-size: 0.95rem;
         }
         
-        /* Корректировка размеров для общей таблицы */
+        /* Убираем кастомные размеры для общей таблицы, чтобы везде было одинаково */
         .table-wrapper.bg-general .prestige-shield-img {
-            width: 48px;
-            height: 54px;
+            width: 36px;
+            height: 42px;
         }
         .table-wrapper.bg-general .level-oval {
-            height: 32px;
-            min-width: 40px;
-            margin-left: -16px;
+            height: 26px;
+            min-width: 44px;
+            margin-left: -14px;
+            padding: 0 14px 0 18px;
         }
         .table-wrapper.bg-general .level-number {
-            font-size: 1.05rem;
+            font-size: 0.9rem;
         }
 
         tr:hover td {
@@ -1124,13 +1141,16 @@
             .table-wrapper.bg-general td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
             .table-wrapper.bg-general .platform-icon { width: 20px; height: 20px; }
 
-            .prestige-shield-img { width: 36px; height: 42px; }
-            .level-oval { height: 24px; min-width: 30px; margin-left: -12px; padding: 0 6px; }
-            .level-number { font-size: 0.85rem; }
+            /* Адаптив для щита и овала */
+            .prestige-shield-img { width: 30px; height: 36px; }
+            .level-oval { height: 22px; min-width: 36px; margin-left: -12px; padding: 0 12px 0 16px; }
+            .level-number { font-size: 0.8rem; }
+            .prestige-number { font-size: 0.8rem; }
             
-            .table-wrapper.bg-general .prestige-shield-img { width: 42px; height: 48px; }
-            .table-wrapper.bg-general .level-oval { height: 28px; min-width: 34px; margin-left: -14px; }
-            .table-wrapper.bg-general .level-number { font-size: 0.95rem; }
+            .table-wrapper.bg-general .prestige-shield-img { width: 30px; height: 36px; }
+            .table-wrapper.bg-general .level-oval { height: 22px; min-width: 36px; margin-left: -12px; padding: 0 12px 0 16px; }
+            .table-wrapper.bg-general .level-number { font-size: 0.8rem; }
+            .table-wrapper.bg-general .prestige-number { font-size: 0.8rem; }
         }
 
         @media (max-width: 500px) {
@@ -1181,13 +1201,16 @@
             .table-wrapper.bg-general td { padding: 0.4rem 0.2rem; font-size: 0.7rem; }
             .table-wrapper.bg-general .platform-icon { width: 16px; height: 16px; }
 
-            .prestige-shield-img { width: 30px; height: 36px; }
-            .level-oval { height: 20px; min-width: 24px; margin-left: -10px; padding: 0 4px; border-width: 1.5px; }
-            .level-number { font-size: 0.75rem; }
+            /* Адаптив для щита и овала на мобильных */
+            .prestige-shield-img { width: 26px; height: 32px; }
+            .level-oval { height: 20px; min-width: 30px; margin-left: -10px; padding: 0 10px 0 14px; }
+            .level-number { font-size: 0.7rem; }
+            .prestige-number { font-size: 0.7rem; }
             
-            .table-wrapper.bg-general .prestige-shield-img { width: 34px; height: 40px; }
-            .table-wrapper.bg-general .level-oval { height: 24px; min-width: 28px; margin-left: -12px; }
-            .table-wrapper.bg-general .level-number { font-size: 0.85rem; }
+            .table-wrapper.bg-general .prestige-shield-img { width: 26px; height: 32px; }
+            .table-wrapper.bg-general .level-oval { height: 20px; min-width: 30px; margin-left: -10px; padding: 0 10px 0 14px; }
+            .table-wrapper.bg-general .level-number { font-size: 0.7rem; }
+            .table-wrapper.bg-general .prestige-number { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -1750,10 +1773,11 @@
             var pl = getPrestigeLevel(name);
             // Путь к картинке щита. Убедитесь, что файл существует в папке images.
             // Если файл называется иначе, измените 'щит.png' на своё название.
-            var shieldImgSrc = 'images/щит.webp'; 
+            var shieldImgSrc = 'images/щит.png'; 
             
             return `<span class="player-prestige-level">
                 <img src="${shieldImgSrc}" class="prestige-shield-img" alt="Prestige" onerror="this.style.display='none'">
+                <span class="prestige-number">${pl.prestige}</span>
                 <span class="level-oval">
                     <span class="level-number">${pl.level}</span>
                 </span>
