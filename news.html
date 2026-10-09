@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Новости — Курилка Синьялы | The Outlast Trials</title>
-  <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
-  <link rel="shortcut icon" href="../images/лого.png" type="image/png">
-  <link rel="apple-touch-icon" href="../images/лого.png">
+  <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="images/лого.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/лого.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -24,8 +24,8 @@
       position: relative;
     }
 
-    /* Видео фон */
-    .video-background {
+    /* Фоновая картинка (рандомная) */
+    .background-image {
       position: fixed;
       top: 0;
       left: 0;
@@ -42,7 +42,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.7);
       z-index: -1;
     }
 
@@ -849,11 +849,23 @@
 </head>
 <body>
 
-  <!-- Видео фон -->
-  <video class="video-background" autoplay muted loop playsinline>
-    <source src="../images/фон индекс.webm" type="video/webm">
-    <source src="../images/фон индекс.mp4" type="video/mp4">
-  </video>
+  <!-- Рандомная фоновая картинка -->
+  <img id="randomBackground" class="background-image" src="" alt="Фон">
+  <script>
+    (function setRandomBackground() {
+      var images = [
+        'images/фон новости-1.webp',
+        'images/фон новости-2.webp',
+        'images/фон новости-3.webp'
+      ];
+      var pick = images[Math.floor(Math.random() * images.length)];
+      var el = document.getElementById('randomBackground');
+      if (el) {
+        el.src = pick;
+        el.onerror = function() { this.style.display = 'none'; };
+      }
+    })();
+  </script>
 
   <!-- Модальное окно для просмотра изображений -->
   <div id="imageModal" class="image-modal" onclick="closeImageModal()">
@@ -865,26 +877,25 @@
     <!-- ===== НАВИГАЦИЯ (единая) ===== -->
     <div class="header">
       <div class="logo">
-        <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+        <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
         <div>
           <span class="logo-text">Курилка Синьялы</span>
           <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
         </div>
       </div>
       <div class="nav-links">
-        <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-        <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
-        <a href="../news.html" class="nav-btn active" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
-        <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-        <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
-        <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+        <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+        <a href="news.html" class="nav-btn active" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
+        <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+        <a href="invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+        <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
       </div>
     </div>
 
     <!-- Заголовок -->
     <section class="page-header">
-      <h1 class="page-title">
-        <i></i>КУРИЛКА-NEWS</h1>
+      <h1 class="page-title">КУРИЛКА-NEWS</h1>
       <p class="page-description">
         В этом разделе Вы сможете ознакомиться со всеми грядущими или уже имеющимися обновлениями, исправлениями ошибок, а также с новыми ролями, которые в скором времени появятся на сайте.<br><br>
         Следите за актуальными новостями, чтобы всегда быть в курсе последних событий и изменений!
@@ -971,7 +982,7 @@
 
     <!-- Footer -->
     <footer>
-      <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
+      <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
       <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
       <p style="margin-top: 10px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br>Дым, ужас и папиросы ❤️‍🔥</p>
       <p style="margin-top: 6px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
