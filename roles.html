@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Справочник ролей — Курилка Синьялы | The Outlast Trials</title>
+  <link rel="icon" href="images/лого.png" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="images/лого.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/лого.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      color: #f0eef7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+    }
+
+    .main-background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+    }
+
+    .bg-image {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('images/фон роли.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .bg-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    /* МОДАЛКА ИЗОБРАЖЕНИЙ */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      z-index: 10000;
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .image-modal.active { display: flex; }
+    .image-modal img {
+      max-width: 90%; max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+    .image-modal-close {
+      position: absolute; top: 20px; right: 30px;
+      font-size: 40px; color: white; cursor: pointer;
+      transition: all 0.3s ease; z-index: 10001;
+    }
+    .image-modal-close:hover { color: #e25d32; transform: scale(1.1); }
+
+    /* НАВИГАЦИЯ */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0.8rem 2rem;
+      background: rgba(8, 6, 15, 0.5);
+      backdrop-filter: blur(16px);
+      border-radius: 80px;
+      margin: 1rem 1.8rem 0;
+      gap: 1rem;
+      border: 1px solid rgba(220, 90, 50, 0.25);
+      position: sticky;
+      top: 10px;
+      z-index: 1000;
+      transition: all 0.3s;
+    }
+    .navbar:hover {
+      border-color: rgba(220, 90, 50, 0.5);
+      box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+    }
+
+    .nav-left { display: flex; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 0.8rem; }
+    .logo-img { max-height: 55px; width: auto; display: block; }
+
+    .logo-text-wrap { display: flex; flex-direction: column; }
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbc2a0, #e25d32);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+    .logo-sub {
+      font-size: 0.65rem;
+      color: #7a6a8a;
+      margin-top: 0;
+    }
+    .logo-sub i { color: #e16d48; font-size: 0.7rem; }
+
+    .nav-right { display: flex; }
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 10, 20, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.8rem;
+      border-radius: 60px;
+      border: 1px solid rgba(210, 100, 55, 0.15);
+    }
+    .nav-menu li a {
+      color: #b5a8c8;
+      text-decoration: none;
+      font-size: 0.78rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 50px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+    .nav-menu li a:hover {
+      color: white;
+      text-shadow: 0 0 8px rgba(220, 90, 50, 0.3);
+    }
+    .nav-menu li a.active {
+      background: linear-gradient(135deg, #bc4627, #e25d32);
+      color: white;
+      box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #f0eef7;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      z-index: 1001;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 1.8rem;
+      flex: 1;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .page-title i {
+      font-size: 2rem;
+      color: #e16d48;
+      -webkit-text-fill-color: #e16d48;
+    }
+
+    .page-description {
+      font-size: 1rem;
+      color: #d1cce6;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      background: rgba(18, 12, 28, 0.45);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border-left: 4px solid #e16d48;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease 0.2s, transform 1s ease 0.2s;
+    }
+
+    /* ПАНЕЛИ */
+    .filter-panel,
+    .sort-panel,
+    .current-category,
+    .roles-container {
+      background: rgba(18, 12, 28, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      border: 1px solid rgba(220, 90, 50, 0.25);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .filter-panel { padding: 20px 24px; margin-bottom: 20px; }
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 250px;
+      height: 40px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #e25d32;
+      font-size: 0.9rem;
+      z-index: 2;
+    }
+    .search-input {
+      width: 100%;
+      height: 100%;
+      padding: 0 40px 0 40px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
+    }
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: #888; cursor: pointer;
+      font-size: 0.9rem; padding: 4px;
+      z-index: 2;
+    }
+    .clear-btn:hover { color: #e25d32; }
+
+    .category-filter {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+      height: 40px;
+    }
+    .filter-label {
+      color: #c2b9d4;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .filter-label i { color: #e25d32; }
+
+    .category-select {
+      flex: 1;
+      padding: 0 14px;
+      height: 40px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 0;
+    }
+    .category-select:focus {
+      outline: none;
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
+    }
+
+    .filter-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 250px;
+      justify-content: flex-end;
+    }
+    .reset-btn {
+      padding: 0 18px;
+      height: 40px;
+      background: linear-gradient(135deg, #bc4627, #e25d32);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(225, 93, 50, 0.3);
+    }
+    .results-count {
+      color: #c2b9d4;
+      font-size: 0.85rem;
+      background: rgba(40, 41, 45, 0.6);
+      padding: 0 16px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      border-radius: 12px;
+      border: 1px solid rgba(220, 90, 50, 0.2);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .results-count span { color: #e25d32; font-weight: 700; }
+
+    .current-category {
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 12px 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+    }
+    .current-category-text { color: #c2b9d4; font-size: 1rem; font-weight: 500; }
+    .current-category-text .category-name { color: #e25d32; font-weight: 700; }
+
+    .sort-panel {
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+    }
+    .sort-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 50px;
+    }
+    .sort-order {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 300px;
+    }
+    .sort-label {
+      color: #c2b9d4;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    .sort-label i { color: #e25d32; }
+    .sort-select {
+      flex: 1;
+      padding: 0 12px;
+      height: 40px;
+      background: rgba(40, 41, 45, 0.6);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+      border-radius: 12px;
+      color: #f0eef7;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .sort-select:focus {
+      outline: none;
+      border-color: #e25d32;
+      box-shadow: 0 0 0 3px rgba(225, 93, 50, 0.15);
+    }
+    .sort-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+      min-width: 300px;
+      justify-content: flex-end;
+    }
+    .sort-status {
+      color: #c2b9d4;
+      font-size: 0.85rem;
+      background: rgba(40, 41, 45, 0.6);
+      padding: 8px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(220, 90, 50, 0.2);
+      font-weight: 500;
+    }
+    .sort-status .status-text { color: #e25d32; font-weight: 700; margin-left: 5px; }
+    .sort-reset-btn {
+      padding: 0 15px;
+      height: 40px;
+      background: linear-gradient(135deg, #5865F2, #4752c4);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .sort-reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+    }
+
+    .roles-container {
+      padding: 20px;
+      min-height: 200px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s;
+    }
+
+    .role-card-detailed {
+      background: rgba(30, 23, 43, 0.6);
+      border-radius: 20px;
+      padding: 20px 24px;
+      border: 1px solid rgba(220, 90, 50, 0.15);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      opacity: 0;
+      transform: translateY(20px);
+      margin-bottom: 14px;
+    }
+    .role-card-detailed.animated {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .role-card-detailed:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      border-color: rgba(220, 90, 50, 0.4);
+      background: rgba(30, 23, 43, 0.8);
+    }
+
+    .role-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .role-header-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+    .role-actions { display: flex; align-items: center; gap: 10px; }
+
+    .role-dot-large {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+    }
+    .role-title {
+      font-size: 1.2rem;
+      color: #ffffff;
+      font-weight: 700;
+      flex: 1;
+    }
+    .role-category {
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .role-category.-администрация { background-color: #C62828; color: #fff; border-color: #a51c1c; }
+    .role-category.-кастомные-роли { background-color: #9C27B0; color: #fff; border-color: #7b1fa2; }
+    .role-category.-ивент-роли { background-color: #e25d32; color: #fff; border-color: #bc4627; }
+    .role-category.-достижения { background-color: #FFD700; color: #333; border-color: #ffca28; }
+    .role-category.-основные-роли { background-color: #4CAF50; color: #fff; border-color: #388e3c; }
+    .role-category.-бонусные-роли { background-color: #03A9F4; color: #fff; border-color: #0288d1; }
+    .role-category.-платные--vip-роли { background-color: #00E5FF; color: #333; border-color: #00bcd4; }
+    .role-category.-community { background-color: #5DADE2; color: #fff; border-color: #3498db; }
+    .role-category.-другое { background-color: #999; color: #fff; border-color: #777; }
+
+    .more-btn, .members-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .more-btn {
+      color: #e25d32;
+      background: rgba(220, 90, 50, 0.1);
+      border: 1px solid rgba(220, 90, 50, 0.3);
+    }
+    .more-btn:hover { background: rgba(220, 90, 50, 0.2); transform: translateY(-2px); }
+    .more-btn.expanded { background: rgba(220, 90, 50, 0.2); border-color: #e25d32; }
+
+    .members-btn {
+      color: #5865F2;
+      background: rgba(88, 101, 242, 0.1);
+      border: 1px solid rgba(88, 101, 242, 0.3);
+    }
+    .members-btn:hover { background: rgba(88, 101, 242, 0.2); transform: translateY(-2px); }
+    .members-btn.expanded { background: rgba(88, 101, 242, 0.2); border-color: #5865F2; }
+
+    .more-btn i, .members-btn i { transition: transform 0.3s ease; font-size: 0.8rem; }
+    .more-btn.expanded i, .members-btn.expanded i { transform: rotate(180deg); }
+
+    .role-content-detailed, .members-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      margin-top: 0;
+      opacity: 0;
+    }
+    .role-content-detailed.expanded, .members-list.expanded {
+      max-height: none;
+      padding: 15px 20px;
+      margin-top: 10px;
+      opacity: 1;
+    }
+    .role-content-detailed, .role-content-inner {
+      color: #d1cce6;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .role-content-inner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin: 10px 0;
+      border: 1px solid rgba(220, 90, 50, 0.25);
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .role-content-inner img:hover { transform: scale(1.02); }
+    .role-content-inner .screenshot-caption {
+      font-weight: 700;
+      text-align: center;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+    .role-content-inner p { margin-bottom: 10px; }
+    .role-content-inner ul, .role-content-inner ol { margin-left: 20px; margin-bottom: 10px; }
+
+    /* ТАЙМЕР */
+    .role-timer {
+      background: linear-gradient(135deg, rgba(220, 90, 50, 0.15), rgba(220, 90, 50, 0.3));
+      border: 1px solid #e25d32;
+      border-radius: 12px;
+      padding: 12px 15px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .role-timer-message {
+      color: #e25d32;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .role-timer-countdown { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+    .timer-item { text-align: center; min-width: 60px; }
+    .timer-value {
+      font-size: 1.3rem; font-weight: 700;
+      color: #e25d32;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px 10px; border-radius: 6px;
+      display: inline-block; min-width: 55px;
+    }
+    .timer-label { font-size: 0.7rem; color: #c2b9d4; margin-top: 4px; text-transform: uppercase; }
+
+    /* УЧАСТНИКИ */
+    .members-sort-panel {
+      display: flex; align-items: center; gap: 15px;
+      margin-bottom: 15px; padding: 10px;
+      background: rgba(20, 21, 24, 0.8);
+      border-radius: 12px; flex-wrap: wrap;
+    }
+    .members-sort-label {
+      color: #c2b9d4; font-size: 0.85rem;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .members-sort-select {
+      padding: 8px 12px;
+      background: rgba(40, 41, 45, 0.8);
+      border: 1px solid rgba(88, 101, 242, 0.5);
+      border-radius: 12px;
+      color: white; font-size: 0.85rem;
+      cursor: pointer; flex: 1; min-width: 200px;
+    }
+    .members-list { color: #d1cce6; }
+    .members-list-header {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .members-list-header h3 { color: #5865F2; font-size: 1.05rem; font-weight: 700; }
+    .members-count {
+      background: rgba(88, 101, 242, 0.2);
+      color: #5865F2; padding: 3px 10px;
+      border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+    }
+    .members-table { width: 100%; border-collapse: collapse; }
+    .members-table th {
+      text-align: left; padding: 12px 10px;
+      background: rgba(88, 101, 242, 0.2);
+      color: #5865F2; font-weight: 700;
+      font-size: 0.9rem;
+      border-bottom: 2px solid rgba(88, 101, 242, 0.3);
+    }
+    .members-table th:first-child { border-radius: 6px 0 0 6px; }
+    .members-table th:last-child { border-radius: 0 6px 6px 0; text-align: center; }
+    .members-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.9rem;
+    }
+    .members-table td:last-child { text-align: center; font-weight: 700; color: #2ed573; }
+    .members-table tr:hover td { background: rgba(88, 101, 242, 0.1); }
+    .member-name-wrapper { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .laurel-wreath {
+      display: inline-flex; align-items: center;
+      justify-content: center; width: 44px; height: 44px;
+      background-image: url('screenshots/венок.png');
+      background-size: contain; background-repeat: no-repeat;
+      background-position: center; position: relative; flex-shrink: 0;
+    }
+    .laurel-wreath span {
+      font-size: 1.1rem; font-weight: 800;
+      position: relative; z-index: 2;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    }
+    .laurel-wreath.gold span { color: #ffd700; }
+    .laurel-wreath.silver span { color: #c0c0c0; }
+    .laurel-wreath.bronze span { color: #cd7f32; }
+    .laurel-wreath.white span { color: #ffffff; }
+    .member-name { font-weight: 500; font-size: 1rem; }
+    .member-name.gold-name { color: #ffd700 !important; }
+    .member-name.silver-name { color: #c0c0c0 !important; }
+    .member-name.bronze-name { color: #cd7f32 !important; }
+    .member-name.white-name { color: #ffffff !important; }
+    .member-nickname { color: #e25d32; font-size: 0.85rem; }
+    .member-nickname:before { content: "@"; }
+    .member-roles { font-weight: 700; color: #2ed573; }
+    .members-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #5865F2, transparent);
+      margin: 0;
+    }
+    .no-members { text-align: center; padding: 20px; color: #999; font-style: italic; }
+
+    .role-description-detailed {
+      color: #d1cce6; line-height: 1.5; font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 12px 15px;
+      border-radius: 12px;
+      border-left: 3px solid rgba(225, 93, 50, 0.5);
+    }
+
+    .no-results {
+      text-align: center; padding: 40px 20px;
+      background: rgba(30, 23, 43, 0.5);
+      border-radius: 20px;
+      border: 2px dashed rgba(220, 90, 50, 0.2);
+      margin: 20px auto; max-width: 600px;
+    }
+    .no-results i { color: #e25d32; margin-bottom: 15px; font-size: 2rem; }
+    .no-results h3 { color: #fff; font-size: 1.5rem; margin-bottom: 10px; font-weight: 700; }
+    .no-results p { color: #c2b9d4; font-size: 1rem; }
+
+    .news-badge {
+      margin-left: 4px;
+      background: #ff2a2a;
+      color: white;
+      border-radius: 10px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 992px) {
+      .sort-container { flex-direction: column; align-items: stretch; gap: 12px; }
+      .search-box, .category-filter, .filter-actions, .sort-order, .sort-info { min-width: 100%; }
+      .filter-actions, .sort-info { justify-content: center; flex-direction: column; gap: 12px; }
+      .reset-btn, .sort-reset-btn { width: 100%; justify-content: center; }
+      .results-count, .sort-status { width: 100%; justify-content: center; display: flex; }
+    }
+
+    @media (max-width: 850px) {
+      .navbar { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; margin: 0.8rem; }
+      .logo-img { max-height: 40px; }
+      .logo-text { font-size: 1.1rem; }
+      .mobile-menu-btn { display: block; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: rgba(8, 6, 15, 0.95);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 15px;
+        border-radius: 20px;
+        margin-top: 10px;
+        border: 1px solid rgba(220, 90, 50, 0.3);
+        z-index: 999;
+        gap: 0.3rem;
+      }
+      .nav-menu.active { display: flex; }
+      .nav-menu li { width: 100%; }
+      .nav-menu li a {
+        justify-content: center;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.85rem;
+        width: 100%;
+      }
+      .content { padding: 0 1rem; }
+      .page-title { font-size: 1.8rem; }
+      .page-title i { font-size: 1.5rem; }
+      .page-description { font-size: 0.9rem; padding: 12px 15px; }
+      .filter-panel, .sort-panel { padding: 14px 16px; }
+      .current-category { padding: 8px 15px; }
+      .roles-container { padding: 15px; }
+      .role-card-detailed { padding: 15px; }
+      .role-title { font-size: 1.05rem; }
+      .role-actions { width: 100%; flex-direction: column; gap: 8px; margin-top: 10px; }
+      .more-btn, .members-btn { width: 100%; justify-content: center; }
+
+      .members-table { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .members-table thead { display: table-header-group; }
+      .members-table tbody { display: table-row-group; }
+      .members-table tr { display: table-row; }
+      .members-table th, .members-table td { display: table-cell; white-space: normal; word-break: break-word; }
+      .members-table th { min-width: 120px; }
+      .members-table td:first-child { min-width: 200px; }
+      .member-name-wrapper { gap: 10px; flex-wrap: wrap; }
+      .laurel-wreath { width: 38px; height: 38px; }
+      .laurel-wreath span { font-size: 0.95rem; }
+      .member-name { font-size: 0.9rem; word-break: break-word; }
+      .member-nickname { font-size: 0.75rem; word-break: break-word; }
+      .members-sort-panel { flex-direction: column; align-items: stretch; gap: 10px; }
+      .members-sort-select { width: 100%; }
+      .members-list-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .role-timer-countdown { gap: 8px; }
+      .timer-item { min-width: 50px; }
+      .timer-value { font-size: 1rem; min-width: 45px; padding: 4px 8px; }
+      .timer-label { font-size: 0.6rem; }
+    }
+
+    @media (max-width: 600px) {
+      .logo-img { max-height: 32px; }
+      .logo-text { font-size: 0.9rem; }
+      .logo { gap: 0.4rem; }
+      .nav-menu li a { font-size: 0.75rem; }
+    }
+
+    @media (max-width: 480px) {
+      .page-title { font-size: 1.5rem; }
+      .page-title i { font-size: 1.3rem; }
+      .page-description { font-size: 0.85rem; padding: 10px; }
+      .search-input, .category-select, .sort-select, .members-sort-select { font-size: 0.8rem; }
+      .reset-btn, .sort-reset-btn { font-size: 0.8rem; padding: 0 12px; }
+      .results-count, .sort-status { font-size: 0.8rem; }
+      .members-table th, .members-table td { padding: 8px 5px; font-size: 0.8rem; }
+      .role-title { font-size: 1rem; }
+      .laurel-wreath { width: 34px; height: 34px; }
+      .laurel-wreath span { font-size: 0.85rem; }
+      .role-timer-countdown { gap: 5px; }
+      .timer-item { min-width: 42px; }
+      .timer-value { font-size: 0.9rem; min-width: 38px; padding: 3px 6px; }
+      .timer-label { font-size: 0.55rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Модальное окно для просмотра изображений -->
+  <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+    <img id="modalImage" src="" alt="Полноэкранный просмотр">
+  </div>
+
+  <div class="main-background">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- НАВИГАЦИЯ -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <div class="logo">
+        <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+        <div class="logo-text-wrap">
+          <span class="logo-text">Курилка Синьялы</span>
+          <span class="logo-sub"><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</span>
+        </div>
+      </div>
+    </div>
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="nav-right">
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html"><i class="fas fa-home"></i> Главная</a></li>
+        <li><a href="roles.html" class="active"><i class="fas fa-tags"></i> Роли</a></li>
+        <li><a href="news.html"><i class="fas fa-newspaper"></i> Новости</a></li>
+        <li><a href="roulette.html"><i class="fas fa-dice-d6"></i> Рулетка</a></li>
+        <li><a href="invasion.html"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+        <li><a href="about.html"><i class="fas fa-book-open"></i> Об игре</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="content">
+    <section class="page-header">
+      <h1 class="page-title"><i class="fas fa-tags"></i> Справочник ролей</h1>
+      <p class="page-description">
+        В этом разделе Вы можете ознакомиться со всеми ролями нашего Discord сервера.<br>
+        Используйте фильтры ниже для поиска нужных ролей по КАТЕГОРИЯМ или НАЗВАНИЯМ.<br>
+        !ВНИМАНИЕ! Уважаемые пользователи, для получения роли Вам необходимо в чате #выдача-ролей заполнить мини-заявку в которой Вы должны указать:<br>
+        1. ОБЯЗАТЕЛЬНО название роли, на которую претендуете (подаете заявку), 2. Фото (скриншот)-подтверждение о честном и качественном выполнении всех требований!
+      </p>
+    </section>
+
+    <section class="filter-panel">
+      <div class="filter-container">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="role-search" placeholder="Поиск роли по названию..." class="search-input">
+          <button id="clear-search" class="clear-btn" title="Очистить поиск">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="category-filter">
+          <label for="category-select" class="filter-label"><i class="fas fa-filter"></i> Фильтр по категориям:</label>
+          <select id="category-select" class="category-select">
+            <option value="all">Все категории</option>
+          </select>
+        </div>
+        <div class="filter-actions">
+          <button id="reset-filters" class="reset-btn"><i class="fas fa-redo"></i> Сбросить фильтры</button>
+          <span id="results-count" class="results-count">Найдено ролей: <span>0</span></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="current-category">
+      <p id="current-category-text" class="current-category-text">Категория: <span class="category-name">Все</span></p>
+    </div>
+
+    <section class="sort-panel">
+      <div class="sort-container">
+        <div class="sort-order">
+          <label for="sort-select" class="sort-label"><i class="fas fa-sort-amount-down"></i> Сортировать:</label>
+          <select id="sort-select" class="sort-select">
+            <option value="alphabetical">В алфавитном порядке</option>
+            <option value="reverse">В обратном порядке</option>
+            <option value="color">По цветовой гамме</option>
+          </select>
+        </div>
+        <div class="sort-info">
+          <span id="sort-status" class="sort-status">Сортировка: <span class="status-text">Алфавитная</span></span>
+          <button id="reset-sort" class="sort-reset-btn"><i class="fas fa-sync-alt"></i> Сбросить сортировку</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="roles-container">
+      <div id="roles-list" class="roles-list"></div>
+      <div id="no-results" class="no-results" style="display: none;">
+        <i class="fas fa-search fa-3x"></i>
+        <h3>Роли не найдены</h3>
+        <p>Попробуйте изменить параметры поиска или выбрать другую категорию</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Подключение данных и скриптов -->
+  <script src="roles.js"></script>
+  <script src="members.js"></script>
+  <script src="maintenance-mode.js"></script>
+  <script src="news.js"></script>
+
+  <script>
+    /* ============================================================
+       ЛОГИКА СТРАНИЦЫ РОЛЕЙ
+       - роли берутся из roles.js (переменная `roles`)
+       - участники — из members.js (переменная `membersData`)
+       ============================================================ */
+
+    // Открытие изображения в модалке
+    function openImageModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = imageSrc;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    let currentFilteredRoles = [];
+    const membersSortState = {};
+
+    function updateTimers() {
+      document.querySelectorAll('.role-timer').forEach(timerElement => {
+        const endDateStr = timerElement.getAttribute('data-end-date');
+        if (!endDateStr) return;
+
+        const endDate = new Date(endDateStr);
+        const now = new Date();
+        const diff = endDate - now;
+
+        if (diff <= 0) {
+          timerElement.style.display = 'none';
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const daysSpan = timerElement.querySelector('.timer-days');
+        const hoursSpan = timerElement.querySelector('.timer-hours');
+        const minutesSpan = timerElement.querySelector('.timer-minutes');
+        const secondsSpan = timerElement.querySelector('.timer-seconds');
+
+        if (daysSpan) daysSpan.textContent = String(days).padStart(2, '0');
+        if (hoursSpan) hoursSpan.textContent = String(hours).padStart(2, '0');
+        if (minutesSpan) minutesSpan.textContent = String(minutes).padStart(2, '0');
+        if (secondsSpan) secondsSpan.textContent = String(seconds).padStart(2, '0');
+      });
+    }
+
+    function createCategoryClass(category) {
+      return category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9-]/g, '');
+    }
+
+    function animateRoleCards() {
+      document.querySelectorAll('.role-card-detailed').forEach((card, index) => {
+        setTimeout(() => card.classList.add('animated'), index * 100);
+      });
+    }
+
+    function updateCurrentCategory(category) {
+      const categoryText = document.getElementById('current-category-text');
+      const categoryName = category === 'all' ? 'Все' : category;
+      categoryText.innerHTML = `Категория: <span class="category-name">${categoryName}</span>`;
+    }
+
+    function updateSortStatus(sortType) {
+      const statusElement = document.getElementById('sort-status');
+      let statusText = '';
+      switch(sortType) {
+        case 'alphabetical': statusText = 'Алфавитная'; break;
+        case 'reverse': statusText = 'Обратная'; break;
+        case 'color': statusText = 'По цветам'; break;
+        default: statusText = 'Алфавитная';
+      }
+      statusElement.innerHTML = `Сортировка: <span class="status-text">${statusText}</span>`;
+    }
+
+    function sortRoles(rolesToSort, sortType) {
+      const sortedRoles = [...rolesToSort];
+      switch(sortType) {
+        case 'alphabetical': return sortedRoles.sort((a, b) => a.name.localeCompare(b.name));
+        case 'reverse': return sortedRoles.sort((a, b) => b.name.localeCompare(a.name));
+        case 'color': return sortedRoles.sort((a, b) => parseInt(a.color.replace('#', ''), 16) - parseInt(b.color.replace('#', ''), 16));
+        default: return sortedRoles;
+      }
+    }
+
+    function getWreathClass(place) {
+      if (place === 1) return 'gold';
+      if (place === 2) return 'silver';
+      if (place === 3) return 'bronze';
+      if (place === 4 || place === 5) return 'white';
+      return '';
+    }
+
+    function getNameClass(place) {
+      if (place === 1) return 'gold-name';
+      if (place === 2) return 'silver-name';
+      if (place === 3) return 'bronze-name';
+      if (place === 4 || place === 5) return 'white-name';
+      return '';
+    }
+
+    function sortMembers(membersToSort, sortType) {
+      if (!membersToSort || membersToSort.length === 0) return [];
+      const sortedMembers = [...membersToSort];
+
+      switch(sortType) {
+        case 'name-asc':
+          return sortedMembers.sort((a, b) => {
+            if (a.place && b.place) { if (a.place !== b.place) return a.place - b.place; }
+            else if (a.place) return -1;
+            else if (b.place) return 1;
+            return a.name.localeCompare(b.name);
+          });
+        case 'name-desc':
+          return sortedMembers.sort((a, b) => {
+            if (a.place && b.place) { if (a.place !== b.place) return a.place - b.place; }
+            else if (a.place) return -1;
+            else if (b.place) return 1;
+            return b.name.localeCompare(a.name);
+          });
+        case 'roles-asc':
+          return sortedMembers.sort((a, b) => {
+            if (a.place && b.place) { if (a.place !== b.place) return a.place - b.place; }
+            else if (a.place) return -1;
+            else if (b.place) return 1;
+            return a.roles - b.roles;
+          });
+        case 'roles-desc':
+          return sortedMembers.sort((a, b) => {
+            if (a.place && b.place) { if (a.place !== b.place) return a.place - b.place; }
+            else if (a.place) return -1;
+            else if (b.place) return 1;
+            return b.roles - a.roles;
+          });
+        default:
+          return sortedMembers.sort((a, b) => {
+            if (a.place && b.place) return a.place - b.place;
+            if (a.place) return -1;
+            if (b.place) return 1;
+            return 0;
+          });
+      }
+    }
+
+    function renderMembersList(roleName, members, sortType = 'place') {
+      if (!members || members.length === 0) {
+        return '<div class="no-members">Участников с этой ролью пока нет</div>';
+      }
+
+      const sortedMembers = sortMembers(members, sortType);
+
+      let membersHtml = `
+        <div class="members-list-header">
+          <h3>Список участников с ролью "${roleName}"</h3>
+          <span class="members-count">Общее кол-во участников: ${members.length}</span>
+        </div>
+        <div class="members-sort-panel">
+          <span class="members-sort-label"><i class="fas fa-sort"></i> Сортировать:</span>
+          <select class="members-sort-select" data-role="${roleName}">
+            <option value="place" ${sortType === 'place' ? 'selected' : ''}>По месту</option>
+            <option value="name-asc" ${sortType === 'name-asc' ? 'selected' : ''}>По имени (А-Я)</option>
+            <option value="name-desc" ${sortType === 'name-desc' ? 'selected' : ''}>По имени (Я-А)</option>
+            <option value="roles-asc" ${sortType === 'roles-asc' ? 'selected' : ''}>По кол-ву ролей (возр.)</option>
+            <option value="roles-desc" ${sortType === 'roles-desc' ? 'selected' : ''}>По кол-ву ролей (убыв.)</option>
+          </select>
+        </div>
+        <div class="members-table-wrapper" style="overflow-x: auto;">
+          <table class="members-table">
+            <thead>
+              <tr><th style="font-weight: bold;">Имя (никнейм)<br>участника</th><th>Общее кол-во ролей</th></tr>
+            </thead>
+            <tbody>
+        `;
+
+      sortedMembers.forEach((member, index) => {
+        const wreathClass = getWreathClass(member.place);
+        const nameClass = getNameClass(member.place);
+
+        let nameHtml = '';
+        if (wreathClass) {
+          nameHtml = `
+            <div class="member-name-wrapper">
+              <div class="laurel-wreath ${wreathClass}"><span>${member.place}</span></div>
+              <span class="member-name ${nameClass}">${member.name}</span>
+            </div>
+          `;
+        } else {
+          nameHtml = `<span class="member-name">${member.name}</span>`;
+        }
+
+        membersHtml += `
+          <tr>
+            <td style="vertical-align: middle;">
+              ${nameHtml}
+              <div class="member-nickname">${member.nickname}</div>
+            </td>
+            <td class="member-roles" style="vertical-align: middle;">${member.roles}</td>
+          </tr>
+        `;
+
+        if (index < sortedMembers.length - 1) {
+          membersHtml += `<tr><td colspan="2" style="padding: 0;"><div class="members-divider"></div></td></tr>`;
+        }
+      });
+
+      membersHtml += `</tbody></table></div>`;
+      return membersHtml;
+    }
+
+    function attachSortHandler(roleName, members, membersBlock, sortSelect) {
+      const handleSortChange = function() {
+        membersSortState[roleName] = this.value;
+        membersBlock.innerHTML = renderMembersList(roleName, members, membersSortState[roleName]);
+
+        const newSortSelect = membersBlock.querySelector('.members-sort-select');
+        if (newSortSelect) {
+          attachSortHandler(roleName, members, membersBlock, newSortSelect);
+        }
+      };
+
+      sortSelect.removeEventListener('change', handleSortChange);
+      sortSelect.addEventListener('change', handleSortChange);
+    }
+
+    function displayRoles(rolesToDisplay) {
+      const rolesList = document.getElementById('roles-list');
+      const noResults = document.getElementById('no-results');
+      const resultsCount = document.querySelector('#results-count span');
+
+      rolesList.innerHTML = '';
+      resultsCount.textContent = rolesToDisplay.length;
+
+      if (rolesToDisplay.length === 0) {
+        noResults.style.display = 'block';
+        return;
+      }
+
+      noResults.style.display = 'none';
+
+      rolesToDisplay.forEach(role => {
+        const roleCard = document.createElement('div');
+        roleCard.className = 'role-card-detailed';
+        const categoryClass = createCategoryClass(role.category);
+        const members = (typeof membersData !== 'undefined' && membersData[role.name]) || [];
+
+        if (!membersSortState[role.name]) membersSortState[role.name] = 'place';
+
+        let buttonsHtml = '';
+        if (role.details) {
+          buttonsHtml += `<button class="more-btn" data-expanded="false"><span>Подробнее</span><i class="fas fa-chevron-down"></i></button>`;
+        }
+        buttonsHtml += `<button class="members-btn" data-expanded="false"><span>Участники</span><i class="fas fa-chevron-down"></i></button>`;
+
+        roleCard.innerHTML = `
+          <div class="role-header">
+            <div class="role-header-main">
+              <span class="role-dot-large" style="background:${role.gradient}"></span>
+              <div class="role-title" style="color:${role.color}">${role.name}</div>
+              <span class="role-category ${categoryClass}">${role.category}</span>
+            </div>
+            <div class="role-actions">${buttonsHtml}</div>
+          </div>
+          <div class="role-description-detailed">${role.description}</div>
+          ${role.details ? '<div class="role-content-detailed"></div>' : ''}
+          <div class="members-list"></div>
+        `;
+
+        if (role.timer && role.timer.enabled && role.timer.endDate) {
+          const timerHtml = `
+            <div class="role-timer" data-end-date="${role.timer.endDate}">
+              <div class="role-timer-message">${role.timer.message || 'ДО КОНЦА ПОЛУЧЕНИЯ РОЛИ ОСТАЛОСЬ:'}</div>
+              <div class="role-timer-countdown">
+                <div class="timer-item"><span class="timer-value timer-days">00</span><div class="timer-label">Дней</div></div>
+                <div class="timer-item"><span class="timer-value timer-hours">00</span><div class="timer-label">Часов</div></div>
+                <div class="timer-item"><span class="timer-value timer-minutes">00</span><div class="timer-label">Минут</div></div>
+                <div class="timer-item"><span class="timer-value timer-seconds">00</span><div class="timer-label">Секунд</div></div>
+              </div>
+            </div>
+          `;
+          const descriptionDiv = roleCard.querySelector('.role-description-detailed');
+          descriptionDiv.insertAdjacentHTML('afterend', timerHtml);
+        }
+
+        rolesList.appendChild(roleCard);
+
+        const moreBtn = roleCard.querySelector('.more-btn');
+        const membersBtn = roleCard.querySelector('.members-btn');
+        const detailsBlock = roleCard.querySelector('.role-content-detailed');
+        const membersBlock = roleCard.querySelector('.members-list');
+
+        if (moreBtn && detailsBlock) {
+          moreBtn.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('data-expanded') === 'true';
+            if (isExpanded) {
+              this.setAttribute('data-expanded', 'false');
+              this.classList.remove('expanded');
+              detailsBlock.classList.remove('expanded');
+              this.innerHTML = '<span>Подробнее</span><i class="fas fa-chevron-down"></i>';
+            } else {
+              this.setAttribute('data-expanded', 'true');
+              this.classList.add('expanded');
+              const detailsInner = `<div class="role-content-inner">${role.details}</div>`;
+              detailsBlock.innerHTML = detailsInner;
+              detailsBlock.classList.add('expanded');
+              this.innerHTML = '<span>Скрыть</span><i class="fas fa-chevron-up"></i>';
+
+              setTimeout(() => {
+                const images = detailsBlock.querySelectorAll('.role-content-inner img');
+                images.forEach(img => {
+                  img.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openImageModal(this.src);
+                  });
+                });
+              }, 50);
+            }
+          });
+        }
+
+        if (membersBtn && membersBlock) {
+          membersBtn.addEventListener('click', function() {
+            const isExpanded = this.getAttribute('data-expanded') === 'true';
+            membersBlock.innerHTML = renderMembersList(role.name, members, membersSortState[role.name]);
+
+            if (isExpanded) {
+              this.setAttribute('data-expanded', 'false');
+              this.classList.remove('expanded');
+              membersBlock.classList.remove('expanded');
+              this.innerHTML = '<span>Участники</span><i class="fas fa-chevron-down"></i>';
+            } else {
+              this.setAttribute('data-expanded', 'true');
+              this.classList.add('expanded');
+              membersBlock.classList.add('expanded');
+              this.innerHTML = '<span>Скрыть</span><i class="fas fa-chevron-up"></i>';
+
+              const sortSelect = membersBlock.querySelector('.members-sort-select');
+              if (sortSelect) {
+                attachSortHandler(role.name, members, membersBlock, sortSelect);
+              }
+            }
+          });
+        }
+      });
+
+      setTimeout(() => { updateTimers(); }, 100);
+      setTimeout(animateRoleCards, 100);
+      setTimeout(() => {
+        document.querySelectorAll('.role-content-inner img').forEach(img => {
+          if (!img.hasAttribute('data-modal-attached')) {
+            img.setAttribute('data-modal-attached', 'true');
+            img.addEventListener('click', function(e) {
+              e.stopPropagation();
+              openImageModal(this.src);
+            });
+          }
+        });
+      }, 150);
+    }
+
+    setInterval(updateTimers, 1000);
+
+    function populateCategories() {
+      const categorySelect = document.getElementById('category-select');
+      const categories = [...new Set(roles.map(r => r.category))];
+      while (categorySelect.options.length > 1) categorySelect.remove(1);
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    function filterRoles() {
+      const searchTerm = document.getElementById('role-search').value.toLowerCase();
+      const selectedCategory = document.getElementById('category-select').value;
+      const sortType = document.getElementById('sort-select').value;
+      updateCurrentCategory(selectedCategory);
+
+      let filteredRoles = roles;
+      if (selectedCategory !== 'all') filteredRoles = filteredRoles.filter(role => role.category === selectedCategory);
+      if (searchTerm) filteredRoles = filteredRoles.filter(role => role.name.toLowerCase().includes(searchTerm) || role.description.toLowerCase().includes(searchTerm));
+
+      currentFilteredRoles = filteredRoles;
+      displayRoles(sortRoles(currentFilteredRoles, sortType));
+      updateSortStatus(sortType);
+    }
+
+    function applySorting() {
+      const sortType = document.getElementById('sort-select').value;
+      if (currentFilteredRoles.length === 0) currentFilteredRoles = roles;
+      displayRoles(sortRoles(currentFilteredRoles, sortType));
+      updateSortStatus(sortType);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const elements = ['.page-title', '.page-description', '.current-category', '.sort-panel', '.roles-container'];
+        elements.forEach(sel => {
+          const el = document.querySelector(sel);
+          if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+        });
+      }, 100);
+
+      // Проверка: если roles.js не подключён или пуст
+      if (typeof roles === 'undefined' || roles.length === 0) {
+        document.getElementById('no-results').style.display = 'block';
+        console.error('roles.js не загружен или массив roles пуст.');
+        return;
+      }
+
+      populateCategories();
+      updateCurrentCategory('all');
+      updateSortStatus('alphabetical');
+      currentFilteredRoles = roles;
+      displayRoles(sortRoles(roles, 'alphabetical'));
+
+      document.getElementById('role-search').addEventListener('input', filterRoles);
+      document.getElementById('category-select').addEventListener('change', filterRoles);
+      document.getElementById('sort-select').addEventListener('change', applySorting);
+      document.getElementById('clear-search').addEventListener('click', () => { document.getElementById('role-search').value = ''; filterRoles(); });
+      document.getElementById('reset-filters').addEventListener('click', () => { document.getElementById('role-search').value = ''; document.getElementById('category-select').value = 'all'; updateCurrentCategory('all'); filterRoles(); });
+      document.getElementById('reset-sort').addEventListener('click', () => { document.getElementById('sort-select').value = 'alphabetical'; updateSortStatus('alphabetical'); if (currentFilteredRoles.length === 0) currentFilteredRoles = roles; displayRoles(sortRoles(currentFilteredRoles, 'alphabetical')); });
+
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const navMenu = document.getElementById('nav-menu');
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+          e.preventDefault(); e.stopPropagation();
+          navMenu.classList.toggle('active');
+          const icon = mobileMenuBtn.querySelector('i');
+          icon.classList.toggle('fa-bars');
+          icon.classList.toggle('fa-times');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+          link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+          });
+        });
+        document.addEventListener('click', (event) => {
+          if (!navMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+            navMenu.classList.remove('active');
+            mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+            mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+          }
+        });
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeImageModal();
+      });
+
+      // Бейдж непрочитанных новостей (если подключён news.js)
+      if (typeof news !== 'undefined' && news.length > 0) {
+        const totalNews = news.length;
+        const viewed = parseInt(localStorage.getItem("viewedNews") || "0", 10);
+        const unread = Math.max(totalNews - viewed, 0);
+
+        const newsLink = document.querySelector('a[href="news.html"]');
+        if (newsLink) {
+          const oldBadge = newsLink.querySelector(".news-badge");
+          if (oldBadge) oldBadge.remove();
+
+          if (unread > 0) {
+            const badge = document.createElement("span");
+            badge.className = "news-badge";
+            badge.textContent = unread;
+            newsLink.appendChild(badge);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
