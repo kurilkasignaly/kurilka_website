@@ -10,15 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -37,41 +30,25 @@
             overflow-x: hidden;
         }
 
-        .bg-slider {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
-            overflow: hidden;
-        }
-
+        .bg-slider { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
         .bg-slider img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; opacity: 0;
             transition: opacity 3s ease-in-out;
             will-change: opacity;
         }
-
-        .bg-slider img.active {
-            opacity: 1;
-        }
+        .bg-slider img.active { opacity: 1; }
 
         .bg-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.50);
             z-index: -1;
         }
 
         .smoke-overlay {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 0;
             background: radial-gradient(ellipse at 10% 80%, rgba(120, 60, 30, 0.05) 0%, transparent 50%),
                         radial-gradient(ellipse at 90% 20%, rgba(160, 80, 40, 0.03) 0%, transparent 40%);
         }
@@ -82,1037 +59,578 @@
             80% { opacity: 0.06; }
             100% { transform: translateY(-180px) scale(2.2); opacity: 0; }
         }
-
         .smoke-particle {
-            position: fixed;
-            bottom: -40px;
-            width: 120px;
-            height: 120px;
+            position: fixed; bottom: -40px;
+            width: 120px; height: 120px;
             background: radial-gradient(circle, rgba(200, 100, 50, 0.05) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
+            border-radius: 50%; pointer-events: none; z-index: 0;
             animation: floatParticle 16s linear infinite;
         }
 
         .main-wrapper {
-            width: 100%;
-            max-width: 1400px;
+            width: 100%; max-width: 1400px;
             padding: 1.5rem 2rem;
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-
-        /* ===== СТРАНИЦА ВХОДА ===== */
-        .login-overlay {
-            background: rgba(10, 7, 18, 0.88);
-            backdrop-filter: blur(18px);
-            border: 1px solid rgba(200, 100, 50, 0.3);
-            border-radius: 60px;
-            padding: 2rem 2rem 2.2rem 2rem;
-            max-width: 460px;
-            margin: 0.5rem auto 1rem auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(200, 80, 40, 0.15);
-            transition: all 0.3s ease;
-            animation: fadeInScale 0.7s ease-out;
-        }
-
-        .login-overlay:hover {
-            border-color: rgba(220, 100, 50, 0.5);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .login-header .logo-img {
-            max-width: 180px;
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto 0.3rem auto;
-        }
-
-        .login-header .sub {
-            color: #a090b0;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-top: 1px solid rgba(220, 90, 50, 0.2);
-            padding-top: 0.4rem;
-            margin-top: 0.2rem;
-        }
-
-        .login-header .sub i {
-            color: #e25d32;
-            margin: 0 6px;
-        }
-
-        .input-group {
-            margin-bottom: 1.2rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #b5a8c8;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .input-group .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 36px;
-            color: #7a6a8a;
-            font-size: 1rem;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 11px 16px 11px 42px;
-            background: rgba(20, 15, 30, 0.7);
-            border: 1px solid rgba(200, 100, 50, 0.25);
-            border-radius: 40px;
-            color: #f0eef7;
-            font-size: 0.95rem;
-            font-family: inherit;
-            transition: all 0.3s;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: #e25d32;
-            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
-            background: rgba(20, 15, 30, 0.9);
-        }
-
-        .input-group input::placeholder {
-            color: #5a4a6a;
-            font-weight: 300;
-        }
-
-        .login-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-
-        .login-btn {
-            padding: 12px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 6px 20px rgba(188, 70, 39, 0.3);
-            letter-spacing: 1px;
-            font-family: inherit;
-        }
-
-        .login-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 28px rgba(188, 70, 39, 0.5);
-        }
-
-        .login-btn i {
-            margin-right: 10px;
-        }
-
-        .login-error {
-            color: #ff6b4a;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 0.6rem;
-            min-height: 1.4rem;
-            font-weight: 500;
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 1.2rem;
-            font-size: 0.7rem;
-            color: #5a4a6a;
-            border-top: 1px solid rgba(200, 100, 50, 0.1);
-            padding-top: 1rem;
+            display: flex; flex-direction: column; justify-content: flex-start;
         }
 
         /* ===== ЭКРАН ПОДКЛЮЧЕНИЯ ===== */
         .connect-screen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; inset: 0; z-index: 50;
+            align-items: center; justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             cursor: pointer;
             background: rgba(8, 6, 15, 0.6);
             pointer-events: auto;
         }
-
-        .connect-screen.active {
-            display: flex;
-        }
+        .connect-screen.active { display: flex; }
 
         .connect-content {
-            text-align: center;
-            user-select: none;
-            padding: 2rem;
-            pointer-events: none;
+            text-align: center; user-select: none;
+            padding: 2rem; pointer-events: none;
         }
-
         .connect-logo .line1 {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 10px;
-            color: rgba(255, 255, 255, 0.35);
+            display: block; font-size: 2.2rem; font-weight: 300;
+            letter-spacing: 10px; color: rgba(255, 255, 255, 0.35);
             margin-bottom: 0.5rem;
         }
-
         .connect-logo .logo-img {
-            max-width: 340px;
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+            max-width: 340px; width: 100%; height: auto;
+            display: block; margin: 0 auto;
         }
-
         .connect-logo .line3 {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            color: rgba(255, 255, 255, 0.25);
+            display: block; font-size: 1.8rem; font-weight: 300;
+            letter-spacing: 6px; color: rgba(255, 255, 255, 0.25);
             margin-top: 0.5rem;
         }
-
         .connect-prompt {
-            margin-top: 3rem;
-            font-size: 1.2rem;
-            font-weight: 500;
+            margin-top: 3rem; font-size: 1.2rem; font-weight: 500;
             color: rgba(200, 190, 210, 0.7);
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            letter-spacing: 3px; text-transform: uppercase;
             animation: pulseText 2s ease-in-out infinite;
             border: 1px solid rgba(220, 90, 50, 0.15);
-            padding: 0.8rem 2.2rem;
-            border-radius: 60px;
-            display: inline-block;
-            backdrop-filter: blur(4px);
+            padding: 0.8rem 2.2rem; border-radius: 60px;
+            display: inline-block; backdrop-filter: blur(4px);
             background: rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-            pointer-events: auto;
-            cursor: pointer;
+            transition: all 0.3s; pointer-events: auto; cursor: pointer;
         }
-
         .connect-prompt:hover {
             border-color: rgba(220, 90, 50, 0.4);
             background: rgba(0, 0, 0, 0.3);
         }
-
-        .connect-prompt i {
-            margin-right: 10px;
-            color: #e25d32;
-        }
+        .connect-prompt i { margin-right: 10px; color: #e25d32; }
 
         .connect-status {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 3rem;
-            pointer-events: none;
+            display: none; align-items: center; justify-content: center;
+            gap: 1.5rem; margin-top: 3rem; pointer-events: none;
         }
-
-        .connect-status.active {
-            display: flex;
-        }
-
+        .connect-status.active { display: flex; }
         .connect-status .spinner {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             border: 3px solid rgba(220, 90, 50, 0.15);
             border-top: 3px solid #e25d32;
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
+            border-radius: 50%; animation: spin 0.9s linear infinite;
             flex-shrink: 0;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .connect-status .label {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 4px;
+            font-size: 1.8rem; font-weight: 700; letter-spacing: 4px;
             background: linear-gradient(135deg, #ffbc9a, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
             animation: pulseText 1.2s ease-in-out infinite;
             text-transform: uppercase;
         }
-
-        @keyframes pulseText {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+        @keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .connect-hint {
-            position: fixed;
-            bottom: 3rem;
-            left: 50%;
+            position: fixed; bottom: 3rem; left: 50%;
             transform: translateX(-50%);
-            font-size: 0.7rem;
-            color: rgba(120, 100, 130, 0.4);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            z-index: 51;
-            pointer-events: none;
+            font-size: 0.7rem; color: rgba(120, 100, 130, 0.4);
+            letter-spacing: 2px; text-transform: uppercase;
+            z-index: 51; pointer-events: none;
         }
 
         /* ===== ЭКРАН ОШИБКИ ===== */
         .error-screen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 60;
-            align-items: center;
-            justify-content: center;
+            display: none; position: fixed; inset: 0; z-index: 60;
+            align-items: center; justify-content: center;
             flex-direction: column;
             animation: fadeInScale 0.6s ease-out;
             background: rgba(8, 6, 15, 0.7);
             backdrop-filter: blur(8px);
-            pointer-events: auto;
-            padding: 2rem;
+            pointer-events: auto; padding: 2rem;
         }
-
-        .error-screen.active {
-            display: flex;
-        }
+        .error-screen.active { display: flex; }
 
         .error-box {
             background: rgba(10, 7, 18, 0.92);
             border: 1px solid rgba(200, 60, 40, 0.4);
-            border-radius: 60px;
-            padding: 3rem 3.5rem;
-            max-width: 580px;
-            width: 100%;
-            text-align: center;
+            border-radius: 60px; padding: 3rem 3.5rem;
+            max-width: 580px; width: 100%; text-align: center;
             box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(200, 60, 40, 0.15);
             animation: fadeInScale 0.5s ease-out;
         }
-
         .error-box .error-icon {
-            font-size: 4rem;
-            color: #e25d32;
-            margin-bottom: 1rem;
-            display: block;
+            font-size: 4rem; color: #e25d32;
+            margin-bottom: 1rem; display: block;
         }
-
         .error-box h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #ff6b4a;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem; font-weight: 800;
+            color: #ff6b4a; margin-bottom: 0.5rem;
             letter-spacing: 1px;
         }
-
-        .error-box .error-sub {
-            color: #b5a8c8;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
-        .error-box .error-desc {
-            color: #8a7a9a;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            padding: 0 0.5rem;
-        }
-
+        .error-box .error-sub { color: #b5a8c8; font-size: 1rem; margin-bottom: 1.5rem; font-weight: 500; }
+        .error-box .error-desc { color: #8a7a9a; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; padding: 0 0.5rem; }
         .error-box .error-code {
             display: inline-block;
             background: rgba(200, 60, 40, 0.1);
             border: 1px solid rgba(200, 60, 40, 0.2);
-            padding: 0.4rem 1.5rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #e25d32;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
+            padding: 0.4rem 1.5rem; border-radius: 40px;
+            font-size: 0.85rem; font-weight: 600;
+            color: #e25d32; letter-spacing: 1px; margin-bottom: 2rem;
         }
-
-        .error-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
+        .error-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
         .error-btn {
-            padding: 12px 32px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            padding: 12px 32px; border: none; border-radius: 60px;
+            font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-
         .error-btn-primary {
             background: linear-gradient(135deg, #bc4627, #e25d32);
             color: white;
             box-shadow: 0 4px 20px rgba(188, 70, 39, 0.3);
         }
-
-        .error-btn-primary:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5);
-        }
-
-        .error-btn-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: #b5a8c8;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .error-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
-            color: white;
-        }
+        .error-btn-primary:hover { transform: scale(1.03); box-shadow: 0 6px 28px rgba(188, 70, 39, 0.5); }
 
         /* ===== ОСНОВНАЯ ГЛАВНАЯ ===== */
         .main-content {
             display: none;
             animation: fadeInScale 0.6s ease-out;
-            position: relative;
-            z-index: 5;
-            width: 100%;
+            position: relative; z-index: 5; width: 100%;
         }
-
-        .main-content.active {
-            display: block;
-        }
+        .main-content.active { display: block; }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0.8rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; padding: 0.8rem 2rem;
             background: rgba(8, 6, 15, 0.6);
             backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
             border: 1px solid rgba(220, 90, 50, 0.2);
             transition: all 0.3s;
         }
+        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.4);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
         .logo .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.4rem; font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            white-space: nowrap;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; white-space: nowrap;
         }
-
-        .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
-        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
 
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem;
-            border-radius: 60px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
-
         .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
             text-decoration: none;
         }
-
-        .nav-btn:hover {
-            color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
-        }
-
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
         .nav-btn.active {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
         }
 
         .music-toggle {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            padding: 0.4rem 0.9rem;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            font-size: 0.85rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
+            border-radius: 50px; padding: 0.4rem 0.9rem;
+            color: #b5a8c8; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; font-size: 0.85rem;
+            display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
         }
+        .music-toggle:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(220, 90, 50, 0.3); color: white; }
+        .music-toggle.playing { border-color: rgba(220, 90, 50, 0.3); color: #e25d32; }
+        .music-toggle .icon { font-size: 1rem; transition: all 0.3s; }
+        .music-toggle .icon.pulse { animation: musicPulse 1.2s ease-in-out infinite; }
+        @keyframes musicPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+        .music-toggle .label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.5px; }
 
-        .music-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
-            color: white;
-        }
-
-        .music-toggle.playing {
-            border-color: rgba(220, 90, 50, 0.3);
-            color: #e25d32;
-        }
-
-        .music-toggle .icon {
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .music-toggle .icon.pulse {
-            animation: musicPulse 1.2s ease-in-out infinite;
-        }
-
-        @keyframes musicPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.85); }
-        }
-
-        .music-toggle .label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== БЛОК С ТЕЛЕВИЗОРАМИ ===== */
-        .tv-section {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 1.5rem 0 3rem 0;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-        }
-
-        .tv-card {
-            position: relative;
-            transition: transform 0.4s ease;
-            cursor: default;
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
-        .tv-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .tv-card .tv-image {
-            width: 100%;
-            aspect-ratio: 16/9;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: visible;
-        }
-
-        .tv-card .tv-image img {
-            width: 158%;
-            height: 158%;
-            object-fit: contain;
-            display: block;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.5));
-        }
-
-        .tv-card:hover .tv-image img {
-            transform: scale(1.02);
-        }
-
-        .tv-screen-content {
-            position: absolute;
-            top: 13%;
-            left: 17%;
-            right: 17%;
-            bottom: 13%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0.8rem;
-            overflow: hidden;
-            background: transparent;
-            border-radius: 8px;
-        }
-
-        .tv-screen-content .tv-badge {
-            background: linear-gradient(135deg, #2a4a7f, #1a2f4f);
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #7ab8ff;
-            box-shadow: 0 2px 16px rgba(42, 74, 127, 0.3);
-            letter-spacing: 0.5px;
-            display: inline-block;
-            margin-bottom: 0.3rem;
-            white-space: nowrap;
-            border: 1px solid rgba(122, 184, 255, 0.15);
-        }
-
-        .tv-screen-content .tv-category {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #4a8ad4;
-            margin-bottom: 0.2rem;
-            text-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-        }
-
-        .tv-screen-content .tv-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1a2f4f;
-            margin-bottom: 0.2rem;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
-            line-height: 1.2;
-            padding: 0 0.2rem;
-        }
-
-        .tv-screen-content .tv-player {
-            font-size: 0.9rem;
-            color: #2a4a7f;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        .tv-screen-content .tv-player i {
-            color: #4a8ad4;
-            margin-right: 6px;
-        }
-
-        .tv-screen-content .tv-motivation {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #0d1f3a;
-            text-shadow: 0 0 30px rgba(74, 138, 212, 0.2), 0 0 60px rgba(255, 255, 255, 0.1);
-            line-height: 1.3;
-            padding: 0 0.3rem;
-        }
-
-        .tv-screen-content .tv-motivation .highlight {
-            color: #4a8ad4;
-            display: inline-block;
-            animation: glowText 2s ease-in-out infinite;
-        }
-
-        @keyframes glowText {
-            0%, 100% { text-shadow: 0 0 20px rgba(74, 138, 212, 0.2), 0 0 40px rgba(74, 138, 212, 0.05); }
-            50% { text-shadow: 0 0 40px rgba(74, 138, 212, 0.5), 0 0 80px rgba(74, 138, 212, 0.15); }
-        }
-
-        .tv-screen-content .tv-sub-motivation {
-            font-size: 0.85rem;
-            color: #2a4a7f;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            margin-top: 0.3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .tv-screen-content.fade-transition {
-            animation: tvFade 1.2s ease-in-out;
-        }
-
-        @keyframes tvFade {
-            0% { opacity: 0; transform: scale(0.92); }
-            40% { opacity: 0.2; transform: scale(0.97); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
-        .hero-title {
-            text-align: center;
-            margin: 1rem 0 1.5rem 0;
-        }
-
-        .hero-title h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(220,90,50,0.15);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: #e16d48;
-            transform: translateY(-4px);
-        }
-
-        .stat-number {
-            font-size: 2.4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffbc9a, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .slider-block {
-            position: relative;
-            margin: 3rem 0;
+        /* ===== СЛАЙДЕР НОВОСТЕЙ ===== */
+        .news-slider-block {
+            position: relative; margin: 1.5rem 0 3rem 0;
             background: rgba(18, 12, 28, 0.5);
             backdrop-filter: blur(12px);
             border-radius: 48px;
-            border: 1px solid rgba(220,90,50,0.2);
+            border: 1px solid rgba(220, 90, 50, 0.2);
             overflow: hidden;
+            max-width: 1200px; margin-left: auto; margin-right: auto; width: 100%;
         }
-
-        .slider-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .slider-btn {
+        .news-slider-container { position: relative; display: flex; align-items: center; }
+        .news-slider-btn {
             position: absolute;
             background: rgba(188, 74, 40, 0.6);
             backdrop-filter: blur(4px);
-            border: 1px solid rgba(220,90,50,0.4);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: white;
-            z-index: 20;
-            font-size: 1.2rem;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s;
+            color: white; z-index: 20; font-size: 1.2rem;
         }
-
-        .slider-btn:hover {
-            background: #e25d32;
-        }
-
-        .slider-btn-left { left: 16px; }
-        .slider-btn-right { right: 16px; }
-
-        .slider-track-wrapper {
-            flex: 1;
-            overflow: hidden;
-            border-radius: 48px;
-        }
-
-        .slider-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .slider-slide {
+        .news-slider-btn:hover { background: #e25d32; transform: scale(1.05); }
+        .news-slider-btn-left { left: 14px; }
+        .news-slider-btn-right { right: 14px; }
+        .news-slider-track-wrapper { flex: 1; overflow: hidden; border-radius: 48px; }
+        .news-slider-track { display: flex; transition: transform 0.5s ease; }
+        .news-slide {
             min-width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-            padding: 2rem;
+            display: flex; align-items: center; gap: 2.5rem; padding: 2.5rem;
         }
-
-        .slide-image {
-            flex: 1;
-            border-radius: 24px;
-            overflow: hidden;
+        .news-slide-image {
+            flex: 1.15; border-radius: 24px; overflow: hidden;
             border: 1px solid rgba(200, 100, 50, 0.2);
+            background: #16121f;
         }
-
-        .slide-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: grayscale(0.3) contrast(1.1);
-            transition: filter 0.4s;
+        .news-slide-image img {
+            width: 100%; height: auto; display: block;
+            min-height: 300px; object-fit: cover;
+            filter: grayscale(0.2) contrast(1.1);
+            transition: filter 0.4s, transform 0.4s;
         }
-
-        .slide-image img:hover {
-            filter: grayscale(0) contrast(1.2);
-        }
-
-        .slide-text {
-            flex: 1;
-        }
-
-        .slide-text h2 {
-            font-size: 2rem;
+        .news-slide-image img:hover { filter: grayscale(0) contrast(1.2); transform: scale(1.02); }
+        .news-slide-text { flex: 1; }
+        .news-slide-text h2 {
+            font-size: 2.2rem;
             background: linear-gradient(135deg, #fff, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.8rem;
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin-bottom: 0.8rem; line-height: 1.2;
         }
-
-        .slide-text p {
-            color: #b5a8c8;
-            line-height: 1.5;
+        .news-slide-text h2 i {
+            color: #e25d32; -webkit-text-fill-color: #e25d32;
+            font-size: 1.8rem; margin-right: 10px;
         }
-
-        .badge-slider {
+        .news-slide-text p { color: #b5a8c8; line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem; }
+        .news-badge-slider {
             display: inline-block;
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            padding: 4px 18px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 0.8rem;
+            padding: 8px 20px; border-radius: 40px;
+            font-size: 0.85rem; font-weight: 700; color: white;
+            box-shadow: 0 4px 16px rgba(188, 70, 39, 0.3);
         }
-
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            padding: 1rem 0 1.5rem;
+        .news-badge-slider i { margin-right: 8px; }
+        .news-slider-dots {
+            display: flex; justify-content: center;
+            gap: 0.8rem; padding: 1rem 0 1.5rem;
         }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+        .news-dot {
+            width: 10px; height: 10px; border-radius: 50%;
             background: rgba(255,255,255,0.2);
-            cursor: pointer;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .news-dot.active { background: #e25d32; width: 28px; border-radius: 20px; }
+
+        /* ===== ОСТАЛЬНЫЕ БЛОКИ ===== */
+        .hero-title { text-align: center; margin: 1rem 0 1.5rem 0; }
+        .hero-title h2 {
+            font-size: 3rem; font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; letter-spacing: 1px;
+        }
+
+        /* ===== СТАТИСТИКА — 3 КАРТОЧКИ ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        .stat-card {
+            background: linear-gradient(160deg, rgba(22, 15, 32, 0.85) 0%, rgba(14, 9, 22, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(220,90,50,0.15);
             transition: all 0.3s;
         }
-
-        .dot.active {
-            background: #e25d32;
-            width: 28px;
-            border-radius: 20px;
+        .stat-card:hover {
+            border-color: #e16d48;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(220, 90, 50, 0.15);
+        }
+        .stat-card i {
+            color: #e16d48;
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+        .stat-number {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffbc9a, #e25d32);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #c2b9d4;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        .social-block {
-            margin-top: 3rem;
-            text-align: center;
-            background: rgba(18, 12, 28, 0.5);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 2.5rem;
-            border: 1px solid rgba(220,90,50,0.15);
+        /* ===== ТОП ИГРОКОВ ===== */
+        .top-players-block {
+            margin: 3rem 0;
+            max-width: 1200px; margin-left: auto; margin-right: auto;
         }
 
-        .social-icons {
+        .top-players-header {
             display: flex;
-            justify-content: center;
-            gap: 2.5rem;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            margin: 1.5rem 0;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .social-icon {
+        .top-players-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .leaderboard-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 60px;
+            background: rgba(18, 12, 28, 0.7);
+            border: 1px solid rgba(220, 90, 50, 0.35);
+            color: #d1cce6;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .leaderboard-btn:hover {
+            border-color: #e25d32;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 90, 50, 0.25);
+        }
+        .leaderboard-btn i { color: #e25d32; }
+
+        .top-players-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Карточка игрока с фоновой эмблемой */
+        .player-card {
+            position: relative;
+            background: linear-gradient(160deg, rgba(22, 15, 32, 0.9) 0%, rgba(14, 9, 22, 0.9) 100%);
+            border: 1px solid rgba(220, 90, 50, 0.15);
+            border-radius: 24px;
+            padding: 2.4rem 1.5rem 1.6rem;
+            text-align: center;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: default;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.4rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            color: #b5a8c8;
+            justify-content: center;
+            min-height: 190px;
         }
 
-        .social-icon i {
-            font-size: 2.8rem;
-            transition: all 0.3s;
+        /* Фоновое изображение-эмблема */
+        .player-card .player-emblem {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 65%;
+            opacity: 0.08;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            pointer-events: none;
+            z-index: 0;
         }
 
+        .player-card:hover .player-emblem {
+            opacity: 0.22;
+            transform: scale(1.08);
+        }
+
+        /* Тонкая градиентная подложка поверх эмблемы */
+        .player-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(220, 90, 50, 0.10) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .player-card:hover::before { opacity: 1; }
+
+        .player-card:hover {
+            border-color: rgba(226, 93, 50, 0.5);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(226, 93, 50, 0.2);
+        }
+
+        /* Имя игрока — золотое с переливанием */
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(
+                100deg,
+                #b8860b 0%,
+                #ffd700 25%,
+                #fff8c4 45%,
+                #ffd700 60%,
+                #b8860b 85%,
+                #ffd700 100%
+            );
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 14px rgba(255, 215, 0, 0.25);
+            transition: text-shadow 0.4s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .player-card:hover .player-name {
+            animation: goldShimmer 2.5s linear infinite;
+            text-shadow: 0 0 24px rgba(255, 215, 0, 0.55), 0 0 40px rgba(255, 215, 0, 0.25);
+        }
+
+        @keyframes goldShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 250% center; }
+        }
+
+        .player-stat {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #8a7a9a;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .player-stat .stat-value {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== СОЦИАЛЬНЫЙ БЛОК ===== */
+        .social-block {
+            margin-top: 3rem; text-align: center;
+            background: rgba(18, 12, 28, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 48px; padding: 2.5rem;
+            border: 1px solid rgba(220,90,50,0.15);
+        }
+        .social-block h2 { font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
+        .social-block p { color: #b5a8c8; margin-bottom: 0.5rem; }
+        .social-icons {
+            display: flex; justify-content: center;
+            gap: 2.5rem; flex-wrap: wrap; margin: 1.5rem 0;
+        }
+        .social-icon {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 0.4rem; text-decoration: none;
+            transition: all 0.3s; color: #b5a8c8;
+        }
+        .social-icon i { font-size: 2.8rem; transition: all 0.3s; }
         .social-icon.discord i { color: #5865F2; }
         .social-icon.twitch i { color: #9146FF; }
-
-        .social-icon:hover {
-            transform: translateY(-4px);
-        }
+        .social-icon:hover { transform: translateY(-4px); }
 
         .discord-button {
             display: inline-block;
             background: linear-gradient(135deg, #5865F2, #4752C4);
-            padding: 12px 36px;
-            border-radius: 60px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
+            padding: 12px 36px; border-radius: 60px;
+            color: white; text-decoration: none; font-weight: 700;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(88,101,242,0.2);
             font-size: 0.9rem;
         }
-
-        .discord-button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 24px rgba(88,101,242,0.4);
-        }
+        .discord-button:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(88,101,242,0.4); }
 
         footer {
-            margin-top: 4rem;
-            text-align: center;
-            padding: 1.8rem 0;
+            margin-top: 4rem; text-align: center; padding: 1.8rem 0;
             border-top: 1px solid rgba(105, 58, 40, 0.2);
-            font-size: 0.7rem;
-            background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
+            font-size: 0.7rem; background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px); border-radius: 50px;
         }
-
-        .footer-logo {
-            max-height: 32px;
-            width: auto;
-            margin-bottom: 0.5rem;
-        }
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
 
         @keyframes fadeInScale {
             0% { opacity: 0; transform: scale(0.96) translateY(12px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        @keyframes smokePulse {
-            0%, 100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-            50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
+        @media (max-width: 992px) {
+            .top-players-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 850px) {
             .main-wrapper { padding: 1rem; }
-            .login-overlay { padding: 1.5rem 1.5rem 1.8rem 1.5rem; max-width: 400px; margin: 0.5rem auto; }
-            .login-header .logo-img { max-width: 150px; }
             .header { flex-direction: column; padding: 0.8rem 1rem; }
             .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; }
-            .slider-slide { flex-direction: column; text-align: center; padding: 1.5rem; }
-            .slide-text { text-align: center; }
-            .slide-text h2 { font-size: 1.6rem; }
-            .slider-btn { width: 36px; height: 36px; font-size: 1rem; }
-            .slider-btn-left { left: 8px; }
-            .slider-btn-right { right: 8px; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
 
-            .tv-section {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
+            .news-slide { flex-direction: column; text-align: center; padding: 1.5rem; gap: 1.5rem; }
+            .news-slide-text { text-align: center; }
+            .news-slide-text h2 { font-size: 1.6rem; }
+            .news-slide-text h2 i { font-size: 1.3rem; }
+            .news-slide-image img { min-height: 220px; }
+            .news-slider-btn { width: 38px; height: 38px; font-size: 1rem; }
+            .news-slider-btn-left { left: 8px; }
+            .news-slider-btn-right { right: 8px; }
 
-            .tv-card {
-                max-width: 380px;
-            }
+            .hero-title h2 { font-size: 2.2rem; }
+            .top-players-header h2 { font-size: 1.5rem; }
+            .player-name { font-size: 1.2rem; }
 
-            .tv-card .tv-image img {
-                width: 140%;
-                height: 140%;
-            }
-
-            .tv-screen-content .tv-title {
-                font-size: 1.1rem;
-            }
-            .tv-screen-content .tv-category {
-                font-size: 0.7rem;
-            }
-            .tv-screen-content .tv-player {
-                font-size: 0.8rem;
-            }
-            .tv-screen-content .tv-badge {
-                font-size: 0.6rem;
-                padding: 2px 12px;
-            }
-            .tv-screen-content .tv-motivation {
-                font-size: 1.2rem;
-            }
-
-            .hero-title h2 {
-                font-size: 2.2rem;
-            }
+            .stats-grid { grid-template-columns: 1fr; gap: 1rem; max-width: 400px; }
 
             .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
             .connect-logo .logo-img { max-width: 260px; }
@@ -1126,15 +644,12 @@
             .error-box .error-icon { font-size: 3rem; }
         }
 
+        @media (max-width: 600px) {
+            .top-players-grid { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 500px) {
-            .login-overlay { padding: 1.2rem 1rem 1.5rem 1rem; max-width: 340px; }
-            .login-header .logo-img { max-width: 120px; }
-            .login-header .sub { font-size: 0.65rem; }
-            .input-group input { font-size: 0.85rem; padding: 9px 12px 9px 36px; }
-            .input-group .input-icon { left: 12px; top: 30px; font-size: 0.85rem; }
-            .input-group label { font-size: 0.6rem; }
-            .login-btn { font-size: 0.85rem; padding: 10px; }
-            .stat-number { font-size: 1.8rem; }
+            .stat-number { font-size: 2rem; }
             .nav-btn { font-size: 0.6rem; padding: 0.3rem 0.6rem; }
             .music-toggle { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
             .music-toggle .label { font-size: 0.6rem; }
@@ -1142,43 +657,19 @@
             .logo .logo-text { font-size: 0.9rem; }
             .logo { gap: 0.4rem; }
 
-            .tv-section {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                max-width: 340px;
-                margin-left: auto;
-                margin-right: auto;
-            }
+            .news-slide { padding: 1rem; gap: 1rem; }
+            .news-slide-text h2 { font-size: 1.3rem; }
+            .news-slide-text h2 i { font-size: 1.1rem; }
+            .news-slide-text p { font-size: 0.9rem; }
+            .news-badge-slider { font-size: 0.75rem; padding: 6px 14px; }
+            .news-slide-image img { min-height: 180px; }
+            .news-slider-btn { width: 34px; height: 34px; font-size: 0.9rem; }
 
-            .tv-card {
-                max-width: 320px;
-            }
-
-            .tv-card .tv-image img {
-                width: 130%;
-                height: 130%;
-            }
-
-            .tv-screen-content .tv-title {
-                font-size: 0.95rem;
-            }
-            .tv-screen-content .tv-category {
-                font-size: 0.6rem;
-            }
-            .tv-screen-content .tv-player {
-                font-size: 0.75rem;
-            }
-            .tv-screen-content .tv-badge {
-                font-size: 0.5rem;
-                padding: 2px 10px;
-            }
-            .tv-screen-content .tv-motivation {
-                font-size: 1rem;
-            }
-
-            .hero-title h2 {
-                font-size: 1.8rem;
-            }
+            .hero-title h2 { font-size: 1.8rem; }
+            .top-players-header h2 { font-size: 1.3rem; }
+            .leaderboard-btn { padding: 8px 16px; font-size: 0.75rem; }
+            .player-name { font-size: 1.1rem; }
+            .player-card { padding: 1.8rem 1rem 1.4rem; min-height: 160px; }
 
             .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
             .connect-logo .logo-img { max-width: 200px; }
@@ -1201,32 +692,22 @@
 </head>
 <body>
 
-<!-- Фоновый слайдер -->
 <div class="bg-slider" id="bgSlider"></div>
 <div class="bg-overlay"></div>
 <div class="smoke-overlay"></div>
 
-<!-- Аудио для загрузки -->
 <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
-<!-- Аудио для главной страницы -->
 <div id="mainAudioContainer" style="display:none;">
-    <audio id="mainAudio1" preload="auto">
-        <source src="images/комната отдыха 1.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="mainAudio2" preload="auto">
-        <source src="images/комната отдыха 2.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="mainAudio3" preload="auto">
-        <source src="images/комната отдыха 3.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="mainAudio1" preload="auto"><source src="images/комната отдыха 1.mp3" type="audio/mpeg"></audio>
+    <audio id="mainAudio2" preload="auto"><source src="images/комната отдыха 2.mp3" type="audio/mpeg"></audio>
+    <audio id="mainAudio3" preload="auto"><source src="images/комната отдыха 3.mp3" type="audio/mpeg"></audio>
 </div>
 
 <script>
-    // ===== ГЕНЕРАЦИЯ ВСЕХ ФОНОВЫХ ИЗОБРАЖЕНИЙ =====
+    // ===== ФОНОВЫЙ СЛАЙДЕР =====
     (function initBackgrounds() {
         const bgSlider = document.getElementById('bgSlider');
-        
         const bgFiles = [
             'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
             'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp',
@@ -1239,7 +720,6 @@
             'фон-41.webp', 'фон-42.webp', 'фон-43.webp', 'фон-44.webp', 'фон-45.webp',
             'фон-46.webp', 'фон-47.webp', 'фон-48.webp', 'фон-49.webp', 'фон-50.webp'
         ];
-
         bgFiles.forEach((file, index) => {
             const img = document.createElement('img');
             img.src = 'images/' + file;
@@ -1247,56 +727,25 @@
             if (index === 0) img.classList.add('active');
             bgSlider.appendChild(img);
         });
-
         const imgs = bgSlider.querySelectorAll('img');
-        let current = 0;
-        const total = imgs.length;
-        let isTransitioning = false;
-        let timerId = null;
-
+        let current = 0, isTransitioning = false, timerId = null;
         function switchToNext() {
             if (isTransitioning) return;
             isTransitioning = true;
-
             imgs[current].classList.remove('active');
-            current = (current + 1) % total;
+            current = (current + 1) % imgs.length;
             imgs[current].classList.add('active');
-
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 3500);
+            setTimeout(() => { isTransitioning = false; }, 3500);
         }
-
-        function startInterval() {
-            if (timerId) clearInterval(timerId);
-            timerId = setInterval(switchToNext, 10000);
-        }
-
-        function stopInterval() {
-            if (timerId) {
-                clearInterval(timerId);
-                timerId = null;
-            }
-        }
-
+        function startInterval() { if (timerId) clearInterval(timerId); timerId = setInterval(switchToNext, 10000); }
+        function stopInterval() { if (timerId) { clearInterval(timerId); timerId = null; } }
         startInterval();
-
         document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                stopInterval();
-            } else {
-                startInterval();
-                isTransitioning = false;
-            }
+            if (document.hidden) stopInterval(); else { startInterval(); isTransitioning = false; }
         });
-
-        window.addEventListener('beforeunload', function() {
-            stopInterval();
-        });
-
+        window.addEventListener('beforeunload', stopInterval);
     })();
 
-    // Дымовые частицы
     (function createParticles() {
         for (let i = 0; i < 6; i++) {
             const p = document.createElement('div');
@@ -1310,429 +759,159 @@
         }
     })();
 
-    // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА ДЛЯ ЗАГРУЗКИ =====
     window.addEventListener('load', function() {
         const audio = document.getElementById('bgAudio');
-        
-        if (!audio) {
-            console.error('❌ Элемент #bgAudio не найден в DOM');
-            return;
-        }
-
+        if (!audio) return;
         function selectAudioFile() {
             let selected = 'loading 2.mp3';
-            
             if (navigator.connection) {
                 const conn = navigator.connection;
-                
-                const isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
-                const isHighLatency = conn.rtt && conn.rtt > 500;
-                const isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
-                
-                if (isVerySlow || isHighLatency || isVeryLowBandwidth) {
-                    return 'loading 3.mp3';
-                }
-                
-                if (conn.saveData) {
-                    return 'loading 3.mp3';
-                }
+                if (conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g') return 'loading 3.mp3';
+                if (conn.rtt && conn.rtt > 500) return 'loading 3.mp3';
+                if (conn.downlink && conn.downlink < 0.3) return 'loading 3.mp3';
+                if (conn.saveData) return 'loading 3.mp3';
             }
-            
             try {
-                const perfData = performance.getEntriesByType('navigation')[0];
-                if (perfData) {
-                    const loadTime = perfData.loadEventEnd - perfData.fetchStart;
-                    if (loadTime > 5000) {
-                        return 'loading 3.mp3';
-                    }
-                }
+                const perf = performance.getEntriesByType('navigation')[0];
+                if (perf && perf.loadEventEnd - perf.fetchStart > 5000) return 'loading 3.mp3';
             } catch(e) {}
-            
-            const rand = Math.random();
-            if (rand < 0.70) {
-                selected = 'loading 2.mp3';
-            } else {
-                selected = 'loading.mp3';
-            }
-            
-            return selected;
+            return Math.random() < 0.70 ? 'loading 2.mp3' : 'loading.mp3';
         }
-
         const selectedFile = selectAudioFile();
         window.normalAudioFile = selectedFile;
         audio.src = 'images/' + selectedFile;
-        console.log('✅ Выбран обычный аудиофайл:', selectedFile);
         audio.load();
     });
 
-    // ===== УПРАВЛЕНИЕ МУЗЫКОЙ НА ГЛАВНОЙ =====
-    let mainAudioStarted = false;
-    let currentTrackIndex = 0;
-    let mainAudioFiles = [];
-    let currentAudioElement = null;
+    // ===== МУЗЫКА ГЛАВНОЙ =====
+    let mainAudioStarted = false, currentTrackIndex = 0, mainAudioFiles = [], currentAudioElement = null;
 
     function initMainAudio() {
-        const container = document.getElementById('mainAudioContainer');
-        if (!container) return;
-        
-        container.innerHTML = '';
+        const c = document.getElementById('mainAudioContainer');
+        if (!c) return;
+        c.innerHTML = '';
         mainAudioFiles = [];
-        
         const names = ['комната отдыха 1.mp3', 'комната отдыха 2.mp3', 'комната отдыха 3.mp3'];
         for (let i = 0; i < 3; i++) {
-            const audio = document.createElement('audio');
-            audio.id = 'mainAudio' + (i + 1);
-            audio.preload = 'auto';
-            audio.volume = 0.4;
-            const source = document.createElement('source');
-            source.src = 'images/' + names[i];
-            source.type = 'audio/mpeg';
-            audio.appendChild(source);
-            container.appendChild(audio);
-            mainAudioFiles.push(audio);
+            const a = document.createElement('audio');
+            a.id = 'mainAudio' + (i + 1);
+            a.preload = 'auto'; a.volume = 0.4;
+            const s = document.createElement('source');
+            s.src = 'images/' + names[i]; s.type = 'audio/mpeg';
+            a.appendChild(s); c.appendChild(a); mainAudioFiles.push(a);
         }
     }
-
     function playNextMainTrack() {
         if (!mainAudioStarted) return;
-        
-        if (currentAudioElement) {
-            currentAudioElement.pause();
-            currentAudioElement.currentTime = 0;
-        }
-        
+        if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
         currentTrackIndex = (currentTrackIndex + 1) % mainAudioFiles.length;
-        const audio = mainAudioFiles[currentTrackIndex];
-        if (!audio) return;
-        
-        currentAudioElement = audio;
-        audio.volume = 0.4;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
-        audio.addEventListener('ended', function onEnd() {
-            audio.removeEventListener('ended', onEnd);
+        const a = mainAudioFiles[currentTrackIndex];
+        if (!a) return;
+        currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
+        a.play().catch(() => {});
+        a.addEventListener('ended', function onEnd() {
+            a.removeEventListener('ended', onEnd);
             if (!mainAudioStarted) return;
             playNextMainTrack();
         });
     }
-
     function startMainMusic() {
         if (mainAudioStarted) return;
-        const mainContent = document.getElementById('mainContent');
-        if (!mainContent || !mainContent.classList.contains('active')) return;
-
-        const loadingAudio = document.getElementById('bgAudio');
-        if (loadingAudio && !loadingAudio.paused) {
-            setTimeout(startMainMusic, 500);
-            return;
-        }
-
+        const mc = document.getElementById('mainContent');
+        if (!mc || !mc.classList.contains('active')) return;
+        const la = document.getElementById('bgAudio');
+        if (la && !la.paused) { setTimeout(startMainMusic, 500); return; }
         initMainAudio();
-        
-        if (mainAudioFiles.length === 0) {
-            setTimeout(startMainMusic, 500);
-            return;
-        }
-
+        if (mainAudioFiles.length === 0) { setTimeout(startMainMusic, 500); return; }
         mainAudioStarted = true;
-        
         currentTrackIndex = 0;
-        const audio = mainAudioFiles[0];
-        if (!audio) return;
-        
-        currentAudioElement = audio;
-        audio.volume = 0.4;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
-        
-        audio.addEventListener('ended', function onEnd() {
-            audio.removeEventListener('ended', onEnd);
+        const a = mainAudioFiles[0];
+        if (!a) return;
+        currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
+        a.play().catch(() => {});
+        a.addEventListener('ended', function onEnd() {
+            a.removeEventListener('ended', onEnd);
             if (!mainAudioStarted) return;
             playNextMainTrack();
         });
-        
         updateMusicButton(true);
     }
-
     function updateMusicButton(state) {
         const btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
-        
         const icon = btn.querySelector('.icon');
         const label = btn.querySelector('.label');
-        
         if (state) {
             btn.classList.add('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-xmark');
-                icon.classList.add('fa-volume-high', 'pulse');
-            }
+            if (icon) { icon.classList.remove('fa-volume-xmark'); icon.classList.add('fa-volume-high', 'pulse'); }
             if (label) label.textContent = 'Вкл';
         } else {
             btn.classList.remove('playing');
-            if (icon) {
-                icon.classList.remove('fa-volume-high', 'pulse');
-                icon.classList.add('fa-volume-xmark');
-            }
+            if (icon) { icon.classList.remove('fa-volume-high', 'pulse'); icon.classList.add('fa-volume-xmark'); }
             if (label) label.textContent = 'Выкл';
         }
     }
-
     function toggleMainMusic() {
         if (mainAudioStarted) {
             mainAudioStarted = false;
-            
-            if (currentAudioElement) {
-                currentAudioElement.pause();
-                currentAudioElement.currentTime = 0;
-            }
-            
-            mainAudioFiles.forEach(a => {
-                a.pause();
-                a.currentTime = 0;
-            });
-            
+            if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
+            mainAudioFiles.forEach(a => { a.pause(); a.currentTime = 0; });
             updateMusicButton(false);
         } else {
             mainAudioStarted = true;
-            
             initMainAudio();
-            
-            if (mainAudioFiles.length === 0) {
-                mainAudioStarted = false;
-                return;
-            }
-            
+            if (mainAudioFiles.length === 0) { mainAudioStarted = false; return; }
             currentTrackIndex = 0;
-            const audio = mainAudioFiles[0];
-            if (!audio) {
-                mainAudioStarted = false;
-                return;
-            }
-            
-            currentAudioElement = audio;
-            audio.volume = 0.4;
-            audio.currentTime = 0;
-            audio.play().catch(() => {});
-            
-            audio.addEventListener('ended', function onEnd() {
-                audio.removeEventListener('ended', onEnd);
+            const a = mainAudioFiles[0];
+            if (!a) { mainAudioStarted = false; return; }
+            currentAudioElement = a; a.volume = 0.4; a.currentTime = 0;
+            a.play().catch(() => {});
+            a.addEventListener('ended', function onEnd() {
+                a.removeEventListener('ended', onEnd);
                 if (!mainAudioStarted) return;
                 playNextMainTrack();
             });
-            
             updateMusicButton(true);
         }
     }
-
-    // Следим за появлением главной страницы
     const mainObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                const mainContent = document.getElementById('mainContent');
-                if (mainContent && mainContent.classList.contains('active')) {
-                    setTimeout(startMainMusic, 800);
-                }
+        mutations.forEach(m => {
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+                const mc = document.getElementById('mainContent');
+                if (mc && mc.classList.contains('active')) setTimeout(startMainMusic, 800);
             }
         });
     });
-
     function observeMainContent() {
-        const mainContent = document.getElementById('mainContent');
-        if (mainContent) {
-            mainObserver.observe(mainContent, { attributes: true });
-            if (mainContent.classList.contains('active')) {
-                setTimeout(startMainMusic, 500);
-            }
-        } else {
-            setTimeout(observeMainContent, 200);
-        }
+        const mc = document.getElementById('mainContent');
+        if (mc) {
+            mainObserver.observe(mc, { attributes: true });
+            if (mc.classList.contains('active')) setTimeout(startMainMusic, 500);
+        } else setTimeout(observeMainContent, 200);
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        observeMainContent();
-    });
-
-    window.addEventListener('load', function() {
-        setTimeout(observeMainContent, 100);
-    });
-
+    document.addEventListener('DOMContentLoaded', observeMainContent);
+    window.addEventListener('load', function() { setTimeout(observeMainContent, 100); });
     window.toggleMainMusic = toggleMainMusic;
-
-    // ===== ЛОГИКА ТЕЛЕВИЗОРОВ С РОТАЦИЕЙ КОНТЕНТА =====
-    document.addEventListener('DOMContentLoaded', function() {
-        // Данные для каждого телевизора
-        const tvData = {
-            0: {
-                achievements: [
-                    { badge: '🏆 Рекорд', category: 'Достижения', title: 'Лучший игрок сезона', player: 'Player_1842' },
-                    { badge: '🏆 Рекорд', category: 'Достижения', title: 'Мастер выживания', player: 'Survivor_4098' },
-                    { badge: '🏆 Рекорд', category: 'Достижения', title: 'Легенда арены', player: 'Legend_5123' }
-                ],
-                motivations: [
-                    { text: 'ВЕРЬ В MURKOFF', sub: 'ВЕРЬ В ТЕРАПИЮ' },
-                    { text: 'СИЛА В ЕДИНСТВЕ', sub: 'ВМЕСТЕ МЫ СИЛЬНЕЕ' },
-                    { text: 'НИКОГДА НЕ СДАВАЙСЯ', sub: 'ТЕРАПИЯ ЖДЁТ' }
-                ]
-            },
-            1: {
-                achievements: [
-                    { badge: '⚡ Рекорд', category: 'Скорость', title: 'Самое быстрое прохождение', player: 'SpeedDemon_2710' },
-                    { badge: '⚡ Рекорд', category: 'Скорость', title: 'Молниеносный рейд', player: 'Flash_6271' },
-                    { badge: '⚡ Рекорд', category: 'Скорость', title: 'Спринтер года', player: 'Runner_7345' }
-                ],
-                motivations: [
-                    { text: 'СКОРОСТЬ — ЭТО ЖИЗНЬ', sub: 'БЫСТРЕЕ ВЕТРА' },
-                    { text: 'ВРЕМЯ НЕ ЖДЁТ', sub: 'ДЕЙСТВУЙ СЕЙЧАС' },
-                    { text: 'ПОБЕДА ЛЮБИТ БЫСТРЫХ', sub: 'СТАНЬ ЛУЧШИМ' }
-                ]
-            },
-            2: {
-                achievements: [
-                    { badge: '💀 Рекорд', category: 'Убийства', title: 'Больше всех убийств', player: 'Killer_3356' },
-                    { badge: '💀 Рекорд', category: 'Убийства', title: 'Кошмарный сон', player: 'Nightmare_8429' },
-                    { badge: '💀 Рекорд', category: 'Убийства', title: 'Палач года', player: 'Executioner_9562' }
-                ],
-                motivations: [
-                    { text: 'ТЬМА ТВОЙ СОЮЗНИК', sub: 'СТАНЬ ЕЁ ЧАСТЬЮ' },
-                    { text: 'УЖАС — ЭТО ИСКУССТВО', sub: 'СОЗДАЙ ШЕДЕВР' },
-                    { text: 'БЕЗУМИЕ — ЭТО СИЛА', sub: 'ПРИМИ ЕГО' }
-                ]
-            }
-        };
-
-        function updateTvContent(tvIndex, contentIndex, contentType) {
-            const tvCard = document.querySelectorAll('.tv-card')[tvIndex];
-            if (!tvCard) return;
-            
-            const content = tvCard.querySelector('.tv-screen-content');
-            if (!content) return;
-            
-            content.classList.remove('fade-transition');
-            
-            setTimeout(() => {
-                let html = '';
-                
-                if (contentType === 'achievement') {
-                    const data = tvData[tvIndex].achievements[contentIndex % tvData[tvIndex].achievements.length];
-                    html = `
-                        <span class="tv-badge">${data.badge}</span>
-                        <div class="tv-category"><i class="fas ${data.category === 'Достижения' ? 'fa-trophy' : data.category === 'Скорость' ? 'fa-clock' : 'fa-skull'}"></i> ${data.category}</div>
-                        <div class="tv-title">${data.title}</div>
-                        <div class="tv-player"><i class="fas fa-user"></i> ${data.player}</div>
-                    `;
-                } else {
-                    const data = tvData[tvIndex].motivations[contentIndex % tvData[tvIndex].motivations.length];
-                    html = `
-                        <div class="tv-motivation">${data.text}</div>
-                        <div class="tv-sub-motivation">${data.sub}</div>
-                    `;
-                }
-                
-                content.innerHTML = html;
-                content.classList.add('fade-transition');
-            }, 400);
-        }
-
-        function startTvRotation() {
-            const tvCount = 3;
-            const achievementCount = 3;
-            const motivationCount = 3;
-            
-            const states = [];
-            
-            for (let i = 0; i < tvCount; i++) {
-                states.push({
-                    achievementIndex: 0,
-                    motivationIndex: 0,
-                    isAchievement: true
-                });
-            }
-            
-            function rotateAll() {
-                for (let i = 0; i < tvCount; i++) {
-                    const state = states[i];
-                    
-                    if (state.isAchievement) {
-                        updateTvContent(i, state.achievementIndex, 'achievement');
-                        state.achievementIndex = (state.achievementIndex + 1) % achievementCount;
-                        
-                        if (state.achievementIndex === 0) {
-                            state.isAchievement = false;
-                        }
-                    } else {
-                        updateTvContent(i, state.motivationIndex, 'motivation');
-                        state.motivationIndex = (state.motivationIndex + 1) % motivationCount;
-                        
-                        if (state.motivationIndex === 0) {
-                            state.isAchievement = true;
-                        }
-                    }
-                }
-            }
-
-            setTimeout(() => {
-                for (let i = 0; i < tvCount; i++) {
-                    updateTvContent(i, 0, 'achievement');
-                }
-            }, 500);
-
-            setInterval(rotateAll, 15000);
-        }
-
-        setTimeout(startTvRotation, 1000);
-    });
 </script>
 
 <div class="main-wrapper">
-    <!-- ====== СТРАНИЦА ВХОДА ====== -->
-    <div id="loginPage" class="login-overlay">
-        <div class="login-header">
-            <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
-            <div class="sub"><i class="fas fa-skull"></i> идентификация · терапия <i class="fas fa-skull"></i></div>
-        </div>
-
-        <form id="loginForm" autocomplete="off">
-            <div class="input-group">
-                <label><i class="fas fa-id-card"></i> Идентификационный номер</label>
-                <i class="fas fa-user input-icon"></i>
-                <input type="text" id="userId" placeholder="Введите ID" value="">
-            </div>
-            <div class="input-group">
-                <label><i class="fas fa-lock"></i> Пароль доступа</label>
-                <i class="fas fa-key input-icon"></i>
-                <input type="password" id="userPassword" placeholder="Введите пароль" value="">
-            </div>
-            <div class="login-actions">
-                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt"></i> Войти в убежище</button>
-            </div>
-            <div id="loginError" class="login-error"></div>
-            <div class="login-footer">
-                <i class="fas fa-shield-alt"></i> доступ только для избранных
-            </div>
-        </form>
-    </div>
 
     <!-- ====== ЭКРАН ПОДКЛЮЧЕНИЯ ====== -->
-    <div id="connectScreen" class="connect-screen">
+    <div id="connectScreen" class="connect-screen active">
         <div class="connect-content">
             <div class="connect-logo">
                 <span class="line1">ДОБРО ПОЖАЛОВАТЬ В</span>
                 <img src="images/лого.png" alt="Курилка Синьялы" class="logo-img">
                 <span class="line3">THE OUTLAST TRIALS</span>
             </div>
-
             <div id="connectPrompt" class="connect-prompt">
-                <i class="fas fa-hand-pointer"></i> нажмите любую кнопку для подключения
+                <i class="fas fa-hand-pointer"></i> нажмите в любом месте для подключения
             </div>
-
             <div id="connectStatus" class="connect-status">
                 <div class="spinner"></div>
                 <div class="label">ИДЕТ ПОДКЛЮЧЕНИЕ</div>
             </div>
         </div>
-
         <div class="connect-hint"><i class="fas fa-shield-alt"></i> защищенный канал</div>
     </div>
 
@@ -1773,7 +952,6 @@
                 <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
                 <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
                 <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
-                
                 <button class="music-toggle" id="musicToggleBtn" onclick="toggleMainMusic()" title="Включить/выключить музыку">
                     <span class="icon fa-solid fa-volume-xmark"></span>
                     <span class="label">Выкл</span>
@@ -1781,96 +959,131 @@
             </div>
         </div>
 
-        <!-- Увеличенный заголовок -->
+        <!-- Заголовок -->
         <div class="hero-title">
             <h2>Добро пожаловать в Курилку</h2>
         </div>
 
-        <!-- ====== 3 ТЕЛЕВИЗОРА С ДОСТИЖЕНИЯМИ ====== -->
-        <div class="tv-section">
-            <div class="tv-card">
-                <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
-                    <div class="tv-screen-content">
-                        <span class="tv-badge">🏆 Рекорд</span>
-                        <div class="tv-category"><i class="fas fa-trophy"></i> Достижения</div>
-                        <div class="tv-title">Лучший игрок сезона</div>
-                        <div class="tv-player"><i class="fas fa-user"></i> Player_1842</div>
-                    </div>
-                </div>
-            </div>
+        <!-- ====== СЛАЙДЕР НОВОСТЕЙ ====== -->
+        <div class="news-slider-block">
+            <div class="news-slider-container">
+                <div class="news-slider-btn news-slider-btn-left" id="newsPrevBtn"><i class="fas fa-chevron-left"></i></div>
+                <div class="news-slider-track-wrapper">
+                    <div class="news-slider-track" id="newsSliderTrack">
 
-            <div class="tv-card">
-                <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
-                    <div class="tv-screen-content">
-                        <span class="tv-badge">⚡ Рекорд</span>
-                        <div class="tv-category"><i class="fas fa-clock"></i> Скорость</div>
-                        <div class="tv-title">Самое быстрое прохождение</div>
-                        <div class="tv-player"><i class="fas fa-user"></i> SpeedDemon_2710</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tv-card">
-                <div class="tv-image">
-                    <img src="images/телевизор.png" alt="Телевизор" onerror="this.src='https://placehold.co/600x338/1a1a2e/e25d32?text=📺'">
-                    <div class="tv-screen-content">
-                        <span class="tv-badge">💀 Рекорд</span>
-                        <div class="tv-category"><i class="fas fa-skull"></i> Убийства</div>
-                        <div class="tv-title">Больше всех убийств</div>
-                        <div class="tv-player"><i class="fas fa-user"></i> Killer_3356</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ====== СТАТИСТИКА ====== -->
-        <div class="stats-grid">
-            <div class="stat-card"><i class="fas fa-users" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">340+</div><p>выживших</p></div>
-            <div class="stat-card"><i class="fas fa-calendar-week" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">12+</div><p>рейдов в месяц</p></div>
-            <div class="stat-card"><i class="fas fa-trophy" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">28</div><p>ролей</p></div>
-            <div class="stat-card"><i class="fas fa-fire" style="color:#e16d48; font-size:1.8rem;"></i><div class="stat-number">100%</div><p>атмосферы</p></div>
-        </div>
-
-        <!-- ====== СЛАЙДЕР ====== -->
-        <div class="slider-block">
-            <div class="slider-container">
-                <div class="slider-btn slider-btn-left" id="prevBtn"><i class="fas fa-chevron-left"></i></div>
-                <div class="slider-track-wrapper">
-                    <div class="slider-track" id="sliderTrack">
-                        <div class="slider-slide">
-                            <div class="slide-image"><img src="https://i.imgur.com/6ZRqjqY.png" alt="Краб-убежище" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Краб-убежище'"></div>
-                            <div class="slide-text">
-                                <h2>Сезон «Краб-убежище»</h2>
-                                <p>Новое испытание с крабом-мутантом. Эксклюзивные награды ждут смельчаков.</p>
-                                <span class="badge-slider"><i class="fas fa-calendar-alt"></i> 14 дней до конца</span>
+                        <div class="news-slide">
+                            <div class="news-slide-image">
+                                <img src="images/новость 1.webp" alt="Обновление Терапия 2.0"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Терапия+2.0'">
                             </div>
-                        </div>
-                        <div class="slider-slide">
-                            <div class="slide-image"><img src="https://i.imgur.com/3Lp7Q4M.png" alt="Турнир" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Дымная+битва'"></div>
-                            <div class="slide-text">
-                                <h2>🏆 Турнир «Дымная битва»</h2>
-                                <p>Соревнования на скорость. Призовой фонд 5000₽, регистрация до 20 июня.</p>
-                                <span class="badge-slider"><i class="fas fa-trophy"></i> Призовой фонд: 5000₽</span>
-                            </div>
-                        </div>
-                        <div class="slider-slide">
-                            <div class="slide-image"><img src="https://i.imgur.com/8YxqZ5L.png" alt="Обновление" onerror="this.src='https://placehold.co/600x400/1a1a2e/e16d48?text=Терапия+2.0'"></div>
-                            <div class="slide-text">
-                                <h2>🎮 Обновление «Терапия 2.0»</h2>
+                            <div class="news-slide-text">
+                                <h2><i class="fas fa-download"></i>Обновление «Терапия 2.0»</h2>
                                 <p>Новая карта, враги и система прогрессии. Уже доступно на сервере.</p>
-                                <span class="badge-slider"><i class="fas fa-download"></i> Обновитесь сейчас</span>
+                                <span class="news-badge-slider"><i class="fas fa-download"></i>Обновитесь сейчас</span>
                             </div>
                         </div>
+
+                        <div class="news-slide">
+                            <div class="news-slide-image">
+                                <img src="images/новость 2.webp" alt="Сезон Краб-убежище"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Краб-убежище'">
+                            </div>
+                            <div class="news-slide-text">
+                                <h2><i class="fas fa-crown"></i>Сезон «Краб-убежище»</h2>
+                                <p>Новое испытание с крабом-мутантом. Эксклюзивные награды ждут смельчаков.</p>
+                                <span class="news-badge-slider"><i class="fas fa-calendar-alt"></i>14 дней до конца</span>
+                            </div>
+                        </div>
+
+                        <div class="news-slide">
+                            <div class="news-slide-image">
+                                <img src="images/новость 3.webp" alt="Турнир Дымная битва"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Дымная+битва'">
+                            </div>
+                            <div class="news-slide-text">
+                                <h2><i class="fas fa-trophy"></i>Турнир «Дымная битва»</h2>
+                                <p>Соревнования на скорость. Призовой фонд 5000₽, регистрация до 20 июня.</p>
+                                <span class="news-badge-slider"><i class="fas fa-trophy"></i>Призовой фонд: 5000₽</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="slider-btn slider-btn-right" id="nextBtn"><i class="fas fa-chevron-right"></i></div>
+                <div class="news-slider-btn news-slider-btn-right" id="newsNextBtn"><i class="fas fa-chevron-right"></i></div>
             </div>
-            <div class="slider-dots" id="sliderDots">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+            <div class="news-slider-dots" id="newsSliderDots">
+                <div class="news-dot active"></div>
+                <div class="news-dot"></div>
+                <div class="news-dot"></div>
+            </div>
+        </div>
+
+        <!-- ====== СТАТИСТИКА (3 карточки) ====== -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-number">55</div>
+                <p>участников</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-number">34</div>
+                <p>уникальных ролей</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-fire"></i>
+                <div class="stat-number">100%</div>
+                <p>атмосферы</p>
+            </div>
+        </div>
+
+        <!-- ====== ТОП ИГРОКОВ ====== -->
+        <div class="top-players-block">
+            <div class="top-players-header">
+                <h2>Топ игроков</h2>
+                <a href="invasion.html" class="leaderboard-btn">
+                    Таблица лидеров <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="top-players-grid">
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 1.webp');"></div>
+                    <div class="player-name">LJ_l_l</div>
+                    <div class="player-stat">Выпущенные реагенты <span class="stat-value">2.679</span></div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 2.webp');"></div>
+                    <div class="player-name">LJ_l_l</div>
+                    <div class="player-stat">Престиж <span class="stat-value">547</span></div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 3.webp');"></div>
+                    <div class="player-name">Chinpako</div>
+                    <div class="player-stat">Очки вторжения <span class="stat-value">400.050</span></div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 4.webp');"></div>
+                    <div class="player-name">l-nwn-l</div>
+                    <div class="player-stat">Победы в армпстслинге <span class="stat-value">130.002</span></div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 5.webp');"></div>
+                    <div class="player-name">l-nwn-l</div>
+                    <div class="player-stat">Победы в шахматах <span class="stat-value">19.444</span></div>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-emblem" style="background-image:url('images/эмблема 6.webp');"></div>
+                    <div class="player-name">l-nwn-l</div>
+                    <div class="player-stat">Победы в теннисе <span class="stat-value">10.002</span></div>
+                </div>
+
             </div>
         </div>
 
@@ -1885,7 +1098,6 @@
             <a href="#" class="discord-button"><i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD</a>
         </div>
 
-        <!-- ====== ФУТЕР ====== -->
         <footer>
             <img src="images/лого.png" alt="Курилка Синьялы" class="footer-logo">
             <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
@@ -1896,68 +1108,16 @@
 </div>
 
 <script>
-    // ===== СПИСОК ДОПУЩЕННЫХ ID =====
-    const validIds = [
-        '1842', '2710', '3356', '4098', '5123',
-        '6271', '7345', '8429', '9562', '1083'
-    ];
-    const COMMON_PASSWORD = 'outlast';
-
-    // ===== ПРОВЕРКА MAINTENANCE.TXT =====
+    // ===== MAINTENANCE.TXT =====
     async function checkMaintenance() {
         try {
-            const response = await fetch('maintenance.txt?_=' + Date.now());
-            if (!response.ok) {
-                return 0;
-            }
-            const text = await response.text();
-            const status = parseInt(text.trim(), 10);
-            return isNaN(status) ? 0 : status;
-        } catch (error) {
-            return 0;
-        }
+            const r = await fetch('maintenance.txt?_=' + Date.now());
+            if (!r.ok) return 0;
+            const t = await r.text();
+            const s = parseInt(t.trim(), 10);
+            return isNaN(s) ? 0 : s;
+        } catch (e) { return 0; }
     }
-
-    // ===== ЛОГИКА ВХОДА =====
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const id = document.getElementById('userId').value.trim();
-        const pass = document.getElementById('userPassword').value.trim();
-        const errorEl = document.getElementById('loginError');
-
-        if (validIds.includes(id) && pass === COMMON_PASSWORD) {
-            document.getElementById('loginPage').style.display = 'none';
-            const connectScreen = document.getElementById('connectScreen');
-            connectScreen.classList.add('active');
-            errorEl.textContent = '';
-
-            const audio = document.getElementById('bgAudio');
-            if (audio) {
-                const maintenanceStatus = await checkMaintenance();
-                
-                if (maintenanceStatus === 1) {
-                    audio.src = 'images/loading 3.mp3';
-                    audio.volume = 0.35;
-                    audio.currentTime = 0;
-                    audio.load();
-                    
-                    connectScreen.classList.remove('active');
-                    document.getElementById('errorScreen').classList.add('active');
-                    return;
-                } else {
-                    const normalFile = window.normalAudioFile || 'loading 2.mp3';
-                    if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src || audio.src === '') {
-                        audio.src = 'images/' + normalFile;
-                        audio.volume = 0.35;
-                        audio.currentTime = 0;
-                        audio.load();
-                    }
-                }
-            }
-        } else {
-            errorEl.textContent = '❌ Неверный идентификатор или пароль. Попробуйте снова.';
-        }
-    });
 
     // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
     const connectScreen = document.getElementById('connectScreen');
@@ -1972,39 +1132,26 @@
         if (!audio) return;
         if (!connectScreen.classList.contains('active')) return;
         if (!audio.paused) return;
-        
-        if (audio.readyState >= 2) {
+        if (audio.readyState >= 2) audio.play().catch(() => {});
+        else audio.addEventListener('canplaythrough', function onPlay() {
             audio.play().catch(() => {});
-        } else {
-            audio.addEventListener('canplaythrough', function onPlay() {
-                audio.play().catch(() => {});
-                audio.removeEventListener('canplaythrough', onPlay);
-            }, { once: true });
-        }
+            audio.removeEventListener('canplaythrough', onPlay);
+        }, { once: true });
     }
 
     const connectObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                if (connectScreen.classList.contains('active')) {
-                    setTimeout(startAudioOnConnect, 200);
-                }
+        mutations.forEach(function(m) {
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+                if (connectScreen.classList.contains('active')) setTimeout(startAudioOnConnect, 200);
             }
         });
     });
-
-    if (connectScreen) {
-        connectObserver.observe(connectScreen, { attributes: true });
-    }
+    if (connectScreen) connectObserver.observe(connectScreen, { attributes: true });
 
     async function startConnectionProcess() {
         if (isProcessing) return;
         isProcessing = true;
-
-        if (audio && audio.paused) {
-            audio.play().catch(() => {});
-        }
-
+        if (audio && audio.paused) audio.play().catch(() => {});
         connectPrompt.style.display = 'none';
         connectStatus.classList.add('active');
 
@@ -2013,57 +1160,34 @@
         if (maintenanceStatus === 1) {
             if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
                 audio.src = 'images/loading 3.mp3';
-                audio.volume = 0.35;
-                audio.currentTime = 0;
-                audio.load();
+                audio.volume = 0.35; audio.currentTime = 0; audio.load();
                 audio.addEventListener('canplaythrough', function onPlay() {
                     audio.play().catch(() => {});
                     audio.removeEventListener('canplaythrough', onPlay);
                 }, { once: true });
-            } else if (audio && audio.paused) {
-                audio.play().catch(() => {});
-            }
-            
+            } else if (audio && audio.paused) audio.play().catch(() => {});
             const delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
-            console.log('⏳ Ошибка, ожидание:', delay / 1000, 'секунд');
-            
-            await new Promise(resolve => {
-                connectionTimer = setTimeout(resolve, delay);
-            });
-
+            await new Promise(resolve => { connectionTimer = setTimeout(resolve, delay); });
             connectScreen.classList.remove('active');
             errorScreen.classList.add('active');
-            
         } else {
             if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
                 const normalFile = window.normalAudioFile || 'loading 2.mp3';
                 audio.src = 'images/' + normalFile;
-                audio.volume = 0.35;
-                audio.currentTime = 0;
-                audio.load();
+                audio.volume = 0.35; audio.currentTime = 0; audio.load();
                 audio.addEventListener('canplaythrough', function onPlay() {
                     audio.play().catch(() => {});
                     audio.removeEventListener('canplaythrough', onPlay);
                 }, { once: true });
-            } else if (audio && audio.paused) {
-                audio.play().catch(() => {});
-            }
-            
+            } else if (audio && audio.paused) audio.play().catch(() => {});
             const delay = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
-            console.log('⏳ Штатный режим, ожидание:', delay / 1000, 'секунд');
-            
-            await new Promise(resolve => {
-                connectionTimer = setTimeout(resolve, delay);
-            });
+            await new Promise(resolve => { connectionTimer = setTimeout(resolve, delay); });
 
             const finalStatus = await checkMaintenance();
-
             if (finalStatus === 1) {
                 if (audio) {
                     audio.src = 'images/loading 3.mp3';
-                    audio.volume = 0.35;
-                    audio.currentTime = 0;
-                    audio.load();
+                    audio.volume = 0.35; audio.currentTime = 0; audio.load();
                     audio.addEventListener('canplaythrough', function onPlay() {
                         audio.play().catch(() => {});
                         audio.removeEventListener('canplaythrough', onPlay);
@@ -2075,104 +1199,78 @@
                 connectScreen.classList.remove('active');
                 document.getElementById('mainContent').classList.add('active');
                 document.body.classList.add('scroll-enabled');
-                
-                if (audio) {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }
-                
+                if (audio) { audio.pause(); audio.currentTime = 0; }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
-        
         isProcessing = false;
         connectionTimer = null;
     }
 
-    connectScreen.addEventListener('click', function(e) {
-        if (isProcessing) return;
-        if (connectPrompt.style.display !== 'none') {
-            startConnectionProcess();
-        }
-    });
-
-    connectPrompt.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (isProcessing) return;
-        startConnectionProcess();
-    });
-
-    document.addEventListener('keydown', function(e) {
+    connectScreen.addEventListener('click', function() { if (!isProcessing) startConnectionProcess(); });
+    connectPrompt.addEventListener('click', function(e) { e.stopPropagation(); if (!isProcessing) startConnectionProcess(); });
+    document.addEventListener('keydown', function() {
         if (!connectScreen.classList.contains('active')) return;
         if (isProcessing) return;
         if (connectPrompt.style.display === 'none') return;
         startConnectionProcess();
     });
-
-    // ===== ПОВТОРНАЯ ПОПЫТКА =====
     document.getElementById('retryBtn').addEventListener('click', function() {
-        if (connectionTimer) {
-            clearTimeout(connectionTimer);
-            connectionTimer = null;
-        }
+        if (connectionTimer) { clearTimeout(connectionTimer); connectionTimer = null; }
         isProcessing = false;
-
         errorScreen.classList.remove('active');
         connectScreen.classList.add('active');
         connectPrompt.style.display = 'block';
         connectStatus.classList.remove('active');
-
         if (audio) {
             const normalFile = window.normalAudioFile || 'loading 2.mp3';
             if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
                 audio.src = 'images/' + normalFile;
-                audio.volume = 0.35;
-                audio.currentTime = 0;
-                audio.load();
+                audio.volume = 0.35; audio.currentTime = 0; audio.load();
             }
             setTimeout(startAudioOnConnect, 300);
         }
-
         setTimeout(() => {
-            if (connectScreen.classList.contains('active') && !isProcessing) {
-                startConnectionProcess();
-            }
+            if (connectScreen.classList.contains('active') && !isProcessing) startConnectionProcess();
         }, 800);
     });
 
-    // ===== СЛАЙДЕР =====
-    const track = document.getElementById('sliderTrack');
-    const slides = document.querySelectorAll('.slider-slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    let autoSlide;
+    // ===== СЛАЙДЕР НОВОСТЕЙ =====
+    (function initNewsSlider() {
+        const track = document.getElementById('newsSliderTrack');
+        const slides = document.querySelectorAll('.news-slide');
+        const dots = document.querySelectorAll('.news-dot');
+        const prevBtn = document.getElementById('newsPrevBtn');
+        const nextBtn = document.getElementById('newsNextBtn');
+        if (!track || slides.length === 0) return;
 
-    function updateSlider() {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentIndex));
-    }
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let autoSlide;
 
-    function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateSlider(); resetAuto(); }
-    function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateSlider(); resetAuto(); }
-    function goToSlide(idx) { currentIndex = idx; updateSlider(); resetAuto(); }
+        function update() {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+        }
+        function next() { currentIndex = (currentIndex + 1) % totalSlides; update(); resetAuto(); }
+        function prev() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; update(); resetAuto(); }
+        function goTo(i) { currentIndex = i; update(); resetAuto(); }
+        function startAuto() { autoSlide = setInterval(next, 12000); }
+        function resetAuto() { clearInterval(autoSlide); startAuto(); }
 
-    function startAuto() { autoSlide = setInterval(nextSlide, 30000); }
-    function resetAuto() { clearInterval(autoSlide); startAuto(); }
+        if (prevBtn) prevBtn.addEventListener('click', prev);
+        if (nextBtn) nextBtn.addEventListener('click', next);
+        dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-    dots.forEach((dot, idx) => dot.addEventListener('click', () => goToSlide(idx)));
+        const block = document.querySelector('.news-slider-block');
+        if (block) {
+            block.addEventListener('mouseenter', () => clearInterval(autoSlide));
+            block.addEventListener('mouseleave', startAuto);
+        }
+        startAuto();
+    })();
 
-    const sliderBlock = document.querySelector('.slider-block');
-    if (sliderBlock) {
-        sliderBlock.addEventListener('mouseenter', () => clearInterval(autoSlide));
-        sliderBlock.addEventListener('mouseleave', startAuto);
-    }
-    startAuto();
-
+    // ===== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ =====
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -2183,7 +1281,7 @@
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
-    document.querySelectorAll('.stat-card, .slider-block, .social-block').forEach(el => {
+    document.querySelectorAll('.stat-card, .news-slider-block, .top-players-block, .social-block').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.5s ease-out';
