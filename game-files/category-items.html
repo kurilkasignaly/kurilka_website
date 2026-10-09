@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Предметы — The Outlast Trials | Курилка Синьялы</title>
+    <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
+    <link rel="shortcut icon" href="../images/лого.png" type="image/png">
+    <link rel="apple-touch-icon" href="../images/лого.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f0eef7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== HEADER (единый) ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0.8rem 2rem;
+            background: rgba(8, 6, 15, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 80px;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            transition: all 0.3s;
+            animation: fadeInScale 0.6s ease-out;
+        }
+
+        .header:hover {
+            border-color: rgba(220, 90, 50, 0.5);
+            box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
+        .logo .logo-text {
+            font-size: 1.4rem; font-weight: 800;
+            background: linear-gradient(135deg, #fbc2a0, #e25d32);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; white-space: nowrap;
+        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0; }
+        .logo p i { color: #e16d48; font-size: 0.7rem; }
+
+        /* Навигация */
+        .nav-links {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
+            border: 1px solid rgba(210, 100, 55, 0.15);
+        }
+        .nav-btn {
+            background: transparent; border: none;
+            padding: 0.5rem 0.9rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.78rem; cursor: pointer;
+            color: #b5a8c8; transition: all 0.3s; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 5px;
+            text-decoration: none;
+        }
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, #bc4627, #e25d32);
+            color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
+        }
+
+        /* Хлебные крошки */
+        .breadcrumb { margin-bottom: 1.5rem; animation: fadeInScale 0.6s ease-out; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: #e16d48; text-decoration: none; font-size: 0.9rem;
+            transition: all 0.3s ease; background: rgba(18, 12, 28, 0.5);
+            padding: 0.5rem 1rem; border-radius: 40px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+        }
+        .back-link:hover { color: white; transform: translateX(-5px); border-color: #e16d48; }
+
+        /* Основная статья */
+        .article-wrapper {
+            background: rgba(18, 12, 28, 0.45);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid rgba(220, 90, 50, 0.25);
+            overflow: hidden;
+            animation: fadeInScale 0.6s ease-out 0.1s backwards;
+        }
+
+        .article-content { padding: 2rem; }
+
+        /* Интро без картинки (по центру) */
+        .character-intro {
+            display: flex; flex-wrap: wrap; gap: 2rem;
+            margin-bottom: 2rem; align-items: flex-start;
+        }
+
+        .character-title { flex: 1; min-width: 250px; }
+
+        .character-name {
+            font-size: 2.2rem; font-weight: 800;
+            background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin-bottom: 1rem;
+        }
+
+        .character-sub {
+            font-size: 0.9rem; color: #c2b9d4;
+            margin-bottom: 1rem; line-height: 1.6;
+        }
+
+        .character-sub i { color: #e16d48; width: 20px; }
+
+        .info-box {
+            background: rgba(220, 90, 50, 0.1);
+            border-left: 4px solid #e25d32;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+        }
+        .info-box p { color: #d1cce6; line-height: 1.6; }
+
+        /* Оглавление */
+        .toc {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px; padding: 1rem 1.2rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(220, 90, 50, 0.2);
+        }
+        .toc-title {
+            color: #e16d48; font-weight: 600; margin-bottom: 0.5rem;
+            font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .toc-title i { transition: transform 0.3s ease; }
+        .toc-title.collapsed i { transform: rotate(-90deg); }
+        .toc-list { list-style: none; padding-left: 1rem; margin-top: 0.8rem; transition: all 0.3s ease; }
+        .toc-list.collapsed { display: none; }
+        .toc-list li { margin: 0.5rem 0; }
+        .toc-list a { color: #c2b9d4; text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .toc-list a:hover { color: #e16d48; }
+
+        /* Секции */
+        .section { margin-top: 2rem; }
+        .section-title {
+            font-size: 1.5rem; font-weight: 700; color: #e16d48;
+            margin-bottom: 1rem; padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-text { color: #d1cce6; line-height: 1.7; font-size: 1rem; }
+        .section-text p { margin-bottom: 1rem; }
+
+        /* Список предметов */
+        .item-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+        .item-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #d1cce6;
+            line-height: 1.7;
+        }
+        .item-list li:last-child { border-bottom: none; }
+        .item-list li strong { color: #e16d48; font-weight: 700; }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem; text-align: center; padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3);
+            font-size: 0.75rem; background: rgba(8, 6, 15, 0.3);
+            backdrop-filter: blur(8px); border-radius: 50px;
+        }
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
+
+        @media (max-width: 850px) {
+            .container { padding: 0.8rem; }
+            .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+            .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+            .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+            .logo .logo-img { max-height: 40px; }
+            .logo .logo-text { font-size: 1.1rem; }
+            .article-content { padding: 1.2rem; }
+            .section-title { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+            .logo .logo-img { max-height: 32px; }
+            .logo .logo-text { font-size: 0.9rem; }
+            .logo { gap: 0.4rem; }
+            .character-name { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Фоновое видео -->
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+</video>
+
+<div class="container">
+    <!-- ===== НАВИГАЦИЯ (единая) ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+            <div>
+                <span class="logo-text">Курилка Синьялы</span>
+                <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+            <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+            <a href="../news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
+            <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+            <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+            <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        </div>
+    </div>
+
+    <!-- Хлебные крошки -->
+    <div class="breadcrumb">
+        <a href="about.html" class="back-link"><i class="fas fa-arrow-left"></i> Назад к категориям</a>
+    </div>
+
+    <!-- Основная статья -->
+    <div class="article-wrapper">
+        <div class="article-content">
+            <!-- Интро -->
+            <div class="character-intro">
+                <div class="character-title">
+                    <h1 class="character-name">Предметы</h1>
+                    <div class="character-sub">
+                        <p><i class="fas fa-tag"></i> Снаряжение</p>
+                        <p><i class="fas fa-box-open"></i> Тип: Инвентарные и тяжёлые предметы</p>
+                    </div>
+                    <div class="info-box">
+                        <p>Предметы (ориг. Outlast Trials Items) — снаряжение в игре The Outlast Trials, используемое протагонистами на испытаниях.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Оглавление -->
+            <div class="toc">
+                <div class="toc-title" id="tocToggle">
+                    Содержание <i class="fas fa-chevron-down"></i>
+                </div>
+                <ul class="toc-list" id="tocList">
+                    <li><a href="#intro">1. Описание</a></li>
+                    <li><a href="#quest">2. Побочное задание</a></li>
+                    <li><a href="#items">3. Предметы испытаний</a></li>
+                    <li><a href="#heavy">4. Тяжёлые предметы</a></li>
+                </ul>
+            </div>
+
+            <!-- Описание -->
+            <div class="section" id="intro">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> Описание</h2>
+                <div class="section-text">
+                    <p>Различные предметы на испытаниях, с которыми реагентам приходится взаимодействовать. Некоторые предметы служат просто для упрощения прохождения испытаний, такие как кирпичи или антидот. Однако на некоторых испытаниях есть необходимые предметы для прохождения, такие как дешифратор или микроволновый пульт. Помимо предметов, которые реагент кладёт к себе в инвентарь, существуют также тяжёлые предметы, которые необходимо держать двумя руками. Данные предметы не кладутся в инвентарь, и им свойственно вываливаться из рук при каких-нибудь обстоятельствах.</p>
+                </div>
+            </div>
+
+            <!-- Побочное задание -->
+            <div class="section" id="quest">
+                <h2 class="section-title"><i class="fas fa-scroll"></i> Побочное задание</h2>
+                <ul class="item-list">
+                    <li><strong>Плакаты</strong> — второстепенные предметы, развешанные в случайных местах на каждом испытании. За их сбор реагент получает дополнительную награду. Для одного игрока достаточно собрать 3 плаката, но если же игроков более одного, то 5.</li>
+                    <li><strong>Подарки</strong> — альтернатива плакатам во время действия временной программы «Зима приносит смерть». За их сбор реагент получает +2 жетона событий. Для одного игрока достаточно собрать 5 подарков, но если же игроков более одного, то 10.</li>
+                    <li><strong>Крысы</strong> — альтернатива плакатам во время действия временной программы «Токсический шок». За их сбор реагент получает +1 жетон событий. Для одного игрока достаточно собрать 5 крыс, но если же игроков более одного, то 10.</li>
+                    <li><strong>Схемы</strong> — альтернатива плакатам во время действия временной программы «Под наблюдением». За их сбор реагент получает +3 жетона событий. Для одного или более игроков достаточно собрать 3 схемы.</li>
+                </ul>
+            </div>
+
+            <!-- Предметы испытаний -->
+            <div class="section" id="items">
+                <h2 class="section-title"><i class="fas fa-toolbox"></i> Предметы испытаний</h2>
+                <ul class="item-list">
+                    <li><strong>Кирпич</strong> — небольшой кирпич, предназначенный для кратковременного оглушения врагов. Также кирпичом можно обезвредить различные вражеские ловушки. Кирпич можно кинуть во врага 2 раза, и после чего он полностью сломается. С надетой амфой «Сильная рука» кирпич немного сильнее оглушает врагов, но ломается с первого броска. С надетой амфой «Поломатор» бросок кирпича в закрытый контейнер открывает его.</li>
+                    <li><strong>Бутылка</strong> — одноразовая пустая бутылка, предназначенная для слабого кратковременного оглушения врагов или отвлекающего манёвра, кинув её в сторону. Также бутылкой можно обезвредить различные вражеские ловушки. Существует 4 вида бутылок, а именно из-под пива, двух газировок и острого соуса.</li>
+                    <li><strong>Антидот</strong> — хлорпромазин, предназначенный для мгновенного лечения от психоза или просто восстановления неполного рассудка.</li>
+                    <li><strong>Адреналин</strong> — бензедрин, предназначенный для временного повышения выносливости, который даёт неограниченный бег, прыжки и удары.</li>
+                    <li><strong>Отмычка</strong> — маленький предмет, предназначенный для отпирания запертых на электронный замок контейнеров и дверей. С надетой амфой «Мастер-взломщик» одну отмычку можно использовать дважды.</li>
+                    <li><strong>Слабое лекарство</strong> — маленькая бутылка с лекарством, предназначенная для лечения одного деления здоровья. С надетой амфой «Вторичное использование» после лечения тару из-под лекарства можно использовать, как бутылку.</li>
+                    <li><strong>Бинт</strong> — белая бинтовая повязка, предназначенная для лечения двух делений здоровья. Процесс лечения бинтами длится несколько секунд, но с надетой амфой «Эксперт по бинтам» это происходит быстрее.</li>
+                    <li><strong>Сильное лекарство</strong> — большая бутылка с лекарством, предназначенная для полного лечения здоровья. С надетой амфой «Вторичное использование» после лечения тару из-под лекарства можно использовать, как бутылку.</li>
+                    <li><strong>Малая батарея</strong> — небольшое устройство, предназначенное для частичной подзарядки прибора ночного видения. С надетой амфой «Замыкание» она частично восстанавливает снаряжение.</li>
+                    <li><strong>Большая батарея</strong> — большое устройство, предназначенное для полной подзарядки прибора ночного видения. С надетой амфой «Замыкание» она частично восстанавливает снаряжение.</li>
+                    <li><strong>Зарядка снаряжения</strong> — одноразовое зарядное устройство, предназначенное для мгновенной подзарядки снаряжения.</li>
+                    <li><strong>Шприц</strong> — медицинский шприц с атропином, предназначенный для оживления мёртвых союзников. С надетой амфой «Двойные дозы» один шприц можно использовать дважды.</li>
+                    <li><strong>Оживин</strong> — таблетка с атропином, предназначенная для добавления числа возрождений в одиночной игре.</li>
+                    <li><strong>Бустер батареи</strong> — усиленное устройство, предназначенное для полной подзарядки и увеличении заряжа прибора ночного видения. Находится в единственном экземпляре в секретной комнате на большом испытании. С надетой амфой «Усиление» может случайно оказаться в инвентаре в начале испытания. Также с надетой амфой «Замыкание» он полностью восстанавливает снаряжение.</li>
+                    <li><strong>Бустер выносливости</strong> — усиленный адреналин, предназначенный для восстановления и длительного повышения выносливости. Находится в единственном экземпляре в секретной комнате на большом испытании. С надетой амфой «Усиление» может случайно оказаться в инвентаре в начале испытания.</li>
+                    <li><strong>Бустер здоровья</strong> — большая бутылка с усиленным лекарством, предназначенная для полного лечения здоровья и добавления дополнительного деления. Находится в единственном экземпляре в секретной комнате на большом испытании. С надетой амфой «Усиление» может случайно оказаться в инвентаре в начале испытания.</li>
+                    <li><strong>Главный ключ</strong> — специальный неограниченный ключ, предназначенный для стопроцентного и быстрого отпирания запертых на электронный замок контейнеров и дверей. Находится в единственном экземпляре в секретной комнате на большом испытании.</li>
+                    <li><strong>Микроволновый пульт</strong> — специальный пульт, предназначенный для активации заряда на головах козлов отпущения. Воздействие на заряд длится несколько секунд (Оправдать виновного, Сбегите из суда, Порадуйте прокурора).</li>
+                    <li><strong>Датчик</strong> — специальный датчик, предназначенный для выявления местоположения козлов отпущения с помощью загорающихся при приближении к цели пяти индикаторов (Оправдать виновного, Сбегите из суда, Порадуйте прокурора).</li>
+                    <li><strong>Сердце</strong> — настоящее сердце, предназначенное для метания по мишеням аттракционов и Футтерманов. Также сердцем можно обезвредить вражеские мины и взрывные ловушки (Измельчите негодяев, Просверлить Футтермана, Сломайте Футтерманов).</li>
+                    <li><strong>Пакет с наркотиками</strong> — маленький пакет с наркотиками, предназначенный для того, что спрятать его в брюшной полости человека или бочке (Отравите лекарство, Спрячьте контрабанду).</li>
+                    <li><strong>Дешифратор</strong> — специальный пульт, предназначенный для расшифровки нарисованных символов, чтобы получить кодовые цифры от ячеек-головоломок (Отравите лекарство, Опустошите хранилище).</li>
+                    <li><strong>Восстановитель здоровья</strong> — таблетка, предназначенная для добавления делений здоровья во время вариатора с одной ячейкой здоровья в начале испытания во время Еженедельной терапии или Эскалации.</li>
+                    <li><strong>Продлеватель времени</strong> — одноразовое устройство во время действия временной программы «Обратный отсчёт», предназначенное для увеличения 1 минуты времени на бомбе (до 5 минут). Независимо от того, кто нашёл и активировал продлеватель, время на бомбах увеличится у всех.</li>
+                </ul>
+            </div>
+
+            <!-- Тяжёлые предметы -->
+            <div class="section" id="heavy">
+                <h2 class="section-title"><i class="fas fa-weight-hanging"></i> Тяжёлые предметы</h2>
+                <ul class="item-list">
+                    <li><strong>Канистра с топливом</strong> — тяжёлая канистра с бензином, предназначенная для заправки генератора (Убейте стукача, Саботируйте карантин, Причастите сирот, Воссоедините семью, Запитайте отпирающий механизм, Протокол Освобождения).</li>
+                    <li><strong>Отбеливатель</strong> — тяжёлый бутыль с отбеливателем, предназначенный для выливания в суповую смесь в чане (Накормить детей).</li>
+                    <li><strong>Киноплёнка</strong> — тяжёлая катушка с фильмом, предназначенная для вставления её в кинопроектор (Причастите сирот, Обучите полицейского, Протокол освобождения).</li>
+                    <li><strong>Ведро с кислотой</strong> — тяжёлое ведёрко с кислотой, предназначенное для уничтожения человеческих останков. Поскольку ведро открытое, с ним нельзя бегать и прыгать, так как это разбрызгивает кислоту и приносит вред здоровью.</li>
+                    <li><strong>Коробка с информацией</strong> — тяжёлая открытая коробка с документами, предназначенная либо для уничтожения её в измельчителе, либо же для поставки её на стол (Вводное испытание, Уничтожьте прошлое, Протокол освобождения).</li>
+                    <li><strong>Коробка с секс-игрушками</strong> — тяжёлая закрытая коробка с секс-игрушками, предназначенная либо для уничтожения её в прессовщике, либо же для изготовления секс-игрушки. Неправильные коробки в руках взрываются (Извратить Футтермана, Раздавите секс-игрушки).</li>
+                    <li><strong>Коробка с вещами</strong> — тяжёлая открытая коробка с вещами, предназначенная для доставления её в лодку (Опустошите хранилище).</li>
+                    <li><strong>Канистра с ядом</strong> — тяжёлая канистра с ядом, предназначенная либо для отравления наркотиков, либо для добавления её в отравляющий механизм. Длительное держание канистры в руках приводит к отравлению (Отравите лекарство, Отравите скот).</li>
+                    <li><strong>Голова</strong> — тяжёлая отсечённая человеческая голова из ячеек-головоломок, предназначенная для кидания её в фонтан для улик (Оправдать виновного).</li>
+                    <li><strong>Брикет с наркотиками</strong> — тяжёлый брикет наркотиков, предназначенный для поставки его в машину производства наркотиков (Отравите лекарство).</li>
+                    <li><strong>Манекен ребёнка</strong> — тяжёлый механический манекен в виде ребёнка, предназначенный либо для уничтожения его в измельчителе, либо же для погрузки в машину (Соберите детей божьих, Воссоедините семью, Накажите негодяев).</li>
+                    <li><strong>Садистический манекен</strong> — тяжёлый механический манекен в виде проститутки, предназначенный для установки на сцене или погрузки в кузов (Порадуйте прокурора, Похитьте любовницу).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
+        <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
+        <p style="margin-top: 8px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials<br> Дым, ужас и папиросы ❤️‍🔥</p>
+    </footer>
+</div>
+
+<script>
+    // Оглавление
+    const tocToggle = document.getElementById('tocToggle');
+    const tocList = document.getElementById('tocList');
+    if (tocToggle && tocList) {
+        tocToggle.addEventListener('click', () => {
+            tocList.classList.toggle('collapsed');
+            tocToggle.classList.toggle('collapsed');
+        });
+    }
+
+    // Плавная прокрутка по якорям
+    document.querySelectorAll('.toc-list a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Плавное появление при скролле
+    function initScrollAnimation() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+        document.querySelectorAll('.article-wrapper, .breadcrumb').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initScrollAnimation();
+    });
+</script>
+
+</body>
+</html>
