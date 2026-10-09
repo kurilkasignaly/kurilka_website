@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Новости — Курилка Синьялы | The Outlast Trials</title>
-  <link rel="icon" href="logo.png" sizes="any">
+  <link rel="icon" href="../images/лого.png" type="image/png" sizes="64x64">
+  <link rel="shortcut icon" href="../images/лого.png" type="image/png">
+  <link rel="apple-touch-icon" href="../images/лого.png">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -44,32 +46,9 @@
       z-index: -1;
     }
 
-    @keyframes floatSmoke {
-      0% { transform: translateY(0) scale(1); opacity: 0; }
-      20% { opacity: 0.2; }
-      80% { opacity: 0.1; }
-      100% { transform: translateY(-200px) scale(2.5); opacity: 0; }
-    }
-
-    .smoke-particle {
-      position: fixed;
-      bottom: -50px;
-      background: radial-gradient(circle, rgba(220,90,50,0.12) 0%, rgba(220,90,50,0) 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 1;
-      animation: floatSmoke linear infinite;
-    }
-
     @keyframes fadeInScale {
       0% { opacity: 0; transform: scale(0.95) translateY(20px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    @keyframes smokePulse {
-      0% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
-      50% { text-shadow: 0 0 12px #ffa366, 0 0 20px #c4451b; }
-      100% { text-shadow: 0 0 3px #ff9f6e, 0 0 8px #c2512c; }
     }
 
     .container {
@@ -80,21 +59,21 @@
       z-index: 10;
     }
 
-    /* Header */
+    /* ===== HEADER (единый) ===== */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      padding: 1.2rem 2rem;
+      padding: 0.8rem 2rem;
       background: rgba(8, 6, 15, 0.5);
       backdrop-filter: blur(16px);
       border-radius: 80px;
       margin-bottom: 2rem;
       gap: 1rem;
       border: 1px solid rgba(220, 90, 50, 0.25);
-      animation: fadeInScale 0.6s ease-out;
       transition: all 0.3s;
+      animation: fadeInScale 0.6s ease-out;
     }
 
     .header:hover {
@@ -102,65 +81,78 @@
       box-shadow: 0 0 20px rgba(220, 90, 50, 0.15);
     }
 
-    .logo h1 {
-      font-size: 2rem;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .logo .logo-text {
+      font-size: 1.4rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #fbc2a0, #e25d32, #ff9f6e);
-      background-size: 200% auto;
+      background: linear-gradient(135deg, #fbc2a0, #e25d32);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: smokePulse 3s ease-in-out infinite;
+      white-space: nowrap;
     }
 
     .logo p {
-      font-size: 0.8rem;
-      color: #c2b9d4;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 0.65rem;
+      color: #7a6a8a;
+      margin-top: 0;
+    }
+
+    .logo p i {
+      color: #e16d48;
+      font-size: 0.7rem;
     }
 
     /* Навигация */
     .nav-links {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.7rem;
+      align-items: center;
+      gap: 0.4rem;
       background: rgba(15, 10, 20, 0.4);
-      backdrop-filter: blur(12px);
-      padding: 0.6rem 1.3rem;
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.8rem;
       border-radius: 60px;
-      border: 1px solid rgba(210, 100, 55, 0.25);
+      border: 1px solid rgba(210, 100, 55, 0.15);
     }
 
     .nav-btn {
       background: transparent;
       border: none;
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 0.9rem;
       border-radius: 50px;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       cursor: pointer;
-      transition: all 0.3s ease;
-      color: #e2d9f0;
+      color: #b5a8c8;
+      transition: all 0.3s;
       font-family: inherit;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 5px;
       text-decoration: none;
     }
 
     .nav-btn:hover {
       color: white;
-      transform: translateY(-2px);
-      text-shadow: 0 0 6px rgba(220,90,50,0.4);
+      text-shadow: 0 0 8px rgba(220,90,50,0.3);
     }
 
     .nav-btn.active {
       background: linear-gradient(135deg, #bc4627, #e25d32);
       color: white;
-      box-shadow: 0 3px 12px rgba(188, 70, 39, 0.3);
+      box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
     }
 
     /* Бейдж для новостей */
@@ -191,13 +183,11 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: smokePulse 3s ease-in-out infinite;
       margin-bottom: 20px;
     }
 
     .page-title i {
       color: #e25d32;
-      text-shadow: 0 0 20px rgba(225, 93, 50, 0.4);
     }
 
     .page-description {
@@ -644,9 +634,6 @@
       border-color: #e25d32;
     }
 
-    /* ============================================================
-       ОСНОВНЫЕ СТИЛИ ДЛЯ КОНТЕНТА НОВОСТЕЙ (ЖИРНЫЙ + ОРАНЖЕВЫЙ)
-    ============================================================ */
     .news-content-detailed {
       max-height: 0;
       overflow: hidden;
@@ -662,19 +649,16 @@
       word-wrap: break-word;
     }
 
-    /* ВСЕ ЗАГЛАВНЫЕ СЛОВА В КОНТЕНТЕ — ЖИРНЫЕ И ОРАНЖЕВЫЕ */
     .news-content-detailed strong,
     .news-content-detailed b {
       font-weight: 700 !important;
       color: #e16d48 !important;
     }
 
-    /* Любой текст в верхнем регистре (капс) внутри контента */
     .news-content-detailed {
       text-transform: none;
     }
 
-    /* Дополнительно: стили для заголовков внутри новостей */
     .news-content-detailed h1,
     .news-content-detailed h2,
     .news-content-detailed h3,
@@ -722,58 +706,8 @@
       margin-bottom: 10px;
     }
 
-    /* Стиль для маркеров списка */
     .news-content-detailed ul li::marker {
       color: #e16d48;
-    }
-
-    /* Лайки */
-    .news-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .vote-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 50px;
-      color: #c2b9d4;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.85rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .vote-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .like-btn.active {
-      background: rgba(46, 204, 113, 0.15);
-      border-color: #2ecc71;
-      color: #2ecc71;
-    }
-
-    .dislike-btn.active {
-      background: rgba(231, 76, 60, 0.15);
-      border-color: #e74c3c;
-      color: #e74c3c;
-    }
-
-    .vote-btn i {
-      font-size: 14px;
-    }
-
-    .vote-btn span {
-      font-weight: 600;
     }
 
     /* Пустые состояния */
@@ -857,86 +791,6 @@
       transform: scale(1.1);
     }
 
-    /* Social block */
-    .social-block {
-      margin-top: 3rem;
-      text-align: center;
-      background: rgba(18, 12, 28, 0.45);
-      backdrop-filter: blur(12px);
-      border-radius: 48px;
-      padding: 2.5rem;
-      border: 1px solid rgba(220, 90, 50, 0.25);
-    }
-
-    .social-block h2 {
-      font-size: 1.8rem;
-      color: #fff;
-      margin-bottom: 0.8rem;
-    }
-
-    .social-block p {
-      color: #c2b9d4;
-      margin-bottom: 1.5rem;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .social-icon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .social-icon i {
-      font-size: 2.8rem;
-      transition: all 0.3s;
-    }
-
-    .social-icon span {
-      color: #c2b9d4;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .social-icon:hover {
-      transform: translateY(-4px);
-    }
-
-    .social-icon:hover i {
-      transform: scale(1.08);
-    }
-
-    .social-icon.discord i { color: #5865F2; }
-    .social-icon.twitch i { color: #9146FF; }
-
-    .discord-button {
-      display: inline-block;
-      background: linear-gradient(135deg, #5865F2, #4752C4);
-      padding: 12px 36px;
-      border-radius: 60px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.25);
-      font-size: 0.95rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    .discord-button:hover {
-      transform: scale(1.03);
-      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
-    }
-
     /* Footer */
     footer {
       margin-top: 3rem;
@@ -949,13 +803,20 @@
       border-radius: 50px;
     }
 
+    .footer-logo {
+      max-height: 32px;
+      width: auto;
+      margin-bottom: 0.5rem;
+    }
+
     /* Адаптивность */
     @media (max-width: 850px) {
-      .container { padding: 1rem; }
-      .header { flex-direction: column; border-radius: 40px; padding: 1rem; }
-      .nav-links { width: 100%; justify-content: center; padding: 0.6rem; gap: 0.4rem; }
-      .nav-btn { padding: 0.35rem 0.8rem; font-size: 0.65rem; }
-      .logo h1 { font-size: 1.5rem; }
+      .container { padding: 0.8rem; }
+      .header { flex-direction: column; padding: 0.8rem 1rem; border-radius: 40px; }
+      .nav-links { width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.3rem; }
+      .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
+      .logo .logo-img { max-height: 40px; }
+      .logo .logo-text { font-size: 1.1rem; }
       .page-title { font-size: 2.5rem; }
       .filter-container { flex-direction: column; }
       .search-box, .category-filter, .filter-actions { min-width: 100%; width: 100%; }
@@ -968,7 +829,13 @@
       .news-title { font-size: 1.3rem; }
       .news-card-header { flex-direction: column; align-items: flex-start; }
       .more-btn { width: 100%; justify-content: center; }
-      .social-icon i { font-size: 2.2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-btn { padding: 0.25rem 0.5rem; font-size: 0.6rem; gap: 3px; }
+      .logo .logo-img { max-height: 32px; }
+      .logo .logo-text { font-size: 0.9rem; }
+      .logo { gap: 0.4rem; }
     }
 
     @media (max-width: 480px) {
@@ -984,25 +851,9 @@
 
   <!-- Видео фон -->
   <video class="video-background" autoplay muted loop playsinline>
-    <source src="фон индекс.webm" type="video/webm">
-    <source src="фон индекс.mp4" type="video/mp4">
+    <source src="../images/фон индекс.webm" type="video/webm">
+    <source src="../images/фон индекс.mp4" type="video/mp4">
   </video>
-
-  <script>
-    function createSmoke() {
-      const smoke = document.createElement('div');
-      smoke.className = 'smoke-particle';
-      const size = Math.random() * 70 + 30;
-      smoke.style.width = size + 'px';
-      smoke.style.height = size + 'px';
-      smoke.style.left = Math.random() * 100 + '%';
-      smoke.style.animationDuration = Math.random() * 10 + 8 + 's';
-      smoke.style.animationDelay = Math.random() * 5 + 's';
-      document.body.appendChild(smoke);
-      setTimeout(() => smoke.remove(), 14000);
-    }
-    setInterval(createSmoke, 4000);
-  </script>
 
   <!-- Модальное окно для просмотра изображений -->
   <div id="imageModal" class="image-modal" onclick="closeImageModal()">
@@ -1011,31 +862,32 @@
   </div>
 
   <div class="container">
-    <!-- Шапка -->
+    <!-- ===== НАВИГАЦИЯ (единая) ===== -->
     <div class="header">
       <div class="logo">
-        <h1><i class="fas fa-smoking"></i> Курилка Синьялы</h1>
-        <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+        <img src="../images/лого.png" alt="Курилка Синьялы" class="logo-img" onerror="this.style.display='none'">
+        <div>
+          <span class="logo-text">Курилка Синьялы</span>
+          <p><i class="fab fa-discord"></i> неофициальное убежище · The Outlast Trials</p>
+        </div>
       </div>
       <div class="nav-links">
-        <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
-        <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Справочник ролей</a>
-        <a href="news.html" class="nav-btn active" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
-        <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-        <a href="invasion.html" class="nav-btn"><i class="fas fa-biohazard"></i> Invasion</a>
-        <a href="achievements.html" class="nav-btn"><i class="fas fa-medal"></i> Достижения</a>
-        <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
+        <a href="../index.html" class="nav-btn"><i class="fas fa-home"></i> Главная</a>
+        <a href="../roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
+        <a href="../news.html" class="nav-btn active" id="newsLink"><i class="fas fa-newspaper"></i> Новости</a>
+        <a href="../roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
+        <a href="../invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
+        <a href="../about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
       </div>
     </div>
 
     <!-- Заголовок -->
     <section class="page-header">
       <h1 class="page-title">
-        <i class="fas fa-newspaper"></i> НОВОСТИ
-      </h1>
+        <i></i>КУРИЛКА-NEWS</h1>
       <p class="page-description">
-        Будь в курсе всех событий Маунт-Массива!<br>
-        Обновления игры, новости сервера, анонсы ивентов — всё в одном месте.
+        В этом разделе Вы сможете ознакомиться со всеми грядущими или уже имеющимися обновлениями, исправлениями ошибок, а также с новыми ролями, которые в скором времени появятся на сайте.<br><br>
+        Следите за актуальными новостями, чтобы всегда быть в курсе последних событий и изменений!
       </p>
     </section>
 
@@ -1057,7 +909,6 @@
           <select id="category-select" class="category-select">
             <option value="all">Все категории</option>
             <option value="game">🎮 Новости игры</option>
-            <option value="server">🖥️ Новости сервера</option>
             <option value="site">💻 Новости сайта</option>
           </select>
         </div>
@@ -1118,27 +969,9 @@
       </div>
     </section>
 
-    <!-- Соцсети -->
-    <div class="social-block">
-      <h2><i class="fas fa-users"></i> Присоединяйся к сообществу</h2>
-      <p>Будь в курсе всех событий и ивентов</p>
-      <div class="social-icons">
-        <a href="https://discord.gg/HFdReFSx7" target="_blank" class="social-icon discord">
-          <i class="fab fa-discord"></i>
-          <span>Discord</span>
-        </a>
-        <a href="https://www.twitch.tv/lili___kim" target="_blank" class="social-icon twitch">
-          <i class="fab fa-twitch"></i>
-          <span>Twitch</span>
-        </a>
-      </div>
-      <a href="https://discord.gg/HFdReFSx7" target="_blank" class="discord-button">
-        <i class="fab fa-discord"></i> ПРИСОЕДИНИТЬСЯ К DISCORD
-      </a>
-    </div>
-
     <!-- Footer -->
     <footer>
+      <img src="../images/лого.png" alt="Курилка Синьялы" class="footer-logo" onerror="this.style.display='none'">
       <div><i class="fab fa-discord"></i> discord.gg/HFdReFSx7</div>
       <p style="margin-top: 10px;">«Курилка Синьялы» — неофициальное сообщество фанатов The Outlast Trials.<br>Дым, ужас и папиросы ❤️‍🔥</p>
       <p style="margin-top: 6px; font-size: 0.7rem;">© 2026 Курилка Синьялы | Все права защищены безумием</p>
@@ -1151,7 +984,6 @@
     // ОСНОВНАЯ ЛОГИКА НОВОСТЕЙ
     // ============================================================
 
-    // Функция для форматирования даты
     function formatDate(dateString) {
       const options = { 
         day: 'numeric', 
@@ -1163,25 +995,20 @@
       return new Date(dateString).toLocaleDateString('ru-RU', options);
     }
 
-    // Функция для получения цвета подкатегории
     function getSubcategoryColor(subcategoryName) {
       if (!subcategoryName) return '#888';
       if (subcategoryName === 'Новости игры') return '#e16d48';
-      if (subcategoryName === 'Новости сервера') return '#f1c40f';
       if (subcategoryName === 'Новости сайта') return '#2ecc71';
       return '#888';
     }
 
-    // Функция для получения иконки подкатегории
     function getSubcategoryIcon(subcategoryName) {
       if (!subcategoryName) return 'fa-tag';
       if (subcategoryName === 'Новости игры') return 'fa-gamepad';
-      if (subcategoryName === 'Новости сервера') return 'fa-server';
       if (subcategoryName === 'Новости сайта') return 'fa-code';
       return 'fa-tag';
     }
 
-    // Функция для анимации появления карточек
     function animateNewsCards() {
       const newsCards = document.querySelectorAll('.news-card-detailed');
       newsCards.forEach((card, index) => {
@@ -1191,7 +1018,6 @@
       });
     }
 
-    // Функция для отображения новостей
     function displayNews(newsToDisplay) {
       const newsList = document.getElementById('news-list');
       const emptyNews = document.getElementById('empty-news');
@@ -1220,29 +1046,20 @@
         const newsCard = document.createElement('div');
         newsCard.className = 'news-card-detailed';
         
-        // Определяем основную категорию для бейджа
         const categoryClass = item.category || 'regular';
-        const categoryName = item.category === 'major' ? '🔥 Крупное обновление' :
-                             item.category === 'hotfix' ? '🔧 Hotfix' :
-                             item.category === 'regular' ? '📰 Обновление' :
-                             '📢 Новости';
         
         const formattedDate = formatDate(item.date);
         const subcategoryName = item.subcategory || 'Новости';
         const subcolor = getSubcategoryColor(subcategoryName);
         const subicon = getSubcategoryIcon(subcategoryName);
         
-        // Форматируем контент с поддержкой HTML и делаем заглавные слова жирными
         let formattedContent = item.content
           .replace(/\\n/g, '\n')
           .replace(/\n/g, '<br>')
           .replace(/- /g, '• ')
           .replace(/• /g, '<span style="margin-left: 20px; display: inline-block;">• </span>');
         
-        // Автоматически оборачиваем заглавные слова в <strong> для жирности и оранжевого цвета
-        // Ищем последовательности из 3+ заглавных букв (кириллица или латиница)
         formattedContent = formattedContent.replace(/([А-ЯЁA-Z]{3,})/g, function(match) {
-          // Если текст уже внутри HTML-тега, пропускаем
           if (match.indexOf('<') !== -1) return match;
           return '<strong>' + match + '</strong>';
         });
@@ -1263,21 +1080,10 @@
             </button>
           </div>
           <div class="news-content-detailed">${formattedContent}</div>
-          <div class="news-actions">
-            <button class="vote-btn like-btn" data-vote="like">
-              <i class="fas fa-thumbs-up"></i>
-              <span class="like-count">0</span>
-            </button>
-            <button class="vote-btn dislike-btn" data-vote="dislike">
-              <i class="fas fa-thumbs-down"></i>
-              <span class="dislike-count">0</span>
-            </button>
-          </div>
         `;
         
         newsList.appendChild(newsCard);
         
-        // Обработчик для кнопки "Подробнее"
         const moreBtn = newsCard.querySelector('.more-btn');
         const contentBlock = newsCard.querySelector('.news-content-detailed');
         
@@ -1295,7 +1101,6 @@
             contentBlock.classList.add('expanded');
             this.innerHTML = '<span>Скрыть</span><i class="fas fa-chevron-up"></i>';
             
-            // Добавляем обработчики для изображений внутри новости
             setTimeout(function() {
               const images = contentBlock.querySelectorAll('img');
               images.forEach(function(img) {
@@ -1310,44 +1115,11 @@
             }, 50);
           }
         });
-        
-        // Обработчики для лайков
-        const likeBtn = newsCard.querySelector('.like-btn');
-        const dislikeBtn = newsCard.querySelector('.dislike-btn');
-        
-        likeBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const count = this.querySelector('.like-count');
-          const current = parseInt(count.textContent);
-          if (this.classList.contains('active')) {
-            this.classList.remove('active');
-            count.textContent = current - 1;
-          } else {
-            this.classList.add('active');
-            count.textContent = current + 1;
-            dislikeBtn.classList.remove('active');
-          }
-        });
-        
-        dislikeBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const count = this.querySelector('.dislike-count');
-          const current = parseInt(count.textContent);
-          if (this.classList.contains('active')) {
-            this.classList.remove('active');
-            count.textContent = current - 1;
-          } else {
-            this.classList.add('active');
-            count.textContent = current + 1;
-            likeBtn.classList.remove('active');
-          }
-        });
       });
       
       setTimeout(animateNewsCards, 100);
     }
 
-    // Функция для открытия изображения в полноэкранном режиме
     function openImageModal(imageSrc) {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
@@ -1356,35 +1128,29 @@
       document.body.style.overflow = 'hidden';
     }
 
-    // Функция для закрытия модального окна
     function closeImageModal() {
       const modal = document.getElementById('imageModal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
-    // Переменная для хранения текущих отфильтрованных новостей
     let currentFilteredNews = [];
 
-    // Функция для обновления отображения текущей категории
     function updateCurrentCategory(category) {
       const categoryText = document.getElementById('current-category-text');
       let categoryDisplay = 'Все';
       if (category === 'game') categoryDisplay = 'Новости игры';
-      else if (category === 'server') categoryDisplay = 'Новости сервера';
       else if (category === 'site') categoryDisplay = 'Новости сайта';
       
       categoryText.innerHTML = `Категория: <span class="category-name">${categoryDisplay}</span>`;
     }
 
-    // Функция для обновления статуса сортировки
     function updateSortStatus(sortType) {
       const statusElement = document.getElementById('sort-status');
       let statusText = sortType === 'newest' ? 'Сначала новые' : 'Сначала старые';
       statusElement.innerHTML = `Сортировка: <span class="status-text">${statusText}</span>`;
     }
 
-    // Функция для сортировки новостей
     function sortNews(newsToSort, sortType) {
       const sortedNews = [...newsToSort];
       if (sortType === 'newest') {
@@ -1394,7 +1160,6 @@
       }
     }
 
-    // Функция фильтрации новостей
     function filterNews() {
       const searchTerm = document.getElementById('news-search').value.toLowerCase();
       const selectedCategory = document.getElementById('category-select').value;
@@ -1407,7 +1172,6 @@
       if (selectedCategory !== 'all') {
         const categoryMap = {
           'game': 'Новости игры',
-          'server': 'Новости сервера',
           'site': 'Новости сайта'
         };
         const targetSubcategory = categoryMap[selectedCategory];
@@ -1430,7 +1194,6 @@
       displayNews(sortedNews);
     }
 
-    // Функция применения сортировки
     function applySorting() {
       const sortType = document.getElementById('sort-select').value;
       
@@ -1443,17 +1206,14 @@
       displayNews(sortedNews);
     }
 
-    // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', function() {
       
-      // Проверяем наличие новостей
       if (typeof news === 'undefined' || news.length === 0) {
         document.getElementById('empty-news').style.display = 'block';
         document.getElementById('results-count').querySelector('span').textContent = '0';
         return;
       }
       
-      // Инициализация
       updateCurrentCategory('all');
       updateSortStatus('newest');
       currentFilteredNews = news;
@@ -1461,20 +1221,15 @@
       const sortedNews = sortNews(news, 'newest');
       displayNews(sortedNews);
       
-      // Обработчики для фильтрации
       document.getElementById('news-search').addEventListener('input', filterNews);
       document.getElementById('category-select').addEventListener('change', filterNews);
-      
-      // Обработчики для сортировки
       document.getElementById('sort-select').addEventListener('change', applySorting);
       
-      // Кнопка очистки поиска
       document.getElementById('clear-search').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         filterNews();
       });
       
-      // Кнопка сброса фильтров
       document.getElementById('reset-filters').addEventListener('click', function() {
         document.getElementById('news-search').value = '';
         document.getElementById('category-select').value = 'all';
@@ -1482,7 +1237,6 @@
         filterNews();
       });
       
-      // Кнопка сброса сортировки
       document.getElementById('reset-sort').addEventListener('click', function() {
         document.getElementById('sort-select').value = 'newest';
         updateSortStatus('newest');
@@ -1495,14 +1249,12 @@
         displayNews(sortedNews);
       });
       
-      // Закрытие модального окна по Escape
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           closeImageModal();
         }
       });
 
-      // VIEWED NEWS BADGE
       const totalNews = news.length;
       const viewed = parseInt(localStorage.getItem('viewedNews') || '0', 10);
       const unread = Math.max(totalNews - viewed, 0);
