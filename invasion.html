@@ -1817,7 +1817,7 @@
         }
 
         // ============================================================
-        // ===== ВРЕМЕННОЕ ИМЯ ДЛЯ ВСЕХ ИГРОКОВ ====================
+        // ===== ИМЯ ДЛЯ ЭСКАЛАЦИИ (СКРЫТОЕ) =========================
         // ============================================================
         var TEMP_PLAYER_NAME = 'Курилка Синьялы';
 
@@ -1933,9 +1933,6 @@
                 case 'name-desc':
                     return copy.sort(function(a, b) { return b.name.localeCompare(a.name); });
 
-                // ============================================================
-                // ===== СОРТИРОВКА ПО ПРЕСТИЖУ ==============================
-                // ============================================================
                 case 'prestige':
                     return copy.sort(function(a, b) {
                         var pa = getPrestigeLevel(a.name).prestige || 0;
@@ -2239,7 +2236,7 @@
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
-                                        ${TEMP_PLAYER_NAME}
+                                        ${player.name}
                                     </span>
                                 </td>
                                 <td style="font-weight: 700; color: ${color};">${player.points.toLocaleString()}</td>
@@ -2273,7 +2270,7 @@
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
-                                        ${TEMP_PLAYER_NAME}
+                                        ${player.name}
                                     </span>
                                 </td>
                                 <td>${player.matches}</td>
@@ -2309,7 +2306,7 @@
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
-                                        ${TEMP_PLAYER_NAME}
+                                        ${player.name}
                                     </span>
                                 </td>
                                 <td>${player.matches}</td>
