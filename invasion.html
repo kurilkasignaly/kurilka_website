@@ -674,43 +674,21 @@
             background: rgba(220, 90, 50, 0.08);
         }
 
-        /* ===== ТАБЛИЦА С ФОНОВЫМ ИЗОБРАЖЕНИЕМ ===== */
+        /* ===== ТАБЛИЦА (НОВЫЙ СТИЛЬ) ===== */
         .table-wrapper {
-            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            padding: 1rem 1rem 1.5rem 1rem;
             overflow-x: auto;
             flex: 1;
             position: relative;
             border-radius: 0 0 28px 28px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             min-height: 400px;
-        }
-
-        .table-wrapper .table-bg-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            border-radius: 0 0 28px 28px;
-            z-index: 1;
-        }
-
-        .table-wrapper.bg-escalation {
-            background-image: url('images/фон эскалация.webp');
-        }
-        .table-wrapper.bg-general {
-            background-image: url('images/фон-общая.webp');
-        }
-        .table-wrapper.bg-reagent {
-            background-image: url('images/фон-самозванец.webp');
-        }
-        .table-wrapper.bg-impostor {
-            background-image: url('images/фон-реагент.webp');
+            background: transparent;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 8px;
             font-size: 0.9rem;
             position: relative;
             z-index: 2;
@@ -718,33 +696,59 @@
 
         th {
             text-align: center;
-            padding: 0.8rem 0.6rem;
-            background: rgba(220, 90, 50, 0.15);
-            color: #ffbc9a;
+            padding: 1rem 0.8rem;
+            background: linear-gradient(180deg, #1a2a4a 0%, #0f1a30 100%);
+            color: #8aa8d0;
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            backdrop-filter: blur(4px);
+            letter-spacing: 2px;
+            border: none;
+        }
+
+        th:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        th:last-child {
+            border-radius: 0 12px 12px 0;
         }
 
         td {
             text-align: center;
-            padding: 0.7rem 0.6rem;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
+            padding: 1rem 0.8rem;
+            background: linear-gradient(90deg, #1e3a5f 0%, #1a3352 50%, #142a45 100%);
+            color: #ffffff;
+            font-weight: 600;
+            border: none;
             vertical-align: middle;
-            backdrop-filter: blur(2px);
+        }
+
+        tr td:first-child {
+            border-radius: 12px 0 0 12px;
+        }
+
+        tr td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        tr:hover td {
+            background: linear-gradient(90deg, #2a4a73 0%, #254a70 50%, #1e3d5e 100%);
         }
 
         td:first-child {
             text-align: center;
             width: 60px;
-            font-weight: 600;
+            font-weight: 800;
+            color: #7dd3fc;
+            font-size: 1.1rem;
         }
 
         td:nth-child(2) {
             text-align: left;
-            font-weight: 500;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1rem;
         }
 
         .platform-icon {
@@ -764,11 +768,7 @@
             gap: 6px;
         }
 
-        /* ============================================================ */
-        /* ===== ОБНОВЛЕННЫЕ СТИЛИ ПРЕСТИЖА И УРОВНЯ ================= */
-        /* ============================================================ */
-        
-        /* Контейнер для всего блока (щит + овал) */
+        /* ===== ПРЕСТИЖ И УРОВЕНЬ ===== */
         .player-prestige-level {
             display: inline-flex;
             align-items: center;
@@ -776,23 +776,20 @@
             position: relative;
             margin-right: 12px;
             flex-shrink: 0;
-            /* Небольшой отступ, чтобы овал не выходил за пределы ячейки */
-            padding-right: 4px; 
+            padding-right: 4px;
         }
 
-        /* Обертка для щита и цифры престижа, чтобы они были поверх овала */
         .shield-wrapper {
             position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 36px;  /* Фиксированная ширина щита */
-            height: 42px; /* Фиксированная высота щита */
-            z-index: 2;   /* Поверх овала */
+            width: 36px;
+            height: 42px;
+            z-index: 2;
             flex-shrink: 0;
         }
 
-        /* Картинка щита */
         .prestige-shield-img {
             width: 100%;
             height: 100%;
@@ -803,36 +800,32 @@
             -webkit-user-drag: none;
         }
 
-        /* Цифра престижа внутри щита (строго по центру) */
         .prestige-number {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 3; /* Поверх щита */
+            z-index: 3;
             font-size: 0.9rem;
             font-weight: 800;
-            color: #e8902e; /* Оранжевый цвет */
+            color: #e8902e;
             text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
             line-height: 1;
         }
 
-        /* Овал с уровнем (Z-index 1, чтобы уходить под щит) */
         .level-oval {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            /* Отрицательный отступ, чтобы заехать на щит */
-            margin-left: -14px; 
-            /* Расширенные отступы, чтобы цифра не слипалась */
-            padding: 0 14px 0 18px; 
-            border: 2px solid #8a8a8a; 
-            border-radius: 50px;       
-            background: rgba(0, 0, 0, 0.75); 
+            margin-left: -14px;
+            padding: 0 14px 0 18px;
+            border: 2px solid #8a8a8a;
+            border-radius: 50px;
+            background: rgba(0, 0, 0, 0.75);
             min-width: 44px;
-            height: 26px; /* Чуть меньше щита */
+            height: 26px;
             box-sizing: border-box;
-            z-index: 1;   /* Овал уходит ПОД щит */
+            z-index: 1;
             position: relative;
         }
 
@@ -844,77 +837,16 @@
             line-height: 1;
         }
 
-        /* ============================================================ */
-        /* ===== УВЕЛИЧЕННЫЙ ШРИФТ ДЛЯ ТАБЛИЦЫ "ОБЩАЯ" ============= */
-        /* ============================================================ */
-        .table-wrapper.bg-general table {
-            font-size: 1.05rem;
-        }
+        /* ===== МЕДАЛИ ===== */
+        .rank-1 td:first-child { color: #ffd700; }
+        .rank-2 td:first-child { color: #c0c0c0; }
+        .rank-3 td:first-child { color: #cd7f32; }
 
-        .table-wrapper.bg-general th {
-            font-size: 0.85rem;
-            padding: 1rem 0.8rem;
-            letter-spacing: 1.8px;
-        }
-
-        .table-wrapper.bg-general td {
-            padding: 0.95rem 0.8rem;
-            font-size: 1rem;
-        }
-
-        .table-wrapper.bg-general td:first-child {
-            font-size: 1.1rem;
-            width: 70px;
-        }
-
-        .table-wrapper.bg-general td:nth-child(2) {
-            font-size: 1.05rem;
-        }
-
-        .table-wrapper.bg-general .platform-icon {
-            width: 26px;
-            height: 26px;
-            margin-right: 10px;
-        }
-
-        .table-wrapper.bg-general .medal {
-            width: 32px;
-            font-size: 1.1rem;
-        }
-
-        .table-wrapper.bg-general .unranked-text {
-            font-size: 0.95rem;
-        }
-        
-        /* Убираем кастомные размеры для общей таблицы, чтобы везде было одинаково */
-        .table-wrapper.bg-general .shield-wrapper {
-            width: 36px;
-            height: 42px;
-        }
-        .table-wrapper.bg-general .level-oval {
-            height: 26px;
-            min-width: 44px;
-            margin-left: -14px;
-            padding: 0 14px 0 18px;
-        }
-        .table-wrapper.bg-general .level-number {
-            font-size: 0.9rem;
-        }
-
-        tr:hover td {
-            background: rgba(220, 90, 50, 0.08);
-        }
-
-        .rank-1 { border-left: 3px solid #ffd700; }
-        .rank-1 td:first-child { color: #ffd700; font-weight: bold; }
-        .rank-2 { border-left: 3px solid #c0c0c0; }
-        .rank-2 td:first-child { color: #c0c0c0; font-weight: bold; }
-        .rank-3 { border-left: 3px solid #cd7f32; }
-        .rank-3 td:first-child { color: #cd7f32; font-weight: bold; }
         .medal { display: inline-block; width: 28px; text-align: center; }
         .medal-gold { color: #ffd700; }
         .medal-silver { color: #c0c0c0; }
         .medal-bronze { color: #cd7f32; }
+
         .unranked-text { color: #7a6a8a; font-style: italic; letter-spacing: 0.5px; }
 
         footer {
@@ -935,180 +867,6 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* ===== СОРТИРОВОЧНЫЙ БАР ===== */
-        .sort-bar {
-            display: flex;
-            gap: 0.5rem;
-            padding: 0.4rem 1.5rem;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.08);
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .sort-bar .sort-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #7a6a8a;
-            margin-right: 0.3rem;
-        }
-
-        .sort-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(220, 90, 50, 0.12);
-            padding: 0.3rem 0.9rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            letter-spacing: 0.3px;
-        }
-
-        .sort-btn:hover {
-            background: rgba(220, 90, 50, 0.1);
-            color: #fff;
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .sort-btn.active {
-            background: rgba(220, 90, 50, 0.15);
-            color: #e25d32;
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        /* Выделение кнопок престижа */
-        .sort-btn.sort-prestige {
-            border-color: rgba(232, 144, 46, 0.25);
-            color: #e8902e;
-        }
-
-        .sort-btn.sort-prestige:hover {
-            background: rgba(232, 144, 46, 0.1);
-            border-color: rgba(232, 144, 46, 0.4);
-            color: #ffb347;
-        }
-
-        .sort-btn.sort-prestige.active {
-            background: rgba(232, 144, 46, 0.15);
-            color: #ffb347;
-            border-color: rgba(232, 144, 46, 0.5);
-            box-shadow: 0 0 12px rgba(232, 144, 46, 0.2);
-        }
-
-        /* ===== ВЫПАДАЮЩИЙ СПИСОК ПЛАТФОРМ ===== */
-        .platform-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .platform-dropdown-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(220, 90, 50, 0.12);
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #b5a8c8;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            min-width: 120px;
-            justify-content: center;
-        }
-
-        .platform-dropdown-btn:hover {
-            background: rgba(220, 90, 50, 0.1);
-            color: #fff;
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .platform-dropdown-btn.active {
-            background: rgba(220, 90, 50, 0.15);
-            color: #e25d32;
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .platform-dropdown-btn .arrow {
-            margin-left: 4px;
-            font-size: 0.6rem;
-            transition: transform 0.3s;
-        }
-
-        .platform-dropdown-btn .arrow.open {
-            transform: rotate(180deg);
-        }
-
-        .platform-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            border-radius: 16px;
-            min-width: 160px;
-            overflow: hidden;
-            display: none;
-            z-index: 100;
-            padding: 4px 0;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-        }
-
-        .platform-dropdown-menu.open {
-            display: block;
-            animation: fadeInScale 0.2s ease-out;
-        }
-
-        .platform-dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.5rem 1.2rem;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #b5a8c8;
-            transition: all 0.2s;
-            border: none;
-            background: transparent;
-            width: 100%;
-            font-family: inherit;
-            text-align: left;
-        }
-
-        .platform-dropdown-item:hover {
-            background: rgba(220, 90, 50, 0.1);
-            color: #fff;
-        }
-
-        .platform-dropdown-item.active {
-            background: rgba(220, 90, 50, 0.15);
-            color: #e25d32;
-        }
-
-        .platform-dropdown-item .item-icon {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            flex-shrink: 0;
-            pointer-events: none;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        .platform-dropdown-item .item-label {
-            flex: 1;
-        }
-
         @media (max-width: 850px) {
             .main-wrapper { padding: 1rem; }
             .header { flex-direction: column; padding: 0.8rem 1rem; }
@@ -1126,9 +884,11 @@
             .leaderboard-section .section-header { flex-direction: column; align-items: flex-start; padding: 0.6rem 1rem; }
             .sub-tabs { padding: 0.4rem 0.8rem; gap: 0.5rem; }
             .sub-tab { font-size: 0.75rem; padding: 0.35rem 1rem; }
-            th, td { padding: 0.4rem 0.3rem; font-size: 0.75rem; }
+            th, td { padding: 0.6rem 0.4rem; font-size: 0.75rem; }
+            th { font-size: 0.6rem; letter-spacing: 1px; }
             .platform-icon { width: 18px; height: 18px; margin-right: 4px; }
-            .table-wrapper { min-height: 300px; }
+            .table-wrapper { min-height: 300px; padding: 0.8rem 0.5rem 1rem 0.5rem; }
+            table { border-spacing: 0 6px; }
             .connect-logo .line1 { font-size: 1.8rem; letter-spacing: 6px; }
             .connect-logo .logo-img { max-width: 260px; }
             .connect-logo .line3 { font-size: 1.4rem; letter-spacing: 4px; }
@@ -1138,29 +898,11 @@
             .error-box { padding: 2rem 1.5rem; }
             .error-box h2 { font-size: 1.8rem; }
             .error-box .error-icon { font-size: 3rem; }
-            .sort-bar { padding: 0.3rem 0.8rem; gap: 0.3rem; }
-            .sort-btn { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
-            .sort-bar .sort-label { font-size: 0.6rem; }
-            .platform-dropdown-btn { font-size: 0.6rem; padding: 0.2rem 0.6rem; min-width: 90px; }
-            .platform-dropdown-menu { min-width: 130px; }
-            .platform-dropdown-item { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
-            .platform-dropdown-item .item-icon { width: 16px; height: 16px; }
 
-            .table-wrapper.bg-general table { font-size: 0.85rem; }
-            .table-wrapper.bg-general th { font-size: 0.7rem; padding: 0.6rem 0.4rem; }
-            .table-wrapper.bg-general td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
-            .table-wrapper.bg-general .platform-icon { width: 20px; height: 20px; }
-
-            /* Адаптив для щита и овала */
             .shield-wrapper { width: 30px; height: 36px; }
             .level-oval { height: 22px; min-width: 36px; margin-left: -12px; padding: 0 12px 0 16px; }
             .level-number { font-size: 0.8rem; }
             .prestige-number { font-size: 0.8rem; }
-            
-            .table-wrapper.bg-general .shield-wrapper { width: 30px; height: 36px; }
-            .table-wrapper.bg-general .level-oval { height: 22px; min-width: 36px; margin-left: -12px; padding: 0 12px 0 16px; }
-            .table-wrapper.bg-general .level-number { font-size: 0.8rem; }
-            .table-wrapper.bg-general .prestige-number { font-size: 0.8rem; }
         }
 
         @media (max-width: 500px) {
@@ -1179,10 +921,12 @@
             .leaderboard-section .section-header .sub-title { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
             .sub-tabs { gap: 0.3rem; padding: 0.3rem 0.5rem; }
             .sub-tab { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
-            th, td { padding: 0.3rem 0.2rem; font-size: 0.6rem; }
+            th, td { padding: 0.4rem 0.2rem; font-size: 0.6rem; }
+            th { font-size: 0.5rem; letter-spacing: 0.5px; }
             .platform-icon { width: 14px; height: 14px; margin-right: 2px; }
             .medal { width: 20px; font-size: 0.6rem; }
-            .table-wrapper { min-height: 250px; }
+            .table-wrapper { min-height: 250px; padding: 0.5rem 0.3rem 0.8rem 0.3rem; }
+            table { border-spacing: 0 4px; }
             .footer-logo { max-height: 18px; }
             .connect-logo .line1 { font-size: 1.3rem; letter-spacing: 4px; }
             .connect-logo .logo-img { max-width: 200px; }
@@ -1198,29 +942,11 @@
             .error-box .error-desc { font-size: 0.8rem; }
             .error-actions { flex-direction: column; align-items: center; }
             .error-btn { width: 100%; justify-content: center; }
-            .sort-bar { padding: 0.2rem 0.5rem; gap: 0.2rem; }
-            .sort-btn { font-size: 0.5rem; padding: 0.15rem 0.5rem; }
-            .sort-bar .sort-label { font-size: 0.5rem; margin-right: 0.1rem; }
-            .platform-dropdown-btn { font-size: 0.5rem; padding: 0.15rem 0.5rem; min-width: 70px; }
-            .platform-dropdown-menu { min-width: 100px; }
-            .platform-dropdown-item { font-size: 0.55rem; padding: 0.3rem 0.6rem; }
-            .platform-dropdown-item .item-icon { width: 14px; height: 14px; }
 
-            .table-wrapper.bg-general table { font-size: 0.7rem; }
-            .table-wrapper.bg-general th { font-size: 0.6rem; padding: 0.4rem 0.2rem; }
-            .table-wrapper.bg-general td { padding: 0.4rem 0.2rem; font-size: 0.7rem; }
-            .table-wrapper.bg-general .platform-icon { width: 16px; height: 16px; }
-
-            /* Адаптив для щита и овала на мобильных */
             .shield-wrapper { width: 26px; height: 32px; }
             .level-oval { height: 20px; min-width: 30px; margin-left: -10px; padding: 0 10px 0 14px; }
             .level-number { font-size: 0.7rem; }
             .prestige-number { font-size: 0.7rem; }
-            
-            .table-wrapper.bg-general .shield-wrapper { width: 26px; height: 32px; }
-            .table-wrapper.bg-general .level-oval { height: 20px; min-width: 30px; margin-left: -10px; padding: 0 10px 0 14px; }
-            .table-wrapper.bg-general .level-number { font-size: 0.7rem; }
-            .table-wrapper.bg-general .prestige-number { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -1229,8 +955,6 @@
     <div class="bg-slider" id="bgSlider"></div>
     <div class="bg-overlay"></div>
     <div class="smoke-overlay"></div>
-
-    <audio id="bgAudio" loop preload="auto" style="display:none;"></audio>
 
     <div class="main-wrapper">
         <div id="connectScreen" class="connect-screen">
@@ -1283,14 +1007,14 @@
                     <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
                     <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
                     <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-                    <a href="invasion.html" class="nav-btn active"><i class="fas fa-biohazard"></i> Invasion</a>
+                    <a href="invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
                     <a href="about.html" class="nav-btn"><i class="fas fa-book-open"></i> Об игре</a>
                 </div>
             </div>
 
             <div class="page-title">
-                <h1><i class="fas fa-biohazard"></i> Курилка Синьялы — Leaderboard</h1>
-                <div class="sub"><i class="fas fa-skull"></i> Рейтинг игроков · Invasion & Эскалация <i class="fas fa-skull"></i></div>
+                <h1><i></i> Курилка Синьялы — Leaderboard</h1>
+                <div class="sub"><i></i> Рейтинг игроков · Invasion и Эскалация <i></i></div>
             </div>
 
             <div class="big-banner">
@@ -1331,55 +1055,7 @@
                     <span class="sub-tab" data-sub="infinite" onclick="switchSubTab('infinite')">Бесконечная</span>
                 </div>
 
-                <div class="sort-bar" id="sortBar" style="display:none;">
-                    <span class="sort-label"><i class="fas fa-arrow-up-wide-short"></i> Сортировка:</span>
-                    <button class="sort-btn active" data-sort="default" onclick="applySort('default')">По умолчанию</button>
-                    <button class="sort-btn" data-sort="name-asc" onclick="applySort('name-asc')">Имя А→Я</button>
-                    <button class="sort-btn" data-sort="name-desc" onclick="applySort('name-desc')">Имя Я→А</button>
-
-                    <div class="platform-dropdown" id="platformDropdown">
-                        <button class="platform-dropdown-btn" id="platformDropdownBtn" onclick="togglePlatformDropdown(event)">
-                            <span id="platformDropdownLabel">Платформа</span>
-                            <span class="arrow" id="platformArrow">▾</span>
-                        </button>
-                        <div class="platform-dropdown-menu" id="platformDropdownMenu">
-                            <button class="platform-dropdown-item active" data-platform="all" onclick="selectPlatform('all', event)">
-                                <span class="item-label">Все платформы</span>
-                            </button>
-                            <button class="platform-dropdown-item" data-platform="steam" onclick="selectPlatform('steam', event)">
-                                <img src="images/иконка стим.webp" class="item-icon" alt="Steam" onerror="this.style.display='none'">
-                                <span class="item-label">Steam</span>
-                            </button>
-                            <button class="platform-dropdown-item" data-platform="xbox" onclick="selectPlatform('xbox', event)">
-                                <img src="images/иконка х-бокс.webp" class="item-icon" alt="Xbox" onerror="this.style.display='none'">
-                                <span class="item-label">Xbox</span>
-                            </button>
-                            <button class="platform-dropdown-item" data-platform="ps" onclick="selectPlatform('ps', event)">
-                                <img src="images/иконка пс.webp" class="item-icon" alt="PlayStation" onerror="this.style.display='none'">
-                                <span class="item-label">PlayStation</span>
-                            </button>
-                            <button class="platform-dropdown-item" data-platform="epic" onclick="selectPlatform('epic', event)">
-                                <img src="images/иконка эпик.webp" class="item-icon" alt="Epic Games" onerror="this.style.display='none'">
-                                <span class="item-label">Epic Games</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button class="sort-btn sort-prestige" data-sort="prestige" onclick="applySort('prestige')">
-                        <i class="fas fa-shield-halved"></i> Престиж ↑
-                    </button>
-                    <button class="sort-btn sort-prestige" data-sort="prestige-desc" onclick="applySort('prestige-desc')">
-                        <i class="fas fa-shield-halved"></i> Престиж ↓
-                    </button>
-
-                    <button class="sort-btn sort-match" data-sort="matches" onclick="applySort('matches')">Матчи ↑</button>
-                    <button class="sort-btn sort-match" data-sort="matches-desc" onclick="applySort('matches-desc')">Матчи ↓</button>
-                    <button class="sort-btn sort-points" data-sort="points" onclick="applySort('points')">Очки ↑</button>
-                    <button class="sort-btn sort-points" data-sort="points-desc" onclick="applySort('points-desc')">Очки ↓</button>
-                </div>
-
-                <div class="table-wrapper bg-escalation" id="tableWrapper">
-                    <div class="table-bg-overlay"></div>
+                <div class="table-wrapper" id="tableWrapper">
                     <div id="tableContainer"></div>
                 </div>
             </div>
@@ -1392,8 +1068,6 @@
             </footer>
         </div>
     </div>
-
-    <audio id="bgAudio2" loop preload="auto" style="display:none;"></audio>
 
     <script>
         // ===== УПРАВЛЕНИЕ СОСТОЯНИЕМ ПОДКЛЮЧЕНИЯ =====
@@ -1412,8 +1086,7 @@
             var bgSlider = document.getElementById('bgSlider');
             if (!bgSlider) return;
             var bgFiles = [
-                'фон-1.webp', 'фон-2.webp', 'фон-3.webp', 'фон-4.webp', 'фон-5.webp',
-                'фон-6.webp', 'фон-7.webp', 'фон-8.webp', 'фон-9.webp', 'фон-10.webp'
+                'фон-самозванец.webp', 'фон-реагент.webp'
             ];
 
             bgFiles.forEach(function(file, index) {
@@ -1470,62 +1143,12 @@
             }
         })();
 
-        // ===== ЛОГИКА ВЫБОРА АУДИОФАЙЛА =====
-        window.addEventListener('load', function() {
-            var audio = document.getElementById('bgAudio');
-            if (!audio) return;
-
-            function selectAudioFile() {
-                var selected = 'loading 2.mp3';
-                if (navigator.connection) {
-                    var conn = navigator.connection;
-                    var isVerySlow = conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g';
-                    var isHighLatency = conn.rtt && conn.rtt > 500;
-                    var isVeryLowBandwidth = conn.downlink && conn.downlink < 0.3;
-                    if (isVerySlow || isHighLatency || isVeryLowBandwidth) return 'loading 3.mp3';
-                    if (conn.saveData) return 'loading 3.mp3';
-                }
-                try {
-                    var perfData = performance.getEntriesByType('navigation')[0];
-                    if (perfData) {
-                        var loadTime = perfData.loadEventEnd - perfData.fetchStart;
-                        if (loadTime > 5000) return 'loading 3.mp3';
-                    }
-                } catch (e) {}
-                var rand = Math.random();
-                return rand < 0.70 ? 'loading 2.mp3' : 'loading.mp3';
-            }
-
-            var selectedFile = selectAudioFile();
-            window.normalAudioFile = selectedFile;
-            audio.src = 'images/' + selectedFile;
-            console.log('✅ Выбран аудиофайл:', selectedFile);
-            audio.load();
-        });
-
-        // ===== УПРАВЛЕНИЕ МУЗЫКОЙ =====
-        var pageAudioStarted = false;
-
-        function startPageMusic() {
-            var audio = document.getElementById('bgAudio');
-            if (!audio || pageAudioStarted) return;
-            audio.volume = 0.35;
-            audio.play().catch(function() {});
-            pageAudioStarted = true;
-        }
-
-        function stopPageMusic() {
-            var audio = document.getElementById('bgAudio');
-            if (audio) { audio.pause(); audio.currentTime = 0; pageAudioStarted = false; }
-        }
-
         // ===== ЭКРАН ПОДКЛЮЧЕНИЯ =====
         var connectScreen = document.getElementById('connectScreen');
         var connectPrompt = document.getElementById('connectPrompt');
         var connectStatus = document.getElementById('connectStatus');
         var errorScreen = document.getElementById('errorScreen');
         var mainContent = document.getElementById('mainContent');
-        var audio = document.getElementById('bgAudio');
         var isProcessing = false;
         var connectionTimer = null;
 
@@ -1537,7 +1160,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (shouldShowConnectScreen()) {
                 if (connectScreen) connectScreen.classList.add('active');
-                setTimeout(startAudioOnConnect, 300);
                 if (mainContent) mainContent.classList.remove('active');
                 document.body.classList.remove('scroll-enabled');
             } else {
@@ -1548,25 +1170,9 @@
             }
         });
 
-        function startAudioOnConnect() {
-            if (!audio) return;
-            if (!connectScreen || !connectScreen.classList.contains('active')) return;
-            if (!audio.paused) return;
-            if (audio.readyState >= 2) {
-                audio.play().catch(function() {});
-            } else {
-                audio.addEventListener('canplaythrough', function onPlay() {
-                    audio.play().catch(function() {});
-                    audio.removeEventListener('canplaythrough', onPlay);
-                }, { once: true });
-            }
-        }
-
         async function startConnectionProcess() {
             if (isProcessing) return;
             isProcessing = true;
-
-            if (audio && audio.paused) { audio.play().catch(function() {}); }
 
             if (connectPrompt) connectPrompt.style.display = 'none';
             if (connectStatus) connectStatus.classList.add('active');
@@ -1574,61 +1180,25 @@
             var maintenanceStatus = await checkMaintenance();
 
             if (maintenanceStatus === 1) {
-                if (audio && audio.src.indexOf('loading 3.mp3') === -1) {
-                    audio.src = 'images/loading 3.mp3';
-                    audio.volume = 0.35;
-                    audio.currentTime = 0;
-                    audio.load();
-                    audio.addEventListener('canplaythrough', function onPlay() {
-                        audio.play().catch(function() {});
-                        audio.removeEventListener('canplaythrough', onPlay);
-                    }, { once: true });
-                } else if (audio && audio.paused) { audio.play().catch(function() {}); }
-
                 var delay = Math.floor(Math.random() * (50000 - 30000 + 1)) + 30000;
                 await new Promise(function(resolve) { connectionTimer = setTimeout(resolve, delay); });
 
                 if (connectScreen) connectScreen.classList.remove('active');
                 if (errorScreen) errorScreen.classList.add('active');
-                if (audio) audio.pause();
             } else {
-                if (audio && audio.src.indexOf('loading 3.mp3') !== -1) {
-                    var normalFile = window.normalAudioFile || 'loading 2.mp3';
-                    audio.src = 'images/' + normalFile;
-                    audio.volume = 0.35;
-                    audio.currentTime = 0;
-                    audio.load();
-                    audio.addEventListener('canplaythrough', function onPlay() {
-                        audio.play().catch(function() {});
-                        audio.removeEventListener('canplaythrough', onPlay);
-                    }, { once: true });
-                } else if (audio && audio.paused) { audio.play().catch(function() {}); }
-
                 var delay2 = Math.floor(Math.random() * (15000 - 10000 + 1)) + 10000;
                 await new Promise(function(resolve) { connectionTimer = setTimeout(resolve, delay2); });
 
                 var finalStatus = await checkMaintenance();
 
                 if (finalStatus === 1) {
-                    if (audio) {
-                        audio.src = 'images/loading 3.mp3';
-                        audio.volume = 0.35;
-                        audio.currentTime = 0;
-                        audio.load();
-                        audio.addEventListener('canplaythrough', function onPlay() {
-                            audio.play().catch(function() {});
-                            audio.removeEventListener('canplaythrough', onPlay);
-                        }, { once: true });
-                    }
                     if (connectScreen) connectScreen.classList.remove('active');
                     if (errorScreen) errorScreen.classList.add('active');
-                    if (audio) audio.pause();
                 } else {
                     setConnected(true);
                     if (connectScreen) connectScreen.classList.remove('active');
                     if (mainContent) mainContent.classList.add('active');
                     document.body.classList.add('scroll-enabled');
-                    if (audio) { audio.pause(); audio.currentTime = 0; pageAudioStarted = false; }
                     updateTableContent();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
@@ -1679,16 +1249,6 @@
                 if (connectScreen) connectScreen.classList.add('active');
                 if (connectPrompt) connectPrompt.style.display = 'block';
                 if (connectStatus) connectStatus.classList.remove('active');
-                if (audio) {
-                    var normalFile = window.normalAudioFile || 'loading 2.mp3';
-                    if (audio.src.indexOf('loading 3.mp3') !== -1 || !audio.src) {
-                        audio.src = 'images/' + normalFile;
-                        audio.volume = 0.35;
-                        audio.currentTime = 0;
-                        audio.load();
-                    }
-                    setTimeout(startAudioOnConnect, 300);
-                }
                 setTimeout(function() {
                     if (connectScreen && connectScreen.classList.contains('active') && !isProcessing) {
                         startConnectionProcess();
@@ -1717,7 +1277,6 @@
             'Darkness_Fury': 'epic', 'Silent_Death': 'steam', 'Fearless_Runner': 'xbox',
             'Ghost_Blade': 'ps', 'Crimson_Tide': 'epic', 'Eclipse_Warrior': 'steam',
             'Void_Walker': 'xbox',
-            // Новые игроки из таблиц "Реагенты" и "Самозванцы"
             'Homo Area': 'steam', 'berryholls': 'steam', 'joysk_o': 'steam',
             'Майор СУЕТЛАНА': 'steam', 'crøssfade': 'steam', 'Генерал Герония': 'steam',
             'n1kuolson': 'steam', 'папа даркстара': 'steam', 'Shugar': 'steam',
@@ -1726,7 +1285,7 @@
         };
 
         // ============================================================
-        // ===== ДАННЫЕ ПРЕСТИЖА И УРОВНЯ (ЗАПОЛНЯЕТСЯ ВРУЧНУЮ) =====
+        // ===== ДАННЫЕ ПРЕСТИЖА И УРОВНЯ ============================
         // ============================================================
         var playerPrestigeLevels = {
             'DASCERA': { prestige: 20, level: 1 },
@@ -1776,7 +1335,6 @@
             'Crimson_Tide': { prestige: 45, level: 43 },
             'Eclipse_Warrior': { prestige: 46, level: 46 },
             'Void_Walker': { prestige: 47, level: 45 },
-            // Новые игроки — престиж и уровень из последней колонки таблицы
             'Homo Area': { prestige: 83, level: 97 },
             'berryholls': { prestige: 55, level: 41 },
             'joysk_o': { prestige: 44, level: 17 },
@@ -1798,9 +1356,6 @@
             return playerPrestigeLevels[name] || { prestige: 1, level: 1 };
         }
 
-        // ============================================================
-        // ===== ОБНОВЛЕННАЯ ФУНКЦИЯ ФОРМИРОВАНИЯ БЕЙДЖА ПРЕСТИЖА ====
-        // ============================================================
         function getPrestigeLevelBadge(name) {
             var pl = getPrestigeLevel(name);
             var shieldImgSrc = 'images/щит.webp'; 
@@ -1816,9 +1371,6 @@
             </span>`;
         }
 
-        // ============================================================
-        // ===== ИМЯ ДЛЯ ЭСКАЛАЦИИ (СКРЫТОЕ) =========================
-        // ============================================================
         var TEMP_PLAYER_NAME = 'Курилка Синьялы';
 
         // ============================================================
@@ -1848,6 +1400,7 @@
             ]
         };
 
+        // Общая таблица — сортировка по очкам (points) по убыванию
         var invasionGeneralData = [
             { rank: 1, name: "Homo Area", points: 123655, rating: "#24" },
             { rank: 2, name: "berryholls", points: 36190, rating: "#321" },
@@ -1866,6 +1419,7 @@
             { rank: 15, name: "Takuya_Satori", points: 2155, rating: "#8701" }
         ];
 
+        // Реагенты — сортировка по матчам (matches) по убыванию
         var invasionData = {
             reagent: [
                 { rank: 1, name: "Homo Area", matches: 2037, wins: 1951, losses: 86, rating: "#24" },
@@ -1906,119 +1460,9 @@
         // ============================================================
         // ===== ФУНКЦИИ ===========================================
         // ============================================================
-        var currentSort = 'default';
-        var currentPlatformFilter = 'all';
-        var currentDisplayData = [];
-
         function getPlatformForPlayer(name) {
             return playerPlatforms[name] || 'steam';
         }
-
-        // ============================================================
-        // ===== ФУНКЦИЯ СОРТИРОВКИ (С ДОБАВЛЕННЫМ ПРЕСТИЖЕМ) ========
-        // ============================================================
-        function sortData(data, sortType, platformFilter) {
-            var filtered = data.slice();
-            if (platformFilter !== 'all') {
-                filtered = filtered.filter(function(p) {
-                    return getPlatformForPlayer(p.name) === platformFilter;
-                });
-            }
-            var copy = filtered.slice();
-            switch (sortType) {
-                case 'default':
-                    return filtered.slice();
-                case 'name-asc':
-                    return copy.sort(function(a, b) { return a.name.localeCompare(b.name); });
-                case 'name-desc':
-                    return copy.sort(function(a, b) { return b.name.localeCompare(a.name); });
-
-                case 'prestige':
-                    return copy.sort(function(a, b) {
-                        var pa = getPrestigeLevel(a.name).prestige || 0;
-                        var pb = getPrestigeLevel(b.name).prestige || 0;
-                        return pa - pb;
-                    });
-                case 'prestige-desc':
-                    return copy.sort(function(a, b) {
-                        var pa = getPrestigeLevel(a.name).prestige || 0;
-                        var pb = getPrestigeLevel(b.name).prestige || 0;
-                        return pb - pa;
-                    });
-
-                case 'matches':
-                    return copy.sort(function(a, b) { return (a.matches || 0) - (b.matches || 0); });
-                case 'matches-desc':
-                    return copy.sort(function(a, b) { return (b.matches || 0) - (a.matches || 0); });
-                case 'points':
-                    return copy.sort(function(a, b) { return (a.points || 0) - (b.points || 0); });
-                case 'points-desc':
-                    return copy.sort(function(a, b) { return (b.points || 0) - (a.points || 0); });
-                default:
-                    return filtered.slice();
-            }
-        }
-
-        function applySort(sortType) {
-            currentSort = sortType;
-            var btns = document.querySelectorAll('.sort-btn');
-            btns.forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.sort === sortType);
-            });
-            if (sortType !== 'default' && !sortType.startsWith('platform')) {
-                var platformBtn = document.querySelector('.platform-dropdown-btn');
-                if (platformBtn) platformBtn.classList.remove('active');
-            }
-            if (currentMode === 'invasion') { updateTableContent(); }
-            closePlatformDropdown();
-        }
-
-        function togglePlatformDropdown(event) {
-            if (event) event.stopPropagation();
-            var menu = document.getElementById('platformDropdownMenu');
-            var arrow = document.getElementById('platformArrow');
-            if (!menu) return;
-            menu.classList.toggle('open');
-            if (arrow) arrow.classList.toggle('open');
-        }
-
-        function closePlatformDropdown() {
-            var menu = document.getElementById('platformDropdownMenu');
-            var arrow = document.getElementById('platformArrow');
-            if (menu) menu.classList.remove('open');
-            if (arrow) arrow.classList.remove('open');
-        }
-
-        function selectPlatform(platform, event) {
-            if (event) event.stopPropagation();
-            currentPlatformFilter = platform;
-            closePlatformDropdown();
-            var items = document.querySelectorAll('.platform-dropdown-item');
-            items.forEach(function(item) {
-                item.classList.toggle('active', item.dataset.platform === platform);
-            });
-            var btn = document.getElementById('platformDropdownBtn');
-            var label = document.getElementById('platformDropdownLabel');
-            if (btn) btn.classList.add('active');
-            if (label) {
-                var platformNames = {
-                    'all': 'Платформа', 'steam': 'Steam', 'xbox': 'Xbox',
-                    'ps': 'PlayStation', 'epic': 'Epic Games'
-                };
-                label.textContent = platformNames[platform] || 'Платформа';
-            }
-            currentSort = 'default';
-            var btns = document.querySelectorAll('.sort-btn');
-            btns.forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.sort === 'default');
-            });
-            if (currentMode === 'invasion') { updateTableContent(); }
-        }
-
-        document.addEventListener('click', function(event) {
-            var dropdown = document.getElementById('platformDropdown');
-            if (dropdown && !dropdown.contains(event.target)) { closePlatformDropdown(); }
-        });
 
         function getPlatformIcon(platform) {
             var iconPaths = {
@@ -2062,44 +1506,12 @@
 
         function switchMode(mode) {
             currentMode = mode;
-            currentSort = 'default';
-            currentPlatformFilter = 'all';
             var banners = document.querySelectorAll('.mode-banner');
             banners.forEach(function(banner) {
                 banner.classList.toggle('active', banner.dataset.mode === mode);
             });
-            var sortBar = document.getElementById('sortBar');
-            if (mode === 'invasion') {
-                sortBar.style.display = 'flex';
-                updateSortButtonsVisibility();
-                var label = document.getElementById('platformDropdownLabel');
-                if (label) label.textContent = 'Платформа';
-                var items = document.querySelectorAll('.platform-dropdown-item');
-                items.forEach(function(item) {
-                    item.classList.toggle('active', item.dataset.platform === 'all');
-                });
-            } else {
-                sortBar.style.display = 'none';
-            }
             if (mode === 'invasion') { currentSubTab = 'general'; } else { currentSubTab = 'weekly'; }
-            var btns = document.querySelectorAll('.sort-btn');
-            btns.forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.sort === 'default');
-            });
             updateTableContent();
-        }
-
-        function updateSortButtonsVisibility() {
-            var isGeneral = currentSubTab === 'general';
-            var matchBtns = document.querySelectorAll('.sort-match');
-            var pointBtns = document.querySelectorAll('.sort-points');
-            if (isGeneral) {
-                matchBtns.forEach(function(btn) { btn.style.display = 'none'; });
-                pointBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
-            } else {
-                matchBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
-                pointBtns.forEach(function(btn) { btn.style.display = 'inline-block'; });
-            }
         }
 
         function switchSubTab(sub) {
@@ -2108,35 +1520,35 @@
             tabs.forEach(function(tab) {
                 tab.classList.toggle('active', tab.dataset.sub === sub);
             });
-            currentSort = 'default';
-            currentPlatformFilter = 'all';
-            var btns = document.querySelectorAll('.sort-btn');
-            btns.forEach(function(btn) {
-                btn.classList.toggle('active', btn.dataset.sort === 'default');
-            });
-            var label = document.getElementById('platformDropdownLabel');
-            if (label) label.textContent = 'Платформа';
-            var items = document.querySelectorAll('.platform-dropdown-item');
-            items.forEach(function(item) {
-                item.classList.toggle('active', item.dataset.platform === 'all');
-            });
-            updateSortButtonsVisibility();
             updateTableContent();
         }
 
+        // ============================================================
+        // ===== СОРТИРОВКА ПО УБЫВАНИЮ ==============================
+        // ============================================================
+        function sortByPointsDesc(data) {
+            return data.slice().sort(function(a, b) {
+                return (b.points || 0) - (a.points || 0);
+            });
+        }
+
+        function sortByMatchesDesc(data) {
+            return data.slice().sort(function(a, b) {
+                return (b.matches || 0) - (a.matches || 0);
+            });
+        }
+
+        // ============================================================
+        // ===== ОБНОВЛЕНИЕ ТАБЛИЦ ==================================
+        // ============================================================
         function updateTableContent() {
             var container = document.getElementById('tableContainer');
             var title = document.getElementById('sectionTitle');
             var subTabs = document.getElementById('subTabs');
-            var tableWrapper = document.getElementById('tableWrapper');
-            var sortBar = document.getElementById('sortBar');
-            if (!container || !title || !subTabs || !tableWrapper) return;
-            tableWrapper.classList.remove('bg-escalation', 'bg-general', 'bg-reagent', 'bg-impostor');
+            if (!container || !title || !subTabs) return;
 
             if (currentMode === 'escalation') {
                 title.textContent = 'ЭСКАЛАЦИЯ';
-                tableWrapper.classList.add('bg-escalation');
-                if (sortBar) sortBar.style.display = 'none';
 
                 if (currentSubTab === 'weekly') {
                     subTabs.innerHTML = `
@@ -2152,7 +1564,7 @@
                     data.forEach(function(player) {
                         var platform = getPlatformForPlayer(player.name);
                         var rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
-                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#7dd3fc';
                         html += `
                             <tr class="${getRankClass(player.rank)}">
                                 <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
@@ -2185,7 +1597,7 @@
                     data2.forEach(function(player) {
                         var platform = getPlatformForPlayer(player.name);
                         var rankDisplay = player.rank === 1 ? '🥇' : player.rank === 2 ? '🥈' : player.rank === 3 ? '🥉' : '#' + player.rank;
-                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#7dd3fc';
                         html2 += `
                             <tr class="${getRankClass(player.rank)}">
                                 <td style="font-weight: bold; color: ${color};">${rankDisplay}</td>
@@ -2205,7 +1617,6 @@
                 }
             } else {
                 title.textContent = 'ВТОРЖЕНИЕ';
-                if (sortBar) sortBar.style.display = 'flex';
 
                 if (currentSubTab === 'general') {
                     subTabs.innerHTML = `
@@ -2213,26 +1624,21 @@
                         <span class="sub-tab" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
                         <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                     `;
-                    tableWrapper.classList.add('bg-general');
-                    var data3 = invasionGeneralData;
-                    var filteredGeneral = data3;
-                    if (currentPlatformFilter !== 'all') {
-                        filteredGeneral = data3.filter(function(p) {
-                            return getPlatformForPlayer(p.name) === currentPlatformFilter;
-                        });
-                    }
+                    // Сортировка по очкам (убывание)
+                    var data3 = sortByPointsDesc(invasionGeneralData);
                     var html3 = `<table>
                         <thead>
                             <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>ОЧКИ</th><th>РЕЙТИНГ</th></tr>
                         </thead>
                         <tbody>`;
-                    filteredGeneral.forEach(function(player) {
+                    data3.forEach(function(player, index) {
                         var platform = getPlatformForPlayer(player.name);
-                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        var rank = index + 1;
+                        var color = rank === 1 ? '#ffd700' : rank === 2 ? '#c0c0c0' : rank === 3 ? '#cd7f32' : '#7dd3fc';
                         html3 += `
-                            <tr class="${getRankClass(player.rank)}">
-                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
-                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                            <tr class="${getRankClass(rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(rank)}</td>
+                                <td style="font-weight: ${rank <= 3 ? '600' : 'normal'}; text-align: left;">
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
@@ -2252,21 +1658,21 @@
                         <span class="sub-tab active" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
                         <span class="sub-tab" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                     `;
-                    tableWrapper.classList.add('bg-reagent');
-                    var data4 = invasionData.reagent;
-                    var sortedData = sortData(data4, currentSort, currentPlatformFilter);
+                    // Сортировка по матчам (убывание)
+                    var data4 = sortByMatchesDesc(invasionData.reagent);
                     var html4 = `<table>
                         <thead>
                             <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАТЧИ</th><th>ВЫИГРЫШНЫЕ МАТЧИ</th><th>ПРОИГРЫШНЫЕ МАТЧИ</th><th>РЕЙТИНГ</th></tr>
                         </thead>
                         <tbody>`;
-                    sortedData.forEach(function(player) {
+                    data4.forEach(function(player, index) {
                         var platform = getPlatformForPlayer(player.name);
-                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        var rank = index + 1;
+                        var color = rank === 1 ? '#ffd700' : rank === 2 ? '#c0c0c0' : rank === 3 ? '#cd7f32' : '#7dd3fc';
                         html4 += `
-                            <tr class="${getRankClass(player.rank)}">
-                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
-                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                            <tr class="${getRankClass(rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(rank)}</td>
+                                <td style="font-weight: ${rank <= 3 ? '600' : 'normal'}; text-align: left;">
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
@@ -2288,21 +1694,21 @@
                         <span class="sub-tab" data-sub="reagent" onclick="switchSubTab('reagent')">Реагент</span>
                         <span class="sub-tab active" data-sub="impostor" onclick="switchSubTab('impostor')">Самозванец</span>
                     `;
-                    tableWrapper.classList.add('bg-impostor');
-                    var data5 = invasionData.impostor;
-                    var sortedData2 = sortData(data5, currentSort, currentPlatformFilter);
+                    // Сортировка по матчам (убывание)
+                    var data5 = sortByMatchesDesc(invasionData.impostor);
                     var html5 = `<table>
                         <thead>
                             <tr><th>УРОВЕНЬ</th><th>ИДЕНТИФИКАТОР ИГРОКА</th><th>МАТЧИ</th><th>ВЫИГРЫШНЫЕ МАТЧИ</th><th>ПРОИГРЫШНЫЕ МАТЧИ</th><th>РЕЙТИНГ</th></tr>
                         </thead>
                         <tbody>`;
-                    sortedData2.forEach(function(player) {
+                    data5.forEach(function(player, index) {
                         var platform = getPlatformForPlayer(player.name);
-                        var color = player.rank === 1 ? '#ffd700' : player.rank === 2 ? '#c0c0c0' : player.rank === 3 ? '#cd7f32' : '#e16d48';
+                        var rank = index + 1;
+                        var color = rank === 1 ? '#ffd700' : rank === 2 ? '#c0c0c0' : rank === 3 ? '#cd7f32' : '#7dd3fc';
                         html5 += `
-                            <tr class="${getRankClass(player.rank)}">
-                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(player.rank)}</td>
-                                <td style="font-weight: ${player.rank <= 3 ? '600' : 'normal'}; text-align: left;">
+                            <tr class="${getRankClass(rank)}">
+                                <td style="font-weight: bold; color: ${color};">${getMedalIcon(rank)}</td>
+                                <td style="font-weight: ${rank <= 3 ? '600' : 'normal'}; text-align: left;">
                                     <span class="player-name">
                                         ${getPrestigeLevelBadge(player.name)}
                                         ${getPlatformIcon(platform)}
