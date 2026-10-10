@@ -1716,7 +1716,13 @@
             'Invasion_King': 'steam', 'Shadow_Hunter': 'xbox', 'Nightmare_Stalker': 'ps',
             'Darkness_Fury': 'epic', 'Silent_Death': 'steam', 'Fearless_Runner': 'xbox',
             'Ghost_Blade': 'ps', 'Crimson_Tide': 'epic', 'Eclipse_Warrior': 'steam',
-            'Void_Walker': 'xbox'
+            'Void_Walker': 'xbox',
+            // Новые игроки из таблиц "Реагенты" и "Самозванцы"
+            'Homo Area': 'steam', 'berryholls': 'steam', 'joysk_o': 'steam',
+            'Майор СУЕТЛАНА': 'steam', 'crøssfade': 'steam', 'Генерал Герония': 'steam',
+            'n1kuolson': 'steam', 'папа даркстара': 'steam', 'Shugar': 'steam',
+            'blablablacreek': 'steam', 'humiliated': 'steam', 'Barricade Guy': 'epic',
+            'LARIK_LOL': 'steam', 'Garlik_Darlik': 'steam', 'Takuya_Satori': 'ps'
         };
 
         // ============================================================
@@ -1769,7 +1775,23 @@
             'Ghost_Blade': { prestige: 44, level: 44 },
             'Crimson_Tide': { prestige: 45, level: 43 },
             'Eclipse_Warrior': { prestige: 46, level: 46 },
-            'Void_Walker': { prestige: 47, level: 45 }
+            'Void_Walker': { prestige: 47, level: 45 },
+            // Новые игроки — престиж и уровень из последней колонки таблицы
+            'Homo Area': { prestige: 83, level: 97 },
+            'berryholls': { prestige: 55, level: 41 },
+            'joysk_o': { prestige: 44, level: 17 },
+            'Майор СУЕТЛАНА': { prestige: 33, level: 50 },
+            'crøssfade': { prestige: 62, level: 49 },
+            'Генерал Герония': { prestige: 21, level: 68 },
+            'n1kuolson': { prestige: 69, level: 65 },
+            'папа даркстара': { prestige: 89, level: 53 },
+            'Shugar': { prestige: 30, level: 82 },
+            'blablablacreek': { prestige: 7, level: 33 },
+            'humiliated': { prestige: 48, level: 1 },
+            'Barricade Guy': { prestige: 54, level: 76 },
+            'LARIK_LOL': { prestige: 18, level: 24 },
+            'Garlik_Darlik': { prestige: 42, level: 51 },
+            'Takuya_Satori': { prestige: 4, level: 41 }
         };
 
         function getPrestigeLevel(name) {
@@ -1781,8 +1803,6 @@
         // ============================================================
         function getPrestigeLevelBadge(name) {
             var pl = getPrestigeLevel(name);
-            // Путь к картинке щита. Убедитесь, что файл существует в папке images.
-            // Если файл называется иначе, измените 'щит.png' на своё название.
             var shieldImgSrc = 'images/щит.webp'; 
             
             return `<span class="player-prestige-level">
@@ -1829,42 +1849,57 @@
         };
 
         var invasionGeneralData = [
-            { rank: 1, name: "Invasion_King" },
-            { rank: 2, name: "Shadow_Hunter" },
-            { rank: 3, name: "Nightmare_Stalker" },
-            { rank: 4, name: "Darkness_Fury" },
-            { rank: 5, name: "Silent_Death" },
-            { rank: 6, name: "Fearless_Runner" },
-            { rank: 7, name: "Ghost_Blade" },
-            { rank: 8, name: "Crimson_Tide" },
-            { rank: 9, name: "Eclipse_Warrior" },
-            { rank: 10, name: "Void_Walker" }
+            { rank: 1, name: "Homo Area", points: 123655, rating: "#24" },
+            { rank: 2, name: "berryholls", points: 36190, rating: "#321" },
+            { rank: 3, name: "joysk_o", points: 28080, rating: "#439" },
+            { rank: 4, name: "Майор СУЕТЛАНА", points: 74615, rating: "#116" },
+            { rank: 5, name: "crøssfade", points: 51030, rating: "#198" },
+            { rank: 6, name: "Генерал Герония", points: 30180, rating: "#401" },
+            { rank: 7, name: "n1kuolson", points: 100105, rating: "#54" },
+            { rank: 8, name: "папа даркстара", points: 57755, rating: "#165" },
+            { rank: 9, name: "Shugar", points: 42755, rating: "#249" },
+            { rank: 10, name: "blablablacreek", points: 3145, rating: "#7144" },
+            { rank: 11, name: "humiliated", points: 15560, rating: "#856" },
+            { rank: 12, name: "Barricade Guy", points: 31425, rating: "#385" },
+            { rank: 13, name: "LARIK_LOL", points: 24720, rating: "#508" },
+            { rank: 14, name: "Garlik_Darlik", points: 10700, rating: "#1284" },
+            { rank: 15, name: "Takuya_Satori", points: 2155, rating: "#8701" }
         ];
 
         var invasionData = {
             reagent: [
-                { rank: 1, name: "Reagent_Master" },
-                { rank: 2, name: "Survivor_King" },
-                { rank: 3, name: "Reagent_Pro" },
-                { rank: 4, name: "Эксперимент_13" },
-                { rank: 5, name: "Лабораторный" },
-                { rank: 6, name: "Реагент_X" },
-                { rank: 7, name: "Подопытный_7" },
-                { rank: 8, name: "Образец_09" },
-                { rank: 9, name: "Тестовая_группа" },
-                { rank: 10, name: "Реагент_001" }
+                { rank: 1, name: "Homo Area", matches: 2037, wins: 1951, losses: 86, rating: "#24" },
+                { rank: 2, name: "berryholls", matches: 1572, wins: 1510, losses: 62, rating: "#321" },
+                { rank: 3, name: "joysk_o", matches: 1058, wins: 1004, losses: 54, rating: "#439" },
+                { rank: 4, name: "Майор СУЕТЛАНА", matches: 1098, wins: 1047, losses: 51, rating: "#116" },
+                { rank: 5, name: "crøssfade", matches: 1703, wins: 1584, losses: 119, rating: "#198" },
+                { rank: 6, name: "Генерал Герония", matches: 478, wins: 460, losses: 18, rating: "#401" },
+                { rank: 7, name: "n1kuolson", matches: 2750, wins: 2605, losses: 145, rating: "#54" },
+                { rank: 8, name: "папа даркстара", matches: 2637, wins: 2509, losses: 128, rating: "#165" },
+                { rank: 9, name: "Shugar", matches: 702, wins: 632, losses: 70, rating: "#249" },
+                { rank: 10, name: "blablablacreek", matches: 113, wins: 77, losses: 36, rating: "#7144" },
+                { rank: 11, name: "humiliated", matches: 1171, wins: 1113, losses: 58, rating: "#857" },
+                { rank: 12, name: "Barricade Guy", matches: 1230, wins: 1109, losses: 121, rating: "#385" },
+                { rank: 13, name: "LARIK_LOL", matches: 346, wins: 330, losses: 16, rating: "#508" },
+                { rank: 14, name: "Garlik_Darlik", matches: 1389, wins: 1322, losses: 67, rating: "#1284" },
+                { rank: 15, name: "Takuya_Satori", matches: 57, wins: 45, losses: 12, rating: "#8701" }
             ],
             impostor: [
-                { rank: 1, name: "Impostor_Elite" },
-                { rank: 2, name: "The_Shadow" },
-                { rank: 3, name: "Самозванец_Х" },
-                { rank: 4, name: "Двойник_7" },
-                { rank: 5, name: "Маскировка" },
-                { rank: 6, name: "Имитация" },
-                { rank: 7, name: "Фальшивка" },
-                { rank: 8, name: "Призрак" },
-                { rank: 9, name: "Копия" },
-                { rank: 10, name: "Обман" }
+                { rank: 1, name: "Homo Area", matches: 693, wins: 247, losses: 446, rating: "#24" },
+                { rank: 2, name: "berryholls", matches: 1125, wins: 589, losses: 536, rating: "#321" },
+                { rank: 3, name: "joysk_o", matches: 598, wins: 231, losses: 367, rating: "#439" },
+                { rank: 4, name: "Майор СУЕТЛАНА", matches: 481, wins: 163, losses: 318, rating: "#116" },
+                { rank: 5, name: "crøssfade", matches: 1062, wins: 436, losses: 626, rating: "#198" },
+                { rank: 6, name: "Генерал Герония", matches: 213, wins: 74, losses: 139, rating: "#401" },
+                { rank: 7, name: "n1kuolson", matches: 1420, wins: 500, losses: 920, rating: "#54" },
+                { rank: 8, name: "папа даркстара", matches: 2400, wins: 1116, losses: 1284, rating: "#165" },
+                { rank: 9, name: "Shugar", matches: 236, wins: 38, losses: 198, rating: "#249" },
+                { rank: 10, name: "blablablacreek", matches: 46, wins: 20, losses: 26, rating: "#7144" },
+                { rank: 11, name: "humiliated", matches: 747, wins: 298, losses: 449, rating: "#856" },
+                { rank: 12, name: "Barricade Guy", matches: 533, wins: 243, losses: 290, rating: "#385" },
+                { rank: 13, name: "LARIK_LOL", matches: 149, wins: 42, losses: 107, rating: "#508" },
+                { rank: 14, name: "Garlik_Darlik", matches: 872, wins: 466, losses: 406, rating: "#1283" },
+                { rank: 15, name: "Takuya_Satori", matches: 14, wins: 1, losses: 13, rating: "#8700" }
             ]
         };
 
@@ -2207,8 +2242,8 @@
                                         ${TEMP_PLAYER_NAME}
                                     </span>
                                 </td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
+                                <td style="font-weight: 700; color: ${color};">${player.points.toLocaleString()}</td>
+                                <td style="font-weight: 700; color: ${color};">${player.rating}</td>
                             </tr>
                         `;
                     });
@@ -2241,10 +2276,10 @@
                                         ${TEMP_PLAYER_NAME}
                                     </span>
                                 </td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
+                                <td>${player.matches}</td>
+                                <td>${player.wins}</td>
+                                <td>${player.losses}</td>
+                                <td style="font-weight: 700; color: ${color};">${player.rating}</td>
                             </tr>
                         `;
                     });
@@ -2277,10 +2312,10 @@
                                         ${TEMP_PLAYER_NAME}
                                     </span>
                                 </td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
-                                <td>${formatCell('unranked')}</td>
+                                <td>${player.matches}</td>
+                                <td>${player.wins}</td>
+                                <td>${player.losses}</td>
+                                <td style="font-weight: 700; color: ${color};">${player.rating}</td>
                             </tr>
                         `;
                     });
