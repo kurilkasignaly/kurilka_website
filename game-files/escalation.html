@@ -314,26 +314,40 @@
             color: #ffbc9a;
         }
 
-        /* ===== КНОПКА НАЗАД ===== */
+        /* ===== КНОПКА НАЗАД (КОМПАКТНАЯ) ===== */
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             color: #e16d48;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             transition: all 0.3s ease;
-            background: rgba(18, 12, 28, 0.5);
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            border: 1px solid rgba(220, 90, 50, 0.25);
+            background: rgba(18, 12, 28, 0.6);
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            border: 1px solid rgba(220, 90, 50, 0.3);
             margin-bottom: 1.5rem;
+            letter-spacing: 0.3px;
+            align-self: flex-start;
+            width: fit-content;
+        }
+
+        .back-link i {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
         }
 
         .back-link:hover {
-            color: white;
-            transform: translateX(-5px);
+            color: #ffffff;
+            background: rgba(220, 90, 50, 0.15);
             border-color: #e16d48;
+            transform: translateX(-4px);
+        }
+
+        .back-link:hover i {
+            transform: translateX(-3px);
         }
 
         /* ===== ФУТЕР ===== */
@@ -398,6 +412,7 @@
             .rules-section h2 { font-size: 1rem; }
             .rules-section ul li { font-size: 0.8rem; }
             .footer-logo { max-height: 24px; }
+            .back-link { font-size: 0.8rem; padding: 0.5rem 1.2rem; }
         }
     </style>
 </head>
