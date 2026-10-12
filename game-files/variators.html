@@ -25,7 +25,8 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        .background-image {
+        /* ===== ФОНОВОЕ ВИДЕО ===== */
+        .background-video {
             position: fixed;
             top: 0;
             left: 0;
@@ -563,7 +564,10 @@
 </head>
 <body>
 
-<img class="background-image" src="../фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
+<!-- ===== ФОНОВОЕ ВИДЕО ===== -->
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
 
 <div class="container">
     <!-- ===== HEADER ===== -->
