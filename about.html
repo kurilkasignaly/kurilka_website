@@ -25,7 +25,8 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
-        .background-image {
+        /* ===== ВИДЕО-ФОН ===== */
+        .background-video {
             position: fixed;
             top: 0;
             left: 0;
@@ -397,7 +398,10 @@
 </head>
 <body>
 
-<img class="background-image" src="images/об-игре-фон.webp" alt="Фон" onerror="this.style.display='none'">
+<!-- ===== ВИДЕО-ФОН ===== -->
+<video class="background-video" autoplay muted loop playsinline>
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
 
 <div class="container">
     <!-- ===== HEADER ===== -->
@@ -414,7 +418,7 @@
             <a href="roles.html" class="nav-btn"><i class="fas fa-tags"></i> Роли</a>
             <a href="news.html" class="nav-btn"><i class="fas fa-newspaper"></i> Новости</a>
             <a href="roulette.html" class="nav-btn"><i class="fas fa-dice-d6"></i> Рулетка</a>
-            <a href="invasion.html" class="nav-btn"><i class="fas fa-skull-crossbones"></i> Invasion</a>
+            <a href="invasion.html" class="nav-btn"><i class="fas fa-trophy"></i> Leaderboard</a>
             <a href="about.html" class="nav-btn active"><i class="fas fa-book-open"></i> Об игре</a>
         </div>
     </div>
@@ -456,7 +460,7 @@
             key: "prime-assets",
             title: "ГЛАВНЫЕ АКТИВЫ",
             icon: "fa-skull",
-            image: "images/prime-assets.png",
+            image: "images/главные-активы.webp",
             file: "game-files/category-prime-assets.html"
         },
         {
@@ -498,7 +502,7 @@
             key: "equipment",
             title: "СНАРЯЖЕНИЕ",
             icon: "fa-backpack",
-            image: "images/снаряжение.png",
+            image: "images/снаряжение.webp",
             file: "game-files/equipment.html"
         },
         {
