@@ -525,7 +525,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
-        /* Слот для картинки вариатора (только на еженедельной) */
         .escalation-rule-card .rule-variator-slot {
             width: 80px;
             height: 80px;
@@ -960,14 +959,14 @@
                 <div class="rule-top">
                     <div class="rule-icon"><i class="fas fa-calendar-week"></i></div>
                     <div class="rule-variator-slot" id="weeklyVariatorSlot">
-                        <img src="images/вариатор-таймербомбы.webp" alt="Таймер Бомбы" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-star\' style=\'color: #f1c40f; font-size: 2rem;\'></i>'">
+                        <img id="weeklyVariatorImage" src="images/вариатор-таймербомбы.webp" alt="Вариатор" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-star\' style=\'color: #f1c40f; font-size: 2rem;\'></i>'">
                     </div>
                 </div>
                 <div class="rule-name-box">
                     <div class="rule-name">ЕЖЕНЕДЕЛЬНАЯ</div>
                 </div>
                 <div class="rule-subtitle">ЕЖЕНЕДЕЛЬНЫЙ ТЕМАТИЧЕСКИЙ ЗАБЕГ</div>
-                <div class="rule-variator-name">"ТАЙМЕР БОМБЫ"</div>
+                <div class="rule-variator-name" id="weeklyVariatorName">"ТАЙМЕР БОМБЫ"</div>
                 <a href="weekly-escalation.html" class="btn-start"><i class="fas fa-play"></i> НАЧАТЬ ЭСКАЛАЦИЮ</a>
             </div>
 
@@ -997,7 +996,28 @@
     </footer>
 </div>
 
+<script src="weekly-schedule.js"></script>
+
 <script>
+    // ================================================================
+    //  ОТОБРАЖЕНИЕ ЕЖЕНЕДЕЛЬНОГО ВАРИАТОРА НА БАННЕРЕ
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof getActiveWeeklyVariator === 'function') {
+            var active = getActiveWeeklyVariator();
+            if (active) {
+                var nameEl = document.getElementById('weeklyVariatorName');
+                var imgEl = document.getElementById('weeklyVariatorImage');
+                if (nameEl) {
+                    nameEl.textContent = '«' + active.name.toUpperCase() + '»';
+                }
+                if (imgEl && active.image) {
+                    imgEl.src = active.image;
+                }
+            }
+        }
+    });
+
     // ================================================================
     //  МУЗЫКА
     // ================================================================
