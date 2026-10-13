@@ -1432,6 +1432,7 @@
     </div>
 </div>
 
+<script src="weekly-schedule.js"></script>
 <script src="maps.js"></script>
 <script src="variators.js"></script>
 <script src="variators-all.js"></script>
@@ -1441,9 +1442,15 @@
 
 <script>
 // ============================================================
-// ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР (ЗАДАЁТСЯ ВРУЧНУЮ)
+// ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР — БЕРЁТСЯ ИЗ РАСПИСАНИЯ
 // ============================================================
-var WEEKLY_VARIATOR_NAME = 'Таймер Бомбы';
+var WEEKLY_VARIATOR_NAME = (function() {
+    if (typeof getActiveWeeklyVariator === 'function') {
+        var active = getActiveWeeklyVariator();
+        if (active && active.name) return active.name;
+    }
+    return 'Таймер Бомбы'; // fallback
+})();
 
 // ============================================================
 // НОВЫЕ КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
@@ -1474,7 +1481,24 @@ var EXCLUDED_VARIATORS = [
     'Лилия Богомолова'
 ];
 
-var WEEKLY_POOL_NAMES = ['Таймер бомбы', 'Вечная мерзлота', 'Глубокий ожог', 'Кровотечение'];
+var WEEKLY_POOL_NAMES = [
+    'Таймер Бомбы',
+    'Токсический Шок',
+    'Глубокий Ожог',
+    'Вечная Мерзлота',
+    'Главная Рулетка',
+    'Егерь',
+    'Кровотечение',
+    'Постоянный Урон',
+    'Смертельный Главный Актив',
+    'Трофейное Снаряжение',
+    'Без Оживлении',
+    'Не Шумите',
+    'Нехватка Здоровья',
+    'Камеры Наблюдения',
+    'Таймер бомбы',
+    'Галлюцинации'
+];
 
 // ============================================================
 // СОСТОЯНИЕ
@@ -2808,8 +2832,6 @@ function renderEscResultPlayers() {
             block.dataset.playerIndex = idx;
             block.dataset.category = category;
 
-            // Клик по карточке — открывает модалку выбора ампы
-            // (если категория ещё не завершена — иначе не даём менять)
             if (!isComplete) {
                 block.style.cursor = 'pointer';
                 block.addEventListener('mouseenter', function() {
