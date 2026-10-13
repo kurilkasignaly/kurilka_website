@@ -61,7 +61,7 @@ const roles = [
     details: ""
   },
   {
-    name: "⌛ Живая легенда",
+    name: "🏆 Живая легенда",
     category: "🎭 Кастомные роли",
     color: "#4a3a00",
     gradient: "linear-gradient(135deg, #fff34a 0%, #ffe830 100%)",
