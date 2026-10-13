@@ -21,10 +21,19 @@
             background: radial-gradient(ellipse at 20% 30%, #0a0a0f 0%, #010101 100%);
         }
 
+        /* ===== ФОНОВОЕ ВИДЕО ===== */
+        .background-video {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
+            pointer-events: none;
+        }
+
         .background-image {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             object-fit: cover; z-index: -2;
+            display: none;
         }
 
         body::after {
@@ -129,6 +138,7 @@
             cursor: pointer;
             overflow: visible;
             display: flex; flex-direction: column;
+            border-radius: 16px;
         }
         .catalog-card:hover {
             transform: translateY(-8px);
@@ -137,12 +147,27 @@
         }
         .catalog-cover {
             width: 100%; aspect-ratio: 3 / 4;
-            object-fit: cover; display: block; border-radius: 0;
+            object-fit: cover; display: block;
+            border-radius: 16px 16px 0 0;
         }
         .catalog-content { padding: 1rem 1.2rem; text-align: center; }
         .catalog-title {
-            font-size: 1.1rem; font-weight: 700;
-            color: #e16d48; margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e16d48;
+            margin-bottom: 0;
+            line-height: 1.35;
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        /* Перенос сезона на новую строку */
+        .catalog-title .season {
+            display: block;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 2px;
         }
 
         /* Модалка */
@@ -185,15 +210,35 @@
         .book-nav-btn:hover { background: #e25d32; transform: scale(1.1); }
         .book-nav-btn.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+        /* ===== ИСПРАВЛЕННЫЙ КРЕСТИК ===== */
         .book-close {
             position: absolute; top: 15px; right: 20px;
-            font-size: 32px; color: white; cursor: pointer;
-            transition: all 0.3s ease; z-index: 20;
-            background: rgba(0, 0, 0, 0.5);
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 20;
+            line-height: 1;
+            padding: 0;
+            font-family: inherit;
         }
-        .book-close:hover { color: #e16d48; transform: scale(1.1); background: rgba(0, 0, 0, 0.8); }
+        .book-close:hover {
+            background: #e25d32;
+            color: #fff;
+            border-color: #e25d32;
+            transform: scale(1.08) rotate(90deg);
+            box-shadow: 0 0 20px rgba(226, 93, 50, 0.5);
+        }
+        .book-close i {
+            pointer-events: none;
+        }
 
         .page-counter {
             position: absolute; bottom: 15px; left: 0; right: 0;
@@ -224,7 +269,7 @@
             .catalogs-grid { gap: 1.2rem; grid-template-columns: 1fr; }
             .book-container { width: 98vw; height: 70vh; }
             .book-nav-btn { width: 40px; height: 40px; font-size: 1rem; }
-            .book-close { width: 35px; height: 35px; font-size: 24px; top: 10px; right: 12px; }
+            .book-close { width: 36px; height: 36px; font-size: 0.95rem; top: 10px; right: 12px; }
             .page-counter { font-size: 0.7rem; bottom: 10px; }
         }
 
@@ -238,6 +283,11 @@
 </head>
 <body>
 
+<!-- ===== ФОНОВОЕ ВИДЕО ===== -->
+<video class="background-video" autoplay muted loop playsinline poster="../фон/Вторжение фон.png">
+    <source src="../images/об игре фон.mp4" type="video/mp4">
+</video>
+<!-- Фоллбэк-картинка (если видео не поддерживается) -->
 <img class="background-image" src="../фон/Вторжение фон.png" alt="Фон" onerror="this.style.display='none'">
 
 <div class="container">
@@ -281,7 +331,7 @@
 <!-- Модальное окно -->
 <div id="catalogModal" class="catalog-modal">
     <div class="book-container">
-        <span class="book-close">&times;</span>
+        <button class="book-close" aria-label="Закрыть"><i class="fas fa-times"></i></button>
         <div class="book-viewer">
             <img id="currentPageImg" class="current-page-img" src="" alt="Страница">
         </div>
@@ -294,8 +344,7 @@
 </div>
 
 <script>
-    // ===== ДАННЫЕ КАТАЛОГОВ (20 штук, порядок как в списке) =====
-    // Страницы внутри каталогов — заглушки. Замените пути `страницы-*` на реальные файлы.
+    // ===== ДАННЫЕ КАТАЛОГОВ =====
     const catalogsData = [
         {
             id: "chemical-leak",
@@ -312,7 +361,8 @@
         },
         {
             id: "project-cemetery",
-            title: "ПРОЕКТ «КЛАДБИЩЕ» (СЕЗОН 07)",
+            title: "ПРОЕКТ «КЛАДБИЩЕ»",
+            season: "(СЕЗОН 07)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог кладбище.webp",
             pages: [
@@ -330,7 +380,8 @@
         },
         {
             id: "project-judas",
-            title: "ПРОЕКТ «ИУДА» (СЕЗОН 06)",
+            title: "ПРОЕКТ «ИУДА»",
+            season: "(СЕЗОН 06)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог иуда.webp",
             pages: [
@@ -360,7 +411,8 @@
         },
         {
             id: "project-messiah",
-            title: "ПРОЕКТ «МЕССИЯ» (СЕЗОН 05)",
+            title: "ПРОЕКТ «МЕССИЯ»",
+            season: "(СЕЗОН 05)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог мессия.webp",
             pages: [
@@ -389,7 +441,8 @@
         },
         {
             id: "project-diarchy",
-            title: "ПРОЕКТ «ДИАРХИЯ» (СЕЗОН 04)",
+            title: "ПРОЕКТ «ДИАРХИЯ»",
+            season: "(СЕЗОН 04)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог диархия.webp",
             pages: [
@@ -419,7 +472,8 @@
         },
         {
             id: "project-recidive",
-            title: "ПРОЕКТ «РЕЦЕДИВ» (СЕЗОН 03)",
+            title: "ПРОЕКТ «РЕЦЕДИВ»",
+            season: "(СЕЗОН 03)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог рецидив.webp",
             pages: [
@@ -460,7 +514,8 @@
         },
         {
             id: "project-breach",
-            title: "ПРОЕКТ «BREACH» (СЕЗОН 02)",
+            title: "ПРОЕКТ «BREACH»",
+            season: "(СЕЗОН 02)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог брич.webp",
             pages: [
@@ -501,7 +556,8 @@
         },
         {
             id: "project-lupara",
-            title: "ПРОЕКТ «ЛУПАРА» (СЕЗОН 01)",
+            title: "ПРОЕКТ «ЛУПАРА»",
+            season: "(СЕЗОН 01)",
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог лупара.webp",
             pages: [
@@ -570,14 +626,14 @@
             subtitle: "КАТАЛОГ ПОВЕДЕНЧЕСКОЙ ОДЕЖДЫ МЕРКОФФ",
             cover: "../images/каталог гайстер 2023.webp",
             pages: [
-                "../images/гайстер-2023-1.webp",
-                "../images/гайстер-2023-2.webp",
-                "../images/гайстер-2023-3.webp",
-                "../images/гайстер-2023-4.webp",
-                "../images/гайстер-2023-5.webp",
-                "../images/гайстер-2023-6.webp",
-                "../images/гайстер-2023-7.webp",
-                "../images/гайстер-2023-8.webp"
+                "../images/гайстер-2023-1.png",
+                "../images/гайстер-2023-2.png",
+                "../images/гайстер-2023-3.png",
+                "../images/гайстер-2023-4.png",
+                "../images/гайстер-2023-5.png",
+                "../images/гайстер-2023-6.png",
+                "../images/гайстер-2023-7.png",
+                "../images/гайстер-2023-8.png"
             ]
         },
         {
@@ -613,10 +669,17 @@
             const card = document.createElement('div');
             card.className = 'catalog-card';
             card.addEventListener('click', () => openCatalog(catalog));
+
+            // Формируем заголовок с правильным переносом сезона
+            let titleHTML = catalog.title;
+            if (catalog.season) {
+                titleHTML += `<span class="season">${catalog.season}</span>`;
+            }
+
             card.innerHTML = `
                 <img src="${catalog.cover}" class="catalog-cover" alt="${catalog.title}" onerror="this.src='https://placehold.co/400x533/1a1a2e/e16d48?text=${encodeURIComponent(catalog.title)}'">
                 <div class="catalog-content">
-                    <h3 class="catalog-title">${catalog.title}</h3>
+                    <h3 class="catalog-title">${titleHTML}</h3>
                 </div>
             `;
             container.appendChild(card);
