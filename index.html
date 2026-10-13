@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
-        // ===== ПРОВЕРКА СЕССИИ (СРАЗУ, ДО ОТРИСОВКИ) =====
         try {
             if (sessionStorage.getItem('siteEntered') === '1') {
                 document.documentElement.classList.add('already-entered');
@@ -507,14 +506,7 @@
             font-size: 1.8rem; margin-right: 10px;
         }
         .news-slide-text p { color: #b5a8c8; line-height: 1.6; font-size: 1.05rem; margin-bottom: 1rem; }
-        .news-badge-slider {
-            display: inline-block;
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            padding: 8px 20px; border-radius: 40px;
-            font-size: 0.85rem; font-weight: 700; color: white;
-            box-shadow: 0 4px 16px rgba(188, 70, 39, 0.3);
-        }
-        .news-badge-slider i { margin-right: 8px; }
+
         .news-slider-dots {
             display: flex; justify-content: center;
             gap: 0.8rem; padding: 1rem 0 1.5rem;
@@ -879,7 +871,6 @@
             .news-slide-text h2 { font-size: 1.3rem; }
             .news-slide-text h2 i { font-size: 1.1rem; }
             .news-slide-text p { font-size: 0.9rem; }
-            .news-badge-slider { font-size: 0.75rem; padding: 6px 14px; }
             .news-slide-image img { min-height: 180px; }
             .news-slider-btn { width: 34px; height: 34px; font-size: 0.9rem; }
 
@@ -1125,13 +1116,11 @@
         valueDisplay.textContent = val + '%';
     }
 
-    // Обновление громкости при движении ползунка
     function onVolumeChange() {
         const slider = document.getElementById('volumeSlider');
         const val = parseInt(slider.value);
         updateVolumeDisplay();
         
-        // Обновляем громкость у всех возможных аудиоэлементов
         if (currentAudioElement) {
             currentAudioElement.volume = val / 100;
         }
@@ -1139,7 +1128,6 @@
             a.volume = val / 100;
         });
         
-        // Обновляем градиент ползунка
         const percent = val;
         slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${percent}%, rgba(255,255,255,0.15) ${percent}%, rgba(255,255,255,0.15) 100%)`;
     }
@@ -1160,7 +1148,6 @@
         if (slider) {
             slider.addEventListener('input', onVolumeChange);
             slider.addEventListener('change', onVolumeChange);
-            // Инициализация градиента
             const initialVal = parseInt(slider.value);
             slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${initialVal}%, rgba(255,255,255,0.15) ${initialVal}%, rgba(255,255,255,0.15) 100%)`;
             updateVolumeDisplay();
@@ -1292,42 +1279,41 @@
                             </div>
                         </div>
 
-                        <!-- Слайд 2 -->
+                        <!-- Слайд 2 — Еженедельная эскалационная терапия -->
                         <div class="news-slide">
                             <div class="news-slide-image">
-                                <img src="images/новость 1.webp" alt="Обновление Терапия 2.0"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Терапия+2.0'">
+                                <img src="images/новость 1.webp" alt="Еженедельная эскалационная терапия"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Эскалация'">
                             </div>
                             <div class="news-slide-text">
-                                <h2><i class="fas fa-download"></i>Обновление «Терапия 2.0»</h2>
-                                <p>Новая карта, враги и система прогрессии. Уже доступно на сервере.</p>
-                                <span class="news-badge-slider"><i class="fas fa-download"></i>Обновитесь сейчас</span>
+                                <h2><i class="fas fa-skull"></i>ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИОННАЯ ТЕРАПИЯ</h2>
+                                <p>с 13.10.2026 по 20.10.2026 — <strong>«Таймер бомбы»</strong></p>
+                                <p>с 20.10.2026 по 27.10.2026 — <strong>«Галлюцинации»</strong></p>
+                                <p>с 27.10.2026 по 03.11.2026 — <strong>«Кровотечение»</strong></p>
                             </div>
                         </div>
 
-                        <!-- Слайд 3 -->
+                        <!-- Слайд 3 — Утечка химикатов -->
                         <div class="news-slide">
                             <div class="news-slide-image">
-                                <img src="images/новость 2.webp" alt="Сезон Краб-убежище"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Краб-убежище'">
+                                <img src="images/новость 2.webp" alt="Утечка химикатов"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Утечка+химикатов'">
                             </div>
                             <div class="news-slide-text">
-                                <h2><i class="fas fa-crown"></i>Сезон «Краб-убежище»</h2>
-                                <p>Новое испытание с крабом-мутантом. Эксклюзивные награды ждут смельчаков.</p>
-                                <span class="news-badge-slider"><i class="fas fa-calendar-alt"></i>14 дней до конца</span>
+                                <h2><i class="fas fa-biohazard"></i>УТЕЧКА ХИМИКАТОВ 2026!</h2>
+                                <p><strong>ТОЛЬКО ДО 20 ОКТЯБРЯ!!!</strong> Успейте получить эксклюзивную роль <strong>«☢️ Токсичный Объект»</strong>, пройдя ивент-терапию <strong>УТЕЧКА ХИМИКАТОВ</strong>! О подробностях получения роли вы можете познакомиться в разделе <a href="roles.html" style="color:#e16d48;text-decoration:underline;">«Роли»</a>.</p>
                             </div>
                         </div>
 
-                        <!-- Слайд 4 -->
+                        <!-- Слайд 4 — Благодарность сообществу -->
                         <div class="news-slide">
                             <div class="news-slide-image">
-                                <img src="images/новость 3.webp" alt="Турнир Дымная битва"
-                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Дымная+битва'">
+                                <img id="thanksImage" src="images/новость 5.webp" alt="Курилка Синьялы"
+                                     onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Курилка+Синьялы'">
                             </div>
                             <div class="news-slide-text">
-                                <h2><i class="fas fa-trophy"></i>Турнир «Дымная битва»</h2>
-                                <p>Соревнования на скорость. Призовой фонд 5000₽, регистрация до 20 июня.</p>
-                                <span class="news-badge-slider"><i class="fas fa-trophy"></i>Призовой фонд: 5000₽</span>
+                                <h2><i class="fas fa-heart"></i>КУРИЛКА СИНЬЯЛЫ!</h2>
+                                <p>Курилка Синьялы выражает огромную благодарность всем участникам своего сообщества, активно принимающим участие в развитии и поддержке!!!</p>
                             </div>
                         </div>
 
@@ -1623,12 +1609,27 @@
         function goTo(i) { currentIndex = i; update(); }
 
         if (prevBtn) prevBtn.addEventListener('click', prev);
-        if (nextBtn) nextBtn.addEventListener('click', next);
+        if (nextBtn) nextBtn.addEventListener('click', nextBtn);
 
         dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
-        // Автопрокрутка отключена — слайды переключаются только вручную
         update();
+    })();
+
+    // ===== СМЕНА КАРТИНКИ В НОВОСТИ-3 (БЛАГОДАРНОСТЬ) =====
+    (function initThanksImageRotation() {
+        const img = document.getElementById('thanksImage');
+        if (!img) return;
+        const images = [
+            'images/новость 5.webp',
+            'images/новость 6.webp',
+            'images/новость 7.webp'
+        ];
+        let index = 0;
+        setInterval(() => {
+            index = (index + 1) % images.length;
+            img.src = images[index];
+        }, 5000);
     })();
 
     // ===== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ =====
