@@ -1000,21 +1000,22 @@
 
 <script>
     // ================================================================
-    //  ОТОБРАЖЕНИЕ ЕЖЕНЕДЕЛЬНОГО ВАРИАТОРА НА БАННЕРЕ
+    //  АВТОМАТИЧЕСКАЯ ПОДСТАНОВКА ВАРИАТОРА НА БАННЕР
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
-        if (typeof getActiveWeeklyVariator === 'function') {
-            var active = getActiveWeeklyVariator();
-            if (active) {
-                var nameEl = document.getElementById('weeklyVariatorName');
-                var imgEl = document.getElementById('weeklyVariatorImage');
-                if (nameEl) {
-                    nameEl.textContent = '«' + active.name.toUpperCase() + '»';
-                }
-                if (imgEl && active.image) {
-                    imgEl.src = active.image;
-                }
-            }
+        if (typeof getActiveWeeklyVariator !== 'function') return;
+
+        var active = getActiveWeeklyVariator();
+        if (!active) return;
+
+        var nameEl = document.getElementById('weeklyVariatorName');
+        var imgEl = document.getElementById('weeklyVariatorImage');
+
+        if (nameEl) {
+            nameEl.textContent = '«' + active.name.toUpperCase() + '»';
+        }
+        if (imgEl && active.image) {
+            imgEl.src = active.image;
         }
     });
 
