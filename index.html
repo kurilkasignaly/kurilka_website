@@ -1261,7 +1261,7 @@
         </div>
 
         <div class="hero-title">
-            <h2>Добро пожаловать в Курилку</h2>
+            <h2>Добро пожаловать в Курилку Синьялы!</h2>
         </div>
 
         <!-- ====== СЛАЙДЕР НОВОСТЕЙ ====== -->
@@ -1286,7 +1286,7 @@
                                      onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Эскалация'">
                             </div>
                             <div class="news-slide-text">
-                                <h2><i class="fas fa-skull"></i>ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИОННАЯ ТЕРАПИЯ</h2>
+                                <h2><i></i>ЕЖЕНЕДЕЛЬНАЯ ЭСКАЛАЦИОННАЯ ТЕРАПИЯ</h2>
                                 <p>с 13.10.2026 по 20.10.2026 — <strong>«Таймер бомбы»</strong></p>
                                 <p>с 20.10.2026 по 27.10.2026 — <strong>«Галлюцинации»</strong></p>
                                 <p>с 27.10.2026 по 03.11.2026 — <strong>«Кровотечение»</strong></p>
@@ -1300,7 +1300,7 @@
                                      onerror="this.src='https://placehold.co/800x450/16121f/e25d32?text=Утечка+химикатов'">
                             </div>
                             <div class="news-slide-text">
-                                <h2><i class="fas fa-biohazard"></i>УТЕЧКА ХИМИКАТОВ 2026!</h2>
+                                <h2><i></i>УТЕЧКА ХИМИКАТОВ 2026!</h2>
                                 <p><strong>ТОЛЬКО ДО 20 ОКТЯБРЯ!!!</strong> Успейте получить эксклюзивную роль <strong>«☢️ Токсичный Объект»</strong>, пройдя ивент-терапию <strong>УТЕЧКА ХИМИКАТОВ</strong>! О подробностях получения роли вы можете познакомиться в разделе <a href="roles.html" style="color:#e16d48;text-decoration:underline;">«Роли»</a>.</p>
                             </div>
                         </div>
@@ -1627,19 +1627,17 @@
         update();
     })();
 
-    // ===== СМЕНА КАРТИНКИ В НОВОСТИ-3 =====
-    (function initThanksImageRotation() {
+    // ===== СЛУЧАЙНАЯ КАРТИНКА В НОВОСТИ "БЛАГОДАРНОСТЬ" (БЕЗ СМЕНЫ ПО ТАЙМЕРУ) =====
+    (function initThanksImageRandom() {
         const img = document.getElementById('thanksImage');
         if (!img) return;
         const images = [
             'images/новость-5.webp',
-            'images/новость-6.webp',
+            'images/новость-6.webp'
         ];
-        let index = 0;
-        setInterval(() => {
-            index = (index + 1) % images.length;
-            img.src = images[index];
-        }, 5000);
+        // Выбираем случайную картинку один раз при загрузке страницы
+        const randomIndex = Math.floor(Math.random() * images.length);
+        img.src = images[randomIndex];
     })();
 
     // ===== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ =====
