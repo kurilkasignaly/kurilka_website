@@ -1000,7 +1000,10 @@
         audio.load();
     });
 
-    // ===== МУЗЫКА ГЛАВНОЙ =====
+    // ===== МУЗЫКА ГЛАВНОЙ (с сохранением состояния) =====
+    const MUSIC_STATE_KEY = 'kurilka_music_enabled';
+    const MUSIC_VOLUME_KEY = 'kurilka_music_volume';
+
     let mainAudioStarted = false, currentTrackIndex = 0, mainAudioFiles = [], currentAudioElement = null;
 
     function initMainAudio() {
@@ -1012,7 +1015,7 @@
         for (let i = 0; i < 3; i++) {
             const a = document.createElement('audio');
             a.id = 'mainAudio' + (i + 1);
-            a.preload = 'auto'; a.volume = 0.4;
+            a.preload = 'auto'; a.volume = 0.3;
             const s = document.createElement('source');
             s.src = 'images/' + names[i]; s.type = 'audio/mpeg';
             a.appendChild(s); c.appendChild(a); mainAudioFiles.push(a);
@@ -1068,12 +1071,18 @@
             if (label) label.textContent = 'Выкл';
         }
     }
+    function saveMusicState(enabled) {
+        try {
+            localStorage.setItem(MUSIC_STATE_KEY, enabled ? '1' : '0');
+        } catch(e) {}
+    }
     function toggleMainMusic() {
         if (mainAudioStarted) {
             mainAudioStarted = false;
             if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
             mainAudioFiles.forEach(a => { a.pause(); a.currentTime = 0; });
             updateMusicButton(false);
+            saveMusicState(false);
         } else {
             mainAudioStarted = true;
             initMainAudio();
@@ -1089,10 +1098,11 @@
                 playNextMainTrack();
             });
             updateMusicButton(true);
+            saveMusicState(true);
         }
     }
 
-    // ===== УПРАВЛЕНИЕ ГРОМКОСТЬЮ (РАБОЧЕЕ) =====
+    // ===== УПРАВЛЕНИЕ ГРОМКОСТЬЮ =====
     let volumeDropdownOpen = false;
 
     function toggleVolumeDropdown() {
@@ -1128,6 +1138,10 @@
             a.volume = val / 100;
         });
         
+        try {
+            localStorage.setItem(MUSIC_VOLUME_KEY, val.toString());
+        } catch(e) {}
+
         const percent = val;
         slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${percent}%, rgba(255,255,255,0.15) ${percent}%, rgba(255,255,255,0.15) 100%)`;
     }
@@ -1146,11 +1160,26 @@
     document.addEventListener('DOMContentLoaded', function() {
         const slider = document.getElementById('volumeSlider');
         if (slider) {
+            // Восстанавливаем сохранённую громкость или ставим 30%
+            let savedVolume = 30;
+            try {
+                const stored = localStorage.getItem(MUSIC_VOLUME_KEY);
+                if (stored !== null) {
+                    const parsed = parseInt(stored);
+                    if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) savedVolume = parsed;
+                }
+            } catch(e) {}
+
+            slider.value = savedVolume;
+
             slider.addEventListener('input', onVolumeChange);
             slider.addEventListener('change', onVolumeChange);
             const initialVal = parseInt(slider.value);
             slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${initialVal}%, rgba(255,255,255,0.15) ${initialVal}%, rgba(255,255,255,0.15) 100%)`;
             updateVolumeDisplay();
+
+            // Устанавливаем громкость для уже созданных аудио
+            mainAudioFiles.forEach(a => { a.volume = initialVal / 100; });
         }
     });
 
@@ -1251,9 +1280,9 @@
                         <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
                         <div class="volume-slider-wrapper">
                             <span class="vol-icon"><i class="fas fa-volume-low"></i></span>
-                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+                            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
                             <span class="vol-icon active"><i class="fas fa-volume-high"></i></span>
-                            <span class="volume-value" id="volumeValue">40%</span>
+                            <span class="volume-value" id="volumeValue">30%</span>
                         </div>
                     </div>
                 </div>
@@ -1543,11 +1572,32 @@
                 document.getElementById('mainContent').classList.add('active');
                 document.body.classList.add('scroll-enabled');
                 if (audio) { audio.pause(); audio.currentTime = 0; }
+
+                // Восстанавливаем состояние музыки из localStorage
+                restoreMusicState();
+
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
         isProcessing = false;
         connectionTimer = null;
+    }
+
+    function restoreMusicState() {
+        try {
+            const savedState = localStorage.getItem(MUSIC_STATE_KEY);
+            if (savedState === '1') {
+                // Пользователь ранее включал музыку — включаем автоматически
+                setTimeout(() => {
+                    if (!mainAudioStarted) startMainMusic();
+                }, 500);
+            } else {
+                // Пользователь ранее выключал музыку или не включал — оставляем выключенной
+                updateMusicButton(false);
+            }
+        } catch(e) {
+            updateMusicButton(false);
+        }
     }
 
     connectScreen.addEventListener('click', function() { if (!isProcessing) startConnectionProcess(); });
@@ -1635,7 +1685,6 @@
             'images/новость-5.webp',
             'images/новость-6.webp'
         ];
-        // Выбираем случайную картинку один раз при загрузке страницы
         const randomIndex = Math.floor(Math.random() * images.length);
         img.src = images[randomIndex];
     })();
