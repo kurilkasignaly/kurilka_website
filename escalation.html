@@ -799,8 +799,289 @@
             margin-bottom: 0.5rem;
         }
 
+        /* ============================================================
+           МОДАЛКА СБОРА ИНФОРМАЦИИ
+           ============================================================ */
+        .info-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); z-index: 1700; justify-content: center;
+            align-items: flex-start; backdrop-filter: blur(12px); overflow-y: auto; padding: 30px 15px;
+        }
+        .info-modal-overlay.active { display: flex; }
+
+        .info-modal {
+            background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+            border-radius: 24px; border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 30px 35px; max-width: 900px; width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.3s ease-out; margin: auto;
+        }
+
+        .info-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.5rem; padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.2);
+        }
+        .info-modal-header h2 {
+            font-size: 1.5rem; color: #e16d48;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .info-modal-header h2 i { color: #e16d48; }
+        .info-modal-close {
+            background: none; border: none; color: #c2b9d4;
+            font-size: 2rem; cursor: pointer; transition: color 0.3s;
+        }
+        .info-modal-close:hover { color: #e16d48; }
+
+        .info-form-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem;
+        }
+        .info-form-group {
+            display: flex; flex-direction: column; gap: 6px; position: relative;
+        }
+        .info-form-group.full-width { grid-column: 1 / -1; }
+
+        .info-form-group label {
+            font-size: 0.8rem; color: #e16d48; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .info-form-group input[type="text"] {
+            background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 12px; padding: 12px 16px; color: #f0eef7;
+            font-size: 0.95rem; font-family: inherit; outline: none;
+            transition: border-color 0.3s;
+        }
+        .info-form-group input:focus { border-color: #e16d48; }
+        .info-form-group input::placeholder { color: #555; }
+
+        .info-form-group input.readonly-field {
+            background: rgba(0, 0, 0, 0.15);
+            color: #888;
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
+        .info-form-group input.input-error {
+            border-color: #ff3333;
+            box-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
+        }
+        .info-form-group input.input-valid {
+            border-color: #2ecc71;
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.25);
+        }
+
+        .info-form-hint {
+            font-size: 0.7rem; color: #666;
+            margin-top: 2px; font-style: italic;
+        }
+        .info-form-hint.error { color: #ff6666; }
+        .info-form-hint.valid { color: #2ecc71; }
+
+        .readonly-variators {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px dashed rgba(220, 90, 50, 0.25);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex; flex-wrap: wrap; gap: 10px;
+            max-height: 260px; overflow-y: auto;
+            min-height: 60px;
+        }
+        .readonly-variator-item {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 12px;
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem; color: #ffbc9a; white-space: nowrap;
+        }
+        .readonly-variator-item img {
+            width: 20px; height: 20px;
+            object-fit: contain; border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3); padding: 2px;
+        }
+        .readonly-variators-empty {
+            color: #666; font-size: 0.8rem; font-style: italic; padding: 4px;
+        }
+
+        .info-modal-actions {
+            display: flex; justify-content: flex-end; gap: 1rem;
+            margin-top: 1.5rem; padding-top: 1.2rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.2); flex-wrap: wrap;
+        }
+        .info-modal-actions button {
+            padding: 0.8rem 2rem; border-radius: 40px;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit; border: none;
+        }
+        .info-modal-actions .btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32); color: white;
+        }
+        .info-modal-actions .btn-primary:hover:not(:disabled) {
+            transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+        .info-modal-actions .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .info-modal-actions .btn-secondary {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25); color: #c2b9d4;
+        }
+        .info-modal-actions .btn-secondary:hover {
+            background: rgba(220, 90, 50, 0.25); color: white;
+        }
+
+        /* ============================================================
+           ИТОГОВАЯ ТАБЛИЦА
+           ============================================================ */
+        .summary-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 2500; justify-content: center;
+            align-items: flex-start; backdrop-filter: blur(14px);
+            overflow-y: auto; padding: 40px 20px;
+        }
+        .summary-modal-overlay.active { display: flex; }
+
+        .summary-modal {
+            background: #0a0a0f;
+            border-radius: 16px; border: 1px solid rgba(220, 90, 50, 0.3);
+            padding: 30px 35px; max-width: 1300px; width: 100%;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.9);
+            animation: modalFadeIn 0.3s ease-out; margin: auto;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(220, 90, 50, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(220, 90, 50, 0.03) 0%, transparent 50%);
+        }
+
+        .summary-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 15px;
+            border-bottom: 2px solid rgba(220, 90, 50, 0.4);
+        }
+        .summary-header h2 {
+            font-size: 2rem; font-weight: 300; color: #fff;
+            letter-spacing: 3px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .summary-header h2 i { color: #e16d48; font-size: 1.8rem; }
+        .summary-close {
+            background: none; border: none; color: #c2b9d4;
+            font-size: 2rem; cursor: pointer; transition: color 0.3s;
+        }
+        .summary-close:hover { color: #e16d48; }
+
+        .summary-table {
+            width: 100%; border-collapse: collapse;
+        }
+        .summary-table thead th {
+            text-align: left; padding: 12px 10px;
+            font-size: 0.75rem; font-weight: 600;
+            color: #888; text-transform: uppercase; letter-spacing: 1.5px;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+        .summary-table thead th.col-time { text-align: center; width: 90px; }
+        .summary-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+        .summary-table tbody tr:hover { background: rgba(220, 90, 50, 0.05); }
+        .summary-table tbody td {
+            padding: 12px 10px; vertical-align: middle;
+            color: #f0eef7; font-size: 0.95rem;
+        }
+        .summary-cell-number {
+            font-weight: 700; color: #e16d48; font-size: 1rem;
+            width: 60px; text-align: center;
+        }
+        .summary-cell-thumb { width: 100px; padding: 6px 10px; }
+        .summary-cell-thumb img {
+            width: 90px; height: 55px; object-fit: cover;
+            border-radius: 8px; border: 1px solid rgba(220, 90, 50, 0.3);
+            display: block;
+        }
+        .summary-cell-name {
+            font-weight: 600; color: #fff; text-transform: uppercase;
+            font-size: 0.95rem; letter-spacing: 0.5px;
+            min-width: 220px;
+        }
+        .summary-cell-variators {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 12px;
+            align-items: center;
+            padding: 4px 0;
+            max-width: 520px;
+        }
+        .summary-var-icon {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            flex-shrink: 0;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            cursor: help;
+        }
+        .summary-var-icon:hover {
+            transform: scale(1.12);
+            border-color: #e16d48;
+            box-shadow: 0 0 12px rgba(220, 90, 50, 0.5);
+            z-index: 5;
+            position: relative;
+        }
+        .summary-cell-time {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: #ffbc9a; font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        .summary-empty {
+            text-align: center; padding: 40px; color: #888;
+            font-size: 1rem; font-style: italic;
+        }
+        .summary-total-row td {
+            padding: 16px 10px 6px 10px;
+            border-top: 2px solid rgba(220, 90, 50, 0.4);
+            font-weight: 700;
+        }
+        .summary-total-label {
+            text-align: right; color: #e16d48;
+            font-size: 0.95rem; letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .summary-total-value {
+            text-align: center; color: #f1c40f;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem; letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(241, 196, 15, 0.4);
+        }
+        .summary-footer {
+            margin-top: 20px; padding-top: 15px;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px;
+        }
+        .summary-footer .stats {
+            font-size: 0.8rem; color: #888;
+        }
+        .summary-footer .stats strong { color: #ffbc9a; }
+        .summary-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .summary-actions button {
+            padding: 0.7rem 1.6rem; border-radius: 40px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit; border: none;
+        }
+        .summary-actions .btn-close {
+            background: linear-gradient(135deg, #bc4627, #e25d32); color: white;
+        }
+        .summary-actions .btn-close:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4); }
+        .summary-actions .btn-copy {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25); color: #c2b9d4;
+        }
+        .summary-actions .btn-copy:hover { background: rgba(220, 90, 50, 0.25); color: white; }
+
         @media (max-width: 992px) {
             .result-grid { grid-template-columns: 1fr; }
+            .info-form-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 850px) {
@@ -821,6 +1102,12 @@
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
             .player-amps-categories { grid-template-columns: 1fr; gap: 0.5rem; }
+            .summary-table thead { display: none; }
+            .summary-table tbody tr { display: block; padding: 12px 0; }
+            .summary-table tbody td { display: block; padding: 4px 10px; }
+            .summary-cell-thumb img { width: 100%; height: auto; max-width: 200px; }
+            .summary-cell-variators { justify-content: flex-start; max-width: 100%; }
+            .summary-var-icon { width: 44px; height: 44px; }
         }
 
         @media (max-width: 600px) {
@@ -848,6 +1135,12 @@
             .player-amps-categories { grid-template-columns: 1fr; gap: 0.4rem; }
             .amp-category-block .category-name { font-size: 0.6rem; }
             .amp-category-block .category-amp-name { font-size: 0.7rem; }
+            .info-modal { padding: 20px 15px; }
+            .info-modal-header h2 { font-size: 1.1rem; }
+            .summary-modal { padding: 20px 15px; }
+            .summary-header h2 { font-size: 1.3rem; letter-spacing: 1px; }
+            .summary-cell-time { font-size: 1rem; }
+            .summary-var-icon { width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -1007,6 +1300,77 @@
     </div>
 </div>
 
+<!-- ====== МОДАЛКА СБОРА ИНФОРМАЦИИ ====== -->
+<div class="info-modal-overlay" id="infoModal">
+    <div class="info-modal">
+        <div class="info-modal-header">
+            <h2><i class="fas fa-clipboard-list"></i> Сбор информации об испытании</h2>
+            <button class="info-modal-close" id="infoModalClose">&times;</button>
+        </div>
+
+        <div class="info-form-grid">
+            <div class="info-form-group">
+                <label><i class="fas fa-hashtag"></i> Номер эскалации</label>
+                <input type="text" id="infoLevelNum" class="readonly-field" readonly>
+            </div>
+
+            <div class="info-form-group">
+                <label><i class="fas fa-clock"></i> Время прохождения</label>
+                <input type="text" id="infoTime" placeholder="ММ:СС, например 02:46" maxlength="5" inputmode="numeric">
+                <div class="info-form-hint" id="infoTimeHint">Введите время в формате ММ:СС (например 02:46)</div>
+            </div>
+
+            <div class="info-form-group full-width">
+                <label><i class="fas fa-map"></i> Испытание</label>
+                <input type="text" id="infoTrialInput" class="readonly-field" readonly>
+            </div>
+        </div>
+
+        <div class="info-form-group full-width" style="margin-bottom: 1.2rem;">
+            <label><i class="fas fa-tags"></i> Вариаторы (определены автоматически)</label>
+            <div class="readonly-variators" id="infoVariatorList">
+                <div class="readonly-variators-empty">Загрузка...</div>
+            </div>
+        </div>
+
+        <div class="info-modal-actions">
+            <button class="btn-secondary" id="infoModalCancel">Отмена</button>
+            <button class="btn-primary" id="infoModalSave" disabled>Сохранить и продолжить →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== ИТОГОВАЯ ТАБЛИЦА ====== -->
+<div class="summary-modal-overlay" id="summaryModal">
+    <div class="summary-modal">
+        <div class="summary-header">
+            <h2><i class="fas fa-table"></i> Эскалационная терапия</h2>
+            <button class="summary-close" id="summaryClose">&times;</button>
+        </div>
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px; text-align: center;">#</th>
+                    <th style="width: 110px;">Испытание</th>
+                    <th>Название</th>
+                    <th style="min-width: 260px;">Переменные</th>
+                    <th class="col-time">Время</th>
+                </tr>
+            </thead>
+            <tbody id="summaryTableBody"></tbody>
+        </table>
+
+        <div class="summary-footer">
+            <div class="stats" id="summaryStats"></div>
+            <div class="summary-actions">
+                <button class="btn-copy" id="summaryCopy"><i class="fas fa-copy"></i> Скопировать</button>
+                <button class="btn-close" id="summaryCloseBtn">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="maps.js"></script>
 <script src="variators.js"></script>
 <script src="variators-all.js"></script>
@@ -1033,8 +1397,7 @@ var EXCLUDED_VARIATORS = [
 ];
 
 // ============================================================
-// СОСТОЯНИЕ
-// ============================================================
+// СОСТОЯНИЕ// ============================================================
 let escState = {
     level: 1, playerCount: 0, players: [],
     equipSelections: {}, ampSelections: {}, usedAmps: {},
@@ -1043,6 +1406,16 @@ let escState = {
     isFirstRun: true, usedBigTrials: [], usedSmallTrials: [],
     nostophobiaCount: 0
 };
+
+var infoFormState = {
+    levelNum: null,
+    trialName: null,
+    trialObj: null,
+    variatorNames: [],
+    time: ''
+};
+
+var collectedRecords = [];
 
 // ============================================================
 // ПРОВЕРКА ЗАГРУЗКИ
@@ -1236,10 +1609,21 @@ function isVariatorCompatible(v, selected, trialName, playerCount, level) {
         }
     }
 
-    var noItemsName = 'Без Предметов В Испытании';
-    var limitedItems = ['Ограниченные предметы','Ограниченные предметы II'];
-    if (name === noItemsName) { for (i = 0; i < limitedItems.length; i++) if (names.indexOf(limitedItems[i]) !== -1) return false; }
-    if (limitedItems.indexOf(name) !== -1) { if (names.indexOf(noItemsName) !== -1) return false; }
+    // ============================================================
+    // 10.1. ГРУППА ВЗАИМОИСКЛЮЧАЮЩИХ ВАРИАТОРОВ ПРЕДМЕТОВ
+    // ============================================================
+    var itemGroup = [
+        'Без Предметов В Испытании',
+        'Ограниченные Предметы', 'Ограниченные Предметы II',
+        'Ограниченные предметы', 'Ограниченные предметы II',
+        'Без Медицинских Предметов', 'Без Технических Предметов',
+        'Закрытые Предметы', 'Только Предметы Для Бросания'
+    ];
+    if (itemGroup.indexOf(name) !== -1) {
+        for (i = 0; i < itemGroup.length; i++) {
+            if (itemGroup[i] !== name && names.indexOf(itemGroup[i]) !== -1) return false;
+        }
+    }
 
     if (playerCount === 1) { if (name === 'Без Имён' || name === 'Без Рации') return false; }
     if (name === 'Низкая Плотность Врагов' && level > 5) return false;
@@ -1249,12 +1633,23 @@ function isVariatorCompatible(v, selected, trialName, playerCount, level) {
 }
 
 // ============================================================
+// ЛИМИТ ПО СЛОЖНОСТИ
+// ============================================================
+function getMaxVariatorsForLevel(level) {
+    if (level >= 1 && level <= 3) return 3;
+    if (level >= 4 && level <= 5) return 4;
+    if (level >= 6 && level <= 15) return 5;
+    if (level >= 16 && level <= 20) return 6;
+    return 8; // level >= 21
+}
+
+// ============================================================
 // ГЕНЕРАЦИЯ ВАРИАТОРОВ
 // ============================================================
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
-    var MAX_VARIATORS = 8;
+    var MAX_VARIATORS = getMaxVariatorsForLevel(level);
     var trialName = escState.trial ? escState.trial.name : '';
 
     var available = allVariatorsData.filter(function(v) {
@@ -1268,21 +1663,23 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     var result = [];
     var used = [];
 
-    // 1. Вариатор сложности
-    if (level > 20) {
-        var psycho = available.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleT = available.find(function(v) { return v.name === "Двойные задания"; });
-        if (psycho) { result.push(psycho); used.push(psycho.name); }
-        else { result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" }); used.push("Психохирургия"); }
-        if (doubleT) { result.push(doubleT); used.push(doubleT.name); }
-        else { result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" }); used.push("Двойные задания"); }
-    } else {
-        var diffVar = getDifficultyVariator(level, available);
-        if (diffVar && used.indexOf(diffVar.name) === -1) { result.push(diffVar); used.push(diffVar.name); }
+    // 1. Вариатор сложности (обязательный, если есть место)
+    if (result.length < MAX_VARIATORS) {
+        if (level > 20) {
+            var psycho = available.find(function(v) { return v.name === "Психохирургия"; });
+            var doubleT = available.find(function(v) { return v.name === "Двойные задания"; });
+            if (psycho) { result.push(psycho); used.push(psycho.name); }
+            else { result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" }); used.push("Психохирургия"); }
+            if (doubleT && result.length < MAX_VARIATORS) { result.push(doubleT); used.push(doubleT.name); }
+            else if (result.length < MAX_VARIATORS) { result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" }); used.push("Двойные задания"); }
+        } else {
+            var diffVar = getDifficultyVariator(level, available);
+            if (diffVar && used.indexOf(diffVar.name) === -1) { result.push(diffVar); used.push(diffVar.name); }
+        }
     }
 
-    // 2. Побочное задание
-    if (level <= 20) {
+    // 2. Побочное задание (только если есть место и уровень ≤ 20)
+    if (result.length < MAX_VARIATORS && level <= 20) {
         var sidePool = available.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
             if (used.indexOf(v.name) !== -1) return false;
@@ -1294,16 +1691,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 3. Целевое количество
-    var target;
-    if (level <= 3) target = 2;
-    else if (level > 3 && level < 10) target = 4 + Math.floor(Math.random() * 2);
-    else if (level >= 10 && level < 20) target = 4 + Math.floor(Math.random() * 4);
-    else if (level >= 20) target = 6 + Math.floor(Math.random() * 3);
-    else target = 2;
-    if (target > MAX_VARIATORS) target = MAX_VARIATORS;
-
-    // 4. Случайные
+    // 3. Случайные вариаторы (добираем до лимита)
     var filtered = available.filter(function(v) {
         if (used.indexOf(v.name) !== -1) return false;
         if (isSideQuestVariator(v.name)) return false;
@@ -1313,14 +1701,14 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     });
 
     var shuffled = shuffleArray(filtered);
-    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < target; i++) {
+    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS; i++) {
         if (isVariatorCompatible(shuffled[i], result, trialName, playerCount, level)) {
             result.push(shuffled[i]); used.push(shuffled[i].name);
         }
     }
 
-    // 5. Добивка
-    if (result.length < target) {
+    // 4. Добивка
+    if (result.length < MAX_VARIATORS) {
         var remaining = available.filter(function(v) {
             return used.indexOf(v.name) === -1 && !isSideQuestVariator(v.name)
                 && v.name !== "Психохирургия" && v.name !== "Двойные задания"
@@ -1328,22 +1716,25 @@ function getVariatorsForLevel(level, mapName, playerCount) {
                 && v.name !== "Враги Сильнее II" && v.name !== "Враги сильнее II";
         });
         var shufRem = shuffleArray(remaining);
-        for (var j = 0; j < shufRem.length && result.length < target && result.length < MAX_VARIATORS; j++) {
+        for (var j = 0; j < shufRem.length && result.length < MAX_VARIATORS; j++) {
             if (used.indexOf(shufRem[j].name) === -1 && isVariatorCompatible(shufRem[j], result, trialName, playerCount, level)) {
                 result.push(shufRem[j]); used.push(shufRem[j].name);
             }
         }
     }
 
-    // 6. Крайняя добивка
-    if (result.length < target) {
+    // 5. Крайняя добивка
+    if (result.length < MAX_VARIATORS) {
         var anyRem = allVariatorsData.filter(function(v) { return used.indexOf(v.name) === -1 && !isExcludedVariator(v.name); });
-        for (var k = 0; k < anyRem.length && result.length < target && result.length < MAX_VARIATORS; k++) {
+        for (var k = 0; k < anyRem.length && result.length < MAX_VARIATORS; k++) {
             if (used.indexOf(anyRem[k].name) === -1) { result.push(anyRem[k]); used.push(anyRem[k].name); }
         }
     }
 
+    // Финальная фильтрация и жёсткая обрезка
     result = result.filter(function(v) { return !isExcludedVariator(v.name); });
+    if (result.length > MAX_VARIATORS) result = result.slice(0, MAX_VARIATORS);
+
     return result;
 }
 
@@ -1684,17 +2075,12 @@ function renderEscAmps() {
     checkEscAmpsReady();
 }
 
-// ============================================================
-// ПРОВЕРКА ГОТОВНОСТИ ШАГА 4
-// ============================================================
 function checkEscAmpsReady() {
-    // Игрок готов, если у него уже все категории завершены ИЛИ есть хотя бы один выбранный амп
     var allReady = escState.players.every(function(_, idx) {
         if (areAllCategoriesComplete(idx)) return true;
         var selections = escState.ampSelections[idx] || {};
         return Object.keys(selections).length > 0;
     });
-
     var btn = document.getElementById('escStep4Next');
     if (btn) btn.disabled = !allReady;
 }
@@ -1978,6 +2364,226 @@ function renderEscResultPlayers() {
 }
 
 // ============================================================
+// МОДАЛКА СБОРА ИНФОРМАЦИИ
+// ============================================================
+function openInfoModal() {
+    var modal = document.getElementById('infoModal');
+    if (!modal) return;
+
+    infoFormState = { levelNum: escState.level, trialName: null, trialObj: null, variatorNames: [], time: '' };
+
+    var levelInput = document.getElementById('infoLevelNum');
+    levelInput.value = escState.level;
+
+    var timeInput = document.getElementById('infoTime');
+    timeInput.value = '';
+    timeInput.classList.remove('input-error', 'input-valid');
+
+    var timeHint = document.getElementById('infoTimeHint');
+    timeHint.textContent = 'Введите время в формате ММ:СС (например 02:46)';
+    timeHint.className = 'info-form-hint';
+
+    var trialInput = document.getElementById('infoTrialInput');
+    if (escState.trial && escState.trial.name) {
+        trialInput.value = escState.trial.name;
+        infoFormState.trialName = escState.trial.name;
+        infoFormState.trialObj = escState.trial;
+    } else {
+        trialInput.value = '—';
+    }
+
+    var preselected = [];
+    if (escState.variators && escState.variators.length > 0) {
+        escState.variators.forEach(function(v) {
+            if (v && v.name) preselected.push(v.name);
+        });
+    }
+    infoFormState.variatorNames = preselected.slice();
+
+    renderReadonlyVariators();
+    updateInfoModalSaveButton();
+
+    modal.classList.add('active');
+}
+
+function closeInfoModal() {
+    var modal = document.getElementById('infoModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function renderReadonlyVariators() {
+    var container = document.getElementById('infoVariatorList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (!infoFormState.variatorNames || infoFormState.variatorNames.length === 0) {
+        container.innerHTML = '<div class="readonly-variators-empty">Нет вариаторов</div>';
+        return;
+    }
+
+    infoFormState.variatorNames.forEach(function(vName) {
+        var vObj = typeof allVariatorsData !== 'undefined'
+            ? allVariatorsData.find(function(x) { return x.name === vName; })
+            : null;
+
+        var item = document.createElement('div');
+        item.className = 'readonly-variator-item';
+
+        var imgSrc = vObj && vObj.image ? vObj.image : '';
+        item.innerHTML = `
+            ${imgSrc ? `<img src="${imgSrc}" onerror="this.style.display='none'" alt="">` : ''}
+            <span>${vName}</span>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function isValidTimeFormat(str) {
+    if (!str) return false;
+    var match = /^(\d{2}):(\d{2})$/.exec(str);
+    if (!match) return false;
+    var mm = parseInt(match[1], 10);
+    var ss = parseInt(match[2], 10);
+    if (mm < 0 || mm > 99) return false;
+    if (ss < 0 || ss > 59) return false;
+    return true;
+}
+
+function updateInfoModalSaveButton() {
+    var btn = document.getElementById('infoModalSave');
+    if (!btn) return;
+    var levelOk = infoFormState.levelNum && infoFormState.levelNum > 0;
+    var trialOk = infoFormState.trialName && infoFormState.trialName.length > 0;
+    var timeOk = isValidTimeFormat(infoFormState.time);
+    btn.disabled = !(levelOk && trialOk && timeOk);
+}
+
+// ============================================================
+// ИТОГОВАЯ ТАБЛИЦА
+// ============================================================
+function timeToSeconds(timeStr) {
+    if (!timeStr) return 0;
+    var parts = String(timeStr).split(':');
+    if (parts.length === 2) {
+        var m = parseInt(parts[0], 10);
+        var s = parseInt(parts[1], 10);
+        if (!isNaN(m) && !isNaN(s)) return m * 60 + s;
+    }
+    return 0;
+}
+
+function secondsToTime(totalSeconds) {
+    var h = Math.floor(totalSeconds / 3600);
+    var m = Math.floor((totalSeconds % 3600) / 60);
+    var s = totalSeconds % 60;
+    if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function buildSummaryTable() {
+    var tbody = document.getElementById('summaryTableBody');
+    var statsEl = document.getElementById('summaryStats');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (collectedRecords.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="summary-empty"><i class="fas fa-inbox"></i> Пока нет сохранённых записей</td></tr>';
+        if (statsEl) statsEl.innerHTML = '';
+        return;
+    }
+
+    var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
+
+    sorted.forEach(function(rec) {
+        var tr = document.createElement('tr');
+
+        var tdNum = document.createElement('td');
+        tdNum.className = 'summary-cell-number';
+        tdNum.textContent = rec.levelNum ? ('#' + rec.levelNum) : '—';
+        tr.appendChild(tdNum);
+
+        var tdThumb = document.createElement('td');
+        tdThumb.className = 'summary-cell-thumb';
+        var imgSrc = rec.trialObj && rec.trialObj.image ? rec.trialObj.image : (rec.mapImage || '');
+        if (imgSrc) {
+            tdThumb.innerHTML = '<img src="' + imgSrc + '" alt="" onerror="this.style.visibility=\'hidden\'">';
+        } else {
+            tdThumb.innerHTML = '<div style="width:90px;height:55px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(220,90,50,0.3);display:flex;align-items:center;justify-content:center;color:#555;font-size:0.7rem;">нет</div>';
+        }
+        tr.appendChild(tdThumb);
+
+        var tdName = document.createElement('td');
+        tdName.className = 'summary-cell-name';
+        tdName.textContent = (rec.trialName || '').toUpperCase();
+        tr.appendChild(tdName);
+
+        var tdVars = document.createElement('td');
+        tdVars.className = 'summary-cell-variators';
+        if (rec.variators && rec.variators.length > 0) {
+            rec.variators.forEach(function(vName) {
+                var vObj = typeof allVariatorsData !== 'undefined'
+                    ? allVariatorsData.find(function(x) { return x.name === vName; })
+                    : null;
+                var imgEl = document.createElement('img');
+                imgEl.className = 'summary-var-icon';
+                imgEl.src = vObj && vObj.image ? vObj.image : '';
+                imgEl.alt = vName;
+                imgEl.title = vName;
+                imgEl.onerror = function() { this.style.display = 'none'; };
+                tdVars.appendChild(imgEl);
+            });
+        } else {
+            tdVars.innerHTML = '<span style="color:#666;font-size:0.8rem;font-style:italic;">нет</span>';
+        }
+        tr.appendChild(tdVars);
+
+        var tdTime = document.createElement('td');
+        tdTime.className = 'summary-cell-time';
+        tdTime.textContent = rec.time || '—';
+        tr.appendChild(tdTime);
+
+        tbody.appendChild(tr);
+    });
+
+    var totalSeconds = 0;
+    sorted.forEach(function(rec) { totalSeconds += timeToSeconds(rec.time); });
+
+    var trTotal = document.createElement('tr');
+    trTotal.className = 'summary-total-row';
+
+    var tdTotalLeft = document.createElement('td');
+    tdTotalLeft.colSpan = 4;
+    tdTotalLeft.className = 'summary-total-label';
+    tdTotalLeft.textContent = 'Общее время:';
+    trTotal.appendChild(tdTotalLeft);
+
+    var tdTotalValue = document.createElement('td');
+    tdTotalValue.className = 'summary-total-value';
+    tdTotalValue.textContent = secondsToTime(totalSeconds);
+    trTotal.appendChild(tdTotalValue);
+
+    tbody.appendChild(trTotal);
+
+    if (statsEl) {
+        statsEl.innerHTML = 'Всего записей: <strong>' + sorted.length + '</strong> · Общее время: <strong>' + secondsToTime(totalSeconds) + '</strong>';
+    }
+}
+
+function openSummaryModal() {
+    var modal = document.getElementById('summaryModal');
+    if (!modal) return;
+    buildSummaryTable();
+    modal.classList.add('active');
+}
+
+function closeSummaryModal() {
+    var modal = document.getElementById('summaryModal');
+    if (modal) modal.classList.remove('active');
+}
+
+// ============================================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 function initEscalation() {
@@ -2046,20 +2652,141 @@ function doInit() {
         generateEscResult();
     });
 
+    // "Далее" → сбор информации
     if (nextLevel) {
         nextLevel.addEventListener('click', function() {
+            openInfoModal();
+        });
+    }
+
+    // "Покинуть" → итоговая таблица
+    if (exitBtn) {
+        exitBtn.addEventListener('click', function() {
+            openSummaryModal();
+        });
+    }
+
+    // Обработчики модалки сбора информации
+    var infoModalClose = document.getElementById('infoModalClose');
+    var infoModalCancel = document.getElementById('infoModalCancel');
+    var infoModalSave = document.getElementById('infoModalSave');
+    var infoTime = document.getElementById('infoTime');
+    var timeHint = document.getElementById('infoTimeHint');
+
+    if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
+    if (infoModalCancel) infoModalCancel.addEventListener('click', closeInfoModal);
+
+    if (infoTime) {
+        infoTime.addEventListener('input', function() {
+            var digits = this.value.replace(/\D/g, '').slice(0, 4);
+            var formatted = digits;
+            if (digits.length > 2) {
+                formatted = digits.slice(0, 2) + ':' + digits.slice(2);
+            }
+            this.value = formatted;
+            infoFormState.time = formatted;
+
+            var isValid = isValidTimeFormat(formatted);
+
+            if (formatted.length === 0) {
+                this.classList.remove('input-error', 'input-valid');
+                timeHint.textContent = 'Введите время в формате ММ:СС (например 02:46)';
+                timeHint.className = 'info-form-hint';
+            } else if (isValid) {
+                this.classList.remove('input-error');
+                this.classList.add('input-valid');
+                timeHint.textContent = '✓ Формат корректен';
+                timeHint.className = 'info-form-hint valid';
+            } else {
+                this.classList.remove('input-valid');
+                this.classList.add('input-error');
+                if (formatted.length < 5) {
+                    timeHint.textContent = 'Введите время полностью: ММ:СС (например 02:46)';
+                } else {
+                    timeHint.textContent = 'Неверное время (секунды 00–59, минуты 00–99)';
+                }
+                timeHint.className = 'info-form-hint error';
+            }
+
+            updateInfoModalSaveButton();
+        });
+
+        infoTime.addEventListener('keypress', function(e) {
+            var char = String.fromCharCode(e.which);
+            if (!/[0-9]/.test(char) && e.which !== 8 && e.which !== 0) e.preventDefault();
+        });
+
+        infoTime.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var pasted = (e.clipboardData || window.clipboardData).getData('text');
+            var digits = pasted.replace(/\D/g, '').slice(0, 4);
+            var formatted = digits;
+            if (digits.length > 2) formatted = digits.slice(0, 2) + ':' + digits.slice(2);
+            this.value = formatted;
+            infoFormState.time = formatted;
+            this.dispatchEvent(new Event('input'));
+        });
+    }
+
+    if (infoModalSave) {
+        infoModalSave.addEventListener('click', function() {
+            if (!isValidTimeFormat(infoFormState.time)) {
+                alert('Пожалуйста, введите корректное время в формате ММ:СС (например 02:46)');
+                return;
+            }
+
+            var record = {
+                levelNum: infoFormState.levelNum,
+                trialName: infoFormState.trialName,
+                trialObj: infoFormState.trialObj,
+                variators: infoFormState.variatorNames.slice(),
+                time: infoFormState.time,
+                mapImage: escState.map ? escState.map.image : null,
+                timestamp: Date.now()
+            };
+            collectedRecords.push(record);
+            closeInfoModal();
+
             escState.level++;
             updateLevelCounter();
+
             var has = false;
             escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx)) has = true; });
             if (has) showBreakModal(); else generateEscResult();
         });
     }
 
-    if (exitBtn) {
-        exitBtn.addEventListener('click', function() {
-            var m = document.getElementById('confirmModal');
-            if (m) m.classList.add('active');
+    // Обработчики итоговой таблицы
+    var summaryClose = document.getElementById('summaryClose');
+    var summaryCloseBtn = document.getElementById('summaryCloseBtn');
+    var summaryCopy = document.getElementById('summaryCopy');
+
+    if (summaryClose) summaryClose.addEventListener('click', closeSummaryModal);
+    if (summaryCloseBtn) {
+        summaryCloseBtn.addEventListener('click', function() {
+            closeSummaryModal();
+            location.reload();
+        });
+    }
+
+    if (summaryCopy) {
+        summaryCopy.addEventListener('click', function() {
+            var text = 'ЭСКАЛАЦИОННАЯ ТЕРАПИЯ\n';
+            text += '='.repeat(40) + '\n';
+            var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
+            var totalSeconds = 0;
+            sorted.forEach(function(rec) {
+                text += '#' + (rec.levelNum || '?') + ' | ' + (rec.trialName || '') + ' | ';
+                text += (rec.variators || []).join(', ') + ' | ' + (rec.time || '?') + '\n';
+                totalSeconds += timeToSeconds(rec.time);
+            });
+            text += '\nОБЩЕЕ ВРЕМЯ: ' + secondsToTime(totalSeconds) + '\n';
+            navigator.clipboard.writeText(text).then(function() {
+                summaryCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                setTimeout(function() {
+                    summaryCopy.innerHTML = '<i class="fas fa-copy"></i> Скопировать';
+                }, 2000);
+            });
         });
     }
 
