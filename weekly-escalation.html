@@ -642,79 +642,78 @@
             border-style: dashed;
         }
 
-        .autocomplete-list {
-            position: absolute; top: 100%; left: 0; right: 0;
-            background: rgba(18, 12, 28, 0.98); border: 1px solid rgba(220, 90, 50, 0.4);
-            border-radius: 12px; max-height: 220px; overflow-y: auto;
-            z-index: 100; margin-top: 4px; display: none;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        .info-form-group input.input-error {
+            border-color: #ff3333;
+            box-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
         }
 
-        .autocomplete-list.active { display: block; }
-
-        .autocomplete-item {
-            padding: 10px 16px; cursor: pointer; color: #c2b9d4;
-            font-size: 0.9rem; border-bottom: 1px solid rgba(220, 90, 50, 0.08);
-            transition: background 0.2s;
+        .info-form-group input.input-valid {
+            border-color: #2ecc71;
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.25);
         }
 
-        .autocomplete-item:last-child { border-bottom: none; }
-        .autocomplete-item:hover, .autocomplete-item.highlighted {
-            background: rgba(220, 90, 50, 0.2); color: #fff;
+        .info-form-hint {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 2px;
+            font-style: italic;
         }
 
-        .autocomplete-item .map-hint {
-            font-size: 0.7rem; color: #888; margin-left: 8px;
+        .info-form-hint.error {
+            color: #ff6666;
         }
 
-        .variators-picker {
-            background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(220, 90, 50, 0.25);
-            border-radius: 12px; padding: 12px; max-height: 260px; overflow-y: auto;
+        .info-form-hint.valid {
+            color: #2ecc71;
         }
 
-        .variators-picker-search {
-            width: 100%; background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(220, 90, 50, 0.2); border-radius: 10px;
-            padding: 8px 12px; color: #f0eef7; font-size: 0.9rem;
-            font-family: inherit; outline: none; margin-bottom: 10px;
+        /* Список вариаторов (только для чтения) */
+        .readonly-variators {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px dashed rgba(220, 90, 50, 0.25);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-height: 260px;
+            overflow-y: auto;
+            min-height: 60px;
         }
 
-        .variators-picker-search:focus { border-color: #e16d48; }
-
-        .variator-checkbox-list {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+        .readonly-variator-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #ffbc9a;
+            white-space: nowrap;
         }
 
-        .variator-checkbox-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 6px 10px; border-radius: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer; transition: all 0.2s;
-            font-size: 0.8rem; color: #c2b9d4;
+        .readonly-variator-item.weekly {
+            background: rgba(241, 196, 15, 0.15);
+            border-color: #f1c40f;
+            color: #f1c40f;
         }
 
-        .variator-checkbox-item:hover {
-            background: rgba(220, 90, 50, 0.1);
-            border-color: rgba(220, 90, 50, 0.3);
+        .readonly-variator-item img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px;
         }
 
-        .variator-checkbox-item.selected {
-            background: rgba(220, 90, 50, 0.2);
-            border-color: #e16d48; color: #ffbc9a;
-        }
-
-        .variator-checkbox-item input[type="checkbox"] {
-            accent-color: #e16d48; cursor: pointer; flex-shrink: 0;
-        }
-
-        .variator-checkbox-item .vcb-img {
-            width: 24px; height: 24px; object-fit: contain;
-            border-radius: 4px; background: rgba(0, 0, 0, 0.3); padding: 2px; flex-shrink: 0;
-        }
-
-        .variator-checkbox-item .vcb-name {
-            flex: 1; line-height: 1.2;
+        .readonly-variators-empty {
+            color: #666;
+            font-size: 0.8rem;
+            font-style: italic;
+            padding: 4px;
         }
 
         .info-modal-actions {
@@ -839,19 +838,44 @@
         }
 
         .summary-cell-variators {
-            display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 12px;
+            align-items: center;
+            padding: 4px 0;
+            max-width: 520px;
         }
 
         .summary-var-icon {
-            width: 38px; height: 38px; object-fit: contain;
-            border-radius: 8px; background: rgba(0, 0, 0, 0.5);
-            padding: 3px; border: 1px solid rgba(220, 90, 50, 0.3);
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px;
+            border: 1px solid rgba(220, 90, 50, 0.4);
+            flex-shrink: 0;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            cursor: help;
+        }
+
+        .summary-var-icon:hover {
+            transform: scale(1.12);
+            border-color: #e16d48;
+            box-shadow: 0 0 12px rgba(220, 90, 50, 0.5);
+            z-index: 5;
+            position: relative;
         }
 
         .summary-var-icon.weekly {
             border: 2px solid #f1c40f;
-            background: rgba(241, 196, 15, 0.15);
-            box-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+            background: rgba(241, 196, 15, 0.18);
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.45);
+        }
+
+        .summary-var-icon.weekly:hover {
+            box-shadow: 0 0 18px rgba(241, 196, 15, 0.7);
+            transform: scale(1.12);
         }
 
         .summary-cell-time {
@@ -923,7 +947,6 @@
         @media (max-width: 992px) {
             .result-grid { grid-template-columns: 1fr; }
             .info-form-grid { grid-template-columns: 1fr; }
-            .variator-checkbox-list { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 850px) {
@@ -955,7 +978,8 @@
             .summary-table tbody tr { display: block; padding: 12px 0; }
             .summary-table tbody td { display: block; padding: 4px 10px; }
             .summary-cell-thumb img { width: 100%; height: auto; max-width: 200px; }
-            .summary-cell-variators { justify-content: flex-start; }
+            .summary-cell-variators { justify-content: flex-start; max-width: 100%; }
+            .summary-var-icon { width: 44px; height: 44px; }
         }
 
         @media (max-width: 600px) {
@@ -996,7 +1020,7 @@
             .summary-modal { padding: 20px 15px; }
             .summary-header h2 { font-size: 1.3rem; letter-spacing: 1px; }
             .summary-cell-time { font-size: 1rem; }
-            .summary-var-icon { width: 30px; height: 30px; }
+            .summary-var-icon { width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -1180,21 +1204,20 @@
 
             <div class="info-form-group">
                 <label><i class="fas fa-clock"></i> Время прохождения</label>
-                <input type="text" id="infoTime" placeholder="Например: 12:34" maxlength="8">
+                <input type="text" id="infoTime" placeholder="ММ:СС, например 02:46" maxlength="5" inputmode="numeric">
+                <div class="info-form-hint" id="infoTimeHint">Введите время в формате ММ:СС (например 02:46)</div>
             </div>
 
             <div class="info-form-group full-width">
-                <label><i class="fas fa-map"></i> Испытание (начните вводить название)</label>
-                <input type="text" id="infoTrialInput" placeholder="Поиск испытания..." autocomplete="off">
-                <div class="autocomplete-list" id="infoTrialAutocomplete"></div>
+                <label><i class="fas fa-map"></i> Испытание</label>
+                <input type="text" id="infoTrialInput" class="readonly-field" readonly>
             </div>
         </div>
 
         <div class="info-form-group full-width" style="margin-bottom: 1.2rem;">
-            <label><i class="fas fa-tags"></i> Вариаторы (выберите все, что были)</label>
-            <div class="variators-picker">
-                <input type="text" class="variators-picker-search" id="infoVariatorSearch" placeholder="🔍 Быстрый поиск вариатора...">
-                <div class="variator-checkbox-list" id="infoVariatorList"></div>
+            <label><i class="fas fa-tags"></i> Вариаторы (определены автоматически)</label>
+            <div class="readonly-variators" id="infoVariatorList">
+                <div class="readonly-variators-empty">Загрузка...</div>
             </div>
         </div>
 
@@ -1219,7 +1242,7 @@
                     <th style="width: 60px; text-align: center;">#</th>
                     <th style="width: 110px;">Испытание</th>
                     <th>Название</th>
-                    <th>Переменные</th>
+                    <th style="min-width: 260px;">Переменные</th>
                     <th class="col-time">Время</th>
                 </tr>
             </thead>
@@ -2496,28 +2519,32 @@ function openInfoModal() {
     var modal = document.getElementById('infoModal');
     if (!modal) return;
 
-    // Сброс формы
     infoFormState = { levelNum: escState.level, trialName: null, trialObj: null, variatorNames: [], time: '' };
 
-    // Номер эскалации — автоматически из текущего уровня (readonly)
+    // Номер эскалации — readonly
     var levelInput = document.getElementById('infoLevelNum');
     levelInput.value = escState.level;
-    levelInput.readOnly = true;
 
-    // Время — пустое, заполняет пользователь
-    document.getElementById('infoTime').value = '';
+    // Время — пустое, только его заполняет пользователь
+    var timeInput = document.getElementById('infoTime');
+    timeInput.value = '';
+    timeInput.classList.remove('input-error', 'input-valid');
 
-    // Испытание — автоматически из текущей генерации (но можно изменить через поиск)
+    var timeHint = document.getElementById('infoTimeHint');
+    timeHint.textContent = 'Введите время в формате ММ:СС (например 02:46)';
+    timeHint.className = 'info-form-hint';
+
+    // Испытание — readonly, автоматически
     var trialInput = document.getElementById('infoTrialInput');
     if (escState.trial && escState.trial.name) {
         trialInput.value = escState.trial.name;
         infoFormState.trialName = escState.trial.name;
         infoFormState.trialObj = escState.trial;
     } else {
-        trialInput.value = '';
+        trialInput.value = '—';
     }
 
-    // Вариаторы — автоматически из текущей генерации
+    // Вариаторы — readonly, автоматически
     var preselected = [];
     if (escState.variators && escState.variators.length > 0) {
         escState.variators.forEach(function(v) {
@@ -2526,9 +2553,7 @@ function openInfoModal() {
     }
     infoFormState.variatorNames = preselected.slice();
 
-    document.getElementById('infoVariatorSearch').value = '';
-
-    renderVariatorCheckboxList();
+    renderReadonlyVariators();
     updateInfoModalSaveButton();
 
     modal.classList.add('active');
@@ -2539,95 +2564,49 @@ function closeInfoModal() {
     if (modal) modal.classList.remove('active');
 }
 
-function getAllTrialsFlat() {
-    var result = [];
-    if (typeof trialsData === 'undefined') return result;
-    Object.keys(trialsData).forEach(function(mapName) {
-        var mapData = trialsData[mapName];
-        mapData.trials.forEach(function(t) {
-            result.push({ mapName: mapName, mapImage: mapData.image, trial: t });
-        });
-    });
-    return result;
-}
-
-function renderTrialAutocomplete(query) {
-    var list = document.getElementById('infoTrialAutocomplete');
-    if (!list) return;
-    list.innerHTML = '';
-
-    var allTrials = getAllTrialsFlat();
-    var q = (query || '').toLowerCase().trim();
-
-    var filtered = allTrials.filter(function(item) {
-        if (!q) return true;
-        return item.trial.name.toLowerCase().indexOf(q) !== -1;
-    }).slice(0, 30);
-
-    if (filtered.length === 0) {
-        list.classList.remove('active');
-        return;
-    }
-
-    filtered.forEach(function(item) {
-        var div = document.createElement('div');
-        div.className = 'autocomplete-item';
-        div.innerHTML = item.trial.name + ' <span class="map-hint">— ' + item.mapName + '</span>';
-        div.addEventListener('click', function() {
-            document.getElementById('infoTrialInput').value = item.trial.name;
-            infoFormState.trialName = item.trial.name;
-            infoFormState.trialObj = item.trial;
-            list.classList.remove('active');
-            updateInfoModalSaveButton();
-        });
-        list.appendChild(div);
-    });
-    list.classList.add('active');
-}
-
-function renderVariatorCheckboxList() {
+function renderReadonlyVariators() {
     var container = document.getElementById('infoVariatorList');
     if (!container) return;
     container.innerHTML = '';
 
-    if (typeof allVariatorsData === 'undefined') return;
+    if (!infoFormState.variatorNames || infoFormState.variatorNames.length === 0) {
+        container.innerHTML = '<div class="readonly-variators-empty">Нет вариаторов</div>';
+        return;
+    }
 
-    var searchQuery = (document.getElementById('infoVariatorSearch').value || '').toLowerCase().trim();
+    infoFormState.variatorNames.forEach(function(vName) {
+        var vObj = typeof allVariatorsData !== 'undefined'
+            ? allVariatorsData.find(function(x) { return x.name === vName; })
+            : null;
+        var isWeekly = vName === WEEKLY_VARIATOR_NAME;
 
-    var list = allVariatorsData.filter(function(v) {
-        if (!v.name) return false;
-        if (searchQuery && v.name.toLowerCase().indexOf(searchQuery) === -1) return false;
-        return true;
-    });
+        var item = document.createElement('div');
+        item.className = 'readonly-variator-item' + (isWeekly ? ' weekly' : '');
 
-    list.sort(function(a, b) { return a.name.localeCompare(b.name, 'ru'); });
-
-    list.forEach(function(v) {
-        var isSelected = infoFormState.variatorNames.indexOf(v.name) !== -1;
-        var item = document.createElement('label');
-        item.className = 'variator-checkbox-item' + (isSelected ? ' selected' : '');
+        var imgSrc = vObj && vObj.image ? vObj.image : '';
         item.innerHTML = `
-            <input type="checkbox" ${isSelected ? 'checked' : ''} data-name="${v.name}">
-            <img class="vcb-img" src="${v.image || ''}" onerror="this.style.display='none'" alt="">
-            <span class="vcb-name">${v.name}</span>
+            ${imgSrc ? `<img src="${imgSrc}" onerror="this.style.display='none'" alt="">` : ''}
+            <span>${vName}</span>
+            ${isWeekly ? '<i class="fas fa-star" style="font-size:0.7rem;"></i>' : ''}
         `;
-
-        var checkbox = item.querySelector('input');
-        checkbox.addEventListener('change', function() {
-            if (this.checked) {
-                if (infoFormState.variatorNames.indexOf(v.name) === -1) {
-                    infoFormState.variatorNames.push(v.name);
-                }
-                item.classList.add('selected');
-            } else {
-                infoFormState.variatorNames = infoFormState.variatorNames.filter(function(n) { return n !== v.name; });
-                item.classList.remove('selected');
-            }
-            updateInfoModalSaveButton();
-        });
-
         container.appendChild(item);
     });
+}
+
+// ============================================================
+// ПРОВЕРКА ФОРМАТА ВРЕМЕНИ ММ:СС
+// ============================================================
+function isValidTimeFormat(str) {
+    if (!str) return false;
+    // Строгий формат: ровно 5 символов, MM:SS
+    // MM от 00 до 99, SS от 00 до 59
+    var match = /^(\d{2}):(\d{2})$/.exec(str);
+    if (!match) return false;
+    var mm = parseInt(match[1], 10);
+    var ss = parseInt(match[2], 10);
+    if (mm < 0 || mm > 99) return false;
+    if (ss < 0 || ss > 59) return false;
+    return true;
 }
 
 function updateInfoModalSaveButton() {
@@ -2635,7 +2614,7 @@ function updateInfoModalSaveButton() {
     if (!btn) return;
     var levelOk = infoFormState.levelNum && infoFormState.levelNum > 0;
     var trialOk = infoFormState.trialName && infoFormState.trialName.length > 0;
-    var timeOk = infoFormState.time && infoFormState.time.length > 0;
+    var timeOk = isValidTimeFormat(infoFormState.time);
     btn.disabled = !(levelOk && trialOk && timeOk);
 }
 
@@ -2729,7 +2708,6 @@ function buildSummaryTable() {
         tbody.appendChild(tr);
     });
 
-    // ===== СТРОКА С ОБЩИМ ВРЕМЕНЕМ =====
     var totalSeconds = 0;
     sorted.forEach(function(rec) {
         totalSeconds += timeToSeconds(rec.time);
@@ -2884,60 +2862,89 @@ function doInit() {
         });
     }
 
-    // ============================================================
-    // ОБРАБОТЧИКИ МОДАЛКИ СБОРА ИНФОРМАЦИИ
-    // ============================================================
     var infoModalClose = document.getElementById('infoModalClose');
     var infoModalCancel = document.getElementById('infoModalCancel');
     var infoModalSave = document.getElementById('infoModalSave');
     var infoTime = document.getElementById('infoTime');
-    var infoTrialInput = document.getElementById('infoTrialInput');
-    var infoVariatorSearch = document.getElementById('infoVariatorSearch');
-    var infoTrialAutocomplete = document.getElementById('infoTrialAutocomplete');
+    var timeHint = document.getElementById('infoTimeHint');
 
     if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
     if (infoModalCancel) infoModalCancel.addEventListener('click', closeInfoModal);
 
+    // ============================================================
+    // ВВОД ВРЕМЕНИ С АВТОМАТИЧЕСКИМ ДВОЕТОЧИЕМ И ВАЛИДАЦИЕЙ
+    // ============================================================
     if (infoTime) {
         infoTime.addEventListener('input', function() {
-            var v = this.value.replace(/[^\d:]/g, '');
-            if (/^\d{4}$/.test(v)) v = v.slice(0, 2) + ':' + v.slice(2);
-            this.value = v;
-            infoFormState.time = v;
+            // Оставляем только цифры
+            var digits = this.value.replace(/\D/g, '').slice(0, 4);
+
+            // Автоматически вставляем двоеточие после 2 цифр
+            var formatted = digits;
+            if (digits.length > 2) {
+                formatted = digits.slice(0, 2) + ':' + digits.slice(2);
+            }
+
+            this.value = formatted;
+            infoFormState.time = formatted;
+
+            // Валидация: разрешаем только если формат ММ:СС корректен
+            var isValid = isValidTimeFormat(formatted);
+
+            if (formatted.length === 0) {
+                this.classList.remove('input-error', 'input-valid');
+                timeHint.textContent = 'Введите время в формате ММ:СС (например 02:46)';
+                timeHint.className = 'info-form-hint';
+            } else if (isValid) {
+                this.classList.remove('input-error');
+                this.classList.add('input-valid');
+                timeHint.textContent = '✓ Формат корректен';
+                timeHint.className = 'info-form-hint valid';
+            } else {
+                this.classList.remove('input-valid');
+                this.classList.add('input-error');
+                if (formatted.length < 5) {
+                    timeHint.textContent = 'Введите время полностью: ММ:СС (например 02:46)';
+                } else {
+                    timeHint.textContent = 'Неверное время (секунды 00–59, минуты 00–99)';
+                }
+                timeHint.className = 'info-form-hint error';
+            }
+
             updateInfoModalSaveButton();
         });
-    }
 
-    if (infoTrialInput) {
-        infoTrialInput.addEventListener('input', function() {
-            infoFormState.trialName = this.value.trim() || null;
-            infoFormState.trialObj = null;
-            var allTrials = getAllTrialsFlat();
-            var exact = allTrials.find(function(x) { return x.trial.name === infoFormState.trialName; });
-            if (exact) infoFormState.trialObj = exact.trial;
-            renderTrialAutocomplete(this.value);
-            updateInfoModalSaveButton();
+        // Блокируем ввод посторонних символов
+        infoTime.addEventListener('keypress', function(e) {
+            var char = String.fromCharCode(e.which);
+            if (!/[0-9]/.test(char) && e.which !== 8 && e.which !== 0) {
+                e.preventDefault();
+            }
         });
 
-        infoTrialInput.addEventListener('focus', function() {
-            renderTrialAutocomplete(this.value);
-        });
-
-        infoTrialInput.addEventListener('blur', function() {
-            setTimeout(function() {
-                if (infoTrialAutocomplete) infoTrialAutocomplete.classList.remove('active');
-            }, 200);
-        });
-    }
-
-    if (infoVariatorSearch) {
-        infoVariatorSearch.addEventListener('input', function() {
-            renderVariatorCheckboxList();
+        // Запрещаем вставку нецифровых символов
+        infoTime.addEventListener('paste', function(e) {
+            e.preventDefault();
+            var pasted = (e.clipboardData || window.clipboardData).getData('text');
+            var digits = pasted.replace(/\D/g, '').slice(0, 4);
+            var formatted = digits;
+            if (digits.length > 2) {
+                formatted = digits.slice(0, 2) + ':' + digits.slice(2);
+            }
+            this.value = formatted;
+            infoFormState.time = formatted;
+            this.dispatchEvent(new Event('input'));
         });
     }
 
     if (infoModalSave) {
         infoModalSave.addEventListener('click', function() {
+            // Финальная проверка перед сохранением
+            if (!isValidTimeFormat(infoFormState.time)) {
+                alert('Пожалуйста, введите корректное время в формате ММ:СС (например 02:46)');
+                return;
+            }
+
             var record = {
                 levelNum: infoFormState.levelNum,
                 trialName: infoFormState.trialName,
@@ -2966,9 +2973,6 @@ function doInit() {
         });
     }
 
-    // ============================================================
-    // ОБРАБОТЧИКИ ИТОГОВОЙ ТАБЛИЦЫ
-    // ============================================================
     var summaryClose = document.getElementById('summaryClose');
     var summaryCloseBtn = document.getElementById('summaryCloseBtn');
     var summaryCopy = document.getElementById('summaryCopy');
