@@ -310,6 +310,11 @@
             animation: musicPulse 1.2s ease-in-out infinite;
         }
 
+        @keyframes musicPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
         .music-toggle .label {
             font-size: 0.7rem;
             font-weight: 500;
@@ -1000,8 +1005,7 @@
         audio.load();
     });
 
-    // ===== МУЗЫКА ГЛАВНОЙ (с сохранением состояния) =====
-    const MUSIC_STATE_KEY = 'kurilka_music_enabled';
+    // ===== МУЗЫКА ГЛАВНОЙ (НЕ ЗАПУСКАЕТСЯ АВТОМАТИЧЕСКИ) =====
     const MUSIC_VOLUME_KEY = 'kurilka_music_volume';
 
     let mainAudioStarted = false, currentTrackIndex = 0, mainAudioFiles = [], currentAudioElement = null;
@@ -1035,27 +1039,6 @@
             playNextMainTrack();
         });
     }
-    function startMainMusic() {
-        if (mainAudioStarted) return;
-        const mc = document.getElementById('mainContent');
-        if (!mc || !mc.classList.contains('active')) return;
-        const la = document.getElementById('bgAudio');
-        if (la && !la.paused) { setTimeout(startMainMusic, 500); return; }
-        initMainAudio();
-        if (mainAudioFiles.length === 0) { setTimeout(startMainMusic, 500); return; }
-        mainAudioStarted = true;
-        currentTrackIndex = 0;
-        const a = mainAudioFiles[0];
-        if (!a) return;
-        currentAudioElement = a; a.volume = parseFloat(document.getElementById('volumeSlider').value) / 100; a.currentTime = 0;
-        a.play().catch(() => {});
-        a.addEventListener('ended', function onEnd() {
-            a.removeEventListener('ended', onEnd);
-            if (!mainAudioStarted) return;
-            playNextMainTrack();
-        });
-        updateMusicButton(true);
-    }
     function updateMusicButton(state) {
         const btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
@@ -1071,18 +1054,12 @@
             if (label) label.textContent = 'Выкл';
         }
     }
-    function saveMusicState(enabled) {
-        try {
-            localStorage.setItem(MUSIC_STATE_KEY, enabled ? '1' : '0');
-        } catch(e) {}
-    }
     function toggleMainMusic() {
         if (mainAudioStarted) {
             mainAudioStarted = false;
             if (currentAudioElement) { currentAudioElement.pause(); currentAudioElement.currentTime = 0; }
             mainAudioFiles.forEach(a => { a.pause(); a.currentTime = 0; });
             updateMusicButton(false);
-            saveMusicState(false);
         } else {
             mainAudioStarted = true;
             initMainAudio();
@@ -1098,7 +1075,6 @@
                 playNextMainTrack();
             });
             updateMusicButton(true);
-            saveMusicState(true);
         }
     }
 
@@ -1160,7 +1136,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const slider = document.getElementById('volumeSlider');
         if (slider) {
-            // Восстанавливаем сохранённую громкость или ставим 30%
             let savedVolume = 30;
             try {
                 const stored = localStorage.getItem(MUSIC_VOLUME_KEY);
@@ -1171,35 +1146,14 @@
             } catch(e) {}
 
             slider.value = savedVolume;
-
             slider.addEventListener('input', onVolumeChange);
             slider.addEventListener('change', onVolumeChange);
             const initialVal = parseInt(slider.value);
             slider.style.background = `linear-gradient(to right, #e25d32 0%, #e25d32 ${initialVal}%, rgba(255,255,255,0.15) ${initialVal}%, rgba(255,255,255,0.15) 100%)`;
             updateVolumeDisplay();
-
-            // Устанавливаем громкость для уже созданных аудио
-            mainAudioFiles.forEach(a => { a.volume = initialVal / 100; });
         }
     });
 
-    const mainObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(m => {
-            if (m.type === 'attributes' && m.attributeName === 'class') {
-                const mc = document.getElementById('mainContent');
-                if (mc && mc.classList.contains('active')) setTimeout(startMainMusic, 800);
-            }
-        });
-    });
-    function observeMainContent() {
-        const mc = document.getElementById('mainContent');
-        if (mc) {
-            mainObserver.observe(mc, { attributes: true });
-            if (mc.classList.contains('active')) setTimeout(startMainMusic, 500);
-        } else setTimeout(observeMainContent, 200);
-    }
-    document.addEventListener('DOMContentLoaded', observeMainContent);
-    window.addEventListener('load', function() { setTimeout(observeMainContent, 100); });
     window.toggleMainMusic = toggleMainMusic;
     window.toggleVolumeDropdown = toggleVolumeDropdown;
 </script>
@@ -1572,32 +1526,11 @@
                 document.getElementById('mainContent').classList.add('active');
                 document.body.classList.add('scroll-enabled');
                 if (audio) { audio.pause(); audio.currentTime = 0; }
-
-                // Восстанавливаем состояние музыки из localStorage
-                restoreMusicState();
-
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
         isProcessing = false;
         connectionTimer = null;
-    }
-
-    function restoreMusicState() {
-        try {
-            const savedState = localStorage.getItem(MUSIC_STATE_KEY);
-            if (savedState === '1') {
-                // Пользователь ранее включал музыку — включаем автоматически
-                setTimeout(() => {
-                    if (!mainAudioStarted) startMainMusic();
-                }, 500);
-            } else {
-                // Пользователь ранее выключал музыку или не включал — оставляем выключенной
-                updateMusicButton(false);
-            }
-        } catch(e) {
-            updateMusicButton(false);
-        }
     }
 
     connectScreen.addEventListener('click', function() { if (!isProcessing) startConnectionProcess(); });
@@ -1677,7 +1610,7 @@
         update();
     })();
 
-    // ===== СЛУЧАЙНАЯ КАРТИНКА В НОВОСТИ "БЛАГОДАРНОСТЬ" (БЕЗ СМЕНЫ ПО ТАЙМЕРУ) =====
+    // ===== СЛУЧАЙНАЯ КАРТИНКА В НОВОСТИ "БЛАГОДАРНОСТЬ" =====
     (function initThanksImageRandom() {
         const img = document.getElementById('thanksImage');
         if (!img) return;
