@@ -860,9 +860,9 @@
                     <span class="volume-label"><i class="fas fa-sliders-h"></i> Громкость</span>
                     <div class="volume-slider-wrapper">
                         <span class="vol-icon"><i class="fas fa-volume-low"></i></span>
-                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
                         <span class="vol-icon active"><i class="fas fa-volume-high"></i></span>
-                        <span class="volume-value" id="volumeValue">40%</span>
+                        <span class="volume-value" id="volumeValue">30%</span>
                     </div>
                 </div>
             </div>
@@ -976,8 +976,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ================================================================
-//  МУЗЫКА
+//  МУЗЫКА (не запускается автоматически, только по клику)
 // ================================================================
+var MUSIC_VOLUME_KEY = 'kurilka_music_volume';
+
 var mainAudioStarted = false;
 var mainAudioElement = null;
 
@@ -988,7 +990,7 @@ function initMainAudio() {
     var audio = document.createElement('audio');
     audio.id = 'mainAudio';
     audio.preload = 'auto';
-    audio.volume = 0.4;
+    audio.volume = 0.3;
     audio.loop = true;
     var source = document.createElement('source');
     source.src = 'images/комната отдыха 1.mp3';
@@ -996,19 +998,6 @@ function initMainAudio() {
     audio.appendChild(source);
     container.appendChild(audio);
     mainAudioElement = audio;
-}
-
-function startMainMusic() {
-    if (mainAudioStarted) return;
-    initMainAudio();
-    if (!mainAudioElement) { setTimeout(startMainMusic, 500); return; }
-    mainAudioStarted = true;
-    var slider = document.getElementById('volumeSlider');
-    mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
-    mainAudioElement.currentTime = 0;
-    mainAudioElement.play().catch(function() {});
-    updateMusicButton(true);
-    updateVolumeDisplay();
 }
 
 function updateMusicButton(state) {
@@ -1037,7 +1026,7 @@ function toggleMainMusic() {
         initMainAudio();
         if (!mainAudioElement) { mainAudioStarted = false; return; }
         var slider = document.getElementById('volumeSlider');
-        mainAudioElement.volume = parseFloat(slider ? slider.value : 40) / 100;
+        mainAudioElement.volume = parseFloat(slider ? slider.value : 30) / 100;
         mainAudioElement.currentTime = 0;
         mainAudioElement.play().catch(function() {});
         updateMusicButton(true);
@@ -1081,10 +1070,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var slider = document.getElementById('volumeSlider');
     var valueDisplay = document.getElementById('volumeValue');
     if (slider) {
+        // Восстанавливаем сохранённую громкость или ставим 30%
+        var savedVolume = 30;
+        try {
+            var stored = localStorage.getItem(MUSIC_VOLUME_KEY);
+            if (stored !== null) {
+                var parsed = parseInt(stored, 10);
+                if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) savedVolume = parsed;
+            }
+        } catch(e) {}
+        slider.value = savedVolume;
+
         slider.addEventListener('input', function() {
             var val = parseInt(this.value, 10);
             if (valueDisplay) valueDisplay.textContent = val + '%';
             if (mainAudioElement && mainAudioStarted) mainAudioElement.volume = val / 100;
+            try { localStorage.setItem(MUSIC_VOLUME_KEY, val.toString()); } catch(e) {}
             var percent = val;
             slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + percent + '%, rgba(255,255,255,0.15) ' + percent + '%, rgba(255,255,255,0.15) 100%)';
         });
@@ -1092,18 +1093,14 @@ document.addEventListener('DOMContentLoaded', function() {
         slider.style.background = 'linear-gradient(to right, #e25d32 0%, #e25d32 ' + initialVal + '%, rgba(255,255,255,0.15) ' + initialVal + '%, rgba(255,255,255,0.15) 100%)';
         updateVolumeDisplay();
     }
+    // НЕ запускаем музыку автоматически
 });
-
-document.addEventListener('DOMContentLoaded', function() { setTimeout(startMainMusic, 1500); });
-document.addEventListener('click', function initAudioOnClick() {
-    if (!mainAudioStarted) { startMainMusic(); document.removeEventListener('click', initAudioOnClick); }
-}, { once: true });
 
 window.toggleMainMusic = toggleMainMusic;
 window.toggleVolumeDropdown = toggleVolumeDropdown;
 
 // ================================================================
-//  ЗАДАНИЕ ДНЯ — ЛОГИКА ИЗ ESCALATION.HTML
+//  ЗАДАНИЕ ДНЯ
 // ================================================================
 
 var EXCLUDED_VARIATORS_DAILY = [
@@ -1131,7 +1128,6 @@ function shuffleArray(arr) {
     return a;
 }
 
-// Совместимость вариаторов (упрощённая версия из escalation.html)
 function isVariatorCompatible(v, selected) {
     var name = v.name;
     var names = selected.map(function(x) { return x.name; });
@@ -1139,7 +1135,6 @@ function isVariatorCompatible(v, selected) {
 
     if (names.indexOf(name) !== -1) return false;
 
-    // Главная Рулетка / Самое Главное ↔ Егерь / Толкачи / Притворщики / Бросатели
     var mainGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
     if (mainGroup.indexOf(name) !== -1) {
@@ -1151,13 +1146,11 @@ function isVariatorCompatible(v, selected) {
         for (i = 0; i < antiGroup.length; i++) if (antiGroup[i] !== name && names.indexOf(antiGroup[i]) !== -1) return false;
     }
 
-    // Мины
     var mines = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
     if (mines.indexOf(name) !== -1) {
         for (i = 0; i < mines.length; i++) if (mines[i] !== name && names.indexOf(mines[i]) !== -1) return false;
     }
 
-    // Вечная мерзлота / Резкое похолодание / Токсический шок
     if (name === 'Вечная Мерзлота') {
         if (names.indexOf('Резкое Похолодание') !== -1) return false;
         if (names.indexOf('Токсический Шок') !== -1) return false;
@@ -1166,7 +1159,6 @@ function isVariatorCompatible(v, selected) {
         if (names.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
-    // Таймер бомбы ↔ Разбейте телевизоры
     if (name === 'Таймер Бомбы' || name === 'Таймер бомбы') {
         if (names.indexOf('Разбейте Телевизоры') !== -1) return false;
     }
@@ -1175,11 +1167,9 @@ function isVariatorCompatible(v, selected) {
         if (names.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // Токсический шок ↔ Глубокий ожог
     if (name === 'Токсический Шок' && names.indexOf('Глубокий Ожог') !== -1) return false;
     if (name === 'Глубокий Ожог' && names.indexOf('Токсический Шок') !== -1) return false;
 
-    // Враги сильнее / Психохирургия ↔ плотность / угроза
     var density = ['Низкая Плотность Врагов','Много Противников','Повышенная Угроза','Повышенная угроза II'];
     var strongNames = ['Враги сильнее','Враги Сильнее','Враги сильнее II','Враги Сильнее II'];
     if (strongNames.indexOf(name) !== -1) {
@@ -1194,7 +1184,6 @@ function isVariatorCompatible(v, selected) {
         for (i = 0; i < density.length; i++) if (names.indexOf(density[i]) !== -1) return false;
     }
 
-    // Однотипные (I / II)
     var pairs = [
         ['Ограниченный Инвентарь','Ограниченный Инвентарь II'],
         ['Повышенная Угроза','Повышенная угроза II'],
@@ -1208,7 +1197,6 @@ function isVariatorCompatible(v, selected) {
         }
     }
 
-    // Без предметов ↔ Ограниченные предметы
     var noItems = 'Без Предметов В Испытании';
     var limItems = ['Ограниченные предметы','Ограниченные предметы II'];
     if (name === noItems) { for (i = 0; i < limItems.length; i++) if (names.indexOf(limItems[i]) !== -1) return false; }
@@ -1217,7 +1205,6 @@ function isVariatorCompatible(v, selected) {
     return true;
 }
 
-// Генерация вариаторов для задания дня
 function generateDailyVariators(count) {
     if (typeof allVariatorsData === 'undefined') return [];
 
@@ -1237,7 +1224,6 @@ function generateDailyVariators(count) {
     return result;
 }
 
-// Получение задания дня (кэшируется на 24 часа)
 function getDailyMission() {
     var now = new Date();
     var dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -1251,7 +1237,6 @@ function getDailyMission() {
         } catch (e) {}
     }
 
-    // Генерируем новое
     if (typeof trialsData === 'undefined' || !trialsData) return null;
 
     var mapNames = Object.keys(trialsData);
@@ -1275,7 +1260,6 @@ function getDailyMission() {
     return missionData;
 }
 
-// Отрисовка задания дня
 function renderDailyMission() {
     var mission = getDailyMission();
     var container = document.getElementById('missionContent');
@@ -1319,7 +1303,6 @@ function renderDailyMission() {
     `;
 }
 
-// Таймер до следующего дня
 function updateTimer() {
     var now = new Date();
     var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
@@ -1335,7 +1318,6 @@ function updateTimer() {
     if (s) s.textContent = String(seconds).padStart(2, '0');
 }
 
-// Ожидание загрузки скриптов, затем отрисовка
 function waitForDataAndRender() {
     if (typeof trialsData === 'undefined' || typeof allVariatorsData === 'undefined') {
         setTimeout(waitForDataAndRender, 200);
