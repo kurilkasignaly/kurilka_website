@@ -10,11 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -26,24 +22,13 @@
         }
 
         .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2;
         }
 
         body::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.78);
-            z-index: -1;
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.78); z-index: -1;
         }
 
         @keyframes fadeInScale {
@@ -61,219 +46,99 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 1.8rem;
-            position: relative;
-            z-index: 10;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 1rem 1.8rem; position: relative; z-index: 10; }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0.8rem 2rem;
-            background: rgba(8, 6, 15, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 80px;
-            margin-bottom: 2rem;
-            gap: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.2);
-            transition: all 0.3s;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            padding: 0.8rem 2rem; background: rgba(8, 6, 15, 0.6); backdrop-filter: blur(16px);
+            border-radius: 80px; margin-bottom: 2rem; gap: 1rem;
+            border: 1px solid rgba(220, 90, 50, 0.2); transition: all 0.3s;
             animation: fadeInScale 0.6s ease-out;
         }
 
-        .header:hover {
-            border-color: rgba(220, 90, 50, 0.4);
-        }
+        .header:hover { border-color: rgba(220, 90, 50, 0.4); }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .logo .logo-img {
-            max-height: 55px;
-            width: auto;
-            display: block;
-        }
-
+        .logo { display: flex; align-items: center; gap: 0.8rem; }
+        .logo .logo-img { max-height: 55px; width: auto; display: block; }
         .logo .logo-text {
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.4rem; font-weight: 800;
             background: linear-gradient(135deg, #fbc2a0, #e25d32);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            white-space: nowrap;
+            -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap;
         }
-
-        .logo p {
-            font-size: 0.65rem;
-            color: #7a6a8a;
-            margin-top: 0px;
-        }
+        .logo p { font-size: 0.65rem; color: #7a6a8a; margin-top: 0px; }
 
         .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(15, 10, 20, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 0.4rem 0.8rem;
-            border-radius: 60px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+            background: rgba(15, 10, 20, 0.4); backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem; border-radius: 60px;
             border: 1px solid rgba(210, 100, 55, 0.15);
         }
 
         .nav-btn {
-            background: transparent;
-            border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.78rem;
-            cursor: pointer;
-            color: #b5a8c8;
-            transition: all 0.3s;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            text-decoration: none;
+            background: transparent; border: none; padding: 0.5rem 0.9rem;
+            border-radius: 50px; font-weight: 600; font-size: 0.78rem;
+            cursor: pointer; color: #b5a8c8; transition: all 0.3s;
+            font-family: inherit; display: inline-flex; align-items: center;
+            gap: 5px; text-decoration: none;
         }
 
-        .nav-btn:hover {
-            color: white;
-            text-shadow: 0 0 8px rgba(220,90,50,0.3);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
-            box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25);
-        }
+        .nav-btn:hover { color: white; text-shadow: 0 0 8px rgba(220,90,50,0.3); }
+        .nav-btn.active { background: linear-gradient(135deg, #bc4627, #e25d32); color: white; box-shadow: 0 3px 12px rgba(188, 70, 39, 0.25); }
 
         .escalation-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: rgba(18, 12, 28, 0.6);
-            backdrop-filter: blur(16px);
-            border-radius: 40px;
-            border: 2px solid rgba(220, 90, 50, 0.3);
-            padding: 2.5rem;
-            animation: fadeInScale 0.6s ease-out;
-            position: relative;
-            overflow: hidden;
+            max-width: 1100px; margin: 0 auto;
+            background: rgba(18, 12, 28, 0.6); backdrop-filter: blur(16px);
+            border-radius: 40px; border: 2px solid rgba(220, 90, 50, 0.3);
+            padding: 2.5rem; animation: fadeInScale 0.6s ease-out;
+            position: relative; overflow: hidden;
         }
 
         .escalation-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: url('images/фон эскалация.webp') center/cover no-repeat;
-            opacity: 0.25;
-            z-index: 0;
+            opacity: 0.25; z-index: 0;
         }
 
-        .escalation-wrapper > * {
-            position: relative;
-            z-index: 1;
-        }
+        .escalation-wrapper > * { position: relative; z-index: 1; }
 
         .escalation-wrapper h1 {
-            font-size: 2.2rem;
-            text-align: center;
+            font-size: 2.2rem; text-align: center;
             background: linear-gradient(135deg, #fff, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 15px;
         }
 
-        .escalation-wrapper h1 i {
-            color: #e16d48;
-        }
+        .escalation-wrapper h1 i { color: #e16d48; }
 
         .weekly-info {
-            text-align: center;
-            padding: 10px 16px;
-            background: rgba(220, 90, 50, 0.12);
-            border-radius: 16px;
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            text-align: center; padding: 10px 16px;
+            background: rgba(220, 90, 50, 0.12); border-radius: 16px;
+            border: 1px solid rgba(220, 90, 50, 0.25); margin-bottom: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
         }
 
-        .weekly-info .weekly-label {
-            color: #888;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .weekly-info .weekly-variator {
-            color: #f1c40f;
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-
-        .weekly-info .weekly-variator i {
-            color: #f1c40f;
-            margin-right: 6px;
-        }
-
-        .weekly-info .weekly-hint {
-            color: #666;
-            font-size: 0.7rem;
-        }
+        .weekly-info .weekly-label { color: #888; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px; }
+        .weekly-info .weekly-variator { color: #f1c40f; font-weight: 700; font-size: 1rem; text-transform: uppercase; }
+        .weekly-info .weekly-variator i { color: #f1c40f; margin-right: 6px; }
+        .weekly-info .weekly-hint { color: #666; font-size: 0.7rem; }
 
         .level-counter {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(220, 90, 50, 0.1);
-            border-radius: 20px;
+            text-align: center; margin-bottom: 1.5rem; padding: 1rem;
+            background: rgba(220, 90, 50, 0.1); border-radius: 20px;
             border: 1px solid rgba(220, 90, 50, 0.2);
         }
 
         .level-counter .level-number {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 2.5rem; font-weight: 800;
             background: linear-gradient(135deg, #e25d32, #ffbc9a);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
 
-        .level-counter .level-label {
-            font-size: 0.9rem;
-            color: #888;
-            margin-left: 0.5rem;
-        }
+        .level-counter .level-label { font-size: 0.9rem; color: #888; margin-left: 0.5rem; }
 
         .level-counter .level-difficulty {
-            display: inline-block;
-            margin-left: 1rem;
-            padding: 0.2rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            display: inline-block; margin-left: 1rem; padding: 0.2rem 1.2rem;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 600;
         }
 
         .level-difficulty-intro { background: rgba(108, 117, 125, 0.3); color: #6c757d; }
@@ -282,922 +147,759 @@
         .level-difficulty-psycho { background: rgba(255, 51, 51, 0.3); color: #ff3333; }
 
         .step-container {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 28px;
-            padding: 2rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.15);
+            background: rgba(0, 0, 0, 0.25); border-radius: 28px; padding: 2rem;
+            margin-bottom: 1rem; border: 1px solid rgba(220, 90, 50, 0.15);
             animation: fadeInScale 0.5s ease-out;
         }
 
-        .step-container.hidden {
-            display: none;
-        }
+        .step-container.hidden { display: none; }
 
         .step-title {
-            font-size: 1.4rem;
-            color: #e16d48;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border-left: 4px solid #e16d48;
-            padding-left: 18px;
+            font-size: 1.4rem; color: #e16d48; margin-bottom: 0.8rem;
+            display: flex; align-items: center; gap: 14px;
+            border-left: 4px solid #e16d48; padding-left: 18px;
         }
 
         .step-title .step-number {
-            background: rgba(220, 90, 50, 0.2);
-            padding: 0.2rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: #e16d48;
+            background: rgba(220, 90, 50, 0.2); padding: 0.2rem 0.8rem;
+            border-radius: 30px; font-size: 0.9rem; color: #e16d48;
         }
 
         .step-subtitle {
-            font-size: 0.95rem;
-            color: #c2b9d4;
-            margin-bottom: 1.8rem;
-            padding-left: 10px;
-            text-align: center;
+            font-size: 0.95rem; color: #c2b9d4; margin-bottom: 1.8rem;
+            padding-left: 10px; text-align: center;
         }
 
         .player-count-options {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0.5rem 0;
+            display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; padding: 0.5rem 0;
         }
 
         .player-count-btn {
-            background: rgba(0, 0, 0, 0.35);
-            border: 2px solid rgba(220, 90, 50, 0.25);
-            border-radius: 24px;
-            padding: 1.2rem 2.8rem;
-            color: #c2b9d4;
-            font-size: 1.6rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 90px;
-            font-family: inherit;
+            background: rgba(0, 0, 0, 0.35); border: 2px solid rgba(220, 90, 50, 0.25);
+            border-radius: 24px; padding: 1.2rem 2.8rem; color: #c2b9d4;
+            font-size: 1.6rem; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease; min-width: 90px; font-family: inherit;
         }
 
         .player-count-btn:hover {
-            border-color: #e16d48;
-            color: white;
-            transform: scale(1.05);
+            border-color: #e16d48; color: white; transform: scale(1.05);
             box-shadow: 0 0 30px rgba(220, 90, 50, 0.1);
         }
 
         .player-count-btn.selected {
-            border-color: #e16d48;
-            background: rgba(220, 90, 50, 0.2);
-            color: white;
-            box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
+            border-color: #e16d48; background: rgba(220, 90, 50, 0.2);
+            color: white; box-shadow: 0 0 40px rgba(220, 90, 50, 0.15);
         }
 
         .player-name-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 550px;
-            margin: 0 auto;
-            padding: 0.5rem 0;
+            display: flex; flex-direction: column; gap: 1rem;
+            max-width: 550px; margin: 0 auto; padding: 0.5rem 0;
         }
 
         .player-name-inputs .input-row {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.3rem 1rem 0.3rem 1.5rem;
-            border-radius: 18px;
-            border: 1px solid rgba(220, 90, 50, 0.1);
+            display: flex; align-items: center; gap: 1.2rem;
+            background: rgba(0, 0, 0, 0.2); padding: 0.3rem 1rem 0.3rem 1.5rem;
+            border-radius: 18px; border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
         }
 
-        .player-name-inputs .input-row:hover {
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .player-name-inputs .input-row label {
-            min-width: 80px;
-            color: #c2b9d4;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
+        .player-name-inputs .input-row:hover { border-color: rgba(220, 90, 50, 0.3); }
+        .player-name-inputs .input-row label { min-width: 80px; color: #c2b9d4; font-weight: 600; font-size: 0.95rem; }
         .player-name-inputs .input-row input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 0.7rem 0.5rem;
-            color: #f0eef7;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
+            flex: 1; background: transparent; border: none; padding: 0.7rem 0.5rem;
+            color: #f0eef7; font-size: 1rem; font-family: inherit; outline: none;
         }
-
-        .player-name-inputs .input-row input::placeholder {
-            color: #555;
-        }
+        .player-name-inputs .input-row input::placeholder { color: #555; }
 
         .selection-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(220, 90, 50, 0.2);
-            border-radius: 16px;
-            padding: 0.8rem 0.6rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: rgba(0, 0, 0, 0.3); border: 2px solid rgba(220, 90, 50, 0.2);
+            border-radius: 16px; padding: 0.8rem 0.6rem; text-align: center;
+            cursor: pointer; transition: all 0.3s ease; position: relative;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         .selection-item:hover {
-            border-color: #e16d48;
-            transform: translateY(-2px);
+            border-color: #e16d48; transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .selection-item.selected {
-            border-color: #e16d48;
-            background: rgba(220, 90, 50, 0.15);
+            border-color: #e16d48; background: rgba(220, 90, 50, 0.15);
             box-shadow: 0 0 40px rgba(220, 90, 50, 0.08);
         }
 
         .selection-item img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            margin-bottom: 0.3rem;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 6px;
-            transition: transform 0.3s;
+            width: 70px; height: 70px; object-fit: contain; margin-bottom: 0.3rem;
+            border-radius: 12px; background: rgba(0, 0, 0, 0.2); padding: 6px; transition: transform 0.3s;
         }
 
-        .selection-item:hover img {
-            transform: scale(1.05);
-        }
+        .selection-item:hover img { transform: scale(1.05); }
 
-        .selection-item .item-name {
-            font-size: 0.8rem;
-            color: #c2b9d4;
-            font-weight: 500;
-            line-height: 1.2;
-        }
-
-        .selection-item .item-category {
-            font-size: 0.55rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.1rem;
-        }
+        .selection-item .item-name { font-size: 0.8rem; color: #c2b9d4; font-weight: 500; line-height: 1.2; }
+        .selection-item .item-category { font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.1rem; }
 
         .selection-item .check-mark {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            color: #4c9aff;
-            font-size: 1.2rem;
-            display: none;
+            position: absolute; top: 6px; right: 8px; color: #4c9aff;
+            font-size: 1.2rem; display: none;
         }
 
-        .selection-item.selected .check-mark {
-            display: block;
-        }
+        .selection-item.selected .check-mark { display: block; }
 
         .step-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap;
         }
 
         .next-btn {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            border: none;
-            padding: 0.9rem 3rem;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            min-width: 160px;
+            border: none; padding: 0.9rem 3rem; border-radius: 50px;
+            font-size: 1.05rem; font-weight: 700; color: white; cursor: pointer;
+            transition: all 0.3s ease; font-family: inherit; min-width: 160px;
         }
 
-        .next-btn:hover:not(:disabled) {
-            transform: scale(1.04);
-            box-shadow: 0 8px 35px rgba(188, 74, 40, 0.4);
-        }
-
-        .next-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .next-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 8px 35px rgba(188, 74, 40, 0.4); }
+        .next-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
         .back-btn {
-            background: rgba(220, 90, 50, 0.15);
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            padding: 0.9rem 2.2rem;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #c2b9d4;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            background: rgba(220, 90, 50, 0.15); border: 1px solid rgba(220, 90, 50, 0.25);
+            padding: 0.9rem 2.2rem; border-radius: 50px; font-size: 1.05rem;
+            font-weight: 600; color: #c2b9d4; cursor: pointer;
+            transition: all 0.3s ease; font-family: inherit;
         }
 
-        .back-btn:hover {
-            background: rgba(220, 90, 50, 0.25);
-            color: white;
-        }
+        .back-btn:hover { background: rgba(220, 90, 50, 0.25); color: white; }
 
         .exit-btn {
-            background: rgba(255, 51, 51, 0.15);
-            border: 1px solid rgba(255, 51, 51, 0.3);
-            padding: 0.9rem 2.2rem;
-            border-radius: 50px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: #ff6666;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            background: rgba(255, 51, 51, 0.15); border: 1px solid rgba(255, 51, 51, 0.3);
+            padding: 0.9rem 2.2rem; border-radius: 50px; font-size: 1.05rem;
+            font-weight: 600; color: #ff6666; cursor: pointer;
+            transition: all 0.3s ease; font-family: inherit;
         }
 
-        .exit-btn:hover {
-            background: rgba(255, 51, 51, 0.25);
-            color: #ff3333;
-        }
+        .exit-btn:hover { background: rgba(255, 51, 51, 0.25); color: #ff3333; }
 
-        .escalation-result {
-            display: none;
-            animation: resultAppear 0.6s ease-out;
-        }
+        .escalation-result { display: none; animation: resultAppear 0.6s ease-out; }
+        .escalation-result.active { display: block; }
 
-        .escalation-result.active {
-            display: block;
-        }
-
-        .result-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 2rem;
-        }
+        .result-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; }
 
         .result-card {
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 24px;
-            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.25); border-radius: 24px; padding: 1.5rem;
             border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
         .result-card h3 {
-            color: #e16d48;
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(220, 90, 50, 0.15);
-            padding-bottom: 0.8rem;
+            color: #e16d48; font-size: 1rem; margin-bottom: 1.2rem;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.15); padding-bottom: 0.8rem;
         }
 
-        .result-map-row {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
+        .result-map-row { display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap; }
         .result-map-row .map-image {
-            width: 160px;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 16px;
-            border: 2px solid rgba(220, 90, 50, 0.3);
-            flex-shrink: 0;
+            width: 160px; height: 160px; object-fit: cover; border-radius: 16px;
+            border: 2px solid rgba(220, 90, 50, 0.3); flex-shrink: 0;
         }
 
-        .result-map-info {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .result-map-info .map-label {
-            font-size: 0.75rem;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .result-map-info .map-name {
-            font-size: 1.4rem;
-            color: #e16d48;
-            font-weight: 700;
-            margin: 0.2rem 0 0.3rem;
-        }
-
-        .result-map-info .trial-name {
-            font-size: 1.1rem;
-            color: #ffbc9a;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .result-map-info .trial-desc {
-            color: #c2b9d4;
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
+        .result-map-info { flex: 1; min-width: 200px; }
+        .result-map-info .map-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .result-map-info .map-name { font-size: 1.4rem; color: #e16d48; font-weight: 700; margin: 0.2rem 0 0.3rem; }
+        .result-map-info .trial-name { font-size: 1.1rem; color: #ffbc9a; font-weight: 600; margin-bottom: 0.3rem; }
+        .result-map-info .trial-desc { color: #c2b9d4; font-size: 0.85rem; line-height: 1.5; }
 
         .result-map-info .map-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 0.8rem;
-            padding-top: 0.8rem;
+            display: flex; flex-wrap: wrap; gap: 1rem;
+            margin-top: 0.8rem; padding-top: 0.8rem;
             border-top: 1px solid rgba(220, 90, 50, 0.15);
         }
 
-        .result-map-info .map-meta-item {
-            font-size: 0.8rem;
-            color: #888;
-        }
+        .result-map-info .map-meta-item { font-size: 0.8rem; color: #888; }
+        .result-map-info .map-meta-item strong { color: #ffbc9a; font-weight: 600; }
 
-        .result-map-info .map-meta-item strong {
-            color: #ffbc9a;
-            font-weight: 600;
-        }
-
-        .variator-list {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+        .variator-list { display: flex; gap: 1rem; flex-wrap: wrap; }
 
         .variator-list .var-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.4rem;
+            display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
         }
 
         .variator-list .var-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px;
-            border: 1px solid rgba(220, 90, 50, 0.15);
+            width: 60px; height: 60px; object-fit: contain; border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3); padding: 6px; border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
         .variator-list .var-item .var-name {
-            font-size: 0.65rem;
-            color: #c2b9d4;
-            text-align: center;
-            max-width: 75px;
-            line-height: 1.2;
+            font-size: 0.65rem; color: #c2b9d4; text-align: center;
+            max-width: 75px; line-height: 1.2;
         }
 
         .variator-list .var-item.weekly {
-            border: 2px solid #f1c40f;
-            border-radius: 12px;
-            padding: 4px;
+            border: 2px solid #f1c40f; border-radius: 12px; padding: 4px;
             background: rgba(241, 196, 15, 0.1);
         }
 
-        .variator-list .var-item.weekly .var-name {
-            color: #f1c40f;
-        }
-
+        .variator-list .var-item.weekly .var-name { color: #f1c40f; }
         .variator-list .var-item .weekly-badge {
-            font-size: 0.5rem;
-            color: #f1c40f;
-            background: rgba(241, 196, 15, 0.2);
-            padding: 0.1rem 0.5rem;
-            border-radius: 10px;
-            margin-top: 0.1rem;
+            font-size: 0.5rem; color: #f1c40f; background: rgba(241, 196, 15, 0.2);
+            padding: 0.1rem 0.5rem; border-radius: 10px; margin-top: 0.1rem;
         }
 
         .player-result {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(220, 90, 50, 0.1);
+            background: rgba(0, 0, 0, 0.2); border-radius: 16px; padding: 1.2rem;
+            margin-bottom: 1rem; border: 1px solid rgba(220, 90, 50, 0.1);
             transition: border-color 0.3s;
         }
 
-        .player-result:hover {
-            border-color: rgba(220, 90, 50, 0.3);
-        }
-
-        .player-result:last-child {
-            margin-bottom: 0;
-        }
+        .player-result:hover { border-color: rgba(220, 90, 50, 0.3); }
+        .player-result:last-child { margin-bottom: 0; }
 
         .player-result .player-name {
-            font-weight: 700;
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-weight: 700; color: #fff; font-size: 1.1rem; margin-bottom: 0.6rem;
+            display: flex; align-items: center; gap: 10px;
         }
 
-        .player-result .player-name i {
-            color: #e16d48;
-            font-size: 1.2rem;
-        }
+        .player-result .player-name i { color: #e16d48; font-size: 1.2rem; }
 
         .player-result .player-equip {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 0.4rem 0.8rem;
-            border-radius: 12px;
+            display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;
+            background: rgba(0, 0, 0, 0.15); padding: 0.4rem 0.8rem; border-radius: 12px;
         }
 
         .player-result .player-equip img {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 4px;
+            width: 36px; height: 36px; object-fit: contain; border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3); padding: 4px;
         }
 
-        .player-result .player-equip .label {
-            color: #888;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .player-result .player-equip .value {
-            color: #ffbc9a;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .player-result .player-equip .label { color: #888; font-size: 0.75rem; font-weight: 500; }
+        .player-result .player-equip .value { color: #ffbc9a; font-size: 0.9rem; font-weight: 500; }
 
         .player-amps-categories {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 0.8rem;
-            margin-top: 0.5rem;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem; margin-top: 0.5rem;
         }
 
         .amp-category-block {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 0.6rem 0.8rem;
-            border: 1px solid rgba(220, 90, 50, 0.1);
-            transition: border-color 0.3s;
-            position: relative;
+            background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 0.6rem 0.8rem;
+            border: 1px solid rgba(220, 90, 50, 0.1); transition: border-color 0.3s; position: relative;
         }
 
-        .amp-category-block:hover {
-            border-color: rgba(220, 90, 50, 0.25);
-        }
+        .amp-category-block:hover { border-color: rgba(220, 90, 50, 0.25); }
 
         .amp-category-block .category-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.3rem;
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;
         }
 
         .amp-category-block .category-name {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #e16d48;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.7rem; font-weight: 600; color: #e16d48;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
         .amp-category-block .category-change-btn {
-            background: rgba(220, 90, 50, 0.2);
-            border: 1px solid rgba(220, 90, 50, 0.3);
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            color: #c2b9d4;
-            font-size: 0.6rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(220, 90, 50, 0.2); border: 1px solid rgba(220, 90, 50, 0.3);
+            border-radius: 50%; width: 24px; height: 24px; color: #c2b9d4;
+            font-size: 0.6rem; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .amp-category-block .category-change-btn:hover {
-            background: rgba(220, 90, 50, 0.4);
-            color: white;
-            transform: scale(1.1);
+            background: rgba(220, 90, 50, 0.4); color: white; transform: scale(1.1);
         }
 
         .amp-category-block .category-amp-name {
-            font-size: 0.8rem;
-            color: #ffbc9a;
-            font-weight: 500;
-            text-align: center;
-            padding: 0.2rem 0;
+            font-size: 0.8rem; color: #ffbc9a; font-weight: 500; text-align: center; padding: 0.2rem 0;
         }
 
         .amp-category-block .category-amp-empty {
-            font-size: 0.65rem;
-            color: #666;
-            text-align: center;
-            padding: 0.2rem 0;
-            font-style: italic;
+            font-size: 0.65rem; color: #666; text-align: center; padding: 0.2rem 0; font-style: italic;
         }
 
-        .amp-category-block .category-complete {
-            font-size: 0.6rem;
-            color: #2ecc71;
-            text-align: center;
-        }
+        .amp-category-block .category-complete { font-size: 0.6rem; color: #2ecc71; text-align: center; }
 
         .result-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            display: flex; justify-content: center; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap;
         }
 
-        .result-actions .next-btn {
-            min-width: 200px;
-        }
+        .result-actions .next-btn { min-width: 200px; }
 
         .amp-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center;
+            align-items: center; backdrop-filter: blur(10px);
         }
 
-        .amp-modal-overlay.active {
-            display: flex;
-        }
+        .amp-modal-overlay.active { display: flex; }
 
         .amp-modal {
-            background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
-            border-radius: 30px;
-            border: 2px solid rgba(220, 90, 50, 0.4);
-            padding: 2rem;
-            max-width: 700px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            animation: modalFadeIn 0.3s ease-out;
+            background: rgba(18, 12, 28, 0.95); backdrop-filter: blur(16px);
+            border-radius: 30px; border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 2rem; max-width: 700px; width: 90%; max-height: 80vh;
+            overflow-y: auto; animation: modalFadeIn 0.3s ease-out;
         }
 
         .amp-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.5rem; padding-bottom: 1rem;
             border-bottom: 1px solid rgba(220, 90, 50, 0.2);
         }
 
         .amp-modal-header h2 {
-            font-size: 1.3rem;
-            color: #e16d48;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.3rem; color: #e16d48; display: flex; align-items: center; gap: 10px;
         }
 
         .amp-modal-close {
-            background: none;
-            border: none;
-            color: #c2b9d4;
-            font-size: 2rem;
-            cursor: pointer;
-            transition: color 0.3s;
+            background: none; border: none; color: #c2b9d4;
+            font-size: 2rem; cursor: pointer; transition: color 0.3s;
         }
 
-        .amp-modal-close:hover {
-            color: #e16d48;
-        }
+        .amp-modal-close:hover { color: #e16d48; }
 
         .amp-modal-category-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;
         }
 
         .amp-modal-category-tabs button {
-            background: rgba(220, 90, 50, 0.15);
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            border-radius: 30px;
-            padding: 0.5rem 1.5rem;
-            color: #c2b9d4;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
+            background: rgba(220, 90, 50, 0.15); border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 30px; padding: 0.5rem 1.5rem; color: #c2b9d4;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit;
         }
 
-        .amp-modal-category-tabs button:hover {
-            background: rgba(220, 90, 50, 0.25);
-            color: white;
-        }
-
+        .amp-modal-category-tabs button:hover { background: rgba(220, 90, 50, 0.25); color: white; }
         .amp-modal-category-tabs button.active {
-            background: rgba(220, 90, 50, 0.3);
-            border-color: #e16d48;
-            color: #e16d48;
+            background: rgba(220, 90, 50, 0.3); border-color: #e16d48; color: #e16d48;
         }
 
         .amp-modal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;
         }
 
         .amp-modal-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(220, 90, 50, 0.2);
-            border-radius: 16px;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
+            background: rgba(0, 0, 0, 0.3); border: 2px solid rgba(220, 90, 50, 0.2);
+            border-radius: 16px; padding: 1rem; text-align: center;
+            cursor: pointer; transition: all 0.3s; position: relative;
         }
 
-        .amp-modal-item:hover:not(.locked) {
-            border-color: #e16d48;
-            transform: scale(1.05);
-        }
-
-        .amp-modal-item.selected {
-            border-color: #4c9aff;
-            background: rgba(76, 154, 255, 0.1);
-        }
-
-        .amp-modal-item.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .amp-modal-item.locked:hover {
-            transform: none;
-            border-color: rgba(220, 90, 50, 0.2);
-        }
+        .amp-modal-item:hover:not(.locked) { border-color: #e16d48; transform: scale(1.05); }
+        .amp-modal-item.selected { border-color: #4c9aff; background: rgba(76, 154, 255, 0.1); }
+        .amp-modal-item.locked { opacity: 0.5; cursor: not-allowed; }
+        .amp-modal-item.locked:hover { transform: none; border-color: rgba(220, 90, 50, 0.2); }
 
         .amp-modal-item img {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 6px;
+            width: 65px; height: 65px; object-fit: contain;
+            border-radius: 12px; background: rgba(0, 0, 0, 0.2); padding: 6px;
         }
 
-        .amp-modal-item .amp-name {
-            font-size: 0.85rem;
-            color: #c2b9d4;
-            margin-top: 0.3rem;
-            font-weight: 500;
-        }
-
-        .amp-modal-item .amp-category-label {
-            font-size: 0.6rem;
-            color: #666;
-            margin-top: 0.1rem;
-        }
-
-        .amp-modal-item .amp-status {
-            font-size: 0.6rem;
-            margin-top: 0.2rem;
-        }
-
-        .amp-modal-item .amp-status.available {
-            color: #4c9aff;
-        }
-
-        .amp-modal-item .amp-status.locked {
-            color: #888;
-        }
-
-        .amp-modal-item .amp-status.current {
-            color: #2ecc71;
-        }
+        .amp-modal-item .amp-name { font-size: 0.85rem; color: #c2b9d4; margin-top: 0.3rem; font-weight: 500; }
+        .amp-modal-item .amp-category-label { font-size: 0.6rem; color: #666; margin-top: 0.1rem; }
+        .amp-modal-item .amp-status { font-size: 0.6rem; margin-top: 0.2rem; }
+        .amp-modal-item .amp-status.available { color: #4c9aff; }
+        .amp-modal-item .amp-status.locked { color: #888; }
+        .amp-modal-item .amp-status.current { color: #2ecc71; }
 
         .amp-modal-item .lock-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 14px;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.6); border-radius: 14px;
         }
 
-        .amp-modal-item .lock-overlay i {
-            font-size: 2rem;
-            color: #888;
-        }
+        .amp-modal-item .lock-overlay i { font-size: 2rem; color: #888; }
+        .amp-modal-item .lock-overlay span { font-size: 0.7rem; color: #888; margin-top: 0.3rem; }
 
-        .amp-modal-item .lock-overlay span {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: 0.3rem;
-        }
-
-        .amp-modal-confirm {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
+        .amp-modal-confirm { margin-top: 1.5rem; text-align: center; }
 
         .amp-modal-confirm button {
             background: linear-gradient(135deg, #bc4627, #e25d32);
-            border: none;
-            padding: 0.7rem 2.5rem;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
+            border: none; padding: 0.7rem 2.5rem; border-radius: 40px;
+            font-size: 1rem; font-weight: 700; color: white; cursor: pointer;
+            transition: all 0.3s; font-family: inherit;
         }
 
-        .amp-modal-confirm button:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
-        }
-
-        .amp-modal-confirm button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
+        .amp-modal-confirm button:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4); }
+        .amp-modal-confirm button:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .confirm-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 2000; justify-content: center;
+            align-items: center; backdrop-filter: blur(10px);
         }
 
-        .confirm-modal-overlay.active {
-            display: flex;
-        }
+        .confirm-modal-overlay.active { display: flex; }
 
         .confirm-modal {
-            background: rgba(18, 12, 28, 0.95);
-            backdrop-filter: blur(16px);
-            border-radius: 30px;
-            border: 2px solid rgba(255, 51, 51, 0.4);
-            padding: 2.5rem;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
+            background: rgba(18, 12, 28, 0.95); backdrop-filter: blur(16px);
+            border-radius: 30px; border: 2px solid rgba(255, 51, 51, 0.4);
+            padding: 2.5rem; max-width: 450px; width: 90%; text-align: center;
             animation: modalFadeIn 0.3s ease-out;
         }
 
-        .confirm-modal .icon {
-            font-size: 3rem;
-            color: #ff3333;
-            margin-bottom: 1rem;
-        }
-
-        .confirm-modal h2 {
-            color: #ff3333;
-            font-size: 1.5rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .confirm-modal p {
-            color: #c2b9d4;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .confirm-modal .confirm-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .confirm-modal .icon { font-size: 3rem; color: #ff3333; margin-bottom: 1rem; }
+        .confirm-modal h2 { color: #ff3333; font-size: 1.5rem; margin-bottom: 0.8rem; }
+        .confirm-modal p { color: #c2b9d4; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .confirm-modal .confirm-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
         .confirm-modal .confirm-actions button {
-            padding: 0.7rem 2rem;
-            border-radius: 40px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            border: none;
+            padding: 0.7rem 2rem; border-radius: 40px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; border: none;
         }
 
         .confirm-modal .confirm-actions .btn-confirm {
-            background: linear-gradient(135deg, #bc4627, #e25d32);
-            color: white;
+            background: linear-gradient(135deg, #bc4627, #e25d32); color: white;
         }
 
-        .confirm-modal .confirm-actions .btn-confirm:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
-        }
+        .confirm-modal .confirm-actions .btn-confirm:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4); }
 
         .confirm-modal .confirm-actions .btn-cancel {
-            background: rgba(220, 90, 50, 0.15);
-            border: 1px solid rgba(220, 90, 50, 0.25);
-            color: #c2b9d4;
+            background: rgba(220, 90, 50, 0.15); border: 1px solid rgba(220, 90, 50, 0.25); color: #c2b9d4;
         }
 
-        .confirm-modal .confirm-actions .btn-cancel:hover {
-            background: rgba(220, 90, 50, 0.25);
-            color: white;
-        }
+        .confirm-modal .confirm-actions .btn-cancel:hover { background: rgba(220, 90, 50, 0.25); color: white; }
 
         .back-to-roulette {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 2rem;
-            color: #e16d48;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            padding: 0.6rem 1.5rem;
-            border-radius: 40px;
-            background: rgba(220, 90, 50, 0.1);
-            border: 1px solid rgba(220, 90, 50, 0.15);
+            display: inline-flex; align-items: center; gap: 10px; margin-top: 2rem;
+            color: #e16d48; text-decoration: none; font-weight: 600; font-size: 1rem;
+            transition: all 0.3s; padding: 0.6rem 1.5rem; border-radius: 40px;
+            background: rgba(220, 90, 50, 0.1); border: 1px solid rgba(220, 90, 50, 0.15);
         }
 
-        .back-to-roulette:hover {
-            color: #ffbc9a;
-            background: rgba(220, 90, 50, 0.2);
-            transform: translateX(-5px);
-        }
+        .back-to-roulette:hover { color: #ffbc9a; background: rgba(220, 90, 50, 0.2); transform: translateX(-5px); }
 
         footer {
-            margin-top: 3rem;
-            text-align: center;
-            padding: 1.5rem 0;
-            border-top: 1px solid rgba(105, 58, 40, 0.3);
-            font-size: 0.75rem;
-            background: rgba(8, 6, 15, 0.3);
-            backdrop-filter: blur(8px);
-            border-radius: 50px;
+            margin-top: 3rem; text-align: center; padding: 1.5rem 0;
+            border-top: 1px solid rgba(105, 58, 40, 0.3); font-size: 0.75rem;
+            background: rgba(8, 6, 15, 0.3); backdrop-filter: blur(8px); border-radius: 50px;
         }
 
-        .footer-logo {
-            max-height: 32px;
-            width: auto;
-            margin-bottom: 0.5rem;
+        .footer-logo { max-height: 32px; width: auto; margin-bottom: 0.5rem; }
+
+        /* ============================================================
+           МОДАЛКА СБОРА ИНФОРМАЦИИ
+           ============================================================ */
+        .info-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); z-index: 1700; justify-content: center;
+            align-items: flex-start; backdrop-filter: blur(12px); overflow-y: auto; padding: 30px 15px;
         }
+
+        .info-modal-overlay.active { display: flex; }
+
+        .info-modal {
+            background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+            border-radius: 24px; border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 30px 35px; max-width: 900px; width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.3s ease-out; margin: auto;
+        }
+
+        .info-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.5rem; padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.2);
+        }
+
+        .info-modal-header h2 {
+            font-size: 1.5rem; color: #e16d48;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .info-modal-header h2 i { color: #e16d48; }
+
+        .info-modal-close {
+            background: none; border: none; color: #c2b9d4;
+            font-size: 2rem; cursor: pointer; transition: color 0.3s;
+        }
+
+        .info-modal-close:hover { color: #e16d48; }
+
+        .info-form-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem;
+        }
+
+        .info-form-group {
+            display: flex; flex-direction: column; gap: 6px; position: relative;
+        }
+
+        .info-form-group.full-width { grid-column: 1 / -1; }
+
+        .info-form-group label {
+            font-size: 0.8rem; color: #e16d48; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .info-form-group input[type="text"],
+        .info-form-group input[type="number"],
+        .info-form-group input[type="time"] {
+            background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 12px; padding: 12px 16px; color: #f0eef7;
+            font-size: 0.95rem; font-family: inherit; outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .info-form-group input:focus { border-color: #e16d48; }
+
+        .info-form-group input::placeholder { color: #555; }
+
+        .autocomplete-list {
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: rgba(18, 12, 28, 0.98); border: 1px solid rgba(220, 90, 50, 0.4);
+            border-radius: 12px; max-height: 220px; overflow-y: auto;
+            z-index: 100; margin-top: 4px; display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .autocomplete-list.active { display: block; }
+
+        .autocomplete-item {
+            padding: 10px 16px; cursor: pointer; color: #c2b9d4;
+            font-size: 0.9rem; border-bottom: 1px solid rgba(220, 90, 50, 0.08);
+            transition: background 0.2s;
+        }
+
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:hover, .autocomplete-item.highlighted {
+            background: rgba(220, 90, 50, 0.2); color: #fff;
+        }
+
+        .autocomplete-item .map-hint {
+            font-size: 0.7rem; color: #888; margin-left: 8px;
+        }
+
+        /* Мультивыбор вариаторов */
+        .variators-picker {
+            background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(220, 90, 50, 0.25);
+            border-radius: 12px; padding: 12px; max-height: 260px; overflow-y: auto;
+        }
+
+        .variators-picker-search {
+            width: 100%; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(220, 90, 50, 0.2); border-radius: 10px;
+            padding: 8px 12px; color: #f0eef7; font-size: 0.9rem;
+            font-family: inherit; outline: none; margin-bottom: 10px;
+        }
+
+        .variators-picker-search:focus { border-color: #e16d48; }
+
+        .variator-checkbox-list {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+        }
+
+        .variator-checkbox-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 10px; border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer; transition: all 0.2s;
+            font-size: 0.8rem; color: #c2b9d4;
+        }
+
+        .variator-checkbox-item:hover {
+            background: rgba(220, 90, 50, 0.1);
+            border-color: rgba(220, 90, 50, 0.3);
+        }
+
+        .variator-checkbox-item.selected {
+            background: rgba(220, 90, 50, 0.2);
+            border-color: #e16d48; color: #ffbc9a;
+        }
+
+        .variator-checkbox-item input[type="checkbox"] {
+            accent-color: #e16d48; cursor: pointer; flex-shrink: 0;
+        }
+
+        .variator-checkbox-item .vcb-img {
+            width: 24px; height: 24px; object-fit: contain;
+            border-radius: 4px; background: rgba(0, 0, 0, 0.3); padding: 2px; flex-shrink: 0;
+        }
+
+        .variator-checkbox-item .vcb-name {
+            flex: 1; line-height: 1.2;
+        }
+
+        .info-modal-actions {
+            display: flex; justify-content: flex-end; gap: 1rem;
+            margin-top: 1.5rem; padding-top: 1.2rem;
+            border-top: 1px solid rgba(220, 90, 50, 0.2); flex-wrap: wrap;
+        }
+
+        .info-modal-actions button {
+            padding: 0.8rem 2rem; border-radius: 40px;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit; border: none;
+        }
+
+        .info-modal-actions .btn-primary {
+            background: linear-gradient(135deg, #bc4627, #e25d32); color: white;
+        }
+
+        .info-modal-actions .btn-primary:hover:not(:disabled) {
+            transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4);
+        }
+
+        .info-modal-actions .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .info-modal-actions .btn-secondary {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25); color: #c2b9d4;
+        }
+
+        .info-modal-actions .btn-secondary:hover {
+            background: rgba(220, 90, 50, 0.25); color: white;
+        }
+
+        /* ============================================================
+           ИТОГОВАЯ ТАБЛИЦА (в стиле скриншота)
+           ============================================================ */
+        .summary-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); z-index: 2500; justify-content: center;
+            align-items: flex-start; backdrop-filter: blur(14px);
+            overflow-y: auto; padding: 40px 20px;
+        }
+
+        .summary-modal-overlay.active { display: flex; }
+
+        .summary-modal {
+            background: #0a0a0f;
+            border-radius: 16px; border: 1px solid rgba(220, 90, 50, 0.3);
+            padding: 30px 35px; max-width: 1300px; width: 100%;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.9);
+            animation: modalFadeIn 0.3s ease-out; margin: auto;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(220, 90, 50, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(220, 90, 50, 0.03) 0%, transparent 50%);
+        }
+
+        .summary-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 15px;
+            border-bottom: 2px solid rgba(220, 90, 50, 0.4);
+        }
+
+        .summary-header h2 {
+            font-size: 2rem; font-weight: 300; color: #fff;
+            letter-spacing: 3px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 15px;
+        }
+
+        .summary-header h2 i { color: #e16d48; font-size: 1.8rem; }
+
+        .summary-close {
+            background: none; border: none; color: #c2b9d4;
+            font-size: 2rem; cursor: pointer; transition: color 0.3s;
+        }
+
+        .summary-close:hover { color: #e16d48; }
+
+        .summary-table {
+            width: 100%; border-collapse: collapse;
+        }
+
+        .summary-table thead th {
+            text-align: left; padding: 12px 10px;
+            font-size: 0.75rem; font-weight: 600;
+            color: #888; text-transform: uppercase; letter-spacing: 1.5px;
+            border-bottom: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .summary-table thead th.col-time { text-align: center; width: 90px; }
+        .summary-table thead th.col-score { text-align: center; width: 130px; }
+
+        .summary-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+
+        .summary-table tbody tr:hover { background: rgba(220, 90, 50, 0.05); }
+
+        .summary-table tbody td {
+            padding: 12px 10px; vertical-align: middle;
+            color: #f0eef7; font-size: 0.95rem;
+        }
+
+        .summary-cell-number {
+            font-weight: 700; color: #e16d48; font-size: 1rem;
+            width: 60px; text-align: center;
+        }
+
+        .summary-cell-thumb {
+            width: 100px; padding: 6px 10px;
+        }
+
+        .summary-cell-thumb img {
+            width: 90px; height: 55px; object-fit: cover;
+            border-radius: 8px; border: 1px solid rgba(220, 90, 50, 0.3);
+            display: block;
+        }
+
+        .summary-cell-name {
+            font-weight: 600; color: #fff; text-transform: uppercase;
+            font-size: 0.95rem; letter-spacing: 0.5px;
+            min-width: 220px;
+        }
+
+        .summary-cell-variators {
+            display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+        }
+
+        .summary-var-icon {
+            width: 38px; height: 38px; object-fit: contain;
+            border-radius: 8px; background: rgba(0, 0, 0, 0.5);
+            padding: 3px; border: 1px solid rgba(220, 90, 50, 0.3);
+        }
+
+        .summary-var-icon.weekly {
+            border: 2px solid #f1c40f;
+            background: rgba(241, 196, 15, 0.15);
+            box-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+        }
+
+        .summary-cell-time {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: #ffbc9a; font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .summary-empty {
+            text-align: center; padding: 40px; color: #888;
+            font-size: 1rem; font-style: italic;
+        }
+
+        .summary-footer {
+            margin-top: 20px; padding-top: 15px;
+            border-top: 1px solid rgba(220, 90, 50, 0.2);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 15px;
+        }
+
+        .summary-footer .stats {
+            font-size: 0.8rem; color: #888;
+        }
+
+        .summary-footer .stats strong { color: #ffbc9a; }
+
+        .summary-actions {
+            display: flex; gap: 10px; flex-wrap: wrap;
+        }
+
+        .summary-actions button {
+            padding: 0.7rem 1.6rem; border-radius: 40px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit; border: none;
+        }
+
+        .summary-actions .btn-close {
+            background: linear-gradient(135deg, #bc4627, #e25d32); color: white;
+        }
+
+        .summary-actions .btn-close:hover { transform: scale(1.05); box-shadow: 0 5px 25px rgba(188, 74, 40, 0.4); }
+
+        .summary-actions .btn-copy {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.25); color: #c2b9d4;
+        }
+
+        .summary-actions .btn-copy:hover { background: rgba(220, 90, 50, 0.25); color: white; }
 
         @media (max-width: 992px) {
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
+            .result-grid { grid-template-columns: 1fr; }
+            .info-form-grid { grid-template-columns: 1fr; }
+            .variator-checkbox-list { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 850px) {
@@ -1207,64 +909,70 @@
             .nav-btn { padding: 0.35rem 0.7rem; font-size: 0.7rem; }
             .logo .logo-img { max-height: 40px; }
             .logo .logo-text { font-size: 1.1rem; }
-            
+
             .escalation-wrapper { padding: 1.5rem; margin: 0 0.5rem; }
             .escalation-wrapper h1 { font-size: 1.6rem; }
-            
+
             .step-container { padding: 1.5rem; }
             .step-title { font-size: 1.1rem; }
-            
+
             .player-count-btn { padding: 1rem 2rem; font-size: 1.3rem; min-width: 70px; }
-            
             .selection-item img { width: 60px; height: 60px; }
-            
+
             .result-map-row { flex-direction: column; text-align: left; }
             .result-map-row .map-image { width: 130px; height: 130px; }
-            
+
             .player-name-inputs .input-row { flex-direction: column; align-items: stretch; padding: 0.5rem 1rem; }
             .player-name-inputs .input-row label { min-width: auto; }
-            
-            .player-amps-categories {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
+
+            .player-amps-categories { grid-template-columns: 1fr; gap: 0.5rem; }
+
+            .summary-table thead { display: none; }
+            .summary-table tbody tr { display: block; padding: 12px 0; }
+            .summary-table tbody td { display: block; padding: 4px 10px; }
+            .summary-cell-thumb img { width: 100%; height: auto; max-width: 200px; }
+            .summary-cell-variators { justify-content: flex-start; }
         }
 
         @media (max-width: 600px) {
             .escalation-wrapper { padding: 1rem; }
             .escalation-wrapper h1 { font-size: 1.3rem; flex-wrap: wrap; }
-            
+
             .step-container { padding: 1rem; }
             .step-title { font-size: 1rem; padding-left: 12px; gap: 8px; }
             .step-title .step-number { font-size: 0.7rem; padding: 0.1rem 0.6rem; }
-            
+
             .player-count-btn { padding: 0.8rem 1.2rem; font-size: 1.1rem; min-width: 55px; }
             .player-count-options { gap: 0.5rem; }
-            
+
             .selection-item img { width: 50px; height: 50px; }
             .selection-item .item-name { font-size: 0.7rem; }
-            
+
             .result-map-row .map-image { width: 100px; height: 100px; }
             .variator-list { gap: 0.5rem; }
             .variator-list .var-item img { width: 50px; height: 50px; }
             .variator-list .var-item .var-name { font-size: 0.55rem; max-width: 60px; }
-            
+
             .step-actions { flex-direction: column; align-items: center; }
             .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
-            
+
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
-            
+
             .amp-modal { padding: 1rem; }
             .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
             .amp-modal-item img { width: 50px; height: 50px; }
             .amp-modal-item .amp-name { font-size: 0.7rem; }
-            
-            .player-amps-categories {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
-            }
+
+            .player-amps-categories { grid-template-columns: 1fr; gap: 0.4rem; }
             .amp-category-block .category-name { font-size: 0.6rem; }
             .amp-category-block .category-amp-name { font-size: 0.7rem; }
+
+            .info-modal { padding: 20px 15px; }
+            .info-modal-header h2 { font-size: 1.1rem; }
+            .summary-modal { padding: 20px 15px; }
+            .summary-header h2 { font-size: 1.3rem; letter-spacing: 1px; }
+            .summary-cell-time { font-size: 1rem; }
+            .summary-var-icon { width: 30px; height: 30px; }
         }
     </style>
 </head>
@@ -1404,6 +1112,7 @@
     </footer>
 </div>
 
+<!-- ====== МОДАЛКА ВЫБОРА АМПЫ ====== -->
 <div class="amp-modal-overlay" id="ampModal">
     <div class="amp-modal">
         <div class="amp-modal-header">
@@ -1418,6 +1127,7 @@
     </div>
 </div>
 
+<!-- ====== МОДАЛКА ПОДТВЕРЖДЕНИЯ ВЫХОДА ====== -->
 <div class="confirm-modal-overlay" id="confirmModal">
     <div class="confirm-modal">
         <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -1426,6 +1136,78 @@
         <div class="confirm-actions">
             <button class="btn-cancel" id="confirmCancel">Отмена</button>
             <button class="btn-confirm" id="confirmExit">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== МОДАЛКА СБОРА ИНФОРМАЦИИ ====== -->
+<div class="info-modal-overlay" id="infoModal">
+    <div class="info-modal">
+        <div class="info-modal-header">
+            <h2><i class="fas fa-clipboard-list"></i> Сбор информации об испытании</h2>
+            <button class="info-modal-close" id="infoModalClose">&times;</button>
+        </div>
+
+        <div class="info-form-grid">
+            <div class="info-form-group">
+                <label><i class="fas fa-hashtag"></i> Номер эскалации</label>
+                <input type="number" id="infoLevelNum" placeholder="Например: 15" min="1" max="999">
+            </div>
+
+            <div class="info-form-group">
+                <label><i class="fas fa-clock"></i> Время прохождения</label>
+                <input type="text" id="infoTime" placeholder="Например: 12:34" maxlength="8">
+            </div>
+
+            <div class="info-form-group full-width">
+                <label><i class="fas fa-map"></i> Испытание (начните вводить название)</label>
+                <input type="text" id="infoTrialInput" placeholder="Поиск испытания..." autocomplete="off">
+                <div class="autocomplete-list" id="infoTrialAutocomplete"></div>
+            </div>
+        </div>
+
+        <div class="info-form-group full-width" style="margin-bottom: 1.2rem;">
+            <label><i class="fas fa-tags"></i> Вариаторы (выберите все, что были)</label>
+            <div class="variators-picker">
+                <input type="text" class="variators-picker-search" id="infoVariatorSearch" placeholder="🔍 Быстрый поиск вариатора...">
+                <div class="variator-checkbox-list" id="infoVariatorList"></div>
+            </div>
+        </div>
+
+        <div class="info-modal-actions">
+            <button class="btn-secondary" id="infoModalCancel">Отмена</button>
+            <button class="btn-primary" id="infoModalSave" disabled>Сохранить и продолжить →</button>
+        </div>
+    </div>
+</div>
+
+<!-- ====== ИТОГОВАЯ ТАБЛИЦА ====== -->
+<div class="summary-modal-overlay" id="summaryModal">
+    <div class="summary-modal">
+        <div class="summary-header">
+            <h2><i class="fas fa-table"></i> Эскалационная терапия</h2>
+            <button class="summary-close" id="summaryClose">&times;</button>
+        </div>
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px; text-align: center;">#</th>
+                    <th style="width: 110px;">Испытание</th>
+                    <th>Название</th>
+                    <th>Переменные</th>
+                    <th class="col-time">Время</th>
+                </tr>
+            </thead>
+            <tbody id="summaryTableBody"></tbody>
+        </table>
+
+        <div class="summary-footer">
+            <div class="stats" id="summaryStats"></div>
+            <div class="summary-actions">
+                <button class="btn-copy" id="summaryCopy"><i class="fas fa-copy"></i> Скопировать</button>
+                <button class="btn-close" id="summaryCloseBtn">Закрыть</button>
+            </div>
         </div>
     </div>
 </div>
@@ -1454,48 +1236,22 @@ var WEEKLY_VARIATOR_NAME = (function() {
 // НОВЫЕ КОНСТАНТЫ ДЛЯ ЛОГИКИ ВАРИАТОРОВ
 // ============================================================
 var SIDE_QUEST_VARIATORS = [
-    "Сбор Подарков",
-    "Сбор Крыс",
-    "Сбор Амулетов",
-    "Доставьте Компоненты",
-    "Извлеките Образцы Органов",
-    "Разбейте Телевизоры",
-    "Находите Радиопередатчики",
-    "Собирайте Схемы",
-    "Найдите Трансляцию",
-    "Соберите Коробки С Уликами",
-    "Расшифруйте Вещание",
-    "Потушите Огонь",
-    "Экстракция Крови",
-    "Случайное Побочное Задание"
+    "Сбор Подарков", "Сбор Крыс", "Сбор Амулетов", "Доставьте Компоненты",
+    "Извлеките Образцы Органов", "Разбейте Телевизоры", "Находите Радиопередатчики",
+    "Собирайте Схемы", "Найдите Трансляцию", "Соберите Коробки С Уликами",
+    "Расшифруйте Вещание", "Потушите Огонь", "Экстракция Крови", "Случайное Побочное Задание"
 ];
 
 var EXCLUDED_VARIATORS = [
-    'Ностофобия',
-    'Лиланд Койл',
-    'Матушка Гуссбери',
-    'Франко Барби',
-    'Близнецы Кресс',
-    'Лилия Богомолова'
+    'Ностофобия', 'Лиланд Койл', 'Матушка Гуссбери', 'Франко Барби',
+    'Близнецы Кресс', 'Лилия Богомолова'
 ];
 
 var WEEKLY_POOL_NAMES = [
-    'Таймер Бомбы',
-    'Токсический Шок',
-    'Глубокий Ожог',
-    'Вечная Мерзлота',
-    'Главная Рулетка',
-    'Егерь',
-    'Кровотечение',
-    'Постоянный Урон',
-    'Смертельный Главный Актив',
-    'Трофейное Снаряжение',
-    'Без Оживлении',
-    'Не Шумите',
-    'Нехватка Здоровья',
-    'Камеры Наблюдения',
-    'Таймер бомбы',
-    'Галлюцинации'
+    'Таймер Бомбы', 'Токсический Шок', 'Глубокий Ожог', 'Вечная Мерзлота',
+    'Главная Рулетка', 'Егерь', 'Кровотечение', 'Постоянный Урон',
+    'Смертельный Главный Актив', 'Трофейное Снаряжение', 'Без Оживлении',
+    'Не Шумите', 'Нехватка Здоровья', 'Камеры Наблюдения', 'Таймер бомбы', 'Галлюцинации'
 ];
 
 // ============================================================
@@ -1521,6 +1277,18 @@ let escState = {
     nostophobiaCount: 0,
     weeklyVariator: null
 };
+
+// Данные текущего ввода формы сбора информации
+var infoFormState = {
+    levelNum: null,
+    trialName: null,
+    trialObj: null,
+    variatorNames: [],
+    time: ''
+};
+
+// Массив собранных записей (для итоговой таблицы)
+var collectedRecords = [];
 
 // ============================================================
 // ПРОВЕРКА ЗАГРУЗКИ ДАННЫХ
@@ -1585,9 +1353,7 @@ function areAllCategoriesComplete(playerIndex) {
     return ampCategories.every(function(cat) { return isCategoryComplete(playerIndex, cat); });
 }
 
-function checkAllAmpsUsed(playerIndex) {
-    return areAllCategoriesComplete(playerIndex);
-}
+function checkAllAmpsUsed(playerIndex) { return areAllCategoriesComplete(playerIndex); }
 
 function getAmpForCategory(playerIndex, category) {
     var selections = escState.ampSelections[playerIndex] || {};
@@ -1595,9 +1361,7 @@ function getAmpForCategory(playerIndex, category) {
 }
 
 function unlockAmpForPlayer(playerIndex, ampName) {
-    if (!escState.unlockedAmps[playerIndex]) {
-        escState.unlockedAmps[playerIndex] = [];
-    }
+    if (!escState.unlockedAmps[playerIndex]) escState.unlockedAmps[playerIndex] = [];
     if (escState.unlockedAmps[playerIndex].indexOf(ampName) === -1) {
         escState.unlockedAmps[playerIndex].push(ampName);
     }
@@ -1616,17 +1380,9 @@ function isExcludedVariator(name) {
     return false;
 }
 
-function isWeeklyVariatorName(name) {
-    return WEEKLY_POOL_NAMES.indexOf(name) !== -1;
-}
+function isWeeklyVariatorName(name) { return WEEKLY_POOL_NAMES.indexOf(name) !== -1; }
+function isSideQuestVariator(name) { return SIDE_QUEST_VARIATORS.indexOf(name) !== -1; }
 
-function isSideQuestVariator(name) {
-    return SIDE_QUEST_VARIATORS.indexOf(name) !== -1;
-}
-
-// ============================================================
-// ПРАВИЛЬНЫЙ ШАФФЛ (Fisher-Yates)
-// ============================================================
 function shuffleArray(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -1636,9 +1392,6 @@ function shuffleArray(arr) {
     return a;
 }
 
-// ============================================================
-// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ВАРИАТОР СЛОЖНОСТИ
-// ============================================================
 function getDifficultyVariator(level, availableVariators) {
     if (level < 5) return null;
 
@@ -1660,7 +1413,6 @@ function getDifficultyVariator(level, availableVariators) {
             category: 'difficulty'
         };
     }
-
     return null;
 }
 
@@ -1672,12 +1424,8 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
     var i;
 
-    // 0. Уже выбранный такой же — не дублируем
     if (selectedNames.indexOf(variatorName) !== -1) return false;
 
-    // ============================================================
-    // 1. ГЛАВНАЯ РУЛЕТКА / САМОЕ ГЛАВНОЕ ↔ ЕГЕРЬ / ТОЛКАЧИ / ПРИТВОРЩИКИ / БРОСАТЕЛИ
-    // ============================================================
     var mainLotteryGroup = ['Главная Рулетка', 'Самое Главное'];
     var antiLotteryGroup = ['Егерь', 'Больше Толкачей', 'Больше Притворщиков', 'Больше Бросателей'];
 
@@ -1699,9 +1447,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // ============================================================
-    // 2. МИНЫ — только один вид мин
-    // ============================================================
     var mineVariators = ['Больше Мин Психоза', 'Взрывчатка', 'Ледяные Мины', 'Огненные Мины'];
     if (mineVariators.indexOf(variatorName) !== -1) {
         for (i = 0; i < mineVariators.length; i++) {
@@ -1709,22 +1454,11 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // ============================================================
-    // 3. ПЕРВЫЙ УРОВЕНЬ / СЛОМАННЫЙ РЕАГЕНТ / БЕЗ СНАРЯЖЕНИЯ
-    // ============================================================
-
-    // --- 3.1. ПЕРВЫЙ УРОВЕНЬ ---
     var firstLevelBlocked = [
-        'Сломанный Реагент',
-        'Без Снаряжения',
-        'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения',
-        'Без Амф',
-        'Без Рецептов',
-        'Ограниченное Снаряжение',
-        'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение',
-        'Трофейное Снаряжение'
+        'Сломанный Реагент', 'Без Снаряжения', 'Без Улучшения Снаряжения',
+        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
+        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
+        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
     ];
     if (variatorName === 'Первый Уровень') {
         for (i = 0; i < firstLevelBlocked.length; i++) {
@@ -1735,18 +1469,11 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Первый Уровень') !== -1) return false;
     }
 
-    // --- 3.2. СЛОМАННЫЙ РЕАГЕНТ ---
     var brokenReagentBlocked = [
-        'Первый Уровень',
-        'Без Снаряжения',
-        'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения',
-        'Без Амф',
-        'Без Рецептов',
-        'Ограниченное Снаряжение',
-        'Урон Перезапускает Снаряжение',
-        'Урон Отключает Снаряжение',
-        'Трофейное Снаряжение'
+        'Первый Уровень', 'Без Снаряжения', 'Без Улучшения Снаряжения',
+        'Увеличенная Перезарядка Снаряжения', 'Без Амф', 'Без Рецептов',
+        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
+        'Урон Отключает Снаряжение', 'Трофейное Снаряжение'
     ];
     if (variatorName === 'Сломанный Реагент') {
         for (i = 0; i < brokenReagentBlocked.length; i++) {
@@ -1757,12 +1484,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Сломанный Реагент') !== -1) return false;
     }
 
-    // --- 3.3. БЕЗ СНАРЯЖЕНИЯ ---
     var noEquipmentBlocked = [
-        'Без Улучшения Снаряжения',
-        'Увеличенная Перезарядка Снаряжения',
-        'Ограниченное Снаряжение',
-        'Урон Перезапускает Снаряжение',
+        'Без Улучшения Снаряжения', 'Увеличенная Перезарядка Снаряжения',
+        'Ограниченное Снаряжение', 'Урон Перезапускает Снаряжение',
         'Урон Отключает Снаряжение'
     ];
     if (variatorName === 'Без Снаряжения') {
@@ -1774,34 +1498,23 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Без Снаряжения') !== -1) return false;
     }
 
-    // ============================================================
-    // 4. ЗАВИСИМОСТЬ ОТ КАРТЫ
-    // ============================================================
     if (variatorName === 'Все На Выход') {
         if (trialName === 'Раздавите бригадира' || trialName === 'Устранение устаревшего оборудования') {
             return false;
         }
     }
 
-    // ============================================================
-    // 5. СИЛЬНЕЕ ВМЕСТЕ
-    // ============================================================
     if (variatorName === 'Сильнее Вместе') {
         if (playerCount === 1) return false;
         if (playerCount === 2 || playerCount === 3) {
             var forbiddenMaps = [
-                'Сожгите секс-игрушки',
-                'Обработайте фабрику газом',
-                'Освободите заключенных',
-                'Заберите наркотики'
+                'Сожгите секс-игрушки', 'Обработайте фабрику газом',
+                'Освободите заключенных', 'Заберите наркотики'
             ];
             if (forbiddenMaps.indexOf(trialName) !== -1) return false;
         }
     }
 
-    // ============================================================
-    // 6. ВЕЧНАЯ МЕРЗЛОТА ↔ РЕЗКОЕ ПОХОЛОДАНИЕ, ТОКСИЧЕСКИЙ ШОК
-    // ============================================================
     if (variatorName === 'Вечная Мерзлота') {
         if (selectedNames.indexOf('Резкое Похолодание') !== -1) return false;
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
@@ -1810,9 +1523,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Вечная Мерзлота') !== -1) return false;
     }
 
-    // ============================================================
-    // 7. ТАЙМЕР БОМБЫ ↔ РАЗБЕЙТЕ ТЕЛЕВИЗОРЫ
-    // ============================================================
     if (variatorName === 'Таймер Бомбы' || variatorName === 'Таймер бомбы') {
         if (trialName === 'Устранение устаревшего оборудования') return false;
         if (selectedNames.indexOf('Разбейте Телевизоры') !== -1) return false;
@@ -1822,9 +1532,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Таймер бомбы') !== -1) return false;
     }
 
-    // ============================================================
-    // 8. ТОКСИЧЕСКИЙ ШОК → блокирует ГЛУБОКИЙ ОЖОГ
-    // ============================================================
     if (variatorName === 'Токсический Шок') {
         if (selectedNames.indexOf('Глубокий Ожог') !== -1) return false;
     }
@@ -1832,14 +1539,9 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Токсический Шок') !== -1) return false;
     }
 
-    // ============================================================
-    // 9. ВРАГИ СИЛЬНЕЕ / ПСИХОХИРУРГИЯ ↔ ПЛОТНОСТЬ / УГРОЗА
-    // ============================================================
     var densityAndThreat = [
-        'Низкая Плотность Врагов',
-        'Много Противников',
-        'Повышенная Угроза',
-        'Повышенная угроза II'
+        'Низкая Плотность Врагов', 'Много Противников',
+        'Повышенная Угроза', 'Повышенная угроза II'
     ];
 
     if (variatorName === 'Враги сильнее' || variatorName === 'Враги Сильнее' || variatorName === 'Враги сильнее II' || variatorName === 'Враги Сильнее II') {
@@ -1870,9 +1572,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         if (selectedNames.indexOf('Психохирургия') !== -1) return false;
     }
 
-    // ============================================================
-    // 10. ОДНОТИПНЫЕ ВАРИАТОРЫ (I и II не вместе)
-    // ============================================================
     var sameTypeGroups = [
         ['Ограниченный Инвентарь', 'Ограниченный Инвентарь II'],
         ['Повышенная Угроза', 'Повышенная угроза II'],
@@ -1889,19 +1588,10 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // ============================================================
-    // 10.1. ГРУППА ВЗАИМОИСКЛЮЧАЮЩИХ ВАРИАТОРОВ ПРЕДМЕТОВ
-    // ============================================================
     var itemRestrictionGroup = [
-        'Без Предметов В Испытании',
-        'Ограниченные Предметы',
-        'Ограниченные Предметы II',
-        'Ограниченные предметы',
-        'Ограниченные предметы II',
-        'Без Медицинских Предметов',
-        'Без Технических Предметов',
-        'Закрытые Предметы',
-        'Только Предметы Для Бросания'
+        'Без Предметов В Испытании', 'Ограниченные Предметы', 'Ограниченные Предметы II',
+        'Ограниченные предметы', 'Ограниченные предметы II', 'Без Медицинских Предметов',
+        'Без Технических Предметов', 'Закрытые Предметы', 'Только Предметы Для Бросания'
     ];
 
     if (itemRestrictionGroup.indexOf(variatorName) !== -1) {
@@ -1912,9 +1602,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
         }
     }
 
-    // ============================================================
-    // 11. ПРОЧИЕ СТАРЫЕ ПРАВИЛА
-    // ============================================================
     if (playerCount === 1) {
         if (variatorName === 'Без Имён' || variatorName === 'Без Рации') return false;
     }
@@ -1932,71 +1619,38 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
-    console.log('🔄 Генерация вариаторов для уровня:', level);
-
     var weeklyVar = getWeeklyVariator();
-    if (weeklyVar) {
-        escState.weeklyVariator = weeklyVar;
-    }
+    if (weeklyVar) escState.weeklyVariator = weeklyVar;
     updateWeeklyVariatorDisplay();
 
-    // ============================================================
-    // ЖЁСТКИЙ ЛИМИТ ПО СЛОЖНОСТИ (ВКЛЮЧАЯ ЕЖЕНЕДЕЛЬНЫЙ)
-    // Уровни 1–3:   3 вариатора (Начальная)
-    // Уровни 3–5:   4 вариатора (Начальная)
-    // Уровни 6–15:  5 вариаторов (Нормальная)
-    // Уровни 16–20: 6 вариаторов (Высокая)
-    // Уровни 21+:   8 вариаторов (Психохирургия)
-    // ============================================================
     var MAX_VARIATORS;
-    if (level >= 1 && level <= 3) {
-        MAX_VARIATORS = 3;
-    } else if (level >= 4 && level <= 5) {
-        MAX_VARIATORS = 4;
-    } else if (level >= 6 && level <= 15) {
-        MAX_VARIATORS = 5;
-    } else if (level >= 16 && level <= 20) {
-        MAX_VARIATORS = 6;
-    } else {
-        MAX_VARIATORS = 8;
-    }
-
-    console.log('📏 Лимит вариаторов для уровня ' + level + ':', MAX_VARIATORS);
+    if (level >= 1 && level <= 3) MAX_VARIATORS = 3;
+    else if (level >= 4 && level <= 5) MAX_VARIATORS = 4;
+    else if (level >= 6 && level <= 15) MAX_VARIATORS = 5;
+    else if (level >= 16 && level <= 20) MAX_VARIATORS = 6;
+    else MAX_VARIATORS = 8;
 
     var trialName = escState.trial ? escState.trial.name : '';
 
     var availableVariators = allVariatorsData.filter(function(v) {
         if (isExcludedVariator(v.name)) return false;
-
         var excludedGates = [
             'Ворота С Детектором Звука', 'Дистанционные Ворота',
             'Бесконтактные Ворота', 'Времянные Ворота', 'Закрытые Ворота'
         ];
         if (excludedGates.indexOf(v.name) !== -1) return false;
-
         if (v.name === 'Низкая Плотность Врагов' && level > 5) return false;
-
         return true;
     });
-
-    console.log('📋 availableVariators (' + availableVariators.length + '):',
-        availableVariators.map(function(v){ return v.name; }).join(' | '));
 
     var result = [];
     var usedNames = [];
 
-    // ============================================================
-    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР (всегда первый, если есть)
-    // ============================================================
     if (weeklyVar && weeklyVar.name && result.length < MAX_VARIATORS) {
         result.push(weeklyVar);
         usedNames.push(weeklyVar.name);
-        console.log('✅ [1] Еженедельный:', weeklyVar.name);
     }
 
-    // ============================================================
-    // 2. ВАРИАТОР СЛОЖНОСТИ (только если осталось место)
-    // ============================================================
     if (result.length < MAX_VARIATORS) {
         if (level > 20) {
             var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
@@ -2006,33 +1660,18 @@ function getVariatorsForLevel(level, mapName, playerCount) {
                 if (psycho) {
                     result.push(psycho);
                     usedNames.push(psycho.name);
-                    console.log('✅ [2] Психохирургия');
                 } else {
-                    result.push({
-                        id: 'psycho_fallback',
-                        name: "Психохирургия",
-                        image: "images/психохирургия.webp",
-                        category: "psycho"
-                    });
+                    result.push({ id: 'psycho_fallback', name: "Психохирургия", image: "images/психохирургия.webp", category: "psycho" });
                     usedNames.push("Психохирургия");
-                    console.log('✅ [2] Психохирургия (создана)');
                 }
             }
-
             if (result.length < MAX_VARIATORS) {
                 if (doubleTasks) {
                     result.push(doubleTasks);
                     usedNames.push(doubleTasks.name);
-                    console.log('✅ [2] Двойные задания');
                 } else {
-                    result.push({
-                        id: 'double_fallback',
-                        name: "Двойные задания",
-                        image: "images/двойные задания.webp",
-                        category: "collection_special"
-                    });
+                    result.push({ id: 'double_fallback', name: "Двойные задания", image: "images/двойные задания.webp", category: "collection_special" });
                     usedNames.push("Двойные задания");
-                    console.log('✅ [2] Двойные задания (созданы)');
                 }
             }
         } else {
@@ -2040,36 +1679,23 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
                 result.push(difficultyVar);
                 usedNames.push(difficultyVar.name);
-                console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
             }
         }
     }
 
-    // ============================================================
-    // 3. ПОБОЧНОЕ ЗАДАНИЕ (только если осталось место и уровень ≤ 20)
-    // ============================================================
     if (result.length < MAX_VARIATORS && level <= 20) {
         var sideQuestPool = availableVariators.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
             if (usedNames.indexOf(v.name) !== -1) return false;
             return true;
         });
-
         if (sideQuestPool.length > 0) {
             var chosenSideQuest = sideQuestPool[Math.floor(Math.random() * sideQuestPool.length)];
             result.push(chosenSideQuest);
             usedNames.push(chosenSideQuest.name);
-            console.log('✅ [3] Побочное задание (ровно 1):', chosenSideQuest.name);
-        } else {
-            console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
         }
-    } else if (level > 20) {
-        console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
     }
 
-    // ============================================================
-    // 4. СЛУЧАЙНЫЕ ВАРИАТОРЫ (добираем до лимита)
-    // ============================================================
     var filtered = availableVariators.filter(function(v) {
         if (usedNames.indexOf(v.name) !== -1) return false;
         if (isWeeklyVariatorName(v.name)) return false;
@@ -2080,19 +1706,14 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     });
 
     var shuffled = shuffleArray(filtered);
-
     for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS; i++) {
         var candidate = shuffled[i];
         if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
             result.push(candidate);
             usedNames.push(candidate.name);
-            console.log('✅ [4] Случайный:', candidate.name);
         }
     }
 
-    // ============================================================
-    // 5. ДОБИВКА (если ещё не достигли лимита)
-    // ============================================================
     if (result.length < MAX_VARIATORS) {
         var remaining = availableVariators.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
@@ -2106,20 +1727,15 @@ function getVariatorsForLevel(level, mapName, playerCount) {
                 && v.name !== "Враги сильнее II";
         });
         var shuffledRemaining = shuffleArray(remaining);
-
         for (var j = 0; j < shuffledRemaining.length && result.length < MAX_VARIATORS; j++) {
             var candidate2 = shuffledRemaining[j];
             if (usedNames.indexOf(candidate2.name) === -1 && isVariatorCompatible(candidate2, result, trialName, playerCount, level)) {
                 result.push(candidate2);
                 usedNames.push(candidate2.name);
-                console.log('✅ [5] Добивка:', candidate2.name);
             }
         }
     }
 
-    // ============================================================
-    // 6. КРАЙНЯЯ ДОБИВКА (снимаем часть ограничений, но лимит держим)
-    // ============================================================
     if (result.length < MAX_VARIATORS) {
         var anyRemaining = allVariatorsData.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
@@ -2131,24 +1747,13 @@ function getVariatorsForLevel(level, mapName, playerCount) {
             if (usedNames.indexOf(candidate3.name) === -1) {
                 result.push(candidate3);
                 usedNames.push(candidate3.name);
-                console.log('✅ [6] Принудительно:', candidate3.name);
             }
         }
     }
 
-    // ============================================================
-    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ И ЖЁСТКАЯ ОБРЕЗКА ДО ЛИМИТА
-    // ============================================================
-    result = result.filter(function(v) {
-        return !isExcludedVariator(v.name);
-    });
+    result = result.filter(function(v) { return !isExcludedVariator(v.name); });
+    if (result.length > MAX_VARIATORS) result = result.slice(0, MAX_VARIATORS);
 
-    if (result.length > MAX_VARIATORS) {
-        result = result.slice(0, MAX_VARIATORS);
-        console.log('⚠️ Обрезка до лимита:', MAX_VARIATORS);
-    }
-
-    console.log('✅ ИТОГ (' + result.length + '/' + MAX_VARIATORS + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
 }
 
@@ -2157,19 +1762,17 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 // ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
-    
+
     var mapNames = Object.keys(trialsData);
     var isBigLevel = (level % 10 === 0);
     var availableTrials = [];
-    
+
     for (var m = 0; m < mapNames.length; m++) {
         var mapName = mapNames[m];
         var mapData = trialsData[mapName];
-        
         for (var t = 0; t < mapData.trials.length; t++) {
             var trial = mapData.trials[t];
             var isBig = trial.name === trial.name.toUpperCase();
-            
             if (isBigLevel && isBig) {
                 if (escState.usedBigTrials.indexOf(trial.name) === -1) {
                     availableTrials.push({ mapName: mapName, mapImage: mapData.image, trial: trial });
@@ -2181,49 +1784,47 @@ function getMapAndTrial(level) {
             }
         }
     }
-    
+
     if (availableTrials.length === 0) {
         if (isBigLevel) {
             escState.usedBigTrials = [];
             for (var m2 = 0; m2 < mapNames.length; m2++) {
-                var mapName2 = mapNames[m2];
-                var mapData2 = trialsData[mapName2];
+                var mapData2 = trialsData[mapNames[m2]];
                 for (var t2 = 0; t2 < mapData2.trials.length; t2++) {
                     var trial2 = mapData2.trials[t2];
                     if (trial2.name === trial2.name.toUpperCase()) {
-                        availableTrials.push({ mapName: mapName2, mapImage: mapData2.image, trial: trial2 });
+                        availableTrials.push({ mapName: mapNames[m2], mapImage: mapData2.image, trial: trial2 });
                     }
                 }
             }
         } else {
             escState.usedSmallTrials = [];
             for (var m3 = 0; m3 < mapNames.length; m3++) {
-                var mapName3 = mapNames[m3];
-                var mapData3 = trialsData[mapName3];
+                var mapData3 = trialsData[mapNames[m3]];
                 for (var t3 = 0; t3 < mapData3.trials.length; t3++) {
                     var trial3 = mapData3.trials[t3];
                     if (trial3.name !== trial3.name.toUpperCase()) {
-                        availableTrials.push({ mapName: mapName3, mapImage: mapData3.image, trial: trial3 });
+                        availableTrials.push({ mapName: mapNames[m3], mapImage: mapData3.image, trial: trial3 });
                     }
                 }
             }
         }
     }
-    
+
     if (availableTrials.length === 0) return null;
-    
+
     var randomIndex = Math.floor(Math.random() * availableTrials.length);
     var selected = availableTrials[randomIndex];
-    
+
     escState.map = { name: selected.mapName, image: selected.mapImage };
     escState.trial = selected.trial;
-    
+
     if (selected.trial.name === selected.trial.name.toUpperCase()) {
         escState.usedBigTrials.push(selected.trial.name);
     } else {
         escState.usedSmallTrials.push(selected.trial.name);
     }
-    
+
     return selected;
 }
 
@@ -2238,12 +1839,12 @@ function goToEscStep(step) {
     escState.currentStep = step;
     var steps = { 1: 'escStep1', 2: 'escStep2', 3: 'escStep3', 4: 'escStep4' };
     var result = document.getElementById('escResult');
-    
+
     for (var key in steps) {
         var el = document.getElementById(steps[key]);
         if (el) el.classList.toggle('hidden', parseInt(key) !== step);
     }
-    
+
     if (result) {
         result.classList.remove('active');
         result.style.display = 'none';
@@ -2254,7 +1855,6 @@ function updateLevelCounter() {
     var levelNum = document.getElementById('levelNumber');
     var levelDiff = document.getElementById('levelDifficulty');
     var difficulty = getDifficultyByLevel(escState.level);
-    
     if (levelNum) levelNum.textContent = escState.level;
     if (levelDiff) {
         levelDiff.textContent = difficulty.name;
@@ -2269,26 +1869,16 @@ function renderEscPlayerNames() {
     var container = document.getElementById('escPlayerNameInputs');
     if (!container) return;
     container.innerHTML = '';
-    
+
     var playerCount = escState.playerCount;
     var grid = document.createElement('div');
     grid.className = 'selection-grid players-' + playerCount;
     grid.style.cssText = 'display: grid; gap: 12px 20px; max-width: 600px; margin: 0 auto;';
-    
-    if (playerCount === 1) {
-        grid.style.gridTemplateColumns = '1fr';
-        grid.style.maxWidth = '300px';
-    } else if (playerCount === 2) {
-        grid.style.gridTemplateColumns = '1fr 1fr';
-        grid.style.maxWidth = '500px';
-    } else if (playerCount === 3) {
-        grid.style.gridTemplateColumns = '1fr 1fr';
-        grid.style.maxWidth = '500px';
-    } else if (playerCount === 4) {
-        grid.style.gridTemplateColumns = '1fr 1fr';
-        grid.style.maxWidth = '550px';
-    }
-    
+
+    if (playerCount === 1) { grid.style.gridTemplateColumns = '1fr'; grid.style.maxWidth = '300px'; }
+    else if (playerCount === 2 || playerCount === 3) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '500px'; }
+    else if (playerCount === 4) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.maxWidth = '550px'; }
+
     for (var i = 0; i < playerCount; i++) {
         var row = document.createElement('div');
         row.className = 'player-block';
@@ -2301,7 +1891,7 @@ function renderEscPlayerNames() {
             <input type="text" placeholder="Введите ник..." id="escPlayerName_${i}" value="${escState.players[i] || ''}" style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(220,90,50,0.2); background: rgba(255,255,255,0.05); color: #ffbc9a; font-size: 0.95rem; outline: none; transition: border-color 0.3s; box-sizing: border-box;">
         `;
         grid.appendChild(row);
-        
+
         if (playerCount === 3 && i === 2) {
             row.style.gridColumn = '1 / -1';
             row.style.maxWidth = '50%';
@@ -2310,40 +1900,30 @@ function renderEscPlayerNames() {
         }
     }
     container.appendChild(grid);
-    
+
     var inputs = container.querySelectorAll('input');
     var nextBtn = document.getElementById('escStep2Next');
-    
+
     function checkNamesFilled() {
         var allFilled = true;
-        inputs.forEach(function(input) {
-            if (input.value.trim() === '') {
-                allFilled = false;
-            }
-        });
-        if (nextBtn) {
-            nextBtn.disabled = !allFilled;
-        }
+        inputs.forEach(function(input) { if (input.value.trim() === '') allFilled = false; });
+        if (nextBtn) nextBtn.disabled = !allFilled;
         return allFilled;
     }
-    
+
     inputs.forEach(function(input) {
         input.addEventListener('input', checkNamesFilled);
         input.addEventListener('change', checkNamesFilled);
     });
-    
+
     setTimeout(checkNamesFilled, 100);
 }
 
-// ============================================================
-// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: РАЗБИВКА ИГРОКОВ НА СТРОКИ
-// ============================================================
 function buildPlayerRows(players, renderPlayerBlock) {
     var container = document.createElement('div');
     container.style.cssText = 'display: flex; flex-direction: column; gap: 20px; align-items: center; max-width: 1000px; margin: 0 auto;';
-    
     var playerCount = players.length;
-    
+
     if (playerCount === 1) {
         var row1 = document.createElement('div');
         row1.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%;';
@@ -2354,28 +1934,23 @@ function buildPlayerRows(players, renderPlayerBlock) {
             var row = document.createElement('div');
             row.style.cssText = 'display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: wrap;';
             row.appendChild(renderPlayerBlock(players[i], i));
-            if (i + 1 < playerCount) {
-                row.appendChild(renderPlayerBlock(players[i + 1], i + 1));
-            }
+            if (i + 1 < playerCount) row.appendChild(renderPlayerBlock(players[i + 1], i + 1));
             container.appendChild(row);
         }
     }
     return container;
 }
 
-// ============================================================
-// ШАГ 3: ВЫБОР СНАРЯЖЕНИЯ
-// ============================================================
 function renderEscEquipment() {
     var container = document.getElementById('escStep3Content');
     if (!container) return;
     container.innerHTML = '';
-    
+
     if (typeof equipmentData === 'undefined' || equipmentData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные снаряжения не загружены</div>';
         return;
     }
-    
+
     var equipColors = {
         'Оглушение': { bg: 'rgba(231, 76, 60, 0.2)', border: '#e74c3c' },
         'Завеса': { bg: 'rgba(155, 89, 182, 0.2)', border: '#9b59b6' },
@@ -2384,7 +1959,7 @@ function renderEscEquipment() {
         'Рентген': { bg: 'rgba(46, 204, 113, 0.2)', border: '#2ecc71' },
         'Баррикада': { bg: 'rgba(241, 196, 15, 0.2)', border: '#f1c40f' }
     };
-    
+
     var header = document.createElement('div');
     header.style.cssText = 'text-align: center; margin-bottom: 20px;';
     header.innerHTML = `
@@ -2393,24 +1968,24 @@ function renderEscEquipment() {
         <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных снаряжения на выбор</div>
     `;
     container.appendChild(header);
-    
+
     function renderPlayerBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-        
+
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 12px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
-        
+
         var grid = document.createElement('div');
         grid.className = 'player-equip-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-        
+
         var shuffled = equipmentData.slice().sort(function() { return Math.random() - 0.5; });
         var selectedEquip = shuffled.slice(0, 3);
-        
+
         selectedEquip.forEach(function(eq) {
             var item = document.createElement('div');
             item.className = 'selection-item';
@@ -2418,19 +1993,16 @@ function renderEscEquipment() {
             item.dataset.equip = eq.name;
             var isSelected = escState.equipSelections[idx] === eq.name;
             var colors = equipColors[eq.name] || { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)' };
-            
+
             item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-            if (isSelected) {
-                item.style.borderColor = colors.border;
-                item.style.background = colors.bg;
-            }
-            
+            if (isSelected) { item.style.borderColor = colors.border; item.style.background = colors.bg; }
+
             item.innerHTML = `
                 <img src="${eq.image}" alt="${eq.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                 <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${eq.name}</div>
                 <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
             `;
-            
+
             item.addEventListener('click', function() {
                 var playerGrid = this.closest('.player-block').querySelector('.player-equip-grid');
                 if (playerGrid) {
@@ -2457,7 +2029,7 @@ function renderEscEquipment() {
         section.appendChild(grid);
         return section;
     }
-    
+
     var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
     container.appendChild(rowsContainer);
     checkEscEquipReady();
@@ -2471,19 +2043,16 @@ function checkEscEquipReady() {
     if (btn) btn.disabled = !allSelected;
 }
 
-// ============================================================
-// ШАГ 4: ВЫБОР АМФ
-// ============================================================
 function renderEscAmps() {
     var container = document.getElementById('escStep4Content');
     if (!container) return;
     container.innerHTML = '';
-    
+
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
         container.innerHTML = '<div style="color: #e16d48; text-align: center; padding: 2rem;">Ошибка: данные амф не загружены</div>';
         return;
     }
-    
+
     var header = document.createElement('div');
     header.style.cssText = 'text-align: center; margin-bottom: 20px;';
     header.innerHTML = `
@@ -2492,21 +2061,19 @@ function renderEscAmps() {
         <div style="font-size: 0.85rem; color: #888; margin-top: 4px;">Каждому игроку предлагается 3 случайных амфы на выбор</div>
     `;
     container.appendChild(header);
-    
+
     function renderPlayerBlock(player, idx) {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-        
+
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
         section.appendChild(title);
 
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(idx, cat);
-        });
-        
+        var availableCategories = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
+
         if (availableCategories.length === 0) {
             var msg = document.createElement('div');
             msg.style.cssText = 'text-align: center; color: #2ecc71; padding: 0.5rem; font-size: 0.85rem;';
@@ -2514,54 +2081,46 @@ function renderEscAmps() {
             section.appendChild(msg);
             return section;
         }
-        
+
         var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-        
+
         var catLabel = document.createElement('div');
         catLabel.style.cssText = 'text-align: center; color: #e16d48; font-size: 0.75rem; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.5px;';
         catLabel.innerHTML = '<i class="fas fa-tag"></i> ' + randomCategory;
         section.appendChild(catLabel);
-        
+
         var grid = document.createElement('div');
         grid.className = 'player-amp-grid';
         grid.style.cssText = 'display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;';
-        
+
         var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
         var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
         var selectedAmps = shuffled.slice(0, 3);
-        
+
         if (selectedAmps.length === 0) {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
                 emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `
-                    <div style="font-size: 2rem; color: #555;">⛔</div>
-                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                `;
+                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
                 grid.appendChild(emptyItem);
             }
         } else {
             selectedAmps.forEach(function(amp) {
                 var item = document.createElement('div');
                 item.className = 'selection-item';
-                item.dataset.player = idx;
-                item.dataset.amp = amp.name;
                 var currentAmp = escState.ampSelections[idx] ? escState.ampSelections[idx][randomCategory] : null;
                 var isSelected = currentAmp === amp.name;
-                
+
                 item.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.06); cursor: pointer; transition: all 0.3s ease; position: relative;';
-                if (isSelected) {
-                    item.style.borderColor = '#e16d48';
-                    item.style.background = 'rgba(220,90,50,0.1)';
-                }
-                
+                if (isSelected) { item.style.borderColor = '#e16d48'; item.style.background = 'rgba(220,90,50,0.1)'; }
+
                 item.innerHTML = `
                     <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/80x80/1a1a2e/e16d48?text=?'" style="width:80px; height:80px; object-fit:contain; border-radius:10px; background:rgba(0,0,0,0.3); padding:4px;">
                     <div style="font-size:0.65rem; color:#c2b9d4; text-align:center; font-weight:500; line-height:1.2;">${amp.name}</div>
                     <div style="font-size:0.5rem; color:#666;">${amp.category}</div>
                     <div class="check-mark" style="position:absolute; top:4px; right:4px; color:#2ecc71; font-size:1rem; ${isSelected ? '' : 'display:none;'}"><i class="fas fa-check-circle"></i></div>
                 `;
-                
+
                 item.addEventListener('click', function() {
                     var playerGrid = this.closest('.player-block').querySelector('.player-amp-grid');
                     if (playerGrid) {
@@ -2589,7 +2148,7 @@ function renderEscAmps() {
         section.appendChild(grid);
         return section;
     }
-    
+
     var rowsContainer = buildPlayerRows(escState.players, renderPlayerBlock);
     container.appendChild(rowsContainer);
     checkEscAmpsReady();
@@ -2673,13 +2232,9 @@ function showPreviewModal(trialName, mapName, variators, level) {
         var weeklyBadge = isWeekly ? '<div style="font-size:0.45rem; color:#f1c40f; font-weight:700; letter-spacing:0.5px; margin-top:2px;"><i class="fas fa-star"></i> НЕДЕЛЯ</div>' : '';
 
         var fontSize;
-        if (variatorFontSizes[nameUpper]) {
-            fontSize = variatorFontSizes[nameUpper];
-        } else if (v.name.length > 14) {
-            fontSize = '0.6rem';
-        } else {
-            fontSize = '0.75rem';
-        }
+        if (variatorFontSizes[nameUpper]) fontSize = variatorFontSizes[nameUpper];
+        else if (v.name.length > 14) fontSize = '0.6rem';
+        else fontSize = '0.75rem';
 
         return `
             <div class="${weeklyClass}" style="animation-delay: ${delay}s; max-width: 110px;">
@@ -2723,20 +2278,20 @@ function showFullResult() {
 function generateEscResult() {
     var selected = getMapAndTrial(escState.level);
     if (!selected) return;
-    
+
     var mapName = selected.mapName;
     var mapImage = selected.mapImage;
     var trial = selected.trial;
-    
+
     escState.map = { name: mapName, image: mapImage };
     escState.trial = trial;
-    
+
     var difficulty = getDifficultyByLevel(escState.level);
     escState.difficulty = difficulty.name;
     escState.variators = getVariatorsForLevel(escState.level, mapName, escState.playerCount);
 
     document.querySelectorAll('.step-container').forEach(function(el) { el.classList.add('hidden'); });
-    
+
     showPreviewModal(trial.name, mapName, escState.variators, escState.level);
     prepareFullResult(mapName, mapImage, trial, difficulty);
 }
@@ -2751,7 +2306,7 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
     if (resultMap) {
         var trialImage = trial.image || mapImage;
         var weeklyVarName = escState.weeklyVariator ? escState.weeklyVariator.name.toUpperCase() : 'Нет';
-        
+
         resultMap.innerHTML = `
             <div class="result-map-row">
                 <img class="map-image" src="${trialImage}" alt="${trial.name}" style="width:100%; max-width:200px; height:auto; object-fit:contain; border-radius:16px; border:2px solid rgba(220,90,50,0.3);" onerror="this.src='https://placehold.co/200x200/1a1a2e/e16d48?text=${encodeURIComponent(trial.name)}'">
@@ -2789,13 +2344,9 @@ function prepareFullResult(mapName, mapImage, trial, difficulty) {
 
             var nameUpper = v.name.toUpperCase();
             var fontSize;
-            if (variatorFontSizes[nameUpper]) {
-                fontSize = variatorFontSizes[nameUpper];
-            } else if (v.name.length > 14) {
-                fontSize = '0.55rem';
-            } else {
-                fontSize = '0.75rem';
-            }
+            if (variatorFontSizes[nameUpper]) fontSize = variatorFontSizes[nameUpper];
+            else if (v.name.length > 14) fontSize = '0.55rem';
+            else fontSize = '0.75rem';
 
             return `
                 <div class="var-item" style="display:flex; flex-direction:column; align-items:center; gap:0.4rem; max-width:100px; border:2px solid ${borderColor}; border-radius:14px; padding:6px; background:${bgColor};">
@@ -2814,15 +2365,15 @@ function renderEscResultPlayers() {
     var container = document.getElementById('escResultPlayers');
     if (!container) return;
     container.innerHTML = '';
-    
+
     escState.players.forEach(function(player, idx) {
         var equip = escState.equipSelections[idx] || 'Не выбрано';
         var equipData = typeof equipmentData !== 'undefined' ? equipmentData.find(function(e) { return e.name === equip; }) : null;
         var allUsed = checkAllAmpsUsed(idx);
-        
+
         var section = document.createElement('div');
         section.style.cssText = 'background: rgba(0,0,0,0.25); border-radius: 16px; border: 1px solid rgba(220,90,50,0.1); overflow: hidden; margin-bottom: 12px;';
-        
+
         var toggleBtn = document.createElement('div');
         toggleBtn.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; cursor: pointer; background: rgba(0,0,0,0.15);';
         toggleBtn.innerHTML = `
@@ -2838,14 +2389,14 @@ function renderEscResultPlayers() {
             </div>
         `;
         section.appendChild(toggleBtn);
-        
+
         var content = document.createElement('div');
         content.style.cssText = 'padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease;';
         content.id = 'resultContent_' + idx;
-        
+
         var innerContent = document.createElement('div');
         innerContent.style.cssText = 'padding: 6px 0 16px 0;';
-        
+
         var equipBlock = document.createElement('div');
         equipBlock.style.cssText = 'display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05);';
         equipBlock.innerHTML = `
@@ -2856,15 +2407,15 @@ function renderEscResultPlayers() {
             </div>
         `;
         innerContent.appendChild(equipBlock);
-        
+
         var ampsGrid = document.createElement('div');
         ampsGrid.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;';
-        
+
         ampCategories.forEach(function(category) {
             var ampName = getAmpForCategory(idx, category);
             var ampData = typeof ampsData !== 'undefined' ? ampsData.find(function(a) { return a.name === ampName; }) : null;
             var isComplete = isCategoryComplete(idx, category);
-            
+
             var block = document.createElement('div');
             block.style.cssText = 'background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s;';
             block.dataset.playerIndex = idx;
@@ -2880,9 +2431,7 @@ function renderEscResultPlayers() {
                     this.style.borderColor = 'rgba(255,255,255,0.06)';
                     this.style.background = 'rgba(255,255,255,0.04)';
                 });
-                block.addEventListener('click', function() {
-                    openAmpModal(idx, category);
-                });
+                block.addEventListener('click', function() { openAmpModal(idx, category); });
             } else {
                 block.style.opacity = '0.7';
                 block.style.cursor = 'default';
@@ -2925,7 +2474,7 @@ function renderEscResultPlayers() {
         content.appendChild(innerContent);
         section.appendChild(content);
         container.appendChild(section);
-        
+
         var isOpen = false;
         toggleBtn.onclick = function() {
             isOpen = !isOpen;
@@ -2943,39 +2492,283 @@ function renderEscResultPlayers() {
 }
 
 // ============================================================
+// МОДАЛКА СБОРА ИНФОРМАЦИИ
+// ============================================================
+function openInfoModal() {
+    var modal = document.getElementById('infoModal');
+    if (!modal) return;
+
+    // Сброс формы
+    infoFormState = { levelNum: null, trialName: null, trialObj: null, variatorNames: [], time: '' };
+    document.getElementById('infoLevelNum').value = escState.level;
+    document.getElementById('infoTime').value = '';
+    document.getElementById('infoTrialInput').value = '';
+    document.getElementById('infoVariatorSearch').value = '';
+
+    // Предзаполнение вариаторами, которые выпали в текущей генерации
+    var preselected = [];
+    if (escState.variators && escState.variators.length > 0) {
+        escState.variators.forEach(function(v) {
+            if (v && v.name) preselected.push(v.name);
+        });
+    }
+    infoFormState.variatorNames = preselected.slice();
+
+    // Предзаполнение испытанием
+    if (escState.trial && escState.trial.name) {
+        document.getElementById('infoTrialInput').value = escState.trial.name;
+        infoFormState.trialName = escState.trial.name;
+        infoFormState.trialObj = escState.trial;
+    }
+
+    renderVariatorCheckboxList();
+    updateInfoModalSaveButton();
+
+    modal.classList.add('active');
+}
+
+function closeInfoModal() {
+    var modal = document.getElementById('infoModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function getAllTrialsFlat() {
+    var result = [];
+    if (typeof trialsData === 'undefined') return result;
+    Object.keys(trialsData).forEach(function(mapName) {
+        var mapData = trialsData[mapName];
+        mapData.trials.forEach(function(t) {
+            result.push({ mapName: mapName, mapImage: mapData.image, trial: t });
+        });
+    });
+    return result;
+}
+
+function renderTrialAutocomplete(query) {
+    var list = document.getElementById('infoTrialAutocomplete');
+    if (!list) return;
+    list.innerHTML = '';
+
+    var allTrials = getAllTrialsFlat();
+    var q = (query || '').toLowerCase().trim();
+
+    var filtered = allTrials.filter(function(item) {
+        if (!q) return true;
+        return item.trial.name.toLowerCase().indexOf(q) !== -1;
+    }).slice(0, 30);
+
+    if (filtered.length === 0) {
+        list.classList.remove('active');
+        return;
+    }
+
+    filtered.forEach(function(item) {
+        var div = document.createElement('div');
+        div.className = 'autocomplete-item';
+        div.innerHTML = item.trial.name + ' <span class="map-hint">— ' + item.mapName + '</span>';
+        div.addEventListener('click', function() {
+            document.getElementById('infoTrialInput').value = item.trial.name;
+            infoFormState.trialName = item.trial.name;
+            infoFormState.trialObj = item.trial;
+            list.classList.remove('active');
+            updateInfoModalSaveButton();
+        });
+        list.appendChild(div);
+    });
+    list.classList.add('active');
+}
+
+function renderVariatorCheckboxList() {
+    var container = document.getElementById('infoVariatorList');
+    if (!container) return;
+    container.innerHTML = '';
+
+    if (typeof allVariatorsData === 'undefined') return;
+
+    var searchQuery = (document.getElementById('infoVariatorSearch').value || '').toLowerCase().trim();
+
+    var list = allVariatorsData.filter(function(v) {
+        if (!v.name) return false;
+        if (searchQuery && v.name.toLowerCase().indexOf(searchQuery) === -1) return false;
+        return true;
+    });
+
+    // Сортируем по алфавиту
+    list.sort(function(a, b) { return a.name.localeCompare(b.name, 'ru'); });
+
+    list.forEach(function(v) {
+        var isSelected = infoFormState.variatorNames.indexOf(v.name) !== -1;
+        var item = document.createElement('label');
+        item.className = 'variator-checkbox-item' + (isSelected ? ' selected' : '');
+        item.innerHTML = `
+            <input type="checkbox" ${isSelected ? 'checked' : ''} data-name="${v.name}">
+            <img class="vcb-img" src="${v.image || ''}" onerror="this.style.display='none'" alt="">
+            <span class="vcb-name">${v.name}</span>
+        `;
+
+        var checkbox = item.querySelector('input');
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                if (infoFormState.variatorNames.indexOf(v.name) === -1) {
+                    infoFormState.variatorNames.push(v.name);
+                }
+                item.classList.add('selected');
+            } else {
+                infoFormState.variatorNames = infoFormState.variatorNames.filter(function(n) { return n !== v.name; });
+                item.classList.remove('selected');
+            }
+            updateInfoModalSaveButton();
+        });
+
+        container.appendChild(item);
+    });
+}
+
+function updateInfoModalSaveButton() {
+    var btn = document.getElementById('infoModalSave');
+    if (!btn) return;
+    var levelOk = infoFormState.levelNum && infoFormState.levelNum > 0;
+    var trialOk = infoFormState.trialName && infoFormState.trialName.length > 0;
+    var timeOk = infoFormState.time && infoFormState.time.length > 0;
+    btn.disabled = !(levelOk && trialOk && timeOk);
+}
+
+// ============================================================
+// ИТОГОВАЯ ТАБЛИЦА
+// ============================================================
+function buildSummaryTable() {
+    var tbody = document.getElementById('summaryTableBody');
+    var statsEl = document.getElementById('summaryStats');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    if (collectedRecords.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="summary-empty"><i class="fas fa-inbox"></i> Пока нет сохранённых записей</td></tr>';
+        if (statsEl) statsEl.innerHTML = '';
+        return;
+    }
+
+    // Сортируем по номеру эскалации
+    var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
+
+    sorted.forEach(function(rec, index) {
+        var tr = document.createElement('tr');
+
+        // Номер
+        var tdNum = document.createElement('td');
+        tdNum.className = 'summary-cell-number';
+        tdNum.textContent = rec.levelNum ? ('#' + rec.levelNum) : '—';
+        tr.appendChild(tdNum);
+
+        // Превью испытания
+        var tdThumb = document.createElement('td');
+        tdThumb.className = 'summary-cell-thumb';
+        var imgSrc = rec.trialObj && rec.trialObj.image ? rec.trialObj.image : (rec.mapImage || '');
+        if (imgSrc) {
+            tdThumb.innerHTML = '<img src="' + imgSrc + '" alt="" onerror="this.style.visibility=\'hidden\'">';
+        } else {
+            tdThumb.innerHTML = '<div style="width:90px;height:55px;border-radius:8px;background:rgba(0,0,0,0.4);border:1px solid rgba(220,90,50,0.3);display:flex;align-items:center;justify-content:center;color:#555;font-size:0.7rem;">нет</div>';
+        }
+        tr.appendChild(tdThumb);
+
+        // Название
+        var tdName = document.createElement('td');
+        tdName.className = 'summary-cell-name';
+        tdName.textContent = (rec.trialName || '').toUpperCase();
+        tr.appendChild(tdName);
+
+        // Вариаторы (иконки)
+        var tdVars = document.createElement('td');
+        tdVars.className = 'summary-cell-variators';
+        if (rec.variators && rec.variators.length > 0) {
+            rec.variators.forEach(function(vName) {
+                var vObj = typeof allVariatorsData !== 'undefined'
+                    ? allVariatorsData.find(function(x) { return x.name === vName; })
+                    : null;
+                var isWeekly = vName === WEEKLY_VARIATOR_NAME;
+                var imgEl = document.createElement('img');
+                imgEl.className = 'summary-var-icon' + (isWeekly ? ' weekly' : '');
+                imgEl.src = vObj && vObj.image ? vObj.image : '';
+                imgEl.alt = vName;
+                imgEl.title = vName;
+                imgEl.onerror = function() { this.style.display = 'none'; };
+                tdVars.appendChild(imgEl);
+            });
+        } else {
+            tdVars.innerHTML = '<span style="color:#666;font-size:0.8rem;font-style:italic;">нет</span>';
+        }
+        tr.appendChild(tdVars);
+
+        // Время
+        var tdTime = document.createElement('td');
+        tdTime.className = 'summary-cell-time';
+        tdTime.textContent = rec.time || '—';
+        tr.appendChild(tdTime);
+
+        tbody.appendChild(tr);
+    });
+
+    if (statsEl) {
+        var total = sorted.length;
+        var totalSeconds = 0;
+        var validCount = 0;
+        sorted.forEach(function(r) {
+            var parts = (r.time || '').split(':');
+            if (parts.length === 2) {
+                var m = parseInt(parts[0], 10);
+                var s = parseInt(parts[1], 10);
+                if (!isNaN(m) && !isNaN(s)) {
+                    totalSeconds += m * 60 + s;
+                    validCount++;
+                }
+            }
+        });
+        var avgText = '—';
+        if (validCount > 0) {
+            var avg = Math.round(totalSeconds / validCount);
+            var avgM = Math.floor(avg / 60);
+            var avgS = avg % 60;
+            avgText = avgM + ':' + (avgS < 10 ? '0' : '') + avgS;
+        }
+        statsEl.innerHTML = 'Всего записей: <strong>' + total + '</strong> · Среднее время: <strong>' + avgText + '</strong>';
+    }
+}
+
+function openSummaryModal() {
+    var modal = document.getElementById('summaryModal');
+    if (!modal) return;
+    buildSummaryTable();
+    modal.classList.add('active');
+}
+
+function closeSummaryModal() {
+    var modal = document.getElementById('summaryModal');
+    if (modal) modal.classList.remove('active');
+}
+
+// ============================================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 function initEscalation() {
-    console.log('🚀 Запуск еженедельной эскалации...');
-    
     if (!checkDataLoaded()) {
-        console.log('⏳ Ожидание загрузки данных...');
         var checkInterval = setInterval(function() {
             if (checkDataLoaded()) {
                 clearInterval(checkInterval);
                 doInit();
             }
         }, 500);
-        
         setTimeout(function() {
             clearInterval(checkInterval);
-            console.warn('⚠️ Таймаут загрузки данных, пробуем инициализировать');
             doInit();
         }, 10000);
         return;
     }
-    
     doInit();
 }
 
 function doInit() {
-    console.log('✅ Данные загружены, инициализация...');
-    
     var weekly = getWeeklyVariator();
-    if (weekly) {
-        escState.weeklyVariator = weekly;
-        console.log('📌 Еженедельный вариатор:', weekly.name);
-    }
+    if (weekly) escState.weeklyVariator = weekly;
     updateWeeklyVariatorDisplay();
 
     var options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
@@ -3007,10 +2800,8 @@ function doInit() {
         });
     }
 
-    if (step2Back) {
-        step2Back.addEventListener('click', function() { goToEscStep(1); });
-    }
-    
+    if (step2Back) step2Back.addEventListener('click', function() { goToEscStep(1); });
+
     if (step2Next) {
         step2Next.addEventListener('click', function() {
             var inputs = document.querySelectorAll('#escPlayerNameInputs input');
@@ -3029,21 +2820,17 @@ function doInit() {
         });
     }
 
-    if (step3Back) {
-        step3Back.addEventListener('click', function() { goToEscStep(2); });
-    }
-    
+    if (step3Back) step3Back.addEventListener('click', function() { goToEscStep(2); });
+
     if (step3Next) {
-        step3Next.addEventListener('click', function() { 
+        step3Next.addEventListener('click', function() {
             goToEscStep(4);
             renderEscAmps();
         });
     }
 
-    if (step4Back) {
-        step4Back.addEventListener('click', function() { goToEscStep(3); });
-    }
-    
+    if (step4Back) step4Back.addEventListener('click', function() { goToEscStep(3); });
+
     if (step4Next) {
         step4Next.addEventListener('click', function() {
             escState.players.forEach(function(_, idx) {
@@ -3063,18 +2850,111 @@ function doInit() {
         });
     }
 
+    // ============================================================
+    // СЛЕДУЮЩИЙ УРОВЕНЬ → сначала окно сбора информации, потом перерыв
+    // ============================================================
     if (nextLevelBtn) {
         nextLevelBtn.addEventListener('click', function() {
+            // Открываем окно сбора информации о текущем испытании
+            openInfoModal();
+        });
+    }
+
+    if (exitBtn) {
+        exitBtn.addEventListener('click', function() {
+            // Показываем итоговую таблицу перед подтверждением выхода
+            openSummaryModal();
+        });
+    }
+
+    // ============================================================
+    // ОБРАБОТЧИКИ МОДАЛКИ СБОРА ИНФОРМАЦИИ
+    // ============================================================
+    var infoModalClose = document.getElementById('infoModalClose');
+    var infoModalCancel = document.getElementById('infoModalCancel');
+    var infoModalSave = document.getElementById('infoModalSave');
+    var infoLevelNum = document.getElementById('infoLevelNum');
+    var infoTime = document.getElementById('infoTime');
+    var infoTrialInput = document.getElementById('infoTrialInput');
+    var infoVariatorSearch = document.getElementById('infoVariatorSearch');
+    var infoTrialAutocomplete = document.getElementById('infoTrialAutocomplete');
+
+    if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
+    if (infoModalCancel) infoModalCancel.addEventListener('click', closeInfoModal);
+
+    if (infoLevelNum) {
+        infoLevelNum.addEventListener('input', function() {
+            var val = parseInt(this.value, 10);
+            infoFormState.levelNum = isNaN(val) ? null : val;
+            updateInfoModalSaveButton();
+        });
+    }
+
+    if (infoTime) {
+        infoTime.addEventListener('input', function() {
+            // Авто-форматирование: если введено 4 цифры подряд, вставляем :
+            var v = this.value.replace(/[^\d:]/g, '');
+            if (/^\d{4}$/.test(v)) v = v.slice(0, 2) + ':' + v.slice(2);
+            this.value = v;
+            infoFormState.time = v;
+            updateInfoModalSaveButton();
+        });
+    }
+
+    if (infoTrialInput) {
+        infoTrialInput.addEventListener('input', function() {
+            infoFormState.trialName = this.value.trim() || null;
+            infoFormState.trialObj = null;
+            // Если точное совпадение — берём объект
+            var allTrials = getAllTrialsFlat();
+            var exact = allTrials.find(function(x) { return x.trial.name === infoFormState.trialName; });
+            if (exact) infoFormState.trialObj = exact.trial;
+            renderTrialAutocomplete(this.value);
+            updateInfoModalSaveButton();
+        });
+
+        infoTrialInput.addEventListener('focus', function() {
+            renderTrialAutocomplete(this.value);
+        });
+
+        infoTrialInput.addEventListener('blur', function() {
+            // Небольшая задержка, чтобы клик по элементу списка сработал
+            setTimeout(function() {
+                if (infoTrialAutocomplete) infoTrialAutocomplete.classList.remove('active');
+            }, 200);
+        });
+    }
+
+    if (infoVariatorSearch) {
+        infoVariatorSearch.addEventListener('input', function() {
+            renderVariatorCheckboxList();
+        });
+    }
+
+    if (infoModalSave) {
+        infoModalSave.addEventListener('click', function() {
+            // Сохраняем запись
+            var record = {
+                levelNum: infoFormState.levelNum,
+                trialName: infoFormState.trialName,
+                trialObj: infoFormState.trialObj,
+                variators: infoFormState.variatorNames.slice(),
+                time: infoFormState.time,
+                mapImage: escState.map ? escState.map.image : null,
+                timestamp: Date.now()
+            };
+            collectedRecords.push(record);
+            closeInfoModal();
+
+            // Дальше — переход на следующий уровень (перерыв или сразу результат)
             escState.level++;
             updateLevelCounter();
-            
+
             var hasAvailable = false;
             escState.players.forEach(function(_, idx) {
-                if (!areAllCategoriesComplete(idx)) {
-                    hasAvailable = true;
-                }
+                if (!areAllCategoriesComplete(idx)) hasAvailable = true;
             });
-            
+
             if (hasAvailable) {
                 showBreakModal();
             } else {
@@ -3083,13 +2963,41 @@ function doInit() {
         });
     }
 
-    if (exitBtn) {
-        exitBtn.addEventListener('click', function() {
-            var modal = document.getElementById('confirmModal');
-            if (modal) modal.classList.add('active');
+    // ============================================================
+    // ОБРАБОТЧИКИ ИТОГОВОЙ ТАБЛИЦЫ
+    // ============================================================
+    var summaryClose = document.getElementById('summaryClose');
+    var summaryCloseBtn = document.getElementById('summaryCloseBtn');
+    var summaryCopy = document.getElementById('summaryCopy');
+
+    if (summaryClose) summaryClose.addEventListener('click', closeSummaryModal);
+    if (summaryCloseBtn) {
+        summaryCloseBtn.addEventListener('click', function() {
+            closeSummaryModal();
+            // После закрытия таблицы — перезагружаем (как раньше делал "Покинуть")
+            location.reload();
         });
     }
 
+    if (summaryCopy) {
+        summaryCopy.addEventListener('click', function() {
+            var text = 'ЭСКАЛАЦИОННАЯ ТЕРАПИЯ\n';
+            text += '='.repeat(40) + '\n';
+            var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
+            sorted.forEach(function(rec) {
+                text += '#' + (rec.levelNum || '?') + ' | ' + (rec.trialName || '') + ' | ';
+                text += (rec.variators || []).join(', ') + ' | ' + (rec.time || '?') + '\n';
+            });
+            navigator.clipboard.writeText(text).then(function() {
+                summaryCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                setTimeout(function() {
+                    summaryCopy.innerHTML = '<i class="fas fa-copy"></i> Скопировать';
+                }, 2000);
+            });
+        });
+    }
+
+    // Модалка подтверждения выхода
     var confirmCancel = document.getElementById('confirmCancel');
     var confirmExit = document.getElementById('confirmExit');
     var confirmModal = document.getElementById('confirmModal');
@@ -3114,7 +3022,6 @@ function doInit() {
     }
 
     updateLevelCounter();
-    console.log('✅ Еженедельная эскалация инициализирована!');
 }
 
 function initAmpModal() {
@@ -3124,19 +3031,13 @@ function initAmpModal() {
 
     if (closeBtn) {
         closeBtn.addEventListener('click', function() {
-            if (modal) {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
-            }
+            if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
         });
     }
 
     if (modal) {
         modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
-            }
+            if (e.target === modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
         });
     }
 
@@ -3145,25 +3046,21 @@ function initAmpModal() {
             if (modalState.playerIndex !== null && modalState.selectedAmp && modalState.selectedCategory) {
                 var idx = modalState.playerIndex;
                 var category = modalState.selectedCategory;
-                
                 var currentAmps = escState.ampSelections[idx] || {};
                 var oldAmp = currentAmps[category];
-                
+
                 if (oldAmp === modalState.selectedAmp) {
-                    if (modal) {
-                        modal.classList.remove('active');
-                        modal.style.display = 'none';
-                    }
+                    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
                     return;
                 }
-                
+
                 if (oldAmp && escState.usedAmps[idx]) {
                     escState.usedAmps[idx] = escState.usedAmps[idx].filter(function(a) { return a !== oldAmp; });
                 }
-                
+
                 if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                 escState.ampSelections[idx][category] = modalState.selectedAmp;
-                
+
                 if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
                 if (escState.usedAmps[idx].indexOf(modalState.selectedAmp) === -1) {
                     escState.usedAmps[idx].push(modalState.selectedAmp);
@@ -3171,70 +3068,41 @@ function initAmpModal() {
                 unlockAmpForPlayer(idx, modalState.selectedAmp);
 
                 renderEscResultPlayers();
-                
-                if (modal) {
-                    modal.classList.remove('active');
-                    modal.style.display = 'none';
-                }
+
+                if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
             }
         });
     }
 }
 
-var modalState = {
-    playerIndex: null,
-    selectedAmp: null,
-    selectedCategory: "Инструмент"
-};
+var modalState = { playerIndex: null, selectedAmp: null, selectedCategory: "Инструмент" };
 
 function openAmpModal(playerIndex, category) {
-    if (checkAllAmpsUsed(playerIndex)) {
-        alert('Все улучшения уже применены. Смена амф невозможна.');
-        return;
-    }
-
-    if (isCategoryComplete(playerIndex, category)) {
-        alert('Все амфы в этой категории уже использованы.');
-        return;
-    }
+    if (checkAllAmpsUsed(playerIndex)) { alert('Все улучшения уже применены. Смена амф невозможна.'); return; }
+    if (isCategoryComplete(playerIndex, category)) { alert('Все амфы в этой категории уже использованы.'); return; }
 
     var playerName = escState.players[playerIndex];
     var currentAmp = getAmpForCategory(playerIndex, category);
-    
+
     modalState.playerIndex = playerIndex;
     modalState.selectedCategory = category;
     modalState.selectedAmp = currentAmp;
 
     var playerNameEl = document.getElementById('ampModalPlayerName');
-    if (playerNameEl) {
-        playerNameEl.textContent = playerName + ' — ' + category;
-    }
+    if (playerNameEl) playerNameEl.textContent = playerName + ' — ' + category;
 
     var tabsContainer = document.getElementById('ampCategoryTabs');
     if (tabsContainer) {
         tabsContainer.innerHTML = '';
-        
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(playerIndex, cat);
-        });
-        
+        var availableCategories = ampCategories.filter(function(cat) { return !isCategoryComplete(playerIndex, cat); });
+
         if (availableCategories.length === 0) {
             var grid = document.getElementById('ampModalGrid');
-            if (grid) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; color: #2ecc71; padding: 2rem;">
-                        <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
-                        <div style="margin-top: 0.5rem;">Все улучшения применены</div>
-                    </div>
-                `;
-            }
+            if (grid) grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #2ecc71; padding: 2rem;"><i class="fas fa-check-circle" style="font-size: 2rem;"></i><div style="margin-top: 0.5rem;">Все улучшения применены</div></div>`;
             var confirmBtn = document.getElementById('ampModalConfirm');
             if (confirmBtn) confirmBtn.disabled = true;
             var modal = document.getElementById('ampModal');
-            if (modal) {
-                modal.classList.add('active');
-                modal.style.display = 'flex';
-            }
+            if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
             return;
         }
 
@@ -3242,14 +3110,10 @@ function openAmpModal(playerIndex, category) {
             var tab = document.createElement('button');
             tab.textContent = cat;
             tab.dataset.category = cat;
-            if (cat === category) {
-                tab.classList.add('active');
-            }
+            if (cat === category) tab.classList.add('active');
             tab.addEventListener('click', function() {
                 if (tabsContainer) {
-                    tabsContainer.querySelectorAll('button').forEach(function(t) {
-                        t.classList.remove('active');
-                    });
+                    tabsContainer.querySelectorAll('button').forEach(function(t) { t.classList.remove('active'); });
                     this.classList.add('active');
                     var newCategory = this.dataset.category;
                     modalState.selectedCategory = newCategory;
@@ -3263,16 +3127,12 @@ function openAmpModal(playerIndex, category) {
 
     renderAmpModalGrid(playerIndex, category);
     var modal = document.getElementById('ampModal');
-    if (modal) {
-        modal.classList.add('active');
-        modal.style.display = 'flex';
-    }
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
 }
 
 function renderAmpModalGrid(playerIndex, category) {
     var grid = document.getElementById('ampModalGrid');
     if (!grid) return;
-    
     grid.innerHTML = '';
 
     if (typeof ampsData === 'undefined' || ampsData.length === 0) {
@@ -3284,30 +3144,21 @@ function renderAmpModalGrid(playerIndex, category) {
     var used = escState.usedAmps[playerIndex] || [];
     var unlocked = escState.unlockedAmps[playerIndex] || [];
     var currentAmp = getAmpForCategory(playerIndex, category);
-
     var hasAvailable = false;
 
     categoryAmps.forEach(function(amp) {
-        var isUsed = used.indexOf(amp.name) !== -1;
         var isUnlocked = unlocked.indexOf(amp.name) !== -1;
         var isCurrent = currentAmp === amp.name;
-        
         var isAvailable = isUnlocked || isCurrent;
 
         var item = document.createElement('div');
         item.className = 'amp-modal-item';
-        
-        if (isCurrent) {
-            item.classList.add('selected');
-        }
+        if (isCurrent) item.classList.add('selected');
 
         if (!isAvailable) {
             item.classList.add('locked');
             item.innerHTML = `
-                <div class="lock-overlay">
-                    <i class="fas fa-lock"></i>
-                    <span>Засекречено</span>
-                </div>
+                <div class="lock-overlay"><i class="fas fa-lock"></i><span>Засекречено</span></div>
                 <img src="${amp.image}" alt="${amp.name}" style="opacity: 0.3;" onerror="this.src='https://placehold.co/65x65/1a1a2e/e16d48?text=?'">
                 <div class="amp-name">${amp.name}</div>
                 <div class="amp-category-label">${amp.category}</div>
@@ -3319,15 +3170,11 @@ function renderAmpModalGrid(playerIndex, category) {
                 <img src="${amp.image}" alt="${amp.name}" onerror="this.src='https://placehold.co/65x65/1a1a2e/e16d48?text=?'">
                 <div class="amp-name">${amp.name}</div>
                 <div class="amp-category-label">${amp.category}</div>
-                <div class="amp-status ${isCurrent ? 'current' : 'available'}">
-                    ${isCurrent ? '✓ Текущая' : 'Доступна'}
-                </div>
+                <div class="amp-status ${isCurrent ? 'current' : 'available'}">${isCurrent ? '✓ Текущая' : 'Доступна'}</div>
             `;
             item.addEventListener('click', function() {
                 if (this.classList.contains('locked')) return;
-                grid.querySelectorAll('.amp-modal-item').forEach(function(el) {
-                    el.classList.remove('selected');
-                });
+                grid.querySelectorAll('.amp-modal-item').forEach(function(el) { el.classList.remove('selected'); });
                 this.classList.add('selected');
                 modalState.selectedAmp = amp.name;
                 var confirmBtn = document.getElementById('ampModalConfirm');
@@ -3353,21 +3200,12 @@ function renderAmpModalGrid(playerIndex, category) {
 // ============================================================
 function showBreakModal() {
     var hasAvailable = false;
-    escState.players.forEach(function(_, idx) {
-        if (!areAllCategoriesComplete(idx)) {
-            hasAvailable = true;
-        }
-    });
+    escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx)) hasAvailable = true; });
 
-    if (!hasAvailable) {
-        generateEscResult();
-        return;
-    }
+    if (!hasAvailable) { generateEscResult(); return; }
 
     var oldModal = document.getElementById('breakModal');
-    if (oldModal) {
-        oldModal.remove();
-    }
+    if (oldModal) oldModal.remove();
 
     var overlay = document.createElement('div');
     overlay.className = 'amp-modal-overlay active';
@@ -3400,7 +3238,7 @@ function showBreakModal() {
         var section = document.createElement('div');
         section.className = 'player-block';
         section.style.cssText = 'background: rgba(0,0,0,0.2); border-radius: 16px; padding: 16px; border: 1px solid rgba(220,90,50,0.08); width: 420px; flex: 0 0 420px; display: flex; flex-direction: column;';
-        
+
         var title = document.createElement('div');
         title.style.cssText = 'font-weight: 600; color: #ffbc9a; margin-bottom: 8px; text-align: center; font-size: 0.95rem; letter-spacing: 0.5px;';
         title.innerHTML = '<i class="fas fa-user" style="color: #e16d48; margin-right: 6px;"></i> ' + player;
@@ -3415,11 +3253,8 @@ function showBreakModal() {
             return section;
         }
 
-        var availableCategories = ampCategories.filter(function(cat) {
-            return !isCategoryComplete(idx, cat);
-        });
+        var availableCategories = ampCategories.filter(function(cat) { return !isCategoryComplete(idx, cat); });
         var randomCategory = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-        
         var availableAmps = getAvailableAmpsByCategory(idx, randomCategory);
         var shuffled = availableAmps.slice().sort(function() { return Math.random() - 0.5; });
         var displayAmps = shuffled.slice(0, 3);
@@ -3439,10 +3274,7 @@ function showBreakModal() {
             for (var i = 0; i < 3; i++) {
                 var emptyItem = document.createElement('div');
                 emptyItem.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                emptyItem.innerHTML = `
-                    <div style="font-size: 2rem; color: #555;">⛔</div>
-                    <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                `;
+                emptyItem.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
                 grid.appendChild(emptyItem);
             }
             breakSelections[idx] = 'skip';
@@ -3472,15 +3304,12 @@ function showBreakModal() {
                 });
                 grid.appendChild(item);
             });
-            
+
             if (displayAmps.length < 3) {
                 for (var j = displayAmps.length; j < 3; j++) {
                     var emptyItem2 = document.createElement('div');
                     emptyItem2.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 12px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.05); opacity: 0.4;';
-                    emptyItem2.innerHTML = `
-                        <div style="font-size: 2rem; color: #555;">⛔</div>
-                        <div style="font-size:0.6rem; color:#555;">ПУСТО</div>
-                    `;
+                    emptyItem2.innerHTML = `<div style="font-size: 2rem; color: #555;">⛔</div><div style="font-size:0.6rem; color:#555;">ПУСТО</div>`;
                     grid.appendChild(emptyItem2);
                 }
             }
@@ -3495,9 +3324,7 @@ function showBreakModal() {
     function checkBreakReady() {
         var ready = true;
         escState.players.forEach(function(_, idx) {
-            if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) {
-                ready = false;
-            }
+            if (!areAllCategoriesComplete(idx) && !breakSelections[idx]) ready = false;
         });
         var confirmBtn = document.getElementById('breakModalConfirm');
         if (confirmBtn) {
@@ -3528,7 +3355,6 @@ function showBreakModal() {
                     if (category) {
                         if (!escState.ampSelections[idx]) escState.ampSelections[idx] = {};
                         escState.ampSelections[idx][category] = breakSelections[idx];
-                        
                         if (!escState.usedAmps[idx]) escState.usedAmps[idx] = [];
                         if (escState.usedAmps[idx].indexOf(breakSelections[idx]) === -1) {
                             escState.usedAmps[idx].push(breakSelections[idx]);
@@ -3544,7 +3370,6 @@ function showBreakModal() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 DOM загружен');
     if (document.getElementById('escalationWrapper')) {
         setTimeout(function() {
             initEscalation();
