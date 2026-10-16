@@ -1892,9 +1892,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     // ============================================================
     // 10.1. ГРУППА ВЗАИМОИСКЛЮЧАЮЩИХ ВАРИАТОРОВ ПРЕДМЕТОВ
     // ============================================================
-    // Если выпадает "Без Предметов В Испытании" — блокируются все остальные из группы.
-    // Если выпадает любой другой из группы — "Без Предметов В Испытании" не может выпасть.
-    // Любые два вариатора из этой группы не могут быть вместе в одной комбинации.
     var itemRestrictionGroup = [
         'Без Предметов В Испытании',
         'Ограниченные Предметы',
@@ -1944,14 +1941,17 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     updateWeeklyVariatorDisplay();
 
     // ============================================================
-    // МАКСИМАЛЬНОЕ КОЛИЧЕСТВО ВАРИАТОРОВ ПО СЛОЖНОСТИ (с еженедельным)
-    // Начальная:      4
-    // Нормальная:     5
-    // Высокая:        6
-    // Психохирургия:  8
+    // ЖЁСТКИЙ ЛИМИТ ПО СЛОЖНОСТИ (ВКЛЮЧАЯ ЕЖЕНЕДЕЛЬНЫЙ)
+    // Уровни 1–3:   3 вариатора (Начальная)
+    // Уровни 3–5:   4 вариатора (Начальная)
+    // Уровни 6–15:  5 вариаторов (Нормальная)
+    // Уровни 16–20: 6 вариаторов (Высокая)
+    // Уровни 21+:   8 вариаторов (Психохирургия)
     // ============================================================
     var MAX_VARIATORS;
-    if (level >= 1 && level <= 5) {
+    if (level >= 1 && level <= 3) {
+        MAX_VARIATORS = 3;
+    } else if (level >= 4 && level <= 5) {
         MAX_VARIATORS = 4;
     } else if (level >= 6 && level <= 15) {
         MAX_VARIATORS = 5;
@@ -1960,6 +1960,8 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     } else {
         MAX_VARIATORS = 8;
     }
+
+    console.log('📏 Лимит вариаторов для уровня ' + level + ':', MAX_VARIATORS);
 
     var trialName = escState.trial ? escState.trial.name : '';
 
@@ -1983,58 +1985,70 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     var result = [];
     var usedNames = [];
 
-    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР
-    if (weeklyVar && weeklyVar.name) {
+    // ============================================================
+    // 1. ЕЖЕНЕДЕЛЬНЫЙ ВАРИАТОР (всегда первый, если есть)
+    // ============================================================
+    if (weeklyVar && weeklyVar.name && result.length < MAX_VARIATORS) {
         result.push(weeklyVar);
         usedNames.push(weeklyVar.name);
         console.log('✅ [1] Еженедельный:', weeklyVar.name);
     }
 
-    // 2. ВАРИАТОР СЛОЖНОСТИ
-    if (level > 20) {
-        var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
-        var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
+    // ============================================================
+    // 2. ВАРИАТОР СЛОЖНОСТИ (только если осталось место)
+    // ============================================================
+    if (result.length < MAX_VARIATORS) {
+        if (level > 20) {
+            var psycho = availableVariators.find(function(v) { return v.name === "Психохирургия"; });
+            var doubleTasks = availableVariators.find(function(v) { return v.name === "Двойные задания"; });
 
-        if (psycho) {
-            result.push(psycho);
-            usedNames.push(psycho.name);
-            console.log('✅ [2] Психохирургия');
-        } else {
-            result.push({
-                id: 'psycho_fallback',
-                name: "Психохирургия",
-                image: "images/психохирургия.webp",
-                category: "psycho"
-            });
-            usedNames.push("Психохирургия");
-            console.log('✅ [2] Психохирургия (создана)');
-        }
+            if (result.length < MAX_VARIATORS) {
+                if (psycho) {
+                    result.push(psycho);
+                    usedNames.push(psycho.name);
+                    console.log('✅ [2] Психохирургия');
+                } else {
+                    result.push({
+                        id: 'psycho_fallback',
+                        name: "Психохирургия",
+                        image: "images/психохирургия.webp",
+                        category: "psycho"
+                    });
+                    usedNames.push("Психохирургия");
+                    console.log('✅ [2] Психохирургия (создана)');
+                }
+            }
 
-        if (doubleTasks) {
-            result.push(doubleTasks);
-            usedNames.push(doubleTasks.name);
-            console.log('✅ [2] Двойные задания');
+            if (result.length < MAX_VARIATORS) {
+                if (doubleTasks) {
+                    result.push(doubleTasks);
+                    usedNames.push(doubleTasks.name);
+                    console.log('✅ [2] Двойные задания');
+                } else {
+                    result.push({
+                        id: 'double_fallback',
+                        name: "Двойные задания",
+                        image: "images/двойные задания.webp",
+                        category: "collection_special"
+                    });
+                    usedNames.push("Двойные задания");
+                    console.log('✅ [2] Двойные задания (созданы)');
+                }
+            }
         } else {
-            result.push({
-                id: 'double_fallback',
-                name: "Двойные задания",
-                image: "images/двойные задания.webp",
-                category: "collection_special"
-            });
-            usedNames.push("Двойные задания");
-            console.log('✅ [2] Двойные задания (созданы)');
-        }
-    } else {
-        var difficultyVar = getDifficultyVariator(level, availableVariators);
-        if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
-            result.push(difficultyVar);
-            usedNames.push(difficultyVar.name);
-            console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
+            var difficultyVar = getDifficultyVariator(level, availableVariators);
+            if (difficultyVar && usedNames.indexOf(difficultyVar.name) === -1) {
+                result.push(difficultyVar);
+                usedNames.push(difficultyVar.name);
+                console.log('✅ [2] Вариатор сложности:', difficultyVar.name);
+            }
         }
     }
 
-    // 3. ПОБОЧНОЕ ЗАДАНИЕ — ТОЛЬКО ОДНО, ТОЛЬКО ДО 20 УРОВНЯ
-    if (level <= 20) {
+    // ============================================================
+    // 3. ПОБОЧНОЕ ЗАДАНИЕ (только если осталось место и уровень ≤ 20)
+    // ============================================================
+    if (result.length < MAX_VARIATORS && level <= 20) {
         var sideQuestPool = availableVariators.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
             if (usedNames.indexOf(v.name) !== -1) return false;
@@ -2049,22 +2063,13 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         } else {
             console.log('⚠️ [3] Побочные задания недоступны или уже использованы');
         }
-    } else {
+    } else if (level > 20) {
         console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
     }
 
-    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО = МАКСИМУМ ПО СЛОЖНОСТИ
-    //    (не меньше, чем уже набрано, и не больше MAX_VARIATORS)
-    var targetTotal = MAX_VARIATORS;
-    if (result.length > targetTotal) {
-        // Если обязательные (еженедельный + сложность + побочка) уже превысили лимит,
-        // обрезаем до лимита, сохраняя приоритет: еженедельный → сложность → побочка.
-        result = result.slice(0, targetTotal);
-        usedNames = result.map(function(v) { return v.name; });
-        console.log('⚠️ Обрезка обязательных до лимита:', targetTotal);
-    }
-
-    // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
+    // ============================================================
+    // 4. СЛУЧАЙНЫЕ ВАРИАТОРЫ (добираем до лимита)
+    // ============================================================
     var filtered = availableVariators.filter(function(v) {
         if (usedNames.indexOf(v.name) !== -1) return false;
         if (isWeeklyVariatorName(v.name)) return false;
@@ -2076,7 +2081,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 
     var shuffled = shuffleArray(filtered);
 
-    for (var i = 0; i < shuffled.length && result.length < targetTotal && result.length < MAX_VARIATORS; i++) {
+    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS; i++) {
         var candidate = shuffled[i];
         if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
             result.push(candidate);
@@ -2085,8 +2090,10 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 6. ДОБИВКА
-    if (result.length < targetTotal) {
+    // ============================================================
+    // 5. ДОБИВКА (если ещё не достигли лимита)
+    // ============================================================
+    if (result.length < MAX_VARIATORS) {
         var remaining = availableVariators.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
                 && !isWeeklyVariatorName(v.name)
@@ -2100,39 +2107,48 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         });
         var shuffledRemaining = shuffleArray(remaining);
 
-        for (var j = 0; j < shuffledRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; j++) {
+        for (var j = 0; j < shuffledRemaining.length && result.length < MAX_VARIATORS; j++) {
             var candidate2 = shuffledRemaining[j];
             if (usedNames.indexOf(candidate2.name) === -1 && isVariatorCompatible(candidate2, result, trialName, playerCount, level)) {
                 result.push(candidate2);
                 usedNames.push(candidate2.name);
-                console.log('✅ [4] Добивка:', candidate2.name);
+                console.log('✅ [5] Добивка:', candidate2.name);
             }
         }
     }
 
-    // 7. КРАЙНЯЯ ДОБИВКА
-    if (result.length < targetTotal) {
+    // ============================================================
+    // 6. КРАЙНЯЯ ДОБИВКА (снимаем часть ограничений, но лимит держим)
+    // ============================================================
+    if (result.length < MAX_VARIATORS) {
         var anyRemaining = allVariatorsData.filter(function(v) {
             return usedNames.indexOf(v.name) === -1
                 && !isExcludedVariator(v.name)
                 && !isWeeklyVariatorName(v.name);
         });
-        for (var k = 0; k < anyRemaining.length && result.length < targetTotal && result.length < MAX_VARIATORS; k++) {
+        for (var k = 0; k < anyRemaining.length && result.length < MAX_VARIATORS; k++) {
             var candidate3 = anyRemaining[k];
             if (usedNames.indexOf(candidate3.name) === -1) {
                 result.push(candidate3);
                 usedNames.push(candidate3.name);
-                console.log('✅ [4] Принудительно:', candidate3.name);
+                console.log('✅ [6] Принудительно:', candidate3.name);
             }
         }
     }
 
-    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ
+    // ============================================================
+    // ФИНАЛЬНАЯ ФИЛЬТРАЦИЯ И ЖЁСТКАЯ ОБРЕЗКА ДО ЛИМИТА
+    // ============================================================
     result = result.filter(function(v) {
         return !isExcludedVariator(v.name);
     });
 
-    console.log('✅ ИТОГ (' + result.length + '):', result.map(function(v) { return v.name; }).join(', '));
+    if (result.length > MAX_VARIATORS) {
+        result = result.slice(0, MAX_VARIATORS);
+        console.log('⚠️ Обрезка до лимита:', MAX_VARIATORS);
+    }
+
+    console.log('✅ ИТОГ (' + result.length + '/' + MAX_VARIATORS + '):', result.map(function(v) { return v.name; }).join(', '));
     return result;
 }
 
