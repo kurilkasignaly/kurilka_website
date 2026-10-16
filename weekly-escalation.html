@@ -1890,19 +1890,29 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     }
 
     // ============================================================
-    // 10.1. БЕЗ ПРЕДМЕТОВ В ИСПЫТАНИИ блокирует ОГРАНИЧЕННЫЕ ПРЕДМЕТЫ I/II
+    // 10.1. ГРУППА ВЗАИМОИСКЛЮЧАЮЩИХ ВАРИАТОРОВ ПРЕДМЕТОВ
     // ============================================================
-    var noItemsName = 'Без Предметов В Испытании';
-    var limitedItemsGroup = ['Ограниченные предметы', 'Ограниченные предметы II'];
+    // Если выпадает "Без Предметов В Испытании" — блокируются все остальные из группы.
+    // Если выпадает любой другой из группы — "Без Предметов В Испытании" не может выпасть.
+    // Любые два вариатора из этой группы не могут быть вместе в одной комбинации.
+    var itemRestrictionGroup = [
+        'Без Предметов В Испытании',
+        'Ограниченные Предметы',
+        'Ограниченные Предметы II',
+        'Ограниченные предметы',
+        'Ограниченные предметы II',
+        'Без Медицинских Предметов',
+        'Без Технических Предметов',
+        'Закрытые Предметы',
+        'Только Предметы Для Бросания'
+    ];
 
-    if (variatorName === noItemsName) {
-        for (i = 0; i < limitedItemsGroup.length; i++) {
-            if (selectedNames.indexOf(limitedItemsGroup[i]) !== -1) return false;
+    if (itemRestrictionGroup.indexOf(variatorName) !== -1) {
+        for (i = 0; i < itemRestrictionGroup.length; i++) {
+            if (itemRestrictionGroup[i] !== variatorName && selectedNames.indexOf(itemRestrictionGroup[i]) !== -1) {
+                return false;
+            }
         }
-    }
-
-    if (limitedItemsGroup.indexOf(variatorName) !== -1) {
-        if (selectedNames.indexOf(noItemsName) !== -1) return false;
     }
 
     // ============================================================
@@ -1933,7 +1943,24 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     }
     updateWeeklyVariatorDisplay();
 
-    var MAX_VARIATORS = 10;
+    // ============================================================
+    // МАКСИМАЛЬНОЕ КОЛИЧЕСТВО ВАРИАТОРОВ ПО СЛОЖНОСТИ (с еженедельным)
+    // Начальная:      4
+    // Нормальная:     5
+    // Высокая:        6
+    // Психохирургия:  8
+    // ============================================================
+    var MAX_VARIATORS;
+    if (level >= 1 && level <= 5) {
+        MAX_VARIATORS = 4;
+    } else if (level >= 6 && level <= 15) {
+        MAX_VARIATORS = 5;
+    } else if (level >= 16 && level <= 20) {
+        MAX_VARIATORS = 6;
+    } else {
+        MAX_VARIATORS = 8;
+    }
+
     var trialName = escState.trial ? escState.trial.name : '';
 
     var availableVariators = allVariatorsData.filter(function(v) {
@@ -2026,19 +2053,16 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         console.log('ℹ️ [3] Уровень > 20 — побочные задания не добавляются');
     }
 
-    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО
-    var targetTotal;
-    if (level === 1) targetTotal = 3;
-    else if (level >= 2 && level <= 3) targetTotal = 4;
-    else if (level === 4) targetTotal = 5;
-    else if (level === 5) targetTotal = 6;
-    else if (level >= 6 && level <= 15) targetTotal = 7;
-    else if (level >= 16 && level <= 20) targetTotal = 8;
-    else if (level > 20) {
-        var randomCount = 3 + Math.floor(Math.random() * 3);
-        targetTotal = 3 + randomCount;
-        if (targetTotal > MAX_VARIATORS) targetTotal = MAX_VARIATORS;
-    } else targetTotal = 3;
+    // 4. ЦЕЛЕВОЕ КОЛИЧЕСТВО = МАКСИМУМ ПО СЛОЖНОСТИ
+    //    (не меньше, чем уже набрано, и не больше MAX_VARIATORS)
+    var targetTotal = MAX_VARIATORS;
+    if (result.length > targetTotal) {
+        // Если обязательные (еженедельный + сложность + побочка) уже превысили лимит,
+        // обрезаем до лимита, сохраняя приоритет: еженедельный → сложность → побочка.
+        result = result.slice(0, targetTotal);
+        usedNames = result.map(function(v) { return v.name; });
+        console.log('⚠️ Обрезка обязательных до лимита:', targetTotal);
+    }
 
     // 5. СЛУЧАЙНЫЕ ВАРИАТОРЫ
     var filtered = availableVariators.filter(function(v) {
@@ -2052,7 +2076,7 @@ function getVariatorsForLevel(level, mapName, playerCount) {
 
     var shuffled = shuffleArray(filtered);
 
-    for (var i = 0; i < shuffled.length && result.length < MAX_VARIATORS && result.length < targetTotal; i++) {
+    for (var i = 0; i < shuffled.length && result.length < targetTotal && result.length < MAX_VARIATORS; i++) {
         var candidate = shuffled[i];
         if (isVariatorCompatible(candidate, result, trialName, playerCount, level)) {
             result.push(candidate);
