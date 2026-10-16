@@ -635,6 +635,13 @@
 
         .info-form-group input::placeholder { color: #555; }
 
+        .info-form-group input.readonly-field {
+            background: rgba(0, 0, 0, 0.15);
+            color: #888;
+            cursor: not-allowed;
+            border-style: dashed;
+        }
+
         .autocomplete-list {
             position: absolute; top: 100%; left: 0; right: 0;
             background: rgba(18, 12, 28, 0.98); border: 1px solid rgba(220, 90, 50, 0.4);
@@ -660,7 +667,6 @@
             font-size: 0.7rem; color: #888; margin-left: 8px;
         }
 
-        /* Мультивыбор вариаторов */
         .variators-picker {
             background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(220, 90, 50, 0.25);
             border-radius: 12px; padding: 12px; max-height: 260px; overflow-y: auto;
@@ -743,7 +749,7 @@
         }
 
         /* ============================================================
-           ИТОГОВАЯ ТАБЛИЦА (в стиле скриншота)
+           ИТОГОВАЯ ТАБЛИЦА
            ============================================================ */
         .summary-modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -798,7 +804,6 @@
         }
 
         .summary-table thead th.col-time { text-align: center; width: 90px; }
-        .summary-table thead th.col-score { text-align: center; width: 130px; }
 
         .summary-table tbody tr {
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -858,6 +863,25 @@
         .summary-empty {
             text-align: center; padding: 40px; color: #888;
             font-size: 1rem; font-style: italic;
+        }
+
+        .summary-total-row td {
+            padding: 16px 10px 6px 10px;
+            border-top: 2px solid rgba(220, 90, 50, 0.4);
+            font-weight: 700;
+        }
+
+        .summary-total-label {
+            text-align: right; color: #e16d48;
+            font-size: 0.95rem; letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .summary-total-value {
+            text-align: center; color: #f1c40f;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem; letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(241, 196, 15, 0.4);
         }
 
         .summary-footer {
@@ -1151,7 +1175,7 @@
         <div class="info-form-grid">
             <div class="info-form-group">
                 <label><i class="fas fa-hashtag"></i> Номер эскалации</label>
-                <input type="number" id="infoLevelNum" placeholder="Например: 15" min="1" max="999">
+                <input type="text" id="infoLevelNum" class="readonly-field" readonly>
             </div>
 
             <div class="info-form-group">
@@ -1278,7 +1302,6 @@ let escState = {
     weeklyVariator: null
 };
 
-// Данные текущего ввода формы сбора информации
 var infoFormState = {
     levelNum: null,
     trialName: null,
@@ -1287,7 +1310,6 @@ var infoFormState = {
     time: ''
 };
 
-// Массив собранных записей (для итоговой таблицы)
 var collectedRecords = [];
 
 // ============================================================
@@ -1303,9 +1325,6 @@ function checkDataLoaded() {
     return true;
 }
 
-// ============================================================
-// ПОЛУЧЕНИЕ ЕЖЕНЕДЕЛЬНОГО ВАРИАТОРА
-// ============================================================
 function getWeeklyVariator() {
     if (typeof allVariatorsData === 'undefined') return null;
     return allVariatorsData.find(function(v) { return v.name === WEEKLY_VARIATOR_NAME; }) || null;
@@ -1328,9 +1347,6 @@ function updateWeeklyVariatorDisplay() {
     }
 }
 
-// ============================================================
-// ФУНКЦИИ ДЛЯ АМФ
-// ============================================================
 function getAmpsByCategory(category) {
     if (typeof ampsData === 'undefined') return [];
     return ampsData.filter(function(amp) { return amp.category === category; });
@@ -1367,9 +1383,6 @@ function unlockAmpForPlayer(playerIndex, ampName) {
     }
 }
 
-// ============================================================
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ: ПРОВЕРКА ТИПОВ ВАРИАТОРОВ
-// ============================================================
 function isExcludedVariator(name) {
     if (!name) return false;
     if (EXCLUDED_VARIATORS.indexOf(name) !== -1) return true;
@@ -1416,9 +1429,6 @@ function getDifficultyVariator(level, availableVariators) {
     return null;
 }
 
-// ============================================================
-// ПРОВЕРКА СОВМЕСТИМОСТИ ВАРИАТОРОВ (ПОЛНАЯ)
-// ============================================================
 function isVariatorCompatible(variator, selectedVariators, trialName, playerCount, level) {
     var variatorName = variator.name;
     var selectedNames = selectedVariators.map(function(v) { return v.name; });
@@ -1613,9 +1623,6 @@ function isVariatorCompatible(variator, selectedVariators, trialName, playerCoun
     return true;
 }
 
-// ============================================================
-// ОСНОВНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ВАРИАТОРОВ
-// ============================================================
 function getVariatorsForLevel(level, mapName, playerCount) {
     if (typeof allVariatorsData === 'undefined') return [];
 
@@ -1757,9 +1764,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     return result;
 }
 
-// ============================================================
-// ОСТАЛЬНЫЕ ФУНКЦИИ
-// ============================================================
 function getMapAndTrial(level) {
     if (typeof trialsData === 'undefined') return null;
 
@@ -1862,9 +1866,6 @@ function updateLevelCounter() {
     }
 }
 
-// ============================================================
-// ОТРИСОВКА ШАГОВ
-// ============================================================
 function renderEscPlayerNames() {
     var container = document.getElementById('escPlayerNameInputs');
     if (!container) return;
@@ -2159,9 +2160,6 @@ function checkEscAmpsReady() {
     if (btn) btn.disabled = false;
 }
 
-// ============================================================
-// ПРЕВЬЮ И РЕЗУЛЬТАТ
-// ============================================================
 function showPreviewModal(trialName, mapName, variators, level) {
     var oldModal = document.getElementById('previewModal');
     if (oldModal) oldModal.remove();
@@ -2499,13 +2497,27 @@ function openInfoModal() {
     if (!modal) return;
 
     // Сброс формы
-    infoFormState = { levelNum: null, trialName: null, trialObj: null, variatorNames: [], time: '' };
-    document.getElementById('infoLevelNum').value = escState.level;
-    document.getElementById('infoTime').value = '';
-    document.getElementById('infoTrialInput').value = '';
-    document.getElementById('infoVariatorSearch').value = '';
+    infoFormState = { levelNum: escState.level, trialName: null, trialObj: null, variatorNames: [], time: '' };
 
-    // Предзаполнение вариаторами, которые выпали в текущей генерации
+    // Номер эскалации — автоматически из текущего уровня (readonly)
+    var levelInput = document.getElementById('infoLevelNum');
+    levelInput.value = escState.level;
+    levelInput.readOnly = true;
+
+    // Время — пустое, заполняет пользователь
+    document.getElementById('infoTime').value = '';
+
+    // Испытание — автоматически из текущей генерации (но можно изменить через поиск)
+    var trialInput = document.getElementById('infoTrialInput');
+    if (escState.trial && escState.trial.name) {
+        trialInput.value = escState.trial.name;
+        infoFormState.trialName = escState.trial.name;
+        infoFormState.trialObj = escState.trial;
+    } else {
+        trialInput.value = '';
+    }
+
+    // Вариаторы — автоматически из текущей генерации
     var preselected = [];
     if (escState.variators && escState.variators.length > 0) {
         escState.variators.forEach(function(v) {
@@ -2514,12 +2526,7 @@ function openInfoModal() {
     }
     infoFormState.variatorNames = preselected.slice();
 
-    // Предзаполнение испытанием
-    if (escState.trial && escState.trial.name) {
-        document.getElementById('infoTrialInput').value = escState.trial.name;
-        infoFormState.trialName = escState.trial.name;
-        infoFormState.trialObj = escState.trial;
-    }
+    document.getElementById('infoVariatorSearch').value = '';
 
     renderVariatorCheckboxList();
     updateInfoModalSaveButton();
@@ -2593,7 +2600,6 @@ function renderVariatorCheckboxList() {
         return true;
     });
 
-    // Сортируем по алфавиту
     list.sort(function(a, b) { return a.name.localeCompare(b.name, 'ru'); });
 
     list.forEach(function(v) {
@@ -2636,6 +2642,27 @@ function updateInfoModalSaveButton() {
 // ============================================================
 // ИТОГОВАЯ ТАБЛИЦА
 // ============================================================
+function timeToSeconds(timeStr) {
+    if (!timeStr) return 0;
+    var parts = String(timeStr).split(':');
+    if (parts.length === 2) {
+        var m = parseInt(parts[0], 10);
+        var s = parseInt(parts[1], 10);
+        if (!isNaN(m) && !isNaN(s)) return m * 60 + s;
+    }
+    return 0;
+}
+
+function secondsToTime(totalSeconds) {
+    var h = Math.floor(totalSeconds / 3600);
+    var m = Math.floor((totalSeconds % 3600) / 60);
+    var s = totalSeconds % 60;
+    if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    return m + ':' + (s < 10 ? '0' : '') + s;
+}
+
 function buildSummaryTable() {
     var tbody = document.getElementById('summaryTableBody');
     var statsEl = document.getElementById('summaryStats');
@@ -2648,19 +2675,16 @@ function buildSummaryTable() {
         return;
     }
 
-    // Сортируем по номеру эскалации
     var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
 
-    sorted.forEach(function(rec, index) {
+    sorted.forEach(function(rec) {
         var tr = document.createElement('tr');
 
-        // Номер
         var tdNum = document.createElement('td');
         tdNum.className = 'summary-cell-number';
         tdNum.textContent = rec.levelNum ? ('#' + rec.levelNum) : '—';
         tr.appendChild(tdNum);
 
-        // Превью испытания
         var tdThumb = document.createElement('td');
         tdThumb.className = 'summary-cell-thumb';
         var imgSrc = rec.trialObj && rec.trialObj.image ? rec.trialObj.image : (rec.mapImage || '');
@@ -2671,13 +2695,11 @@ function buildSummaryTable() {
         }
         tr.appendChild(tdThumb);
 
-        // Название
         var tdName = document.createElement('td');
         tdName.className = 'summary-cell-name';
         tdName.textContent = (rec.trialName || '').toUpperCase();
         tr.appendChild(tdName);
 
-        // Вариаторы (иконки)
         var tdVars = document.createElement('td');
         tdVars.className = 'summary-cell-variators';
         if (rec.variators && rec.variators.length > 0) {
@@ -2699,7 +2721,6 @@ function buildSummaryTable() {
         }
         tr.appendChild(tdVars);
 
-        // Время
         var tdTime = document.createElement('td');
         tdTime.className = 'summary-cell-time';
         tdTime.textContent = rec.time || '—';
@@ -2708,29 +2729,30 @@ function buildSummaryTable() {
         tbody.appendChild(tr);
     });
 
+    // ===== СТРОКА С ОБЩИМ ВРЕМЕНЕМ =====
+    var totalSeconds = 0;
+    sorted.forEach(function(rec) {
+        totalSeconds += timeToSeconds(rec.time);
+    });
+
+    var trTotal = document.createElement('tr');
+    trTotal.className = 'summary-total-row';
+
+    var tdTotalLeft = document.createElement('td');
+    tdTotalLeft.colSpan = 4;
+    tdTotalLeft.className = 'summary-total-label';
+    tdTotalLeft.textContent = 'Общее время:';
+    trTotal.appendChild(tdTotalLeft);
+
+    var tdTotalValue = document.createElement('td');
+    tdTotalValue.className = 'summary-total-value';
+    tdTotalValue.textContent = secondsToTime(totalSeconds);
+    trTotal.appendChild(tdTotalValue);
+
+    tbody.appendChild(trTotal);
+
     if (statsEl) {
-        var total = sorted.length;
-        var totalSeconds = 0;
-        var validCount = 0;
-        sorted.forEach(function(r) {
-            var parts = (r.time || '').split(':');
-            if (parts.length === 2) {
-                var m = parseInt(parts[0], 10);
-                var s = parseInt(parts[1], 10);
-                if (!isNaN(m) && !isNaN(s)) {
-                    totalSeconds += m * 60 + s;
-                    validCount++;
-                }
-            }
-        });
-        var avgText = '—';
-        if (validCount > 0) {
-            var avg = Math.round(totalSeconds / validCount);
-            var avgM = Math.floor(avg / 60);
-            var avgS = avg % 60;
-            avgText = avgM + ':' + (avgS < 10 ? '0' : '') + avgS;
-        }
-        statsEl.innerHTML = 'Всего записей: <strong>' + total + '</strong> · Среднее время: <strong>' + avgText + '</strong>';
+        statsEl.innerHTML = 'Всего записей: <strong>' + sorted.length + '</strong> · Общее время: <strong>' + secondsToTime(totalSeconds) + '</strong>';
     }
 }
 
@@ -2850,19 +2872,14 @@ function doInit() {
         });
     }
 
-    // ============================================================
-    // СЛЕДУЮЩИЙ УРОВЕНЬ → сначала окно сбора информации, потом перерыв
-    // ============================================================
     if (nextLevelBtn) {
         nextLevelBtn.addEventListener('click', function() {
-            // Открываем окно сбора информации о текущем испытании
             openInfoModal();
         });
     }
 
     if (exitBtn) {
         exitBtn.addEventListener('click', function() {
-            // Показываем итоговую таблицу перед подтверждением выхода
             openSummaryModal();
         });
     }
@@ -2873,7 +2890,6 @@ function doInit() {
     var infoModalClose = document.getElementById('infoModalClose');
     var infoModalCancel = document.getElementById('infoModalCancel');
     var infoModalSave = document.getElementById('infoModalSave');
-    var infoLevelNum = document.getElementById('infoLevelNum');
     var infoTime = document.getElementById('infoTime');
     var infoTrialInput = document.getElementById('infoTrialInput');
     var infoVariatorSearch = document.getElementById('infoVariatorSearch');
@@ -2882,17 +2898,8 @@ function doInit() {
     if (infoModalClose) infoModalClose.addEventListener('click', closeInfoModal);
     if (infoModalCancel) infoModalCancel.addEventListener('click', closeInfoModal);
 
-    if (infoLevelNum) {
-        infoLevelNum.addEventListener('input', function() {
-            var val = parseInt(this.value, 10);
-            infoFormState.levelNum = isNaN(val) ? null : val;
-            updateInfoModalSaveButton();
-        });
-    }
-
     if (infoTime) {
         infoTime.addEventListener('input', function() {
-            // Авто-форматирование: если введено 4 цифры подряд, вставляем :
             var v = this.value.replace(/[^\d:]/g, '');
             if (/^\d{4}$/.test(v)) v = v.slice(0, 2) + ':' + v.slice(2);
             this.value = v;
@@ -2905,7 +2912,6 @@ function doInit() {
         infoTrialInput.addEventListener('input', function() {
             infoFormState.trialName = this.value.trim() || null;
             infoFormState.trialObj = null;
-            // Если точное совпадение — берём объект
             var allTrials = getAllTrialsFlat();
             var exact = allTrials.find(function(x) { return x.trial.name === infoFormState.trialName; });
             if (exact) infoFormState.trialObj = exact.trial;
@@ -2918,7 +2924,6 @@ function doInit() {
         });
 
         infoTrialInput.addEventListener('blur', function() {
-            // Небольшая задержка, чтобы клик по элементу списка сработал
             setTimeout(function() {
                 if (infoTrialAutocomplete) infoTrialAutocomplete.classList.remove('active');
             }, 200);
@@ -2933,7 +2938,6 @@ function doInit() {
 
     if (infoModalSave) {
         infoModalSave.addEventListener('click', function() {
-            // Сохраняем запись
             var record = {
                 levelNum: infoFormState.levelNum,
                 trialName: infoFormState.trialName,
@@ -2946,7 +2950,6 @@ function doInit() {
             collectedRecords.push(record);
             closeInfoModal();
 
-            // Дальше — переход на следующий уровень (перерыв или сразу результат)
             escState.level++;
             updateLevelCounter();
 
@@ -2974,7 +2977,6 @@ function doInit() {
     if (summaryCloseBtn) {
         summaryCloseBtn.addEventListener('click', function() {
             closeSummaryModal();
-            // После закрытия таблицы — перезагружаем (как раньше делал "Покинуть")
             location.reload();
         });
     }
@@ -2984,10 +2986,13 @@ function doInit() {
             var text = 'ЭСКАЛАЦИОННАЯ ТЕРАПИЯ\n';
             text += '='.repeat(40) + '\n';
             var sorted = collectedRecords.slice().sort(function(a, b) { return (a.levelNum || 0) - (b.levelNum || 0); });
+            var totalSeconds = 0;
             sorted.forEach(function(rec) {
                 text += '#' + (rec.levelNum || '?') + ' | ' + (rec.trialName || '') + ' | ';
                 text += (rec.variators || []).join(', ') + ' | ' + (rec.time || '?') + '\n';
+                totalSeconds += timeToSeconds(rec.time);
             });
+            text += '\nОБЩЕЕ ВРЕМЯ: ' + secondsToTime(totalSeconds) + '\n';
             navigator.clipboard.writeText(text).then(function() {
                 summaryCopy.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
                 setTimeout(function() {
@@ -2997,7 +3002,6 @@ function doInit() {
         });
     }
 
-    // Модалка подтверждения выхода
     var confirmCancel = document.getElementById('confirmCancel');
     var confirmExit = document.getElementById('confirmExit');
     var confirmModal = document.getElementById('confirmModal');
@@ -3141,7 +3145,6 @@ function renderAmpModalGrid(playerIndex, category) {
     }
 
     var categoryAmps = getAmpsByCategory(category);
-    var used = escState.usedAmps[playerIndex] || [];
     var unlocked = escState.unlockedAmps[playerIndex] || [];
     var currentAmp = getAmpForCategory(playerIndex, category);
     var hasAvailable = false;
@@ -3195,9 +3198,6 @@ function renderAmpModalGrid(playerIndex, category) {
     if (confirmBtn) confirmBtn.disabled = true;
 }
 
-// ============================================================
-// ПЕРЕРЫВ
-// ============================================================
 function showBreakModal() {
     var hasAvailable = false;
     escState.players.forEach(function(_, idx) { if (!areAllCategoriesComplete(idx)) hasAvailable = true; });
