@@ -338,6 +338,21 @@
             color: #ff3333;
         }
 
+        .save-btn {
+            background: rgba(46, 204, 113, 0.15);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            font-size: 1.05rem; font-weight: 600;
+            color: #2ecc71; cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .save-btn:hover {
+            background: rgba(46, 204, 113, 0.25);
+            color: #27ae60;
+        }
+
         .escalation-result {
             display: none;
             animation: resultAppear 0.6s ease-out;
@@ -764,6 +779,15 @@
             background: rgba(220, 90, 50, 0.25);
             color: white;
         }
+        .confirm-modal .confirm-actions .btn-save {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+        }
+        .confirm-modal .confirm-actions .btn-save:hover {
+            background: rgba(46, 204, 113, 0.3);
+            color: #27ae60;
+        }
 
         .back-to-roulette {
             display: inline-flex; align-items: center;
@@ -1079,6 +1103,87 @@
         }
         .summary-actions .btn-copy:hover { background: rgba(220, 90, 50, 0.25); color: white; }
 
+        /* ============================================================
+           МОДАЛКА СОХРАНЕНИЯ / ВОССТАНОВЛЕНИЯ
+           ============================================================ */
+        .save-load-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); z-index: 3000; justify-content: center;
+            align-items: center; backdrop-filter: blur(14px); padding: 20px;
+        }
+        .save-load-modal-overlay.active { display: flex; }
+
+        .save-load-modal {
+            background: linear-gradient(145deg, #1a1a2e, #2a1a3e);
+            border-radius: 24px; border: 2px solid rgba(220, 90, 50, 0.4);
+            padding: 30px 35px; max-width: 560px; width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.3s ease-out; text-align: center;
+        }
+
+        .save-load-modal .icon-wrap {
+            width: 70px; height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: rgba(220, 90, 50, 0.15);
+            border: 2px solid rgba(220, 90, 50, 0.4);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .save-load-modal .icon-wrap i {
+            font-size: 2rem; color: #e16d48;
+        }
+        .save-load-modal h2 {
+            font-size: 1.4rem; color: #ffbc9a;
+            margin-bottom: 12px; letter-spacing: 0.5px;
+        }
+        .save-load-modal p {
+            color: #c2b9d4; font-size: 0.95rem;
+            line-height: 1.6; margin-bottom: 10px;
+        }
+        .save-load-modal .save-info {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(220, 90, 50, 0.2);
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin: 16px 0 22px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #c2b9d4;
+        }
+        .save-load-modal .save-info .row {
+            display: flex; justify-content: space-between;
+            padding: 3px 0;
+        }
+        .save-load-modal .save-info .row strong {
+            color: #ffbc9a; font-weight: 600;
+        }
+        .save-load-modal .actions {
+            display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+        }
+        .save-load-modal .actions button {
+            padding: 0.8rem 1.8rem; border-radius: 40px;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; font-family: inherit; border: none;
+            min-width: 140px;
+        }
+        .save-load-modal .btn-continue {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+        .save-load-modal .btn-continue:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(46, 204, 113, 0.4);
+        }
+        .save-load-modal .btn-restart {
+            background: rgba(220, 90, 50, 0.15);
+            border: 1px solid rgba(220, 90, 50, 0.3);
+            color: #c2b9d4;
+        }
+        .save-load-modal .btn-restart:hover {
+            background: rgba(220, 90, 50, 0.25);
+            color: white;
+        }
+
         @media (max-width: 992px) {
             .result-grid { grid-template-columns: 1fr; }
             .info-form-grid { grid-template-columns: 1fr; }
@@ -1126,7 +1231,7 @@
             .variator-list .var-item img { width: 60px; height: 60px; padding: 6px; }
             .variator-list .var-item .var-name { font-size: 0.55rem; }
             .step-actions { flex-direction: column; align-items: center; }
-            .next-btn, .back-btn, .exit-btn { width: 100%; justify-content: center; }
+            .next-btn, .back-btn, .exit-btn, .save-btn { width: 100%; justify-content: center; }
             .back-to-roulette { font-size: 0.85rem; padding: 0.5rem 1rem; }
             .amp-modal { padding: 1rem; }
             .amp-modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
@@ -1141,6 +1246,9 @@
             .summary-header h2 { font-size: 1.3rem; letter-spacing: 1px; }
             .summary-cell-time { font-size: 1rem; }
             .summary-var-icon { width: 40px; height: 40px; }
+            .save-load-modal { padding: 25px 20px; }
+            .save-load-modal h2 { font-size: 1.15rem; }
+            .save-load-modal .actions button { width: 100%; }
         }
     </style>
 </head>
@@ -1259,6 +1367,7 @@
                 </div>
             </div>
             <div class="result-actions">
+                <button class="save-btn" id="escSaveBtn"><i class="fas fa-save"></i> Сохранить и выйти</button>
                 <button class="exit-btn" id="escExitBtn"><i class="fas fa-sign-out-alt"></i> Покинуть Эскалацию</button>
                 <button class="next-btn" id="escNextLevelBtn">Далее →</button>
             </div>
@@ -1371,6 +1480,27 @@
     </div>
 </div>
 
+<!-- ====== МОДАЛКА ВОССТАНОВЛЕНИЯ СОХРАНЕНИЯ ====== -->
+<div class="save-load-modal-overlay" id="saveLoadModal">
+    <div class="save-load-modal">
+        <div class="icon-wrap"><i class="fas fa-history"></i></div>
+        <h2>Найдено сохранение</h2>
+        <p>У вас есть незавершённая эскалация. Хотите продолжить или начать заново?</p>
+
+        <div class="save-info" id="saveInfoBlock">
+            <div class="row"><span>Уровень:</span> <strong id="saveInfoLevel">—</strong></div>
+            <div class="row"><span>Игроков:</span> <strong id="saveInfoPlayers">—</strong></div>
+            <div class="row"><span>Записей в отчёте:</span> <strong id="saveInfoRecords">—</strong></div>
+            <div class="row"><span>Дата сохранения:</span> <strong id="saveInfoDate">—</strong></div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-restart" id="saveLoadRestart">Начать заново</button>
+            <button class="btn-continue" id="saveLoadContinue">Продолжить</button>
+        </div>
+    </div>
+</div>
+
 <script src="maps.js"></script>
 <script src="variators.js"></script>
 <script src="variators-all.js"></script>
@@ -1397,7 +1527,8 @@ var EXCLUDED_VARIATORS = [
 ];
 
 // ============================================================
-// СОСТОЯНИЕ// ============================================================
+// СОСТОЯНИЕ
+// ============================================================
 let escState = {
     level: 1, playerCount: 0, players: [],
     equipSelections: {}, ampSelections: {}, usedAmps: {},
@@ -1416,6 +1547,9 @@ var infoFormState = {
 };
 
 var collectedRecords = [];
+
+// Ключ localStorage
+var STORAGE_KEY = 'escalation_save_v1';
 
 // ============================================================
 // ПРОВЕРКА ЗАГРУЗКИ
@@ -1609,9 +1743,6 @@ function isVariatorCompatible(v, selected, trialName, playerCount, level) {
         }
     }
 
-    // ============================================================
-    // 10.1. ГРУППА ВЗАИМОИСКЛЮЧАЮЩИХ ВАРИАТОРОВ ПРЕДМЕТОВ
-    // ============================================================
     var itemGroup = [
         'Без Предметов В Испытании',
         'Ограниченные Предметы', 'Ограниченные Предметы II',
@@ -1640,7 +1771,7 @@ function getMaxVariatorsForLevel(level) {
     if (level >= 4 && level <= 5) return 4;
     if (level >= 6 && level <= 15) return 5;
     if (level >= 16 && level <= 20) return 6;
-    return 8; // level >= 21
+    return 8;
 }
 
 // ============================================================
@@ -1663,7 +1794,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
     var result = [];
     var used = [];
 
-    // 1. Вариатор сложности (обязательный, если есть место)
     if (result.length < MAX_VARIATORS) {
         if (level > 20) {
             var psycho = available.find(function(v) { return v.name === "Психохирургия"; });
@@ -1678,7 +1808,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 2. Побочное задание (только если есть место и уровень ≤ 20)
     if (result.length < MAX_VARIATORS && level <= 20) {
         var sidePool = available.filter(function(v) {
             if (SIDE_QUEST_VARIATORS.indexOf(v.name) === -1) return false;
@@ -1691,7 +1820,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 3. Случайные вариаторы (добираем до лимита)
     var filtered = available.filter(function(v) {
         if (used.indexOf(v.name) !== -1) return false;
         if (isSideQuestVariator(v.name)) return false;
@@ -1707,7 +1835,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 4. Добивка
     if (result.length < MAX_VARIATORS) {
         var remaining = available.filter(function(v) {
             return used.indexOf(v.name) === -1 && !isSideQuestVariator(v.name)
@@ -1723,7 +1850,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // 5. Крайняя добивка
     if (result.length < MAX_VARIATORS) {
         var anyRem = allVariatorsData.filter(function(v) { return used.indexOf(v.name) === -1 && !isExcludedVariator(v.name); });
         for (var k = 0; k < anyRem.length && result.length < MAX_VARIATORS; k++) {
@@ -1731,7 +1857,6 @@ function getVariatorsForLevel(level, mapName, playerCount) {
         }
     }
 
-    // Финальная фильтрация и жёсткая обрезка
     result = result.filter(function(v) { return !isExcludedVariator(v.name); });
     if (result.length > MAX_VARIATORS) result = result.slice(0, MAX_VARIATORS);
 
@@ -1815,6 +1940,92 @@ function updateLevelCounter() {
     var d = getDifficultyByLevel(escState.level);
     if (num) num.textContent = escState.level;
     if (diff) { diff.textContent = d.name; diff.className = 'level-difficulty ' + d.class; }
+}
+
+// ============================================================
+// СОХРАНЕНИЕ / ЗАГРУЗКА (localStorage)
+// ============================================================
+function saveEscalation() {
+    try {
+        var saveData = {
+            version: 1,
+            savedAt: Date.now(),
+            escState: {
+                level: escState.level,
+                playerCount: escState.playerCount,
+                players: escState.players.slice(),
+                equipSelections: JSON.parse(JSON.stringify(escState.equipSelections)),
+                ampSelections: JSON.parse(JSON.stringify(escState.ampSelections)),
+                usedAmps: JSON.parse(JSON.stringify(escState.usedAmps)),
+                unlockedAmps: JSON.parse(JSON.stringify(escState.unlockedAmps)),
+                allAmpsUsed: JSON.parse(JSON.stringify(escState.allAmpsUsed)),
+                currentStep: escState.currentStep,
+                map: escState.map ? JSON.parse(JSON.stringify(escState.map)) : null,
+                trial: escState.trial ? JSON.parse(JSON.stringify(escState.trial)) : null,
+                difficulty: escState.difficulty,
+                variators: JSON.parse(JSON.stringify(escState.variators || [])),
+                usedBigTrials: escState.usedBigTrials.slice(),
+                usedSmallTrials: escState.usedSmallTrials.slice()
+            },
+            collectedRecords: JSON.parse(JSON.stringify(collectedRecords))
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
+        return true;
+    } catch (e) {
+        console.error('Ошибка сохранения:', e);
+        return false;
+    }
+}
+
+function loadSavedEscalation() {
+    try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        var data = JSON.parse(raw);
+        if (!data || !data.escState) return null;
+        return data;
+    } catch (e) {
+        console.error('Ошибка чтения сохранения:', e);
+        return null;
+    }
+}
+
+function clearSavedEscalation() {
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {
+        console.error('Ошибка удаления сохранения:', e);
+    }
+}
+
+function hasSavedEscalation() {
+    return !!loadSavedEscalation();
+}
+
+function applySavedEscalation(data) {
+    if (!data || !data.escState) return false;
+
+    var s = data.escState;
+
+    escState.level = s.level || 1;
+    escState.playerCount = s.playerCount || 0;
+    escState.players = (s.players || []).slice();
+    escState.equipSelections = s.equipSelections || {};
+    escState.ampSelections = s.ampSelections || {};
+    escState.usedAmps = s.usedAmps || {};
+    escState.unlockedAmps = s.unlockedAmps || {};
+    escState.allAmpsUsed = s.allAmpsUsed || {};
+    escState.currentStep = s.currentStep || 1;
+    escState.map = s.map || null;
+    escState.trial = s.trial || null;
+    escState.difficulty = s.difficulty || null;
+    escState.variators = s.variators || [];
+    escState.usedBigTrials = s.usedBigTrials || [];
+    escState.usedSmallTrials = s.usedSmallTrials || [];
+
+    collectedRecords = (data.collectedRecords || []).slice();
+
+    return true;
 }
 
 // ============================================================
@@ -2584,6 +2795,55 @@ function closeSummaryModal() {
 }
 
 // ============================================================
+// МОДАЛКА ВОССТАНОВЛЕНИЯ СОХРАНЕНИЯ
+// ============================================================
+function showSaveLoadModal(data, onContinue, onRestart) {
+    var modal = document.getElementById('saveLoadModal');
+    if (!modal) return;
+
+    var s = data.escState;
+
+    document.getElementById('saveInfoLevel').textContent = s.level ? ('#' + s.level) : '—';
+    document.getElementById('saveInfoPlayers').textContent = (s.players && s.players.length) || 0;
+    document.getElementById('saveInfoRecords').textContent = (data.collectedRecords && data.collectedRecords.length) || 0;
+
+    var dateStr = '—';
+    if (data.savedAt) {
+        try {
+            var d = new Date(data.savedAt);
+            dateStr = d.toLocaleDateString('ru-RU') + ' ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+        } catch (e) { dateStr = '—'; }
+    }
+    document.getElementById('saveInfoDate').textContent = dateStr;
+
+    var continueBtn = document.getElementById('saveLoadContinue');
+    var restartBtn = document.getElementById('saveLoadRestart');
+
+    // Убираем старые обработчики (заменой элемента)
+    var newContinueBtn = continueBtn.cloneNode(true);
+    var newRestartBtn = restartBtn.cloneNode(true);
+    continueBtn.parentNode.replaceChild(newContinueBtn, continueBtn);
+    restartBtn.parentNode.replaceChild(newRestartBtn, restartBtn);
+
+    newContinueBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        if (typeof onContinue === 'function') onContinue();
+    });
+
+    newRestartBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        if (typeof onRestart === 'function') onRestart();
+    });
+
+    modal.classList.add('active');
+}
+
+function hideSaveLoadModal() {
+    var modal = document.getElementById('saveLoadModal');
+    if (modal) modal.classList.remove('active');
+}
+
+// ============================================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
 function initEscalation() {
@@ -2597,6 +2857,53 @@ function initEscalation() {
     doInit();
 }
 
+// Проверка при запуске — есть ли сохранение
+function checkSavedOnStart() {
+    var saved = loadSavedEscalation();
+    if (saved) {
+        showSaveLoadModal(saved,
+            function() {
+                // Продолжить
+                applySavedEscalation(saved);
+                updateLevelCounter();
+                // Восстанавливаем экран результата — показываем текущее сгенерированное испытание
+                if (escState.trial && escState.map) {
+                    showFullResult();
+                    prepareFullResult(escState.map.name, escState.map.image, escState.trial, { name: escState.difficulty });
+                    // Если текущий шаг — например, шаг 1 или 2, но сохранение было на этапе результата —
+                    // покажем экран результата
+                    if (escState.currentStep >= 5) {
+                        // всё ок
+                    }
+                }
+                // Если сохранённое состояние было на этапе шагов 1-4 — покажем соответствующий шаг
+                if (escState.currentStep >= 1 && escState.currentStep <= 4) {
+                    // Если у нас есть все данные для шага — показываем нужный шаг
+                    goToEscStep(escState.currentStep);
+                    if (escState.currentStep === 2) renderEscPlayerNames();
+                    if (escState.currentStep === 3) renderEscEquipment();
+                    if (escState.currentStep === 4) renderEscAmps();
+                }
+            },
+            function() {
+                // Начать заново
+                clearSavedEscalation();
+                escState = {
+                    level: 1, playerCount: 0, players: [],
+                    equipSelections: {}, ampSelections: {}, usedAmps: {},
+                    unlockedAmps: {}, allAmpsUsed: {}, currentStep: 1,
+                    map: null, trial: null, difficulty: null, variators: [],
+                    isFirstRun: true, usedBigTrials: [], usedSmallTrials: [],
+                    nostophobiaCount: 0
+                };
+                collectedRecords = [];
+                updateLevelCounter();
+                goToEscStep(1);
+            }
+        );
+    }
+}
+
 function doInit() {
     var options = document.querySelectorAll('#escPlayerCountOptions .player-count-btn');
     var s1Next = document.getElementById('escStep1Next');
@@ -2608,6 +2915,7 @@ function doInit() {
     var s4Next = document.getElementById('escStep4Next');
     var nextLevel = document.getElementById('escNextLevelBtn');
     var exitBtn = document.getElementById('escExitBtn');
+    var saveBtn = document.getElementById('escSaveBtn');
 
     if (options) {
         options.forEach(function(btn) {
@@ -2652,21 +2960,42 @@ function doInit() {
         generateEscResult();
     });
 
-    // "Далее" → сбор информации
+    // ====== Сохранить и выйти ======
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+            var ok = saveEscalation();
+            if (ok) {
+                // Показываем короткое уведомление и выходим
+                var notif = document.createElement('div');
+                notif.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; padding: 14px 28px; border-radius: 40px; font-weight: 600; font-size: 0.95rem; z-index: 5000; box-shadow: 0 8px 30px rgba(46, 204, 113, 0.5); animation: modalFadeIn 0.3s ease;';
+                notif.innerHTML = '<i class="fas fa-check-circle"></i> Сохранено! Выход...';
+                document.body.appendChild(notif);
+                setTimeout(function() {
+                    notif.style.opacity = '0';
+                    notif.style.transition = 'opacity 0.4s';
+                    setTimeout(function() { window.location.href = 'roulette.html'; }, 500);
+                }, 1200);
+            } else {
+                alert('Не удалось сохранить. Возможно, localStorage недоступен.');
+            }
+        });
+    }
+
+    // ====== "Далее" → сбор информации ======
     if (nextLevel) {
         nextLevel.addEventListener('click', function() {
             openInfoModal();
         });
     }
 
-    // "Покинуть" → итоговая таблица
+    // ====== "Покинуть" → итоговая таблица ======
     if (exitBtn) {
         exitBtn.addEventListener('click', function() {
             openSummaryModal();
         });
     }
 
-    // Обработчики модалки сбора информации
+    // ====== Обработчики модалки сбора информации ======
     var infoModalClose = document.getElementById('infoModalClose');
     var infoModalCancel = document.getElementById('infoModalCancel');
     var infoModalSave = document.getElementById('infoModalSave');
@@ -2756,7 +3085,7 @@ function doInit() {
         });
     }
 
-    // Обработчики итоговой таблицы
+    // ====== Обработчики итоговой таблицы ======
     var summaryClose = document.getElementById('summaryClose');
     var summaryCloseBtn = document.getElementById('summaryCloseBtn');
     var summaryCopy = document.getElementById('summaryCopy');
@@ -2765,6 +3094,8 @@ function doInit() {
     if (summaryCloseBtn) {
         summaryCloseBtn.addEventListener('click', function() {
             closeSummaryModal();
+            // При закрытии итоговой таблицы — очищаем сохранение, т.к. эскалация завершена
+            clearSavedEscalation();
             location.reload();
         });
     }
@@ -2799,6 +3130,8 @@ function doInit() {
     if (cModal) cModal.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
 
     updateLevelCounter();
+    // Проверка сохранения при запуске
+    checkSavedOnStart();
 }
 
 // ============================================================
